@@ -1,8 +1,6 @@
 package com.example;
 /**
  * 日期类型
- * @author 段
- *
  */
 public enum DateStyle {
 	YYYY_MM("yyyy-MM", false),  

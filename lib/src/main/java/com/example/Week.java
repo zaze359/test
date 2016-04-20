@@ -4,8 +4,6 @@ package com.example;
  * 
  * 星期
  * 
- * @author 段
- * 
  */
 public enum Week {
 	MONDAY("星期一", "Monday", "Mon.", 1), TUESDAY("星期二", "Tuesday", "Tues.", 2), WEDNESDAY(
