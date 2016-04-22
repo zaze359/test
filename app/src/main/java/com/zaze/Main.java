@@ -14,6 +14,7 @@ import java.util.Date;
 public class Main {
     public static void main(String[] args) {
         String time = DateUtil.dateToString(new Date(), "");
+        DateUtil.getWeek(new Date());
         System.out.println(time);
     }
 }

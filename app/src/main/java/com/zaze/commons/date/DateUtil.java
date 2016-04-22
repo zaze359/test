@@ -15,8 +15,51 @@ import java.util.Locale;
 public class DateUtil {
 
 
-    
+    /**
+     * 获取日期的星期。失败返回null。
+     * @param date 日期字符串
+     * @return 星期
+     */
+    public static Week getWeek(String date) {
+        Week week = null;
+        return week;
+    }
 
+    /**
+     * 获取日期的星期。失败返回null。
+     * @param date 日期
+     * @return 星期
+     */
+    public static Week getWeek(Date date) {
+        Week week = null;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int weekNumber = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+        switch (weekNumber) {
+            case 0:
+                week = Week.SUNDAY;
+                break;
+            case 1:
+                week = Week.MONDAY;
+                break;
+            case 2:
+                week = Week.TUESDAY;
+                break;
+            case 3:
+                week = Week.WEDNESDAY;
+                break;
+            case 4:
+                week = Week.THURSDAY;
+                break;
+            case 5:
+                week = Week.FRIDAY;
+                break;
+            case 6:
+                week = Week.SATURDAY;
+                break;
+        }
+        return week;
+    }
 
     // ----------------------------------
     /**

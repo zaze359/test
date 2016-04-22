@@ -16,33 +16,17 @@ public enum Week {
     SATURDAY("星期六", "周六", "Saturday", "Sat.", 6),
     SUNDAY("星期日", "周日", "Sunday", "Sun.", 7);
 
-    String name_cn;
-    String name_cn_s;
-    String name_en;
-    String name_en_s;
+    String cn;
+    String cn_s;
+    String en;
+    String en_s;
     int number;
 
-    Week(String name_cn, String name_cn_s, String name_en, String name_en_s, int number) {
-        this.name_cn = name_cn;
-        this.name_cn_s = name_cn_s;
-        this.name_en = name_en;
-        this.name_en_s = name_en_s;
+    Week(String cn, String cn_s, String en, String en_s, int number) {
+        this.cn = cn;
+        this.cn_s = cn_s;
+        this.en = en;
+        this.en_s = en_s;
         this.number = number;
-    }
-
-    public String getChName() {
-        return name_cn;
-    }
-
-    public String getEnName() {
-        return name_en;
-    }
-
-    public String getEnShortName() {
-        return name_en_s;
-    }
-
-    public int getNumber() {
-        return number;
     }
 }
