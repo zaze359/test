@@ -41,7 +41,7 @@ public enum DateStyle {
       
     DateStyle(String value, boolean isShowOnly) {  
         this.value = value;  
-        this.isShowOnly = isShowOnly;  
+        this.isShowOnly = isShowOnly;      
     }  
       
     public String getValue() {  

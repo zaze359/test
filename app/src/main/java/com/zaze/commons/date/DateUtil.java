@@ -1,4 +1,4 @@
-package com.zaze.util;
+package com.zaze.commons.date;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

@@ -1,6 +1,6 @@
 package com.zaze;
 
-import com.zaze.util.DateUtil;
+import com.zaze.commons.date.DateUtil;
 
 import java.util.Date;
 
