@@ -1,5 +1,9 @@
 package com.zaze.commons.date;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import java.util.Date;
 
 /**
@@ -17,7 +21,7 @@ public class TimeUtil implements TimeFace {
 
     @Override
     public Date stringToDate(String dateStr, String pattern) {
-        return null;
+        return DateTime.parse(dateStr, getFormat(pattern)).toDate();
     }
 
     @Override
@@ -29,4 +33,16 @@ public class TimeUtil implements TimeFace {
     public String timeMillisToString(long timeMillis, String pattern) {
         return null;
     }
+
+
+    private DateTimeFormatter getFormat(String pattern) {
+        return DateTimeFormat.forPattern(pattern);
+    }
+
+    private DateTime getDateTime() {
+        return new DateTime();
+    }
+
+
+
 }
