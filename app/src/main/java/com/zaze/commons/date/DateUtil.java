@@ -14,17 +14,80 @@ import java.util.Locale;
  */
 public class DateUtil {
 
+    // ----------------- about trans -----------------
+    /**
+     * @param dateStr String
+     * @param pattern 日期格式
+     * @return
+     */
+    public static Date stringToDate(String dateStr, String pattern) {
+        if (dateStr != null) {
+            try {
+                return getDateFormat(pattern).parse(dateStr);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+    /**
+     * @param date    Date 对象
+     * @param pattern 日期格式
+     * @return 转换特定格式的日期字符串
+     */
+    public static String dateToString(Date date, String pattern) {
+        if (date != null) {
+            return getDateFormat(pattern).format(date);
+        }
+        return null;
+    }
+    /**
+     * @param timeMillis
+     * @param pattern
+     * @return
+     */
+    public static String timeMillisToString(long timeMillis, String pattern){
+        return dateToString(new Date(timeMillis), pattern);
+    }
 
+    // ----------------  about int ------------------
+
+    public static int getYear(Date date) {
+        return getInteger(date, Calendar.YEAR);
+    }
+
+    /**
+     * @param date
+     * @return day num
+     */
+    public static int getDay(Date date) {
+        return getInteger(date, Calendar.DATE);
+    }
+
+    /**
+     * @param date
+     * @return hour num
+     */
+    public static int getHour(Date date) {
+        return getInteger(date, Calendar.HOUR);
+    }
+    public static int getMinute(Date date) {
+        return getInteger(date, Calendar.MINUTE);
+    }
+    public static int getSecond(Date date) {
+        return getInteger(date, Calendar.SECOND);
+    }
+
+    // ----------------  about week ------------------
     /**
      * 获取日期的星期。失败返回null。
      * @param date 日期字符串
+     * @param pattern 日期格式
      * @return 星期
      */
-    public static Week getWeek(String date) {
-        Week week = null;
-        return week;
+    public static Week getWeek(String date, String pattern) {
+        return getWeek(stringToDate(date, pattern));
     }
-
     /**
      * 获取日期的星期。失败返回null。
      * @param date 日期
@@ -61,48 +124,13 @@ public class DateUtil {
         return week;
     }
 
-    // ----------------------------------
-    /**
-     * @param dateStr String
-     * @param pattern 日期格式
-     * @return
-     */
-    public static Date stringToDate(String dateStr, String pattern) {
-        if (dateStr != null) {
-            try {
-                return getDateFormat(pattern).parse(dateStr);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
-    }
-    /**
-     * @param date    Date 对象
-     * @param pattern 日期格式
-     * @return 转换特定格式的日期字符串
-     */
-    public static String dateToString(Date date, String pattern) {
-        if (date != null) {
-            return getDateFormat(pattern).format(date);
-        }
-        return null;
-    }
-    /**
-     * @param timeMillis
-     * @param pattern
-     * @return
-     */
-    public static String timeMillisToString(long timeMillis, String pattern){
-        return dateToString(new Date(timeMillis), pattern);
-    }
-    // ----------------------------------
+    // ---------------- private func ------------------
     /**
      * @param date      日期
      * @param dateType  年，月，日...
      * @return
      */
-    private static int get(Date date, int dateType) {
+    private static int getInteger(Date date, int dateType) {
         if(date != null) {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(date);

@@ -1,8 +1,6 @@
 package com.zaze;
 
-import com.zaze.commons.date.DateUtil;
-
-import java.util.Date;
+import com.zaze.commons.date.DebugDate;
 
 /**
  * Description :
@@ -13,8 +11,9 @@ import java.util.Date;
  */
 public class Main {
     public static void main(String[] args) {
-        String time = DateUtil.dateToString(new Date(), "");
-        DateUtil.getWeek(new Date());
-        System.out.println(time);
+        DebugDate.debugWeek();
+        DebugDate.debugDateToStr();
+        DebugDate.debugStringToDate();
+        DebugDate.debugTimeMillisToStr();
     }
 }
