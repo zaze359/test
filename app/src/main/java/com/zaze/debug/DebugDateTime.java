@@ -1,38 +1,47 @@
 package com.zaze.debug;
 
-import com.zaze.commons.date.DateUtil;
+import com.zaze.commons.date.DateTimeUtil;
+
+import org.joda.time.DateTime;
 
 import java.util.Date;
 
 /**
  * Created by zaze on 16/4/23.
  */
-public class DebugDateTime extends FuncDebug{
+public class DebugDateTime extends FuncDebug {
     // -----------------------------------
+    public static void debugStartEnd() {
+        String[] tags = {"start", "end"};
+        String[] results = new String[tags.length];
+        results[0] = DateTimeUtil.getDayStart(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss");
+        results[1] = DateTimeUtil.getDayEnd(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss");
+        out("debugStartEnd", tags, results);
+    }
     public static void debugWeek(){
-        Date date = new Date();
-        out("debugWeek", DateUtil.getWeek(date).getCn());
+        out("debugWeek", DateTimeUtil.getWeek(System.currentTimeMillis()).getCn());
     }
     public static void debugDateToStr(){
-        String time = DateUtil.dateToString(new Date(), "yyyy年MM月dd日 HH点mm分ss秒");
+        String time = DateTimeUtil.dateToString(new Date(), "yyyy年MM月dd日 HH点mm分ss秒");
         out("debugDateToStr", time);
     }
-    public static void debugStringToDate() {
+    public static void debugStringToStr() {
         String[] tags = {"before", "after"};
         String[] results = new String[tags.length];
         results[0] = "2016-04-23 10:23:42";
-        Date date = DateUtil.stringToDate("2016-04-23 10:23:42", "yyyy-MM-dd HH:mm:ss");
-        results[1] = date.toString();
-        out("debugStringToDate", tags, results);
+        results[1] = DateTimeUtil.stringToString(results[0], "yyyy-MM-dd HH:mm:ss", "yyyy MM dd hh-mm-ss");
+        out("debugStringToStr", tags, results);
     }
     public static void debugTimeMillisToStr() {
-        String str = DateUtil.timeMillisToString(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss");
-
-        System.out.println("" + str);
+        String str = DateTimeUtil.timeMillisToString(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss");
+        out("debugTimeMillisToStr",  str);
 
     }
-    public static void debugTimeMillisToDate() {
-        DateUtil.timeMillisToString(System.currentTimeMillis(), "");
+    public static void debugBetween() {
+        DateTime nowTime = new DateTime();
+        DateTime nextTime = nowTime.plusDays(3);
+        out("debugBetween day", String.valueOf(DateTimeUtil.offsetDay(nowTime, nextTime)));
+        out("debugBetween hour", String.valueOf(DateTimeUtil.offsetHour(nowTime, nextTime)));
     }
     //
 

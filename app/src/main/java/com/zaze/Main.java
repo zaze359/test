@@ -1,6 +1,6 @@
 package com.zaze;
 
-import com.zaze.debug.DebugDate;
+import com.zaze.debug.DebugDateTime;
 
 /**
  * Description :
@@ -11,9 +11,16 @@ import com.zaze.debug.DebugDate;
  */
 public class Main {
     public static void main(String[] args) {
-        DebugDate.debugWeek();
-        DebugDate.debugDateToStr();
-        DebugDate.debugStringToDate();
-        DebugDate.debugTimeMillisToStr();
+//        DebugDate.debugWeek();
+//        DebugDate.debugDateToStr();
+//        DebugDate.debugStringToDate();
+//        DebugDate.debugTimeMillisToStr();
+
+        DebugDateTime.debugStartEnd();
+        DebugDateTime.debugWeek();
+        DebugDateTime.debugDateToStr();
+        DebugDateTime.debugStringToStr();
+        DebugDateTime.debugTimeMillisToStr();
+        DebugDateTime.debugBetween();
     }
 }
