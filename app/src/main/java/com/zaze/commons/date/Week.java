@@ -29,4 +29,44 @@ public enum Week {
         this.en_s = en_s;
         this.number = number;
     }
+
+    public String getCn() {
+        return cn;
+    }
+
+    public void setCn(String cn) {
+        this.cn = cn;
+    }
+
+    public String getCn_s() {
+        return cn_s;
+    }
+
+    public void setCn_s(String cn_s) {
+        this.cn_s = cn_s;
+    }
+
+    public String getEn() {
+        return en;
+    }
+
+    public void setEn(String en) {
+        this.en = en;
+    }
+
+    public String getEn_s() {
+        return en_s;
+    }
+
+    public void setEn_s(String en_s) {
+        this.en_s = en_s;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
 }

@@ -1,15 +1,17 @@
-package com.zaze.commons.date;
+package com.zaze.debug;
+
+import com.zaze.commons.date.DateUtil;
 
 import java.util.Date;
 
 /**
  * Created by zaze on 16/4/23.
  */
-public class DebugDate {
-    //
+public class DebugDate extends FuncDebug{
+    // -----------------------------------
     public static void debugWeek(){
         Date date = new Date();
-        out("debugWeek", DateUtil.getWeek(date).cn);
+        out("debugWeek", DateUtil.getWeek(date).getCn());
     }
     public static void debugDateToStr(){
         String time = DateUtil.dateToString(new Date(), "yyyy年MM月dd日 HH点mm分ss秒");
@@ -34,25 +36,4 @@ public class DebugDate {
     }
     //
 
-    // ---------    print ------
-    private static void out(String tag, String result) {
-        System.out.println("\n---------------------------------------------");
-        System.out.println(String.format("<!--   %s   -->", tag));
-        outTag("result", result);
-        System.out.println("---------------------------------------------");
-
-    }
-
-    private static void out(String func, String tag[], String result[]) {
-        System.out.println("\n---------------------------------------------");
-        System.out.println(String.format("<!--   %s   -->", func));
-        for (int i = 0; i < tag.length; i ++) {
-            outTag(tag[i], result[i]);
-        }
-        System.out.println("---------------------------------------------");
-
-    }
-    private static void outTag(String tag, String result) {
-        System.out.println(String.format("<%s = %s>", tag, result));
-    }
 }
