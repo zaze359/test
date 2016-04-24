@@ -41,7 +41,7 @@ public class DebugDateTime extends FuncDebug {
         DateTime nowTime = new DateTime();
         DateTime nextTime = nowTime.plusDays(3);
         out("debugBetween day", String.valueOf(DateTimeUtil.offsetDay(nowTime, nextTime)));
-        out("debugBetween hour", String.valueOf(DateTimeUtil.offsetHour(nowTime, nextTime)));
+//        out("debugBetween hour", String.valueOf(DateTimeUtil.offsetHour(nowTime, nextTime)));
     }
     //
 
