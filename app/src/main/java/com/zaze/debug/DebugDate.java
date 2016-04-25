@@ -7,6 +7,7 @@ import java.util.Date;
 /**
  * Created by zaze on 16/4/23.
  */
+@Deprecated
 public class DebugDate extends FuncDebug{
     // -----------------------------------
     public static void debugWeek(){

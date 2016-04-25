@@ -10,6 +10,16 @@ import java.util.Date;
  * Created by zaze on 16/4/23.
  */
 public class DebugDateTime extends FuncDebug {
+
+    public static void main(String[] args) {
+        debugStartEnd();
+        debugWeek();
+        debugDateToStr();
+        debugStringToStr();
+        debugTimeMillisToStr();
+        debugBetween();
+    }
+
     // -----------------------------------
     public static void debugStartEnd() {
         String[] tags = {"start", "end"};

@@ -14,8 +14,6 @@ import java.util.Map;
 
 /**
  * 日期工具
- *
- * @author 段
  */
 public class DateUtil {
 

@@ -12,6 +12,7 @@ import java.util.Locale;
  * @author : zaze
  * @version : 1.0
  */
+@Deprecated
 public class DateUtil {
 
     // ----------------- about trans -----------------

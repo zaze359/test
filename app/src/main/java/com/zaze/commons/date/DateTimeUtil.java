@@ -22,9 +22,9 @@ public class DateTimeUtil {
 //     * @param two
 //     * @return
 //     */
-//    public static int offsetHour(DateTime one, DateTime two) {
+//    public static long offsetHour(DateTime one, DateTime two) {
 //        long offset = offsetTimeMillis(one, two);
-//        return (int)offset / 3600;
+//        return offset / 3600;
 //    }
     /**
      * @param one
