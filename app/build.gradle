@@ -32,4 +32,13 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:recyclerview-v7:23.1.1'
     compile 'joda-time:joda-time:2.9.3'
+    compile 'in.srain.cube:clog:1.0.2'
+    compile 'in.srain.cube:ultra-ptr:1.0.11'
+    compile 'in.srain.cube:cube-sdk:1.0.44@aar'
+//    compile('in.srain.cube:ultra-ptr:1.0.9.1-SNAPSHOT@aar') {
+//        exclude group: 'in.srain.cube', module: 'clog'
+//    }
+//    compile('in.srain.cube:cube-sdk:1.0.44.33-SNAPSHOT@aar') {
+//        exclude group: 'in.srain.cube', module: 'clog'
+//    }
 }

@@ -2,6 +2,8 @@ package com.zaze.commons.log;
 
 import android.util.Log;
 
+import java.util.Locale;
+
 /**
  * Description :
  * date : 2015-11-27 - 17:11
@@ -46,7 +48,7 @@ public class LogKit {
     public static String getTag(StackTraceElement ste) {
         String clazzName = ste.getClassName();
         clazzName = clazzName.substring(clazzName.lastIndexOf(".") + 1);
-        return String.format("%s.%s(L:%d)", clazzName, ste.getMethodName(), ste.getLineNumber());
+        return String.format(Locale.getDefault(), "%s.%s(L:%d)", clazzName, ste.getMethodName(), ste.getLineNumber());
     }
 
     // --------------------------

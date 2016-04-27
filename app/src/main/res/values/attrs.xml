@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="mainBackground" format="reference"/>
+    <attr name="mainTextColor" format="color"/>
+    <attr name="mainTextSize" format="dimension"/>
+    <!-- -->
+    <attr name="headBackground" format="reference"/>
+    <attr name="headTextColor" format="color"/>
+    <attr name="headTextSize" format="dimension"/>
+    <!-- -->
+    <attr name="tabBackground" format="reference"/>
+    <attr name="tabIndicatorBackground" format="reference"/>
+    <attr name="tabTextColor" format="color"/>
+    <attr name="tabTextSize" format="dimension"/>
+    <!-- -->
+    <attr name="itemBackground" format="reference"/>
+    <attr name="itemTextColor" format="color"/>
+    <attr name="itemTextSize" format="dimension"/>
+</resources>

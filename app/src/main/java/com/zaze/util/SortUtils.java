@@ -22,16 +22,16 @@ public class SortUtils<E> {
 			public int compare(Object lhs, Object rhs) {
 				int flag = 0;
 				try {
-					Method m1 = ((E) lhs).getClass().getMethod(method, null);
-					Method m2 = ((E) rhs).getClass().getMethod(method, null);
+					Method m1 = ((E) lhs).getClass().getMethod(method, new Class<?>[0]);
+					Method m2 = ((E) rhs).getClass().getMethod(method, new Class<?>[0]);
 					if (sort != null && "desc".equalsIgnoreCase(sort)) {
 						// 降序
 						//若第二个大于第一个, 则返回 > 0 交换位置
-						flag = m2.invoke(((E) rhs), null).toString().compareTo(m1.invoke(((E) lhs), null).toString());
+						flag = m2.invoke(((E) rhs), new Object[]{}).toString().compareTo(m1.invoke(((E) lhs), new Object[]{}).toString());
 					} else {
 						// 升序 
 						//若第一个大于第二个, 则返回 > 0 交换位置
-						flag = m1.invoke(((E) rhs), null).toString().compareTo(m2.invoke(((E) lhs), null).toString());
+						flag = m1.invoke(((E) rhs), new Object[]{}).toString().compareTo(m2.invoke(((E) lhs), new Object[]{}).toString());
 					}
 				} catch (NoSuchMethodException e) {
 					e.printStackTrace();
