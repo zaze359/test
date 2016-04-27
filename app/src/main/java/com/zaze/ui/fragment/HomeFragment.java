@@ -70,6 +70,7 @@ public class HomeFragment extends BaseFragment {
             }
         });
 
+
         loadMoreListViewContainer.useDefaultHeader();
         loadMoreListViewContainer.setLoadMoreHandler(new LoadMoreHandler() {
             @Override
