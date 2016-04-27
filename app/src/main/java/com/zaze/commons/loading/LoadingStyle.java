@@ -48,6 +48,7 @@ public class LoadingStyle {
 
     public static void materialStyle(Context context, final PtrFrameLayout frame, int delay) {
         init(frame);
+
         final MaterialHeader header = new MaterialHeader(context);
         int[] colors = context.getResources().getIntArray(R.array.google_colors);
         header.setColorSchemeColors(colors);
