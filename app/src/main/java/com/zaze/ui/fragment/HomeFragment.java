@@ -2,8 +2,6 @@ package com.zaze.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -46,11 +44,18 @@ public class HomeFragment extends BaseFragment {
         fragment.setArguments(args);
         return fragment;
     }
-
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, null);
+    protected int getLayoutResource() {
+        return R.layout.fragment_home;
+    }
+
+    @Override
+    protected int getTheme() {
+        return R.style.BlueTheme;
+    }
+
+    @Override
+    protected void init(View view) {
         mPtrFrameLayout = ViewUtil.findView(view, R.id.ptr_frame_layout);
         loadMoreListViewContainer = ViewUtil.findView(view, R.id.load_more_list_view_container);
         mListView = ViewUtil.findView(view, R.id.list_view);
@@ -70,7 +75,6 @@ public class HomeFragment extends BaseFragment {
             }
         });
 
-
         loadMoreListViewContainer.useDefaultHeader();
         loadMoreListViewContainer.setLoadMoreHandler(new LoadMoreHandler() {
             @Override
@@ -89,7 +93,6 @@ public class HomeFragment extends BaseFragment {
                 }, 500);
             }
         });
-        return view;
     }
 
     private void loadNextPage() {

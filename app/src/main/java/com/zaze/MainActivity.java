@@ -18,6 +18,7 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.BlueTheme);
         setContentView(R.layout.activity_main);
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.frame_layout, HomeFragment.newInstance()).commit();
