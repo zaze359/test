@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ZAZE</string>
+    <string name="test1">%1$1.3f MB</string>
 </resources>

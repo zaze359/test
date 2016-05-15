@@ -257,6 +257,14 @@ public class FileUtil {
         return results;
     }
 
+    public static void delSysDir(String path) {
+        LogKit.v("delete dir : " + path);
+        if (isFileExist(path)) {
+            String delStr = " rm -r " + path;
+            int res = RootCmd.execRootCmd(delStr);
+        }
+    }
+
     public static String getFileMD5(File file) {
         return MD5Util.getMD5(file);
     }
