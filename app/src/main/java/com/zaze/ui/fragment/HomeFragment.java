@@ -1,16 +1,13 @@
 package com.zaze.ui.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.zaze.R;
 import com.zaze.commons.BaseFragment;
-import com.zaze.commons.adapter.ZAdapter;
 import com.zaze.commons.loading.LoadingStyle;
+import com.zaze.ui.adapter.HomeAdapter;
 import com.zaze.util.ThreadManager;
 import com.zaze.util.ViewUtil;
 
@@ -44,6 +41,7 @@ public class HomeFragment extends BaseFragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_home;
@@ -85,7 +83,7 @@ public class HomeFragment extends BaseFragment {
                     public void run() {
                         boolean hasMore = true;
                         boolean isEmpty = false;
-                        if(page > 2) {
+                        if (page > 2) {
                             hasMore = false;
                         }
                         loadMoreListViewContainer.loadMoreFinish(hasMore, hasMore);
@@ -112,36 +110,6 @@ public class HomeFragment extends BaseFragment {
         } else {
             adapter.setDataList(list);
             adapter.notifyDataSetChanged();
-        }
-    }
-
-    private class HomeAdapter extends ZAdapter<String, HomeAdapter.StringItemHolder> {
-
-        public HomeAdapter(Context context, List<String> data) {
-            super(context, data);
-        }
-
-        @Override
-        public void setViewData(String value, StringItemHolder itemHolder, int position, View convertView, ViewGroup parent) {
-            itemHolder.textView.setText(value);
-        }
-
-        @Override
-        public int getViewLayoutId() {
-            return R.layout.item_layout_home;
-        }
-
-        @Override
-        public StringItemHolder createViewHolder(View convertView) {
-            return new StringItemHolder(convertView);
-        }
-
-        public class StringItemHolder {
-            public TextView textView;
-
-            public StringItemHolder(View view) {
-                textView = ViewUtil.findView(view, R.id.desc_tv);
-            }
         }
     }
 }

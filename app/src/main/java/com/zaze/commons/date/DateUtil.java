@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Description :
@@ -12,7 +13,6 @@ import java.util.Locale;
  * @author : zaze
  * @version : 1.0
  */
-@Deprecated
 public class DateUtil {
 
     // ----------------- about trans -----------------
@@ -89,13 +89,17 @@ public class DateUtil {
     public static Week getWeek(String date, String pattern) {
         return getWeek(stringToDate(date, pattern));
     }
+
+    public static Week getWeek(long timeMillis) {
+        return getWeek(new Date(timeMillis));
+    }
     /**
      * 获取日期的星期。失败返回null。
      * @param date 日期
      * @return 星期
      */
     public static Week getWeek(Date date) {
-        Week week = null;
+        Week week;
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         int weekNumber = calendar.get(Calendar.DAY_OF_WEEK) - 1;
@@ -121,11 +125,20 @@ public class DateUtil {
             case 6:
                 week = Week.SATURDAY;
                 break;
+            default:
+                week = Week.MONDAY;
+                break;
         }
         return week;
     }
 
     // ---------------- private func ------------------
+    /**
+     *   服务器时间已经是东八区 设置为GMT 防止转换时多加了时区
+     */
+    public static void setGMTTimeZone() {
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
+    }
     /**
      * @param date      日期
      * @param dateType  年，月，日...
@@ -146,5 +159,4 @@ public class DateUtil {
     private static SimpleDateFormat getDateFormat(String pattern) {
         return new SimpleDateFormat(pattern, Locale.getDefault());
     }
-
 }

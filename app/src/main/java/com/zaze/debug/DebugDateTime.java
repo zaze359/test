@@ -19,7 +19,6 @@ public class DebugDateTime extends FuncDebug {
         debugTimeMillisToStr();
         debugBetween();
     }
-
     // -----------------------------------
     public static void debugStartEnd() {
         String[] tags = {"start", "end"};
@@ -28,13 +27,16 @@ public class DebugDateTime extends FuncDebug {
         results[1] = DateTimeUtil.getDayEnd(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss");
         out("debugStartEnd", tags, results);
     }
-    public static void debugWeek(){
+
+    public static void debugWeek() {
         out("debugWeek", DateTimeUtil.getWeek(System.currentTimeMillis()).getCn());
     }
-    public static void debugDateToStr(){
+
+    public static void debugDateToStr() {
         String time = DateTimeUtil.dateToString(new Date(), "yyyy年MM月dd日 HH点mm分ss秒");
         out("debugDateToStr", time);
     }
+
     public static void debugStringToStr() {
         String[] tags = {"before", "after"};
         String[] results = new String[tags.length];
@@ -42,11 +44,13 @@ public class DebugDateTime extends FuncDebug {
         results[1] = DateTimeUtil.stringToString(results[0], "yyyy-MM-dd HH:mm:ss", "yyyy MM dd hh-mm-ss");
         out("debugStringToStr", tags, results);
     }
+
     public static void debugTimeMillisToStr() {
         String str = DateTimeUtil.timeMillisToString(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss");
-        out("debugTimeMillisToStr",  str);
+        out("debugTimeMillisToStr", str);
 
     }
+
     public static void debugBetween() {
         DateTime nowTime = new DateTime();
         DateTime nextTime = nowTime.plusDays(3);
