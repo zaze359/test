@@ -4,6 +4,7 @@ import android.content.Context;
 import android.widget.BaseAdapter;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -15,40 +16,29 @@ import java.util.List;
  */
 public abstract class DataAdapter<V extends Object> extends BaseAdapter {
     protected Context context;
-    protected final ArrayList<V> dataList = new ArrayList<V>();
+    protected final List<V> dataList = new ArrayList<V>();
+
     //
-    public DataAdapter(Context context, List<V> data) {
+    public DataAdapter(Context context, Collection<V> data) {
         this.context = context;
         setDataList(data);
     }
-    public void setDataList(List<V> data) {
+
+    public void setDataList(Collection<V> data) {
         dataList.clear();
-        if(data != null && data.size() > 0) {
+        if (data != null && data.size() > 0) {
             dataList.addAll(data);
         }
     }
-    
-    public V getCilde(int position) {
-        if(dataList != null) {
-            return dataList.get(position);
-        }
-        return null;
-    }
-    
+
     @Override
     public int getCount() {
-        if(dataList != null) {
-            return dataList.size();
-        }
-        return 0;
+        return dataList.size();
     }
 
     @Override
-    public Object getItem(int position) {
-        if(dataList != null) {
-            return dataList.get(position);
-        }
-        return null;
+    public V getItem(int position) {
+        return dataList.get(position);
     }
 
     @Override

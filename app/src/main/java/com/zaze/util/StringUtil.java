@@ -2,6 +2,7 @@ package com.zaze.util;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Description :
@@ -13,7 +14,28 @@ import java.util.List;
 public class StringUtil {
 
     /**
+     * @param format
+     * @param args
+     * @return
+     */
+    public static String format(String format, Object... args) {
+        return String.format(Locale.getDefault(), format, args);
+    }
+
+
+    /**
+     * String to int(0)
+     *
+     * @param value
+     * @return defaultValue=0
+     */
+    public static int parseInt(String value) {
+        return parseInt(value, 0);
+    }
+
+    /**
      * String to int
+     *
      * @param value
      * @param defaultValue
      * @return
@@ -34,7 +56,16 @@ public class StringUtil {
     }
 
     /**
+     * @param value
+     * @return defaultValue=""
+     */
+    public static String parseString(String value) {
+        return parseString(value, "");
+    }
+
+    /**
      * String 的处理， null 返回 defaultValue
+     *
      * @param value
      * @param defaultValue
      * @return
@@ -45,9 +76,20 @@ public class StringUtil {
         }
         return value;
     }
-    
+
     /**
      * byte[] 转String
+     *
+     * @param bytes
+     * @return
+     */
+    public static String bytesToString(byte[] bytes) {
+        return bytesToString(bytes, "");
+    }
+
+    /**
+     * byte[] 转String
+     *
      * @param bytes
      * @param defaultValue
      * @return
@@ -58,6 +100,7 @@ public class StringUtil {
 
     /**
      * byte[] 转String
+     *
      * @param bytes
      * @param defaultValue
      * @return
@@ -73,8 +116,8 @@ public class StringUtil {
         }
         return new String(bytes).trim();
     }
-    
-    
+
+
     /**
      * @param src
      * @param maxLength
@@ -82,7 +125,7 @@ public class StringUtil {
      */
     public static byte[] string2Bytes(String src, int maxLength) {
         byte[] des = new byte[maxLength];
-        if(src != null) {
+        if (src != null) {
             byte[] temp = src.getBytes();
             int length = temp.length > maxLength ? maxLength : temp.length;
             System.arraycopy(temp, 0, des, 0, length);
@@ -91,24 +134,23 @@ public class StringUtil {
     }
 
     public static byte[] string2Bytes(String src) {
-        if(src != null) {
+        if (src != null) {
             return src.getBytes();
         }
         return null;
     }
-    
 
     public static String arrayToString(int[] intArray, String split) {
-        if(intArray == null) {
+        if (intArray == null) {
             return "";
         }
-        if(split == null) {
+        if (split == null) {
             split = "";
         }
         StringBuilder ids = new StringBuilder();
         int size = intArray.length;
-        for(int i = 0; i < size; i++) {
-            if(i == 0) {
+        for (int i = 0; i < size; i++) {
+            if (i == 0) {
                 ids.append(intArray[i]);
             } else {
                 ids.append(split).append(intArray[i]);
@@ -118,16 +160,16 @@ public class StringUtil {
     }
 
     public static String arrayToString(String[] strArray, String split) {
-        if(strArray == null) {
+        if (strArray == null) {
             return null;
         }
-        if(split == null) {
+        if (split == null) {
             split = "";
         }
         StringBuilder ids = new StringBuilder();
         int size = strArray.length;
-        for(int i = 0; i < size; i++) {
-            if(i == 0) {
+        for (int i = 0; i < size; i++) {
+            if (i == 0) {
                 ids.append(strArray[i]);
             } else {
                 ids.append(split).append(strArray[i]);
@@ -137,16 +179,16 @@ public class StringUtil {
     }
 
     public static String arrayToString(List<String> list, String split) {
-        if(list == null) {
+        if (list == null) {
             return null;
         }
-        if(split == null) {
+        if (split == null) {
             split = "";
         }
         StringBuilder ids = new StringBuilder();
         int size = list.size();
-        for(int i = 0; i < size; i++) {
-            if(i == 0) {
+        for (int i = 0; i < size; i++) {
+            if (i == 0) {
                 ids.append(list.get(i));
             } else {
                 ids.append(split).append(list.get(i));
@@ -155,8 +197,9 @@ public class StringUtil {
         return ids.toString();
     }
 
-    /** 
+    /**
      * 判断字符串是否为空
+     *
      * @param str
      * @return
      */

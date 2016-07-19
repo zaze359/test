@@ -15,11 +15,11 @@ import java.util.List;
  * @author : zaze
  * @version : 1.0
  */
-public abstract class ZRecyclerAdapter<V, H extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<H> {
+public abstract class RecyclerAdapter<V, H extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<H> {
     protected Context context;
     protected final List<V> dataList = new ArrayList<>();
 
-    public ZRecyclerAdapter(Context context, List<V> data) {
+    public RecyclerAdapter(Context context, List<V> data) {
         this.context = context;
         setDataList(data);
     }
@@ -71,7 +71,7 @@ public abstract class ZRecyclerAdapter<V, H extends RecyclerView.ViewHolder> ext
         }
         return null;
     }
-    
+
     public abstract int getViewLayoutId();
     public abstract H createViewHolder(View convertView);
     public abstract void onBindViewHolder(H holder, V value, int position);

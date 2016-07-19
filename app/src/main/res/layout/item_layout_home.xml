@@ -10,10 +10,4 @@
         android:layout_height="@dimen/dp_48"
         android:layout_margin="@dimen/dp_8"
         android:gravity="center_vertical" />
-
-    <com.github.lzyzsd.circleprogress.CircleProgress
-        android:id="@+id/circle_progress"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginLeft="50dp" />
 </FrameLayout>

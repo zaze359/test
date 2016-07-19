@@ -96,9 +96,8 @@ public class HomeFragment extends BaseFragment {
     private void loadNextPage() {
         int pageSize = 15;
         for (int i = 0; i < pageSize; i++) {
-            listDate.add(String.format(Locale.getDefault(), "测试数据%d", pageSize * page + i));
+            listDate.add(String.format(Locale.getDefault(), "测试数据%d", i));
         }
-
         loadListView(listDate);
         page++;
     }

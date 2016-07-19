@@ -7,9 +7,11 @@ import org.joda.time.DateTime;
 import java.util.Date;
 
 /**
- * Created by zaze on 16/4/23.
+ * Description :
+ * @author : ZAZE
+ * @version : 2016-06-15 - 16:07
  */
-public class DebugDateTime extends FuncDebug {
+public class DebugDateTime extends DebugOut {
 
     public static void main(String[] args) {
         debugStartEnd();

@@ -6,7 +6,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.zaze.R;
-import com.zaze.commons.adapter.ZAdapter;
+import com.zaze.commons.adapter.SimpleListAdapter;
+import com.zaze.commons.widget.PinnedSectionListView;
 import com.zaze.util.ViewUtil;
 
 import java.util.List;
@@ -17,7 +18,8 @@ import java.util.List;
  * @author : ZAZE
  * @version : 2016-05-24 - 18:45
  */
-public class HomeAdapter extends ZAdapter<String, HomeAdapter.StringItemHolder> {
+public class HomeAdapter extends SimpleListAdapter<String, HomeAdapter.StringItemHolder>
+        implements PinnedSectionListView.PinnedSectionListAdapter {
 
     public HomeAdapter(Context context, List<String> data) {
         super(context, data);
@@ -36,6 +38,21 @@ public class HomeAdapter extends ZAdapter<String, HomeAdapter.StringItemHolder> 
     @Override
     public StringItemHolder createViewHolder(View convertView) {
         return new StringItemHolder(convertView);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return getItem(position).length();
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return 2;
+    }
+
+    @Override
+    public boolean isItemViewTypePinned(int viewType) {
+        return viewType == 1;
     }
 
     public class StringItemHolder {

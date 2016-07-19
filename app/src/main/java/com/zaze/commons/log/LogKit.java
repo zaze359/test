@@ -48,7 +48,8 @@ public class LogKit {
     public static String getTag(StackTraceElement ste) {
         String clazzName = ste.getClassName();
         clazzName = clazzName.substring(clazzName.lastIndexOf(".") + 1);
-        return String.format(Locale.getDefault(), "%s.%s(L:%d)", clazzName, ste.getMethodName(), ste.getLineNumber());
+        return String.format(Locale.getDefault(),
+                "%s.%s(L:%d)", clazzName, ste.getMethodName(), ste.getLineNumber());
     }
 
     // --------------------------
@@ -57,7 +58,7 @@ public class LogKit {
             if (msg == null) {
                 msg = "";
             }
-            String tag = getTag(getStackTraceElement());
+            String tag = getTag(StackTraceHelper.getCallerStackTraceElement());
             Log.v(tag, msg);
             if (sendToService)
                 ServiceLog.s(tag, msg);
@@ -69,7 +70,7 @@ public class LogKit {
             if (msg == null) {
                 msg = "";
             }
-            String tag = getTag(getStackTraceElement());
+            String tag = getTag(StackTraceHelper.getCallerStackTraceElement());
             Log.d(tag, msg);
             if (sendToService)
                 ServiceLog.s(tag, msg);
@@ -77,43 +78,39 @@ public class LogKit {
     }
 
     public static void i(String msg) {
+        String tag = getTag(StackTraceHelper.getCallerStackTraceElement());
         if (I) {
             if (msg == null) {
                 msg = "";
             }
-            String tag = getTag(getStackTraceElement());
             Log.i(tag, msg);
-            if (sendToService)
-                ServiceLog.s(tag, msg);
         }
+        if (sendToService)
+            ServiceLog.s(tag, msg);
     }
 
     public static void w(String msg) {
+        String tag = getTag(StackTraceHelper.getCallerStackTraceElement());
         if (W) {
             if (msg == null) {
                 msg = "";
             }
-            String tag = getTag(getStackTraceElement());
             Log.w(tag, msg);
-            if (sendToService)
-                ServiceLog.w(tag, msg);
         }
+        if (sendToService)
+            ServiceLog.w(tag, msg);
     }
 
     public static void e(String msg) {
+        String tag = getTag(StackTraceHelper.getCallerStackTraceElement());
         if (E) {
             if (msg == null) {
                 msg = "";
             }
-            String tag = getTag(getStackTraceElement());
             Log.e(tag, msg);
-            if (sendToService)
-                ServiceLog.e(tag, msg);
         }
-    }
-
-    private static StackTraceElement getStackTraceElement() {
-        return StackTraceHelper.getCallerStackTraceElement();
+        if (sendToService)
+            ServiceLog.e(tag, msg);
     }
 
     // ------------------
