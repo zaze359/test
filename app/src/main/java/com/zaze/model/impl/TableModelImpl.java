@@ -2,7 +2,7 @@ package com.zaze.model.impl;
 
 
 import com.zaze.model.entity.TableEntity;
-import com.zaze.component.ui.AnimationActivity;
+import com.zaze.component.animation.AnimationActivity;
 import com.zaze.model.TableModel;
 
 import java.util.ArrayList;

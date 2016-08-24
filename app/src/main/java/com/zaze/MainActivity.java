@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
     }
 
-
     class MyPagerAdapter extends FragmentPagerAdapter {
         private List<BaseFragment> fragmentList;
 
