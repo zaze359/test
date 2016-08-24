@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
     <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
         android:id="@+id/table_recycler_view"
         android:layout_width="match_parent"
@@ -14,5 +13,4 @@
         app:recyclerviewClipToPadding="true"
         app:recyclerviewDefaultSwipeColor="@array/google_colors"
         app:recyclerviewScrollbars="vertical" />
-
 </LinearLayout>

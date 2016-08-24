@@ -36,7 +36,6 @@ public class ToolAdapter extends XHUltimateAdapter<TabEntity, ToolAdapter.AppIte
 
     @Override
     public void onBindViewHolder(AppItemHolder holder, TabEntity value, int position) {
-//        holder.itemToolIcon.setText(value.getName());
         holder.itemToolName.setText(value.getName());
     }
 
@@ -62,8 +61,6 @@ public class ToolAdapter extends XHUltimateAdapter<TabEntity, ToolAdapter.AppIte
     }
 
     public class AppItemHolder extends UltimateRecyclerviewViewHolder {
-        @Bind(R.id.item_tool_icon)
-        TextView itemToolIcon;
         @Bind(R.id.item_tool_name)
         TextView itemToolName;
 

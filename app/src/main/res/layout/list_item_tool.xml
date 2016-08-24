@@ -2,25 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="@dimen/dp_2">
 
     <TextView
-        android:id="@+id/item_tool_icon"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/app_icon_size"
-        android:background="@color/blue"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:textSize="@dimen/sp_20" />
-
-    <TextView
         android:id="@+id/item_tool_name"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_48"
-        android:background="@color/blue_dark"
+        android:background="@drawable/touchable_background_blue"
         android:gravity="center"
         android:text="@string/test1"
         android:textColor="@color/white"

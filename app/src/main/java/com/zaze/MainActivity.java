@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initToolBar() {
-        mainToolbar.setTitle("test");
+        mainToolbar.setTitle(getString(R.string.app_name));
         setSupportActionBar(mainToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
     }
