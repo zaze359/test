@@ -7,7 +7,7 @@
     android:padding="@dimen/dp_2">
 
     <TextView
-        android:id="@+id/item_tool_name"
+        android:id="@+id/item_table_name"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_48"
         android:background="@drawable/touchable_background_blue"

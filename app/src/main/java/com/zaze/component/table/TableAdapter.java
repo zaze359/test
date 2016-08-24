@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.zaze.R;
-import com.zaze.bean.TabEntity;
+import com.zaze.model.entity.TableEntity;
 import com.zz.library.commons.widget.XHUltimateAdapter;
 
 import java.util.List;
@@ -23,19 +23,19 @@ import butterknife.ButterKnife;
  * @author : ZAZE
  * @version : 2016-08-15 - 17:06
  */
-public class ToolAdapter extends XHUltimateAdapter<TabEntity, ToolAdapter.AppItemHolder> {
+public class TableAdapter extends XHUltimateAdapter<TableEntity, TableAdapter.AppItemHolder> {
 
-    public ToolAdapter(Context context, List<TabEntity> data) {
+    public TableAdapter(Context context, List<TableEntity> data) {
         super(context, data);
     }
 
     @Override
     public int getViewLayoutId() {
-        return R.layout.list_item_tool;
+        return R.layout.list_item_table;
     }
 
     @Override
-    public void onBindViewHolder(AppItemHolder holder, TabEntity value, int position) {
+    public void onBindViewHolder(AppItemHolder holder, TableEntity value, int position) {
         holder.itemToolName.setText(value.getName());
     }
 
@@ -61,7 +61,7 @@ public class ToolAdapter extends XHUltimateAdapter<TabEntity, ToolAdapter.AppIte
     }
 
     public class AppItemHolder extends UltimateRecyclerviewViewHolder {
-        @Bind(R.id.item_tool_name)
+        @Bind(R.id.item_table_name)
         TextView itemToolName;
 
         public AppItemHolder(View itemView) {

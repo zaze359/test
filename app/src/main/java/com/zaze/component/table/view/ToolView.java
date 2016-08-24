@@ -1,7 +1,7 @@
 package com.zaze.component.table.view;
 
 
-import com.zaze.bean.TabEntity;
+import com.zaze.model.entity.TableEntity;
 
 import java.util.List;
 
@@ -12,5 +12,5 @@ import java.util.List;
  * @version : 2016-08-16 - 11:24
  */
 public interface ToolView {
-    void showAppList(List<TabEntity> list);
+    void showAppList(List<TableEntity> list);
 }

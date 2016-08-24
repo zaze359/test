@@ -1,4 +1,4 @@
-package com.zaze.bean;
+package com.zaze.model.entity;
 
 
 /**
@@ -7,15 +7,15 @@ package com.zaze.bean;
  * @author : ZAZE
  * @version : 2016-08-16 - 11:11
  */
-public class TabEntity {
+public class TableEntity {
     private int type;
     private String name;
     private Class clazz;
 
-    public TabEntity() {
+    public TableEntity() {
     }
 
-    public TabEntity(int type, String name, Class clazz) {
+    public TableEntity(int type, String name, Class clazz) {
         this.type = type;
         this.name = name;
         this.clazz = clazz;

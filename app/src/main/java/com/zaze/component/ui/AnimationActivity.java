@@ -15,7 +15,7 @@ import butterknife.OnClick;
  * @author : ZAZE
  * @version : 2016-08-23 - 19:31
  */
-public class TestActivity extends AppCompatActivity {
+public class AnimationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

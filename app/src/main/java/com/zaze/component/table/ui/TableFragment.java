@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.zaze.R;
-import com.zaze.bean.TabEntity;
-import com.zaze.component.table.ToolAdapter;
+import com.zaze.model.entity.TableEntity;
+import com.zaze.component.table.TableAdapter;
 import com.zaze.component.table.presenter.TablePresenter;
 import com.zaze.component.table.presenter.impl.TablePresenterImpl;
 import com.zaze.component.table.view.ToolView;
@@ -35,7 +35,7 @@ public class TableFragment extends BaseFragment implements ToolView {
     @Bind(R.id.table_recycler_view)
     UltimateRecyclerView tableRecyclerView;
 
-    private ToolAdapter adapter;
+    private TableAdapter adapter;
     private LinearLayoutManager linearLayoutManager;
     private TablePresenter presenter;
 
@@ -64,10 +64,10 @@ public class TableFragment extends BaseFragment implements ToolView {
 
         linearLayoutManager = new GridLayoutManager(getActivity(), 2);
         tableRecyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new ToolAdapter(getActivity(), null);
-        adapter.setOnItemClickListener(new XHUltimateAdapter.OnItemClickListener<TabEntity>() {
+        adapter = new TableAdapter(getActivity(), null);
+        adapter.setOnItemClickListener(new XHUltimateAdapter.OnItemClickListener<TableEntity>() {
             @Override
-            public void onItemClick(View view, TabEntity value, int position) {
+            public void onItemClick(View view, TableEntity value, int position) {
                 startActivity(new Intent(getActivity(), value.getClazz()));
             }
         });
@@ -82,7 +82,7 @@ public class TableFragment extends BaseFragment implements ToolView {
     }
 
     @Override
-    public void showAppList(List<TabEntity> list) {
+    public void showAppList(List<TableEntity> list) {
         adapter.setDataList(list);
         tableRecyclerView.setAdapter(adapter);
     }
