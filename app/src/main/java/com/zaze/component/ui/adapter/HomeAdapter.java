@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.zaze.R;
-import com.zz.library.commons.adapter.SimpleListAdapter;
+import com.zz.library.commons.adapter.ZListAdapter;
 import com.zz.library.commons.widget.PinnedSectionListView;
 import com.zz.library.util.ViewUtil;
 
@@ -18,7 +18,7 @@ import java.util.List;
  * @author : ZAZE
  * @version : 2016-05-24 - 18:45
  */
-public class HomeAdapter extends SimpleListAdapter<String, HomeAdapter.StringItemHolder>
+public class HomeAdapter extends ZListAdapter<String, HomeAdapter.StringItemHolder>
         implements PinnedSectionListView.PinnedSectionListAdapter {
 
     public HomeAdapter(Context context, List<String> data) {

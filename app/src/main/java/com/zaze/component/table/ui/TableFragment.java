@@ -18,7 +18,7 @@ import com.zaze.component.table.presenter.TablePresenter;
 import com.zaze.component.table.presenter.impl.TablePresenterImpl;
 import com.zaze.component.table.view.ToolView;
 import com.zz.library.commons.BaseFragment;
-import com.zz.library.commons.widget.XHUltimateAdapter;
+import com.zz.library.commons.adapter.ZUltimateAdapter;
 
 import java.util.List;
 
@@ -65,7 +65,7 @@ public class TableFragment extends BaseFragment implements ToolView {
         linearLayoutManager = new GridLayoutManager(getActivity(), 2);
         tableRecyclerView.setLayoutManager(linearLayoutManager);
         adapter = new TableAdapter(getActivity(), null);
-        adapter.setOnItemClickListener(new XHUltimateAdapter.OnItemClickListener<TableEntity>() {
+        adapter.setOnItemClickListener(new ZUltimateAdapter.OnItemClickListener<TableEntity>() {
             @Override
             public void onItemClick(View view, TableEntity value, int position) {
                 startActivity(new Intent(getActivity(), value.getClazz()));

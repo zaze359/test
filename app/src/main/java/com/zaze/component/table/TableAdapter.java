@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.zaze.R;
 import com.zaze.model.entity.TableEntity;
-import com.zz.library.commons.widget.XHUltimateAdapter;
+import com.zz.library.commons.adapter.ZUltimateAdapter;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
  * @author : ZAZE
  * @version : 2016-08-15 - 17:06
  */
-public class TableAdapter extends XHUltimateAdapter<TableEntity, TableAdapter.AppItemHolder> {
+public class TableAdapter extends ZUltimateAdapter<TableEntity, TableAdapter.AppItemHolder> {
 
     public TableAdapter(Context context, List<TableEntity> data) {
         super(context, data);

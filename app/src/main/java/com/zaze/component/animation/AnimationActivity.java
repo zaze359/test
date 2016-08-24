@@ -8,6 +8,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.zaze.R;
+import com.zaze.component.animation.view.AnimationView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -19,7 +20,7 @@ import butterknife.OnClick;
  * @author : ZAZE
  * @version : 2016-08-23 - 19:31
  */
-public class AnimationActivity extends AppCompatActivity {
+public class AnimationActivity extends AppCompatActivity implements AnimationView {
     @Bind(R.id.animation_title)
     TextView animationTitle;
     @Bind(R.id.animation_back)

@@ -1,4 +1,4 @@
-package com.zz.library.commons.widget;
+package com.zz.library.commons.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -18,13 +18,13 @@ import java.util.List;
  * @author : zaze
  * @version : 1.0
  */
-public abstract class XHUltimateAdapter<V, VH extends RecyclerView.ViewHolder> extends UltimateViewAdapter<VH> {
+public abstract class ZUltimateAdapter<V, VH extends RecyclerView.ViewHolder> extends UltimateViewAdapter<VH> {
     protected Context context;
     protected final List<V> dataList = new ArrayList<>();
     private View.OnClickListener onClickListener;
     private OnItemClickListener<V> onItemClickListener;
 
-    public XHUltimateAdapter(Context context, List<V> data) {
+    public ZUltimateAdapter(Context context, List<V> data) {
         this.context = context;
         preSetData();
         this.setDataList(data);

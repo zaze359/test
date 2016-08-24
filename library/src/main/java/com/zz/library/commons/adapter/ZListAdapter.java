@@ -13,11 +13,11 @@ import java.util.Collection;
  * @author : zaze
  * @version : 1.0
  */
-public abstract class SimpleListAdapter<V, H> extends DataAdapter<V> implements ChildViewAdapter<V, H> {
+public abstract class ZListAdapter<V, H> extends DataAdapter<V> implements ChildViewAdapter<V, H> {
     private OnItemClickListener onItemClickListener;
 
     //
-    public SimpleListAdapter(Context context, Collection<V> data) {
+    public ZListAdapter(Context context, Collection<V> data) {
         super(context, data);
     }
 
