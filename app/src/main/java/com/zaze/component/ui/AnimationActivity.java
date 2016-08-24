@@ -19,7 +19,7 @@ public class AnimationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test);
+        setContentView(R.layout.activity_animation);
         ButterKnife.bind(this);
     }
 

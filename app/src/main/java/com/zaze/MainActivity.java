@@ -42,9 +42,6 @@ public class MainActivity extends AppCompatActivity {
         //
         List<BaseFragment> fragmentList = new ArrayList<>();
         fragmentList.add(TableFragment.newInstance("1"));
-//        fragmentList.add(TableFragment.newInstance("2"));
-//        fragmentList.add(TableFragment.newInstance("3"));
-//        fragmentList.add(TableFragment.newInstance("4"));
         mainViewpager.setAdapter(new MyPagerAdapter(getSupportFragmentManager(), fragmentList));
         mainTab.setViewPager(mainViewpager);
     }

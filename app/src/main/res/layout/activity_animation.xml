@@ -20,8 +20,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:layout_marginLeft="@dimen/dp_24"
+            android:background="@color/transparent"
             android:src="@drawable/ic_arrow_back"
             android:tint="?android:textColorPrimary" />
     </FrameLayout>
+
+
 </LinearLayout>
