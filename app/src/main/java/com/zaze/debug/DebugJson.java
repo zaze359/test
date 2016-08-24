@@ -1,7 +1,7 @@
 package com.zaze.debug;
 
 import com.google.gson.reflect.TypeToken;
-import com.zaze.util.JsonUtil;
+import com.zz.library.util.JsonUtil;
 
 import java.util.List;
 

@@ -2,7 +2,7 @@ package com.zaze.app;
 
 import android.app.Application;
 
-import com.zaze.util.LocalDisplay;
+import com.zz.library.util.LocalDisplay;
 
 /**
  * Created by zaze on 16/4/26.

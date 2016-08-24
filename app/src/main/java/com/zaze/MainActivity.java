@@ -1,31 +1,78 @@
 package com.zaze;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 
-import com.zaze.commons.log.LogKit;
-import com.zaze.ui.fragment.HomeFragment;
-import com.zaze.util.LocalDisplay;
-import com.zaze.util.StringUtil;
+import com.ogaclejapan.smarttablayout.SmartTabLayout;
+import com.zaze.component.table.ui.TableFragment;
+import com.zz.library.commons.BaseFragment;
 
-/**
- * Description :
- * date : 2016-04-21 - 12:46
- *
- * @author : zaze
- * @version : 1.0
- */
-public class MainActivity extends FragmentActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Bind(R.id.main_toolbar)
+    Toolbar mainToolbar;
+    @Bind(R.id.main_tab)
+    SmartTabLayout mainTab;
+    @Bind(R.id.main_viewpager)
+    ViewPager mainViewpager;
+
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(R.style.BlueTheme);
         setContentView(R.layout.activity_main);
-        LocalDisplay.init(this);
-        LogKit.v(StringUtil.format("%d x %d", LocalDisplay.SCREEN_WIDTH_PIXELS, LocalDisplay.SCREEN_HEIGHT_PIXELS));
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.frame_layout, HomeFragment.newInstance()).commit();
+        ButterKnife.bind(this);
+        //
+        initToolBar();
+        Transition explode = TransitionInflater.from(this).inflateTransition(R.transition.explode);
+        getWindow().setExitTransition(explode);
+        //
+        List<BaseFragment> fragmentList = new ArrayList<>();
+        fragmentList.add(TableFragment.newInstance("1"));
+//        fragmentList.add(TableFragment.newInstance("2"));
+//        fragmentList.add(TableFragment.newInstance("3"));
+//        fragmentList.add(TableFragment.newInstance("4"));
+        mainViewpager.setAdapter(new MyPagerAdapter(getSupportFragmentManager(), fragmentList));
+        mainTab.setViewPager(mainViewpager);
     }
+
+    private void initToolBar() {
+        mainToolbar.setTitle("test");
+        setSupportActionBar(mainToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+    }
+
+
+    class MyPagerAdapter extends FragmentPagerAdapter {
+        private List<BaseFragment> fragmentList;
+
+        public MyPagerAdapter(FragmentManager fm, List<BaseFragment> list) {
+            super(fm);
+            this.fragmentList = list;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return fragmentList.size();
+        }
+    }
+
 }

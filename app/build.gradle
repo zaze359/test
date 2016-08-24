@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.zaze"
-        minSdkVersion 15
+        minSdkVersion 21
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -29,18 +29,11 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.github.lzyzsd:circleprogress:1.1.0@aar'
-
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:recyclerview-v7:23.1.1'
-    compile 'joda-time:joda-time:2.9.3'
-    compile 'in.srain.cube:clog:1.0.2'
-    compile 'in.srain.cube:ultra-ptr:1.0.11'
-    compile 'in.srain.cube:cube-sdk:1.0.44@aar'
-//    compile('in.srain.cube:ultra-ptr:1.0.9.1-SNAPSHOT@aar') {
-//        exclude group: 'in.srain.cube', module: 'clog'
-//    }
-//    compile('in.srain.cube:cube-sdk:1.0.44.33-SNAPSHOT@aar') {
-//        exclude group: 'in.srain.cube', module: 'clog'
-//    }
+    compile project(':library')
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
+    compile 'com.ogaclejapan.smarttablayout:utils-v4:1.6.1@aar'
+    compile 'com.android.support:recyclerview-v7:23.4.0'
+    compile 'com.marshalchen.ultimaterecyclerview:library:0.7.0'
 }

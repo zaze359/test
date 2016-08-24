@@ -1,0 +1,61 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
+    <!--..-->
+    <style name="BlueTheme" parent="CustomTheme">
+        <item name="mainBackground">@color/white</item>
+        <item name="mainTextColor">@color/black</item>
+        <item name="mainTextSize">@dimen/sp_18</item>
+        <!-- -->
+        <item name="headBackground">@color/blue</item>
+        <item name="headTextColor">@color/white</item>
+        <item name="headTextSize">@dimen/sp_22</item>
+        <!-- -->
+        <item name="tabBackground">@color/blue</item>
+        <item name="tabIndicatorBackground">@color/transparent</item>
+        <item name="tabTextColor">@color/white</item>
+        <item name="tabTextSize">@dimen/sp_16</item>
+        <!-- -->
+        <item name="itemBackground">@color/blue</item>
+        <item name="itemTextColor">@color/white</item>
+        <item name="itemTextSize">@dimen/sp_20</item>
+    </style>
+
+    <style name="BlackTheme" parent="CustomTheme">
+        <item name="mainBackground">@color/black</item>
+        <item name="mainTextColor">@color/white</item>
+        <item name="mainTextSize">@dimen/sp_18</item>
+        <!-- -->
+        <item name="headBackground">@color/black</item>
+        <item name="headTextColor">@color/white</item>
+        <item name="headTextSize">@dimen/sp_22</item>
+        <!-- -->
+        <item name="tabBackground">@color/black</item>
+        <item name="tabIndicatorBackground">@color/transparent</item>
+        <item name="tabTextColor">@color/white</item>
+        <item name="tabTextSize">@dimen/sp_16</item>
+        <!-- -->
+        <item name="itemBackground">@color/black</item>
+        <item name="itemTextColor">@color/white</item>
+        <item name="itemTextSize">@dimen/sp_20</item>
+    </style>
+
+    <style name="CustomTheme" parent="AppTheme.NoActionBar">
+    </style>
+
+</resources>
