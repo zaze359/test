@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
@@ -13,6 +12,7 @@ import android.transition.TransitionInflater;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.zaze.component.table.ui.TableFragment;
 import com.zz.library.commons.BaseFragment;
+import com.zz.library.commons.activity.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @Bind(R.id.main_toolbar)
     Toolbar mainToolbar;

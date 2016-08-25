@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">ZaZe Test Project</string>
+
+
+    <string-array name="animation_titles">
+        <item>View Property Animator</item>
+        <item>Object Animator</item>
+        <!--<item>Interpolators</item>-->
+        <!--<item>Circular Reveal</item>-->
+        <!--<item>Morph Transitions</item>-->
+        <!--<item>Shared Transitions</item>-->
+        <!--<item>Window Content Transitions</item>-->
+        <!--<item>Shared Element Transitions</item>-->
+        <!--<item>Animated Vector Drawables</item>-->
+    </string-array>
 </resources>
