@@ -1,6 +1,6 @@
 package com.zaze.model;
 
-import com.zaze.model.impl.TableModelImpl;
+import com.zaze.model.impl.EntityModelImpl;
 
 /**
  * Description :
@@ -9,7 +9,7 @@ import com.zaze.model.impl.TableModelImpl;
  * @version : 2016-08-17 - 09:02
  */
 public class ModelFactory {
-    public static TableModel getTabModel() {
-        return new TableModelImpl();
+    public static EntityModel getTabModel() {
+        return new EntityModelImpl();
     }
 }

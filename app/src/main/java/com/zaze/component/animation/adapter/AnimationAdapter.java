@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.zaze.R;
+import com.zaze.model.entity.AnimationEntity;
 import com.zz.library.commons.adapter.ZRecyclerAdapter;
 import com.zz.library.util.StringUtil;
 
@@ -20,13 +21,9 @@ import butterknife.ButterKnife;
  * @author : ZAZE
  * @version : 2016-08-24 - 14:58
  */
-public class AnimationAdapter extends ZRecyclerAdapter<String, AnimationAdapter.AnimationHolder> {
+public class AnimationAdapter extends ZRecyclerAdapter<AnimationEntity, AnimationAdapter.AnimationHolder> {
 
-    public AnimationAdapter(Context context, List<String> data) {
-        super(context, data);
-    }
-
-    public AnimationAdapter(Context context, String[] data) {
+    public AnimationAdapter(Context context, List<AnimationEntity> data) {
         super(context, data);
     }
 
@@ -41,8 +38,8 @@ public class AnimationAdapter extends ZRecyclerAdapter<String, AnimationAdapter.
     }
 
     @Override
-    public void onBindViewHolder(AnimationHolder holder, String value, int position) {
-        holder.animationTitle.setText(StringUtil.parseString(value));
+    public void onBindViewHolder(AnimationHolder holder, AnimationEntity value, int position) {
+        holder.animationTitle.setText(StringUtil.parseString(value.getName()));
     }
 
     class AnimationHolder extends RecyclerView.ViewHolder {
