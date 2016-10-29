@@ -1,4 +1,4 @@
-package com.zz.library.commons.activity;
+package com.zz.library.commons.base;
 
 import android.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;

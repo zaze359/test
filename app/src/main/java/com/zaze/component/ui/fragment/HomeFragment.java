@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.zaze.R;
-import com.zz.library.commons.BaseFragment;
+import com.zz.library.commons.base.BaseFragment;
 import com.zz.library.commons.loading.LoadingStyle;
 import com.zaze.component.ui.adapter.HomeAdapter;
 import com.zz.library.util.ThreadManager;

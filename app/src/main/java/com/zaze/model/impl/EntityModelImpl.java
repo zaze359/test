@@ -1,6 +1,7 @@
 package com.zaze.model.impl;
 
 
+import com.zaze.component.toolbar.ToolBarDemoActivity;
 import com.zaze.model.entity.AnimationEntity;
 import com.zaze.model.entity.TableEntity;
 import com.zaze.component.animation.ui.AnimationActivity;
@@ -21,7 +22,8 @@ public class EntityModelImpl implements EntityModel {
     public List<TableEntity> getTableList() {
         List<TableEntity> list = new ArrayList<>();
         list.add(new TableEntity(1, "Animation", AnimationActivity.class));
-        list.add(new TableEntity(2, "b", AnimationActivity.class));
+        list.add(new TableEntity(2, "toolbar", ToolBarDemoActivity.class));
+
         return list;
     }
 

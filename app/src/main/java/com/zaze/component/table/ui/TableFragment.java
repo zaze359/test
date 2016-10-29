@@ -17,7 +17,7 @@ import com.zaze.component.table.TableAdapter;
 import com.zaze.component.table.presenter.TablePresenter;
 import com.zaze.component.table.presenter.impl.TablePresenterImpl;
 import com.zaze.component.table.view.ToolView;
-import com.zz.library.commons.BaseFragment;
+import com.zz.library.commons.base.BaseFragment;
 import com.zz.library.commons.adapter.ZUltimateAdapter;
 
 import java.util.List;

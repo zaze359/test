@@ -18,6 +18,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".component.animation.ui.AnimationActivity" />
+        <activity
+            android:name=".component.toolbar.ToolBarDemoActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
     </application>
 
 </manifest>

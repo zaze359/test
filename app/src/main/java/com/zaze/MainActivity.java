@@ -11,8 +11,8 @@ import android.transition.TransitionInflater;
 
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.zaze.component.table.ui.TableFragment;
-import com.zz.library.commons.BaseFragment;
-import com.zz.library.commons.activity.BaseActivity;
+import com.zz.library.commons.base.BaseFragment;
+import com.zz.library.commons.base.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
