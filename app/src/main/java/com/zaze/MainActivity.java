@@ -35,6 +35,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
         //
         initToolBar();
         Transition explode = TransitionInflater.from(this).inflateTransition(R.transition.explode);
