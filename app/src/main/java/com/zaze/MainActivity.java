@@ -1,6 +1,8 @@
 package com.zaze;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -38,8 +40,10 @@ public class MainActivity extends BaseActivity {
 
         //
         initToolBar();
-        Transition explode = TransitionInflater.from(this).inflateTransition(R.transition.explode);
-        getWindow().setExitTransition(explode);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Transition explode = TransitionInflater.from(this).inflateTransition(R.transition.explode);
+            getWindow().setExitTransition(explode);
+        }
         //
         List<BaseFragment> fragmentList = new ArrayList<>();
         fragmentList.add(TableFragment.newInstance("1"));
