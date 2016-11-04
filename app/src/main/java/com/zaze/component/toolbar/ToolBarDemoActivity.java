@@ -9,7 +9,7 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.zaze.R;
-import com.zaze.component.fragments.ProgressFragment;
+import com.zaze.component.progress.ProgressFragment;
 import com.zaze.component.fragments.TempFragment;
 import com.zz.library.commons.base.BaseActivity;
 
