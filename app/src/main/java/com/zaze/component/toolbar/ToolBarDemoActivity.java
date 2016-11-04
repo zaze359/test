@@ -2,9 +2,6 @@ package com.zaze.component.toolbar;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 
@@ -12,7 +9,8 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.zaze.R;
-import com.zaze.TempFragment;
+import com.zaze.component.fragments.ProgressFragment;
+import com.zaze.component.fragments.TempFragment;
 import com.zz.library.commons.base.BaseActivity;
 
 import butterknife.Bind;
@@ -44,37 +42,22 @@ public class ToolBarDemoActivity extends BaseActivity {
         initTab();
     }
 
-
     private void initTab() {
+
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(), FragmentPagerItems.with(this)
-                .add("Tab One", TempFragment.class, new Bundle())
-                .add("Tab Two", TempFragment.class, new Bundle())
+                .add("Tab One", ProgressFragment.class, getBundle("Tab One Content"))
+                .add("Tab Two", TempFragment.class, getBundle("Tab Two Content"))
                 .create()
         );
         toolBarDemoViewpager.setAdapter(adapter);
         toolBarDemoTab.setViewPager(toolBarDemoViewpager);
     }
 
-    class A extends FragmentPagerAdapter {
-
-        public A(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return super.getPageTitle(position);
-        }
-
-        @Override
-        public int getCount() {
-            return 0;
-        }
+    public Bundle getBundle(String msg) {
+        Bundle bundle = new Bundle();
+        bundle.putString("title", msg);
+        return bundle;
     }
 }
+

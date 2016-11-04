@@ -1,17 +1,14 @@
-package com.zaze;
+package com.zaze.component.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
+import com.zaze.R;
 import com.zz.library.commons.base.BaseFragment;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
-import in.srain.cube.views.loadmore.LoadMoreListViewContainer;
-import in.srain.cube.views.ptr.PtrClassicFrameLayout;
 
 /**
  * Description :
@@ -19,18 +16,11 @@ import in.srain.cube.views.ptr.PtrClassicFrameLayout;
  * @author : ZAZE
  * @version : 2016-10-29 - 02:47
  */
-public class TempFragment extends BaseFragment {
-
-    @Bind(R.id.list_view)
-    ListView listView;
-    @Bind(R.id.load_more_list_view_container)
-    LoadMoreListViewContainer loadMoreListViewContainer;
-    @Bind(R.id.ptr_frame_layout)
-    PtrClassicFrameLayout ptrFrameLayout;
+public class ProgressFragment extends BaseFragment {
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.fragment_home;
+        return R.layout.fragment_progress;
     }
 
     @Override
