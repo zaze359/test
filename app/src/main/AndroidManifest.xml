@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.zaze">
 
+    <permission android:name="com.zaze.receiver.RECEIVER" />
     <application
         android:name=".app.MyApplication"
         android:allowBackup="true"
@@ -22,6 +23,15 @@
             android:name=".component.toolbar.ToolBarDemoActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <service android:name=".component.service.MyService" />
+
+        <receiver
+            android:name=".component.receiver.TestBroadcastReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.xh.message.testappid" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

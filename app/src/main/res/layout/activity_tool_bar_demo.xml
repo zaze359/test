@@ -12,6 +12,36 @@
         android:background="@color/colorPrimary"
         android:titleTextColor="@color/white" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/tool_bar_demo_btn_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="隐藏状态栏" />
+
+        <Button
+            android:id="@+id/tool_bar_demo_btn_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="透明状态栏" />
+
+        <Button
+            android:id="@+id/tool_bar_demo_btn_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="改变状态栏色值" />
+
+        <!--<Button-->
+        <!--android:id="@+id/tool_bar_demo_btn_4"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="隐藏导航栏" />-->
+    </LinearLayout>
+
     <com.ogaclejapan.smarttablayout.SmartTabLayout
         android:id="@+id/tool_bar_demo_tab"
         android:layout_width="match_parent"
