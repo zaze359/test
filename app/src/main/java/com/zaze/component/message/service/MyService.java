@@ -1,4 +1,4 @@
-package com.zaze.component.service;
+package com.zaze.component.message.service;
 
 import android.app.Notification;
 import android.app.NotificationManager;

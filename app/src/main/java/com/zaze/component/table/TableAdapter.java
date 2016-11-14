@@ -30,6 +30,11 @@ public class TableAdapter extends ZUltimateAdapter<TableEntity, TableAdapter.App
     }
 
     @Override
+    public AppItemHolder getViewHolder(View view, boolean isItem) {
+        return new AppItemHolder(view, isItem);
+    }
+
+    @Override
     public int getViewLayoutId() {
         return R.layout.list_item_table;
     }
@@ -37,12 +42,6 @@ public class TableAdapter extends ZUltimateAdapter<TableEntity, TableAdapter.App
     @Override
     public void onBindViewHolder(AppItemHolder holder, TableEntity value, int position) {
         holder.itemToolName.setText(value.getName());
-    }
-
-    //
-    @Override
-    public AppItemHolder getViewHolder(View view) {
-        return new AppItemHolder(view);
     }
 
     @Override
@@ -64,9 +63,11 @@ public class TableAdapter extends ZUltimateAdapter<TableEntity, TableAdapter.App
         @Bind(R.id.item_table_name)
         TextView itemToolName;
 
-        public AppItemHolder(View itemView) {
+        public AppItemHolder(View itemView, boolean isItem) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            if (isItem) {
+                ButterKnife.bind(this, itemView);
+            }
         }
     }
 }

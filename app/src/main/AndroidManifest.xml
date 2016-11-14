@@ -19,14 +19,18 @@
             </intent-filter>
         </activity>
         <activity android:name=".component.animation.ui.AnimationActivity" />
+
+        <activity android:name=".component.rxandroid.RxAndroidActivity" />
+
         <activity
             android:name=".component.toolbar.ToolBarDemoActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <service android:name=".component.service.MyService" />
 
+        <!--测试接收推送-->
+        <service android:name=".component.message.service.MyService" />
         <receiver
-            android:name=".component.receiver.TestBroadcastReceiver"
+            android:name=".component.message.receiver.TestBroadcastReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.xh.message.testappid" />

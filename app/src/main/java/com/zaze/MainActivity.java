@@ -51,6 +51,14 @@ public class MainActivity extends BaseActivity {
         mainTab.setViewPager(mainViewpager);
     }
 
+    private void initToolBar() {
+        mainToolbar.setTitle(getString(R.string.app_name));
+        setSupportActionBar(mainToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+    }
+
+    // -------------------------
+
     public void testClick(View view) {
         Intent intent = new Intent();
         intent.setAction("android.intent.action.xh.message.testappid");
@@ -60,11 +68,7 @@ public class MainActivity extends BaseActivity {
         sendBroadcast(intent);
     }
 
-    private void initToolBar() {
-        mainToolbar.setTitle(getString(R.string.app_name));
-        setSupportActionBar(mainToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-    }
+    // -------------------------
 
     class MyPagerAdapter extends FragmentPagerAdapter {
         private List<BaseFragment> fragmentList;

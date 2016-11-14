@@ -1,10 +1,10 @@
-package com.zaze.component.receiver;
+package com.zaze.component.message.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.zaze.component.service.MyService;
+import com.zaze.component.message.service.MyService;
 import com.zz.library.commons.log.LogKit;
 
 /**

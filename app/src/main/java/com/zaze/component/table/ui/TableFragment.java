@@ -3,7 +3,6 @@ package com.zaze.component.table.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
@@ -12,13 +11,14 @@ import android.view.ViewGroup;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.zaze.R;
-import com.zaze.model.entity.TableEntity;
 import com.zaze.component.table.TableAdapter;
 import com.zaze.component.table.presenter.TablePresenter;
 import com.zaze.component.table.presenter.impl.TablePresenterImpl;
 import com.zaze.component.table.view.ToolView;
-import com.zz.library.commons.base.BaseFragment;
+import com.zaze.model.entity.TableEntity;
 import com.zz.library.commons.adapter.ZUltimateAdapter;
+import com.zz.library.commons.base.BaseFragment;
+import com.zz.library.util.helper.UltimateRecyclerViewHelper;
 
 import java.util.List;
 
@@ -62,31 +62,30 @@ public class TableFragment extends BaseFragment implements ToolView {
 //        Transition explode = TransitionInflater.from(getActivity()).inflateTransition(R.transition.explode);
 //        getActivity().getWindow().setEnterTransition(explode);
 
-        linearLayoutManager = new GridLayoutManager(getActivity(), 2);
-        tableRecyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new TableAdapter(getActivity(), null);
-        adapter.setOnItemClickListener(new ZUltimateAdapter.OnItemClickListener<TableEntity>() {
-            @Override
-            public void onItemClick(View view, TableEntity value, int position) {
-                startActivity(new Intent(getActivity(), value.getClazz()));
-            }
-        });
         presenter = new TablePresenterImpl(this);
+        presenter.getToolBox();
         return rootView;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        presenter.getToolBox();
-    }
-
-    @Override
     public void showAppList(List<TableEntity> list) {
-        adapter.setDataList(list);
-        tableRecyclerView.setAdapter(adapter);
+        if (adapter == null) {
+            adapter = new TableAdapter(getActivity(), list);
+            adapter.setOnItemClickListener(new ZUltimateAdapter.OnItemClickListener<TableEntity>() {
+                @Override
+                public void onItemClick(View view, TableEntity value, int position) {
+                    startActivity(new Intent(getActivity(), value.getClazz()));
+                }
+            });
+            linearLayoutManager = new GridLayoutManager(getActivity(), 2);
+            tableRecyclerView.setLayoutManager(linearLayoutManager);
+            UltimateRecyclerViewHelper.init(tableRecyclerView);
+            tableRecyclerView.setAdapter(adapter);
+
+        } else {
+            adapter.setDataList(list);
+        }
     }
-//    startActivity(new Intent(getActivity(), CertificateActivity.class));
 
     @Override
     public void onDestroyView() {

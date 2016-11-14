@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
+import com.zz.library.util.ViewUtil;
+import com.zz.library.util.helper.OnClickHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,28 +21,28 @@ import java.util.List;
  * @version : 1.0
  */
 public abstract class ZUltimateAdapter<V, VH extends RecyclerView.ViewHolder> extends UltimateViewAdapter<VH> {
-    protected Context context;
-    protected final List<V> dataList = new ArrayList<>();
+    private Context context;
+    private final List<V> dataList = new ArrayList<>();
     private View.OnClickListener onClickListener;
     private OnItemClickListener<V> onItemClickListener;
+
+    private int page;
+    private int pageSize = 10;
 
     public ZUltimateAdapter(Context context, List<V> data) {
         this.context = context;
         preSetData();
-        this.setDataList(data);
+        this.setDataList(data, false);
         onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onItemClickListener != null) {
-                    Object object = v.getTag();
-                    if (object instanceof Integer) {
-                        int position = (Integer) object;
-                        onItemClickListener.onItemClick(v, getItem(position), position);
-                    }
+                Object object = v.getTag();
+                if (object instanceof Integer) {
+                    int position = (Integer) object;
+                    onItemClick(v, getItem(position), position);
                 }
             }
         };
-
     }
 
     protected void preSetData() {
@@ -48,9 +50,18 @@ public abstract class ZUltimateAdapter<V, VH extends RecyclerView.ViewHolder> ex
     }
 
     public void setDataList(List<V> data) {
+        setDataList(data, true);
+    }
+
+    private void setDataList(List<V> data, boolean isNotify) {
+        page = 0;
         this.dataList.clear();
         if (data != null && data.size() > 0) {
             this.dataList.addAll(data);
+            page = 1;
+        }
+        if (isNotify) {
+            notifyDataSetChanged();
         }
     }
 
@@ -59,58 +70,20 @@ public abstract class ZUltimateAdapter<V, VH extends RecyclerView.ViewHolder> ex
         return this.dataList.size();
     }
 
-
-//    @Override
-//    public VH onCreateViewHolder(ViewGroup parent, int viewType) {
-//        if (viewType == VIEW_TYPES.FOOTER) {
-//            VH viewHolder = getViewHolder(customLoadMoreView, false);
-//            if (getAdapterItemCount() == 0)
-//                viewHolder.itemView.setVisibility(View.GONE);
-//            return viewHolder;
-//        } else if (viewType == VIEW_TYPES.HEADER) {
-//            if (customHeaderView != null)
-//                return getViewHolder(customHeaderView, false);
-//        } else if (viewType == VIEW_TYPES.CHANGED_FOOTER) {
-//            VH viewHolder = getViewHolder(customLoadMoreView, false);
-//            if (getAdapterItemCount() == 0)
-//                viewHolder.itemView.setVisibility(View.GONE);
-//            return viewHolder;
-//        }
-//        return onCreateViewHolder(parent);
-//    }
-
-//    @Deprecated
-//    @Override
-//    public VH getViewHolder(View view) {
-//        return null;
-//    }
-
     @Override
     public VH newFooterHolder(View view) {
-//        return getViewHolder(view);
-        return null;
+        return getViewHolder(view, false);
     }
 
     @Override
     public VH newHeaderHolder(View view) {
-//        return getViewHolder(view);
-        return null;
+        return getViewHolder(view, false);
     }
 
     @Override
     public VH onCreateViewHolder(ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext()).inflate(getViewLayoutId(), parent, false);
-//        ViewGroup.LayoutParams p = view.getLayoutParams();
-//        if (p == null) {
-//            p = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//        } else {
-//            p.width = ViewGroup.LayoutParams.MATCH_PARENT;
-//            p.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-//        }
-//        view.setLayoutParams(p);
-        view.setOnClickListener(onClickListener);
-//        return this.getViewHolder(view, true);
-        return this.getViewHolder(view);
+        return this.getViewHolder(view, true);
     }
 
     @Override
@@ -118,14 +91,10 @@ public abstract class ZUltimateAdapter<V, VH extends RecyclerView.ViewHolder> ex
         int size = dataList.size();
         if (holder.itemView != null) {
             holder.itemView.setTag(position);
-            holder.itemView.setOnClickListener(onClickListener);
+            OnClickHelper.setOnClickListener(holder.itemView, onClickListener);
         }
         if (position < getItemCount() && (customHeaderView != null ? position <= size : position < size) && (customHeaderView == null || position > 0)) {
-            if (size > 0) {
-                this.onBindViewHolder(holder, this.dataList.get(position), position);
-            } else {
-                this.onBindViewHolder(holder, null, position);
-            }
+            this.onBindViewHolder(holder, getItem(position), position);
         }
     }
 
@@ -140,24 +109,28 @@ public abstract class ZUltimateAdapter<V, VH extends RecyclerView.ViewHolder> ex
         }
     }
 
-//    public void loadMore(Collection<V> data) {
-//        if (data != null && data.size() > 0) {
-//            for (V v : data) {
-//                insert(v, this.getAdapterItemCount());
-//            }
-//        }
-//    }
+    public void loadMore(List<V> list) {
+        if (list != null && !list.isEmpty()) {
+            insertInternal(list, dataList);
+            page++;
+        }
+    }
 
-    //
-    public abstract VH getViewHolder(View view);
+    public void loadMore(V data) {
+        if (data != null) {
+            List<V> list = new ArrayList<>();
+            list.add(data);
+            loadMore(list);
+        }
+    }
 
-//    public abstract VH getViewHolder(View view, boolean isItem);
+    protected void onItemClick(View view, V value, int position) {
+        if (onItemClickListener != null) {
+            onItemClickListener.onItemClick(view, value, position);
+        }
+    }
 
-    public abstract int getViewLayoutId();
-
-    public abstract void onBindViewHolder(VH holder, V value, int position);
-
-    //
+    // --------------
     public interface OnItemClickListener<V> {
         void onItemClick(View view, V value, int position);
     }
@@ -165,4 +138,40 @@ public abstract class ZUltimateAdapter<V, VH extends RecyclerView.ViewHolder> ex
     public void setOnItemClickListener(OnItemClickListener<V> onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public List<V> getDataList() {
+        return dataList;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    //
+    public int getColor(int resId) {
+        return context.getResources().getColor(resId);
+    }
+
+    public String getString(int resId, Object... args) {
+        return context.getString(resId, args);
+    }
+
+    public <T extends View> T findView(View parentView, int resId) {
+        return ViewUtil.findView(parentView, resId);
+    }
+
+    //
+    public abstract VH getViewHolder(View view, boolean isItem);
+
+    public abstract int getViewLayoutId();
+
+    public abstract void onBindViewHolder(VH holder, V value, int position);
 }
