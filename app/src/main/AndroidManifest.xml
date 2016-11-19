@@ -2,6 +2,7 @@
     package="com.zaze">
 
     <permission android:name="com.zaze.receiver.RECEIVER" />
+
     <application
         android:name=".app.MyApplication"
         android:allowBackup="true"
