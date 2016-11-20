@@ -24,12 +24,26 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="testClick"
-        android:text="test" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/main_test_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="testClick"
+            android:text="test" />
+
+        <TextView
+            android:id="@+id/main_test_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="test" />
+
+    </LinearLayout>
+
 
     <RelativeLayout
         android:layout_width="match_parent"

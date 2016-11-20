@@ -24,7 +24,7 @@ public class EntityModelImpl implements EntityModel {
         List<TableEntity> list = new ArrayList<>();
         list.add(new TableEntity(1, "Animation", AnimationActivity.class));
         list.add(new TableEntity(2, "toolbar", ToolBarDemoActivity.class));
-        list.add(new TableEntity(2, "RxAndroid", RxAndroidActivity.class));
+        list.add(new TableEntity(3, "RxAndroid", RxAndroidActivity.class));
         return list;
     }
 
