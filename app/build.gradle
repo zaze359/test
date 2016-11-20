@@ -1,23 +1,24 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion '24.0.2'
+    compileSdkVersion 23
+    buildToolsVersion '23.0.2'
 
     defaultConfig {
         applicationId "com.zaze"
-        minSdkVersion 16
-        targetSdkVersion 24
+        minSdkVersion 18
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    
+
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
         }
     }
-    
+
     buildTypes {
         release {
             minifyEnabled false
@@ -28,6 +29,19 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
     compile project(':library')
+    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
+
+    androidTestCompile 'org.hamcrest:hamcrest-library:1.3'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    androidTestCompile 'com.android.support.test.espresso:espresso-web:2.2.2'
+//    androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2'
+//    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2.2') {
+//        exclude module: 'support-annotations'
+//        exclude module: 'recyclerview-v7'
+//        exclude module: 'support-v4'
+//        exclude module: 'design'
+//    }
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.android.support.test:rules:0.5'
 }

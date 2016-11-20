@@ -8,6 +8,7 @@ import java.util.Date;
 
 /**
  * Description :
+ *
  * @author : ZAZE
  * @version : 2016-06-15 - 16:07
  */
@@ -21,6 +22,7 @@ public class DebugDateTime extends DebugOut {
         debugTimeMillisToStr();
         debugBetween();
     }
+
     // -----------------------------------
     public static void debugStartEnd() {
         String[] tags = {"start", "end"};
@@ -59,6 +61,4 @@ public class DebugDateTime extends DebugOut {
         out("debugBetween day", String.valueOf(DateTimeUtil.offsetDay(nowTime, nextTime)));
 //        out("debugBetween hour", String.valueOf(DateTimeUtil.offsetHour(nowTime, nextTime)));
     }
-    //
-
 }

@@ -34,7 +34,7 @@ public class MD5Util {
         }
         return byteArrayToHex(digest.digest());
     }
-    
+
     public static String byteArrayToHex(byte[] byteArray) {
         // 首先初始化一个字符数组，用来存放每个16进制字符
         char[] hexDigits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
@@ -49,7 +49,7 @@ public class MD5Util {
         // 字符数组组合成字符串返回
         return new String(resultCharArray).toLowerCase();
     }
-    
+
     // ---------------------------------------------------------------------------
     public static String getMD5(String str) {
         if (null == str) {

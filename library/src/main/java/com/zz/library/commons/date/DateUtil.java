@@ -1,5 +1,9 @@
 package com.zz.library.commons.date;
 
+
+import com.zz.library.util.StringUtil;
+
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -10,12 +14,38 @@ import java.util.TimeZone;
 /**
  * Description :
  * date : 2016-04-21 - 12:11
+ *
  * @author : zaze
  * @version : 1.0
  */
 public class DateUtil {
 
+    public static String getMinAndSec(long timeMillis) {
+        return StringUtil.format(
+                "%02d' %02d'%s ", getMinute(timeMillis), getSecond(timeMillis), "'"
+        );
+    }
+
+    public static String getHourAndMin(long timeMillis) {
+        return timeMillisToString(timeMillis, "HH:mm");
+    }
+
+    public static long getTimeMillisByHM(String dateStr) {
+        Date date = stringToDate(dateStr, "HH:mm");
+        int hour = getHour(date);
+        int minute = getMinute(date);
+        return 1000L * (hour * 3600 + minute * 60);
+    }
+
+    public static long getTimeMillisByHM(long timeMillis) {
+        Date date = timeMillisToDate(timeMillis);
+        int hour = getHour(date);
+        int minute = getMinute(date);
+        return 1000L * (hour * 3600 + minute * 60);
+    }
+
     // ----------------- about trans -----------------
+
     /**
      * @param dateStr String
      * @param pattern 日期格式
@@ -31,6 +61,7 @@ public class DateUtil {
         }
         return null;
     }
+
     /**
      * @param date    Date 对象
      * @param pattern 日期格式
@@ -40,19 +71,32 @@ public class DateUtil {
         if (date != null) {
             return getDateFormat(pattern).format(date);
         }
-        return null;
+        return "";
     }
+
     /**
      * @param timeMillis
      * @param pattern
      * @return
      */
-    public static String timeMillisToString(long timeMillis, String pattern){
+    public static String timeMillisToString(long timeMillis, String pattern) {
         return dateToString(new Date(timeMillis), pattern);
     }
 
-    // ----------------  about int ------------------
+    public static Date timeMillisToDate(long timeMillis) {
+        return new Date(timeMillis);
+    }
 
+    // ----------------  about millis ------------------
+    public static long getDayTimeMillis() {
+        return 86400000L;
+    }
+
+    public static long getWeekTimeMillis() {
+        return 604800000L;
+    }
+
+    // ----------------  about int ------------------
     public static int getYear(Date date) {
         return getInteger(date, Calendar.YEAR);
     }
@@ -70,19 +114,80 @@ public class DateUtil {
      * @return hour num
      */
     public static int getHour(Date date) {
-        return getInteger(date, Calendar.HOUR);
+        return getInteger(date, Calendar.HOUR_OF_DAY);
     }
+
     public static int getMinute(Date date) {
         return getInteger(date, Calendar.MINUTE);
     }
+
+    public static int getMinute(long timeMillis) {
+        return getInteger(timeMillis, Calendar.MINUTE);
+    }
+
     public static int getSecond(Date date) {
         return getInteger(date, Calendar.SECOND);
     }
 
+    public static int getSecond(long timeMillis) {
+        return getInteger(timeMillis, Calendar.SECOND);
+    }
+
+    // ----------------  about day ------------------
+
+    /**
+     * @param timeMillis
+     * @return 一天的开始时间
+     */
+    public static long getDayStart(long timeMillis) {
+        Calendar calendar = getCalendar(new Date(timeMillis));
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTimeInMillis();
+    }
+
+    /**
+     * @param timeMillis
+     * @return 一天的结束时间
+     */
+    public static long getDayEnd(long timeMillis) {
+        Calendar calendar = getCalendar(new Date(timeMillis));
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MILLISECOND, 59);
+        return calendar.getTimeInMillis();
+    }
+
     // ----------------  about week ------------------
+
+    /**
+     * @param timeMillis
+     * @return (一周的开始)本周周一的开始时间
+     */
+    public static long getWeekStart(long timeMillis) {
+        Week week = getWeek(timeMillis);
+        int day = week.getNumber();
+        return getDayStart(timeMillis - (day - 1) * DateTime.DAY);
+    }
+
+    /**
+     * @param timeMillis
+     * @return (一周的结束)本周周日的结束
+     */
+    public static long getWeekEnd(long timeMillis) {
+        Week week = getWeek(timeMillis);
+        int day = week.getNumber();
+        long endTime = getDayEnd(timeMillis);
+        return endTime + (7 - day) * DateTime.DAY;
+    }
+
     /**
      * 获取日期的星期。失败返回null。
-     * @param date 日期字符串
+     *
+     * @param date    日期字符串
      * @param pattern 日期格式
      * @return 星期
      */
@@ -93,8 +198,10 @@ public class DateUtil {
     public static Week getWeek(long timeMillis) {
         return getWeek(new Date(timeMillis));
     }
+
     /**
      * 获取日期的星期。失败返回null。
+     *
      * @param date 日期
      * @return 星期
      */
@@ -132,26 +239,53 @@ public class DateUtil {
         return week;
     }
 
+    // ----------------  about month ------------------
+    public static long calculateMonth(long timeMillis, int offset) {
+        Calendar calendar = getCalendar(new Date(timeMillis));
+        calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) + offset);
+        return calendar.getTimeInMillis();
+    }
+
     // ---------------- private func ------------------
+
+    public static long currentTimeMillis() {// 东八区
+        return System.currentTimeMillis() + 28800000L;
+    }
+
     /**
-     *   服务器时间已经是东八区 设置为GMT 防止转换时多加了时区
+     * 服务器时间已经是东八区 设置为GMT 防止转换时多加了时区
      */
     public static void setGMTTimeZone() {
         TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
     }
+
     /**
-     * @param date      日期
-     * @param dateType  年，月，日...
+     * @param timeMillis 日期
+     * @param dateType   年，月，日...
      * @return
      */
-    private static int getInteger(Date date, int dateType) {
-        if(date != null) {
+    private static int getInteger(long timeMillis, int dateType) {
+        if (timeMillis > 0L) {
             Calendar calendar = Calendar.getInstance();
-            calendar.setTime(date);
+            calendar.setTime(new Date(timeMillis));
             return calendar.get(dateType);
         }
         return 0;
     }
+
+    /**
+     * @param date     日期
+     * @param dateType 年，月，日...
+     * @return
+     */
+    private static int getInteger(Date date, int dateType) {
+        if (date != null) {
+            Calendar calendar = getCalendar(date);
+            return calendar.get(dateType);
+        }
+        return 0;
+    }
+
     /**
      * @param pattern 日期格式
      * @return SimpleDateFormat
@@ -159,4 +293,15 @@ public class DateUtil {
     private static SimpleDateFormat getDateFormat(String pattern) {
         return new SimpleDateFormat(pattern, Locale.getDefault());
     }
+
+    /**
+     * @param date 日期
+     * @return
+     */
+    private static Calendar getCalendar(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar;
+    }
+
 }
