@@ -117,8 +117,7 @@ public class RxAndroidActivity extends BaseActivity {
                 return "RxAndroid Test Single.just";
             }
         });
-        single
-                .subscribeOn(Schedulers.io())
+        single.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleSubscriber<String>() {
                     @Override

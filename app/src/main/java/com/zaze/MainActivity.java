@@ -1,6 +1,5 @@
 package com.zaze;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,9 +13,9 @@ import android.view.View;
 
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.zaze.component.table.ui.TableFragment;
+import com.zaze.localrepo.LocalRepo;
 import com.zz.library.commons.base.BaseActivity;
 import com.zz.library.commons.base.BaseFragment;
-import com.zz.library.jni.TestJni;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,12 +59,14 @@ public class MainActivity extends BaseActivity {
     // -------------------------
 
     public void testClick(View view) {
-        Intent intent = new Intent();
-        intent.setAction("android.intent.action.xh.message.testappid");
-        String title = TestJni.newInstance().stringFromJNI();
-        intent.putExtra("title", title);
-        intent.putExtra("content", "content");
-        sendBroadcast(intent);
+//        Intent intent = new Intent();
+//        intent.setAction("android.intent.action.xh.message.testappid");
+//        String title = TestJni.newInstance().stringFromJNI();
+//        intent.putExtra("title", title);
+//        intent.putExtra("content", "content");
+//        sendBroadcast(intent);
+
+        LocalRepo.print();
     }
 
     // -------------------------

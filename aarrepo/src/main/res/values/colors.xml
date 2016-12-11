@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <color name="red">#c03134</color>
+    <color name="yellow">#f7d23e</color>
+    <color name="blue">#62ADE6</color>
+    <color name="green">#35C243</color>
+
+    <!--about header-->
+    <color name="head_background">#eeeeee</color>
+    <color name="head_text_color_default">#556777</color>
+    <color name="head_text_color_pressed">#999999</color>
+    <color name="head_text_color">@color/text_color_head</color>
+
+
+</resources>

@@ -1,22 +1,33 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
     repositories {
         jcenter()
+//        maven {
+//            url  "http://zazewxs.bintray.com/TestRepository"
+//            credentials {
+//                username 'zhaozhen359'
+//                password '9026642726e0b36dfbb415cd2fa6a5d19a33e6d4'
+//            }
+//        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.2'
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath 'com.android.tools.build:gradle:2.2.3'
+        //下面两个包是用于上传的插件
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
     }
 }
 
 allprojects {
+
     repositories {
         jcenter()
+        maven {
+            url 'file:///Users/zaze/Documents/maven/localrepo/'
+        }
     }
 }
+//
+
 
 task clean(type: Delete) {
     delete rootProject.buildDir
