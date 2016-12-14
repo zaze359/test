@@ -13,9 +13,13 @@ import android.view.View;
 
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.zaze.component.table.ui.TableFragment;
-import com.zaze.localrepo.LocalRepo;
 import com.zz.library.commons.base.BaseActivity;
 import com.zz.library.commons.base.BaseFragment;
+import com.zz.library.commons.log.LogKit;
+import com.zz.library.commons.task.TaskCallback;
+import com.zz.library.commons.task.TaskEntity;
+import com.zz.library.commons.task.TaskFilterThread;
+import com.zz.library.util.JsonUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,16 +61,19 @@ public class MainActivity extends BaseActivity {
     }
 
     // -------------------------
+    private TaskCallback taskCallback = new TaskCallback() {
+        @Override
+        public void onExecute() {
+            LogKit.v("onExecute");
+        }
+    };
 
     public void testClick(View view) {
-//        Intent intent = new Intent();
-//        intent.setAction("android.intent.action.xh.message.testappid");
-//        String title = TestJni.newInstance().stringFromJNI();
-//        intent.putExtra("title", title);
-//        intent.putExtra("content", "content");
-//        sendBroadcast(intent);
-        
-        LocalRepo.print();
+//        LocalRepo.print();
+        TaskEntity taskEntity = new TaskEntity();
+        taskEntity.setAction("AAAA");
+        taskEntity.setLoopTime(1000L);
+        TaskFilterThread.getInstance().pushTask(JsonUtil.objToJson(taskEntity), taskCallback);
     }
 
     // -------------------------

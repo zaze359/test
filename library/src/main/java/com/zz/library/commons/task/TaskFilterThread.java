@@ -1,8 +1,8 @@
-package com.zaze.aarrepo.commons.task;
+package com.zz.library.commons.task;
 
 
-import com.zaze.aarrepo.utils.JsonUtil;
-import com.zaze.aarrepo.utils.StringUtil;
+import com.zz.library.util.JsonUtil;
+import com.zz.library.util.StringUtil;
 
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;

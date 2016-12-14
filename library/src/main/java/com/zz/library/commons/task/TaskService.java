@@ -1,4 +1,4 @@
-package com.zz.library.commons.service;
+package com.zz.library.commons.task;
 
 import android.app.Service;
 import android.content.Intent;
@@ -107,9 +107,6 @@ public class TaskService extends Service {
      */
     private void notifyFastTask(long currentRunTime) {
         if (currentRunTime - lastRunTimeFast > loopTimeFast) {
-//            LogDevelopmentKit.i(StringUtil.format("RunTime(%d): notifyFastTask",
-//                    currentRunTime
-//            ));
             HashSet<String> actionSet = new HashSet<String>();
             while (!actionPool.isEmpty()) {
                 TaskEntity taskEntity = actionPool.poll();
@@ -130,9 +127,6 @@ public class TaskService extends Service {
      */
     private void notifyOrdinaryTask(long currentRunTime) {
         if (currentRunTime - lastRunTimeOrdinary > loopTimeOrdinary) {
-//            LogDevelopmentKit.i(StringUtil.format("RunTime(%d): notifyOrdinaryTask",
-//                    currentRunTime
-//            ));
             for (String key : ordinaryActionMap.keySet()) {
                 sendBroadcast(new Intent(key));
             }
@@ -230,7 +224,7 @@ public class TaskService extends Service {
 
         @Override
         public String toString() {
-            return "TaskEntity{" +
+            return "ExecuteTask{" +
                     "action='" + action + '\'' +
                     ", time=" + time +
                     '}';
