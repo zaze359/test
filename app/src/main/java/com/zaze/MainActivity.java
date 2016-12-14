@@ -65,7 +65,7 @@ public class MainActivity extends BaseActivity {
 //        intent.putExtra("title", title);
 //        intent.putExtra("content", "content");
 //        sendBroadcast(intent);
-
+        
         LocalRepo.print();
     }
 
