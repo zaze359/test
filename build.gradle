@@ -1,13 +1,6 @@
 buildscript {
     repositories {
         jcenter()
-//        maven {
-//            url  "http://zazewxs.bintray.com/TestRepository"
-//            credentials {
-//                username 'zhaozhen359'
-//                password '9026642726e0b36dfbb415cd2fa6a5d19a33e6d4'
-//            }
-//        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.3'
@@ -23,6 +16,9 @@ allprojects {
         jcenter()
         maven {
             url 'file:///Users/zaze/Documents/maven/localrepo/'
+        }
+        maven {
+            url "https://dl.bintray.com/zaze359/maven"
         }
     }
 }

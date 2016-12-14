@@ -20,7 +20,7 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
- * Description : 
+ * Description :
  * date : 2015-11-27 - 17:11
  *
  * @author : zaze
@@ -36,7 +36,7 @@ public class FileUtil {
     private static final int DIR_EXISTS = -3;       // 目录存在
     private static final int FILE_EXISTS = -2;      // 文件存在
     private static final int CREATE_ERROR = -1;     // 构建失败
-    private static final int UNKNOW = 0;            // 
+    private static final int UNKNOW = 0;            //
     private static final int CREATE_FILE_SUCCESS = 1;   // 创建文件成功
     private static final int CREATE_DIR_SUCCESS = 2;    // 创建目录成功
 
@@ -54,7 +54,7 @@ public class FileUtil {
      * @throws IOException
      */
     public static File createFile(String filePath) throws IOException {
-        File file = new File(filePath);
+        File file = new File(StringUtil.parseString(filePath));
         boolean result = false;
         if (!isFileExist(filePath)) {
             if (createParentDir(filePath)) {
@@ -69,7 +69,7 @@ public class FileUtil {
         }
         return file;
     }
-    
+
     /**
      * @param dirPath  目录
      * @param fileName 文件名
@@ -100,7 +100,7 @@ public class FileUtil {
      */
     public static boolean createDir(String dirStr) {
         File dir = new File(dirStr + File.separator);
-        boolean result = dir.mkdir();
+        boolean result = dir.mkdirs();
         if (showLog) {
             Log.v("FileUtil", "createDir dir : " + dirStr + File.separator);
             Log.v("FileUtil", "createDir result : " + result);
@@ -110,11 +110,12 @@ public class FileUtil {
 
     /**
      * 创建上级目录
+     *
      * @param savePath 文件绝对路径
      * @return
      */
     public static boolean createParentDir(String savePath) {
-        File file = new File(savePath);
+        File file = new File(StringUtil.parseString(savePath));
         int status = UNKNOW;
         File parentFile = file.getParentFile();
         if (!parentFile.exists()) {
@@ -134,11 +135,28 @@ public class FileUtil {
      * @return
      */
     public static boolean isFileExist(String filePath) {
-        File file = new File(filePath);
+        File file = new File(StringUtil.parseString(filePath));
         boolean result = file.exists();
         if (!result)
             checkResult(FILE_NOT_EXISTS, filePath);
         return result;
+    }
+
+
+    /**
+     * 将数据写入sd卡
+     *
+     * @param dirPath
+     * @param fileName
+     * @param dataStr
+     * @return
+     */
+    public static File writeLogFile(String dirPath, String fileName, String dataStr, long maxSize) {
+        File file = new File(dirPath + fileName);
+        if (file.exists() && file.length() >= maxSize) {
+            file.delete();
+        }
+        return write2SDCardFile(dirPath, fileName, dataStr);
     }
 
     /**
@@ -150,32 +168,8 @@ public class FileUtil {
      * @return
      */
     public static File write2SDCardFile(String dirPath, String fileName, String dataStr) {
-        writeLock(lock);
-        File file = null;
-        OutputStream output = null;
         InputStream input = new ByteArrayInputStream(dataStr.getBytes());
-        try {
-            createDir(dirPath);
-            file = createFileInSDCard(fileName, dirPath);
-            output = new FileOutputStream(file);
-            byte[] buffer = new byte[4 * 1024];
-            int temp = 0;
-            while ((temp = input.read(buffer)) != -1) {
-                output.write(buffer, 0, temp);
-            }
-            output.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                input.close();
-                output.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        writeUnlock(lock);
-        return file;
+        return write2SDCardFile(dirPath, fileName, input);
     }
 
     /**
@@ -192,22 +186,24 @@ public class FileUtil {
         OutputStream output = null;
         try {
             createDir(dirPath);
-            file = createFileInSDCard(fileName, dirPath);
-            output = new FileOutputStream(file);
+            file = createFileInSDCard(dirPath, fileName);
+            output = new FileOutputStream(file, true);
             byte[] buffer = new byte[4 * 1024];
             int temp = 0;
             while ((temp = input.read(buffer)) != -1) {
                 output.write(buffer, 0, temp);
             }
-            String split = "\n-------------------------\n";
-            output.write(split.getBytes(), 0, split.length());
+//            String split = "\n-------------------------\n";
+//            output.write(split.getBytes(), 0, split.length());
             output.flush();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             try {
                 input.close();
-                output.close();
+                if (output != null) {
+                    output.close();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -259,18 +255,10 @@ public class FileUtil {
         return results;
     }
 
-    public static void delSysDir(String path) {
-        LogKit.v("delete dir : " + path);
-        if (isFileExist(path)) {
-            String delStr = " rm -r " + path;
-            int res = RootCmd.execRootCmd(delStr);
-        }
-    }
-
     public static String getFileMD5(File file) {
         return MD5Util.getMD5(file);
     }
-    
+
     //------------
     private static boolean needLock = true;
 
