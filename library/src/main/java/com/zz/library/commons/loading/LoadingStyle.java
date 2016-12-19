@@ -2,8 +2,8 @@ package com.zz.library.commons.loading;
 
 import android.content.Context;
 
+import com.zaze.aarrepo.utils.LocalDisplay;
 import com.zz.library.R;
-import com.zz.library.util.LocalDisplay;
 
 import in.srain.cube.views.ptr.PtrClassicFrameLayout;
 import in.srain.cube.views.ptr.PtrFrameLayout;

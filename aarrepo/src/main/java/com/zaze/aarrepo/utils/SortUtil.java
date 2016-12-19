@@ -1,4 +1,4 @@
-package com.zz.library.util;
+package com.zaze.aarrepo.utils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -12,7 +12,7 @@ import java.util.List;
  * @version : 2015年1月9日 上午11:06:13
  * @param <E>
  */
-public class SortUtils<E> {
+public class SortUtil<E> {
 	public void sortList(List<E> list, final String method, final String sort) {
 		Collections.sort(list, new Comparator<E>() {
 			// return < 0 : 不交换位置

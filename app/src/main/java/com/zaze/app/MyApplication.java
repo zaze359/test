@@ -2,7 +2,8 @@ package com.zaze.app;
 
 import android.app.Application;
 
-import com.zz.library.util.LocalDisplay;
+import com.zaze.aarrepo.utils.LocalDisplay;
+
 
 /**
  * Description :

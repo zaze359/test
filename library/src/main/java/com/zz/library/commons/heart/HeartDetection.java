@@ -1,7 +1,7 @@
 package com.zz.library.commons.heart;
 
 
-import com.zz.library.commons.log.LogKit;
+import com.zaze.aarrepo.commons.log.LogKit;
 
 /**
  * Description : 心跳检测

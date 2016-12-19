@@ -15,7 +15,7 @@ import java.util.Locale;
  * @version : 1.0
  */
 public class LogKit {
-    private static boolean sendToService = false;
+    private static LogFace logFace;
     private static int curLevel = 5;
     //
     private static boolean E = true;
@@ -73,8 +73,9 @@ public class LogKit {
                 msg = "";
             }
             Log.v(tag, msg);
-            if (sendToService)
-                ServiceLog.s(tag, msg);
+            if (logFace != null) {
+                logFace.v(tag, msg);
+            }
         }
     }
 
@@ -95,8 +96,9 @@ public class LogKit {
                 msg = "";
             }
             Log.d(tag, msg);
-            if (sendToService)
-                ServiceLog.s(tag, msg);
+            if (logFace != null) {
+                logFace.d(tag, msg);
+            }
         }
     }
 
@@ -119,8 +121,9 @@ public class LogKit {
             }
             Log.i(tag, msg);
         }
-        if (sendToService)
-            ServiceLog.s(tag, msg);
+        if (logFace != null) {
+            logFace.i(tag, msg);
+        }
     }
 
     // ----------- W -----------
@@ -141,8 +144,9 @@ public class LogKit {
             }
             Log.w(tag, msg);
         }
-        if (sendToService)
-            ServiceLog.w(tag, msg);
+        if (logFace != null) {
+            logFace.w(tag, msg);
+        }
     }
 
     // ----------- E -----------
@@ -163,11 +167,17 @@ public class LogKit {
             }
             Log.e(tag, msg);
         }
-        if (sendToService)
-            ServiceLog.e(tag, msg);
+        if (logFace != null) {
+            logFace.e(tag, msg);
+        }
     }
 
     // ---------------------------------------------------
+
+    public static void setLogFace(LogFace face) {
+        logFace = face;
+    }
+
     public static void closeAllLog() {
         E = false;
         W = false;
@@ -182,9 +192,5 @@ public class LogKit {
         I = true;
         D = true;
         V = true;
-    }
-
-    public static void isSendToService(boolean b) {
-        sendToService = b;
     }
 }

@@ -1,6 +1,7 @@
 package com.zz.library.util.aaa.utils;
 
-import com.zz.library.commons.log.LogKit;
+
+import com.zaze.aarrepo.commons.log.LogKit;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -11,7 +12,7 @@ import java.util.List;
  * @author		: zaze
  * @version		: 2015年6月2日 上午9:30:04
  */
-public class TaskManager implements TaskCallback {
+public class TaskManager implements TaskBack {
 	private LinkedList<TaskBean> waitTaskQueue;// 等待任务队列
 	private ArrayList<TaskBean> excuteTaskQueue;// 执行中的任务队列
 	private LinkedList<TaskBean> failedTaskQueue;// 失败任务队列

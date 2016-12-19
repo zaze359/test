@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.widget.TextView;
 
 import com.zaze.R;
-import com.zz.library.commons.base.BaseActivity;
+import com.zaze.aarrepo.commons.base.BaseActivity;
 
 import java.util.concurrent.Callable;
 

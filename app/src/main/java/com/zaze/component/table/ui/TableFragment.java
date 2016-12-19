@@ -11,13 +11,13 @@ import android.view.ViewGroup;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.zaze.R;
+import com.zaze.aarrepo.commons.base.BaseFragment;
+import com.zaze.aarrepo.commons.base.adapter.OnItemClickListener;
 import com.zaze.component.table.TableAdapter;
 import com.zaze.component.table.presenter.TablePresenter;
 import com.zaze.component.table.presenter.impl.TablePresenterImpl;
 import com.zaze.component.table.view.ToolView;
 import com.zaze.model.entity.TableEntity;
-import com.zz.library.commons.adapter.ZUltimateAdapter;
-import com.zz.library.commons.base.BaseFragment;
 import com.zz.library.util.helper.UltimateRecyclerViewHelper;
 
 import java.util.List;
@@ -49,7 +49,7 @@ public class TableFragment extends BaseFragment implements ToolView {
     }
 
     @Override
-    protected int getLayoutResource() {
+    protected int getLayoutId() {
         return R.layout.fragment_table;
     }
 
@@ -71,7 +71,7 @@ public class TableFragment extends BaseFragment implements ToolView {
     public void showAppList(List<TableEntity> list) {
         if (adapter == null) {
             adapter = new TableAdapter(getActivity(), list);
-            adapter.setOnItemClickListener(new ZUltimateAdapter.OnItemClickListener<TableEntity>() {
+            adapter.setOnItemClickListener(new OnItemClickListener<TableEntity>() {
                 @Override
                 public void onItemClick(View view, TableEntity value, int position) {
                     startActivity(new Intent(getActivity(), value.getClazz()));
@@ -92,4 +92,5 @@ public class TableFragment extends BaseFragment implements ToolView {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
+
 }

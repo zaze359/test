@@ -8,12 +8,12 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.zaze.R;
+import com.zaze.aarrepo.commons.base.BaseActivity;
 import com.zaze.component.animation.adapter.AnimationAdapter;
 import com.zaze.component.animation.presenter.AnimationPresenter;
 import com.zaze.component.animation.presenter.impl.AnimationPresenterImpl;
 import com.zaze.component.animation.view.AnimationView;
 import com.zaze.model.entity.AnimationEntity;
-import com.zz.library.commons.base.BaseActivity;
 
 import java.util.List;
 

@@ -4,17 +4,17 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 
-public abstract class BaseTask extends Executor implements TaskCallback {
+public abstract class BaseTask extends Executor implements TaskBack {
 	/** 上下文 */
 	protected Context context;
 	/** 调用接口的方式 */
 	protected RequestInterfaceMode requestMode;
 	// 暂时设置个回调
-	protected TaskCallback callBack;
-	public TaskCallback getCallBack() {
+	protected TaskBack callBack;
+	public TaskBack getCallBack() {
 		return callBack;
 	}
-	public void setCallBack(TaskCallback callBack) {
+	public void setCallBack(TaskBack callBack) {
 		this.callBack = callBack;
 	}
 	

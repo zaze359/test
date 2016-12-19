@@ -5,11 +5,11 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.zaze.R;
-import com.zz.library.commons.base.BaseFragment;
-import com.zz.library.commons.loading.LoadingStyle;
+import com.zaze.aarrepo.commons.base.BaseFragment;
+import com.zaze.aarrepo.utils.ViewUtil;
 import com.zaze.component.ui.adapter.HomeAdapter;
+import com.zz.library.commons.loading.LoadingStyle;
 import com.zz.library.util.ThreadManager;
-import com.zz.library.util.ViewUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,14 +43,14 @@ public class HomeFragment extends BaseFragment {
     }
 
     @Override
-    protected int getLayoutResource() {
+    protected int getLayoutId() {
         return R.layout.fragment_home;
     }
 
-    @Override
-    protected int getTheme() {
-        return R.style.BlueTheme;
-    }
+//    @Override
+//    protected int getTheme() {
+//        return R.style.BlueTheme;
+//    }
 
     @Override
     protected void init(View view) {

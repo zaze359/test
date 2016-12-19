@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.zaze.R;
-import com.zz.library.commons.base.BaseFragment;
+import com.zaze.aarrepo.commons.base.BaseFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -30,7 +30,7 @@ public class TempFragment extends BaseFragment {
     TextView tempTv;
 
     @Override
-    protected int getLayoutResource() {
+    protected int getLayoutId() {
         return R.layout.fragment_temp;
     }
 

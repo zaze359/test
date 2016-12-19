@@ -14,9 +14,9 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.zaze.R;
+import com.zaze.aarrepo.commons.base.BaseActivity;
 import com.zaze.component.fragments.TempFragment;
 import com.zaze.component.progress.ProgressFragment;
-import com.zz.library.commons.base.BaseActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

@@ -4,8 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.zaze.aarrepo.commons.log.LogKit;
 import com.zaze.component.message.service.MyService;
-import com.zz.library.commons.log.LogKit;
 
 /**
  * Description :

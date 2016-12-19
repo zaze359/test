@@ -1,6 +1,7 @@
 package com.zaze.model.impl;
 
 
+import com.zaze.component.device.DeviceActivity;
 import com.zaze.component.rxandroid.RxAndroidActivity;
 import com.zaze.component.toolbar.ToolBarDemoActivity;
 import com.zaze.model.entity.AnimationEntity;
@@ -25,6 +26,7 @@ public class EntityModelImpl implements EntityModel {
         list.add(new TableEntity(1, "Animation", AnimationActivity.class));
         list.add(new TableEntity(2, "toolbar", ToolBarDemoActivity.class));
         list.add(new TableEntity(3, "RxAndroid", RxAndroidActivity.class));
+        list.add(new TableEntity(4, "Device Info", DeviceActivity.class));
         return list;
     }
 

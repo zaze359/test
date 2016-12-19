@@ -6,9 +6,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.zaze.R;
+import com.zaze.aarrepo.commons.base.adapter.BaseRecyclerAdapter;
+import com.zaze.aarrepo.utils.StringUtil;
 import com.zaze.model.entity.AnimationEntity;
-import com.zz.library.commons.adapter.ZRecyclerAdapter;
-import com.zz.library.util.StringUtil;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
  * @author : ZAZE
  * @version : 2016-08-24 - 14:58
  */
-public class AnimationAdapter extends ZRecyclerAdapter<AnimationEntity, AnimationAdapter.AnimationHolder> {
+public class AnimationAdapter extends BaseRecyclerAdapter<AnimationEntity, AnimationAdapter.AnimationHolder> {
 
     public AnimationAdapter(Context context, List<AnimationEntity> data) {
         super(context, data);

@@ -5,7 +5,7 @@ package com.zz.library.util.aaa.utils;
  * @Description : 任务bean
  * @version        : 2015-5-27 - 下午9:23:50
  */
-public class TaskBean implements TaskCallback {
+public class TaskBean implements TaskBack {
     private BaseTask task;
     private String functionName;
     private Object[] args;

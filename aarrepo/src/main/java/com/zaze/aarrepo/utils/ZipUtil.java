@@ -1,6 +1,7 @@
-package com.zz.library.util;
+package com.zaze.aarrepo.utils;
 
-import com.zz.library.commons.log.LogKit;
+
+import com.zaze.aarrepo.commons.log.LogKit;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -23,9 +24,9 @@ import java.util.zip.ZipOutputStream;
  * @author : zaze
  * @version : 1.0
  */
-public class ZtyZip {
+public class ZipUtil {
 
-    public ZtyZip() {
+    public ZipUtil() {
     }
 
     /**
