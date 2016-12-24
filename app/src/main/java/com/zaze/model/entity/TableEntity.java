@@ -10,6 +10,9 @@ package com.zaze.model.entity;
 public class TableEntity extends BaseEntity {
     private int type;
 
+    public TableEntity() {
+    }
+
     public TableEntity(int type, String name, Class clazz) {
         super(name, clazz);
         this.type = type;

@@ -1,6 +1,5 @@
 package com.zaze.aarrepo.utils;
 
-
 import android.os.Environment;
 import android.util.Log;
 
@@ -156,7 +155,7 @@ public class FileUtil {
         if (file.exists() && file.length() >= maxSize) {
             file.delete();
         }
-        return write2SDCardFile(dirPath, fileName, dataStr);
+        return write2SDCardFile(dirPath, fileName, dataStr, true);
     }
 
     /**
@@ -168,8 +167,20 @@ public class FileUtil {
      * @return
      */
     public static File write2SDCardFile(String dirPath, String fileName, String dataStr) {
+        return write2SDCardFile(dirPath, fileName, dataStr, false);
+    }
+
+    /**
+     * 将数据写入sd卡
+     *
+     * @param dirPath
+     * @param fileName
+     * @param dataStr
+     * @return
+     */
+    public static File write2SDCardFile(String dirPath, String fileName, String dataStr, boolean append) {
         InputStream input = new ByteArrayInputStream(dataStr.getBytes());
-        return write2SDCardFile(dirPath, fileName, input);
+        return write2SDCardFile(dirPath, fileName, input, append);
     }
 
     /**
@@ -181,13 +192,25 @@ public class FileUtil {
      * @return
      */
     public static File write2SDCardFile(String dirPath, String fileName, InputStream input) {
+        return write2SDCardFile(dirPath, fileName, input, false);
+    }
+
+    /**
+     * 将数据写入sd卡
+     *
+     * @param dirPath
+     * @param fileName
+     * @param input
+     * @return
+     */
+    public static File write2SDCardFile(String dirPath, String fileName, InputStream input, boolean append) {
         writeLock(lock);
         File file = null;
         OutputStream output = null;
         try {
             createDir(dirPath);
             file = createFileInSDCard(dirPath, fileName);
-            output = new FileOutputStream(file, true);
+            output = new FileOutputStream(file, append);
             byte[] buffer = new byte[4 * 1024];
             int temp = 0;
             while ((temp = input.read(buffer)) != -1) {

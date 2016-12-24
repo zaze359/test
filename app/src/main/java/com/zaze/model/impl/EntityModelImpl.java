@@ -1,13 +1,15 @@
 package com.zaze.model.impl;
 
 
+import com.zaze.aarrepo.utils.SortUtil;
+import com.zaze.component.animation.ui.AnimationActivity;
 import com.zaze.component.device.DeviceActivity;
 import com.zaze.component.rxandroid.RxAndroidActivity;
+import com.zaze.component.time.TimeActivity;
 import com.zaze.component.toolbar.ToolBarDemoActivity;
+import com.zaze.model.EntityModel;
 import com.zaze.model.entity.AnimationEntity;
 import com.zaze.model.entity.TableEntity;
-import com.zaze.component.animation.ui.AnimationActivity;
-import com.zaze.model.EntityModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,10 @@ public class EntityModelImpl implements EntityModel {
         list.add(new TableEntity(2, "toolbar", ToolBarDemoActivity.class));
         list.add(new TableEntity(3, "RxAndroid", RxAndroidActivity.class));
         list.add(new TableEntity(4, "Device Info", DeviceActivity.class));
+        list.add(new TableEntity(5, "Time", TimeActivity.class));
+
+        SortUtil.sortList(list, "getType", "desc");
+
         return list;
     }
 

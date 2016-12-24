@@ -24,6 +24,7 @@
         <activity android:name=".component.rxandroid.RxAndroidActivity" />
 
         <activity android:name=".component.device.DeviceActivity" />
+        <activity android:name=".component.time.TimeActivity" />
 
         <activity
             android:name=".component.toolbar.ToolBarDemoActivity"

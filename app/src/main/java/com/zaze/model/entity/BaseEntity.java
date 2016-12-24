@@ -10,6 +10,9 @@ public class BaseEntity {
     private String name;
     private Class clazz;
 
+    public BaseEntity() {
+    }
+
     public BaseEntity(String name, Class clazz) {
         this.name = name;
         this.clazz = clazz;
