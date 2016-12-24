@@ -15,10 +15,16 @@ public abstract class BaseApplication extends Application {
     }
 
     public static BaseApplication getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             throw new IllegalStateException();
         } else {
             return instance;
         }
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        instance = this;
     }
 }
