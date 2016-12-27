@@ -15,7 +15,7 @@ public class TipUtil {
         toast(BaseApplication.getInstance(), msg, duration);
     }
 
-    public static void toast(final Context context, String msg, int duration) {
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+    public static void toast(Context context, String msg, int duration) {
+        Toast.makeText(context, msg, duration).show();
     }
 }

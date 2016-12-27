@@ -36,12 +36,10 @@ public class OnClickHelper {
             @Override
             public void onClick(View v) {
                 if (isCanClick()) {
-                    v.setEnabled(false);
                     if (onClickListener != null) {
                         onClickListener.onClick(v);
                     }
                     updateClickTime();
-                    v.setEnabled(true);
                 }
             }
         });
@@ -57,12 +55,10 @@ public class OnClickHelper {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (isCanClick()) {
-                    view.setEnabled(false);
                     if (onItemClickListener != null) {
                         onItemClickListener.onItemClick(parent, view, position, id);
                     }
                     updateClickTime();
-                    view.setEnabled(true);
                 }
             }
         });

@@ -7,6 +7,8 @@ import android.widget.TextView;
 import com.zaze.R;
 import com.zaze.aarrepo.commons.base.BaseActivity;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 import butterknife.Bind;
@@ -17,7 +19,9 @@ import rx.Observer;
 import rx.Single;
 import rx.SingleSubscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.functions.Func1;
+import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 import rx.subjects.PublishSubject;
 
@@ -46,19 +50,27 @@ public class RxAndroidActivity extends BaseActivity {
     @OnClick(R.id.rx_android_test_btn)
     public void test() {
 //        test1();
-        test2();
-        test3();
+//        test2();
+//        test3();
+        test6();
     }
 
+    StringBuilder builder = new StringBuilder();
 
     /**
      *
      */
     private void test1() {
-        Observable<String> observable = Observable.just("RxAndroid Test Observable.just");
+        Observable<String> observable = Observable.just(
+                "RxAndroid Test Observable.just A",
+                "RxAndroid Test Observable.just B",
+                "RxAndroid Test Observable.just C"
+
+        );
         observable.subscribe(new Observer<String>() {
             @Override
             public void onCompleted() {
+                updateTestText(builder.toString());
             }
 
             @Override
@@ -67,10 +79,11 @@ public class RxAndroidActivity extends BaseActivity {
 
             @Override
             public void onNext(String s) {
-                updateTestText(s);
+                builder.append(s).append("\n");
             }
         });
     }
+    // ----------------------------------------------------------------------
 
     /**
      * Observable.fromCallable()方法可以拖延Observable获取数据的操作，这一点在数据需要在其他线程获取时尤其重要
@@ -106,6 +119,7 @@ public class RxAndroidActivity extends BaseActivity {
                 });
 
     }
+    // ----------------------------------------------------------------------
 
     /**
      * Single 的使用
@@ -131,10 +145,12 @@ public class RxAndroidActivity extends BaseActivity {
                     }
                 });
     }
+    // ----------------------------------------------------------------------
 
     public void test4() {
         PublishSubject.create();
     }
+    // ----------------------------------------------------------------------
 
     /**
      * map()
@@ -157,4 +173,40 @@ public class RxAndroidActivity extends BaseActivity {
             }
         });
     }
+
+
+    // ----------------------------------------------------------------------
+    String[] mManyWords = {"W", "X", "S", "I", "L", "U"};
+    List<String> mManyWordList = Arrays.asList(mManyWords);
+    private Func1<List<String>, Observable<String>> mOneLetterFunc = new Func1<List<String>, Observable<String>>() {
+        @Override
+        public Observable<String> call(List<String> strings) {
+            return Observable.from(strings); // 映射字符串
+        }
+    };
+    // 连接字符串
+    private Func2<String, String, String> mMergeStringFunc = new Func2<String, String, String>() {
+        @Override
+        public String call(String s, String s2) {
+            return String.format("%s %s", s, s2); // 空格连接字符串
+        }
+    };
+
+    public void test6() {
+        // 直接获取数组, 再分发, 再合并, 再显示toast, Toast顺次执行.
+        Observable.just(mManyWordList)
+                .observeOn(AndroidSchedulers.mainThread())
+                .flatMap(mOneLetterFunc)
+                .reduce(mMergeStringFunc)
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
+                        updateTestText(s);
+                    }
+                });
+    }
+
+
+    // ----------------------------------------------------------------------
+
 }
