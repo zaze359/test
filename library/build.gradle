@@ -1,20 +1,16 @@
 apply plugin: 'com.android.library'
 
-ext {
-    SUPPORT_LIBRARY_VERSION = "23.1.1"
-}
-
 android {
-    compileSdkVersion 23
-    buildToolsVersion '23.0.3'
-
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 23
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     packagingOptions {
         exclude 'LICENSE.txt'
     }
@@ -46,14 +42,13 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    compile 'com.zaze.aarrepo:aarrepo:1.0.4@aar'
-
+    compile 'com.zaze.aarrepo:aarrepo:1.0.5@aar'
 //
-    compile "com.android.support:support-annotations:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:support-v4:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION"
+    compile "com.android.support:design:$rootProject.supportLibraryVersion"
+    compile "com.android.support:support-annotations:$rootProject.supportLibraryVersion"
+    compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    compile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
+    compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
 
     compile('com.marshalchen.ultimaterecyclerview:library:0.7.0') {
         exclude module: "appcompat-v7"
@@ -77,5 +72,7 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'io.reactivex:rxjava:1.1.6'
     compile 'com.google.code.gson:gson:2.8.0'
+
+// ---------
 
 }

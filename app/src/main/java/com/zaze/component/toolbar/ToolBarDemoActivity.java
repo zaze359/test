@@ -44,6 +44,11 @@ public class ToolBarDemoActivity extends BaseActivity {
     Button toolBarDemoBtn3;
 
     @Override
+    protected boolean isNeedHead() {
+        return false;
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tool_bar_demo);
@@ -74,6 +79,14 @@ public class ToolBarDemoActivity extends BaseActivity {
     }
 
     // ----------------  状态栏样式 ----------------
+    @OnClick(R.id.tool_bar_demo_btn_0)
+    public void reset() {
+        View decorView = getWindow().getDecorView();
+        int option = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(option);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+    }
 
     @OnClick(R.id.tool_bar_demo_btn_1)
     public void function1() {   // 隐藏状态栏
