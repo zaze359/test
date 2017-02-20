@@ -55,7 +55,6 @@
         <item name="itemTextSize">@dimen/sp_20</item>
     </style>
 
-    <style name="CustomTheme" parent="AppTheme.NoActionBar">
-    </style>
+    <style name="CustomTheme" parent="AppTheme.NoActionBar"></style>
 
 </resources>

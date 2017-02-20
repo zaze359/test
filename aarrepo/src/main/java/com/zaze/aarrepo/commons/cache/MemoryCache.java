@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @version : 1.0
  */
 public class MemoryCache implements CacheFace, OnReleaseListener {
-    
+
     public static boolean cacheLog = false;
     /**
      * 缓存空间大小(根据一定规则计算 得到, 默认4 MB)
@@ -42,14 +42,14 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
     public static MemoryCache newInstance() {
         return new MemoryCache();
     }
-    
+
     public MemoryCache() {
         maxSize = DeviceUtil.getVMMaxMemory() / 8;
         cacheBlockLength = 1024 * 1000;
         passiveRelease = (long) (maxSize * 0.4);
     }
 
-    
+
     @Override
     public String setCache(String key, byte[] values, long keepTime, @DataLevel.DataAnno int dataLevel) {
         if (values == null) {
@@ -57,7 +57,7 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
         }
         String result = dispatchMemoryCache(values);
         if (!"".equals(result)) {
-            if(cacheLog) {
+            if (cacheLog) {
                 LogKit.i(result);
             }
             return result;
@@ -73,7 +73,7 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
         } else {
             saved = new Cache(key, values, keepTime, 0, System.currentTimeMillis());
         }
-        if(cacheLog) {
+        if (cacheLog) {
             LogKit.v("MemoryCache maxSize : " + maxSize / 1024f + "kb");
             LogKit.v("MemoryCache current memoryCacheSize : " + memoryCacheSize / 1024f + "kb");
             LogKit.v("MemoryCache free : " + (maxSize - memoryCacheSize) / 1024f + "kb");
@@ -98,7 +98,7 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
 
         if (saveSize > maxSize) {
             // too larger
-            if(cacheLog) {
+            if (cacheLog) {
                 LogKit.w("MemoryCache cacheData is larger than maxSize " + maxSize);
             }
             return "cacheData is larger than maxSize " + maxSize;
@@ -106,20 +106,18 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
 
         if (saveSize > cacheBlockLength) {
             // too larger
-            if(cacheLog) {
+            if (cacheLog) {
                 LogKit.w("MemoryCache cacheData is larger than cacheBlockLength " + cacheBlockLength);
             }
             return "cacheData is larger than cacheBlockLength " + cacheBlockLength;
         }
-
-        //  以后这里 改为 接收到通知以后 接收一个通知
-        long totalFree = DeviceUtil.getRomFreeSpace();
-        if (totalFree <= 1048576) {
+        long totalFree = DeviceUtil.getVMFreeMemory();
+        if (totalFree <= (1024 << 10)) {
             // 系统总剩余内存 小于10MB 
             // 存磁盘 ???
             // 释放
             clearMemoryCache();
-            if(cacheLog) {
+            if (cacheLog) {
                 LogKit.e("MemoryCache Device RomFreeSpace is too small !! " + totalFree);
             }
             return "Device RomFreeSpace is too small !! " + totalFree;
@@ -170,7 +168,7 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
             }
             if (currTime >= cache.getLastTimeMillis() + cache.getKeepTime()) {
                 // 超时数据
-                if(cacheLog) {
+                if (cacheLog) {
                     LogKit.i("MemoryCache onRelease : " + cache);
                 }
                 cacheMap.remove(key);
@@ -180,6 +178,7 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
 
     /**
      * 强制释放不常用的
+     *
      * @param saveSize
      * @param caches
      */
@@ -221,7 +220,7 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
             releaseLength += cache.getBytes().length;
             cacheMap.remove(cache.getKey());
         }
-        if(cacheLog) {
+        if (cacheLog) {
             LogKit.i("MemoryCache after passiveRelease memoryCacheSize : " + memoryCacheSize);
         }
         System.gc();

@@ -1,4 +1,4 @@
-package com.zaze.aarrepo.commons.widget;
+package com.zaze.aarrepo.commons.widget.head;
 
 
 import android.app.Activity;
@@ -6,10 +6,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,10 +23,7 @@ import com.zaze.aarrepo.utils.helper.OnClickHelper;
  * @author : zaze
  * @version : 1.0
  */
-public class HeadWidget {
-    public static final int LEFT = 2;
-    public static final int CENTER = 5;
-    public static final int RIGHT = 3;
+public class HeadWidget extends BaseHeadView {
     //
     private View headBottomLine;
 
@@ -45,28 +40,18 @@ public class HeadWidget {
     private TextView headTitleText;
     private LinearLayout headTitleLayout;
 
-    //    private Toolbar headToolbar;
-    //
-    private LayoutInflater inflater;
-    private FrameLayout containerView;
-    private View headView;
     private ImageView headRightAfterIcon;
 
-    //
     public HeadWidget(Context context, int layoutResId) {
-        this(context, layoutResId, null);
+        super(context, layoutResId);
     }
 
     public HeadWidget(Context context, int layoutResId, ViewGroup parent) {
-        inflater = LayoutInflater.from(context);
-        containerView = (FrameLayout) inflater.inflate(R.layout.layout_head_container, parent, false);
-        initUserView(context, layoutResId);
-        initHeadView();
+        super(context, layoutResId, parent);
     }
 
-    private void initHeadView() {
-        headView = inflater.inflate(R.layout.layout_main_head, containerView);
-//        headToolbar = ViewUtil.findView(headView, R.id.head_tool_bar);
+    @Override
+    public void initHeadView(View headView) {
 //        headBackIcon = (ImageView) view.findViewById(R.id.head_back_icon);
         headLeftText = (TextView) headView.findViewById(R.id.head_left_text);
         headLeftRed = (TextView) headView.findViewById(R.id.head_left_red);
@@ -85,36 +70,9 @@ public class HeadWidget {
         setLeftRedVisibility(View.INVISIBLE);
     }
 
-    private void initUserView(Context context, int layoutResID) {
-        View userView = inflater.inflate(layoutResID, containerView, false);
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-        params.topMargin = (int) context.getResources().getDimension(R.dimen.head_height);
-        containerView.addView(userView, params);
-    }
-
-    /**
-     * 设置文本
-     *
-     * @param text
-     * @param orientation
-     * @return
-     */
-    public HeadWidget setText(String text, int orientation) {
-        switch (orientation) {
-            case LEFT:
-                setLeftText(text);
-                break;
-            case RIGHT:
-                setRightText(text);
-                break;
-            case CENTER:
-                setTitleText(text);
-                break;
-            default:
-                break;
-        }
-
-        return this;
+    @Override
+    public int getHeadLayoutId() {
+        return R.layout.layout_main_head;
     }
 
     /**
@@ -124,7 +82,8 @@ public class HeadWidget {
      * @param orientation
      * @return
      */
-    public HeadWidget setText(int resId, int orientation) {
+    @Override
+    public HeadWidget setText(int resId, @Orientation int orientation) {
         switch (orientation) {
             case LEFT:
                 setLeftText(resId);
@@ -138,20 +97,124 @@ public class HeadWidget {
             default:
                 break;
         }
-
         return this;
     }
 
+    /**
+     * 设置文本
+     *
+     * @param text
+     * @param orientation
+     * @return
+     */
+    @Override
+    public HeadWidget setText(String text, @Orientation int orientation) {
+        switch (orientation) {
+            case LEFT:
+                setLeftText(text);
+                break;
+            case RIGHT:
+                setRightText(text);
+                break;
+            case CENTER:
+                setTitleText(text);
+                break;
+            default:
+                break;
+        }
+        return this;
+    }
+
+    @Override
+    public HeadFace setIcon(int resIcon, @Orientation int orientation) {
+        switch (orientation) {
+            case LEFT:
+                setLeftIcon(resIcon);
+                break;
+            case RIGHT:
+                setRightIcon(resIcon);
+                break;
+            case CENTER:
+                setTitleIcon(0, 0, resIcon, 0);
+                break;
+            default:
+                break;
+        }
+        return this;
+    }
+
+    @Override
+    public HeadFace setOnClickListener(View.OnClickListener listener, @Orientation int orientation) {
+        switch (orientation) {
+            case LEFT:
+                setLeftOnClickListener(listener);
+                break;
+            case RIGHT:
+                setRightOnClickListener(listener);
+                break;
+            case CENTER:
+                setTitleOnClickListener(listener);
+                break;
+            default:
+                break;
+        }
+        return this;
+    }
+
+    @Override
+    public HeadWidget setBackClickListener(final Activity activity) {
+        setLeftVisibility(View.VISIBLE);
+        OnClickHelper.setOnClickListener(headLeftLayout, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                InputMethodUtil.dismiss(activity);
+                ActivityUtil.finish(activity);
+            }
+        });
+        return this;
+    }
+
+    @Override
+    public HeadFace setVisibility(int visibility, @Orientation int orientation) {
+        switch (orientation) {
+            case LEFT:
+                setLeftVisibility(visibility);
+                break;
+            case RIGHT:
+                setRightVisibility(visibility);
+                break;
+            case CENTER:
+//                setTitleOnClickListener(visibility);
+                break;
+            default:
+                break;
+        }
+        return this;
+    }
+
+    @Override
+    public View getView(@Orientation int orientation) {
+        switch (orientation) {
+            case LEFT:
+                return getLeftChild();
+            case RIGHT:
+                return getRightChild();
+            case CENTER:
+                return getCenterChild();
+            default:
+                return getContainerView();
+        }
+    }
 
     // ----------------------- center ----------------------------
-    public HeadWidget setTitleText(String text) {
+    private HeadWidget setTitleText(String text) {
         if (text != null) {
             headTitleText.setText(text);
         }
         return this;
     }
 
-    public HeadWidget setTitleText(int resId) {
+    private HeadWidget setTitleText(int resId) {
         headTitleText.setText(getResString(resId));
         return this;
     }
@@ -161,7 +224,7 @@ public class HeadWidget {
         return this;
     }
 
-    public HeadWidget setTitleOnClickListener(View.OnClickListener onClickListener) {
+    private HeadWidget setTitleOnClickListener(View.OnClickListener onClickListener) {
         if (onClickListener != null) {
             OnClickHelper.setOnClickListener(headTitleText, onClickListener);
         }
@@ -178,51 +241,39 @@ public class HeadWidget {
     }
 
     // ----------------------- left ----------------------------
-    public HeadWidget setLeftText(String text) {
+    private HeadWidget setLeftText(String text) {
         if (text != null) {
             headLeftText.setText(text);
         }
         return this;
     }
 
-    public HeadWidget setLeftText(int resId) {
+    private HeadWidget setLeftText(int resId) {
         headLeftText.setText(getResString(resId));
         return this;
     }
 
-    public HeadWidget setLeftRed(String text) {
+    private HeadWidget setLeftRed(String text) {
         if (text != null) {
             headLeftRed.setText(text);
         }
         return this;
     }
 
-    public HeadWidget setLeftRedVisibility(int visibility) {
+    private HeadWidget setLeftRedVisibility(int visibility) {
         headLeftRed.setVisibility(visibility);
         return this;
     }
 
-    public HeadWidget setLeftVisibility(int visibility) {
+    private HeadWidget setLeftVisibility(int visibility) {
         headLeftLayout.setVisibility(visibility);
         return this;
     }
 
-    public HeadWidget setLeftOnClickListener(View.OnClickListener onClickListener) {
+    private HeadWidget setLeftOnClickListener(View.OnClickListener onClickListener) {
         if (onClickListener != null) {
             OnClickHelper.setOnClickListener(headLeftLayout, onClickListener);
         }
-        return this;
-    }
-
-    public HeadWidget setBackClickListener(final Activity activity) {
-        setLeftVisibility(View.VISIBLE);
-        OnClickHelper.setOnClickListener(headLeftLayout, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                InputMethodUtil.dismiss(activity);
-                ActivityUtil.finish(activity);
-            }
-        });
         return this;
     }
 
@@ -355,7 +406,7 @@ public class HeadWidget {
     // ----------
     private String getResString(int resId) {
         if (resId > 0) {
-            return containerView.getContext().getString(resId);
+            return getContainerView().getContext().getString(resId);
         }
         return "";
     }
@@ -364,10 +415,6 @@ public class HeadWidget {
 //    public Toolbar getToolbar() {
 //        return headToolbar;
 //    }
-
-    public FrameLayout getContainerView() {
-        return containerView;
-    }
 
     public View getRightChild() {
         return headRightLayout;

@@ -46,5 +46,4 @@ public class MainActivityInstrumentationTest extends ActivityInstrumentationTest
         String content = button.getText().toString();
         assertNotNull("MainActivity Content is Null", content);
     }
-
 }

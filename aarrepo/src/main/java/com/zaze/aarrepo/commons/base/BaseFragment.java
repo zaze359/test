@@ -9,7 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.zaze.aarrepo.commons.widget.HeadWidget;
+import com.zaze.aarrepo.commons.widget.head.BaseHeadView;
+import com.zaze.aarrepo.commons.widget.head.HeadFace;
+import com.zaze.aarrepo.commons.widget.head.HeadWidget;
 import com.zaze.aarrepo.commons.widget.LoadingWidget;
 import com.zaze.aarrepo.utils.ActivityUtil;
 import com.zaze.aarrepo.utils.TipUtil;
@@ -25,7 +27,7 @@ import java.lang.reflect.Field;
  * @version : 2015-09-22 - 19:38
  */
 public abstract class BaseFragment extends Fragment implements BaseView {
-    private HeadWidget headWidget;
+    private BaseHeadView headFace;
     private boolean loadViewFinish = false;
     private LoadingWidget loadProgress;
     private View rootView;
@@ -43,8 +45,8 @@ public abstract class BaseFragment extends Fragment implements BaseView {
         super.onCreateView(inflater, container, savedInstanceState);
         inflater = changeThem(inflater);
         if (isNeedHead()) {
-            headWidget = new HeadWidget(getActivity(), getLayoutId());
-            rootView = headWidget.getContainerView();
+            headFace = new HeadWidget(getActivity(), getLayoutId());
+            rootView = headFace.getContainerView();
         } else {
             rootView = inflater.inflate(getLayoutId(), null);
         }
@@ -209,8 +211,8 @@ public abstract class BaseFragment extends Fragment implements BaseView {
     /**
      * @return 返回hearer 操作类
      */
-    public HeadWidget getHeadWidget() {
-        return headWidget;
+    public HeadFace getHeadWidget() {
+        return headFace;
     }
 
     // --------------------

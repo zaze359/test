@@ -1,7 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.zaze">
 
     <permission android:name="com.zaze.receiver.RECEIVER" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!-- 这个权限用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 这个权限用于访问GPS定位-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!-- 用于读取手机当前的状态-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 访问网络，网络定位需要上网-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- SD卡读取权限，用户写入离线定位数据-->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+
 
     <application
         android:name=".app.MyApplication"
@@ -16,23 +40,22 @@
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".component.animation.ui.AnimationActivity" />
-
         <activity android:name=".component.rxandroid.RxAndroidActivity" />
-
-        <activity android:name=".component.device.DeviceActivity" />
         <activity android:name=".component.time.TimeActivity" />
-
         <activity
             android:name=".component.toolbar.ToolBarDemoActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".component.device.ui.DeviceActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".component.gps.ui.GpsActivity" />
 
 
-        <!--测试接收推送-->
-        <service android:name=".component.message.service.MyService" />
         <receiver
             android:name=".component.message.receiver.TestBroadcastReceiver"
             android:exported="true">
@@ -40,6 +63,20 @@
                 <action android:name="android.intent.action.xh.message.testappid" />
             </intent-filter>
         </receiver>
+        <!-- 测试接收推送 -->
+        <service android:name=".component.message.service.MyService" />
+
+        <!--集成百度定位 start-->
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="VLUvkCyaMhUGvbvFv5Ge759EhQhcKYCM" />
+        <!--集成百度定位 end-->
+
+
     </application>
 
 </manifest>

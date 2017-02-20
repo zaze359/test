@@ -1,5 +1,6 @@
 package com.zaze.model;
 
+import com.zaze.model.impl.DeviceModelImpl;
 import com.zaze.model.impl.EntityModelImpl;
 
 /**
@@ -11,5 +12,9 @@ import com.zaze.model.impl.EntityModelImpl;
 public class ModelFactory {
     public static EntityModel getTabModel() {
         return new EntityModelImpl();
+    }
+
+    public static DeviceModel getDeviceModel() {
+        return new DeviceModelImpl();
     }
 }

@@ -14,6 +14,21 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        debug {
+            storeFile file('android_zaze.keystore')
+            storePassword '3184582'
+            keyAlias 'android'
+            keyPassword '3184582'
+        }
+        release {
+            storeFile file('android_zaze.keystore')
+            storePassword '3184582'
+            keyAlias 'android'
+            keyPassword '3184582'
+        }
+    }
+
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
@@ -21,17 +36,20 @@ android {
     }
 
     buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.zaze.localrepo:localrepo:1.0.0@aar'
-// ---------
+//    compile 'com.zaze.localrepo:localrepo:1.0.6@aar'
     androidTestCompile "com.android.support:support-annotations:$rootProject.supportLibraryVersion"
     androidTestCompile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
     androidTestCompile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
@@ -41,19 +59,17 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.10.19'
     testCompile 'org.hamcrest:hamcrest-all:1.3'
-
     // Android Testing Support Library's runner and rules
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'
-
     // Dependencies for Android unit tests
     androidTestCompile 'junit:junit:4.12'
     androidTestCompile 'org.mockito:mockito-core:1.10.19'
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
-
     // Espresso UI Testing
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2'
     androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2.2') {
         exclude module: "appcompat-v7"
         exclude module: "support-v4"
@@ -61,7 +77,5 @@ dependencies {
         exclude module: "recyclerview-v7"
         exclude module: "support-annotations"
     }
-    androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2'
-
     compile project(':library')
 }

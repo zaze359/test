@@ -85,7 +85,7 @@ public class DeviceUtil {
     /**
      * ROM
      *
-     * @return data总大小
+     * @return 获取机身总大小
      */
     public static long getRomTotalSpace() {
         File rom = Environment.getDataDirectory();
@@ -98,7 +98,7 @@ public class DeviceUtil {
     /**
      * ROM
      *
-     * @return data剩余
+     * @return 获取机身剩余
      */
     public static long getRomFreeSpace() {
         File rom = Environment.getDataDirectory();

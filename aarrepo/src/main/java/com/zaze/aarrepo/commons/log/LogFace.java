@@ -18,4 +18,8 @@ public interface LogFace {
     void w(String strTag, String strLog);
 
     void e(String strTag, String strLog);
+
+    void writeLogToFile(String strTag, String strLog);
+
+    String getLogFromFile();
 }

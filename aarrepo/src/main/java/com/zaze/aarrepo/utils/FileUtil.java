@@ -3,8 +3,6 @@ package com.zaze.aarrepo.utils;
 import android.os.Environment;
 import android.util.Log;
 
-import com.zaze.aarrepo.commons.log.LogKit;
-
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -26,7 +24,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * @version : 1.0
  */
 public class FileUtil {
-
+    private static final String TAG = "FileUtil";
     private static final boolean showLog = true;
     private static ReadWriteLock lock = new ReentrantReadWriteLock();
 
@@ -63,8 +61,8 @@ public class FileUtil {
             result = true;
         }
         if (showLog) {
-            Log.v("FileUtil", "createFileInSDCard filePath : " + filePath);
-            Log.v("FileUtil", "createFileInSDCard result : " + result);
+            Log.v(TAG, "createFileInSDCard filePath : " + filePath);
+            Log.v(TAG, "createFileInSDCard result : " + result);
         }
         return file;
     }
@@ -87,8 +85,8 @@ public class FileUtil {
             result = true;
         }
         if (showLog) {
-            Log.v("FileUtil", "createFileInSDCard filePath : " + filePath);
-            Log.v("FileUtil", "createFileInSDCard result : " + result);
+            Log.v(TAG, "createFileInSDCard filePath : " + filePath);
+            Log.v(TAG, "createFileInSDCard result : " + result);
         }
         return file;
     }
@@ -101,8 +99,8 @@ public class FileUtil {
         File dir = new File(dirStr + File.separator);
         boolean result = dir.mkdirs();
         if (showLog) {
-            Log.v("FileUtil", "createDir dir : " + dirStr + File.separator);
-            Log.v("FileUtil", "createDir result : " + result);
+            Log.v(TAG, "createDir dir : " + dirStr + File.separator);
+            Log.v(TAG, "createDir result : " + result);
         }
         return result;
     }
@@ -336,7 +334,7 @@ public class FileUtil {
                 break;
         }
         if (showLog) {
-            LogKit.w("FileUtil " + log + " : " + str);
+            Log.w(TAG, log + " : " + str);
         }
         return result;
     }

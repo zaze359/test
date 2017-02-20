@@ -7,17 +7,22 @@ import android.support.annotation.LayoutRes;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.zaze.aarrepo.commons.widget.HeadWidget;
+import com.zaze.aarrepo.commons.widget.head.BaseHeadView;
+import com.zaze.aarrepo.commons.widget.head.HeadFace;
+import com.zaze.aarrepo.commons.widget.head.HeadWidget;
 import com.zaze.aarrepo.commons.widget.LoadingWidget;
 import com.zaze.aarrepo.utils.ActivityUtil;
 import com.zaze.aarrepo.utils.TipUtil;
 import com.zaze.aarrepo.utils.ViewUtil;
 
 /**
+ * Description :
  *
+ * @author : zaze
+ * @version : 2017-02-06 22:59 2.0
  */
 public abstract class BaseActivity extends AppCompatActivity implements BaseView {
-    private HeadWidget headWidget;
+    private BaseHeadView headFace;
     private LoadingWidget loadProgress;
 
 
@@ -38,8 +43,10 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     }
 
     private void initToolBar(int layoutResID) {
-        headWidget = new HeadWidget(this, layoutResID);
-        super.setContentView(headWidget.getContainerView());
+        headFace = new HeadWidget(this, layoutResID);
+        super.setContentView(headFace.getContainerView());
+        
+
     }
 //
 //    @Override
@@ -162,8 +169,8 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     /**
      * @return 返回hearer 操作类
      */
-    public HeadWidget getHeadWidget() {
-        return headWidget;
+    public HeadFace getHeadWidget() {
+        return headFace;
     }
 
 

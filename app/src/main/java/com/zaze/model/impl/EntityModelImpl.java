@@ -1,9 +1,9 @@
 package com.zaze.model.impl;
 
 
-import com.zaze.aarrepo.utils.SortUtil;
 import com.zaze.component.animation.ui.AnimationActivity;
-import com.zaze.component.device.DeviceActivity;
+import com.zaze.component.device.ui.DeviceActivity;
+import com.zaze.component.gps.ui.GpsActivity;
 import com.zaze.component.rxandroid.RxAndroidActivity;
 import com.zaze.component.time.TimeActivity;
 import com.zaze.component.toolbar.ToolBarDemoActivity;
@@ -30,8 +30,9 @@ public class EntityModelImpl implements EntityModel {
         list.add(new TableEntity(3, "RxAndroid", RxAndroidActivity.class));
         list.add(new TableEntity(4, "Device Info", DeviceActivity.class));
         list.add(new TableEntity(5, "Time", TimeActivity.class));
+        list.add(new TableEntity(6, "GPS", GpsActivity.class));
 
-        SortUtil.sortList(list, "getType", "desc");
+//        SortUtil.sortList(list, "getType", "desc");
 
         return list;
     }
