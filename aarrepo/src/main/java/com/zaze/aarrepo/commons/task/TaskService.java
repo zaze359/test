@@ -16,6 +16,7 @@ import java.util.concurrent.Executors;
 
 /**
  * Description : 循环服务(处理一些需要循环调用的业务)
+ * 请求的发送 ： 使用 eventbus 和 广播 两种方式发送出事件
  * 运行原理 : 有注册和解绑业务(内部包括一些固定业务), 注册之后 会循环发送广播响应相应的业务处理
  * 任务类型 : 永驻任务(不可移除,暂时不需要),一般任务(不会自动解绑, 需手动解绑), 临时任务(1秒无再次调用后会解绑)
  * TODO 后期扩展 后台保活机制
@@ -25,6 +26,11 @@ import java.util.concurrent.Executors;
  * @version : 2016-10-10 - 15:03
  */
 public class TaskService extends Service {
+    public static class TaskMode {
+        public static final int EVENT_BUS = 1;
+        public static final int BROADCAST = 2;
+    }
+
     // --------------------------------
     /**
      * 事件池
@@ -47,7 +53,7 @@ public class TaskService extends Service {
     private static final ConcurrentHashMap<String, Long> permanentActionMap = new ConcurrentHashMap<String, Long>();
 
     static { // 写死常驻任务
-        permanentActionMap.put(TaskServiceAction.CHECK_XH_BOX, System.currentTimeMillis());
+//        permanentActionMap.put(TaskServiceAction.RELEASE_MEMORY_CACHE, System.currentTimeMillis());
     }
 
     // --------------------------------
@@ -55,9 +61,24 @@ public class TaskService extends Service {
     private static long lastRunTimeOrdinary = 0L;
     private static long lastRunTimePermanent = 0L;
     // --------------------------------
-    private static final long loopTimeFast = 300L;
-    private static final long loopTimeOrdinary = 5000L;
-    private static final long loopTimePermanent = 1000L * 600;
+    private static long loopTimeFast = 300L;
+
+    public static void setLoopTimeFast(long loopTimeFast) {
+        TaskService.loopTimeFast = loopTimeFast;
+    }
+
+    private static long loopTimeOrdinary = 1000L * 5;
+
+    public static void setLoopTimeOrdinary(long loopTimeOrdinary) {
+        TaskService.loopTimeOrdinary = loopTimeOrdinary;
+    }
+
+    private static long loopTimePermanent = 1000L * 60 * 10;
+
+    public static void setLoopTimePermanent(long loopTimePermanent) {
+        TaskService.loopTimePermanent = loopTimePermanent;
+    }
+
     // --------------------------------
     private static boolean needLog = false;
     private static ExecutorService singleExecutor;
@@ -65,14 +86,18 @@ public class TaskService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (singleExecutor == null) {
-            singleExecutor = Executors.newSingleThreadExecutor();
-        }
-        singleExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                runTime();
+            synchronized (ExecutorService.class) {
+                if (singleExecutor == null) {
+                    singleExecutor = Executors.newSingleThreadExecutor();
+                    singleExecutor.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            runTime();
+                        }
+                    });
+                }
             }
-        });
+        }
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -92,7 +117,6 @@ public class TaskService extends Service {
             }
         }
     }
-
 
     private void executeTask(long currentRunTime) {
         notifyFastTask(currentRunTime);

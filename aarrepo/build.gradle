@@ -68,6 +68,7 @@ dependencies {
         exclude module: "support-annotations"
     }
     androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2'
+    compile 'org.greenrobot:eventbus:3.0.0'
 }
 
 apply from: "bintray.gradle"

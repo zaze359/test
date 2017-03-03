@@ -76,10 +76,6 @@
         <!-- 集成百度定位 end -->
 
         <activity
-            android:name=".component.otto.ui.OttoActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-        <activity
             android:name=".component.xbus.ui.EventBusActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
@@ -87,6 +83,8 @@
             android:name=".component.xbus.ui.EventBus2Activity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
+        <service android:name=".aarrepo.commons.task.TaskService" />
     </application>
 
 </manifest>

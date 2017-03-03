@@ -2,6 +2,8 @@ package com.zaze.aarrepo.commons.cache;
 
 
 import com.zaze.aarrepo.commons.log.LogKit;
+import com.zaze.aarrepo.commons.task.TaskService;
+import com.zaze.aarrepo.commons.task.TaskServiceAction;
 import com.zaze.aarrepo.utils.DeviceUtil;
 
 import java.util.ArrayList;
@@ -19,7 +21,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class MemoryCache implements CacheFace, OnReleaseListener {
 
-    public static boolean cacheLog = false;
+    private boolean cacheLog = false;
+
     /**
      * 缓存空间大小(根据一定规则计算 得到, 默认4 MB)
      */
@@ -31,21 +34,30 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
     /**
      * 当前缓存空间使用大小
      */
-    private static long memoryCacheSize = 0;
+    private long memoryCacheSize = 0;
     /**
      * 能放进缓存的数据最大值  太大的不放内存
      */
-    public final long cacheBlockLength;
+    private static final long cacheBlockLength = 1024 * 1000L;
     //
-    public final static ConcurrentHashMap<String, Cache> cacheMap = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, Cache> cacheMap = new ConcurrentHashMap<>();
 
-    public static MemoryCache newInstance() {
-        return new MemoryCache();
+    private static volatile MemoryCache memoryCache;
+
+    public static MemoryCache getInstance() {
+        if (memoryCache == null) {
+            synchronized (MemoryCache.class) {
+                if (memoryCache == null) {
+                    memoryCache = new MemoryCache();
+                    TaskService.registerOrdinaryTask(TaskServiceAction.RELEASE_MEMORY_CACHE);
+                }
+            }
+        }
+        return memoryCache;
     }
 
-    public MemoryCache() {
+    private MemoryCache() {
         maxSize = DeviceUtil.getVMMaxMemory() / 8;
-        cacheBlockLength = 1024 * 1000;
         passiveRelease = (long) (maxSize * 0.4);
     }
 
@@ -133,7 +145,7 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
      */
     public ArrayList<Cache> resetSize() {
         ArrayList<Cache> caches = new ArrayList<>();
-        long totalLength = 0l;
+        long totalLength = 0L;
         for (String key : cacheMap.keySet()) {
             try {
                 Cache cache = cacheMap.get(key);
@@ -150,6 +162,9 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
     // 外部线程循环调用 
     @Override
     public void onRelease() {
+        if (cacheLog) {
+            LogKit.i("MemoryCache onRelease");
+        }
         long currTime = System.currentTimeMillis();
         Map<String, Cache> tempMap = new HashMap<>();
         tempMap.putAll(cacheMap);
@@ -169,7 +184,7 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
             if (currTime >= cache.getLastTimeMillis() + cache.getKeepTime()) {
                 // 超时数据
                 if (cacheLog) {
-                    LogKit.i("MemoryCache onRelease : " + cache);
+                    LogKit.i("MemoryCache onRelease : " + cache.toString());
                 }
                 cacheMap.remove(key);
             }
@@ -254,5 +269,10 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
     public void clearMemoryCache() {
         cacheMap.clear();
         memoryCacheSize = 0;
+    }
+
+    // ------------
+    public void setCacheLog(boolean cacheLog) {
+        this.cacheLog = cacheLog;
     }
 }

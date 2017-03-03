@@ -1,5 +1,6 @@
 package com.zaze.app;
 
+import com.zaze.aarrepo.commons.cache.MemoryCache;
 import com.zaze.aarrepo.utils.LocalDisplay;
 
 
@@ -15,6 +16,7 @@ public class MyApplication extends GpsApplication {
     public void onCreate() {
         super.onCreate();
         LocalDisplay.init(this);
+        MemoryCache.getInstance().setCacheLog(true);
 //        receiver = new TestBroadcastReceiver();
 //        IntentFilter intentFilter = new IntentFilter("android.intent.action.xh.message.testappid");
 //        registerReceiver(receiver, intentFilter);

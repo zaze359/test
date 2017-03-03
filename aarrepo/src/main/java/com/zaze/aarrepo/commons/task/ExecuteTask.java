@@ -13,6 +13,12 @@ class ExecuteTask extends TaskEntity {
     private long executeTime;
     private HashMap<String, TaskCallback> callbackMap;
 
+    public ExecuteTask(TaskEntity entity) {
+        super();
+        setAction(entity.getAction());
+        setLoopTime(entity.getLoopTime());
+    }
+
     public void addCallback(TaskCallback callback) {
         if (callbackMap == null) {
             callbackMap = new HashMap<>();

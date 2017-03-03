@@ -1,6 +1,7 @@
 package com.zaze.aarrepo.commons.task;
 
 
+import com.zaze.aarrepo.commons.log.LogKit;
 import com.zaze.aarrepo.utils.JsonUtil;
 import com.zaze.aarrepo.utils.StringUtil;
 
@@ -44,7 +45,6 @@ public class TaskFilterThread {
                     taskFilterThread = new TaskFilterThread();
                 }
             }
-
         }
         return taskFilterThread;
     }
@@ -101,8 +101,34 @@ public class TaskFilterThread {
     // ------------------------------------------------
 
     /**
-     * @param jsonStr
-     * @param callback
+     * @param entity   TaskEntity
+     * @param callback TaskCallback
+     */
+    public void pushTask(TaskEntity entity, TaskCallback callback) {
+        ExecuteTask newExecuteTask = new ExecuteTask(entity);
+        String action = newExecuteTask.getAction();
+        if (!StringUtil.stringIsNull(action)) {
+            ExecuteTask executeTask;
+            if (fastTaskMap.containsKey(action)) {
+                executeTask = fastTaskMap.get(action);
+            } else {
+                executeTask = newExecuteTask;
+                long loopTime = executeTask.getLoopTime();
+                if (loopTime == 0) {
+                    loopTime = loopTimeFast;
+                }
+                executeTask.setExecuteTime(System.currentTimeMillis() + loopTime);
+            }
+            if (callback != null) {
+                executeTask.addCallback(callback);
+            }
+            fastTaskMap.put(action, executeTask);
+        }
+    }
+
+    /**
+     * @param jsonStr  TaskEntity 子类json
+     * @param callback TaskCallback
      */
     public void pushTask(String jsonStr, TaskCallback callback) {
         ExecuteTask newExecuteTask = JsonUtil.parseJson(jsonStr, ExecuteTask.class);
@@ -126,6 +152,7 @@ public class TaskFilterThread {
                 fastTaskMap.put(action, executeTask);
             }
         } else {
+            LogKit.e("传入json数据 不是 TaskEntity 子类json");
             // TODO 格式不对提示
         }
     }

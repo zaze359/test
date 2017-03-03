@@ -1,5 +1,7 @@
 package com.zaze.aarrepo.commons.cache;
 
+import com.zaze.aarrepo.utils.StringUtil;
+
 /**
  * Description :
  * date : 2015-11-27 - 17:11
@@ -110,7 +112,7 @@ public class Cache {
     @Override
     public String toString() {
         return "Cache{" +
-                "bytes=" + bytes +
+                "bytes=" + StringUtil.bytesToString(bytes) +
                 ", keepTime=" + keepTime +
                 ", usedNum=" + usedNum +
                 ", lastTimeMillis=" + lastTimeMillis +
