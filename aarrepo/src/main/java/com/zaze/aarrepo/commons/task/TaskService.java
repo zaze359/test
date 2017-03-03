@@ -5,8 +5,9 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
-import com.zaze.aarrepo.commons.log.LogKit;
 import com.zaze.aarrepo.utils.StringUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashSet;
 import java.util.concurrent.ConcurrentHashMap;
@@ -31,11 +32,12 @@ public class TaskService extends Service {
         public static final int BROADCAST = 2;
     }
 
+    private static int taskMode = TaskMode.EVENT_BUS;
     // --------------------------------
     /**
      * 事件池
      */
-    private static final ConcurrentLinkedQueue<TaskEntity> actionPool = new ConcurrentLinkedQueue<TaskEntity>();
+    private static final ConcurrentLinkedQueue<TaskEntity> actionPool = new ConcurrentLinkedQueue<>();
     // --------------------------------
     /**
      * 快速任务(最常用的任务, 自动解绑)
@@ -63,21 +65,9 @@ public class TaskService extends Service {
     // --------------------------------
     private static long loopTimeFast = 300L;
 
-    public static void setLoopTimeFast(long loopTimeFast) {
-        TaskService.loopTimeFast = loopTimeFast;
-    }
-
-    private static long loopTimeOrdinary = 1000L * 5;
-
-    public static void setLoopTimeOrdinary(long loopTimeOrdinary) {
-        TaskService.loopTimeOrdinary = loopTimeOrdinary;
-    }
+    private static long loopTimeOrdinary = 1000L * 30;
 
     private static long loopTimePermanent = 1000L * 60 * 10;
-
-    public static void setLoopTimePermanent(long loopTimePermanent) {
-        TaskService.loopTimePermanent = loopTimePermanent;
-    }
 
     // --------------------------------
     private static boolean needLog = false;
@@ -137,8 +127,7 @@ public class TaskService extends Service {
                 actionSet.add(StringUtil.parseString(taskEntity.getAction()));
             }
             for (String action : actionSet) {
-                LogKit.i("zaze 1011 sendBroadcast action( %s )", action);
-                sendBroadcast(new Intent(action));
+                sendMessage(action);
             }
             lastRunTimeFast = currentRunTime;
         }
@@ -152,7 +141,7 @@ public class TaskService extends Service {
     private void notifyOrdinaryTask(long currentRunTime) {
         if (currentRunTime - lastRunTimeOrdinary > loopTimeOrdinary) {
             for (String key : ordinaryActionMap.keySet()) {
-                sendBroadcast(new Intent(key));
+                sendMessage(key);
             }
             lastRunTimeOrdinary = currentRunTime;
         }
@@ -165,9 +154,8 @@ public class TaskService extends Service {
      */
     private void notifyPermanentTask(long currentRunTime) {
         if (currentRunTime - lastRunTimePermanent > loopTimePermanent) {
-            LogKit.i("RunTime(%d): notifyPermanentTask", currentRunTime);
             for (String key : permanentActionMap.keySet()) {
-                sendBroadcast(new Intent(key));
+                sendMessage(key);
             }
             lastRunTimePermanent = currentRunTime;
         }
@@ -207,52 +195,42 @@ public class TaskService extends Service {
     }
 
     private static void addTaskToPool(String action) {
-        addTaskToPool(new TaskEntity(action, System.currentTimeMillis()));
+        addTaskToPool(new TaskEntity(action).setExecuteTime(System.currentTimeMillis()));
     }
 
     private static void addTaskToPool(TaskEntity entity) {
-//        LogDevelopmentKit.v("zaze 1011 addTaskToPool : " + entity);
         actionPool.add(entity);
+    }
+
+    //
+    private void sendMessage(String action) {
+        if (taskMode == TaskMode.BROADCAST) {
+            sendBroadcast(new Intent(action));
+        } else {
+            EventBus.getDefault().post(new TaskEntity(action));
+        }
     }
 
     // ------------------------------------------------
     public static void setNeedLog(boolean isNeedLog) {
         needLog = isNeedLog;
     }
-    // ------------------------------------------------
 
-    private static class TaskEntity {
-        private String action;
-        private long time;
-
-        public TaskEntity(String action, long time) {
-            this.action = action;
-            this.time = time;
-        }
-
-        public String getAction() {
-            return action;
-        }
-
-        public void setAction(String action) {
-            this.action = action;
-        }
-
-        public long getTime() {
-            return time;
-        }
-
-        public void setTime(long time) {
-            this.time = time;
-        }
-
-        @Override
-        public String toString() {
-            return "TaskEntity{" +
-                    "action='" + action + '\'' +
-                    ", time=" + time +
-                    '}';
-        }
+    public static void setTaskMode(int taskMode) {
+        TaskService.taskMode = taskMode;
     }
 
+    public static void setLoopTimeFast(long loopTimeFast) {
+        TaskService.loopTimeFast = loopTimeFast;
+    }
+
+    public static void setLoopTimeOrdinary(long loopTimeOrdinary) {
+        TaskService.loopTimeOrdinary = loopTimeOrdinary;
+    }
+
+    public static void setLoopTimePermanent(long loopTimePermanent) {
+        TaskService.loopTimePermanent = loopTimePermanent;
+    }
+
+// ------------------------------------------------
 }

@@ -10,11 +10,9 @@ import java.util.HashMap;
  */
 class ExecuteTask extends TaskEntity {
     //
-    private long executeTime;
     private HashMap<String, TaskCallback> callbackMap;
 
     public ExecuteTask(TaskEntity entity) {
-        super();
         setAction(entity.getAction());
         setLoopTime(entity.getLoopTime());
     }
@@ -36,11 +34,4 @@ class ExecuteTask extends TaskEntity {
         return callbackMap;
     }
 
-    public long getExecuteTime() {
-        return executeTime;
-    }
-
-    public void setExecuteTime(long executeTime) {
-        this.executeTime = executeTime;
-    }
 }
