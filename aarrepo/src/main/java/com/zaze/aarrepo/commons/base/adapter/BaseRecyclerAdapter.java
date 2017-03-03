@@ -47,7 +47,7 @@ public abstract class BaseRecyclerAdapter<V, H extends RecyclerView.ViewHolder> 
 
     @Override
     public H onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(getViewLayoutId(), null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(getViewLayoutId(), parent, false);
         ViewGroup.LayoutParams p = view.getLayoutParams();
         if (p == null) {
             p = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);

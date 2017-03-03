@@ -80,21 +80,21 @@ public class JsonUtil {
         }
     }
 
-    public static JSONArray toJsonArray(Collection<Object> jsonObjects) {
+    public static <T> JSONArray toJsonArray(Collection<T> collection) {
         JSONArray jsonArray = new JSONArray();
-        if (jsonObjects != null) {
-            for (Object obj : jsonObjects) {
-                jsonArray.put(obj);
+        if (collection != null) {
+            for (T t : collection) {
+                jsonArray.put(t);
             }
         }
         return jsonArray;
     }
 
-    public static JSONArray toJsonArray(Object[] arrays) {
+    public static <T> JSONArray toJsonArray(T[] arrays) {
         JSONArray jsonArray = new JSONArray();
         if (arrays != null) {
-            for (Object obj : arrays) {
-                jsonArray.put(obj);
+            for (T t : arrays) {
+                jsonArray.put(t);
             }
         }
         return jsonArray;

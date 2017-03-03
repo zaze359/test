@@ -39,7 +39,12 @@ public class TaskFilterThread {
 
     public static TaskFilterThread getInstance() {
         if (taskFilterThread == null) {
-            taskFilterThread = new TaskFilterThread();
+            synchronized (TaskFilterThread.class) {
+                if (taskFilterThread == null) {
+                    taskFilterThread = new TaskFilterThread();
+                }
+            }
+
         }
         return taskFilterThread;
     }

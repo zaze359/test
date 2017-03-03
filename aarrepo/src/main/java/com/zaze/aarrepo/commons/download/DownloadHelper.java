@@ -15,11 +15,15 @@ import java.util.Properties;
 public class DownloadHelper {
     private static final String VERSION_KEY = "version_";
     private ConfigHelper configHelper;
-    private static DownloadHelper downloadHelper;
+    private static volatile DownloadHelper downloadHelper;
 
     public static DownloadHelper getInstance() {
         if (downloadHelper == null) {
-            downloadHelper = new DownloadHelper();
+            synchronized (DownloadHelper.class) {
+                if (downloadHelper == null) {
+                    downloadHelper = new DownloadHelper();
+                }
+            }
         }
         return downloadHelper;
     }

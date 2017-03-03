@@ -2,6 +2,7 @@ package com.zaze.aarrepo.commons.base.adapter;
 
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -17,7 +18,6 @@ import java.util.Collection;
 public abstract class BaseListAdapter<V, H> extends DataAdapter<V> implements ChildViewAdapter<V, H> {
     private OnItemClickListener<V> onItemClickListener;
 
-    //
     public BaseListAdapter(Context context, Collection<V> data) {
         super(context, data);
     }
@@ -27,7 +27,7 @@ public abstract class BaseListAdapter<V, H> extends DataAdapter<V> implements Ch
         H itemHolder;
         try {
             if (convertView == null) {
-                convertView = View.inflate(context, getViewLayoutId(), null);
+                convertView = LayoutInflater.from(parent.getContext()).inflate(getViewLayoutId(), parent, false);
                 itemHolder = createViewHolder(convertView);
                 convertView.setTag(itemHolder);
             } else {
@@ -37,15 +37,19 @@ public abstract class BaseListAdapter<V, H> extends DataAdapter<V> implements Ch
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (onItemClickListener != null) {
-                        onItemClickListener.onItemClick(v, getItem(position), position);
-                    }
+                    onItemClick(v, getItem(position), position);
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
         }
         return convertView;
+    }
+
+    public void onItemClick(View view, V value, int position) {
+        if (onItemClickListener != null) {
+            onItemClickListener.onItemClick(view, value, position);
+        }
     }
 
     public void setOnItemClickListener(OnItemClickListener<V> clickListener) {

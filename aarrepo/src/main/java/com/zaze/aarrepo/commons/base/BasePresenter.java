@@ -15,6 +15,4 @@ public abstract class BasePresenter<V extends BaseView> {
     public String getString(int resId, Object... objs) {
         return BaseApplication.getInstance().getString(resId, objs);
     }
-
-
 }

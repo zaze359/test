@@ -1,12 +1,12 @@
 package com.zaze.model.impl;
 
 
-import com.zaze.component.animation.ui.AnimationActivity;
 import com.zaze.component.device.ui.DeviceActivity;
 import com.zaze.component.gps.ui.GpsActivity;
 import com.zaze.component.rxandroid.RxAndroidActivity;
 import com.zaze.component.time.TimeActivity;
 import com.zaze.component.toolbar.ToolBarDemoActivity;
+import com.zaze.component.xbus.ui.EventBusActivity;
 import com.zaze.model.EntityModel;
 import com.zaze.model.entity.AnimationEntity;
 import com.zaze.model.entity.TableEntity;
@@ -25,12 +25,13 @@ public class EntityModelImpl implements EntityModel {
     @Override
     public List<TableEntity> getTableList() {
         List<TableEntity> list = new ArrayList<>();
-        list.add(new TableEntity(1, "Animation", AnimationActivity.class));
+//        list.add(new TableEntity(1, "Animation", AnimationActivity.class));
         list.add(new TableEntity(2, "toolbar", ToolBarDemoActivity.class));
         list.add(new TableEntity(3, "RxAndroid", RxAndroidActivity.class));
         list.add(new TableEntity(4, "Device Info", DeviceActivity.class));
         list.add(new TableEntity(5, "Time", TimeActivity.class));
         list.add(new TableEntity(6, "GPS", GpsActivity.class));
+        list.add(new TableEntity(7, "EventBus", EventBusActivity.class));
 
 //        SortUtil.sortList(list, "getType", "desc");
 

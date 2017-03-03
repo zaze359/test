@@ -1,4 +1,4 @@
-package com.zz.library.util;
+package com.zaze.aarrepo.utils;
 
 import android.os.Handler;
 import android.os.Looper;

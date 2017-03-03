@@ -8,26 +8,31 @@ package com.zaze.aarrepo.commons.download;
  * @version : 1.0
  */
 public class DownloadManager {
-//    private DownloadModel downloadModel;
-    private static DownloadManager manager;
-    
+    //    private DownloadModel downloadModel;
+    private static volatile DownloadManager manager;
+
     public static DownloadManager getInstance() {
-        if(manager == null) {
-            manager = new DownloadManager();
+        if (manager == null) {
+            synchronized (DownloadManager.class) {
+                if (manager == null) {
+                    manager = new DownloadManager();
+                }
+            }
         }
         return manager;
     }
+
     private DownloadManager() {
 //        downloadModel = PubModelFactory.newDownloadModel();
     }
-    
+
     // ----------------------------------------------------------
     public int download(DownloadFace downloadFace, TDownload tDownload, boolean isTempFile) {
         int code = downloadFace.checkFile(tDownload, isTempFile);
         switch (code) {
-            case DownloadFace.Code.FILE_OK :
+            case DownloadFace.Code.FILE_OK:
                 break;
-            case DownloadFace.Code.FILE_NEED_INSTALL :
+            case DownloadFace.Code.FILE_NEED_INSTALL:
                 downloadFace.toInstallDownFile(tDownload);
                 break;
             case DownloadFace.Code.PARAMS_ERROR:
@@ -35,7 +40,7 @@ public class DownloadManager {
             default:
                 downloadFace.download(tDownload);
                 break;
-            
+
         }
         return code;
     }

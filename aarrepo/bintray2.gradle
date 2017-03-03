@@ -1,0 +1,66 @@
+//apply plugin: 'com.github.dcendents.android-maven'
+//apply plugin: 'com.jfrog.bintray'
+//
+//group = PROJ_GROUP
+//version = PROJ_VERSION
+//install {
+//    repositories.mavenInstaller {
+//        pom.project {
+//            name PROJ_POM_NAME
+//            description PROJ_DESCRIPTION
+//            url PROJ_WEBSITEURL
+//            inceptionYear '2017'
+//            packaging 'aar'
+//            groupId PROJ_GROUP
+//            artifactId PROJ_ARTIFACTID
+//            version PROJ_VERSION
+//            licenses {
+//                license {
+//                    name PROJ_LICENCE_NAME
+//                    url PROJ_LICENCE_URL
+//                    distribution PROJ_LICENCE_DEST
+//                }
+//            }
+//            scm {
+//                connection PROJ_VCSURL
+//                developerConnection PROJ_VCSURL
+//                url PROJ_WEBSITEURL
+//            }
+//            developers {
+//                developer {
+//                    id DEVELOPER_ID
+//                    name DEVELOPER_NAME
+//                    email DEVELOPER_EMAIL
+//                }
+//            }
+//        }
+//    }
+//}
+//
+//Properties properties = new Properties()
+//properties.load(project.rootProject.file('maven.properties').newDataInputStream())
+//
+//bintray {
+//    user = properties.getProperty("bintray.user")
+//    key = properties.getProperty("bintray.apikey")
+////    user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
+////    key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
+//    configurations = ['archives']
+//    pkg {
+//        repo = 'maven'
+//        name = PROJ_NAME
+//        userOrg = user
+//        licenses = ['Apache-2.0']
+//        websiteUrl = PROJ_WEBSITEURL
+//        version {
+////            name = '0.1'
+//            desc = PROJ_DESCRIPTION
+////            vcsTag = '0.1'
+////            attributes = ['gradle-plugin': 'com.use.less:com.use.less.gradle:gradle-useless-plugin']
+//        }
+//    }
+//}
+//
+//task wrapper(type: Wrapper) {
+//    gradleVersion = '2.4'
+//}

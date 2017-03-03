@@ -77,5 +77,6 @@ dependencies {
         exclude module: "recyclerview-v7"
         exclude module: "support-annotations"
     }
+    compile 'org.greenrobot:eventbus:3.0.0'
     compile project(':library')
 }
