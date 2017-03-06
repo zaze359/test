@@ -14,23 +14,15 @@ import java.util.List;
  * @author : zaze
  * @version : 1.0
  */
-public abstract class DataAdapter<V extends Object> extends BaseAdapter {
-    protected Context context;
-    protected final List<V> dataList = new ArrayList<V>();
+public abstract class DataAdapter<V> extends BaseAdapter {
+    private Context context;
+    private final List<V> dataList = new ArrayList<V>();
 
     //
     public DataAdapter(Context context, Collection<V> data) {
         this.context = context;
-        setDataList(data);
+        setDataList(data, false);
     }
-
-    public void setDataList(Collection<V> data) {
-        dataList.clear();
-        if (data != null && data.size() > 0) {
-            dataList.addAll(data);
-        }
-    }
-
     @Override
     public int getCount() {
         return dataList.size();
@@ -45,4 +37,34 @@ public abstract class DataAdapter<V extends Object> extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
+
+    public void setDataList(List<V> data) {
+        setDataList(data, true);
+    }
+
+    private void setDataList(Collection<V> data, boolean isNotify) {
+        this.dataList.clear();
+        if (data != null && data.size() > 0) {
+            this.dataList.addAll(data);
+        }
+        if (isNotify) {
+            notifyDataSetChanged();
+        }
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public List<V> getDataList() {
+        return dataList;
+    }
+    public int getColor(int resId) {
+        return context.getResources().getColor(resId);
+    }
+
+    public String getString(int resId, Object... args) {
+        return context.getString(resId, args);
+    }
+
 }

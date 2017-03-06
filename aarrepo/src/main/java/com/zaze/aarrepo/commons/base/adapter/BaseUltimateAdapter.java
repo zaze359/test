@@ -12,6 +12,7 @@ import com.zaze.aarrepo.utils.ViewUtil;
 import com.zaze.aarrepo.utils.helper.OnClickHelper;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -30,7 +31,7 @@ public abstract class BaseUltimateAdapter<V, VH extends RecyclerView.ViewHolder>
     private int page;
     private int pageSize = 10;
 
-    public BaseUltimateAdapter(Context context, List<V> data) {
+    public BaseUltimateAdapter(Context context, Collection<V> data) {
         this.context = context;
         preSetData();
         this.setDataList(data, false);
@@ -50,11 +51,11 @@ public abstract class BaseUltimateAdapter<V, VH extends RecyclerView.ViewHolder>
 
     }
 
-    public void setDataList(List<V> data) {
+    public void setDataList(Collection<V> data) {
         setDataList(data, true);
     }
 
-    private void setDataList(List<V> data, boolean isNotify) {
+    private void setDataList(Collection<V> data, boolean isNotify) {
         page = 0;
         this.dataList.clear();
         if (data != null && data.size() > 0) {
