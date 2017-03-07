@@ -8,7 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.zaze.R;
-import com.zaze.aarrepo.commons.base.BaseActivity;
+import com.zaze.aarrepo.commons.base.ZBaseActivity;
 import com.zaze.aarrepo.commons.date.DateTimeUtil;
 
 import java.util.TimeZone;
@@ -23,7 +23,7 @@ import butterknife.OnClick;
  * @author : ZAZE
  * @version : 2016-12-22 - 11:10
  */
-public class TimeActivity extends BaseActivity {
+public class TimeActivity extends ZBaseActivity {
     @Bind(R.id.time_input_edt)
     EditText timeInputEdt;
     @Bind(R.id.time_out_tv)

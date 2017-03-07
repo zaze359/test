@@ -4,7 +4,7 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.Poi;
-import com.zaze.aarrepo.commons.base.BasePresenter;
+import com.zaze.aarrepo.commons.base.ZBasePresenter;
 import com.zaze.aarrepo.commons.log.LogKit;
 import com.zaze.app.GpsApplication;
 import com.zaze.component.gps.presenter.GpsPresenter;
@@ -18,7 +18,7 @@ import java.util.List;
  * @author : ZAZE
  * @version : 2017-02-14 - 13:30
  */
-public class BaiDuLocationPresenterImpl extends BasePresenter<GpsView> implements GpsPresenter {
+public class BaiDuLocationPresenterImpl extends ZBasePresenter<GpsView> implements GpsPresenter {
     private GpsApplication application;
     private LocationClient locationClient;
     private BDLocationListener locationListener;

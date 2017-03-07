@@ -15,7 +15,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 
-import com.zaze.aarrepo.commons.base.BasePresenter;
+import com.zaze.aarrepo.commons.base.ZBasePresenter;
 import com.zaze.aarrepo.commons.log.LogKit;
 import com.zaze.aarrepo.utils.ActivityUtil;
 import com.zaze.aarrepo.utils.StringUtil;
@@ -31,7 +31,7 @@ import java.util.List;
  * @author : zaze
  * @version : 2017-02-06 09:59 1.0
  */
-public class GpsPresenterImpl extends BasePresenter<GpsView> implements GpsPresenter {
+public class GpsPresenterImpl extends ZBasePresenter<GpsView> implements GpsPresenter {
 
     private LocationManager locationManager;
 

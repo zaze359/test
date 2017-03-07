@@ -12,12 +12,4 @@
     <color name="yellow">#f7d23e</color>
     <color name="blue">#62ADE6</color>
     <color name="green">#35C243</color>
-
-    <!--about header-->
-    <color name="head_background">#eeeeee</color>
-    <color name="head_text_color_default">#556777</color>
-    <color name="head_text_color_pressed">#999999</color>
-    <color name="head_text_color">@color/text_color_head</color>
-
-
 </resources>

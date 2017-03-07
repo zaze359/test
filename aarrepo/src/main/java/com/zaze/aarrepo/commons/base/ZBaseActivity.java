@@ -21,7 +21,7 @@ import com.zaze.aarrepo.utils.ViewUtil;
  * @author : zaze
  * @version : 2017-02-06 22:59 2.0
  */
-public abstract class BaseActivity extends AppCompatActivity implements BaseView {
+public abstract class ZBaseActivity extends AppCompatActivity implements ZBaseView {
     private BaseHeadView headFace;
     private LoadingWidget loadProgress;
 

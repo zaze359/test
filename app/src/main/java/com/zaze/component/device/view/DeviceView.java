@@ -1,6 +1,6 @@
 package com.zaze.component.device.view;
 
-import com.zaze.aarrepo.commons.base.BaseView;
+import com.zaze.aarrepo.commons.base.ZBaseView;
 import com.zaze.model.entity.DeviceStatus;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
  * @author : zaze
  * @version : 2017-01-22 01:39 1.0
  */
-public interface DeviceView extends BaseView {
+public interface DeviceView extends ZBaseView {
 
     /**
      * 设备状态

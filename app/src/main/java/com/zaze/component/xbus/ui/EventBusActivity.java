@@ -4,7 +4,7 @@ package com.zaze.component.xbus.ui;
 import android.os.Bundle;
 
 import com.zaze.R;
-import com.zaze.aarrepo.commons.base.BaseActivity;
+import com.zaze.aarrepo.commons.base.ZBaseActivity;
 import com.zaze.aarrepo.commons.log.LogKit;
 import com.zaze.aarrepo.utils.ActivityUtil;
 import com.zaze.component.xbus.event.EventMessage;
@@ -21,7 +21,7 @@ import org.greenrobot.eventbus.Subscribe;
  * @author : zaze
  * @version : 2017-02-28 04:41 1.0
  */
-public class EventBusActivity extends BaseActivity implements EventBusView {
+public class EventBusActivity extends ZBaseActivity implements EventBusView {
     private EventBusPresenter presenter;
 
     @Override

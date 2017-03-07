@@ -13,8 +13,8 @@ import android.transition.TransitionInflater;
 import android.view.View;
 
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
-import com.zaze.aarrepo.commons.base.BaseActivity;
-import com.zaze.aarrepo.commons.base.BaseFragment;
+import com.zaze.aarrepo.commons.base.ZBaseActivity;
+import com.zaze.aarrepo.commons.base.ZBaseFragment;
 import com.zaze.aarrepo.commons.log.LogKit;
 import com.zaze.aarrepo.commons.task.TaskCallback;
 import com.zaze.aarrepo.commons.task.TaskEntity;
@@ -28,7 +28,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends ZBaseActivity {
 
     @Bind(R.id.main_toolbar)
     Toolbar mainToolbar;
@@ -49,7 +49,7 @@ public class MainActivity extends BaseActivity {
             getWindow().setExitTransition(explode);
         }
         //
-        List<BaseFragment> fragmentList = new ArrayList<>();
+        List<ZBaseFragment> fragmentList = new ArrayList<>();
         fragmentList.add(TableFragment.newInstance("1"));
         mainViewpager.setAdapter(new MyPagerAdapter(getSupportFragmentManager(), fragmentList));
         mainTab.setViewPager(mainViewpager);
@@ -80,9 +80,9 @@ public class MainActivity extends BaseActivity {
     // -------------------------
 
     class MyPagerAdapter extends FragmentPagerAdapter {
-        private List<BaseFragment> fragmentList;
+        private List<ZBaseFragment> fragmentList;
 
-        public MyPagerAdapter(FragmentManager fm, List<BaseFragment> list) {
+        public MyPagerAdapter(FragmentManager fm, List<ZBaseFragment> list) {
             super(fm);
             this.fragmentList = list;
         }

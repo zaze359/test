@@ -9,8 +9,5 @@
 
     <!--<dimen name="head_height">?attr/actionBarSize</dimen>-->
     <dimen name="head_height">@dimen/dp_72</dimen>
-
-
     <dimen name="main_split_line">1dp</dimen>
-
 </resources>

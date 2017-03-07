@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.zaze.R;
-import com.zaze.aarrepo.commons.base.BaseActivity;
+import com.zaze.aarrepo.commons.base.ZBaseActivity;
 import com.zaze.aarrepo.utils.StringUtil;
 import com.zaze.component.gps.presenter.GpsPresenter;
 import com.zaze.component.gps.presenter.impl.BaiDuLocationPresenterImpl;
@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
  * @author : zaze
  * @version : 2017-02-06 09:59 1.0
  */
-public class GpsActivity extends BaseActivity implements GpsView {
+public class GpsActivity extends ZBaseActivity implements GpsView {
     @Bind(R.id.gps_status_tv)
     TextView gpsStatusTv;
     @Bind(R.id.gps_location_tv)

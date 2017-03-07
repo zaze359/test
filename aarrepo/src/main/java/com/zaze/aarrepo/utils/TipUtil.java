@@ -3,7 +3,7 @@ package com.zaze.aarrepo.utils;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.zaze.aarrepo.commons.base.BaseApplication;
+import com.zaze.aarrepo.commons.base.ZBaseApplication;
 
 public class TipUtil {
 
@@ -12,7 +12,7 @@ public class TipUtil {
     }
 
     public static void toast(String msg, int duration) {
-        toast(BaseApplication.getInstance(), msg, duration);
+        toast(ZBaseApplication.getInstance(), msg, duration);
     }
 
     public static void toast(Context context, String msg, int duration) {

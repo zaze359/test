@@ -4,7 +4,7 @@ package com.zaze.component.xbus.ui;
 import android.os.Bundle;
 
 import com.zaze.R;
-import com.zaze.aarrepo.commons.base.BaseActivity;
+import com.zaze.aarrepo.commons.base.ZBaseActivity;
 import com.zaze.component.xbus.presenter.EventBus2Presenter;
 import com.zaze.component.xbus.presenter.impl.EventBus2PresenterImpl;
 import com.zaze.component.xbus.view.EventBus2View;
@@ -15,7 +15,7 @@ import com.zaze.component.xbus.view.EventBus2View;
  * @author : zaze
  * @version : 2017-02-28 05:30 1.0
  */
-public class EventBus2Activity extends BaseActivity implements EventBus2View {
+public class EventBus2Activity extends ZBaseActivity implements EventBus2View {
     private EventBus2Presenter presenter;
 
     @Override

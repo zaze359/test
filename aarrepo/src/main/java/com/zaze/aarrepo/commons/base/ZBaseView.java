@@ -12,7 +12,7 @@ import android.view.View;
  *
  * @version 1.0
  */
-public interface BaseView {
+public interface ZBaseView {
 
     void showProgress();
 

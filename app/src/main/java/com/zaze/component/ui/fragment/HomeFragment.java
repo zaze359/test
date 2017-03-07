@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.zaze.R;
-import com.zaze.aarrepo.commons.base.BaseFragment;
+import com.zaze.aarrepo.commons.base.ZBaseFragment;
 import com.zaze.aarrepo.utils.ViewUtil;
 import com.zaze.component.ui.adapter.HomeAdapter;
 import com.zz.library.commons.loading.LoadingStyle;
@@ -26,7 +26,7 @@ import in.srain.cube.views.ptr.PtrHandler;
 /**
  * Created by zaze on 16/4/26.
  */
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends ZBaseFragment {
     private PtrClassicFrameLayout mPtrFrameLayout;
     private LoadMoreListViewContainer loadMoreListViewContainer;
 

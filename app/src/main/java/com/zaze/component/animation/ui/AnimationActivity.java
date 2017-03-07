@@ -8,7 +8,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.zaze.R;
-import com.zaze.aarrepo.commons.base.BaseActivity;
+import com.zaze.aarrepo.commons.base.ZBaseActivity;
 import com.zaze.component.animation.adapter.AnimationAdapter;
 import com.zaze.component.animation.presenter.AnimationPresenter;
 import com.zaze.component.animation.presenter.impl.AnimationPresenterImpl;
@@ -27,7 +27,7 @@ import butterknife.OnClick;
  * @author : ZAZE
  * @version : 2016-08-23 - 19:31
  */
-public class AnimationActivity extends BaseActivity implements AnimationView {
+public class AnimationActivity extends ZBaseActivity implements AnimationView {
     @Bind(R.id.animation_title)
     TextView animationTitle;
     @Bind(R.id.animation_back)

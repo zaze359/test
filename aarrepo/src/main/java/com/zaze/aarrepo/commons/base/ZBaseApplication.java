@@ -21,11 +21,11 @@ import org.greenrobot.eventbus.ThreadMode;
  * @author : ZAZE
  * @version : 2016-07-15 - 14:32
  */
-public abstract class BaseApplication extends Application {
-    private static BaseApplication instance;
+public abstract class ZBaseApplication extends Application {
+    private static ZBaseApplication instance;
     private BroadcastReceiver broadcastReceiver = new ReleaseMemoryCacheBroadcast();
 
-    public static BaseApplication getInstance() {
+    public static ZBaseApplication getInstance() {
         if (instance == null) {
             throw new IllegalStateException();
         } else {

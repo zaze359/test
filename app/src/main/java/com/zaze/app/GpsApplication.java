@@ -4,7 +4,7 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.zaze.aarrepo.commons.base.BaseApplication;
+import com.zaze.aarrepo.commons.base.ZBaseApplication;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -14,12 +14,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author : ZAZE
  * @version : 2017-02-14 - 13:58
  */
-public class GpsApplication extends BaseApplication {
+public class GpsApplication extends ZBaseApplication {
     private LocationClient locationClient = null;
     private static final CopyOnWriteArrayList<BDLocationListener> locationListenerList = new CopyOnWriteArrayList<>();
 
     public static GpsApplication getInstance() {
-        return (GpsApplication) BaseApplication.getInstance();
+        return (GpsApplication) ZBaseApplication.getInstance();
     }
 
     @Override
