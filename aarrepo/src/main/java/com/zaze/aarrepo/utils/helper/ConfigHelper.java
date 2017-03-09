@@ -27,7 +27,7 @@ public class ConfigHelper {
 
     public ConfigHelper(String account) {
         String str = "";
-        if (!StringUtil.stringIsNull(account)) {
+        if (!StringUtil.isEmpty(account)) {
             str = account + File.separator;
         }
         filePath = BASE_PATH + "config/" + str + "gw.properties";

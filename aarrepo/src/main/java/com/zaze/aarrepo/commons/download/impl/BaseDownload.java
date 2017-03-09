@@ -80,9 +80,9 @@ public abstract class BaseDownload implements DownloadFace {
 
     @Override
     public int checkDownFile(TDownload download) {
-        if (download == null || StringUtil.stringIsNull(download.getSave_path())
+        if (download == null || StringUtil.isEmpty(download.getSave_path())
                 || download.getDown_type() != getType()
-                || StringUtil.stringIsNull(download.getDown_url())) {
+                || StringUtil.isEmpty(download.getDown_url())) {
             LogKit.w("Download checkDownFile : 参数错误");
             return Code.PARAMS_ERROR;
         }
@@ -163,7 +163,7 @@ public abstract class BaseDownload implements DownloadFace {
 //    }
 
     public void onInstallFinish(int id, int code, String installPath, String tempFile) {
-        if (!StringUtil.stringIsNull(tempFile)) {
+        if (!StringUtil.isEmpty(tempFile)) {
             File file = new File(tempFile);
             boolean bool = file.delete();
             LogKit.v("bool : " + bool);

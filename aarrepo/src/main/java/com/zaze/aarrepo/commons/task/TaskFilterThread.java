@@ -107,7 +107,7 @@ public class TaskFilterThread {
     public void pushTask(TaskEntity entity, TaskCallback callback) {
         ExecuteTask newExecuteTask = new ExecuteTask(entity);
         String action = newExecuteTask.getAction();
-        if (!StringUtil.stringIsNull(action)) {
+        if (!StringUtil.isEmpty(action)) {
             ExecuteTask executeTask;
             if (fastTaskMap.containsKey(action)) {
                 executeTask = fastTaskMap.get(action);
@@ -134,7 +134,7 @@ public class TaskFilterThread {
         ExecuteTask newExecuteTask = JsonUtil.parseJson(jsonStr, ExecuteTask.class);
         if (newExecuteTask != null) {
             String action = newExecuteTask.getAction();
-            if (!StringUtil.stringIsNull(action)) {
+            if (!StringUtil.isEmpty(action)) {
                 ExecuteTask executeTask;
                 if (fastTaskMap.containsKey(action)) {
                     executeTask = fastTaskMap.get(action);

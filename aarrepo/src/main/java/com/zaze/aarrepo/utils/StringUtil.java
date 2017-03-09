@@ -42,7 +42,7 @@ public class StringUtil {
      */
     public static int parseInt(String value, int defaultValue) {
         int id;
-        if (!stringIsNull(value)) {
+        if (!isEmpty(value)) {
             try {
                 id = Integer.parseInt(value);
             } catch (NumberFormatException e) {
@@ -200,10 +200,24 @@ public class StringUtil {
     /**
      * 判断字符串是否为空
      *
-     * @param str
-     * @return
+     * @param str str
+     * @return boolean
      */
-    public static boolean stringIsNull(String str) {
+    public static boolean isEmpty(String str) {
         return null == str || str.isEmpty();
     }
+
+
+    /**
+     * to use {@link StringUtil#isEmpty(String)}
+     *
+     * @param str str
+     * @return boolean
+     */
+    @Deprecated
+    public static boolean stringIsNull(String str) {
+        return isEmpty(str);
+    }
+
+
 }

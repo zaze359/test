@@ -160,15 +160,29 @@ public class TaskService extends Service {
             lastRunTimePermanent = currentRunTime;
         }
     }
+
     // ------------------------------------------------
 
     /**
-     * 注册一般业务
+     * 注册永驻业务（默认10分钟轮询一次）
+     *
+     * @param action action
+     */
+    public static void registerPermanentTask(String action) {
+        if (!StringUtil.isEmpty(action)) {
+            permanentActionMap.put(action, System.currentTimeMillis());
+        }
+    }
+
+    // ------------------------------------------------
+
+    /**
+     * 注册一般业务（默认30秒轮询一次）
      *
      * @param action action
      */
     public static void registerOrdinaryTask(String action) {
-        if (!StringUtil.stringIsNull(action)) {
+        if (!StringUtil.isEmpty(action)) {
             ordinaryActionMap.put(action, System.currentTimeMillis());
         }
     }
@@ -179,14 +193,14 @@ public class TaskService extends Service {
      * @param action action
      */
     public static void unRegisterOrdinaryTask(String action) {
-        if (!StringUtil.stringIsNull(action)) {
+        if (!StringUtil.isEmpty(action)) {
             ordinaryActionMap.remove(action);
         }
     }
     // ------------------------------------------------
 
     /**
-     * 注册临时业务
+     * 注册临时业务（默认300毫秒轮询一次）
      *
      * @param action action
      */
