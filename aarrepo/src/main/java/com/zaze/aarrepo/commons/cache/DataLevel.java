@@ -2,6 +2,9 @@ package com.zaze.aarrepo.commons.cache;
 
 import android.support.annotation.IntDef;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 /**
  * Description :
  * date : 2015-11-27 - 17:11
@@ -19,7 +22,8 @@ public class DataLevel {
     // 高优先级
     public static final int HIGH_LEVEL_DATA = 10000;
     public static final int HIGH_LEVEL_BITMAP = 10001;
-    
+
+    @Retention(RetentionPolicy.SOURCE)
     @IntDef({LOW_LEVEL_DATA, LOW_LEVEL_BITMAP, 
             DATA, BITMAP, 
             HIGH_LEVEL_DATA, HIGH_LEVEL_BITMAP})

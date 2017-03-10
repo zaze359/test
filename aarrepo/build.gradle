@@ -28,7 +28,7 @@ dependencies {
     compile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
     compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
     //
-    compile('com.marshalchen.ultimaterecyclerview:library:0.7.0') {
+    compile('com.marshalchen.ultimaterecyclerview:library:0.7.2') {
         exclude module: "appcompat-v7"
         exclude module: "support-v4"
         exclude module: "support-v13"

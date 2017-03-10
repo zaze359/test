@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
 import com.zaze.R;
+import com.zaze.aarrepo.commons.base.adapter.BaseItemHolder;
 import com.zaze.aarrepo.commons.base.adapter.BaseUltimateAdapter;
 import com.zaze.aarrepo.utils.StringUtil;
 import com.zaze.model.entity.DeviceStatus;
@@ -60,17 +60,19 @@ public class DeviceAdapter extends BaseUltimateAdapter<DeviceStatus, DeviceAdapt
 
     }
 
-    class DeviceHolder extends UltimateRecyclerviewViewHolder {
+    class DeviceHolder extends BaseItemHolder {
         @Bind(R.id.item_device_tag_tv)
         TextView itemDeviceTagTv;
         @Bind(R.id.item_device_content_tv)
         TextView itemDeviceContentTv;
 
-        DeviceHolder(View itemView, boolean isItem) {
-            super(itemView);
-            if (isItem) {
-                ButterKnife.bind(this, itemView);
-            }
+        public DeviceHolder(View itemView, boolean isItem) {
+            super(itemView, isItem);
+        }
+
+        @Override
+        protected void initView(View itemView) {
+            ButterKnife.bind(this, itemView);
         }
     }
 }
