@@ -1,11 +1,13 @@
 package com.zaze.aarrepo.utils;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
+import android.os.Process;
 
 import java.util.List;
 
@@ -58,6 +60,12 @@ public class AppUtil {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static void killProcess(Context context) {
+        Process.killProcess(Process.myPid());
+        ActivityManager mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        mActivityManager.killBackgroundProcesses(getAppPackageName(context));
     }
 
 }
