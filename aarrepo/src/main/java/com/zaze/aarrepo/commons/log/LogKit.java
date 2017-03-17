@@ -160,7 +160,7 @@ public class LogKit {
         e(tag, msg);
     }
 
-    public static void e(String tag, String msg) {
+    private static void e(String tag, String msg) {
         if (E) {
             if (msg == null) {
                 msg = "";

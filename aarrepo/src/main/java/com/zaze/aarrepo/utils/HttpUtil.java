@@ -1,7 +1,6 @@
 package com.zaze.aarrepo.utils;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -16,18 +15,19 @@ public class HttpUtil {
     /**
      * 构建get 请求
      *
-     * @param url
-     * @param map
-     * @return
+     * @param url url
+     * @param map map
+     * @return String
      */
     public static String buildGetRequest(String url, Map<String, String> map) {
         if (map.isEmpty()) {
             return url;
         }
         StringBuilder paramBuilder = new StringBuilder();
-        Iterator<String> iterator = map.keySet().iterator();
-        if (iterator.hasNext()) {
-            String key = iterator.next();
+        for (String key : map.keySet()) {
+            if (paramBuilder.length() != 0) {
+                paramBuilder.append("&");
+            }
             paramBuilder.append(key);
             paramBuilder.append("=");
             paramBuilder.append(map.get(key));
@@ -38,8 +38,8 @@ public class HttpUtil {
     /**
      * 处理get请求
      *
-     * @param url
-     * @return
+     * @param url url
+     * @return Map<String, String>
      */
     public static Map<String, String> processGetRequest(String url) {
         Map<String, String> map = new HashMap<>();

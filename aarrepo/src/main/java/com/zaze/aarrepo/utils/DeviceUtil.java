@@ -7,7 +7,11 @@ import android.os.StatFs;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 
+import com.zaze.aarrepo.commons.log.LogKit;
+
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -23,6 +27,41 @@ import java.util.UUID;
  * @version : 1.0
  */
 public class DeviceUtil {
+
+    /**
+     * @return 检查设备是否Root了
+     */
+    public static boolean checksRoot() {
+        Process process = null;
+        DataOutputStream outputStream = null;
+        try {
+            process = Runtime.getRuntime().exec("su");
+            outputStream = new DataOutputStream(process.getOutputStream());
+            outputStream.writeBytes("exit\n");
+            outputStream.flush();
+            int exitValue = process.waitFor();
+            if (exitValue == 0) {
+                LogKit.i("设备已Root");
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (process != null) {
+                process.destroy();
+            }
+        }
+        LogKit.i("设备未Root");
+        return false;
+    }
+
     /**
      * @param context
      * @return 机器码
@@ -132,6 +171,7 @@ public class DeviceUtil {
     /**
      * RAM
      * java 虚拟机 当前 从机器内存中取过来 的 总内存(包括使用了的和 freeMemory)
+     *
      * @return
      */
     public static long getVMTotalMemory() {

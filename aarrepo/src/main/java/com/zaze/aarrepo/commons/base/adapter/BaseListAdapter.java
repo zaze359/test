@@ -33,20 +33,20 @@ public abstract class BaseListAdapter<V, H> extends DataAdapter<V> implements Ch
             } else {
                 itemHolder = (H) convertView.getTag();
             }
-            setViewData(getItem(position), itemHolder, position, convertView, parent);
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onItemClick(v, getItem(position), position);
                 }
             });
+            setViewData(getItem(position), itemHolder, position, convertView, parent);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return convertView;
     }
 
-    public void onItemClick(View view, V value, int position) {
+    protected void onItemClick(View view, V value, int position) {
         if (onItemClickListener != null) {
             onItemClickListener.onItemClick(view, value, position);
         }

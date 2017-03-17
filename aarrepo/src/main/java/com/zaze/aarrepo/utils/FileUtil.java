@@ -1,5 +1,6 @@
 package com.zaze.aarrepo.utils;
 
+import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
@@ -37,11 +38,35 @@ public class FileUtil {
     private static final int CREATE_FILE_SUCCESS = 1;   // 创建文件成功
     private static final int CREATE_DIR_SUCCESS = 2;    // 创建目录成功
 
+
+    /**
+     * 检查SD卡是否存在
+     *
+     * @return 存在返回true，否则返回false
+     */
+    public static boolean isSdcardEnable() {
+        return Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
+    }
+
     /**
      * @return SD卡根目录
      */
     public static String getSDCardRoot() {
         return Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
+    }
+
+    /**
+     * @param context
+     * @return 获取缓存路径
+     */
+    public static String getCachePath(Context context) {
+        String cachePath;
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+            cachePath = context.getExternalCacheDir().getPath();
+        } else {
+            cachePath = context.getCacheDir().getPath();
+        }
+        return cachePath;
     }
 
 
@@ -137,6 +162,40 @@ public class FileUtil {
         if (!result)
             checkResult(FILE_NOT_EXISTS, filePath);
         return result;
+    }
+
+
+    /**
+     * 删除
+     *
+     * @param path
+     * @return
+     */
+    public static boolean deleteSystemFile(String path) {
+        if (FileUtil.isFileExist(path)) {
+            if (DeviceUtil.checksRoot()) {
+                String delStr = " rm -r " + path;
+                RootCmd.execRootCmd(delStr);
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+        return true;
+    }
+
+
+    public static boolean deleteFile(String path) {
+        if (StringUtil.isEmpty(path)) {
+            File file = new File(path);
+            if (file.exists()) {
+                return file.delete();
+            } else {
+                return true;
+            }
+        }
+        return false;
     }
 
 
