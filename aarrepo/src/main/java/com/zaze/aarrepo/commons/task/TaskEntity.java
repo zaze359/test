@@ -9,7 +9,6 @@ package com.zaze.aarrepo.commons.task;
 public class TaskEntity {
     private String action;
     private long loopTime;
-
     private long executeTime;
 
     public TaskEntity() {

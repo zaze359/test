@@ -5,7 +5,7 @@ import com.zaze.aarrepo.commons.log.LogKit;
 import com.zaze.aarrepo.utils.JsonUtil;
 import com.zaze.aarrepo.utils.StringUtil;
 
-import java.util.HashMap;
+import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -82,13 +82,18 @@ public class TaskFilterThread {
      */
     private void notifyFastTask(long currentRunTime) {
         if (currentRunTime - lastRunTimeFast > loopTimeFast) {
-            for (String action : fastTaskMap.keySet()) {
+            Iterator<String> taskIterator = fastTaskMap.keySet().iterator();
+            while (taskIterator.hasNext()) {
+                String action = taskIterator.next();
                 ExecuteTask executeTask = fastTaskMap.get(action);
                 if (currentRunTime >= executeTask.getExecuteTime()) {
-                    HashMap<String, TaskCallback> callbackMap = executeTask.getCallbackMap();
+                    ConcurrentHashMap<String, TaskCallback> callbackMap = executeTask.getCallbackMap();
                     if (!callbackMap.isEmpty()) {
-                        for (String key : callbackMap.keySet()) {
+                        Iterator<String> iterator = callbackMap.keySet().iterator();
+                        while (iterator.hasNext()) {
+                            String key = iterator.next();
                             callbackMap.get(key).onExecute();
+                            callbackMap.remove(key);
                         }
                         fastTaskMap.remove(action);
                     }
@@ -131,6 +136,14 @@ public class TaskFilterThread {
      * @param callback TaskCallback
      */
     public void pushTask(String jsonStr, TaskCallback callback) {
+        pushTask(jsonStr, callback, false);
+    }
+
+    /**
+     * @param jsonStr  TaskEntity 子类json
+     * @param callback TaskCallback
+     */
+    public void pushTask(String jsonStr, TaskCallback callback, boolean isMultiply) {
         ExecuteTask newExecuteTask = JsonUtil.parseJson(jsonStr, ExecuteTask.class);
         if (newExecuteTask != null) {
             String action = newExecuteTask.getAction();
@@ -146,6 +159,7 @@ public class TaskFilterThread {
                     }
                     executeTask.setExecuteTime(System.currentTimeMillis() + loopTime);
                 }
+                executeTask.setMultiCallback(isMultiply);
                 if (callback != null) {
                     executeTask.addCallback(callback);
                 }

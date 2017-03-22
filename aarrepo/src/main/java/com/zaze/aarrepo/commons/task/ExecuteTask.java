@@ -1,6 +1,6 @@
 package com.zaze.aarrepo.commons.task;
 
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Description :
@@ -10,7 +10,12 @@ import java.util.HashMap;
  */
 class ExecuteTask extends TaskEntity {
     //
-    private HashMap<String, TaskCallback> callbackMap;
+    private boolean multiCallback = false;
+    private ConcurrentHashMap<String, TaskCallback> callbackMap;
+
+    public void setMultiCallback(boolean multiCallback) {
+        this.multiCallback = multiCallback;
+    }
 
     public ExecuteTask(TaskEntity entity) {
         setAction(entity.getAction());
@@ -19,18 +24,22 @@ class ExecuteTask extends TaskEntity {
 
     public void addCallback(TaskCallback callback) {
         if (callbackMap == null) {
-            callbackMap = new HashMap<>();
+            callbackMap = new ConcurrentHashMap<>();
         }
         if (callback == null) {
             return;
         }
-        String key = String.valueOf(callback.hashCode());
-        if (!callbackMap.containsKey(key)) {
-            callbackMap.put(key, callback);
+        String key;
+        if (multiCallback) {
+            key = String.valueOf(callback.hashCode());
+        } else {
+            callbackMap.clear();
+            key = "singleCallback";
         }
+        callbackMap.put(key, callback);
     }
 
-    public HashMap<String, TaskCallback> getCallbackMap() {
+    public ConcurrentHashMap<String, TaskCallback> getCallbackMap() {
         return callbackMap;
     }
 
