@@ -1,18 +1,27 @@
 package com.zaze.aarrepo.utils;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 /**
+ * description : 排序工具类
+ *
  * @author : zaze
  * @version : 2015年1月9日 上午11:06:13
- * @Description : 排序工具类
  */
 public class SortUtil {
 
+    public static final String DESC = "desc";
+    public static final String ASC = "asc";
+
+    /**
+     * @param list   列表
+     * @param method get方法
+     * @param sort   排序方式
+     * @param <E>    entity
+     */
     public static <E> void sortList(List<E> list, final String method, final String sort) {
         Collections.sort(list, new Comparator<E>() {
             // return < 0 : 不交换位置
@@ -24,7 +33,7 @@ public class SortUtil {
                 try {
                     Method m1 = ((E) lhs).getClass().getMethod(method, new Class<?>[0]);
                     Method m2 = ((E) rhs).getClass().getMethod(method, new Class<?>[0]);
-                    if (sort != null && "desc".equalsIgnoreCase(sort)) {
+                    if (sort != null && DESC.equalsIgnoreCase(sort)) {
                         // 降序
                         //若第二个大于第一个, 则返回 > 0 交换位置
                         flag = m2.invoke(((E) rhs), new Object[]{}).toString().compareTo(m1.invoke(((E) lhs), new Object[]{}).toString());
@@ -33,13 +42,7 @@ public class SortUtil {
                         //若第一个大于第二个, 则返回 > 0 交换位置
                         flag = m1.invoke(((E) rhs), new Object[]{}).toString().compareTo(m2.invoke(((E) lhs), new Object[]{}).toString());
                     }
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (IllegalArgumentException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
+                } catch (Throwable e) {
                     e.printStackTrace();
                 }
                 return flag;
