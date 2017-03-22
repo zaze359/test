@@ -6,6 +6,8 @@ import com.zaze.aarrepo.commons.log.LogKit;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Description :
@@ -23,27 +25,26 @@ public class RootCmd {
     public static final int ERROR = -1;
 
     /**
-     * 执行命令并且输出结果
-     *
      * @param cmd
-     * @return
+     * @return 执行命令并且输出结果
      */
-    public static String execRootCmdForRes(String cmd) {
-        String result = "";
+    public static List<String> execRootCmdForRes(String cmd) {
+        List<String> resultList = new ArrayList<>();
         DataOutputStream dos = null;
         DataInputStream dis = null;
         try {
-            Process p = Runtime.getRuntime().exec("su");// 经过Root处理的android系统即有su命令
+            // 经过Root处理的android系统即有su命令
+            Process p = Runtime.getRuntime().exec("su");
             dos = new DataOutputStream(p.getOutputStream());
             dis = new DataInputStream(p.getInputStream());
             dos.writeBytes(cmd + "\n");
             dos.flush();
             dos.writeBytes("exit\n");
             dos.flush();
-            String line = null;
+            String line;
             while ((line = dis.readLine()) != null) {
                 LogKit.d("result=" + line);
-                result += line;
+                resultList.add(line);
             }
             p.waitFor();
         } catch (Exception e) {
@@ -64,9 +65,53 @@ public class RootCmd {
                 }
             }
         }
-        return result;
+        return resultList;
     }
 
+
+    /**
+     * @param cmd
+     * @return 执行命令并且输出结果
+     */
+    public static String execRootCmdForStrRes(String cmd) {
+        StringBuilder result = new StringBuilder();
+        DataOutputStream dos = null;
+        DataInputStream dis = null;
+        try {
+            // 经过Root处理的android系统即有su命令
+            Process p = Runtime.getRuntime().exec("su");
+            dos = new DataOutputStream(p.getOutputStream());
+            dis = new DataInputStream(p.getInputStream());
+            dos.writeBytes(cmd + "\n");
+            dos.flush();
+            dos.writeBytes("exit\n");
+            dos.flush();
+            String line;
+            while ((line = dis.readLine()) != null) {
+                LogKit.d("result=" + line);
+                result.append(line);
+            }
+            p.waitFor();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (dos != null) {
+                try {
+                    dos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (dis != null) {
+                try {
+                    dis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return result.toString();
+    }
 
     /**
      * 执行命令但不关注结果输出
@@ -104,6 +149,7 @@ public class RootCmd {
 
     /**
      * 执行命令但不关注结果输出
+     *
      * @param cmd
      * @return 失败 : = -1; 成功 : != -1
      */
@@ -124,7 +170,7 @@ public class RootCmd {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if(p != null) {
+            if (p != null) {
                 p.destroy();
             }
             if (dos != null) {

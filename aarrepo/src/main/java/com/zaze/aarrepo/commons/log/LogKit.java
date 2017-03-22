@@ -17,7 +17,7 @@ import java.util.Locale;
 public class LogKit {
     private static LogFace logFace;
     private static int curLevel = 5;
-    //
+    // --------------------------------------------------
     private static boolean E = true;
     private static boolean W = true;
     private static boolean I = true;
@@ -55,7 +55,6 @@ public class LogKit {
                 "%s.%s(L:%d)", clazzName, ste.getMethodName(), ste.getLineNumber());
     }
 
-    // ---------------------------------------------------
     // ----------- V -----------
     public static void v(String format, Object... args) {
         String tag = getTag(StackTraceHelper.getCallerStackTraceElement());
@@ -72,9 +71,10 @@ public class LogKit {
             if (msg == null) {
                 msg = "";
             }
-            Log.v(tag, msg);
             if (logFace != null) {
                 logFace.v(tag, msg);
+            } else {
+                Log.v(tag, msg);
             }
         }
     }
@@ -95,9 +95,10 @@ public class LogKit {
             if (msg == null) {
                 msg = "";
             }
-            Log.d(tag, msg);
             if (logFace != null) {
                 logFace.d(tag, msg);
+            } else {
+                Log.d(tag, msg);
             }
         }
     }
@@ -119,11 +120,13 @@ public class LogKit {
             if (msg == null) {
                 msg = "";
             }
-            Log.i(tag, msg);
+            if (logFace != null) {
+                logFace.i(tag, msg);
+            } else {
+                Log.i(tag, msg);
+            }
         }
-        if (logFace != null) {
-            logFace.i(tag, msg);
-        }
+
     }
 
     // ----------- W -----------
@@ -142,11 +145,13 @@ public class LogKit {
             if (msg == null) {
                 msg = "";
             }
-            Log.w(tag, msg);
+            if (logFace != null) {
+                logFace.w(tag, msg);
+            } else {
+                Log.w(tag, msg);
+            }
         }
-        if (logFace != null) {
-            logFace.w(tag, msg);
-        }
+
     }
 
     // ----------- E -----------
@@ -165,10 +170,11 @@ public class LogKit {
             if (msg == null) {
                 msg = "";
             }
-            Log.e(tag, msg);
-        }
-        if (logFace != null) {
-            logFace.e(tag, msg);
+            if (logFace != null) {
+                logFace.e(tag, msg);
+            } else {
+                Log.e(tag, msg);
+            }
         }
     }
 
