@@ -17,6 +17,7 @@ import java.util.Locale;
 public class LogKit {
     private static LogFace logFace;
     private static int curLevel = 5;
+    private static boolean needStack = true;
     // --------------------------------------------------
     private static boolean E = true;
     private static boolean W = true;
@@ -48,11 +49,19 @@ public class LogKit {
         }
     }
 
+    public static void setNeedStack(boolean needStack) {
+        LogKit.needStack = needStack;
+    }
+
     public static String getTag(StackTraceElement ste) {
-        String clazzName = ste.getClassName();
-        clazzName = clazzName.substring(clazzName.lastIndexOf(".") + 1);
-        return String.format(Locale.getDefault(),
-                "%s.%s(L:%d)", clazzName, ste.getMethodName(), ste.getLineNumber());
+        if (needStack) {
+            String clazzName = ste.getClassName();
+            clazzName = clazzName.substring(clazzName.lastIndexOf(".") + 1);
+            return String.format(Locale.getDefault(),
+                    "%s.%s(L:%d)", clazzName, ste.getMethodName(), ste.getLineNumber());
+        } else {
+            return "";
+        }
     }
 
     // ----------- V -----------
