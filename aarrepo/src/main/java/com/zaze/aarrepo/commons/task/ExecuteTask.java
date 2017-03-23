@@ -8,21 +8,17 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author : ZAZE
  * @version : 2016-12-14 - 10:48
  */
-class ExecuteTask extends TaskEntity {
+public class ExecuteTask extends TaskEntity {
     //
-    private boolean multiCallback = false;
     private ConcurrentHashMap<String, TaskCallback> callbackMap;
 
-    public void setMultiCallback(boolean multiCallback) {
-        this.multiCallback = multiCallback;
-    }
-
     public ExecuteTask(TaskEntity entity) {
+        setTaskId(entity.getTaskId());
         setAction(entity.getAction());
         setLoopTime(entity.getLoopTime());
     }
 
-    public void addCallback(TaskCallback callback) {
+    public void addCallback(TaskCallback callback, boolean multiCallback) {
         if (callbackMap == null) {
             callbackMap = new ConcurrentHashMap<>();
         }

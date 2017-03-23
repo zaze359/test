@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zaze">
+    package="com.zaze.demo">
 
-    <permission android:name="com.zaze.receiver.RECEIVER" />
+    <permission android:name="com.zaze.demo.receiver.RECEIVER" />
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -84,7 +84,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
-        <service android:name=".aarrepo.commons.task.TaskService" />
+        <service android:name="com.zaze.aarrepo.commons.task.TaskService" />
+
+        <activity
+            android:name=".component.task.ui.TaskActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

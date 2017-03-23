@@ -13,7 +13,9 @@ import java.util.Locale;
  *
  * @author : zaze
  * @version : 1.0
+ * @see ZLog
  */
+@Deprecated
 public class LogKit {
     private static LogFace logFace;
     private static int curLevel = 5;

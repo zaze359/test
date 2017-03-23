@@ -19,7 +19,12 @@ public class StringUtil {
      * @return
      */
     public static String format(String format, Object... args) {
-        return String.format(Locale.getDefault(), format, args);
+        try {
+            return String.format(Locale.getDefault(), format, args);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return format;
+        }
     }
 
 

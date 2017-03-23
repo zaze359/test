@@ -11,14 +11,14 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
-    packagingOptions {
-        exclude 'LICENSE.txt'
-    }
-    externalNativeBuild {
-        cmake {
-            path "CMakeLists.txt"
-        }
-    }
+//    packagingOptions {
+//        exclude 'LICENSE.txt'
+//    }
+//    externalNativeBuild {
+//        cmake {
+//            path "CMakeLists.txt"
+//        }
+//    }
 
     buildTypes {
         release {

@@ -7,23 +7,33 @@ package com.zaze.aarrepo.commons.task;
  * @version : 2016-12-14 - 15:19
  */
 public class TaskEntity {
-    private String action;
+    private String taskId;
     private long loopTime;
     private long executeTime;
 
     public TaskEntity() {
     }
 
-    public TaskEntity(String action) {
-        this.action = action;
+    public TaskEntity(String taskId) {
+        this.taskId = taskId;
     }
 
+    public String getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
+    }
+
+    @Deprecated
     public String getAction() {
-        return action;
+        return taskId;
     }
 
+    @Deprecated
     public TaskEntity setAction(String action) {
-        this.action = action;
+        this.taskId = action;
         return this;
     }
 

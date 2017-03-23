@@ -13,18 +13,22 @@ import java.io.StringWriter;
 public class StackTraceHelper {
 
     public static StackTraceElement getCurrentStackTraceElement() {
-        return Thread.currentThread().getStackTrace()[3];
+        return getStackTraceElement(3);
     }
 
     public static StackTraceElement getCallerStackTraceElement() {
-        return Thread.currentThread().getStackTrace()[4];
+        return getStackTraceElement(4);
+    }
+
+    public static StackTraceElement getStackTraceElement(int position) {
+        return Thread.currentThread().getStackTrace()[position];
     }
 
     /**
      * @param e
      * @return 获取报错的堆栈信息
      */
-    public static String getErrorMsg(Throwable e){
+    public static String getErrorMsg(Throwable e) {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw, true);
         e.printStackTrace(pw);
@@ -32,5 +36,5 @@ public class StackTraceHelper {
         sw.flush();
         return sw.toString();
     }
-    
+
 }

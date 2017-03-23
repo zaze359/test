@@ -27,24 +27,13 @@ import java.util.concurrent.Executors;
  * @version : 2016-10-10 - 15:03
  */
 public class TaskService extends Service {
-    public static class TaskMode {
-        public static final int BROADCAST = 1;
-        public static final int BROADCAST_AND_EVENT_BUS = 2;
-//        public static final int EVENT_BUS = 3;
-    }
-
-    private static int taskMode = TaskMode.BROADCAST_AND_EVENT_BUS;
+    private static int taskMode = NotifyMode.BROADCAST_AND_EVENT_BUS;
     // --------------------------------
     /**
-     * 事件池
+     * 事件池 : 快速任务(最常用的任务, 自动解绑)
      */
     private static final ConcurrentLinkedQueue<TaskEntity> actionPool = new ConcurrentLinkedQueue<>();
     // --------------------------------
-    /**
-     * 快速任务(最常用的任务, 自动解绑)
-     */
-    private static final ConcurrentHashMap<String, Long> fastActionMap = new ConcurrentHashMap<String, Long>();
-
     /**
      * 一般任务(不会自动解绑, 需手动解绑)
      */
@@ -122,7 +111,7 @@ public class TaskService extends Service {
      */
     private void notifyFastTask(long currentRunTime) {
         if (currentRunTime - lastRunTimeFast > loopTimeFast) {
-            HashSet<String> actionSet = new HashSet<String>();
+            HashSet<String> actionSet = new HashSet<>();
             while (!actionPool.isEmpty()) {
                 TaskEntity taskEntity = actionPool.poll();
                 actionSet.add(StringUtil.parseString(taskEntity.getAction()));
@@ -219,7 +208,7 @@ public class TaskService extends Service {
 
     //
     private void sendMessage(String action) {
-        if (taskMode == TaskMode.BROADCAST_AND_EVENT_BUS) {
+        if (taskMode == NotifyMode.BROADCAST_AND_EVENT_BUS) {
             EventBus.getDefault().post(new TaskEntity(action));
         }
         sendBroadcast(new Intent(action));

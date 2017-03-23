@@ -10,7 +10,6 @@ public class TaskServiceAction {
     /**
      * 释放内存缓存
      */
-    public static final String RELEASE_MEMORY_CACHE = "com.zaze.release_memory_cache";
-
+    public static final String RELEASE_MEMORY_CACHE = "com.zaze.aarrepo.release_memory_cache";
 
 }

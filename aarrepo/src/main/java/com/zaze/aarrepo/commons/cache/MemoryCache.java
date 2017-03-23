@@ -2,6 +2,7 @@ package com.zaze.aarrepo.commons.cache;
 
 
 import com.zaze.aarrepo.commons.log.LogKit;
+import com.zaze.aarrepo.commons.log.ZLog;
 import com.zaze.aarrepo.commons.task.TaskService;
 import com.zaze.aarrepo.commons.task.TaskServiceAction;
 import com.zaze.aarrepo.utils.DeviceUtil;
@@ -163,7 +164,7 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
     @Override
     public void onRelease() {
         if (cacheLog) {
-            LogKit.i("MemoryCache onRelease");
+            ZLog.i("", "MemoryCache onRelease");
         }
         long currTime = System.currentTimeMillis();
         Map<String, Cache> tempMap = new HashMap<>();

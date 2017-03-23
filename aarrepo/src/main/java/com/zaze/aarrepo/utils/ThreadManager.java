@@ -115,7 +115,7 @@ public class ThreadManager {
     }
 
     /**
-     * Description	: 多线程执行
+     * Description	: UI线程执行
      *
      * @param runnable
      * @author : zaze
@@ -126,7 +126,7 @@ public class ThreadManager {
     }
 
     /**
-     * Description	: 多线程执行
+     * Description	: UI线程执行
      *
      * @param runnable
      * @author : zaze
