@@ -28,11 +28,12 @@ import java.util.concurrent.Executors;
  */
 public class TaskService extends Service {
     public static class TaskMode {
-        public static final int EVENT_BUS = 1;
-        public static final int BROADCAST = 2;
+        public static final int BROADCAST = 1;
+        public static final int BROADCAST_AND_EVENT_BUS = 2;
+//        public static final int EVENT_BUS = 3;
     }
 
-    private static int taskMode = TaskMode.EVENT_BUS;
+    private static int taskMode = TaskMode.BROADCAST_AND_EVENT_BUS;
     // --------------------------------
     /**
      * 事件池
@@ -218,11 +219,11 @@ public class TaskService extends Service {
 
     //
     private void sendMessage(String action) {
-        if (taskMode == TaskMode.BROADCAST) {
-            sendBroadcast(new Intent(action));
-        } else {
+        if (taskMode == TaskMode.BROADCAST_AND_EVENT_BUS) {
             EventBus.getDefault().post(new TaskEntity(action));
         }
+        sendBroadcast(new Intent(action));
+
     }
 
     // ------------------------------------------------

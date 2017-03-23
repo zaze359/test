@@ -1,5 +1,6 @@
 package com.zaze.aarrepo.utils;
 
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,9 +29,9 @@ public class HttpUtil {
             if (paramBuilder.length() != 0) {
                 paramBuilder.append("&");
             }
-            paramBuilder.append(key);
+            paramBuilder.append(URLEncoder.encode(key));
             paramBuilder.append("=");
-            paramBuilder.append(map.get(key));
+            paramBuilder.append(URLEncoder.encode(map.get(key)));
         }
         return StringUtil.format("%s?%s", url, paramBuilder.toString());
     }
