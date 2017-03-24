@@ -1,5 +1,7 @@
 package com.zaze.aarrepo.commons.task.executor;
 
+import android.support.annotation.NonNull;
+
 import com.zaze.aarrepo.commons.log.ZLog;
 import com.zaze.aarrepo.commons.task.TaskCallback;
 import com.zaze.aarrepo.commons.task.TaskEntity;
@@ -15,9 +17,11 @@ import java.util.concurrent.ConcurrentHashMap;
  * @version : 2017-03-23 - 23:03
  */
 public class TaskExecutorManager {
-    private boolean isNeedLog;
+    private boolean needLog;
     private final ConcurrentHashMap<String, TaskExecutorService> executorMap = new ConcurrentHashMap<>();
-    private final String AUTO_TASK_TAG = "com.zaze.task.auto";
+    private final String AUTO_TASK_TAG = "$%#zaze_auto_#%$";
+    private final String MULTI_TASK_TAG = "$%#zaze_multi_#%$";
+    private final String DEFAULT_TAG = "$%#zaze_default_#%$";
     private static volatile TaskExecutorManager instance;
 
     public static TaskExecutorManager getInstance() {
@@ -33,9 +37,41 @@ public class TaskExecutorManager {
 
     private TaskExecutorManager() {
     }
-
-
     // --------------------------------------------------
+
+    /**
+     * 添加任务到默认任务池
+     *
+     * @param entity   具体任务
+     * @param callback 回调
+     * @return TaskExecutorManager
+     */
+    public TaskExecutorManager pushTask(TaskEntity entity, TaskCallback callback) {
+        return pushTask(DEFAULT_TAG, entity, callback);
+    }
+
+    /**
+     * 添加任务
+     *
+     * @param tag      一类任务的标签（例如 : Download 表示 下载这一类任务）
+     * @param entity   具体任务
+     * @param callback 回调
+     * @return TaskExecutorManager
+     */
+    public TaskExecutorManager pushTask(@NonNull String tag, TaskEntity entity, TaskCallback callback) {
+        if (entity != null) {
+            TaskExecutorService executorService = pollTaskExecutorService(tag);
+            if (executorService == null) {
+                executorService = new SingleTaskExecutorService();
+                if (needLog) {
+                    ZLog.i(ZTag.TAG_TASK, "创建 标签(%s) 任务池", tag);
+                }
+            }
+            executorMap.put(tag, executorService);
+            executorService.pushTask(entity, callback);
+        }
+        return this;
+    }
 
     /**
      * 执行所有标签的 下一个任务
@@ -52,111 +88,76 @@ public class TaskExecutorManager {
      * @param tag 任务标签
      */
     public void executeNext(String tag) {
-        TaskExecutorService taskExecutorService = getTaskExecutorService(tag);
+        TaskExecutorService taskExecutorService = pollTaskExecutorService(tag);
         if (taskExecutorService != null) {
             if (!taskExecutorService.executeNextTask()) {
-                if (isNeedLog) {
+                if (needLog) {
                     ZLog.i(ZTag.TAG_TASK, "标签(%s)执行任务已经执行完毕, 移除标签！", tag);
                 }
                 executorMap.remove(tag);
             }
         }
     }
-
-    /**
-     * @param tag 任务标签
-     * @param num 执行数
-     */
-    public void executeNext(String tag, int num) {
-        ZLog.i(ZTag.TAG_TASK, "----------执行批量任务标签(%s)（%d）！", tag, num);
-        TaskExecutorService taskExecutorService = getTaskExecutorService(tag);
-        if (taskExecutorService != null) {
-            if (!taskExecutorService.executeNextTask(num)) {
-                if (isNeedLog) {
-                    ZLog.i(ZTag.TAG_TASK, "标签(%s)任务已经执行完毕, 移除标签！", tag);
-                }
-                executorMap.remove(tag);
-            }
-        }
-    }
-
-
     // --------------------------------------------------
 
     /**
-     * 添加自动执行的任务
+     * 多任务执行
      *
-     * @param entity
-     * @param callback
+     * @param tag 任务标签
+     * @param num 执行数
      */
-    public void pushAutoTask(TaskEntity entity, TaskCallback callback) {
-        pushTask(AUTO_TASK_TAG, entity, callback);
+    public void executeMulti(String tag, int num) {
+        ZLog.i(ZTag.TAG_TASK, "执行 批量任务标签(%s)（%d）！", tag, num);
+        MultiTaskExecutorService multiTaskExecutorService = new MultiTaskExecutorService(pollTaskExecutorService(tag));
+        if (!multiTaskExecutorService.multiExecuteTask(num)) {
+            ZLog.i(ZTag.TAG_TASK, "移除标签%s！", tag);
+            executorMap.remove(tag);
+        } else {
+            // 替换
+            executorMap.put(tag, multiTaskExecutorService);
+        }
+    }
+    // --------------------------------------------------
+
+    /**
+     * 自动执行 默认标签的任务
+     */
+    public void autoExecuteTask() {
+        autoExecuteTask(DEFAULT_TAG);
     }
 
     /**
-     * 自动执行指定标签
+     * 自动执行指定标签的任务
+     *
+     * @param tag 标签
      */
-    public void autoExecuteTask() {
-        TaskExecutorService taskExecutorService = getTaskExecutorService(AUTO_TASK_TAG);
-        if (taskExecutorService != null) {
-            taskExecutorService.autoExecuteTask();
-        }
+    public void autoExecuteTask(String tag) {
+        ZLog.i(ZTag.TAG_TASK, "自动执行 标签(%s)内所有任务！", tag);
+        AutoTaskExecutorService autoTaskExecutorService = new AutoTaskExecutorService(pollTaskExecutorService(tag));
+        executorMap.put(tag, autoTaskExecutorService);
+        autoTaskExecutorService.autoExecute();
+//        if (!) {
+//            ZLog.i(ZTag.TAG_TASK, "没有移除标签%s！", tag);
+//            executorMap.remove(tag);
+//        }
+    }
+
+    /**
+     * 终止默认标签中的后续任务
+     */
+    public void shutdownAutoExecuteTask() {
+        shutdownAutoExecuteTask(DEFAULT_TAG);
     }
 
     /**
      * 终止后续任务
      */
-    public void shutdown() {
-        TaskExecutorService taskExecutorService = getTaskExecutorService(AUTO_TASK_TAG);
-        if (taskExecutorService != null) {
-            taskExecutorService.shutdown();
+    public void shutdownAutoExecuteTask(String tag) {
+        TaskExecutorService taskExecutorService = pollTaskExecutorService(tag);
+        if (taskExecutorService instanceof AutoTaskExecutorService) {
+            ((AutoTaskExecutorService) taskExecutorService).shutdown();
         }
-    }
 
-    /**
-     * 自动执行指定标签的 所有任务
-     *
-     * @param tag 标签
-     */
-    private void autoExecuteTask(String tag) {
-        TaskExecutorService taskExecutorService = getTaskExecutorService(tag);
-        if (taskExecutorService != null) {
-            taskExecutorService.autoExecuteTask();
-        }
-    }
-
-    /**
-     * 自动执行 所有标签的 所有任务
-     */
-//    public void autoExecuteAll() {
-//        for (String tag : executorMap.keySet()) {
-//            autoExecuteTask(tag);
-//        }
-//    }
-
-    // --------------------------------------------------
-
-    /**
-     * 添加任务
-     *
-     * @param tag      一类任务的标签（例如 : Download 表示 下载这一类任务）
-     * @param entity   具体任务
-     * @param callback 回调
-     * @return TaskExecutorManager
-     */
-    public TaskExecutorManager pushTask(String tag, TaskEntity entity, TaskCallback callback) {
-        if (entity != null) {
-            TaskExecutorService executorService = getTaskExecutorService(tag);
-            if (executorService == null) {
-                if (isNeedLog) {
-                    ZLog.i(ZTag.TAG_TASK, "创建 标签(%s) 任务池", tag);
-                }
-                executorService = new TaskExecutorService();
-                executorMap.put(tag, executorService);
-            }
-            executorService.pushTask(entity, callback);
-        }
-        return this;
     }
     // --------------------------------------------------
 
@@ -164,14 +165,14 @@ public class TaskExecutorManager {
      * @param tag 标签
      * @return TaskExecutorService
      */
-    private TaskExecutorService getTaskExecutorService(String tag) {
+    private TaskExecutorService pollTaskExecutorService(String tag) {
         if (!StringUtil.isEmpty(tag) && executorMap.containsKey(tag)) {
-            if (isNeedLog) {
+            if (needLog) {
                 ZLog.i(ZTag.TAG_TASK, "提取 标签(%s) 任务池", tag);
             }
             return executorMap.get(tag);
         } else {
-            if (isNeedLog) {
+            if (needLog) {
                 ZLog.i(ZTag.TAG_TASK, "标签(%s) 任务池不存在", tag);
             }
             return null;
@@ -179,12 +180,10 @@ public class TaskExecutorManager {
     }
 
     /**
-     * 是否显示日志
-     *
-     * @param isNeedLog
+     * @param isNeedLog true 显示日志
      */
-    public void isNeedLog(boolean isNeedLog) {
-        this.isNeedLog = isNeedLog;
+    public void setNeedLog(boolean isNeedLog) {
+        this.needLog = isNeedLog;
         TaskExecutorService.setNeedLog(isNeedLog);
     }
 

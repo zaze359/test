@@ -13,13 +13,11 @@ import android.transition.TransitionInflater;
 import android.view.View;
 
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
-import com.zaze.demo.R;
 import com.zaze.aarrepo.commons.base.ZBaseActivity;
 import com.zaze.aarrepo.commons.base.ZBaseFragment;
 import com.zaze.aarrepo.commons.log.LogKit;
 import com.zaze.aarrepo.commons.task.TaskCallback;
 import com.zaze.aarrepo.commons.task.TaskEntity;
-import com.zaze.aarrepo.commons.task.TaskFilterThread;
 import com.zaze.demo.component.table.ui.TableFragment;
 
 import java.util.ArrayList;
@@ -70,11 +68,6 @@ public class MainActivity extends ZBaseActivity {
     };
 
     public void testClick(View view) {
-//        LocalRepo.print();
-        TaskEntity taskEntity = new TaskEntity();
-        taskEntity.setAction("AAAA");
-        taskEntity.setLoopTime(1000L);
-        TaskFilterThread.getInstance().pushTask(taskEntity, taskCallback);
     }
 
     // -------------------------
