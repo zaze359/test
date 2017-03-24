@@ -255,9 +255,9 @@ public class DateUtil {
 
     // ---------------- private func ------------------
 
-    public static long currentTimeMillis() {// 东八区
-        return System.currentTimeMillis() + 28800000L;
-    }
+//    public static long dong8QuTimeMillis() {
+//        return System.currentTimeMillis() + 28800000L;
+//    }
 
     /**
      * 服务器时间已经是东八区 设置为GMT 防止转换时多加了时区

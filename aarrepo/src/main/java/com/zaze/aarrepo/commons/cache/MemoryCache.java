@@ -3,8 +3,8 @@ package com.zaze.aarrepo.commons.cache;
 
 import com.zaze.aarrepo.commons.log.LogKit;
 import com.zaze.aarrepo.commons.log.ZLog;
-import com.zaze.aarrepo.commons.task.TaskService;
-import com.zaze.aarrepo.commons.task.TaskServiceAction;
+import com.zaze.aarrepo.commons.task.service.TaskService;
+import com.zaze.aarrepo.commons.task.service.TaskServiceAction;
 import com.zaze.aarrepo.utils.DeviceUtil;
 
 import java.util.ArrayList;

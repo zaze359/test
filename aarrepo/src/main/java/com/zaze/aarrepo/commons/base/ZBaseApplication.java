@@ -8,8 +8,8 @@ import android.content.IntentFilter;
 
 import com.zaze.aarrepo.commons.cache.MemoryCache;
 import com.zaze.aarrepo.commons.task.TaskEntity;
-import com.zaze.aarrepo.commons.task.TaskService;
-import com.zaze.aarrepo.commons.task.TaskServiceAction;
+import com.zaze.aarrepo.commons.task.service.TaskService;
+import com.zaze.aarrepo.commons.task.service.TaskServiceAction;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

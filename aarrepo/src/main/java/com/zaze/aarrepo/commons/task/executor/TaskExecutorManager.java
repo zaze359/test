@@ -1,4 +1,4 @@
-package com.zaze.aarrepo.commons.task.queue;
+package com.zaze.aarrepo.commons.task.executor;
 
 import com.zaze.aarrepo.commons.log.ZLog;
 import com.zaze.aarrepo.commons.task.TaskCallback;
@@ -14,24 +14,24 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author : ZAZE
  * @version : 2017-03-23 - 23:03
  */
-public class TaskQueueManager {
+public class TaskExecutorManager {
     private boolean isNeedLog;
     private final ConcurrentHashMap<String, TaskExecutorService> executorMap = new ConcurrentHashMap<>();
     private final String AUTO_TASK_TAG = "com.zaze.task.auto";
-    private static volatile TaskQueueManager instance;
+    private static volatile TaskExecutorManager instance;
 
-    public static TaskQueueManager getInstance() {
+    public static TaskExecutorManager getInstance() {
         if (instance == null) {
-            synchronized (TaskQueueManager.class) {
+            synchronized (TaskExecutorManager.class) {
                 if (instance == null) {
-                    instance = new TaskQueueManager();
+                    instance = new TaskExecutorManager();
                 }
             }
         }
         return instance;
     }
 
-    private TaskQueueManager() {
+    private TaskExecutorManager() {
     }
 
     /**
@@ -40,9 +40,9 @@ public class TaskQueueManager {
      * @param tag      一类任务的标签（例如 : Download 表示 下载这一类任务）
      * @param entity   具体任务
      * @param callback 回调
-     * @return TaskQueueManager
+     * @return TaskExecutorManager
      */
-    public TaskQueueManager pushTask(String tag, TaskEntity entity, TaskCallback callback) {
+    public TaskExecutorManager pushTask(String tag, TaskEntity entity, TaskCallback callback) {
         if (entity != null) {
             TaskExecutorService executorService = getTaskExecutorService(tag);
             if (executorService == null) {

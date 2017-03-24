@@ -84,7 +84,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
-        <service android:name="com.zaze.aarrepo.commons.task.TaskService" />
+        <service android:name="com.zaze.aarrepo.commons.task.service.TaskService" />
 
         <activity
             android:name=".component.task.ui.TaskActivity"

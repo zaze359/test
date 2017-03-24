@@ -8,7 +8,7 @@ import com.zaze.aarrepo.commons.base.ZBaseActivity;
 import com.zaze.aarrepo.commons.log.ZLog;
 import com.zaze.aarrepo.commons.task.TaskCallback;
 import com.zaze.aarrepo.commons.task.TaskEntity;
-import com.zaze.aarrepo.commons.task.queue.TaskQueueManager;
+import com.zaze.aarrepo.commons.task.executor.TaskExecutorManager;
 import com.zaze.aarrepo.utils.JsonUtil;
 import com.zaze.aarrepo.utils.ZTag;
 import com.zaze.demo.R;
@@ -35,14 +35,14 @@ public class TaskActivity extends ZBaseActivity implements TaskView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
         ButterKnife.bind(this);
-        TaskQueueManager.getInstance().isNeedLog(true);
+        TaskExecutorManager.getInstance().isNeedLog(true);
         presenter = new TaskPresenterImpl(this);
     }
 
     @OnClick(R.id.task_btn)
     public void pushAndExecute(View view) {
         pushTask("test");
-        TaskQueueManager.getInstance().executeNext();
+        TaskExecutorManager.getInstance().executeNext();
     }
 
     @OnClick(R.id.task_push_btn)
@@ -52,7 +52,7 @@ public class TaskActivity extends ZBaseActivity implements TaskView {
 
     private void pushTask(final String tag) {
         ZLog.v("pushTask", tag);
-        TaskQueueManager.getInstance().pushTask(tag, new TaskEntity(), new TaskCallback() {
+        TaskExecutorManager.getInstance().pushTask(tag, new TaskEntity(), new TaskCallback() {
             @Override
             public void onExecute(TaskEntity entity) {
                 ZLog.v(ZTag.TAG_TASK, JsonUtil.objToJson(entity));
@@ -63,22 +63,22 @@ public class TaskActivity extends ZBaseActivity implements TaskView {
     // --------------------------------------------------
     @OnClick(R.id.task_execute_btn)
     public void executeNext(View view) {
-        TaskQueueManager.getInstance().executeNext();
+        TaskExecutorManager.getInstance().executeNext();
     }
 
     @OnClick(R.id.task_auto_btn)
     public void autoExecute(View view) {
         for (int i = 0; i < 100; i++) {
-            TaskQueueManager.getInstance().pushAutoTask(new TaskEntity(String.valueOf(i)), new TaskCallback() {
+            TaskExecutorManager.getInstance().pushAutoTask(new TaskEntity(String.valueOf(i)), new TaskCallback() {
                 @Override
                 public void onExecute(TaskEntity entity) {
                     ZLog.v(ZTag.TAG_TASK, JsonUtil.objToJson(entity));
                     if ("50".equals(entity.getTaskId())) {
-                        TaskQueueManager.getInstance().shutdown();
+                        TaskExecutorManager.getInstance().shutdown();
                     }
                 }
             });
         }
-        TaskQueueManager.getInstance().autoExecuteTask();
+        TaskExecutorManager.getInstance().autoExecuteTask();
     }
 }

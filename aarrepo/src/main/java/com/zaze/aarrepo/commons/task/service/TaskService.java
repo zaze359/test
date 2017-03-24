@@ -1,10 +1,12 @@
-package com.zaze.aarrepo.commons.task;
+package com.zaze.aarrepo.commons.task.service;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
+import com.zaze.aarrepo.commons.task.NotifyMode;
+import com.zaze.aarrepo.commons.task.TaskEntity;
 import com.zaze.aarrepo.utils.StringUtil;
 
 import org.greenrobot.eventbus.EventBus;
