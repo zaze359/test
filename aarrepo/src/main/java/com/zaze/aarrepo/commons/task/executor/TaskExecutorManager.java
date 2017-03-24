@@ -7,6 +7,7 @@ import com.zaze.aarrepo.commons.task.TaskCallback;
 import com.zaze.aarrepo.commons.task.TaskEntity;
 import com.zaze.aarrepo.utils.StringUtil;
 import com.zaze.aarrepo.utils.ZTag;
+import com.zaze.aarrepo.utils.iface.ECallback;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -103,19 +104,43 @@ public class TaskExecutorManager {
     /**
      * 多任务执行
      *
+     * @param num 执行数
+     */
+    public void executeMulti(int num) {
+        executeMulti(DEFAULT_TAG, num);
+    }
+
+    /**
+     * 多任务执行
+     *
      * @param tag 任务标签
      * @param num 执行数
      */
-    public void executeMulti(String tag, int num) {
+    public void executeMulti(final String tag, int num) {
         ZLog.i(ZTag.TAG_TASK, "执行 批量任务标签(%s)（%d）！", tag, num);
         MultiTaskExecutorService multiTaskExecutorService = new MultiTaskExecutorService(pollTaskExecutorService(tag));
-        if (!multiTaskExecutorService.multiExecuteTask(num)) {
-            ZLog.i(ZTag.TAG_TASK, "移除标签%s！", tag);
-            executorMap.remove(tag);
-        } else {
-            // 替换
-            executorMap.put(tag, multiTaskExecutorService);
-        }
+        // 替换
+        executorMap.put(tag, multiTaskExecutorService);
+        multiTaskExecutorService.multiExecuteTask(num, new ECallback<Boolean>() {
+            @Override
+            public void onError(int errorCode, String errorMsg) {
+
+            }
+
+            @Override
+            public void onNext(Boolean aBoolean) {
+                if (!aBoolean) {
+                    ZLog.i(ZTag.TAG_TASK, "移除标签%s！", tag);
+                    executorMap.remove(tag);
+                }
+
+            }
+
+            @Override
+            public void onCompleted() {
+
+            }
+        });
     }
     // --------------------------------------------------
 

@@ -37,10 +37,10 @@ class AutoTaskExecutorService extends FilterTaskExecutorService {
             public void run() {
                 try {
                     do {
-                        taskExecutorService.executeNextTask();
                         if (taskExecutorService.isEmpty()) {
                             Thread.sleep(5000L);
                         } else {
+                            taskExecutorService.executeNextTask();
                             Thread.sleep(100L);
                         }
                     } while (true);
