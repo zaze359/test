@@ -34,28 +34,8 @@ public class TaskExecutorManager {
     private TaskExecutorManager() {
     }
 
-    /**
-     * 添加任务
-     *
-     * @param tag      一类任务的标签（例如 : Download 表示 下载这一类任务）
-     * @param entity   具体任务
-     * @param callback 回调
-     * @return TaskExecutorManager
-     */
-    public TaskExecutorManager pushTask(String tag, TaskEntity entity, TaskCallback callback) {
-        if (entity != null) {
-            TaskExecutorService executorService = getTaskExecutorService(tag);
-            if (executorService == null) {
-                if (isNeedLog) {
-                    ZLog.i(ZTag.TAG_TASK, "创建 标签(%s) 任务池", tag);
-                }
-                executorService = new TaskExecutorService();
-                executorMap.put(tag, executorService);
-            }
-            executorService.pushTask(entity, callback);
-        }
-        return this;
-    }
+
+    // --------------------------------------------------
 
     /**
      * 执行所有标签的 下一个任务
@@ -83,6 +63,25 @@ public class TaskExecutorManager {
         }
     }
 
+    /**
+     * @param tag 任务标签
+     * @param num 执行数
+     */
+    public void executeNext(String tag, int num) {
+        ZLog.i(ZTag.TAG_TASK, "----------执行批量任务标签(%s)（%d）！", tag, num);
+        TaskExecutorService taskExecutorService = getTaskExecutorService(tag);
+        if (taskExecutorService != null) {
+            if (!taskExecutorService.executeNextTask(num)) {
+                if (isNeedLog) {
+                    ZLog.i(ZTag.TAG_TASK, "标签(%s)任务已经执行完毕, 移除标签！", tag);
+                }
+                executorMap.remove(tag);
+            }
+        }
+    }
+
+
+    // --------------------------------------------------
 
     /**
      * 添加自动执行的任务
@@ -135,7 +134,30 @@ public class TaskExecutorManager {
 //        }
 //    }
 
+    // --------------------------------------------------
 
+    /**
+     * 添加任务
+     *
+     * @param tag      一类任务的标签（例如 : Download 表示 下载这一类任务）
+     * @param entity   具体任务
+     * @param callback 回调
+     * @return TaskExecutorManager
+     */
+    public TaskExecutorManager pushTask(String tag, TaskEntity entity, TaskCallback callback) {
+        if (entity != null) {
+            TaskExecutorService executorService = getTaskExecutorService(tag);
+            if (executorService == null) {
+                if (isNeedLog) {
+                    ZLog.i(ZTag.TAG_TASK, "创建 标签(%s) 任务池", tag);
+                }
+                executorService = new TaskExecutorService();
+                executorMap.put(tag, executorService);
+            }
+            executorService.pushTask(entity, callback);
+        }
+        return this;
+    }
     // --------------------------------------------------
 
     /**

@@ -42,6 +42,20 @@ class TaskExecutorService {
     }
 
     /**
+     * 执行下一批任务
+     *
+     * @param num 执行任务数
+     * @return false
+     */
+    public boolean executeNextTask(int num) {
+        boolean hasMore = false;
+        for (int i = 0; i < num; i++) {
+            hasMore = executeTask(pollTask());
+        }
+        return hasMore;
+    }
+
+    /**
      * 自动依次执行所有任务
      */
     public void autoExecuteTask() {
