@@ -68,7 +68,7 @@ class TaskExecutorService {
                 try {
                     while (!taskIdQueue.isEmpty()) {
                         executeNextTask();
-                        Thread.sleep(200L);
+                        Thread.sleep(100L);
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -107,6 +107,7 @@ class TaskExecutorService {
                     if (callback != null) {
                         if (needLog) {
                             ZLog.i(ZTag.TAG_TASK, "执行任务(%s)", executeTask.getTaskId());
+                            ZLog.i(ZTag.TAG_TASK, "剩余任务(%s)", taskIdQueue.size());
                         }
                         callback.onExecute(executeTask);
                     }
@@ -163,17 +164,17 @@ class TaskExecutorService {
      */
     public ExecuteTask pollTask() {
         if (!taskIdQueue.isEmpty() && !taskMap.isEmpty()) {
-            while (taskIdQueue.peek() != null) {
-                String taskId = taskIdQueue.poll();
-                if (taskMap.containsKey(taskId)) {
-                    ExecuteTask executeTask = taskMap.get(taskId);
-                    taskMap.remove(taskId);
-                    if (needLog) {
-                        ZLog.i(ZTag.TAG_TASK, "提取执行任务(%s)", taskId);
-                    }
-                    return executeTask;
+//            while (taskIdQueue.peek() != null) {
+            String taskId = taskIdQueue.poll();
+            if (taskMap.containsKey(taskId)) {
+                ExecuteTask executeTask = taskMap.get(taskId);
+                taskMap.remove(taskId);
+                if (needLog) {
+                    ZLog.i(ZTag.TAG_TASK, "提取执行任务(%s)", taskId);
                 }
+                return executeTask;
             }
+//            }
         }
         return null;
     }
