@@ -16,8 +16,6 @@ import com.zaze.demo.component.task.presenter.TaskPresenter;
 import com.zaze.demo.component.task.presenter.impl.TaskPresenterImpl;
 import com.zaze.demo.component.task.view.TaskView;
 
-import java.util.Random;
-
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -42,12 +40,33 @@ public class TaskActivity extends ZBaseActivity implements TaskView {
     @OnClick(R.id.task_btn)
     public void pushAndExecute(View view) {
         pushTask("test");
-        TaskExecutorManager.getInstance().executeNext();
+        TaskExecutorManager.getInstance().executeSyncNext();
     }
 
-    @OnClick(R.id.task_push_btn)
-    public void pushTask(View view) {
-        pushTask("test" + new Random().nextInt(3));
+    @OnClick(R.id.task_push_sync_btn)
+    public void pushSyncTask(View view) {
+        for (int i = 0; i < 1000; i++) {
+            TaskExecutorManager.getInstance().pushTask(new TaskEntity(String.valueOf(i)), new TaskCallback() {
+                @Override
+                public void onExecute(TaskEntity entity) {
+                    ZLog.v(ZTag.TAG_TASK, JsonUtil.objToJson(entity));
+                    TaskExecutorManager.getInstance().executeSyncNext();
+                }
+            });
+        }
+    }
+
+    @OnClick(R.id.task_push_async_btn)
+    public void pushAsyncTask(View view) {
+        for (int i = 0; i < 1000; i++) {
+            TaskExecutorManager.getInstance().pushTask(new TaskEntity(String.valueOf(i)), new TaskCallback() {
+                @Override
+                public void onExecute(TaskEntity entity) {
+                    ZLog.v(ZTag.TAG_TASK, JsonUtil.objToJson(entity));
+                    TaskExecutorManager.getInstance().executeAsyncNext();
+                }
+            });
+        }
     }
 
     private void pushTask(final String tag) {
@@ -63,7 +82,7 @@ public class TaskActivity extends ZBaseActivity implements TaskView {
     // --------------------------------------------------
     @OnClick(R.id.task_execute_btn)
     public void executeNext(View view) {
-        TaskExecutorManager.getInstance().executeNext();
+        TaskExecutorManager.getInstance().executeSyncNext();
     }
 
     @OnClick(R.id.task_auto_btn)
@@ -90,7 +109,7 @@ public class TaskActivity extends ZBaseActivity implements TaskView {
                 public void onExecute(TaskEntity entity) {
                     ZLog.v(ZTag.TAG_TASK, JsonUtil.objToJson(entity));
 //                    TaskExecutorManager.getInstance().executeMulti(1);
-                    TaskExecutorManager.getInstance().executeNext();
+                    TaskExecutorManager.getInstance().executeSyncNext();
                 }
             });
         }

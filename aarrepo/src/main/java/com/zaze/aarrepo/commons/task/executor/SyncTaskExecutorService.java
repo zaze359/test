@@ -20,8 +20,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * @version : 2016-12-14 - 10:26
  */
 class SyncTaskExecutorService extends TaskExecutorService {
-    protected final ConcurrentLinkedQueue<String> taskIdQueue = new ConcurrentLinkedQueue<>();
-    protected final ConcurrentHashMap<String, ExecuteTask> taskMap = new ConcurrentHashMap<>();
+    private final ConcurrentLinkedQueue<String> taskIdQueue = new ConcurrentLinkedQueue<>();
+    private final ConcurrentHashMap<String, ExecuteTask> taskMap = new ConcurrentHashMap<>();
 
     /**
      * 执行下一个任务
@@ -39,7 +39,7 @@ class SyncTaskExecutorService extends TaskExecutorService {
      * @param executeTask 任务
      * @return 是否有任务可以执行
      */
-    protected boolean executeTask(ExecuteTask executeTask) {
+    private boolean executeTask(ExecuteTask executeTask) {
         if (executeTask != null) {
             ConcurrentHashMap<String, TaskCallback> callbackMap = executeTask.getCallbackMap();
             if (!callbackMap.isEmpty()) {

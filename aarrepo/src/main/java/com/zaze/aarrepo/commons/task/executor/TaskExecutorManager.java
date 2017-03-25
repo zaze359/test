@@ -73,24 +73,52 @@ public class TaskExecutorManager {
         return this;
     }
 
+    // --------------------------------------------------
+
     /**
-     * 执行所有标签的 下一个任务
+     * 同步执行执行默认标签的 下一个任务(需要注意回调嵌套)
      */
-    public void executeNext() {
+    public void executeSyncNext() {
         for (String tag : executorMap.keySet()) {
-            executeNext(tag);
+            executeSyncNext(tag);
         }
     }
 
     /**
-     * 执行指定标签的下一个任务
+     * 同步执行执行指定标签的下一个任务(需要注意回调嵌套)
      *
      * @param tag 任务标签
      */
-    public void executeNext(String tag) {
+    public void executeSyncNext(String tag) {
         TaskExecutorService taskExecutorService = pollTaskExecutorService(tag);
         if (taskExecutorService != null) {
             if (!taskExecutorService.executeNextTask()) {
+                if (needLog) {
+                    ZLog.i(ZTag.TAG_TASK, "标签(%s)执行任务已经执行完毕, 移除标签！", tag);
+                }
+                executorMap.remove(tag);
+            }
+        }
+    }
+    // --------------------------------------------------
+    /**
+     * 异步执行默认标签的 下一个任务
+     */
+    public void executeAsyncNext() {
+        for (String tag : executorMap.keySet()) {
+            executeAsyncNext(tag);
+        }
+    }
+
+    /**
+     * 异步执行指定标签的下一个任务
+     *
+     * @param tag 任务标签
+     */
+    public void executeAsyncNext(String tag) {
+        TaskExecutorService taskExecutorService = pollTaskExecutorService(tag);
+        if (taskExecutorService != null) {
+            if (!new AsyncTaskExecutorService(taskExecutorService).executeAsyncTask()) {
                 if (needLog) {
                     ZLog.i(ZTag.TAG_TASK, "标签(%s)执行任务已经执行完毕, 移除标签！", tag);
                 }

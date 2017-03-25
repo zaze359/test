@@ -10,10 +10,12 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Process;
 
-import com.zaze.aarrepo.commons.log.LogKit;
+import com.zaze.aarrepo.commons.log.ZLog;
 
 import java.io.File;
 import java.util.List;
+
+import static com.zaze.aarrepo.utils.RootCmd.execRootCmdSilent;
 
 /**
  * Description :
@@ -44,15 +46,20 @@ public class AppUtil {
      * @param context  context
      * @param filePath 文件绝对路径
      */
-    public static void installApk(Context context, String filePath) {
-        LogKit.i("start installApk %s", filePath);
+    public static int installApk(Context context, String filePath) {
+        ZLog.i(ZTag.TAG_ABOUT_APP, "start installApk %s", filePath);
         if (DeviceUtil.checksRoot()) {
-            installApkSilent(filePath);
+            if (installApkSilent(filePath)) {
+                return 1;
+            } else {
+                return -1;
+            }
         } else {
-            LogKit.i("start 正常安装");
+            ZLog.i(ZTag.TAG_ABOUT_APP, "start 正常安装");
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setDataAndType(Uri.fromFile(new File(filePath)), "application/vnd.android.package-archive");
             context.startActivity(intent);
+            return 0;
         }
     }
 
@@ -62,15 +69,20 @@ public class AppUtil {
      * @param context     context
      * @param packageName packageName
      */
-    public static void unInstallApk(Context context, String packageName) {
+    public static int unInstallApk(Context context, String packageName) {
         if (DeviceUtil.checksRoot()) {
-            unInstallApkSilent(packageName);
+            if (unInstallApkSilent(packageName)) {
+                return 1;
+            } else {
+                return -1;
+            }
         } else {
-            LogKit.i("正常卸载");
+            ZLog.i(ZTag.TAG_ABOUT_APP, "正常卸载");
             Intent uninstallIntent = new Intent();
             uninstallIntent.setAction(Intent.ACTION_DELETE);
             uninstallIntent.setData(Uri.parse("package:" + packageName));
             context.startActivity(uninstallIntent);
+            return 0;
         }
     }
 
@@ -79,11 +91,16 @@ public class AppUtil {
      *
      * @param filePath 文件绝对路径
      */
-    public static void installApkSilent(String filePath) {
-        LogKit.i("start 静默安装 %s", filePath);
+    public static boolean installApkSilent(String filePath) {
+        ZLog.i(ZTag.TAG_ABOUT_APP, "开始静默安装 %s", filePath);
         String cmd = "pm install -r " + filePath;
-        RootCmd.execRootCmdSilent(cmd);
-        LogKit.i("end 静默安装");
+        if (RootCmd.execRootCmdSilent(cmd) != RootCmd.ERROR) {
+            ZLog.i(ZTag.TAG_ABOUT_APP, "静默安装成功!");
+            return true;
+        } else {
+            ZLog.i(ZTag.TAG_ABOUT_APP, "静默安装失败!");
+            return false;
+        }
     }
 
     /**
@@ -91,11 +108,16 @@ public class AppUtil {
      *
      * @param packageName 报名
      */
-    public static void unInstallApkSilent(String packageName) {
-        LogKit.i("start 静默卸载 %s", packageName);
+    public static boolean unInstallApkSilent(String packageName) {
+        ZLog.i(ZTag.TAG_ABOUT_APP, "开始静默卸载 %s", packageName);
         String cmd = "pm uninstall " + packageName;
-        RootCmd.execRootCmdSilent(cmd);
-        LogKit.i("end 静默卸载");
+        if (execRootCmdSilent(cmd) != RootCmd.ERROR) {
+            ZLog.i(ZTag.TAG_ABOUT_APP, "静默卸载成功!");
+            return true;
+        } else {
+            ZLog.i(ZTag.TAG_ABOUT_APP, "静默卸载失败!");
+            return false;
+        }
     }
 
     /**
