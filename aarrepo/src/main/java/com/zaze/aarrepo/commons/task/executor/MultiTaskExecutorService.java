@@ -20,21 +20,21 @@ class MultiTaskExecutorService extends FilterTaskExecutorService {
     }
 
     /**
-     * 执行一批多个任务
+     * 执行一批多个任务(最大同时执行上限10)
      *
-     * @param num 执行任务数(最大上限20)
+     * @param num 执行任务数
      */
     public void multiExecuteTask(int num, final ECallback<Boolean> callback) {
-        if (num > 20) {
-            num = 20;
+        if (multiExecutor == null) {
+            multiExecutor = Executors.newFixedThreadPool(10);
         }
-        multiExecutor = Executors.newFixedThreadPool(num);
         for (int i = 0; i < num; i++) {
             multiExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
+                    boolean b = executeNextTask();
                     if (callback != null) {
-                        callback.onNext(executeNextTask());
+                        callback.onNext(b);
                     }
                 }
             });

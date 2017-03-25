@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * @author : ZAZE
  * @version : 2016-12-14 - 10:26
  */
-class SingleTaskExecutorService extends TaskExecutorService {
+class SyncTaskExecutorService extends TaskExecutorService {
     protected final ConcurrentLinkedQueue<String> taskIdQueue = new ConcurrentLinkedQueue<>();
     protected final ConcurrentHashMap<String, ExecuteTask> taskMap = new ConcurrentHashMap<>();
 
@@ -110,17 +110,17 @@ class SingleTaskExecutorService extends TaskExecutorService {
     @Override
     public ExecuteTask pollTask() {
         if (!taskIdQueue.isEmpty() && !taskMap.isEmpty()) {
-//            while (taskIdQueue.peek() != null) {
-            String taskId = taskIdQueue.poll();
-            if (taskMap.containsKey(taskId)) {
-                ExecuteTask executeTask = taskMap.get(taskId);
-                taskMap.remove(taskId);
-                if (needLog) {
-                    ZLog.i(ZTag.TAG_TASK, "提取执行任务(%s)", taskId);
+            while (taskIdQueue.peek() != null) {
+                String taskId = taskIdQueue.poll();
+                if (taskMap.containsKey(taskId)) {
+                    ExecuteTask executeTask = taskMap.get(taskId);
+                    taskMap.remove(taskId);
+                    if (needLog) {
+                        ZLog.i(ZTag.TAG_TASK, "提取执行任务(%s)", taskId);
+                    }
+                    return executeTask;
                 }
-                return executeTask;
             }
-//            }
         }
         return null;
     }

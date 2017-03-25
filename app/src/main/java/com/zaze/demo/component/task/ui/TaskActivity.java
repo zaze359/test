@@ -68,14 +68,14 @@ public class TaskActivity extends ZBaseActivity implements TaskView {
 
     @OnClick(R.id.task_auto_btn)
     public void autoExecute(View view) {
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10000; i++) {
             TaskExecutorManager.getInstance().pushTask(new TaskEntity(String.valueOf(i)), new TaskCallback() {
                 @Override
                 public void onExecute(TaskEntity entity) {
                     ZLog.v(ZTag.TAG_TASK, JsonUtil.objToJson(entity));
-                    if ("50".equals(entity.getTaskId())) {
-                        TaskExecutorManager.getInstance().shutdownAutoExecuteTask();
-                    }
+//                    if ("50".equals(entity.getTaskId())) {
+//                        TaskExecutorManager.getInstance().shutdownAutoExecuteTask();
+//                    }
                 }
             });
         }
@@ -84,11 +84,13 @@ public class TaskActivity extends ZBaseActivity implements TaskView {
 
     @OnClick(R.id.task_multi_btn)
     public void multiExecute(View view) {
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10000; i++) {
             TaskExecutorManager.getInstance().pushTask(new TaskEntity(String.valueOf(i)), new TaskCallback() {
                 @Override
                 public void onExecute(TaskEntity entity) {
                     ZLog.v(ZTag.TAG_TASK, JsonUtil.objToJson(entity));
+//                    TaskExecutorManager.getInstance().executeMulti(1);
+                    TaskExecutorManager.getInstance().executeNext();
                 }
             });
         }

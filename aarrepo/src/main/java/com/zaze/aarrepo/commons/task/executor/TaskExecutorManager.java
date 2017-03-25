@@ -7,7 +7,6 @@ import com.zaze.aarrepo.commons.task.TaskCallback;
 import com.zaze.aarrepo.commons.task.TaskEntity;
 import com.zaze.aarrepo.utils.StringUtil;
 import com.zaze.aarrepo.utils.ZTag;
-import com.zaze.aarrepo.utils.iface.ECallback;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -63,7 +62,7 @@ public class TaskExecutorManager {
         if (entity != null) {
             TaskExecutorService executorService = pollTaskExecutorService(tag);
             if (executorService == null) {
-                executorService = new SingleTaskExecutorService();
+                executorService = new SyncTaskExecutorService();
                 if (needLog) {
                     ZLog.i(ZTag.TAG_TASK, "创建 标签(%s) 任务池", tag);
                 }
@@ -119,28 +118,7 @@ public class TaskExecutorManager {
     public void executeMulti(final String tag, int num) {
         ZLog.i(ZTag.TAG_TASK, "执行 批量任务标签(%s)（%d）！", tag, num);
         MultiTaskExecutorService multiTaskExecutorService = new MultiTaskExecutorService(pollTaskExecutorService(tag));
-        // 替换
-        executorMap.put(tag, multiTaskExecutorService);
-        multiTaskExecutorService.multiExecuteTask(num, new ECallback<Boolean>() {
-            @Override
-            public void onError(int errorCode, String errorMsg) {
-
-            }
-
-            @Override
-            public void onNext(Boolean aBoolean) {
-                if (!aBoolean) {
-                    ZLog.i(ZTag.TAG_TASK, "移除标签%s！", tag);
-                    executorMap.remove(tag);
-                }
-
-            }
-
-            @Override
-            public void onCompleted() {
-
-            }
-        });
+        multiTaskExecutorService.multiExecuteTask(num, null);
     }
     // --------------------------------------------------
 
@@ -158,27 +136,30 @@ public class TaskExecutorManager {
      */
     public void autoExecuteTask(String tag) {
         ZLog.i(ZTag.TAG_TASK, "自动执行 标签(%s)内所有任务！", tag);
-        AutoTaskExecutorService autoTaskExecutorService = new AutoTaskExecutorService(pollTaskExecutorService(tag));
-        executorMap.put(tag, autoTaskExecutorService);
-        autoTaskExecutorService.autoExecute();
-//        if (!) {
-//            ZLog.i(ZTag.TAG_TASK, "没有移除标签%s！", tag);
-//            executorMap.remove(tag);
-//        }
+        TaskExecutorService taskExecutorService = pollTaskExecutorService(tag);
+        if (taskExecutorService instanceof AutoTaskExecutorService) {
+            ((AutoTaskExecutorService) taskExecutorService).autoExecute();
+        } else {
+            AutoTaskExecutorService autoTaskExecutorService = new AutoTaskExecutorService(taskExecutorService);
+            executorMap.remove(tag);
+            if (autoTaskExecutorService.autoExecute()) {
+                executorMap.put(AUTO_TASK_TAG + tag, autoTaskExecutorService);
+            }
+        }
     }
 
     /**
      * 终止默认标签中的后续任务
      */
     public void shutdownAutoExecuteTask() {
-        shutdownAutoExecuteTask(DEFAULT_TAG);
+        shutdownAutoExecuteTask(AUTO_TASK_TAG + DEFAULT_TAG);
     }
 
     /**
      * 终止后续任务
      */
     public void shutdownAutoExecuteTask(String tag) {
-        TaskExecutorService taskExecutorService = pollTaskExecutorService(tag);
+        TaskExecutorService taskExecutorService = pollTaskExecutorService(AUTO_TASK_TAG + tag);
         if (taskExecutorService instanceof AutoTaskExecutorService) {
             ((AutoTaskExecutorService) taskExecutorService).shutdown();
         }

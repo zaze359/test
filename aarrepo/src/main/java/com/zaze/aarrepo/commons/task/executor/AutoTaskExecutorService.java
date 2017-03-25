@@ -25,30 +25,31 @@ class AutoTaskExecutorService extends FilterTaskExecutorService {
     /**
      * 自动依次执行所有任务
      */
-    public void autoExecute() {
+    public boolean autoExecute() {
         if (taskExecutorService == null) {
-            return;
+            return false;
         }
         if (autoExecutor == null) {
             autoExecutor = Executors.newSingleThreadExecutor();
-        }
-        autoExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    do {
-                        if (taskExecutorService.isEmpty()) {
-                            Thread.sleep(5000L);
-                        } else {
-                            taskExecutorService.executeNextTask();
-                            Thread.sleep(100L);
-                        }
-                    } while (true);
-                } catch (Exception e) {
-                    e.printStackTrace();
+            autoExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        do {
+                            if (taskExecutorService.isEmpty()) {
+                                Thread.sleep(5000L);
+                            } else {
+                                taskExecutorService.executeNextTask();
+                                Thread.sleep(100L);
+                            }
+                        } while (true);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        });
+            });
+        }
+        return true;
     }
 
     /**
