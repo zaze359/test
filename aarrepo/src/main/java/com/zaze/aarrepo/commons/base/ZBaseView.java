@@ -29,6 +29,7 @@ public interface ZBaseView {
 
     void close();
 
+    @Deprecated
     Context getContext();
 
     void jumpToOtherUI(Class<?> cls);
@@ -52,6 +53,5 @@ public interface ZBaseView {
     int getColor(int colorRes);
 
     int getDimen(int id);
-
 
 }

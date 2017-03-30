@@ -1,6 +1,7 @@
 package com.zaze.aarrepo.utils;
 
 import android.app.ActivityManager;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -132,6 +133,7 @@ public class AppUtil {
             RootCmd.execRootCmd(clear);
         }
     }
+    // --------------------------------------------------
 
     /**
      * 杀进程
@@ -143,6 +145,26 @@ public class AppUtil {
         ActivityManager mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         mActivityManager.killBackgroundProcesses(getAppPackageName(context));
     }
+
+    /**
+     * 删除所有运行的进程
+     *
+     * @param context context
+     */
+    public static void killAllRunningProcess(Context context) {
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Service.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> runningAppProcessInfoList = activityManager.getRunningAppProcesses();
+        if (runningAppProcessInfoList != null) {
+            for (ActivityManager.RunningAppProcessInfo processInfo : runningAppProcessInfoList) {
+                if (!processInfo.processName.equals(context.getPackageName())
+                        && processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                    Process.killProcess(processInfo.pid);
+                    activityManager.killBackgroundProcesses(processInfo.processName);
+                }
+            }
+        }
+    }
+    // --------------------------------------------------
 
     /**
      * @param context context
@@ -185,4 +207,5 @@ public class AppUtil {
             return null;
         }
     }
+
 }
