@@ -4,7 +4,7 @@ ZAZE Android Base Library And Some Test Demo
 
 ## Add Base Library to your project
 ### Gradle:
--    compile 'com.zaze.aarrepo:aarrepo:1.3.4@aar'
+-    compile 'com.zaze.aarrepo:aarrepo:1.3.6@aar'
 
 
 
@@ -20,3 +20,4 @@ ZAZE Android Base Library And Some Test Demo
 
 ## 1.3.x
 1.采用包装模式 重构了 任务池
+2.补充丰富工具类

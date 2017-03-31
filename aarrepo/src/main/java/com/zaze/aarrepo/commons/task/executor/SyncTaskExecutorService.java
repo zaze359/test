@@ -22,6 +22,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 class SyncTaskExecutorService extends TaskExecutorService {
     private final ConcurrentLinkedQueue<String> taskIdQueue = new ConcurrentLinkedQueue<>();
     private final ConcurrentHashMap<String, ExecuteTask> taskMap = new ConcurrentHashMap<>();
+//    private final ConcurrentLinkedQueue<String> taskIdQueue = new ConcurrentLinkedQueue<>();
+
 
     /**
      * 执行下一个任务

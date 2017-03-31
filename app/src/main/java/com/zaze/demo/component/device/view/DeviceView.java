@@ -19,4 +19,6 @@ public interface DeviceView extends ZBaseView {
      * @param list
      */
     void showDeviceInfo(List<DeviceStatus> list);
+
+    void showMacAddress(String macAddress);
 }

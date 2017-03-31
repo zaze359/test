@@ -90,6 +90,15 @@
             android:name=".component.task.ui.TaskActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
+        <provider
+            android:name=".component.provider.ZazeProvider"
+            android:authorities="com.example.peopleprovider" />
+
+        <activity
+            android:name=".component.provider.ui.ProviderActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

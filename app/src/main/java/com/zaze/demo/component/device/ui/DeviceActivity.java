@@ -6,15 +6,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.widget.TextView;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
-import com.zaze.demo.R;
 import com.zaze.aarrepo.commons.base.ZBaseActivity;
 import com.zaze.aarrepo.utils.LocalDisplay;
 import com.zaze.aarrepo.utils.StringUtil;
-import com.zaze.demo.model.entity.DeviceStatus;
+import com.zaze.demo.R;
 import com.zaze.demo.component.device.adapter.DeviceAdapter;
 import com.zaze.demo.component.device.presenter.DevicePresenter;
 import com.zaze.demo.component.device.presenter.impl.DevicePresenterImpl;
 import com.zaze.demo.component.device.view.DeviceView;
+import com.zaze.demo.model.entity.DeviceStatus;
 import com.zz.library.util.helper.UltimateRecyclerViewHelper;
 
 import java.util.List;
@@ -37,6 +37,8 @@ public class DeviceActivity extends ZBaseActivity implements DeviceView {
     TextView deviceDensity;
     @Bind(R.id.device_recycler_view)
     UltimateRecyclerView deviceRecyclerView;
+    @Bind(R.id.device_mac_address)
+    TextView deviceMacAddress;
 
     private DevicePresenter presenter;
     private DeviceAdapter adapter;
@@ -56,6 +58,7 @@ public class DeviceActivity extends ZBaseActivity implements DeviceView {
         presenter.getDeviceInfo();
     }
 
+
     @Override
     public void showDeviceInfo(List<DeviceStatus> list) {
         if (adapter == null) {
@@ -66,5 +69,10 @@ public class DeviceActivity extends ZBaseActivity implements DeviceView {
         } else {
             adapter.setDataList(list);
         }
+    }
+
+    @Override
+    public void showMacAddress(String macAddress) {
+        deviceMacAddress.setText(StringUtil.parseString(macAddress));
     }
 }

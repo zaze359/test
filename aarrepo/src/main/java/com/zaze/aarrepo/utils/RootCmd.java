@@ -10,17 +10,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Description :
+ * Description : RootCmd
  * date : 2015-12-18 - 16:12
  *
  * @author : zaze
  * @version : 1.0
  */
 public class RootCmd {
+    private static final String TAG = "RootCmd[执行命令]";
+
+
     public interface Callback {
         void back(int code, String result);
     }
-
 
     public static final int ERROR = -1;
 
@@ -124,8 +126,6 @@ public class RootCmd {
         DataOutputStream dos = null;
         try {
             Process p = Runtime.getRuntime().exec("su");
-
-
             dos = new DataOutputStream(p.getOutputStream());
             dos.writeBytes(cmd + "\n");
             dos.flush();
@@ -184,84 +184,35 @@ public class RootCmd {
         return result;
     }
 
+    public static void reboot() {
+        RootCmd.execRootCmdSilent("reboot");
+    }
 
-    /**
-     * 执行命令但不关注结果输出
-     *
-     * @param cmd
-     * @return 失败 : = -1; 成功 : != -1
-     */
-//    public static int execRootCmd(String cmd) {
-//        int result = ERROR;
-//        DataOutputStream dos = null;
-//        try {
-//            Process p = Runtime.getRuntime().exec("su");
-//            dos = new DataOutputStream(p.getOutputStream());
-//            dos.writeBytes(cmd + "\n");
-//
-//            dos.flush();
-//            dos.writeBytes("exit\n");
-//            dos.flush();
-//            
-//            final InputStream is1 = p.getInputStream();
-//            //获取进城的错误流  
-//            final InputStream is2 = p.getErrorStream();
-//            //启动两个线程，一个线程负责读标准输出流，另一个负责读标准错误流  
-//            new Thread() {
-//                public void run() {
-//                    BufferedReader br1 = new BufferedReader(new InputStreamReader(is1));
-//                    try {
-//                        String line1 = null;
-//                        while ((line1 = br1.readLine()) != null) {
-//                            if (line1 != null){}
-//                        }
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                    finally{
-//                        try {
-//                            is1.close();
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
+//    public static void rmSystemFile(String filePath) {
+//        ZLog.i(TAG, "execSystemCmd start ");
+//        String mount = "/system/mount-xuehai.sh ";
+//        String chmod = "chmod 777 " + filePath;
+//        String execute = "rm -r " + filePath;
+//        int res = FAILED;
+//        ZLog.i(TAG, "start mount...");
+//        if (RootCmd.execRootCmdSilent(mount) != FAILED) {
+//            ZLog.i(TAG, "start chmod...");
+//            if (RootCmd.execRootCmdSilent(chmod) != FAILED) {
+//                ZLog.i(TAG, "start uninstall...");
+//                res = RootCmd.execRootCmdSilent(execute);
+//                if (FAILED != res) {
+//                    ZLog.i(TAG, "uninstall success");
+//                } else {
+//                    ZLog.w(TAG, "uninstall fail");
 //                }
-//            }.start();
-//
-//            new Thread() {
-//                public void  run() {
-//                    BufferedReader br2 = new  BufferedReader(new InputStreamReader(is2));
-//                    try {
-//                        String line2 = null ;
-//                        while ((line2 = br2.readLine()) !=  null ) {
-//                            if (line2 != null){}
-//                        }
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                    finally{
-//                        try {
-//                            is2.close();
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }
-//            }.start();
-//            p.waitFor();
-//            p.destroy();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            try {
-//                if(dos != null) {
-//                    dos.close();
-//                }
-//            } catch (IOException e) {
-//                e.printStackTrace();
+//            } else {
+//                ZLog.w(TAG, "chmod fail");
 //            }
+//        } else {
+//            ZLog.w(TAG, "mount fail");
 //        }
-//        return result;
+//        ZLog.i(TAG, "execSystemCmd end ");
 //    }
+
 
 }

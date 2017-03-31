@@ -17,11 +17,11 @@ public class ThreadManager {
     /**
      * 后台任务
      */
-    private final ExecutorService backgroundExecutor;
+    private ExecutorService backgroundExecutor;
     /**
      * 单线程
      */
-    private final ExecutorService singleExecutor;
+    private ExecutorService singleExecutor;
     /**
      * 多线程
      */
@@ -47,6 +47,23 @@ public class ThreadManager {
 
     private ThreadManager() {
         super();
+        //
+        initBackgroundExecutor();
+        initSingleExecutor();
+        initMultiExecutor();
+        //
+        handler = new Handler(Looper.getMainLooper());
+    }
+
+    private void initSingleExecutor() {
+        singleExecutor = Executors.newSingleThreadExecutor();
+    }
+
+    private void initMultiExecutor() {
+        multiExecutor = Executors.newFixedThreadPool(maxThreadNum);
+    }
+
+    private void initBackgroundExecutor() {
         backgroundExecutor = Executors.newSingleThreadExecutor(new ThreadFactory() {
             @Override
             public Thread newThread(Runnable runnable) {
@@ -56,11 +73,6 @@ public class ThreadManager {
                 return thread;
             }
         });
-        //
-        singleExecutor = Executors.newSingleThreadExecutor();
-        multiExecutor = Executors.newFixedThreadPool(maxThreadNum);
-        //
-        handler = new Handler(Looper.getMainLooper());
     }
 
     public int getMaxThreadNum() {
@@ -144,6 +156,7 @@ public class ThreadManager {
      */
     public void shutdownSingleThread() {
         singleExecutor.shutdown();
+        initSingleExecutor();
     }
 
     /**

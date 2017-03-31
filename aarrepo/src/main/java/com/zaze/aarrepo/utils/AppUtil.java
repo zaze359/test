@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -26,6 +27,25 @@ import static com.zaze.aarrepo.utils.RootCmd.execRootCmdSilent;
  * @version : 1.0
  */
 public class AppUtil {
+
+
+    public static PackageInfo getPackageInfo(Context context, String packageName) {
+        PackageManager packageManager = context.getPackageManager();
+        try {
+            return packageManager.getPackageInfo(packageName, 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static PackageInfo getPackageArchiveInfo(Context context, String fileName) {
+        if (StringUtil.isEmpty(fileName)) {
+            return null;
+        }
+        return context.getPackageManager().getPackageArchiveInfo(fileName, 0);
+    }
+
     public static String getAppPackageName(Context context) {
         return context.getPackageName();
     }
@@ -36,10 +56,25 @@ public class AppUtil {
         return context.getPackageManager().queryIntentActivities(mainIntent, 0);
     }
 
-    public static List<PackageInfo> getInstalledPackage(Context context) {
-        return context.getPackageManager().getInstalledPackages(0);
+    public static List<PackageInfo> getInstalledPackage(Context context, int flag) {
+        return context.getPackageManager().getInstalledPackages(flag);
     }
 
+    public static List<ApplicationInfo> getInstalledApplications(Context context, int flag) {
+        return context.getPackageManager().getInstalledApplications(0);
+    }
+
+    public static ApplicationInfo getApplicationInfo(Context context, String packageName) {
+        try {
+            return context.getPackageManager().getApplicationInfo(packageName, 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            ZLog.e("", "没有找到应用 %s", packageName);
+            return null;
+        }
+    }
+
+    // --------------------------------------------------
 
     /**
      * 安装应用
@@ -121,6 +156,8 @@ public class AppUtil {
         }
     }
 
+    // --------------------------------------------------
+
     /**
      * 清理data数据
      *
@@ -165,6 +202,24 @@ public class AppUtil {
         }
     }
     // --------------------------------------------------
+
+
+    /**
+     * 获取app名
+     *
+     * @param context
+     * @param packageName
+     * @return app名
+     */
+    public static String getAppName(Context context, String packageName, String defaultName) {
+        ApplicationInfo applicationInfo = getApplicationInfo(context, packageName);
+        if (applicationInfo == null) {
+            return defaultName;
+        } else {
+            return context.getPackageManager().getApplicationLabel(applicationInfo).toString();
+        }
+    }
+
 
     /**
      * @param context context
