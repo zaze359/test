@@ -40,7 +40,7 @@ public class MemoryCacheHelper {
      * @param key
      * @param valueStr
      */
-    public static void saveCacheBytes(String key, String valueStr) {
+    public static void saveCache(String key, String valueStr) {
         saveCache(key, valueStr, HOURE);
     }
 
