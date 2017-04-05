@@ -4,7 +4,7 @@ ZAZE Android Base Library And Some Test Demo
 
 ## Add Base Library to your project
 ### Gradle:
--    compile 'com.zaze.aarrepo:aarrepo:1.3.7@aar'
+-    compile 'com.zaze.aarrepo:aarrepo:1.3.9@aar'
 
 
 
@@ -19,5 +19,6 @@ ZAZE Android Base Library And Some Test Demo
 
 
 ## 1.3.x
-1.采用包装模式 重构了 任务池
-2.补充丰富工具类
+1.补充丰富工具类
+2.采用包装模式 重构了 任务池
+3.优化 Task 机制，过滤执行中任务的重复添加（对于外部异步线程调用效果不大）

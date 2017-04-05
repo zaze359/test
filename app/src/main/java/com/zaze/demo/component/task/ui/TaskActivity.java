@@ -103,13 +103,17 @@ public class TaskActivity extends ZBaseActivity implements TaskView {
 
     @OnClick(R.id.task_multi_btn)
     public void multiExecute(View view) {
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 1; i++) {
             TaskExecutorManager.getInstance().pushTask(new TaskEntity(String.valueOf(i)), new TaskCallback() {
                 @Override
                 public void onExecute(TaskEntity entity) {
+                    try {
+                        Thread.sleep(1000L);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     ZLog.v(ZTag.TAG_TASK, JsonUtil.objToJson(entity));
-//                    TaskExecutorManager.getInstance().executeMulti(1);
-                    TaskExecutorManager.getInstance().executeSyncNext();
+                    TaskExecutorManager.getInstance().executeMulti(1);
                 }
             });
         }

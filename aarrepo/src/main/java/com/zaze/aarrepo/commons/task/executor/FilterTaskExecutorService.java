@@ -19,7 +19,6 @@ public class FilterTaskExecutorService extends TaskExecutorService {
 
     @Override
     public boolean executeNextTask() {
-//        return taskExecutorService == null ? false : taskExecutorService.executeNextTask();
         return taskExecutorService != null && taskExecutorService.executeNextTask();
     }
 

@@ -8,6 +8,9 @@ import com.zaze.aarrepo.commons.task.TaskEntity;
 import com.zaze.aarrepo.utils.StringUtil;
 import com.zaze.aarrepo.utils.ZTag;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -20,10 +23,12 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * @version : 2016-12-14 - 10:26
  */
 class SyncTaskExecutorService extends TaskExecutorService {
-    private final ConcurrentLinkedQueue<String> taskIdQueue = new ConcurrentLinkedQueue<>();
+    /**
+     * key : taskId
+     */
     private final ConcurrentHashMap<String, ExecuteTask> taskMap = new ConcurrentHashMap<>();
-//    private final ConcurrentLinkedQueue<String> taskIdQueue = new ConcurrentLinkedQueue<>();
-
+    private final ConcurrentLinkedQueue<String> taskIdQueue = new ConcurrentLinkedQueue<>();
+    private final Set<String> currentTaskSet = Collections.synchronizedSet(new HashSet<String>());
 
     /**
      * 执行下一个任务
@@ -50,16 +55,20 @@ class SyncTaskExecutorService extends TaskExecutorService {
                     callbackMap.remove(key);
                     if (callback != null) {
                         if (needLog) {
-                            ZLog.i(ZTag.TAG_TASK, "执行任务(%s)", executeTask.getTaskId());
-                            ZLog.i(ZTag.TAG_TASK, "剩余任务(%s)", taskIdQueue.size());
+                            ZLog.i(ZTag.TAG_TASK, "执行任务(%s);剩余任务(%s)", executeTask.getTaskId(), taskIdQueue.size());
                         }
+                        String taskId = executeTask.getTaskId();
+                        currentTaskSet.add(taskId);
                         callback.onExecute(executeTask);
+                        currentTaskSet.remove(taskId);
                     }
                 }
             }
             return true;
         }
-        ZLog.i(ZTag.TAG_TASK, "该任务池中, 所有任务已经执行完毕！");
+        if (needLog) {
+            ZLog.i(ZTag.TAG_TASK, "该任务池中, 所有任务已经执行完毕！");
+        }
         return false;
     }
 
@@ -82,6 +91,12 @@ class SyncTaskExecutorService extends TaskExecutorService {
             return;
         }
         String taskId = entity.getTaskId();
+        if (currentTaskSet.contains(StringUtil.parseString(taskId))) {
+            if (needLog) {
+                ZLog.i(ZTag.TAG_TASK, "重复添加, 该任务正在执行中(%s)", taskId);
+            }
+            return;
+        }
         if (StringUtil.isEmpty(taskId)) {
             taskId = String.valueOf(entity.hashCode());
             entity.setTaskId(taskId);
@@ -114,7 +129,7 @@ class SyncTaskExecutorService extends TaskExecutorService {
         if (!taskIdQueue.isEmpty() && !taskMap.isEmpty()) {
             while (taskIdQueue.peek() != null) {
                 String taskId = taskIdQueue.poll();
-                if (taskMap.containsKey(taskId)) {
+                if (!StringUtil.isEmpty(taskId) && taskMap.containsKey(taskId)) {
                     ExecuteTask executeTask = taskMap.get(taskId);
                     taskMap.remove(taskId);
                     if (needLog) {
@@ -136,6 +151,7 @@ class SyncTaskExecutorService extends TaskExecutorService {
     public void clear() {
         taskIdQueue.clear();
         taskMap.clear();
+        currentTaskSet.clear();
     }
 
     // ------------------------------------------------
