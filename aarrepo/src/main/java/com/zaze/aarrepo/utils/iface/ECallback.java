@@ -6,12 +6,12 @@ package com.zaze.aarrepo.utils.iface;
  * @author : ZAZE
  * @version : 2017-01-06 - 11:16
  */
-public interface ECallback<E> {
+public abstract class ECallback<E> {
 
-    void onError(int errorCode, String errorMsg);
+    public abstract void onError(int errorCode, String errorMsg);
 
-    void onNext(E e);
+    public abstract void onNext(E e);
 
-    void onCompleted();
+    public abstract void onCompleted();
 
 }
