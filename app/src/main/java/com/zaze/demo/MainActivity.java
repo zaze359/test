@@ -15,9 +15,11 @@ import android.view.View;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.zaze.aarrepo.commons.base.ZBaseActivity;
 import com.zaze.aarrepo.commons.base.ZBaseFragment;
-import com.zaze.aarrepo.commons.log.LogKit;
+import com.zaze.aarrepo.commons.log.ZLog;
 import com.zaze.aarrepo.commons.task.TaskCallback;
 import com.zaze.aarrepo.commons.task.TaskEntity;
+import com.zaze.aarrepo.utils.StringUtil;
+import com.zaze.aarrepo.utils.helper.ConfigHelper;
 import com.zaze.demo.component.table.ui.TableFragment;
 
 import java.util.ArrayList;
@@ -63,11 +65,16 @@ public class MainActivity extends ZBaseActivity {
     private TaskCallback taskCallback = new TaskCallback() {
         @Override
         public void onExecute(TaskEntity entity) {
-            LogKit.v("onExecute : " + entity);
+            ZLog.v("", "onExecute : " + entity);
         }
     };
 
     public void testClick(View view) {
+        ConfigHelper configHelper = ConfigHelper.newInstance("/sdcard/text.ini");
+        configHelper.setProperty("aa", "2");
+//        Properties properties = configHelper.load();
+        int a = StringUtil.parseInt(configHelper.getProperty("aa"));
+        ZLog.v("aa", "" + a);
     }
 
     // -------------------------

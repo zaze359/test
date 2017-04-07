@@ -26,14 +26,15 @@ public class ConfigHelper {
         this.filePath = filePath;
     }
 
+
     /**
-     * 保存配置信息
+     * 保存数据
      *
      * @param key
-     * @param state
+     * @param value
      */
-    public void store(Object key, Object state) {
-        if (key == null || state == null) {
+    public void setProperty(String key, String value) {
+        if (key == null || value == null) {
             return;
         }
         try {
@@ -41,9 +42,30 @@ public class ConfigHelper {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        LogKit.d("filePath : " + filePath);
         Properties properties = PropertiesUtil.load(filePath);
-        properties.put(key, state);
+        properties.setProperty(key, value);
+        PropertiesUtil.store(filePath, properties);
+    }
+
+
+    /**
+     * 保存配置信息
+     *
+     * @param key
+     * @param value
+     */
+    @Deprecated
+    public <K, V> void store(K key, V value) {
+        if (key == null || value == null) {
+            return;
+        }
+        try {
+            FileUtil.createFile(filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Properties properties = PropertiesUtil.load(filePath);
+        properties.put(key, value);
         PropertiesUtil.store(filePath, properties);
     }
 
@@ -52,7 +74,7 @@ public class ConfigHelper {
      *
      * @param map
      */
-    public void storeAll(Map map) {
+    public void storeAll(Map<String, String> map) {
         if (map == null) {
             return;
         }
@@ -65,11 +87,21 @@ public class ConfigHelper {
         properties.putAll(map);
         PropertiesUtil.store(filePath, properties);
     }
+    // --------------------------------------------------
 
     /**
      * 加载配置信息
      *
-     * @return
+     * @return String value
+     */
+    public String getProperty(String key) {
+        return PropertiesUtil.getProperty(filePath, key);
+    }
+
+    /**
+     * 加载配置信息
+     *
+     * @return Properties
      */
     public Properties load() {
         File file = new File(filePath);
@@ -79,4 +111,6 @@ public class ConfigHelper {
             return new Properties();
         }
     }
+
+
 }

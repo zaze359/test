@@ -2,6 +2,7 @@ package com.zaze.aarrepo.utils;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Properties;
 
 /**
@@ -12,25 +13,65 @@ import java.util.Properties;
  */
 public class PropertiesUtil {
 
+    /**
+     * 加载
+     *
+     * @param file
+     * @return
+     */
     public static Properties load(String file) {
         Properties properties = new Properties();
-        try {
-            FileInputStream inputStream = new FileInputStream(file);
-            properties.load(inputStream);
-            inputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (!StringUtil.isEmpty(file)) {
+            FileInputStream inputStream = null;
+            try {
+                inputStream = new FileInputStream(file);
+                properties.load(inputStream);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (inputStream != null) {
+                    try {
+                        inputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
         return properties;
     }
 
+    public static String getProperty(String file, String key) {
+        if (!StringUtil.isEmpty(file) && !StringUtil.isEmpty(key)) {
+            Properties properties = load(file);
+            return properties.getProperty(key);
+        } else {
+            return null;
+        }
+    }
+
+
+    /**
+     * 保存
+     *
+     * @param file
+     * @param properties
+     */
     public static void store(String file, Properties properties) {
+        FileOutputStream outputStream = null;
         try {
-            FileOutputStream outputStream = new FileOutputStream(file, false);
+            outputStream = new FileOutputStream(file, false);
             properties.store(outputStream, "");
-            outputStream.close();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
