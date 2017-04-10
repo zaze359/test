@@ -31,7 +31,7 @@ public class HttpUtil {
             }
             paramBuilder.append(URLEncoder.encode(key));
             paramBuilder.append("=");
-            paramBuilder.append(URLEncoder.encode(map.get(key)));
+            paramBuilder.append(URLEncoder.encode(StringUtil.parseString(map.get(key))));
         }
         return StringUtil.format("%s?%s", url, paramBuilder.toString());
     }

@@ -10,6 +10,8 @@ public abstract class ECallback<E> {
 
     public abstract void onError(int errorCode, String errorMsg);
 
+    public abstract void preNext(E e);
+
     public abstract void onNext(E e);
 
     public abstract void onCompleted();
