@@ -195,9 +195,16 @@ public class RxAndroidActivity extends ZBaseActivity {
     public void test6() {
         // 直接获取数组, 再分发, 再合并, 再显示toast, Toast顺次执行.
         Observable.just(mManyWordList)
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
                 .flatMap(mOneLetterFunc)
+                .map(new Func1<String, String>() {
+                    @Override
+                    public String call(String s) {
+                        return s + s;
+                    }
+                })
                 .reduce(mMergeStringFunc)
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<String>() {
                     @Override
                     public void call(String s) {
@@ -206,6 +213,9 @@ public class RxAndroidActivity extends ZBaseActivity {
                 });
     }
 
+
+    public void test7() {
+    }
 
     // ----------------------------------------------------------------------
 

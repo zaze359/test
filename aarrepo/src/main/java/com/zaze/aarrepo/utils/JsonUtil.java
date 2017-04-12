@@ -30,9 +30,8 @@ public class JsonUtil {
         if (json == null || classOfT == null) {
             return null;
         }
-        Gson gson = new Gson();
         json = decode(json);
-        return gson.fromJson(json, classOfT);
+        return new Gson().fromJson(json, classOfT);
     }
 
     /**
@@ -86,11 +85,10 @@ public class JsonUtil {
             return null;
         }
         try {
-            List<T> retObj = null;
-            Gson gson = new Gson();
             json = decode(json);
-            return gson.fromJson(json, type);
+            return new Gson().fromJson(json, type);
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
