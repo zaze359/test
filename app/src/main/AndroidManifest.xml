@@ -93,7 +93,7 @@
 
         <provider
             android:name=".component.provider.ZazeProvider"
-            android:authorities="com.example.peopleprovider" />
+            android:authorities="com.zaze.peopleprovider" />
 
         <activity
             android:name=".component.provider.ui.ProviderActivity"

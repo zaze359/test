@@ -4,8 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.TextView;
 
-import com.zaze.demo.R;
 import com.zaze.aarrepo.commons.base.ZBaseActivity;
+import com.zaze.aarrepo.commons.log.ZLog;
+import com.zaze.demo.R;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,8 +19,8 @@ import rx.Observable;
 import rx.Observer;
 import rx.Single;
 import rx.SingleSubscriber;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.functions.Func2;
 import rx.schedulers.Schedulers;
@@ -192,22 +193,54 @@ public class RxAndroidActivity extends ZBaseActivity {
         }
     };
 
+
     public void test6() {
         // 直接获取数组, 再分发, 再合并, 再显示toast, Toast顺次执行.
         Observable.just(mManyWordList)
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(AndroidSchedulers.mainThread())
                 .flatMap(mOneLetterFunc)
                 .map(new Func1<String, String>() {
                     @Override
                     public String call(String s) {
-                        return s + s;
+                        ZLog.i("zaze", s);
+                        return s;
                     }
                 })
-                .reduce(mMergeStringFunc)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<String>() {
+                .observeOn(Schedulers.io())
+                .map(new Func1<String, String>() {
                     @Override
-                    public void call(String s) {
+                    public String call(String s) {
+                        ZLog.i("zaze", "执行操作 : " + s);
+                        try {
+                            Thread.sleep(500L);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        return s;
+                    }
+                })
+//                .reduce(mMergeStringFunc)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        ZLog.i("zaze", "onStart");
+                    }
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        ZLog.i("zaze", "onNext");
                         updateTestText(s);
                     }
                 });

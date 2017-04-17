@@ -30,8 +30,13 @@ public class JsonUtil {
         if (json == null || classOfT == null) {
             return null;
         }
-        json = decode(json);
-        return new Gson().fromJson(json, classOfT);
+        try {
+            json = decode(json);
+            return new Gson().fromJson(json, classOfT);
+        } catch (Throwable e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -87,7 +92,7 @@ public class JsonUtil {
         try {
             json = decode(json);
             return new Gson().fromJson(json, type);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
             return null;
         }
@@ -106,7 +111,9 @@ public class JsonUtil {
         JSONArray jsonArray = new JSONArray();
         if (collection != null) {
             for (T t : collection) {
-                jsonArray.put(t);
+                if (t != null) {
+                    jsonArray.put(t);
+                }
             }
         }
         return jsonArray;
@@ -123,7 +130,9 @@ public class JsonUtil {
         JSONArray jsonArray = new JSONArray();
         if (arrays != null) {
             for (T t : arrays) {
-                jsonArray.put(t);
+                if (t != null) {
+                    jsonArray.put(t);
+                }
             }
         }
         return jsonArray;

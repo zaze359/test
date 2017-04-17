@@ -21,7 +21,7 @@ public class HttpUtil {
      * @return String
      */
     public static String buildGetRequest(String url, Map<String, String> map) {
-        if (map.isEmpty()) {
+        if (map == null || map.isEmpty()) {
             return url;
         }
         StringBuilder paramBuilder = new StringBuilder();

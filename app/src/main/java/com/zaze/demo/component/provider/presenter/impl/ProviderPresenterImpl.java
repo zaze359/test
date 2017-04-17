@@ -16,7 +16,6 @@ import com.zaze.demo.component.provider.view.ProviderView;
  */
 public class ProviderPresenterImpl extends ZBasePresenter<ProviderView> implements ProviderPresenter {
     ContentResolver resolver;
-
     String KEY_ID = "_id";
     String KEY_NAME = "name";
     String KEY_AGE = "age";

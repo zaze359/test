@@ -9,4 +9,5 @@ package com.zaze.aarrepo.utils;
 public interface ZTag {
     String TAG_TASK = "Task[任务]";
     String TAG_ABOUT_APP = "AboutApp[应用相关]";
+    String TAG_PROVIDER = "ContentProvider[]";
 }
