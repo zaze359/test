@@ -93,6 +93,7 @@ public class AppUtil {
         } else {
             ZLog.i(ZTag.TAG_ABOUT_APP, "start 正常安装");
             Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setDataAndType(Uri.fromFile(new File(filePath)), "application/vnd.android.package-archive");
             context.startActivity(intent);
             return 0;
