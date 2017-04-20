@@ -15,14 +15,15 @@ import android.view.View;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.zaze.aarrepo.commons.base.ZBaseActivity;
 import com.zaze.aarrepo.commons.base.ZBaseFragment;
-import com.zaze.aarrepo.commons.log.StackTraceHelper;
 import com.zaze.aarrepo.commons.log.ZLog;
 import com.zaze.aarrepo.commons.task.TaskCallback;
 import com.zaze.aarrepo.commons.task.TaskEntity;
 import com.zaze.aarrepo.utils.StringUtil;
+import com.zaze.aarrepo.utils.ZipUtil;
 import com.zaze.aarrepo.utils.helper.ConfigHelper;
 import com.zaze.demo.component.table.ui.TableFragment;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,12 +78,8 @@ public class MainActivity extends ZBaseActivity {
         int a = StringUtil.parseInt(configHelper.getProperty("aa"));
         ZLog.v("aa", "" + a);
         String str = null;
-
-        try {
-            str.equals("b");
-        } catch (Exception e) {
-            ZLog.e("zaze", StackTraceHelper.getErrorMsg(e));
-        }
+        File file = new File("/sdcard/xuehai/download/app/com.xuehai.launcher/2/com.xuehai.launcher.apk");
+        ZipUtil.unZipFolder("/sdcard/xuehai/download/app/com.xuehai.launcher/2/com.xuehai.launcher.apk", "/sdcard/aa/");
 
     }
 

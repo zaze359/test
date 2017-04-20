@@ -92,7 +92,7 @@ public class ZipUtil {
      * 解压一个压缩文档 到指定位置
      *
      * @param zipFileString 压缩包的名字
-     * @param outPathString 指定的路径
+     * @param outPathString 指定的路径DIR
      * @throws Exception
      */
     public static void unZipFolder(String zipFileString, String outPathString) {
@@ -101,22 +101,15 @@ public class ZipUtil {
             ZipInputStream inZip = new ZipInputStream(new FileInputStream(zipFileString));
             ZipEntry zipEntry;
             String szName = "";
-
             while ((zipEntry = inZip.getNextEntry()) != null) {
                 szName = zipEntry.getName();
-
                 if (zipEntry.isDirectory()) {
-
-                    // get the folder name of the widget  
+                    // get the folder name of the widget
                     szName = szName.substring(0, szName.length() - 1);
-                    File folder = new File(outPathString + File.separator + szName);
-                    folder.mkdirs();
-
+                    FileUtil.createDir(outPathString + File.separator + szName);
                 } else {
-
-                    File file = new File(outPathString + File.separator + szName);
-                    file.createNewFile();
-                    // get the output stream of the file  
+                    File file = FileUtil.createFile(outPathString + File.separator + szName);
+                    // get the output stream of the file
                     FileOutputStream out = new FileOutputStream(file);
                     int len;
                     byte[] buffer = new byte[1024];
