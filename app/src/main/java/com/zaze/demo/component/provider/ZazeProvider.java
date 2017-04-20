@@ -19,18 +19,16 @@ import com.zaze.demo.component.provider.sqlite.User;
  * @version : 2017-03-28 - 15:14
  */
 public class ZazeProvider extends ContentProvider {
-    public static final String AUTHORITY = "com.zaze.peopleprovider";
-    // --------------------------------------------------
-    public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/xh/");
     // --------------------------------------------------
     public static final int MULTIPLE_PEOPLE = 1;
     public static final int SINGLE_PEOPLE = 2;
 
     public static final UriMatcher uriMatcher;
+
     static {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        uriMatcher.addURI(AUTHORITY, User.PATH_SINGLE, SINGLE_PEOPLE);
-        uriMatcher.addURI(AUTHORITY, User.PATH_MULTIPLE, MULTIPLE_PEOPLE);
+        uriMatcher.addURI(User.AUTHORITY, User.PATH_SINGLE, SINGLE_PEOPLE);
+        uriMatcher.addURI(User.AUTHORITY, User.PATH_MULTIPLE, MULTIPLE_PEOPLE);
     }
 
     private DBOpenHelper dbOpenHelper;
@@ -44,6 +42,7 @@ public class ZazeProvider extends ContentProvider {
     @Nullable
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+        ZLog.i(ZTag.TAG_PROVIDER, "query");
         switch (uriMatcher.match(uri)) {
             case MULTIPLE_PEOPLE:
 //                return db.query("person", projection, selection, selectionArgs, null, null, sortOrder);
@@ -72,6 +71,7 @@ public class ZazeProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(Uri uri, ContentValues values) {
+        ZLog.i(ZTag.TAG_PROVIDER, "insert");
         return null;
     }
 

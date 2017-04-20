@@ -2,10 +2,13 @@ package com.zaze.demo.component.provider.presenter.impl;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.database.Cursor;
+import android.net.Uri;
 
 import com.zaze.aarrepo.commons.base.ZBaseApplication;
 import com.zaze.aarrepo.commons.base.ZBasePresenter;
 import com.zaze.demo.component.provider.presenter.ProviderPresenter;
+import com.zaze.demo.component.provider.sqlite.User;
 import com.zaze.demo.component.provider.view.ProviderView;
 
 /**
@@ -16,28 +19,29 @@ import com.zaze.demo.component.provider.view.ProviderView;
  */
 public class ProviderPresenterImpl extends ZBasePresenter<ProviderView> implements ProviderPresenter {
     ContentResolver resolver;
-    String KEY_ID = "_id";
-    String KEY_NAME = "name";
-    String KEY_AGE = "age";
-    String KEY_HEIGHT = "height";
-
 
     public ProviderPresenterImpl(ProviderView view) {
         super(view);
         resolver = ZBaseApplication.getInstance().getContentResolver();
     }
 
-
-    private void query() {
-//        Uri uri = Uri.parse(CONTENT_URI_STRING + "/" + "2");
+    @Override
+    public void query() {
+        Cursor cursor = resolver.query(User.CONTENT_URI,
+                new String[]{User.KEY_ID, User.KEY_USER_ID, User.KEY_USERNAME},
+                null, null, null);
+        if (cursor != null) {
+            cursor.close();
+        }
     }
 
-    private void insert() {
+    @Override
+    public void insert() {
         ContentValues values = new ContentValues();
-        values.put(KEY_NAME, "Tom");
-        values.put(KEY_AGE, 21);
-        values.put(KEY_HEIGHT, 1.81f);
-//        Uri newUri = resolver.insert(CONTENT_URI, values);
+//        values.put(User.KEY_ID, 1.81f);
+        values.put(User.KEY_USERNAME, "Tom");
+        values.put(User.KEY_USER_ID, 21);
+        Uri newUri = resolver.insert(User.CONTENT_URI, values);
     }
 
 }

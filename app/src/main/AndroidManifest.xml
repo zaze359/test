@@ -93,10 +93,14 @@
 
         <provider
             android:name=".component.provider.ZazeProvider"
-            android:authorities="com.zaze.peopleprovider" />
+            android:authorities="com.zaze.user.provider" />
 
         <activity
             android:name=".component.provider.ui.ProviderActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".component.readpackage.ui.ReadPackageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
     </application>

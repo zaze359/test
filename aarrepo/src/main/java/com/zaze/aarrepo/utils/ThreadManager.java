@@ -144,7 +144,7 @@ public class ThreadManager {
      * @author : zaze
      * @version : 2015年6月9日 上午10:12:07
      */
-    public void runInUIThread(Runnable runnable, int delay) {
+    public void runInUIThread(Runnable runnable, long delay) {
         handler.postDelayed(runnable, delay);
     }
 

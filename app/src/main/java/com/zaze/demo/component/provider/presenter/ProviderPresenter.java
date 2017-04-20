@@ -8,4 +8,7 @@ package com.zaze.demo.component.provider.presenter;
  */
 public interface ProviderPresenter {
 
+    void insert();
+
+    void query();
 }

@@ -15,6 +15,7 @@ import android.view.View;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.zaze.aarrepo.commons.base.ZBaseActivity;
 import com.zaze.aarrepo.commons.base.ZBaseFragment;
+import com.zaze.aarrepo.commons.log.StackTraceHelper;
 import com.zaze.aarrepo.commons.log.ZLog;
 import com.zaze.aarrepo.commons.task.TaskCallback;
 import com.zaze.aarrepo.commons.task.TaskEntity;
@@ -75,6 +76,14 @@ public class MainActivity extends ZBaseActivity {
 //        Properties properties = configHelper.load();
         int a = StringUtil.parseInt(configHelper.getProperty("aa"));
         ZLog.v("aa", "" + a);
+        String str = null;
+
+        try {
+            str.equals("b");
+        } catch (Exception e) {
+            ZLog.e("zaze", StackTraceHelper.getErrorMsg(e));
+        }
+
     }
 
     // -------------------------

@@ -1,5 +1,6 @@
 package com.zaze.aarrepo.commons.log;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -12,29 +13,51 @@ import java.io.StringWriter;
  */
 public class StackTraceHelper {
 
+    /**
+     * @return 直接调用方法的堆栈信息
+     */
     public static StackTraceElement getCurrentStackTraceElement() {
         return getStackTraceElement(3);
     }
 
+    /**
+     * @return 间接调用的堆栈信息
+     */
     public static StackTraceElement getCallerStackTraceElement() {
         return getStackTraceElement(4);
     }
 
+    /**
+     * @param position 堆栈位置
+     * @return 堆栈信息
+     */
     public static StackTraceElement getStackTraceElement(int position) {
         return Thread.currentThread().getStackTrace()[position];
     }
 
     /**
-     * @param e
+     * @param e 异常
      * @return 获取报错的堆栈信息
      */
     public static String getErrorMsg(Throwable e) {
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw, true);
-        e.printStackTrace(pw);
-        pw.flush();
-        sw.flush();
-        return sw.toString();
+        if (e != null) {
+            StringWriter stringWriter = new StringWriter();
+            PrintWriter printWriter = new PrintWriter(stringWriter, true);
+            try {
+                e.printStackTrace(printWriter);
+                printWriter.flush();
+                stringWriter.flush();
+                return stringWriter.toString();
+            } finally {
+                printWriter.close();
+                try {
+                    stringWriter.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        } else {
+            return "";
+        }
     }
-
 }

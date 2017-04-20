@@ -60,9 +60,12 @@ public class FileUtil {
      * @return 获取缓存路径
      */
     public static String getCachePath(Context context) {
-        String cachePath;
+        String cachePath = "";
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-            cachePath = context.getExternalCacheDir().getPath();
+            File file = context.getExternalCacheDir();
+            if (file != null) {
+                cachePath = context.getExternalCacheDir().getPath();
+            }
         } else {
             cachePath = context.getCacheDir().getPath();
         }
@@ -93,17 +96,15 @@ public class FileUtil {
     }
 
     /**
-     * @param dirPath  目录
-     * @param fileName 文件名
+     * @param filePath filePath
      * @return
      * @throws IOException
      */
-    public static File createFileInSDCard(String dirPath, String fileName) throws IOException {
-        String filePath = dirPath + File.separator + fileName;
+    public static File createFileInSDCard(String filePath) throws IOException {
         File file = new File(filePath);
         boolean result = false;
         if (!isFileExist(filePath)) {
-            if (createDir(dirPath)) {
+            if(createParentDir(filePath)) {
                 result = file.createNewFile();
             }
         } else {
@@ -212,61 +213,56 @@ public class FileUtil {
         if (file.exists() && file.length() >= maxSize) {
             file.delete();
         }
-        return write2SDCardFile(dirPath, fileName, dataStr, true);
+        return write2SDCardFile(dirPath + File.separator + fileName, dataStr, true);
+    }
+
+    /**
+     * 将数据写入sd卡(直接替换)
+     *
+     * @param filePath
+     * @param dataStr
+     * @return
+     */
+    public static File write2SDCardFile(String filePath, String dataStr) {
+        return write2SDCardFile(filePath, dataStr, false);
     }
 
     /**
      * 将数据写入sd卡
      *
-     * @param dirPath
-     * @param fileName
+     * @param filePath
      * @param dataStr
      * @return
      */
-    public static File write2SDCardFile(String dirPath, String fileName, String dataStr) {
-        return write2SDCardFile(dirPath, fileName, dataStr, false);
-    }
-
-    /**
-     * 将数据写入sd卡
-     *
-     * @param dirPath
-     * @param fileName
-     * @param dataStr
-     * @return
-     */
-    public static File write2SDCardFile(String dirPath, String fileName, String dataStr, boolean append) {
+    public static File write2SDCardFile(String filePath, String dataStr, boolean append) {
         InputStream input = new ByteArrayInputStream(dataStr.getBytes());
-        return write2SDCardFile(dirPath, fileName, input, append);
+        return write2SDCardFile(filePath, input, append);
     }
 
     /**
      * 将数据写入sd卡
      *
-     * @param dirPath
-     * @param fileName
+     * @param filePath
      * @param input
      * @return
      */
-    public static File write2SDCardFile(String dirPath, String fileName, InputStream input) {
-        return write2SDCardFile(dirPath, fileName, input, false);
+    public static File write2SDCardFile(String filePath, InputStream input) {
+        return write2SDCardFile(filePath, input, false);
     }
 
     /**
      * 将数据写入sd卡
      *
-     * @param dirPath
-     * @param fileName
+     * @param filePath
      * @param input
      * @return
      */
-    public static File write2SDCardFile(String dirPath, String fileName, InputStream input, boolean append) {
+    public static File write2SDCardFile(String filePath, InputStream input, boolean append) {
         writeLock(lock);
         File file = null;
         OutputStream output = null;
         try {
-            createDir(dirPath);
-            file = createFileInSDCard(dirPath, fileName);
+            file = createFileInSDCard(getSDCardRoot() + filePath);
             output = new FileOutputStream(file, append);
             byte[] buffer = new byte[4 * 1024];
             int temp = 0;

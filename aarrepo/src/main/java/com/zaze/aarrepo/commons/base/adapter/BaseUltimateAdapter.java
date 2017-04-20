@@ -2,12 +2,14 @@ package com.zaze.aarrepo.commons.base.adapter;
 
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
+import com.zaze.aarrepo.commons.base.ZBaseApplication;
 import com.zaze.aarrepo.utils.ViewUtil;
 import com.zaze.aarrepo.utils.helper.OnClickHelper;
 
@@ -162,6 +164,11 @@ public abstract class BaseUltimateAdapter<V, VH extends RecyclerView.ViewHolder>
         return context.getString(resId, args);
     }
 
+    public Drawable getDrawable(int id) {
+        return ZBaseApplication.getInstance().getResources().getDrawable(id);
+    }
+
+    // --------------------------------------------------
     public <T extends View> T findView(View parentView, int resId) {
         return ViewUtil.findView(parentView, resId);
     }
