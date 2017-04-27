@@ -1,5 +1,6 @@
 package com.zaze.demo.component.provider.sqlite;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -40,6 +41,7 @@ public abstract class BaseDao<T> {
                 break;
             }
         }
+
         if (!flag) {
             String sql = "alter table " + getTableName() + " add " + columnName + " " + columnType;
             execSQL(sql);
@@ -85,17 +87,21 @@ public abstract class BaseDao<T> {
         return list;
     }
 
-    public List<T> queryWhereList(String tableName, String where, String[] selectionArgs) {
-        return rawQueryList("SELECT * FROM " + tableName + " " + where, selectionArgs);
+    public List<T> queryWhereList(String where, String[] selectionArgs) {
+        return rawQueryList("SELECT * FROM " + getTableName() + " " + where, selectionArgs);
     }
 
-    public T queryWhere(String tableName, String where, String[] selectionArgs) {
-        return query("SELECT * FROM " + tableName + " " + where, selectionArgs);
+    public T queryWhere(String where, String[] selectionArgs) {
+        return query("SELECT * FROM " + getTableName() + " " + where, selectionArgs);
     }
 
     public void insert(T t) {
         String sql = insertSql(t);
         execSQL(sql);
+    }
+
+    public long insert(ContentValues values) {
+        return db.insert(getTableName(), null, values);
     }
 
     public void update(T t) {

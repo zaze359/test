@@ -7,8 +7,12 @@ import android.net.Uri;
 
 import com.zaze.aarrepo.commons.base.ZBaseApplication;
 import com.zaze.aarrepo.commons.base.ZBasePresenter;
+import com.zaze.aarrepo.commons.log.ZLog;
+import com.zaze.aarrepo.utils.JsonUtil;
+import com.zaze.aarrepo.utils.ZTag;
 import com.zaze.demo.component.provider.presenter.ProviderPresenter;
 import com.zaze.demo.component.provider.sqlite.User;
+import com.zaze.demo.component.provider.sqlite.UserDao;
 import com.zaze.demo.component.provider.view.ProviderView;
 
 /**
@@ -28,19 +32,28 @@ public class ProviderPresenterImpl extends ZBasePresenter<ProviderView> implemen
     @Override
     public void query() {
         Cursor cursor = resolver.query(User.CONTENT_URI,
-                new String[]{User.KEY_ID, User.KEY_USER_ID, User.KEY_USERNAME},
+                new String[]{UserDao.Properties.ID, UserDao.Properties.USER_ID, UserDao.Properties.USER_NAME},
                 null, null, null);
+        User user = new User();
         if (cursor != null) {
+            if(cursor.moveToNext()) {
+                user.setId(cursor.getLong(cursor.getColumnIndex(UserDao.Properties.ID)));
+                user.setUserId(cursor.getLong(cursor.getColumnIndex(UserDao.Properties.USER_ID)));
+                user.setUsername(cursor.getString(cursor.getColumnIndex(UserDao.Properties.USER_NAME)));
+            }
             cursor.close();
         }
+        ZLog.i(ZTag.TAG_PROVIDER, JsonUtil.objToJson(user));
+
+
     }
 
     @Override
     public void insert() {
         ContentValues values = new ContentValues();
 //        values.put(User.KEY_ID, 1.81f);
-        values.put(User.KEY_USERNAME, "Tom");
-        values.put(User.KEY_USER_ID, 21);
+        values.put(UserDao.Properties.USER_NAME, "Tom");
+        values.put(UserDao.Properties.USER_ID, 21);
         Uri newUri = resolver.insert(User.CONTENT_URI, values);
     }
 

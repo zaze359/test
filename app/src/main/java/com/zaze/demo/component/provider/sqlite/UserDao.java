@@ -36,7 +36,7 @@ public class UserDao extends BaseDao<User> {
     public void createTable() {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + Properties.TABLE_NAME +
                 "(" + Properties.ID + " INTEGER PRIMARY KEY AUTOINCREMENT" +
-                ", " + Properties.USER_ID + " INTEGER" +
+                ", " + Properties.USER_ID + " LONG" +
                 ", " + Properties.USER_NAME + " VARCHAR" +
                 ")");
     }
@@ -75,8 +75,8 @@ public class UserDao extends BaseDao<User> {
     @Override
     protected User dealCursor(Cursor cursor) {
         User user = new User();
-        user.setId(getInt(cursor, Properties.ID));
-        user.setUserId(getInt(cursor, Properties.USER_ID));
+        user.setId(getLong(cursor, Properties.ID));
+        user.setUserId(getLong(cursor, Properties.USER_ID));
         user.setUsername(getString(cursor, Properties.USER_NAME));
         return user;
     }

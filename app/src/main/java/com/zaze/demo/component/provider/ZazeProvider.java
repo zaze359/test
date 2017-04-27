@@ -1,16 +1,21 @@
 package com.zaze.demo.component.provider;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
 import com.zaze.aarrepo.commons.log.ZLog;
+import com.zaze.aarrepo.utils.StringUtil;
 import com.zaze.aarrepo.utils.ZTag;
 import com.zaze.demo.component.provider.sqlite.DBOpenHelper;
 import com.zaze.demo.component.provider.sqlite.User;
+import com.zaze.demo.component.provider.sqlite.UserDao;
 
 /**
  * Description :
@@ -32,10 +37,12 @@ public class ZazeProvider extends ContentProvider {
     }
 
     private DBOpenHelper dbOpenHelper;
+    private SQLiteDatabase db;
 
     @Override
     public boolean onCreate() {
         this.dbOpenHelper = new DBOpenHelper(this.getContext());
+        db = dbOpenHelper.getWritableDatabase();
         return false;
     }
 
@@ -43,23 +50,23 @@ public class ZazeProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         ZLog.i(ZTag.TAG_PROVIDER, "query");
+        SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
+        queryBuilder.setTables(UserDao.Properties.TABLE_NAME);
         switch (uriMatcher.match(uri)) {
             case MULTIPLE_PEOPLE:
-//                return db.query("person", projection, selection, selectionArgs, null, null, sortOrder);
                 ZLog.i(ZTag.TAG_PROVIDER, "MULTIPLE_PEOPLE");
-                return null;
+                break;
             case SINGLE_PEOPLE:
+                queryBuilder.appendWhere(UserDao.Properties.USER_ID + "=" + uri.getPathSegments().get(1));
                 ZLog.i(ZTag.TAG_PROVIDER, "SINGLE_PEOPLE");
-//                long id = ContentUris.parseId(uri);
-//                String where = "_id=" + id;
-//                if (selection != null && !"".equals(selection)) {
-//                    where = selection + " and " + where;
-//                }
-//                return db.query("person", projection, where, selectionArgs, null, null, sortOrder);
-                return null;
+                break;
             default:
-                throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
+                break;
         }
+        return queryBuilder.query(
+                db, projection, selection,
+                selectionArgs, null, null, sortOrder
+        );
     }
 
     @Nullable
@@ -71,8 +78,16 @@ public class ZazeProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        ZLog.i(ZTag.TAG_PROVIDER, "insert");
-        return null;
+        String username = values.getAsString(UserDao.Properties.USER_NAME);
+        long userId = values.getAsLong(UserDao.Properties.USER_ID);
+        ZLog.i(ZTag.TAG_PROVIDER, StringUtil.format("insert %s %s", username, userId));
+        User user = new User();
+        user.setUsername(username);
+        user.setUserId(userId);
+        long _id = dbOpenHelper.getUserDao().insert(values);
+        Uri newUri = ContentUris.withAppendedId(User.CONTENT_URI, _id);
+        getContext().getContentResolver().notifyChange(newUri, null);
+        return newUri;
     }
 
     @Override

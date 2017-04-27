@@ -7,7 +7,9 @@ package com.zaze.aarrepo.utils;
  * @version : 2017-03-24 - 00:56
  */
 public interface ZTag {
-    String TAG_TASK = "Task[任务]";
-    String TAG_ABOUT_APP = "AboutApp[应用相关]";
-    String TAG_PROVIDER = "ContentProvider[]";
+    String TAG_BASE = "[ZAZE]";
+    String TAG_DEBUG = "Debug[任务]" + TAG_BASE;
+    String TAG_TASK = "Task[任务]" + TAG_BASE;
+    String TAG_ABOUT_APP = "AboutApp[应用相关]" + TAG_BASE;
+    String TAG_PROVIDER = "ContentProvider[]" + TAG_BASE;
 }

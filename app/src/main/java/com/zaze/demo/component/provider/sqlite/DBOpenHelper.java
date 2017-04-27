@@ -19,12 +19,13 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
     public DBOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        userDao = new UserDao(getWritableDatabase());
+        userDao.createTable();
+
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        userDao = new UserDao(db);
-        userDao.createTable();
     }
 
     @Override

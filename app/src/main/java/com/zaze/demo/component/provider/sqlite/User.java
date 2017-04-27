@@ -16,28 +16,23 @@ public class User {
     public static final String CONTENT_URI_STRING = "content://" + AUTHORITY + "/" + PATH_MULTIPLE;
     public static final Uri CONTENT_URI = Uri.parse(CONTENT_URI_STRING);
 
-
-    public static final String KEY_ID = "id";
-    public static final String KEY_USER_ID = "userId";
-    public static final String KEY_USERNAME = "username";
-
-    private int id;
-    private int userId;
+    private long id;
+    private long userId;
     private String username;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public int getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 
