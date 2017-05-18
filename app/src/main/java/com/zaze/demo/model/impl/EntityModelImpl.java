@@ -3,6 +3,7 @@ package com.zaze.demo.model.impl;
 
 import com.zaze.demo.component.device.ui.DeviceActivity;
 import com.zaze.demo.component.gps.ui.GpsActivity;
+import com.zaze.demo.component.preference.MyPreferenceActivity;
 import com.zaze.demo.component.provider.ui.ProviderActivity;
 import com.zaze.demo.component.readpackage.ui.ReadPackageActivity;
 import com.zaze.demo.component.rxandroid.RxAndroidActivity;
@@ -38,6 +39,7 @@ public class EntityModelImpl implements EntityModel {
         list.add(new TableEntity(8, "Task", TaskActivity.class));
         list.add(new TableEntity(9, "ContentProvider", ProviderActivity.class));
         list.add(new TableEntity(10, "ReadPackage", ReadPackageActivity.class));
+        list.add(new TableEntity(11, "MyPreferenceActivity", MyPreferenceActivity.class));
 
 //        SortUtil.sortList(list, "getType", "desc");
 

@@ -1,8 +1,11 @@
 package com.zaze.demo;
 
 
+import android.content.ContentResolver;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -18,12 +21,8 @@ import com.zaze.aarrepo.commons.base.ZBaseFragment;
 import com.zaze.aarrepo.commons.log.ZLog;
 import com.zaze.aarrepo.commons.task.TaskCallback;
 import com.zaze.aarrepo.commons.task.TaskEntity;
-import com.zaze.aarrepo.utils.StringUtil;
-import com.zaze.aarrepo.utils.ZipUtil;
-import com.zaze.aarrepo.utils.helper.ConfigHelper;
 import com.zaze.demo.component.table.ui.TableFragment;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,15 +71,24 @@ public class MainActivity extends ZBaseActivity {
     };
 
     public void testClick(View view) {
-        ConfigHelper configHelper = ConfigHelper.newInstance("/sdcard/text.ini");
-        configHelper.setProperty("aa", "2");
-//        Properties properties = configHelper.load();
-        int a = StringUtil.parseInt(configHelper.getProperty("aa"));
-        ZLog.v("aa", "" + a);
-        String str = null;
-        File file = new File("/sdcard/xuehai/download/app/com.xuehai.launcher/2/com.xuehai.launcher.apk");
-        ZipUtil.unZipFolder("/sdcard/xuehai/download/app/com.xuehai.launcher/2/com.xuehai.launcher.apk", "/sdcard/aa/");
 
+//        ConfigHelper configHelper = ConfigHelper.newInstance("/sdcard/text.ini");
+//        configHelper.setProperty("aa", "2");
+//        int a = StringUtil.parseInt(configHelper.getProperty("aa"));
+//        ZLog.v("aa", "" + a);
+//        String str = null;
+//        File file = new File("/sdcard/xuehai/download/app/com.xuehai.launcher/2/com.xuehai.launcher.apk");
+//        ZipUtil.unZipFolder("/sdcard/xuehai/download/app/com.xuehai.launcher/2/com.xuehai.launcher.apk", "/sdcard/aa/");
+        changeLight();
+    }
+
+    // --------------------------------------------------
+
+    private void changeLight() {
+        ContentResolver contentResolver = this.getContentResolver();
+        Uri uri = Settings.System.getUriFor(Settings.System.SCREEN_BRIGHTNESS);
+        Settings.System.putInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, 24);
+        contentResolver.notifyChange(uri, null);
     }
 
     // -------------------------

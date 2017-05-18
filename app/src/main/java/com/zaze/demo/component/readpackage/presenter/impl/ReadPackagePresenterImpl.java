@@ -29,7 +29,8 @@ public class ReadPackagePresenterImpl extends ZBasePresenter<ReadPackageView> im
     @Override
     public void getAllApkFile(String dir) {
         List<PackageEntity> list = new ArrayList<>();
-        List<String> apkList = RootCmd.execRootCmdForRes("ls " + dir + " *.apk");
+        RootCmd.CommandResult result = RootCmd.execRootCmdForRes("ls " + dir + " *.apk");
+        List<String> apkList = result.msgList;
         for (String apk : apkList) {
             PackageInfo packageInfo = AppUtil.getPackageArchiveInfo(ZBaseApplication.getInstance(), apk);
             if (packageInfo != null) {

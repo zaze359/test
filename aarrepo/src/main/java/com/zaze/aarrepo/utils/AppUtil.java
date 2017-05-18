@@ -17,7 +17,6 @@ import com.zaze.aarrepo.commons.log.ZLog;
 import java.io.File;
 import java.util.List;
 
-import static com.zaze.aarrepo.utils.RootCmd.execRootCmdSilent;
 
 /**
  * Description :
@@ -130,8 +129,7 @@ public class AppUtil {
      */
     public static boolean installApkSilent(String filePath) {
         ZLog.i(ZTag.TAG_ABOUT_APP, "开始静默安装 %s", filePath);
-        String cmd = "pm install -r " + filePath;
-        if (RootCmd.execRootCmdSilent(cmd) != RootCmd.ERROR) {
+        if (RootCmd.execRootCmd("pm install -r " + filePath) != RootCmd.ERROR) {
             ZLog.i(ZTag.TAG_ABOUT_APP, "静默安装成功!");
             return true;
         } else {
@@ -147,8 +145,7 @@ public class AppUtil {
      */
     public static boolean unInstallApkSilent(String packageName) {
         ZLog.i(ZTag.TAG_ABOUT_APP, "开始静默卸载 %s", packageName);
-        String cmd = "pm uninstall " + packageName;
-        if (execRootCmdSilent(cmd) != RootCmd.ERROR) {
+        if (RootCmd.execRootCmd("pm uninstall " + packageName) != RootCmd.ERROR) {
             ZLog.i(ZTag.TAG_ABOUT_APP, "静默卸载成功!");
             return true;
         } else {
@@ -167,8 +164,7 @@ public class AppUtil {
     public static void clearDataInfo(String packageName) {
         File file = new File("/data/data/" + packageName);
         if (file.exists()) {
-            String clear = "pm clear " + packageName;
-            RootCmd.execRootCmd(clear);
+            RootCmd.execRootCmd("pm clear " + packageName);
         }
     }
     // --------------------------------------------------

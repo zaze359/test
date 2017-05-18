@@ -6,6 +6,7 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
     <!-- 这个权限用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -25,6 +26,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- SD卡读取权限，用户写入离线定位数据 -->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+
 
     <application
         android:name=".app.MyApplication"
@@ -91,6 +93,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
+        <!-- contentProvider -->
         <provider
             android:name=".component.provider.ZazeProvider"
             android:authorities="com.zaze.user.provider" />
@@ -99,8 +102,19 @@
             android:name=".component.provider.ui.ProviderActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+        <!-- contentProvider -->
+
         <activity
             android:name=".component.readpackage.ui.ReadPackageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".component.fileexplorer.ui.FileExplorerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".component.preference.MyPreferenceActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
     </application>

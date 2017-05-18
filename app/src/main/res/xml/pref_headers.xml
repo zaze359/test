@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <header
+        android:fragment="com.zaze.demo.component.preference.Pref1Fragment"
+        android:icon="@mipmap/ic_launcher"
+        android:summary="系统设置"
+        android:title="系统设置" />
+
+    <header
+        android:icon="@mipmap/ic_launcher"
+        android:summary="view baidu website"
+        android:title="baidu">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="https://m.baidu.com/" />
+    </header>
+
+</preference-headers>

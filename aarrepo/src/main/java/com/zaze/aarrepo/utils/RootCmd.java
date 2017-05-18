@@ -1,11 +1,10 @@
 package com.zaze.aarrepo.utils;
 
 
-import com.zaze.aarrepo.commons.log.LogKit;
-
-import java.io.DataInputStream;
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,133 +18,38 @@ import java.util.List;
 public class RootCmd {
     private static final String TAG = "RootCmd[执行命令]";
 
+    public static final String COMMAND_SU = "su";
+    public static final String COMMAND_SH = "sh";
+    public static final String COMMAND_EXIT = "exit\n";
+    public static final String COMMAND_LINE_END = "\n";
 
-    public interface Callback {
-        void back(int code, String result);
+
+    public static int ERROR = -1;
+
+    // --------------------------------------------------
+    public static void reboot() {
+        RootCmd.execRootCmd("reboot");
     }
 
-    public static final int ERROR = -1;
+    // --------------------------------------------------
 
     /**
      * @param cmd
      * @return 执行命令并且输出结果
      */
-    public static List<String> execRootCmdForRes(String cmd) {
-        List<String> resultList = new ArrayList<>();
-        DataOutputStream dos = null;
-        DataInputStream dis = null;
-        try {
-            // 经过Root处理的android系统即有su命令
-            Process p = Runtime.getRuntime().exec("su");
-            dos = new DataOutputStream(p.getOutputStream());
-            dis = new DataInputStream(p.getInputStream());
-            dos.writeBytes(cmd + "\n");
-            dos.flush();
-            dos.writeBytes("exit\n");
-            dos.flush();
-            String line;
-            while ((line = dis.readLine()) != null) {
-                LogKit.d("result=" + line);
-                resultList.add(line);
-            }
-            p.waitFor();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (dos != null) {
-                try {
-                    dos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (dis != null) {
-                try {
-                    dis.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return resultList;
+    public static CommandResult execRootCmdForRes(String cmd) {
+        return execRootCmdForRes(new String[]{cmd});
     }
 
-
     /**
-     * @param cmd
+     * @param cmdArray
      * @return 执行命令并且输出结果
      */
-    public static String execRootCmdForStrRes(String cmd) {
-        StringBuilder result = new StringBuilder();
-        DataOutputStream dos = null;
-        DataInputStream dis = null;
-        try {
-            // 经过Root处理的android系统即有su命令
-            Process p = Runtime.getRuntime().exec("su");
-            dos = new DataOutputStream(p.getOutputStream());
-            dis = new DataInputStream(p.getInputStream());
-            dos.writeBytes(cmd + "\n");
-            dos.flush();
-            dos.writeBytes("exit\n");
-            dos.flush();
-            String line;
-            while ((line = dis.readLine()) != null) {
-                LogKit.d("result=" + line);
-                result.append(line);
-            }
-            p.waitFor();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (dos != null) {
-                try {
-                    dos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (dis != null) {
-                try {
-                    dis.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return result.toString();
+    public static CommandResult execRootCmdForRes(String[] cmdArray) {
+        return execCommand(cmdArray, true, true);
     }
 
-    /**
-     * 执行命令但不关注结果输出
-     *
-     * @param cmd
-     * @return 失败 : = -1; 成功 : != -1
-     */
-    public static int execRootCmdSilent(String cmd) {
-        int result = ERROR;
-        DataOutputStream dos = null;
-        try {
-            Process p = Runtime.getRuntime().exec("su");
-            dos = new DataOutputStream(p.getOutputStream());
-            dos.writeBytes(cmd + "\n");
-            dos.flush();
-            dos.writeBytes("exit\n");
-            dos.flush();
-            p.waitFor();
-            result = p.exitValue();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (dos != null) {
-                try {
-                    dos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return result;
-    }
+    // --------------------------------------------------
 
     /**
      * 执行命令但不关注结果输出
@@ -154,65 +58,109 @@ public class RootCmd {
      * @return 失败 : = -1; 成功 : != -1
      */
     public static int execRootCmd(String cmd) {
-        int result = ERROR;
-        DataOutputStream dos = null;
-        Process p = null;
+        return execRootCmd(new String[]{cmd});
+    }
+
+    /**
+     * 执行命令但不关注结果输出
+     *
+     * @param cmdArray
+     * @return 失败 : = -1; 成功 : != -1
+     */
+    public static int execRootCmd(String[] cmdArray) {
+        return execCommand(cmdArray, true, false).result;
+    }
+
+    // --------------------------------------------------
+    public static CommandResult execCommand(String[] commands, boolean isRoot, boolean isNeedResultMsg) {
+        int result = -1;
+        if (commands == null || commands.length == 0) {
+            return new CommandResult(result, null, null);
+        }
+        Process process = null;
+        BufferedReader successResult = null;
+        BufferedReader errorResult = null;
+        StringBuilder errorMsg = null;
+        DataOutputStream os = null;
+        List<String> resultList = null;
         try {
-            p = Runtime.getRuntime().exec("su");
-            dos = new DataOutputStream(p.getOutputStream());
-            dos.writeBytes(cmd + "\n");
-            dos.flush();
-            dos.writeBytes("exit\n");
-            dos.flush();
-            p.waitFor();
-            result = p.exitValue();
-            p.destroy();
+            process = Runtime.getRuntime().exec(isRoot ? COMMAND_SU : COMMAND_SH);
+            os = new DataOutputStream(process.getOutputStream());
+            for (String command : commands) {
+                if (command == null) {
+                    continue;
+                }
+                // donnot use os.writeBytes(commmand), avoid chinese charset error
+                os.write(command.getBytes());
+                os.writeBytes(COMMAND_LINE_END);
+                os.flush();
+            }
+            os.writeBytes(COMMAND_EXIT);
+            os.flush();
+            result = process.waitFor();
+            if (isNeedResultMsg) {
+                resultList = new ArrayList<>();
+                errorMsg = new StringBuilder();
+                successResult = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                errorResult = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+                String str;
+                while ((str = successResult.readLine()) != null) {
+                    resultList.add(str);
+                }
+                while ((str = errorResult.readLine()) != null) {
+                    errorMsg.append(str);
+                }
+            }
+            process.destroy();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if (p != null) {
-                p.destroy();
-            }
-            if (dos != null) {
-                try {
-                    dos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+            try {
+                if (os != null) {
+                    os.close();
                 }
+                if (successResult != null) {
+                    successResult.close();
+                }
+                if (errorResult != null) {
+                    errorResult.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
-        return result;
+        return new CommandResult(result,
+                errorMsg == null ? null : errorMsg.toString(),
+                resultList
+        );
     }
 
-    public static void reboot() {
-        RootCmd.execRootCmdSilent("reboot");
+    public static boolean isSuccess(int result) {
+        return result != ERROR;
     }
 
-//    public static void rmSystemFile(String filePath) {
-//        ZLog.i(TAG, "execSystemCmd start ");
-//        String mount = "/system/mount-xuehai.sh ";
-//        String chmod = "chmod 777 " + filePath;
-//        String execute = "rm -r " + filePath;
-//        int res = FAILED;
-//        ZLog.i(TAG, "start mount...");
-//        if (RootCmd.execRootCmdSilent(mount) != FAILED) {
-//            ZLog.i(TAG, "start chmod...");
-//            if (RootCmd.execRootCmdSilent(chmod) != FAILED) {
-//                ZLog.i(TAG, "start uninstall...");
-//                res = RootCmd.execRootCmdSilent(execute);
-//                if (FAILED != res) {
-//                    ZLog.i(TAG, "uninstall success");
-//                } else {
-//                    ZLog.w(TAG, "uninstall fail");
-//                }
-//            } else {
-//                ZLog.w(TAG, "chmod fail");
-//            }
-//        } else {
-//            ZLog.w(TAG, "mount fail");
-//        }
-//        ZLog.i(TAG, "execSystemCmd end ");
-//    }
+    // --------------------------------------------------
+    public static class CommandResult {
+        public int result;
+        public String successMsg;
+        public List<String> msgList;
+        public String errorMsg;
 
+        public CommandResult(int result) {
+            this.result = result;
+        }
+
+        public CommandResult(int result, String errorMsg, List<String> list) {
+            this.result = result;
+            msgList = new ArrayList<>();
+            if (list != null && !list.isEmpty()) {
+                msgList.addAll(list);
+                for (String str : list) {
+                    this.successMsg += str;
+                }
+            }
+            this.errorMsg = errorMsg;
+        }
+    }
 
 }

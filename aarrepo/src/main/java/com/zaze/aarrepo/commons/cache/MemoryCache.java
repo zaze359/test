@@ -1,11 +1,12 @@
 package com.zaze.aarrepo.commons.cache;
 
 
-import com.zaze.aarrepo.commons.log.LogKit;
 import com.zaze.aarrepo.commons.log.ZLog;
 import com.zaze.aarrepo.commons.task.service.TaskService;
 import com.zaze.aarrepo.commons.task.service.TaskServiceAction;
 import com.zaze.aarrepo.utils.DeviceUtil;
+import com.zaze.aarrepo.utils.StringUtil;
+import com.zaze.aarrepo.utils.ZTag;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,9 +70,9 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
             return "cacheData is null";
         }
         String result = dispatchMemoryCache(values);
-        if (!"".equals(result)) {
+        if (!StringUtil.isEmpty(result)) {
             if (cacheLog) {
-                LogKit.i(result);
+                ZLog.d(ZTag.TAG_MEMORY, result);
             }
             return result;
         }
@@ -87,10 +88,10 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
             saved = new Cache(key, values, keepTime, 0, System.currentTimeMillis());
         }
         if (cacheLog) {
-            LogKit.v("MemoryCache maxSize : " + maxSize / 1024f + "kb");
-            LogKit.v("MemoryCache current memoryCacheSize : " + memoryCacheSize / 1024f + "kb");
-            LogKit.v("MemoryCache free : " + (maxSize - memoryCacheSize) / 1024f + "kb");
-            LogKit.v("MemoryCache saveSize : " + saved.getBytes().length / 1024f + "kb");
+            ZLog.d(ZTag.TAG_MEMORY, "MemoryCache maxSize : " + maxSize / 1024f + "kb");
+            ZLog.d(ZTag.TAG_MEMORY, "MemoryCache current memoryCacheSize : " + memoryCacheSize / 1024f + "kb");
+            ZLog.d(ZTag.TAG_MEMORY, "MemoryCache free : " + (maxSize - memoryCacheSize) / 1024f + "kb");
+            ZLog.d(ZTag.TAG_MEMORY, "MemoryCache saveSize : " + saved.getBytes().length / 1024f + "kb");
         }
         cacheMap.put(key, saved);
         return "";
@@ -105,35 +106,25 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
 //        onRelease();
         ArrayList<Cache> tempCaches = resetSize();
         if (values == null) {
-            return "cache.getBytes is null";
+            return "MemoryCache cache.getBytes is null";
         }
         long saveSize = values.length;
 
         if (saveSize > maxSize) {
-            // too larger
-            if (cacheLog) {
-                LogKit.w("MemoryCache cacheData is larger than maxSize " + maxSize);
-            }
-            return "cacheData is larger than maxSize " + maxSize;
+            return "MemoryCache cacheData is larger than maxSize " + maxSize;
         }
 
         if (saveSize > cacheBlockLength) {
-            // too larger
-            if (cacheLog) {
-                LogKit.w("MemoryCache cacheData is larger than cacheBlockLength " + cacheBlockLength);
-            }
-            return "cacheData is larger than cacheBlockLength " + cacheBlockLength;
+            return "MemoryCache cacheData is larger than cacheBlockLength " + cacheBlockLength;
         }
         long totalFree = DeviceUtil.getVMFreeMemory();
         if (totalFree <= (1024 << 10)) {
             // 系统总剩余内存 小于10MB 
             // 存磁盘 ???
             // 释放
+            System.gc();
             clearMemoryCache();
-            if (cacheLog) {
-                LogKit.e("MemoryCache Device RomFreeSpace is too small !! " + totalFree);
-            }
-            return "Device RomFreeSpace is too small !! " + totalFree;
+            return "MemoryCache Device RomFreeSpace is too small !! " + totalFree;
         }
         if (memoryCacheSize + saveSize >= maxSize) {
             passiveRelease(saveSize, tempCaches);
@@ -164,7 +155,7 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
     @Override
     public void onRelease() {
         if (cacheLog) {
-            ZLog.i("", "MemoryCache onRelease");
+            ZLog.d(ZTag.TAG_MEMORY, "MemoryCache onRelease");
         }
         long currTime = System.currentTimeMillis();
         Map<String, Cache> tempMap = new HashMap<>();
@@ -185,7 +176,7 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
             if (currTime >= cache.getLastTimeMillis() + cache.getKeepTime()) {
                 // 超时数据
                 if (cacheLog) {
-                    LogKit.i("MemoryCache onRelease : " + cache.toString());
+                    ZLog.d(ZTag.TAG_MEMORY, "MemoryCache onRelease : " + cache.toString());
                 }
                 cacheMap.remove(key);
             }
@@ -237,7 +228,7 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
             cacheMap.remove(cache.getKey());
         }
         if (cacheLog) {
-            LogKit.i("MemoryCache after passiveRelease memoryCacheSize : " + memoryCacheSize);
+            ZLog.d(ZTag.TAG_MEMORY, "MemoryCache after passiveRelease memoryCacheSize : " + memoryCacheSize);
         }
         System.gc();
     }
