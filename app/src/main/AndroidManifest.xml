@@ -36,15 +36,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
-            android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:name=".kotlin.HomeActivity"
+            android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".component.animation.ui.AnimationActivity" />
         <activity android:name=".component.rxandroid.RxAndroidActivity" />
         <activity android:name=".component.time.TimeActivity" />

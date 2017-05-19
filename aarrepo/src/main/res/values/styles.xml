@@ -1,22 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Base application theme. -->
-    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
-    <!--<item name="android:screenOrientation">portrait</item>-->
-    <!--<item name="android:windowBackground">@color/main_background</item>-->
-    <!--<item name="android:windowNoTitle">true</item>-->
-    <!--<item name="android:textSize">@dimen/app_text_size</item>-->
-    <!--<item name="android:textColor">@color/main_text_color</item>-->
-    <!--</style>-->
-
-    <style name="AppTheme" parent="AppTheme.Base" />
-    <style name="AppTheme.Base" parent="Theme.AppCompat">
-        <item name="windowActionBar">false</item>
-        <!--<del>-->
-            <!--<item name="android:windowNoTitle">true</item>-->
-        <!--</del>-->
-        <!-- 使用 API Level 22 編譯的話，要拿掉前綴字 -->
-        <item name="windowNoTitle">true</item>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:screenOrientation">portrait</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:textSize">@dimen/app_text_size</item>
+        <item name="android:textColor">@color/black</item>
     </style>
+
+    <style name="AppTheme.Base" parent="Theme.AppCompat" />
 
 </resources>

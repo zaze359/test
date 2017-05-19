@@ -6,11 +6,12 @@ import android.content.Intent;
 import android.support.annotation.LayoutRes;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
 
+import com.zaze.aarrepo.commons.widget.LoadingWidget;
 import com.zaze.aarrepo.commons.widget.head.BaseHeadView;
 import com.zaze.aarrepo.commons.widget.head.HeadFace;
 import com.zaze.aarrepo.commons.widget.head.HeadWidget;
-import com.zaze.aarrepo.commons.widget.LoadingWidget;
 import com.zaze.aarrepo.utils.ActivityUtil;
 import com.zaze.aarrepo.utils.TipUtil;
 import com.zaze.aarrepo.utils.ViewUtil;
@@ -43,10 +44,9 @@ public abstract class ZBaseActivity extends AppCompatActivity implements ZBaseVi
     }
 
     private void initToolBar(int layoutResID) {
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         headFace = new HeadWidget(this, layoutResID);
         super.setContentView(headFace.getContainerView());
-        
-
     }
 //
 //    @Override

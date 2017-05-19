@@ -9,10 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.zaze.aarrepo.commons.widget.LoadingWidget;
 import com.zaze.aarrepo.commons.widget.head.BaseHeadView;
 import com.zaze.aarrepo.commons.widget.head.HeadFace;
 import com.zaze.aarrepo.commons.widget.head.HeadWidget;
-import com.zaze.aarrepo.commons.widget.LoadingWidget;
 import com.zaze.aarrepo.utils.ActivityUtil;
 import com.zaze.aarrepo.utils.TipUtil;
 import com.zaze.aarrepo.utils.ViewUtil;

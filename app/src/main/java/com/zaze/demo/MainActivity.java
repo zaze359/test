@@ -94,11 +94,14 @@ public class MainActivity extends ZBaseActivity {
     // -------------------------
 
     class MyPagerAdapter extends FragmentPagerAdapter {
-        private List<ZBaseFragment> fragmentList;
+        private List<ZBaseFragment> fragmentList = new ArrayList<>();
 
         public MyPagerAdapter(FragmentManager fm, List<ZBaseFragment> list) {
             super(fm);
-            this.fragmentList = list;
+            this.fragmentList.clear();
+            if(list != null) {
+                fragmentList.addAll(list);
+            }
         }
 
         @Override
