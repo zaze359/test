@@ -10,8 +10,8 @@ import com.zaze.demo.kotlin.commen.readpackage.presenter.ReadPackagePresenter
 import com.zaze.demo.kotlin.commen.readpackage.view.ReadPackageView
 import com.zaze.demo.model.entity.PackageEntity
 import rx.Observable
-import rx.functions.Func1
-import java.util.concurrent.Callable
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 
 /**
  * Description :
@@ -21,26 +21,26 @@ import java.util.concurrent.Callable
  * @version : 2017-04-17 05:15 1.0
  */
 class ReadPackagePresenterImpl(view: ReadPackageView) : ZBasePresenter<ReadPackageView>(view), ReadPackagePresenter {
+
     override fun filterApp(matchStr: String) {
-//        Observable.fromCallable(Callable<List<ApplicationInfo>> {
-//            AppKeepUtil.getDeleteList()
-//        })
 
-        Observable.fromCallable(Callable<List<ApplicationInfo>> {
+        Observable.fromCallable({
             AppUtil.getInstalledApplications(ZBaseApplication.getInstance(), 0)
-        }).flatMap(Func1<List<ApplicationInfo>, Observable<ApplicationInfo>> {
-            null
-        })
-
-
-        val appList = AppUtil.getInstalledApplications(ZBaseApplication.getInstance(), 0)
-        val list = ArrayList<PackageEntity>()
-        for (app in appList) {
-            if (app.packageName.contains(StringUtil.parseString(matchStr).toLowerCase())) {
-                list.add(initEntity(app.packageName))
-            }
-        }
-        view.showPackageList(list)
+        }).subscribeOn(Schedulers.io())
+                .map({
+                    v ->
+                    val list = ArrayList<PackageEntity>()
+                    v.filter {
+                        it.packageName.contains(StringUtil.parseString(matchStr).toLowerCase())
+                    }.mapTo(list) {
+                        initEntity(it.packageName)
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    v ->
+                    view.showPackageList(v)
+                })
     }
 
     override fun getAllApkFile(dir: String) {
@@ -59,20 +59,16 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : ZBasePresenter<ReadPacka
     override fun getAllInstallApp() {
         val appList = AppUtil.getInstalledApplications(ZBaseApplication.getInstance(), 0)
         val list = ArrayList<PackageEntity>()
-        for (applicationInfo in appList) {
-            list.add(initEntity(applicationInfo.packageName))
-        }
+        appList.mapTo(list) { initEntity(it.packageName) }
         view.showPackageList(list)
     }
 
     override fun getAllSystemApp() {
         val appList = AppUtil.getInstalledApplications(ZBaseApplication.getInstance(), 0)
         val list = ArrayList<PackageEntity>()
-        for (applicationInfo in appList) {
-            if (applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM > 0) {
-                list.add(initEntity(applicationInfo.packageName))
-            }
-        }
+        appList
+                .filter { it.flags and ApplicationInfo.FLAG_SYSTEM > 0 }
+                .mapTo(list) { initEntity(it.packageName) }
         view.showPackageList(list)
     }
 
