@@ -5,7 +5,7 @@ import com.zaze.demo.component.device.ui.DeviceActivity;
 import com.zaze.demo.component.gps.ui.GpsActivity;
 import com.zaze.demo.component.preference.MyPreferenceActivity;
 import com.zaze.demo.component.provider.ui.ProviderActivity;
-import com.zaze.demo.component.readpackage.ui.ReadPackageActivity;
+import com.zaze.demo.kotlin.commen.readpackage.ui.ReadPackageActivity;
 import com.zaze.demo.component.rxandroid.RxAndroidActivity;
 import com.zaze.demo.component.task.ui.TaskActivity;
 import com.zaze.demo.component.time.TimeActivity;

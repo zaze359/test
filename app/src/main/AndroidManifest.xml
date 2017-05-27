@@ -105,7 +105,7 @@
         <!-- contentProvider -->
 
         <activity
-            android:name=".component.readpackage.ui.ReadPackageActivity"
+            android:name=".kotlin.commen.readpackage.ui.ReadPackageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity

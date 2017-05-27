@@ -27,17 +27,6 @@ import java.util.List;
  */
 public class AppUtil {
 
-
-    public static PackageInfo getPackageInfo(Context context, String packageName) {
-        PackageManager packageManager = context.getPackageManager();
-        try {
-            return packageManager.getPackageInfo(packageName, 0);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     public static PackageInfo getPackageArchiveInfo(Context context, String fileName) {
         if (StringUtil.isEmpty(fileName)) {
             return null;
@@ -67,7 +56,6 @@ public class AppUtil {
         try {
             return context.getPackageManager().getApplicationInfo(packageName, 0);
         } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
             ZLog.e("", "没有找到应用 %s", packageName);
             return null;
         }
@@ -217,16 +205,35 @@ public class AppUtil {
         }
     }
 
+    // --------------------------------------------------
+
+    public static PackageInfo getPackageInfo(Context context, String packageName) {
+        PackageManager packageManager = context.getPackageManager();
+        try {
+            return packageManager.getPackageInfo(packageName, 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            ZLog.e(ZTag.TAG_ERROR, e.getMessage());
+            return null;
+        }
+    }
 
     /**
      * @param context context
      * @return 应用版本名
      */
     public static String getAppVersion(Context context) {
-        try {
-            return context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+        return getAppVersion(context, context.getPackageName());
+    }
+
+    /**
+     * @param context context
+     * @return 应用版本名
+     */
+    public static String getAppVersion(Context context, String packageName) {
+        PackageInfo packageInfo = getPackageInfo(context, packageName);
+        if (packageInfo != null) {
+            return packageInfo.versionName;
+        } else {
             return "";
         }
     }
@@ -236,10 +243,18 @@ public class AppUtil {
      * @return 应用版本号
      */
     public static int getAppVersionCode(Context context) {
-        try {
-            return context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+        return getAppVersionCode(context, context.getPackageName());
+    }
+
+    /**
+     * @param context context
+     * @return 应用版本号
+     */
+    public static int getAppVersionCode(Context context, String packageName) {
+        PackageInfo packageInfo = getPackageInfo(context, packageName);
+        if (packageInfo != null) {
+            return packageInfo.versionCode;
+        } else {
             return 0;
         }
     }
@@ -259,5 +274,6 @@ public class AppUtil {
             return null;
         }
     }
+
 
 }

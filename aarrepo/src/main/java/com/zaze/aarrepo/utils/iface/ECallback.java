@@ -1,7 +1,7 @@
 package com.zaze.aarrepo.utils.iface;
 
 /**
- * Description :
+ * Description : 回调接口（）
  *
  * @author : ZAZE
  * @version : 2017-01-06 - 11:16
