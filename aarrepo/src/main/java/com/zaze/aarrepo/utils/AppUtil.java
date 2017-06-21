@@ -56,7 +56,7 @@ public class AppUtil {
         try {
             return context.getPackageManager().getApplicationInfo(packageName, 0);
         } catch (PackageManager.NameNotFoundException e) {
-            ZLog.e("", "没有找到应用 %s", packageName);
+            ZLog.e(ZTag.TAG_ERROR, "没有找到应用 %s", packageName);
             return null;
         }
     }
@@ -71,7 +71,7 @@ public class AppUtil {
      */
     public static int installApk(Context context, String filePath) {
         ZLog.i(ZTag.TAG_ABOUT_APP, "start installApk %s", filePath);
-        if (DeviceUtil.checksRoot()) {
+        if (RootCmd.checkRoot()) {
             if (installApkSilent(filePath)) {
                 return 1;
             } else {
@@ -94,7 +94,7 @@ public class AppUtil {
      * @param packageName packageName
      */
     public static int unInstallApk(Context context, String packageName) {
-        if (DeviceUtil.checksRoot()) {
+        if (RootCmd.checkRoot()) {
             if (unInstallApkSilent(packageName)) {
                 return 1;
             } else {
@@ -270,10 +270,8 @@ public class AppUtil {
             PackageInfo packageInfo = pManager.getPackageInfo(packageName, 0);
             return pManager.getApplicationIcon(packageInfo.applicationInfo);
         } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+            ZLog.e(ZTag.TAG_ERROR, e.getMessage());
             return null;
         }
     }
-
-
 }

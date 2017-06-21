@@ -30,10 +30,10 @@ class ReadPackageActivity : ZBaseActivity(), ReadPackageView {
     private var presenter: ReadPackagePresenter? = null
     private var adapter: ReadPackageAdapter? = null
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_read_package)
-
         headWidget.setText("查看包名", HeadFace.CENTER)
         presenter = ReadPackagePresenterImpl(this)
         //        presenter.getAllApkFile("/sdcard/");
@@ -56,7 +56,6 @@ class ReadPackageActivity : ZBaseActivity(), ReadPackageView {
                 presenter!!.filterApp(s.toString())
             }
         })
-
     }
 
     override fun showPackageList(list: List<PackageEntity>) {

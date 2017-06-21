@@ -33,7 +33,6 @@
             android:id="@+id/main_test_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="testClick"
             android:text="test" />
 
         <TextView

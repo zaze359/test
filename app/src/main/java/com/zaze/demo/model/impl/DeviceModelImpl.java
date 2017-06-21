@@ -20,8 +20,13 @@ public class DeviceModelImpl implements DeviceModel {
     public List<DeviceStatus> getDeviceInfo() {
         List<DeviceStatus> list = new ArrayList<>();
         DeviceStatus deviceStatus = new DeviceStatus();
-        deviceStatus.setTag("设备号");
+        deviceStatus.setTag("Machine Code");
         deviceStatus.setContent(DeviceUtil.getMachineCode(MyApplication.getInstance()));
+        list.add(deviceStatus);
+        // --------------------------------------------------
+        deviceStatus = new DeviceStatus();
+        deviceStatus.setTag("Device ID");
+        deviceStatus.setContent(DeviceUtil.getDeviceId(MyApplication.getInstance()));
         list.add(deviceStatus);
         // -------
         deviceStatus = new DeviceStatus();

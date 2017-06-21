@@ -6,7 +6,7 @@ import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.zaze.demo.MainActivity;
+import com.zaze.demo.kotlin.HomeActivity;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -14,7 +14,6 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 
 /**
@@ -27,7 +26,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 @LargeTest
 public class MainActivityTest {
     @Rule
-    public ActivityTestRule activityTestRule = new ActivityTestRule(MainActivity.class);
+    public ActivityTestRule activityTestRule = new ActivityTestRule(HomeActivity.class);
 
     @Test
     public void testTextViewDisplay() {

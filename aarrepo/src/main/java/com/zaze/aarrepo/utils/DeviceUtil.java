@@ -7,12 +7,9 @@ import android.os.StatFs;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 
-import com.zaze.aarrepo.commons.log.LogKit;
-
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -29,53 +26,17 @@ import java.util.UUID;
 public class DeviceUtil {
 
     /**
-     * @return 检查设备是否Root了
-     */
-    public static boolean checksRoot() {
-        Process process = null;
-        DataOutputStream outputStream = null;
-        try {
-            process = Runtime.getRuntime().exec("su");
-            outputStream = new DataOutputStream(process.getOutputStream());
-            outputStream.writeBytes("exit\n");
-            outputStream.flush();
-            int exitValue = process.waitFor();
-            if (exitValue == 0) {
-                LogKit.i("设备已Root");
-                return true;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (outputStream != null) {
-                try {
-                    outputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (process != null) {
-                process.destroy();
-            }
-        }
-        LogKit.i("设备未Root");
-        return false;
-    }
-
-    /**
      * @param context
-     * @return 机器码
+     * @return 设备号
      */
     public static String getMachineCode(Context context) {
         UUID uuid;
-        String androidId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+        String androidId = getAndroidId(context);
         try {
             if (!"9774d56d682e549c".equals(androidId)) {
                 uuid = UUID.nameUUIDFromBytes(androidId.getBytes("utf8"));
             } else {
-                final String deviceId = ((TelephonyManager) context
-                        .getSystemService(Context.TELEPHONY_SERVICE))
-                        .getDeviceId();
+                final String deviceId = getDeviceId(context);
                 uuid = deviceId != null ? UUID.nameUUIDFromBytes(deviceId
                         .getBytes("utf8")) : UUID.randomUUID();
             }
@@ -83,6 +44,37 @@ public class DeviceUtil {
             throw new RuntimeException(e);
         }
         return uuid.toString();
+    }
+
+    /**
+     * @param context
+     * @return 机器码
+     */
+    public static String getDeviceId(Context context) {
+        return ((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
+    }
+
+    /**
+     * @param context
+     * @return 设备第一次启动时产生和存储的64bit的一个数，当设备被wipe后该数重置
+     */
+    public static String getAndroidId(Context context) {
+        return Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+    }
+
+    /**
+     * @return 获取设备唯一值
+     */
+    public static String getSerialNumber() {
+        String serialNumber;
+        try {
+            Class c = Class.forName("android.os.SystemProperties");
+            Method get = c.getMethod("get", String.class);
+            serialNumber = (String) get.invoke(c, "ro.serialno");
+        } catch (Exception e) {
+            serialNumber = null;
+        }
+        return serialNumber;
     }
 
     /**

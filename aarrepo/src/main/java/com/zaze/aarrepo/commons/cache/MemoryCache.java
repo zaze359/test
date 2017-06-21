@@ -40,7 +40,7 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
     /**
      * 能放进缓存的数据最大值  太大的不放内存
      */
-    private static final long cacheBlockLength = 1024 * 1000L;
+    private static final long cacheBlockLength = 1 << 20;
     //
     private static final ConcurrentHashMap<String, Cache> cacheMap = new ConcurrentHashMap<>();
 
@@ -118,7 +118,7 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
             return "MemoryCache cacheData is larger than cacheBlockLength " + cacheBlockLength;
         }
         long totalFree = DeviceUtil.getVMFreeMemory();
-        if (totalFree <= (1024 << 10)) {
+        if (totalFree <= (1 << 20)) {
             // 系统总剩余内存 小于10MB 
             // 存磁盘 ???
             // 释放

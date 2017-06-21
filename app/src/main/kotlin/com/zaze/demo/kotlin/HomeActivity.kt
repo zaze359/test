@@ -1,8 +1,6 @@
 package com.zaze.demo.kotlin
 
-import android.net.Uri
 import android.os.Bundle
-import android.provider.Settings
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
@@ -12,6 +10,7 @@ import com.zaze.aarrepo.commons.base.ZBaseFragment
 import com.zaze.aarrepo.commons.widget.head.HeadFace
 import com.zaze.demo.R
 import com.zaze.demo.component.table.ui.TableFragment
+import com.zaze.demo.debug.KotlinDebug
 import kotlinx.android.synthetic.main.activity_home.*
 
 /**
@@ -40,9 +39,13 @@ class HomeActivity : ZBaseActivity() {
     }
 
     fun testClick(view: View) {
-        val uri: Uri = Settings.System.getUriFor(Settings.System.SCREEN_BRIGHTNESS)
-        Settings.System.putInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, 24)
-        contentResolver.notifyChange(uri, null)
+//        val uri: Uri = Settings.System.getUriFor(Settings.System.SCREEN_BRIGHTNESS)
+//        Settings.System.putInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, 24)
+//        contentResolver.notifyChange(uri, null)
+
+        val debug = KotlinDebug()
+        debug.test()
+
     }
 
     inner class MyPagerAdapter(fm: FragmentManager, list: ArrayList<ZBaseFragment>?) : FragmentPagerAdapter(fm) {

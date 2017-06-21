@@ -1,0 +1,56 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/dp_12">
+
+    <TextView
+        android:id="@+id/check_net_ip_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_4"
+        android:textSize="@dimen/sp_20"
+        tools:text="IP" />
+
+    <TextView
+        android:id="@+id/check_net_gateway_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_4"
+        android:textSize="@dimen/sp_20"
+        tools:text="gateway" />
+
+    <TextView
+        android:id="@+id/check_net_dns_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_4"
+        android:textSize="@dimen/sp_20"
+        tools:text="DNS" />
+
+    <TextView
+        android:id="@+id/check_net_wifi_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_4"
+        android:textSize="@dimen/sp_20"
+        tools:text="热点名称/热点SSID" />
+
+    <TextView
+        android:id="@+id/check_net_status_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_4"
+        android:textSize="@dimen/sp_20"
+        tools:text="网络连接的强度" />
+
+    <TextView
+        android:id="@+id/check_net_connect_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_4"
+        android:textSize="@dimen/sp_20"
+        tools:text="到指定网站的连通性" />
+
+</LinearLayout>

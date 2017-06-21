@@ -24,7 +24,6 @@ public class DevicePresenterImpl extends ZBasePresenter<DeviceView> implements D
     @Override
     public void getDeviceInfo() {
         view.showDeviceInfo(deviceModel.getDeviceInfo());
-
         String macAddress = DeviceUtil.getMacAddress();
         view.showMacAddress(macAddress);
 

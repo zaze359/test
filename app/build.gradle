@@ -12,8 +12,8 @@ android {
         applicationId "com.zaze.demo"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -84,6 +84,9 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     compile project(':library')
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile 'com.squareup.okhttp3:okhttp:3.8.0'
+
+
 }
 repositories {
     mavenCentral()

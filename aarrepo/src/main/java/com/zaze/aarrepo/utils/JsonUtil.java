@@ -5,7 +5,6 @@ import com.google.gson.Gson;
 import org.json.JSONArray;
 
 import java.lang.reflect.Type;
-import java.net.URLDecoder;
 import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
@@ -147,11 +146,11 @@ public class JsonUtil {
      * @return String
      */
     private static String decode(String json) {
-        try {
-            json = URLDecoder.decode(json, "utf-8");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            json = URLDecoder.decode(json, "utf-8");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
         return json;
     }
 }

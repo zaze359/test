@@ -174,7 +174,7 @@ public class FileUtil {
      */
     public static boolean deleteSystemFile(String path) {
         if (FileUtil.isFileExist(path)) {
-            if (DeviceUtil.checksRoot()) {
+            if (RootCmd.checkRoot()) {
                 String delStr = " rm -r " + path;
                 RootCmd.execRootCmd(delStr);
             } else {
@@ -332,7 +332,7 @@ public class FileUtil {
     }
 
     public static String getFileMD5(File file) {
-        return MD5Util.getMD5(file);
+        return EncryptionUtil.getMD5(file);
     }
 
     //------------

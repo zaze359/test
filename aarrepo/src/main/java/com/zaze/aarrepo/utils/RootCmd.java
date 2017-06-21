@@ -1,6 +1,8 @@
 package com.zaze.aarrepo.utils;
 
 
+import com.zaze.aarrepo.commons.log.ZLog;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -30,6 +32,41 @@ public class RootCmd {
     public static void reboot() {
         RootCmd.execRootCmd("reboot");
     }
+
+    /**
+     * @return 检查设备是否Root了
+     */
+    public static boolean checkRoot() {
+        Process process = null;
+        DataOutputStream outputStream = null;
+        try {
+            process = Runtime.getRuntime().exec("su");
+            outputStream = new DataOutputStream(process.getOutputStream());
+            outputStream.writeBytes("exit\n");
+            outputStream.flush();
+            int exitValue = process.waitFor();
+            if (exitValue == 0) {
+                ZLog.i(ZTag.TAG_DEBUG, "设备已Root");
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (process != null) {
+                process.destroy();
+            }
+        }
+        ZLog.e(ZTag.TAG_ERROR, "设备未Root");
+        return false;
+    }
+
 
     // --------------------------------------------------
 
@@ -142,7 +179,7 @@ public class RootCmd {
     // --------------------------------------------------
     public static class CommandResult {
         public int result;
-        public String successMsg;
+        public String successMsg = "";
         public List<String> msgList;
         public String errorMsg;
 
@@ -153,14 +190,17 @@ public class RootCmd {
         public CommandResult(int result, String errorMsg, List<String> list) {
             this.result = result;
             msgList = new ArrayList<>();
+            StringBuilder builder = new StringBuilder();
             if (list != null && !list.isEmpty()) {
                 msgList.addAll(list);
                 for (String str : list) {
-                    this.successMsg += str;
+                    builder.append(str);
                 }
             }
+            this.successMsg = builder.toString();
             this.errorMsg = errorMsg;
         }
     }
+
 
 }

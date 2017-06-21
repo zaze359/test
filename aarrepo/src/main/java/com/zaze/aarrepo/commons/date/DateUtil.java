@@ -108,6 +108,10 @@ public class DateUtil {
         return getInteger(date, Calendar.YEAR);
     }
 
+    public static int getMonth(Date date) {
+        return getInteger(date, Calendar.MONTH);
+    }
+
     /**
      * @param date
      * @return day num

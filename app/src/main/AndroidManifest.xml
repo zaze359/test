@@ -27,7 +27,6 @@
     <!-- SD卡读取权限，用户写入离线定位数据 -->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
 
-
     <application
         android:name=".app.MyApplication"
         android:allowBackup="true"
@@ -41,10 +40,10 @@
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".component.animation.ui.AnimationActivity" />
         <activity android:name=".component.rxandroid.RxAndroidActivity" />
         <activity android:name=".component.time.TimeActivity" />
@@ -112,9 +111,16 @@
             android:name=".component.fileexplorer.ui.FileExplorerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".component.preference.MyPreferenceActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".component.okhttp.ui.OkHttpActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".component.checknet.ui.CheckNetActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
     </application>
