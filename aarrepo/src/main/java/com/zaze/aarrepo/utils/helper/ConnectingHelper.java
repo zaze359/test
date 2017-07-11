@@ -16,8 +16,9 @@ import java.util.List;
  * @version : 1.0
  */
 public class ConnectingHelper {
-    /** 
+    /**
      * 判断网络是否可用
+     *
      * @param context
      * @return
      */
@@ -38,6 +39,7 @@ public class ConnectingHelper {
 
     /**
      * 是否是wifi
+     *
      * @param context
      * @return
      */

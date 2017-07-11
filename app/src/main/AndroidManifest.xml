@@ -2,11 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.zaze.demo">
 
-    <permission android:name="com.zaze.demo.receiver.RECEIVER" />
+    <!-- <permission android:name="com.zaze.demo.receiver.RECEIVER" /> -->
 
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <!--  -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
 
     <!-- 这个权限用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -35,7 +38,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
-            android:name=".kotlin.HomeActivity"
+            android:name=".HomeActivity"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
@@ -104,7 +107,7 @@
         <!-- contentProvider -->
 
         <activity
-            android:name=".kotlin.commen.readpackage.ui.ReadPackageActivity"
+            android:name="com.zaze.demo.component.readpackage.ui.ReadPackageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
@@ -121,6 +124,14 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".component.checknet.ui.CheckNetActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".component.progress.ProgressActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.zaze.demo.component.logcat.ui.LogcatActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
     </application>

@@ -1,4 +1,4 @@
-package com.zaze.demo.kotlin.commen.readpackage.presenter.impl
+package com.zaze.demo.component.readpackage.presenter.impl
 
 import android.content.pm.ApplicationInfo
 import com.zaze.aarrepo.commons.base.ZBaseApplication
@@ -6,8 +6,9 @@ import com.zaze.aarrepo.commons.base.ZBasePresenter
 import com.zaze.aarrepo.utils.AppUtil
 import com.zaze.aarrepo.utils.RootCmd
 import com.zaze.aarrepo.utils.StringUtil
-import com.zaze.demo.kotlin.commen.readpackage.presenter.ReadPackagePresenter
-import com.zaze.demo.kotlin.commen.readpackage.view.ReadPackageView
+import com.zaze.aarrepo.utils.ZAppUtil
+import com.zaze.demo.component.readpackage.presenter.ReadPackagePresenter
+import com.zaze.demo.component.readpackage.view.ReadPackageView
 import com.zaze.demo.model.entity.PackageEntity
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
@@ -74,6 +75,10 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : ZBasePresenter<ReadPacka
 
     fun initEntity(packageName: String): PackageEntity {
         val packageEntity = PackageEntity()
+        val application = ZAppUtil.getApplicationInfo(ZBaseApplication.getInstance(), packageName)
+        if (application != null) {
+            packageEntity.sourceDir = application.sourceDir
+        }
         packageEntity.packageName = packageName
         packageEntity.appName = AppUtil.getAppName(ZBaseApplication.getInstance(), packageName, "")
         packageEntity.versionName = AppUtil.getAppVersion(ZBaseApplication.getInstance(), packageName)

@@ -1,4 +1,4 @@
-package com.zaze.demo.kotlin.commen.readpackage.view;
+package com.zaze.demo.component.readpackage.view;
 
 import com.zaze.aarrepo.commons.base.ZBaseView;
 import com.zaze.demo.model.entity.PackageEntity;

@@ -6,8 +6,6 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.widget.Button;
 
 
-import com.zaze.demo.kotlin.HomeActivity;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,7 +32,7 @@ public class MainActivityInstrumentationTest extends ActivityInstrumentationTest
         injectInstrumentation(InstrumentationRegistry.getInstrumentation());
         // getActivity()方法会在开始所有的testCase之前启动相应的Activity
         activity = getActivity();
-        button = (Button) activity.findViewById(com.zaze.demo.R.id.main_test_button);
+//        button = (Button) activity.findViewById(R.id.main_test_button);
     }
 
     @Test

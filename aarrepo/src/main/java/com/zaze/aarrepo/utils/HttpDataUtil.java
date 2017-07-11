@@ -10,7 +10,7 @@ import java.util.Map;
  * @author : ZAZE
  * @version : 2017-03-09 - 14:15
  */
-public class HttpUtil {
+public class HttpDataUtil {
     public static final String URL = "url";
 
     /**
@@ -40,7 +40,7 @@ public class HttpUtil {
      * 处理get请求
      *
      * @param url url
-     * @return Map<String, String>
+     * @return Map<String,String>
      */
     public static Map<String, String> processGetRequest(String url) {
         Map<String, String> map = new HashMap<>();

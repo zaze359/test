@@ -1,3 +1,5 @@
 <resources>
     <string name="test1">%1$1.3f MB</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 </resources>

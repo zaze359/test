@@ -10,15 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
-import com.zaze.demo.R;
 import com.zaze.aarrepo.commons.base.ZBaseFragment;
 import com.zaze.aarrepo.commons.base.adapter.OnItemClickListener;
+import com.zaze.aarrepo.utils.helper.UltimateRecyclerViewHelper;
+import com.zaze.demo.R;
 import com.zaze.demo.component.table.TableAdapter;
 import com.zaze.demo.component.table.presenter.TablePresenter;
 import com.zaze.demo.component.table.presenter.impl.TablePresenterImpl;
 import com.zaze.demo.component.table.view.ToolView;
 import com.zaze.demo.model.entity.TableEntity;
-import com.zz.library.util.helper.UltimateRecyclerViewHelper;
 
 import java.util.List;
 

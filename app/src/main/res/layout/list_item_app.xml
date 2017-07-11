@@ -56,6 +56,13 @@
         android:padding="@dimen/dp_4"
         tools:text="com.zaze.demo" />
 
+    <TextView
+        android:id="@+id/item_app_dir_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_4"
+        tools:text="/system/app/cacacd" />
+
     <include layout="@layout/layout_split_line" />
 
 </LinearLayout>

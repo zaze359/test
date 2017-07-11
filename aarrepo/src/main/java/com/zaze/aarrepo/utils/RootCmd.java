@@ -36,7 +36,7 @@ public class RootCmd {
     /**
      * @return 检查设备是否Root了
      */
-    public static boolean checkRoot() {
+    public static boolean isRoot() {
         Process process = null;
         DataOutputStream outputStream = null;
         try {
@@ -106,6 +106,50 @@ public class RootCmd {
      */
     public static int execRootCmd(String[] cmdArray) {
         return execCommand(cmdArray, true, false).result;
+    }
+    // --------------------------------------------------
+
+    /**
+     * 执行命令但不关注结果输出
+     *
+     * @param cmd
+     * @return 失败 : = -1; 成功 : != -1
+     */
+    public static int execCmd(String cmd) {
+        return execCmd(new String[]{cmd});
+    }
+
+    /**
+     * 执行命令但不关注结果输出
+     *
+     * @param cmdArray
+     * @return 失败 : = -1; 成功 : != -1
+     */
+    public static int execCmd(String[] cmdArray) {
+        return execCommand(cmdArray, false, false).result;
+    }
+
+    // --------------------------------------------------
+
+
+    /**
+     * 执行命令但不关注结果输出
+     *
+     * @param cmd
+     * @return 失败 : = -1; 成功 : != -1
+     */
+    public static CommandResult execCmdForRes(String cmd) {
+        return execCmdForRes(new String[]{cmd});
+    }
+
+    /**
+     * 执行命令但不关注结果输出
+     *
+     * @param cmdArray
+     * @return 失败 : = -1; 成功 : != -1
+     */
+    public static CommandResult execCmdForRes(String[] cmdArray) {
+        return execCommand(cmdArray, false, true);
     }
 
     // --------------------------------------------------
@@ -199,6 +243,16 @@ public class RootCmd {
             }
             this.successMsg = builder.toString();
             this.errorMsg = errorMsg;
+        }
+
+        @Override
+        public String toString() {
+            return "CommandResult{" +
+                    "result=" + result +
+                    ", successMsg='" + successMsg + '\'' +
+                    ", msgList=" + msgList +
+                    ", errorMsg='" + errorMsg + '\'' +
+                    '}';
         }
     }
 

@@ -7,6 +7,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Process
 import com.zaze.aarrepo.commons.log.ZLog
 import java.io.File
 
@@ -187,11 +188,27 @@ open class ZAppUtil {
         fun killAppProcess(context: Context, packageName: String) {
             val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
             activityManager.killBackgroundProcesses(packageName)
+            val processInfo = getAppProcess(context, packageName);
+            if (processInfo != null) {
+                Process.killProcess(processInfo.pid)
+            }
+        }
 
-//        val processInfo = getAppProcess(context, packageName);
-//        if (processInfo != null) {
-//            activityManager.killBackgroundProcesses(processInfo.processName)
-//        }
+        // --------------------------------------------------
+        /**
+         * 清理data数据
+
+         * @param packageName packageName
+         */
+        fun clearDataInfo(context: Context, packageName: String) {
+            if (RootCmd.isRoot()) {
+                RootCmd.execRootCmd("pm clear " + packageName)
+            } else {
+                FileUtil.deleteFile("/data/data/" + packageName)
+                killAppProcess(context, packageName)
+            }
+//            FileUtil.deleteFile("/data/data/" + packageName)
+//            killAppProcess(context, packageName)
         }
     }
 

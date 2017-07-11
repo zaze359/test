@@ -65,7 +65,7 @@ public class OnClickHelper {
     }
 
     private static boolean isCanClick() {
-        return System.currentTimeMillis() - clickTime > 400L;
+        return Math.abs(System.currentTimeMillis() - clickTime) > 400L;
     }
 
     private static void updateClickTime() {

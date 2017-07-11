@@ -1,4 +1,4 @@
-package com.zaze.demo.kotlin.commen.readpackage.ui
+package com.zaze.demo.component.readpackage.ui
 
 
 import android.os.Bundle
@@ -12,10 +12,10 @@ import com.zaze.aarrepo.utils.FileUtil
 import com.zaze.aarrepo.utils.helper.OnClickHelper
 import com.zaze.aarrepo.utils.helper.UltimateRecyclerViewHelper
 import com.zaze.demo.R
-import com.zaze.demo.kotlin.commen.readpackage.adapter.ReadPackageAdapter
-import com.zaze.demo.kotlin.commen.readpackage.presenter.ReadPackagePresenter
-import com.zaze.demo.kotlin.commen.readpackage.presenter.impl.ReadPackagePresenterImpl
-import com.zaze.demo.kotlin.commen.readpackage.view.ReadPackageView
+import com.zaze.demo.component.readpackage.adapter.ReadPackageAdapter
+import com.zaze.demo.component.readpackage.presenter.ReadPackagePresenter
+import com.zaze.demo.component.readpackage.presenter.impl.ReadPackagePresenterImpl
+import com.zaze.demo.component.readpackage.view.ReadPackageView
 import com.zaze.demo.model.entity.PackageEntity
 import kotlinx.android.synthetic.main.activity_read_package.*
 

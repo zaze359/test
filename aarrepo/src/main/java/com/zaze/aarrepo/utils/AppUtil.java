@@ -71,7 +71,7 @@ public class AppUtil {
      */
     public static int installApk(Context context, String filePath) {
         ZLog.i(ZTag.TAG_ABOUT_APP, "start installApk %s", filePath);
-        if (RootCmd.checkRoot()) {
+        if (RootCmd.isRoot()) {
             if (installApkSilent(filePath)) {
                 return 1;
             } else {
@@ -94,7 +94,7 @@ public class AppUtil {
      * @param packageName packageName
      */
     public static int unInstallApk(Context context, String packageName) {
-        if (RootCmd.checkRoot()) {
+        if (RootCmd.isRoot()) {
             if (unInstallApkSilent(packageName)) {
                 return 1;
             } else {
@@ -150,10 +150,26 @@ public class AppUtil {
      * @param packageName packageName
      */
     public static void clearDataInfo(String packageName) {
-        File file = new File("/data/data/" + packageName);
-        if (file.exists()) {
+        if (RootCmd.isRoot()) {
             RootCmd.execRootCmd("pm clear " + packageName);
+        } else {
+            FileUtil.deleteFile("/data/data/" + packageName);
         }
+    }
+
+    /**
+     * @param context
+     * @return 获取外部缓存路径
+     */
+    public static String getExternalCachePath(Context context) {
+        String cachePath = "";
+        if (FileUtil.isSdcardEnable()) {
+            File file = context.getExternalCacheDir();
+            if (file != null) {
+                cachePath = context.getExternalCacheDir().getPath();
+            }
+        }
+        return cachePath;
     }
     // --------------------------------------------------
 

@@ -1,10 +1,17 @@
 package com.zaze.demo.component.okhttp;
 
+import com.zaze.aarrepo.commons.log.ZLog;
+import com.zaze.aarrepo.utils.ThreadManager;
+import com.zaze.aarrepo.utils.iface.ECallback;
+
 import java.io.IOException;
 
+import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -16,8 +23,58 @@ import okhttp3.Response;
 public class OkHttpUtil {
     private static final OkHttpClient mOkHttpClient = new OkHttpClient();
 
+    // --------------------------------------------------
+
+    public static void get(String url, ECallback<String> callback) {
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        enqueue(request, callback);
+    }
+
+    public static void post(String url, String postData, ECallback<String> callback) {
+        Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create(MediaType.parse("application/x-www-form-urlencoded; charset=UTF-8"), postData))
+                .build();
+        enqueue(request, callback);
+    }
+
+    private static void enqueue(Request request, final ECallback<String> callback) {
+        OkHttpUtil.enqueue(request, new Callback() {
+            @Override
+            public void onFailure(final Call call, final IOException e) {
+                ThreadManager.getInstance().runInUIThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ZLog.i("okhttp : ", e.getMessage());
+                        if (callback != null) {
+                            callback.onError(-1, e.getMessage());
+                            callback.onCompleted();
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(final Call call, Response response) throws IOException {
+                final String body = response.body().string();
+                ThreadManager.getInstance().runInUIThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ZLog.i("okhttp : ", "" + body);
+                        if (callback != null) {
+                            callback.onNext(body);
+                            callback.onCompleted();
+                        }
+                    }
+                });
+            }
+        });
+    }
+
     /**
-     * 该不会开启异步线程。
+     * 不会开启异步线程。
      *
      * @param request
      * @return

@@ -9,6 +9,7 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
     defaultConfig {
+        multiDexEnabled true
         applicationId "com.zaze.demo"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
@@ -36,7 +37,7 @@ android {
         main {
             jniLibs.srcDirs = ['libs']
         }
-        main.java.srcDirs += 'src/main/kotlin'
+//        main.java.srcDirs += 'src/main/kotlin'
     }
 
     buildTypes {
@@ -53,7 +54,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-//    compile 'com.zaze.localrepo:localrepo:1.0.6@aar'
+    //    compile 'com.zaze.localrepo:localrepo:1.0.6@aar'
     androidTestCompile "com.android.support:support-annotations:$rootProject.supportLibraryVersion"
     androidTestCompile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
     androidTestCompile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
@@ -85,8 +86,9 @@ dependencies {
     compile project(':library')
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     compile 'com.squareup.okhttp3:okhttp:3.8.0'
-
-
+    //
+    //    compile 'com.Android.support:multidex:1.0.0'
+    compile project(':zvector')
 }
 repositories {
     mavenCentral()

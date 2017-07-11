@@ -37,4 +37,8 @@
 
 
 
+    <!---->
+    <color name="grey">#cccccc</color>
+    <color name="orange_light">#ffffdd</color>
+
 </resources>

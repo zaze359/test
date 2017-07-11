@@ -1,14 +1,12 @@
-package com.zaze.demo.kotlin
+package com.zaze.demo
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import android.view.View
 import com.zaze.aarrepo.commons.base.ZBaseActivity
 import com.zaze.aarrepo.commons.base.ZBaseFragment
 import com.zaze.aarrepo.commons.widget.head.HeadFace
-import com.zaze.demo.R
 import com.zaze.demo.component.table.ui.TableFragment
 import com.zaze.demo.debug.KotlinDebug
 import kotlinx.android.synthetic.main.activity_home.*
@@ -36,16 +34,21 @@ class HomeActivity : ZBaseActivity() {
         fragmentList.add(TableFragment.newInstance("1"))
 
         home_viewpager.adapter = MyPagerAdapter(supportFragmentManager, fragmentList)
-    }
-
-    fun testClick(view: View) {
-//        val uri: Uri = Settings.System.getUriFor(Settings.System.SCREEN_BRIGHTNESS)
+        home_test_button.setOnClickListener {
+            test()
+            //        val uri: Uri = Settings.System.getUriFor(Settings.System.SCREEN_BRIGHTNESS)
 //        Settings.System.putInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, 24)
 //        contentResolver.notifyChange(uri, null)
 
-        val debug = KotlinDebug()
-        debug.test()
+        }
+    }
 
+
+    fun test() {
+        val debug = KotlinDebug()
+        home_test_tv.text = debug.test()
+//        CrashReport.testJavaCrash()
+//        FileUtil.write2SDCardFile("${FileUtil.getSDCardRoot()}zaze.txt", new File)
     }
 
     inner class MyPagerAdapter(fm: FragmentManager, list: ArrayList<ZBaseFragment>?) : FragmentPagerAdapter(fm) {

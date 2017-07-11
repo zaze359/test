@@ -70,15 +70,27 @@ public class NetworkUtil {
 //    }
 
 
+    /**
+     * @param context context
+     * @return WifiInfo
+     */
     public static WifiInfo getConnectionInfo(Context context) {
         return getWifiManager(context).getConnectionInfo();
     }
 
 
-    public static String getIPAddress(Context context) {
+    /**
+     * @param context context
+     * @return ipAddress
+     */
+    public static String getIpAddress(Context context) {
         return intToInetAddress(getDhcpInfo(context).ipAddress).getHostAddress();
     }
 
+    /**
+     * @param context context
+     * @return dns
+     */
     public static String getDNS(Context context) {
         DhcpInfo dhcpInfo = getDhcpInfo(context);
         String dns1 = intToInetAddress(dhcpInfo.dns1).getHostAddress();
@@ -86,11 +98,27 @@ public class NetworkUtil {
         return StringUtil.format("%s,%s", dns1, dns2);
     }
 
+    /**
+     * @param context context
+     * @return Gateway
+     */
     public static String getGateway(Context context) {
         DhcpInfo dhcpInfo = getDhcpInfo(context);
         return intToInetAddress(dhcpInfo.gateway).getHostAddress();
     }
 
+    /**
+     * ipAddress
+     * gateway
+     * netmask
+     * dns1
+     * dns2
+     * serverAddress
+     * leaseDuration
+     *
+     * @param context context
+     * @return DhcpInfo
+     */
     public static DhcpInfo getDhcpInfo(Context context) {
         return getWifiManager(context).getDhcpInfo();
     }

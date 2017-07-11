@@ -1,4 +1,4 @@
-package com.zaze.demo.kotlin.commen.readpackage.presenter
+package com.zaze.demo.component.readpackage.presenter
 
 /**
  * Description :

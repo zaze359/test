@@ -12,5 +12,6 @@ class PackageEntity {
     var packageName: String? = ""
     var versionCode: Int? = 0
     var versionName: String? = ""
+    var sourceDir: String? = ""
 
 }

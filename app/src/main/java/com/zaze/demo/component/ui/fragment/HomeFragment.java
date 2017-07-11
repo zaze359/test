@@ -4,12 +4,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
-import com.zaze.demo.R;
 import com.zaze.aarrepo.commons.base.ZBaseFragment;
+import com.zaze.aarrepo.utils.ThreadManager;
 import com.zaze.aarrepo.utils.ViewUtil;
+import com.zaze.demo.R;
 import com.zaze.demo.component.ui.adapter.HomeAdapter;
 import com.zz.library.commons.loading.LoadingStyle;
-import com.zz.library.util.ThreadManager;
 
 import java.util.ArrayList;
 import java.util.List;

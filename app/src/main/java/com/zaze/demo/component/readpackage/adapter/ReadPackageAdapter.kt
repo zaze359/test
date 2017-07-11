@@ -1,4 +1,4 @@
-package com.zaze.demo.kotlin.commen.readpackage.adapter
+package com.zaze.demo.component.readpackage.adapter
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
@@ -38,10 +38,11 @@ class ReadPackageAdapter(context: Context, data: Collection<PackageEntity>) : Ba
         holder.itemAppVersionCodeTv!!.text = "版本号 ：${value.versionCode}"
         holder.itemAppVersionNameTv!!.text = "版本名 ：${value.versionName}"
         holder.itemAppPackageTv!!.text = "包名 : $packageName"
+        holder.itemAppDirTv!!.text = "路径 : ${value.sourceDir}"
         // --------------------------------------------------
         var drawable = AppUtil.getAppIcon(ZBaseApplication.getInstance(), packageName)
         if (drawable == null) {
-            drawable = getDrawable(R.drawable.ic_launcher)
+            drawable = getDrawable(R.mipmap.ic_launcher)
         }
         holder.itemAppIv!!.setImageDrawable(drawable)
     }
@@ -75,6 +76,7 @@ class ReadPackageAdapter(context: Context, data: Collection<PackageEntity>) : Ba
         var itemAppPackageTv: TextView? = null
         var itemAppVersionCodeTv: TextView? = null
         var itemAppVersionNameTv: TextView? = null
+        var itemAppDirTv: TextView? = null
 
         override fun initView(itemView: View) {
             itemAppIv = findView(view, R.id.item_app_iv)
@@ -82,6 +84,7 @@ class ReadPackageAdapter(context: Context, data: Collection<PackageEntity>) : Ba
             itemAppPackageTv = findView(view, R.id.item_app_package_tv)
             itemAppVersionCodeTv = findView(view, R.id.item_app_version_code_tv)
             itemAppVersionNameTv = findView(view, R.id.item_app_version_name_tv)
+            itemAppDirTv = findView(view, R.id.item_app_dir_tv)
         }
     }
 }

@@ -108,10 +108,6 @@ public class DateUtil {
         return getInteger(date, Calendar.YEAR);
     }
 
-    public static int getMonth(Date date) {
-        return getInteger(date, Calendar.MONTH);
-    }
-
     /**
      * @param date
      * @return day num
@@ -143,6 +139,7 @@ public class DateUtil {
     public static int getSecond(long timeMillis) {
         return getInteger(timeMillis, Calendar.SECOND);
     }
+
 
     // ----------------  about day ------------------
 
@@ -218,29 +215,26 @@ public class DateUtil {
      */
     public static Week getWeek(Date date) {
         Week week;
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        int weekNumber = calendar.get(Calendar.DAY_OF_WEEK) - 1;
-        switch (weekNumber) {
-            case 0:
+        switch (getInteger(date, Calendar.DAY_OF_WEEK)) {
+            case Calendar.SUNDAY:
                 week = Week.SUNDAY;
                 break;
-            case 1:
+            case Calendar.MONDAY:
                 week = Week.MONDAY;
                 break;
-            case 2:
+            case Calendar.TUESDAY:
                 week = Week.TUESDAY;
                 break;
-            case 3:
+            case Calendar.WEDNESDAY:
                 week = Week.WEDNESDAY;
                 break;
-            case 4:
+            case Calendar.THURSDAY:
                 week = Week.THURSDAY;
                 break;
-            case 5:
+            case Calendar.FRIDAY:
                 week = Week.FRIDAY;
                 break;
-            case 6:
+            case Calendar.SATURDAY:
                 week = Week.SATURDAY;
                 break;
             default:
@@ -257,6 +251,57 @@ public class DateUtil {
         return calendar.getTimeInMillis();
     }
 
+    /**
+     * 获取日期的月。失败返回null。
+     *
+     * @param date 日期
+     * @return 星期
+     */
+    public static Month getMonth(Date date) {
+        Month month;
+        switch (getInteger(date, Calendar.MONTH)) {
+            case Calendar.JANUARY:
+                month = Month.JANUARY;
+                break;
+            case Calendar.FEBRUARY:
+                month = Month.FEBRUARY;
+                break;
+            case Calendar.MARCH:
+                month = Month.MARCH;
+                break;
+            case Calendar.APRIL:
+                month = Month.APRIL;
+                break;
+            case Calendar.MAY:
+                month = Month.MAY;
+                break;
+            case Calendar.JUNE:
+                month = Month.JUNE;
+                break;
+            case Calendar.JULY:
+                month = Month.JULY;
+                break;
+            case Calendar.AUGUST:
+                month = Month.AUGUST;
+                break;
+            case Calendar.SEPTEMBER:
+                month = Month.SEPTEMBER;
+                break;
+            case Calendar.OCTOBER:
+                month = Month.OCTOBER;
+                break;
+            case Calendar.NOVEMBER:
+                month = Month.NOVEMBER;
+                break;
+            case Calendar.DECEMBER:
+                month = Month.DECEMBER;
+                break;
+            default:
+                month = Month.JANUARY;
+                break;
+        }
+        return month;
+    }
     // ---------------- private func ------------------
 
 //    public static long dong8QuTimeMillis() {

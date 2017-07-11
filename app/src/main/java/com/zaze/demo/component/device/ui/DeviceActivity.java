@@ -9,13 +9,13 @@ import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.zaze.aarrepo.commons.base.ZBaseActivity;
 import com.zaze.aarrepo.utils.LocalDisplay;
 import com.zaze.aarrepo.utils.StringUtil;
+import com.zaze.aarrepo.utils.helper.UltimateRecyclerViewHelper;
 import com.zaze.demo.R;
 import com.zaze.demo.component.device.adapter.DeviceAdapter;
 import com.zaze.demo.component.device.presenter.DevicePresenter;
 import com.zaze.demo.component.device.presenter.impl.DevicePresenterImpl;
 import com.zaze.demo.component.device.view.DeviceView;
 import com.zaze.demo.model.entity.DeviceStatus;
-import com.zz.library.util.helper.UltimateRecyclerViewHelper;
 
 import java.util.List;
 

@@ -23,6 +23,7 @@ public class FileExplorerActivity extends ZBaseActivity implements FileExplorerV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_explorer);
         presenter = new FileExplorerPresenterImpl(this);
+//        getHeadWidget().setIcon()
     }
 
 }

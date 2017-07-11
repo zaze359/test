@@ -1,6 +1,5 @@
 package com.zaze.aarrepo.utils;
 
-import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
@@ -14,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
+import java.util.HashSet;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -56,27 +56,9 @@ public class FileUtil {
     }
 
     /**
-     * @param context
-     * @return 获取缓存路径
-     */
-    public static String getCachePath(Context context) {
-        String cachePath = "";
-        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-            File file = context.getExternalCacheDir();
-            if (file != null) {
-                cachePath = context.getExternalCacheDir().getPath();
-            }
-        } else {
-            cachePath = context.getCacheDir().getPath();
-        }
-        return cachePath;
-    }
-
-
-    /**
      * @param filePath
      * @return
-     * @throws IOException
+     * @throws IOExceptione
      */
     public static File createFile(String filePath) throws IOException {
         File file = new File(StringUtil.parseString(filePath));
@@ -104,7 +86,7 @@ public class FileUtil {
         File file = new File(filePath);
         boolean result = false;
         if (!isFileExist(filePath)) {
-            if(createParentDir(filePath)) {
+            if (createParentDir(filePath)) {
                 result = file.createNewFile();
             }
         } else {
@@ -166,6 +148,8 @@ public class FileUtil {
     }
 
 
+    // --------------------------------------------------
+
     /**
      * 删除
      *
@@ -173,32 +157,72 @@ public class FileUtil {
      * @return
      */
     public static boolean deleteSystemFile(String path) {
-        if (FileUtil.isFileExist(path)) {
-            if (RootCmd.checkRoot()) {
-                String delStr = " rm -r " + path;
-                RootCmd.execRootCmd(delStr);
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-        return true;
+        return RootCmd.isSuccess(RootCmd.execRootCmd("rm -r " + path));
     }
 
 
-    public static boolean deleteFile(String path) {
-        if (StringUtil.isEmpty(path)) {
-            File file = new File(path);
-            if (file.exists()) {
-                return file.delete();
-            } else {
-                return true;
-            }
-        }
-        return false;
+    /**
+     * 递归删除文件和文件夹
+     *
+     * @param filePath 要删除的路径
+     */
+    public static void deleteFile(String filePath) {
+        deleteFile(new File(filePath));
     }
 
+    /**
+     * 递归删除文件和文件夹
+     *
+     * @param file 要删除的文件或文件夹
+     */
+    public static void deleteFile(File file) {
+        if (file.isFile()) {
+            file.delete();
+            return;
+        }
+        if (file.isDirectory()) {
+            File[] childFile = file.listFiles();
+            if (childFile == null || childFile.length == 0) {
+                file.delete();
+                return;
+            }
+            for (File f : childFile) {
+                deleteFile(f);
+            }
+            file.delete();
+        }
+    }
+
+    // -------
+    public static HashSet<File> searchFileLoop(File dir, String fileName) {
+        HashSet<File> loopSearchedFile = new HashSet<>();
+        if (dir != null && dir.exists() && dir.isDirectory()) {
+            for (File file : dir.listFiles()) {
+                if (file.getName().equals(fileName)) {
+                    loopSearchedFile.add(file);
+                }
+                if (file.isDirectory()) {
+                    loopSearchedFile.addAll(searchFileLoop(file, fileName));
+                }
+            }
+        }
+        return loopSearchedFile;
+    }
+
+    private static HashSet<File> searchFile(File dir, String fileName) {
+        HashSet<File> searchedFile = new HashSet<>();
+        if (dir.exists() && dir.isDirectory()) {
+            File[] childFileList = dir.listFiles();
+            for (File childFile : childFileList) {
+                if (childFile.getName().equals(fileName)) {
+                    searchedFile.add(childFile);
+                }
+            }
+        }
+        return searchedFile;
+    }
+
+    // --------------------------------------------------
 
     /**
      * 将数据写入sd卡

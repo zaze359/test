@@ -6,16 +6,18 @@ import com.zaze.demo.component.device.ui.DeviceActivity;
 import com.zaze.demo.component.gps.ui.GpsActivity;
 import com.zaze.demo.component.okhttp.ui.OkHttpActivity;
 import com.zaze.demo.component.preference.MyPreferenceActivity;
+import com.zaze.demo.component.progress.ProgressActivity;
 import com.zaze.demo.component.provider.ui.ProviderActivity;
 import com.zaze.demo.component.rxandroid.RxAndroidActivity;
 import com.zaze.demo.component.task.ui.TaskActivity;
 import com.zaze.demo.component.time.TimeActivity;
 import com.zaze.demo.component.toolbar.ToolBarDemoActivity;
 import com.zaze.demo.component.xbus.ui.EventBusActivity;
-import com.zaze.demo.kotlin.commen.readpackage.ui.ReadPackageActivity;
+import com.zaze.demo.component.readpackage.ui.ReadPackageActivity;
 import com.zaze.demo.model.EntityModel;
 import com.zaze.demo.model.entity.AnimationEntity;
 import com.zaze.demo.model.entity.TableEntity;
+import com.zaze.vector.VectorActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,9 +43,11 @@ public class EntityModelImpl implements EntityModel {
         list.add(new TableEntity(8, "Task", TaskActivity.class));
         list.add(new TableEntity(9, "ContentProvider", ProviderActivity.class));
         list.add(new TableEntity(10, "ReadPackage", ReadPackageActivity.class));
-        list.add(new TableEntity(11, "MyPreferenceActivity", MyPreferenceActivity.class));
+        list.add(new TableEntity(11, "Preference", MyPreferenceActivity.class));
         list.add(new TableEntity(12, "OkHttp", OkHttpActivity.class));
         list.add(new TableEntity(13, "CheckNet", CheckNetActivity.class));
+        list.add(new TableEntity(14, "Progress", ProgressActivity.class));
+        list.add(new TableEntity(15, "Vector", VectorActivity.class));
 
 //        SortUtil.sortList(list, "getType", "desc");
 

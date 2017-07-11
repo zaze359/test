@@ -1,5 +1,6 @@
 package com.zaze.demo.app;
 
+import com.tencent.bugly.crashreport.CrashReport;
 import com.zaze.aarrepo.commons.cache.MemoryCache;
 import com.zaze.aarrepo.utils.LocalDisplay;
 
@@ -17,6 +18,7 @@ public class MyApplication extends GpsApplication {
         super.onCreate();
         LocalDisplay.init(this);
         MemoryCache.getInstance().setCacheLog(true);
+        CrashReport.initCrashReport(getApplicationContext(), "900013682", false);
 //        receiver = new TestBroadcastReceiver();
 //        IntentFilter intentFilter = new IntentFilter("android.intent.action.xh.message.testappid");
 //        registerReceiver(receiver, intentFilter);
