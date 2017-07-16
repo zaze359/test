@@ -6,9 +6,10 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import com.zaze.aarrepo.commons.base.ZBaseActivity
 import com.zaze.aarrepo.commons.base.ZBaseFragment
-import com.zaze.aarrepo.commons.widget.head.HeadFace
+import com.zaze.aarrepo.commons.widget.head.ZOrientation
+import com.zaze.aarrepo.utils.FileUtil
 import com.zaze.demo.component.table.ui.TableFragment
-import com.zaze.demo.debug.KotlinDebug
+import com.zz.library.util.DirListener
 import kotlinx.android.synthetic.main.activity_home.*
 
 /**
@@ -22,7 +23,7 @@ class HomeActivity : ZBaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        headWidget.setText("主页", HeadFace.CENTER)
+        headWidget.setText("主页", ZOrientation.CENTER)
 
         //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 //            val explode = TransitionInflater.from(this).inflateTransition(R.transition.explode)
@@ -43,10 +44,11 @@ class HomeActivity : ZBaseActivity() {
         }
     }
 
-
+    val listener = DirListener(FileUtil.getSDCardRoot() + "xuehai/com.xh.logcatcher/local/logs/appLog")
     fun test() {
-        val debug = KotlinDebug()
-        home_test_tv.text = debug.test()
+//        val debug = KotlinDebug()
+//        home_test_tv.text = debug.test()
+        listener.startWatching()
 //        CrashReport.testJavaCrash()
 //        FileUtil.write2SDCardFile("${FileUtil.getSDCardRoot()}zaze.txt", new File)
     }

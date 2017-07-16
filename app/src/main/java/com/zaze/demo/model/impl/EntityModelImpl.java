@@ -3,6 +3,7 @@ package com.zaze.demo.model.impl;
 
 import com.zaze.demo.component.checknet.ui.CheckNetActivity;
 import com.zaze.demo.component.device.ui.DeviceActivity;
+import com.zaze.demo.component.fileexplorer.ui.FileExplorerActivity;
 import com.zaze.demo.component.gps.ui.GpsActivity;
 import com.zaze.demo.component.okhttp.ui.OkHttpActivity;
 import com.zaze.demo.component.preference.MyPreferenceActivity;
@@ -35,19 +36,20 @@ public class EntityModelImpl implements EntityModel {
         List<TableEntity> list = new ArrayList<>();
 //        list.add(new TableEntity(1, "Animation", AnimationActivity.class));
         list.add(new TableEntity(2, "toolbar", ToolBarDemoActivity.class));
-        list.add(new TableEntity(3, "RxAndroid", RxAndroidActivity.class));
+        list.add(new TableEntity(3, "Rx Android", RxAndroidActivity.class));
         list.add(new TableEntity(4, "Device Info", DeviceActivity.class));
         list.add(new TableEntity(5, "Time", TimeActivity.class));
         list.add(new TableEntity(6, "GPS", GpsActivity.class));
-        list.add(new TableEntity(7, "EventBus", EventBusActivity.class));
+        list.add(new TableEntity(7, "Event Bus", EventBusActivity.class));
         list.add(new TableEntity(8, "Task", TaskActivity.class));
-        list.add(new TableEntity(9, "ContentProvider", ProviderActivity.class));
-        list.add(new TableEntity(10, "ReadPackage", ReadPackageActivity.class));
+        list.add(new TableEntity(9, "Content Provider", ProviderActivity.class));
+        list.add(new TableEntity(10, "Read Package", ReadPackageActivity.class));
         list.add(new TableEntity(11, "Preference", MyPreferenceActivity.class));
-        list.add(new TableEntity(12, "OkHttp", OkHttpActivity.class));
-        list.add(new TableEntity(13, "CheckNet", CheckNetActivity.class));
+        list.add(new TableEntity(12, "Ok Http", OkHttpActivity.class));
+        list.add(new TableEntity(13, "Check Net", CheckNetActivity.class));
         list.add(new TableEntity(14, "Progress", ProgressActivity.class));
         list.add(new TableEntity(15, "Vector", VectorActivity.class));
+        list.add(new TableEntity(16, "File Explorer", FileExplorerActivity.class));
 
 //        SortUtil.sortList(list, "getType", "desc");
 

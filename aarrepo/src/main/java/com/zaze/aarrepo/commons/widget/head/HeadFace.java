@@ -1,11 +1,7 @@
 package com.zaze.aarrepo.commons.widget.head;
 
 import android.app.Activity;
-import android.support.annotation.IntDef;
 import android.view.View;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 
 /**
  * Description :
@@ -14,16 +10,6 @@ import java.lang.annotation.RetentionPolicy;
  * @version : 2017-01-10 - 15:33
  */
 public interface HeadFace {
-    int LEFT = 2;
-    int CENTER = 5;
-    int RIGHT = 3;
-
-    @IntDef({LEFT, CENTER, RIGHT})
-    @Retention(RetentionPolicy.SOURCE)
-    @interface Orientation {
-
-    }
-
 
     /**
      * 设置文本
@@ -32,7 +18,7 @@ public interface HeadFace {
      * @param orientation orientation
      * @return HeadFace
      */
-    HeadFace setText(int resId, @Orientation int orientation);
+    HeadFace setText(int resId, @ZOrientation int orientation);
 
     /**
      * 设置文本
@@ -41,7 +27,7 @@ public interface HeadFace {
      * @param orientation orientation
      * @return HeadFace
      */
-    HeadFace setText(String text, @Orientation int orientation);
+    HeadFace setText(String text, @ZOrientation int orientation);
 
     /**
      * 设置可见图标
@@ -50,7 +36,7 @@ public interface HeadFace {
      * @param orientation orientation
      * @return HeadFace
      */
-    HeadFace setIcon(int resIcon, @Orientation int orientation);
+    HeadFace setIcon(int resIcon, @ZOrientation int orientation);
 
     /**
      * 设置监听
@@ -59,7 +45,7 @@ public interface HeadFace {
      * @param orientation orientation
      * @return HeadFace
      */
-    HeadFace setOnClickListener(View.OnClickListener listener, @Orientation int orientation);
+    HeadFace setOnClickListener(View.OnClickListener listener, @ZOrientation int orientation);
 
     /**
      * 设置返回监听
@@ -76,12 +62,12 @@ public interface HeadFace {
      * @param orientation orientation
      * @return HeadFace
      */
-    HeadFace setVisibility(int visibility, @Orientation int orientation);
+    HeadFace setVisibility(int visibility, @ZOrientation int orientation);
 
     /**
      * @param orientation orientation
      * @return View
      */
-    View getView(@Orientation int orientation);
+    View getView(@ZOrientation int orientation);
 
 }

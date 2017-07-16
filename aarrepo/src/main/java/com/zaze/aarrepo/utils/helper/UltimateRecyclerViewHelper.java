@@ -23,7 +23,6 @@ public class UltimateRecyclerViewHelper {
     private UltimateRecyclerViewHelper(UltimateRecyclerView recyclerView) {
         this.recyclerView = recyclerView;
         recyclerView.setEmptyView(R.layout.layout_empty_view, UltimateRecyclerView.EMPTY_KEEP_HEADER_AND_LOARMORE);
-
     }
 
     /**

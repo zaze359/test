@@ -83,15 +83,15 @@ public class HeadWidget extends BaseHeadView {
      * @return
      */
     @Override
-    public HeadWidget setText(int resId, @Orientation int orientation) {
+    public HeadWidget setText(int resId, @ZOrientation int orientation) {
         switch (orientation) {
-            case LEFT:
+            case ZOrientation.LEFT:
                 setLeftText(resId);
                 break;
-            case RIGHT:
+            case ZOrientation.RIGHT:
                 setRightText(resId);
                 break;
-            case CENTER:
+            case ZOrientation.CENTER:
                 setTitleText(resId);
                 break;
             default:
@@ -108,15 +108,15 @@ public class HeadWidget extends BaseHeadView {
      * @return
      */
     @Override
-    public HeadWidget setText(String text, @Orientation int orientation) {
+    public HeadWidget setText(String text, @ZOrientation int orientation) {
         switch (orientation) {
-            case LEFT:
+            case ZOrientation.LEFT:
                 setLeftText(text);
                 break;
-            case RIGHT:
+            case ZOrientation.RIGHT:
                 setRightText(text);
                 break;
-            case CENTER:
+            case ZOrientation.CENTER:
                 setTitleText(text);
                 break;
             default:
@@ -126,15 +126,15 @@ public class HeadWidget extends BaseHeadView {
     }
 
     @Override
-    public HeadFace setIcon(int resIcon, @Orientation int orientation) {
+    public HeadFace setIcon(int resIcon, @ZOrientation int orientation) {
         switch (orientation) {
-            case LEFT:
+            case ZOrientation.LEFT:
                 setLeftIcon(resIcon);
                 break;
-            case RIGHT:
+            case ZOrientation.RIGHT:
                 setRightIcon(resIcon);
                 break;
-            case CENTER:
+            case ZOrientation.CENTER:
                 setTitleIcon(0, 0, resIcon, 0);
                 break;
             default:
@@ -144,15 +144,15 @@ public class HeadWidget extends BaseHeadView {
     }
 
     @Override
-    public HeadFace setOnClickListener(View.OnClickListener listener, @Orientation int orientation) {
+    public HeadFace setOnClickListener(View.OnClickListener listener, @ZOrientation int orientation) {
         switch (orientation) {
-            case LEFT:
+            case ZOrientation.LEFT:
                 setLeftOnClickListener(listener);
                 break;
-            case RIGHT:
+            case ZOrientation.RIGHT:
                 setRightOnClickListener(listener);
                 break;
-            case CENTER:
+            case ZOrientation.CENTER:
                 setTitleOnClickListener(listener);
                 break;
             default:
@@ -175,15 +175,15 @@ public class HeadWidget extends BaseHeadView {
     }
 
     @Override
-    public HeadFace setVisibility(int visibility, @Orientation int orientation) {
+    public HeadFace setVisibility(int visibility, @ZOrientation int orientation) {
         switch (orientation) {
-            case LEFT:
+            case ZOrientation.LEFT:
                 setLeftVisibility(visibility);
                 break;
-            case RIGHT:
+            case ZOrientation.RIGHT:
                 setRightVisibility(visibility);
                 break;
-            case CENTER:
+            case ZOrientation.CENTER:
 //                setTitleOnClickListener(visibility);
                 break;
             default:
@@ -193,13 +193,13 @@ public class HeadWidget extends BaseHeadView {
     }
 
     @Override
-    public View getView(@Orientation int orientation) {
+    public View getView(@ZOrientation int orientation) {
         switch (orientation) {
-            case LEFT:
+            case ZOrientation.LEFT:
                 return getLeftChild();
-            case RIGHT:
+            case ZOrientation.RIGHT:
                 return getRightChild();
-            case CENTER:
+            case ZOrientation.CENTER:
                 return getCenterChild();
             default:
                 return getContainerView();

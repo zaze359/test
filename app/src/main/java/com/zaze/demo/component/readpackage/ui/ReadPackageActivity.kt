@@ -7,7 +7,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import com.zaze.aarrepo.commons.base.ZBaseActivity
 import com.zaze.aarrepo.commons.log.ZLog
-import com.zaze.aarrepo.commons.widget.head.HeadFace
+import com.zaze.aarrepo.commons.widget.head.ZOrientation
 import com.zaze.aarrepo.utils.FileUtil
 import com.zaze.aarrepo.utils.helper.OnClickHelper
 import com.zaze.aarrepo.utils.helper.UltimateRecyclerViewHelper
@@ -34,7 +34,7 @@ class ReadPackageActivity : ZBaseActivity(), ReadPackageView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_read_package)
-        headWidget.setText("查看包名", HeadFace.CENTER)
+        headWidget.setText("查看包名", ZOrientation.CENTER)
         presenter = ReadPackagePresenterImpl(this)
         //        presenter.getAllApkFile("/sdcard/");
         //        presenter.getAllSystemApp();

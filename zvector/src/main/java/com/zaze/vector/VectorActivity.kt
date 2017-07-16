@@ -9,6 +9,6 @@ class VectorActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_vector)
-        vector_iv.setImageResource(R.drawable.test)
+        vector_iv.setImageResource(R.drawable.rect)
     }
 }

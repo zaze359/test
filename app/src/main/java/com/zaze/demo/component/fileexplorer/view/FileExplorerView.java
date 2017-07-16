@@ -1,6 +1,11 @@
 package com.zaze.demo.component.fileexplorer.view;
 
 import com.zaze.aarrepo.commons.base.ZBaseView;
+import com.zaze.demo.component.fileexplorer.adapter.FileEntity;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 
 /**
@@ -11,4 +16,5 @@ import com.zaze.aarrepo.commons.base.ZBaseView;
  */
 public interface FileExplorerView extends ZBaseView {
 
+    void showFileList(@NotNull List<FileEntity> fileList);
 }

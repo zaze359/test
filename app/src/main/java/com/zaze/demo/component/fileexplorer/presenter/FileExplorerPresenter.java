@@ -1,5 +1,7 @@
 package com.zaze.demo.component.fileexplorer.presenter;
 
+import com.zaze.demo.component.fileexplorer.FileEvent;
+
 /**
  * Description :
  *
@@ -8,4 +10,9 @@ package com.zaze.demo.component.fileexplorer.presenter;
  */
 public interface FileExplorerPresenter {
 
+    void loadFileList();
+
+    void openFileOrDir(FileEvent fileEvent);
+
+    void backToParent();
 }

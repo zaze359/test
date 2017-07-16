@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -118,6 +119,7 @@ public abstract class BaseUltimateAdapter<V, VH extends RecyclerView.ViewHolder>
         if (list != null && !list.isEmpty()) {
             insertInternal(list, dataList);
             page++;
+        } else {
         }
     }
 
@@ -129,7 +131,7 @@ public abstract class BaseUltimateAdapter<V, VH extends RecyclerView.ViewHolder>
         }
     }
 
-    protected void onItemClick(View view, V value, int position) {
+    protected void onItemClick(@NonNull View view, @NonNull V value, int position) {
         if (onItemClickListener != null) {
             onItemClickListener.onItemClick(view, value, position);
         }

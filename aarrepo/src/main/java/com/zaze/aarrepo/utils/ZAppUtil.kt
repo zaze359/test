@@ -162,9 +162,11 @@ open class ZAppUtil {
          * @author zaze
          * @version 2017/5/31 - 下午2:59 1.0
          */
-        fun getAppProcess(context: Context, packageName: String): ActivityManager.RunningAppProcessInfo? {
+        fun getAppProcess(context: Context, packageName: String): ArrayList<ActivityManager.RunningAppProcessInfo> {
             val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-            return activityManager.runningAppProcesses.firstOrNull { it.pkgList.contains(packageName) }
+            val list = ArrayList<ActivityManager.RunningAppProcessInfo>()
+            activityManager.runningAppProcesses.filterTo(list) { it.pkgList.contains(packageName) }
+            return list
         }
 
         /**
@@ -175,7 +177,7 @@ open class ZAppUtil {
          * @version 2017/5/22 - 下午3:32 1.0
          */
         fun isAppRunning(context: Context, packageName: String): Boolean {
-            return getAppProcess(context, packageName) != null
+            return !getAppProcess(context, packageName).isEmpty()
         }
 
         /**
@@ -188,8 +190,8 @@ open class ZAppUtil {
         fun killAppProcess(context: Context, packageName: String) {
             val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
             activityManager.killBackgroundProcesses(packageName)
-            val processInfo = getAppProcess(context, packageName);
-            if (processInfo != null) {
+            val processInfoList = getAppProcess(context, packageName);
+            for (processInfo in processInfoList) {
                 Process.killProcess(processInfo.pid)
             }
         }

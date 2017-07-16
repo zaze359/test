@@ -11,7 +11,8 @@ public abstract class ECallback<D> {
     public void onError(int errorCode, String errorMsg) {
     }
 
-    public void preNext(D d) {
+    public D preNext(D d) {
+        return d;
     }
 
     public abstract void onNext(D d);

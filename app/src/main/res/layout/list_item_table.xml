@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/item_table_name"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48"
+        android:layout_height="@dimen/dp_60"
         android:background="@drawable/touchable_background_blue"
         android:gravity="center"
         android:text="@string/test1"
