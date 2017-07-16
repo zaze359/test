@@ -13,4 +13,6 @@ public interface GpsPresenter {
     void unRegister();
 
     void start();
+
+    void stop();
 }

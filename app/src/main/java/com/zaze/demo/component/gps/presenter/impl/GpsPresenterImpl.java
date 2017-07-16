@@ -17,8 +17,10 @@ import android.support.v4.app.ActivityCompat;
 
 import com.zaze.aarrepo.commons.base.ZBasePresenter;
 import com.zaze.aarrepo.commons.log.LogKit;
+import com.zaze.aarrepo.commons.log.ZLog;
 import com.zaze.aarrepo.utils.ActivityUtil;
 import com.zaze.aarrepo.utils.StringUtil;
+import com.zaze.aarrepo.utils.ZTag;
 import com.zaze.demo.component.gps.presenter.GpsPresenter;
 import com.zaze.demo.component.gps.view.GpsView;
 
@@ -46,7 +48,7 @@ public class GpsPresenterImpl extends ZBasePresenter<GpsView> implements GpsPres
             }
             builder.append(str);
         }
-        a();
+        ZLog.i(ZTag.TAG_DEBUG, builder.toString());
     }
 
     @Override
@@ -61,10 +63,6 @@ public class GpsPresenterImpl extends ZBasePresenter<GpsView> implements GpsPres
 
     @Override
     public void start() {
-
-    }
-
-    private void a() {
         LogKit.v("判断GPS是否正常启动");
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             LogKit.v("请开启GPS导航...");
@@ -75,7 +73,7 @@ public class GpsPresenterImpl extends ZBasePresenter<GpsView> implements GpsPres
         }
         // 有GPS_PROVIDER和NETWORK_PROVIDER两种
         String bestProvider = locationManager.getBestProvider(getCriteria(), true);
-        LogKit.v("最佳的定位方式:" + bestProvider);
+        ZLog.v(ZTag.TAG_DEBUG, bestProvider);
         //
         Location location = locationManager.getLastKnownLocation(bestProvider);
         updateUI(location);
@@ -165,7 +163,7 @@ public class GpsPresenterImpl extends ZBasePresenter<GpsView> implements GpsPres
     private Criteria getCriteria() {
         Criteria criteria = new Criteria();
         // 设置定位精确度 Criteria.ACCURACY_COARSE比较粗略，Criteria.ACCURACY_FINE则比较精细
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        criteria.setAccuracy(Criteria.ACCURACY_COARSE);
         // 设置是否要求速度
         criteria.setSpeedRequired(false);
         // 设置是否允许运营商收费
@@ -190,17 +188,20 @@ public class GpsPresenterImpl extends ZBasePresenter<GpsView> implements GpsPres
 //        }
     }
 
-        /**
-         * 方法描述：在View上更新位置信息的显示
-         *
-         * @param location
-         */
+    /**
+     * 方法描述：在View上更新位置信息的显示
+     *
+     * @param location
+     */
     private void updateUI(Location location) {
-        if(location != null) {
-            double longitude = location.getLongitude();
-            double latitude = location.getLatitude();
-            view.showLocationInfo(longitude, latitude);
+        double longitude = 0;
+        double latitude = 0;
+        if (location != null) {
+            longitude = location.getLongitude();
+            latitude = location.getLatitude();
         }
+        view.showLocationInfo(longitude, latitude);
+
     }
 
     private void updateGpsStatus(String str) {

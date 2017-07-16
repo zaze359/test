@@ -5,11 +5,11 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.zaze.demo.R;
 import com.zaze.aarrepo.commons.base.ZBaseActivity;
 import com.zaze.aarrepo.utils.StringUtil;
+import com.zaze.demo.R;
 import com.zaze.demo.component.gps.presenter.GpsPresenter;
-import com.zaze.demo.component.gps.presenter.impl.BaiDuLocationPresenterImpl;
+import com.zaze.demo.component.gps.presenter.impl.GpsPresenterImpl;
 import com.zaze.demo.component.gps.view.GpsView;
 
 import butterknife.Bind;
@@ -34,8 +34,8 @@ public class GpsActivity extends ZBaseActivity implements GpsView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gps);
         ButterKnife.bind(this);
-//        presenter = new GpsPresenterImpl(this);
-        presenter = new BaiDuLocationPresenterImpl(this);
+        presenter = new GpsPresenterImpl(this);
+//        presenter = new BaiDuLocationPresenterImpl(this);
         presenter.register();
         presenter.start();
     }
@@ -43,6 +43,7 @@ public class GpsActivity extends ZBaseActivity implements GpsView {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        presenter.stop();
         presenter.unRegister();
     }
 

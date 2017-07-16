@@ -1,6 +1,7 @@
 package com.zaze.demo.app;
 
 import com.tencent.bugly.crashreport.CrashReport;
+import com.zaze.aarrepo.commons.base.ZBaseApplication;
 import com.zaze.aarrepo.commons.cache.MemoryCache;
 import com.zaze.aarrepo.utils.LocalDisplay;
 
@@ -11,7 +12,7 @@ import com.zaze.aarrepo.utils.LocalDisplay;
  * @author : ZAZE
  * @version : 2016-11-06 - 20:4
  */
-public class MyApplication extends GpsApplication {
+public class MyApplication extends ZBaseApplication {
     //    BroadcastReceiver receiver;
     @Override
     public void onCreate() {
