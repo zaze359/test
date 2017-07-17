@@ -1,7 +1,7 @@
 package com.zaze.aarrepo.utils;
 
 
-import com.zaze.aarrepo.commons.log.LogKit;
+import com.zaze.aarrepo.commons.log.ZLog;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -39,7 +39,7 @@ public class ZipUtil {
      * @throws Exception
      */
     public static List<File> getFileList(String zipFileString, boolean bContainFolder, boolean bContainFile) {
-        LogKit.v("XZip : getFileList(String)");
+        ZLog.v(ZTag.TAG_DEBUG, "XZip : getFileList(String)");
 
         List<File> fileList = null;
         try {
@@ -96,7 +96,7 @@ public class ZipUtil {
      * @throws Exception
      */
     public static void unZipFolder(String zipFileString, String outPathString) {
-        LogKit.v("XZip : UnZipFolder(String, String)");
+        ZLog.v(ZTag.TAG_DEBUG, "XZip : UnZipFolder(String, String)");
         try {
             ZipInputStream inZip = new ZipInputStream(new FileInputStream(zipFileString));
             ZipEntry zipEntry;
@@ -137,7 +137,7 @@ public class ZipUtil {
      * @throws Exception
      */
     public static void zipFolder(String srcFileString, String zipFileString) {
-        LogKit.v("XZip : ZipFolder(String, String)");
+        ZLog.v(ZTag.TAG_DEBUG, "XZip : ZipFolder(String, String)");
         try {
             //创建Zip包  
             ZipOutputStream outZip = new ZipOutputStream(new FileOutputStream(zipFileString));
@@ -164,7 +164,7 @@ public class ZipUtil {
      * @throws Exception
      */
     private static void zipFiles(String folderString, String fileString, ZipOutputStream zipOutputSteam) throws Exception {
-        LogKit.v("XZip : ipFiles(String, String, ZipOutputStream)");
+        ZLog.v(ZTag.TAG_DEBUG, "XZip : ipFiles(String, String, ZipOutputStream)");
 
         if (zipOutputSteam == null)
             return;

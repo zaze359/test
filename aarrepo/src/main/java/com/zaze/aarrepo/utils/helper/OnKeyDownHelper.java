@@ -2,7 +2,8 @@ package com.zaze.aarrepo.utils.helper;
 
 import android.view.KeyEvent;
 
-import com.zaze.aarrepo.commons.log.LogKit;
+import com.zaze.aarrepo.commons.log.ZLog;
+import com.zaze.aarrepo.utils.ZTag;
 
 /**
  * Description :
@@ -27,17 +28,17 @@ public class OnKeyDownHelper {
      * @return
      */
     public static boolean doubleClickBack(int keyCode, KeyEvent event, OnBackCallback callback) {
-        LogKit.v("keyCode" + keyCode);
+        ZLog.v(ZTag.TAG_DEBUG, "keyCode" + keyCode);
         switch (keyCode) {
             case KeyEvent.KEYCODE_BACK:
                 if (System.currentTimeMillis() - clickTime <= intervalTime) {
                     if (callback != null) {
-                        LogKit.v("keyCode onSecondClick");
+                        ZLog.v(ZTag.TAG_DEBUG, "keyCode onSecondClick");
                         callback.onSecondClick();
                     }
                 } else {
                     if (callback != null) {
-                        LogKit.v("keyCode onFirstClick");
+                        ZLog.v(ZTag.TAG_DEBUG, "keyCode onFirstClick");
                         callback.onFirstClick();
                     }
                     clickTime = System.currentTimeMillis();

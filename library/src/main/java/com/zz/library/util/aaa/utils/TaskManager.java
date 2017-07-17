@@ -1,7 +1,8 @@
 package com.zz.library.util.aaa.utils;
 
 
-import com.zaze.aarrepo.commons.log.LogKit;
+import com.zaze.aarrepo.commons.log.ZLog;
+import com.zaze.aarrepo.utils.ZTag;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -170,9 +171,9 @@ public class TaskManager implements TaskBack {
     @Override
     public void excuteSuccess(String method, Object result, Object code) {
         int size = executeTaskQueue.size();
-        LogKit.i(size + " excuteSuccess method : " + method);
-        LogKit.v(size + " excuteSuccess result : " + result);
-        LogKit.v(size + " excuteSuccess code : " + code);
+        ZLog.i(ZTag.TAG_TASK, size + " excuteSuccess method : " + method);
+        ZLog.v(ZTag.TAG_TASK, size + " excuteSuccess result : " + result);
+        ZLog.v(ZTag.TAG_TASK, size + " excuteSuccess code : " + code);
         for (int i = 0; i < size; i++) {
             TaskBean taskBean = executeTaskQueue.get(i);
             if (method.equals(taskBean.getFunctionName())) {
@@ -186,7 +187,7 @@ public class TaskManager implements TaskBack {
 
     @Override
     public void excuteFailed(String method, Object msg, Object code) {
-        LogKit.i("excuteFailed method : " + method);
+        ZLog.i(ZTag.TAG_DEBUG, "excuteFailed method : " + method);
         int size = executeTaskQueue.size();
         for (int i = 0; i < size; i++) {
             TaskBean taskBean = executeTaskQueue.get(i);

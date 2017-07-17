@@ -7,6 +7,12 @@
     android:padding="@dimen/dp_8">
 
     <TextView
+        android:id="@+id/gps_status_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="gps status" />
+
+    <TextView
         android:id="@+id/gps_location_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,8 +20,11 @@
         tools:text="location" />
 
     <TextView
-        android:id="@+id/gps_status_tv"
+        android:id="@+id/gps_address_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="gps status" />
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        tools:text="address" />
+
+
 </LinearLayout>

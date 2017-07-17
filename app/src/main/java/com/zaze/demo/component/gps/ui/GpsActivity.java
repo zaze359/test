@@ -1,7 +1,5 @@
 package com.zaze.demo.component.gps.ui;
 
-import android.content.Context;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -27,6 +25,8 @@ public class GpsActivity extends ZBaseActivity implements GpsView {
     TextView gpsStatusTv;
     @Bind(R.id.gps_location_tv)
     TextView gpsLocationTv;
+    @Bind(R.id.gps_address_tv)
+    TextView gpsAddressTv;
     private GpsPresenter presenter;
 
     @Override
@@ -48,19 +48,17 @@ public class GpsActivity extends ZBaseActivity implements GpsView {
     }
 
     @Override
-    public LocationManager getLocationManager() {
-        return (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-    }
-
-    @Override
     public void showLocationInfo(double longitude, double latitude) {
-        gpsStatusTv.setText(StringUtil.parseString("当前经度：" + longitude + "\n当前纬度：" + latitude));
+        gpsLocationTv.setText(StringUtil.parseString("当前经度：" + longitude + "\n当前纬度：" + latitude));
     }
 
     @Override
-    public void showGpsStatus(String str) {
+    public void showProviderStatus(String str) {
         gpsStatusTv.setText(StringUtil.parseString(str));
     }
 
-
+    @Override
+    public void showAddress(String str) {
+        gpsAddressTv.setText(StringUtil.parseString(str));
+    }
 }

@@ -51,8 +51,8 @@ public class LogKit {
         }
     }
 
-    public static void setNeedStack(boolean needStack) {
-        LogKit.needStack = needStack;
+    public static void setNeedStack(boolean isNeed) {
+        needStack = isNeed;
     }
 
     public static String getTag(StackTraceElement ste) {

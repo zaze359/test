@@ -13,7 +13,8 @@ import android.support.test.runner.AndroidJUnit4;
 import android.support.v4.app.ActivityCompat;
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.zaze.aarrepo.commons.log.LogKit;
+import com.zaze.aarrepo.commons.log.ZLog;
+import com.zaze.aarrepo.utils.ZTag;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -50,7 +51,7 @@ public class GpsActivityTest extends ActivityInstrumentationTestCase2<GpsActivit
         Criteria criteria = new Criteria();
         criteria.setAltitudeRequired(true);
         String bestProvider = locationManager.getBestProvider(criteria, true);
-        LogKit.v("最佳的定位方式:" + bestProvider);
+        ZLog.v(ZTag.TAG_DEBUG, "最佳的定位方式:" + bestProvider);
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -65,22 +66,22 @@ public class GpsActivityTest extends ActivityInstrumentationTestCase2<GpsActivit
         locationManager.requestLocationUpdates(bestProvider, 1, 1, new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                LogKit.v("location: %s", location);
+                ZLog.v(ZTag.TAG_DEBUG, "location: %s", location);
             }
 
             @Override
             public void onStatusChanged(String provider, int status, Bundle extras) {
-                LogKit.v("provider: %s, status: %d, extras: %s", provider, status, extras);
+                ZLog.v(ZTag.TAG_DEBUG, "provider: %s, status: %d, extras: %s", provider, status, extras);
             }
 
             @Override
             public void onProviderEnabled(String provider) {
-                LogKit.v("provider: %s", provider);
+                ZLog.v(ZTag.TAG_DEBUG, "provider: %s", provider);
             }
 
             @Override
             public void onProviderDisabled(String provider) {
-                LogKit.v("provider: %s", provider);
+                ZLog.v(ZTag.TAG_DEBUG, "provider: %s", provider);
             }
         });
 

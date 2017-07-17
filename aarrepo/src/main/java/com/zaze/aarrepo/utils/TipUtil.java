@@ -4,7 +4,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.zaze.aarrepo.commons.base.ZBaseApplication;
-import com.zaze.aarrepo.commons.log.LogKit;
+import com.zaze.aarrepo.commons.log.ZLog;
 
 import static android.widget.Toast.makeText;
 
@@ -19,7 +19,7 @@ public class TipUtil {
             toast(ZBaseApplication.getInstance(), msg, duration);
         } catch (Exception e) {
             e.printStackTrace();
-            LogKit.e("if you want use this method, please use ZBaseApplication");
+            ZLog.e(ZTag.TAG_DEBUG, "if you want use this method, please use ZBaseApplication");
         }
     }
 

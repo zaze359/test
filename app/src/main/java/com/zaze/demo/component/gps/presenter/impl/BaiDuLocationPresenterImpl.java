@@ -147,7 +147,7 @@
 //            }
 //        }
 //        LogKit.i("BaiduLocationApiem %s", sb.toString());
-//        view.showGpsStatus(sb.toString());
+//        view.showProviderStatus(sb.toString());
 //    }
 //
 //}
