@@ -46,9 +46,10 @@ class HomeActivity : ZBaseActivity() {
 
     val listener = DirListener(FileUtil.getSDCardRoot() + "xuehai/com.xh.logcatcher/local/logs/appLog")
     fun test() {
-//        val debug = KotlinDebug()
-//        home_test_tv.text = debug.test()
-        listener.startWatching()
+        val debug = KotlinDebug()
+        home_test_tv.text = debug.test()
+
+//        listener.startWatching()
 //        CrashReport.testJavaCrash()
 //        FileUtil.write2SDCardFile("${FileUtil.getSDCardRoot()}zaze.txt", new File)
     }

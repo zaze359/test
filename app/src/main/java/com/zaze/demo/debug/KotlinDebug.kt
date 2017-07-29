@@ -115,4 +115,7 @@ class KotlinDebug {
         return builder.toString()
     }
 
+    // --------------------------------------------------
+    fun adb() {
+    }
 }

@@ -48,16 +48,6 @@ public class GpsPresenterImpl extends ZBasePresenter<GpsView> implements GpsPres
         super(view);
         locationManager = (LocationManager) MyApplication.getInstance().getSystemService(Context.LOCATION_SERVICE);
         geocoder = new Geocoder(MyApplication.getInstance(), Locale.getDefault());
-        StringBuilder builder = new StringBuilder();
-//        List<String> providers = locationManager.getProviders(true);
-//        for (String str : providers) {
-//            if (builder.length() != 0) {
-//                builder.append(", ");
-//            }
-//            builder.append(str);
-//        }
-//        ZLog.i(ZTag.TAG_DEBUG, builder.toString());
-
         // --------------------------------------------------
     }
 

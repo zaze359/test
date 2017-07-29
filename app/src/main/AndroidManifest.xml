@@ -68,17 +68,6 @@
         <!-- 测试接收推送 -->
         <service android:name=".component.message.service.MyService" />
 
-        <!-- 集成百度定位 start -->
-        <service
-            android:name="com.baidu.location.f"
-            android:enabled="true"
-            android:process=":remote" />
-
-        <meta-data
-            android:name="com.baidu.lbsapi.API_KEY"
-            android:value="VLUvkCyaMhUGvbvFv5Ge759EhQhcKYCM" />
-        <!-- 集成百度定位 end -->
-
         <activity
             android:name=".component.xbus.ui.EventBusActivity"
             android:screenOrientation="portrait"

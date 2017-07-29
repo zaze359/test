@@ -50,7 +50,8 @@ public class RootCmd {
                 return true;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            ZLog.e(ZTag.TAG_ERROR, "设备未Root");
         } finally {
             if (outputStream != null) {
                 try {
@@ -63,7 +64,6 @@ public class RootCmd {
                 process.destroy();
             }
         }
-        ZLog.e(ZTag.TAG_ERROR, "设备未Root");
         return false;
     }
 

@@ -10,8 +10,8 @@ import java.util.List;
  */
 public class NetworkInfo {
     private String ip;      // 192.168.2.34
-    private String dns;     // 192.168.2.1  0.0.0.0
-    private List<String> gateWay; // 192.168.2.1
+    private List<String> dns;     // 192.168.2.1  0.0.0.0
+    private String gateWay; // 192.168.2.1
     private String ssid;    // xhoffice
     private int status;     // 网络状态 -43
 
@@ -23,19 +23,19 @@ public class NetworkInfo {
         this.ip = ip;
     }
 
-    public String getDns() {
+    public List<String> getDns() {
         return dns;
     }
 
-    public void setDns(String dns) {
+    public void setDns(List<String> dns) {
         this.dns = dns;
     }
 
-    public List<String> getGateWay() {
+    public String getGateWay() {
         return gateWay;
     }
 
-    public void setGateWay(List<String> gateWay) {
+    public void setGateWay(String gateWay) {
         this.gateWay = gateWay;
     }
 

@@ -6,6 +6,7 @@ import android.net.DhcpInfo;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.text.TextUtils;
 
 import com.zaze.aarrepo.utils.StringUtil;
 
@@ -38,6 +39,20 @@ public class NetworkUtil {
     private static WifiManager getWifiManager(Context context) {
         return (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
     }
+
+    public static String getWifiMacAddress(Context context) {
+        try {
+            String mac = getWifiManager(context).getConnectionInfo().getMacAddress();
+            if (TextUtils.isEmpty(mac)) {
+                return null;
+            }
+            return mac;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     // --------------------------------------------------
 //    public static String getIPAddress(Context context) {
