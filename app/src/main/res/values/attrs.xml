@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="zMainBackground" format="reference" />
+    <attr name="zMainTextColor" format="color" />
+    <attr name="zMainTextSize" format="dimension" />
+    <!-- -->
+    <attr name="zHeadBackground" format="reference" />
+    <attr name="zHeadTextColor" format="color" />
+    <attr name="zHeadTextSize" format="dimension" />
+    <!-- -->
+    <attr name="zTabBackground" format="reference" />
+    <attr name="zTabIndicatorBackground" format="reference" />
+    <attr name="zTabTextColor" format="color" />
+    <attr name="zTabTextSize" format="dimension" />
+    <!-- -->
+    <attr name="zItemBackground" format="reference" />
+    <attr name="zItemTextColor" format="color" />
+    <attr name="zItemTextSize" format="dimension" />
+</resources>

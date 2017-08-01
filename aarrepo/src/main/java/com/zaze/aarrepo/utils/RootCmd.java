@@ -192,7 +192,7 @@ public class RootCmd {
                     errorMsg.append(str);
                 }
             }
-            process.destroy();
+//            process.destroy();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

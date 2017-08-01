@@ -7,9 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter
 import com.zaze.aarrepo.commons.base.ZBaseActivity
 import com.zaze.aarrepo.commons.base.ZBaseFragment
 import com.zaze.aarrepo.commons.widget.head.ZOrientation
-import com.zaze.aarrepo.utils.FileUtil
 import com.zaze.demo.component.table.ui.TableFragment
-import com.zz.library.util.DirListener
 import kotlinx.android.synthetic.main.activity_home.*
 
 /**
@@ -44,11 +42,9 @@ class HomeActivity : ZBaseActivity() {
         }
     }
 
-    val listener = DirListener(FileUtil.getSDCardRoot() + "xuehai/com.xh.logcatcher/local/logs/appLog")
     fun test() {
-        val debug = KotlinDebug()
-        home_test_tv.text = debug.test()
-
+//        val debug = KotlinDebug()
+//        home_test_tv.text = debug.test()
 //        listener.startWatching()
 //        CrashReport.testJavaCrash()
 //        FileUtil.write2SDCardFile("${FileUtil.getSDCardRoot()}zaze.txt", new File)

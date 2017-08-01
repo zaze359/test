@@ -1,7 +1,10 @@
 package com.zaze.aarrepo.utils
 
+import android.os.Build
 import android.os.Environment
+import android.os.StatFs
 import android.util.Log
+import com.zaze.aarrepo.commons.log.ZLog
 import com.zaze.aarrepo.utils.FileUtil.createParentDir
 import com.zaze.aarrepo.utils.FileUtil.isFileExist
 import java.io.*
@@ -34,6 +37,7 @@ object ZFileUtil {
         if (needLock) lock.readLock().unlock()
     }
     // --------------------------------------------------
+    // --------------------------------------------------
     /**
      * Description : SD卡是否可用
      * @author zaze
@@ -55,8 +59,67 @@ object ZFileUtil {
         return File(path).isDirectory
     }
     // --------------------------------------------------
+    /**
+     * @param filePath filePath
+     * @return
+     */
+    fun createFile(filePath: String): File {
+        val file = File(filePath)
+        var result = false
+        if (!isFileExist(filePath)) {
+            if (createParentDir(filePath)) {
+                result = file.createNewFile()
+            }
+        } else {
+            result = true
+        }
+        if (showLog) {
+            Log.v(TAG, "createFile filePath : " + filePath)
+            Log.v(TAG, "createFile result : " + result)
+        }
+        return file
+    }
 
+    // --------------------------------------------------
+    // --------------------------------------------------
+    fun getTotalSpace(file: File): Long {
+        ZLog.i(ZTag.TAG_DEBUG, "getTotalSpace : ${file.path}")
+        val stat = StatFs(file.path)
+        return getBlockSize(stat) * getBlockCount(stat)
+    }
 
+    fun getFreeSpace(file: File): Long {
+        val stat = StatFs(file.path)
+        return getBlockSize(stat) * getAvailableBlocks(stat)
+    }
+
+    // --------------------------------------------------
+    fun getBlockSize(statFs: StatFs): Long {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            return statFs.blockSizeLong
+        } else {
+            return statFs.blockSize.toLong()
+        }
+    }
+
+    fun getAvailableBlocks(statFs: StatFs): Long {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            return statFs.availableBlocksLong
+        } else {
+            return statFs.availableBlocks.toLong()
+        }
+    }
+
+    fun getBlockCount(statFs: StatFs): Long {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            return statFs.blockCountLong
+        } else {
+            return statFs.blockCount.toLong()
+        }
+    }
+
+    // --------------------------------------------------
+    // --------------------------------------------------
     /**
      * 将数据写入sd卡
 
@@ -126,24 +189,4 @@ object ZFileUtil {
         return file
     }
 
-    /**
-     * @param filePath filePath
-     * @return
-     */
-    fun createFile(filePath: String): File {
-        val file = File(filePath)
-        var result = false
-        if (!isFileExist(filePath)) {
-            if (createParentDir(filePath)) {
-                result = file.createNewFile()
-            }
-        } else {
-            result = true
-        }
-        if (showLog) {
-            Log.v(TAG, "createFile filePath : " + filePath)
-            Log.v(TAG, "createFile result : " + result)
-        }
-        return file
-    }
 }

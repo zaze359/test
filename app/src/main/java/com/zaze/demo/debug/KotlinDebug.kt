@@ -18,7 +18,6 @@ import java.util.*
  */
 class KotlinDebug {
 
-
     fun test(): String {
 //        return showLog("print", { print() })
         return showLog("createDeveloperAccount", { createDeveloperToken() })

@@ -4,8 +4,8 @@ package com.zaze.aarrepo.commons.cache;
 import com.zaze.aarrepo.commons.log.ZLog;
 import com.zaze.aarrepo.commons.task.service.TaskService;
 import com.zaze.aarrepo.commons.task.service.TaskServiceAction;
-import com.zaze.aarrepo.utils.DeviceUtil;
 import com.zaze.aarrepo.utils.StringUtil;
+import com.zaze.aarrepo.utils.ZDeviceUtil;
 import com.zaze.aarrepo.utils.ZTag;
 
 import java.util.ArrayList;
@@ -59,7 +59,7 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
     }
 
     private MemoryCache() {
-        maxSize = DeviceUtil.getVMMaxMemory() / 8;
+        maxSize = ZDeviceUtil.INSTANCE.getVMMaxMemory() / 8;
         passiveRelease = (long) (maxSize * 0.4);
     }
 
@@ -117,7 +117,7 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
         if (saveSize > cacheBlockLength) {
             return "MemoryCache cacheData is larger than cacheBlockLength " + cacheBlockLength;
         }
-        long totalFree = DeviceUtil.getVMFreeMemory();
+        long totalFree = ZDeviceUtil.INSTANCE.getVMFreeMemory();
         if (totalFree <= (1 << 20)) {
             // 系统总剩余内存 小于10MB 
             // 存磁盘 ???

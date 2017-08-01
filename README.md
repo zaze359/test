@@ -7,7 +7,7 @@ ZAZE Android Base Library And Some Test Demo
 
 ### Gradle:
 
--    compile 'com.zaze.aarrepo:aarrepo:1.4.11@aar'
+-    compile 'com.zaze.aarrepo:aarrepo:1.4.19@aar'
 
 
 # 版本更替说明

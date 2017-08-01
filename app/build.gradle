@@ -2,9 +2,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
-ext {
-    SUPPORT_LIBRARY_VERSION = "23.1.1"
-}
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -46,10 +43,6 @@ android {
         }
 //        main.java.srcDirs += 'src/main/kotlin'
     }
-    dexOptions {
-        preDexLibraries = false
-        additionalParameters = ['--core-library']
-    }
 
     buildTypes {
         debug {
@@ -60,11 +53,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
     }
 }
 

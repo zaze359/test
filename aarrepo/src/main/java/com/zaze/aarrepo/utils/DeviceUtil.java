@@ -23,6 +23,7 @@ import java.util.UUID;
  * @author : zaze
  * @version : 1.0
  */
+@Deprecated
 public class DeviceUtil {
 
     /**
