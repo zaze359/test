@@ -30,6 +30,13 @@ public class FilterTaskExecutorService extends TaskExecutorService {
     }
 
     @Override
+    public void addFirst(TaskEntity entity, TaskCallback callback) {
+        if (taskExecutorService != null) {
+            taskExecutorService.addFirst(entity, callback);
+        }
+    }
+
+    @Override
     public ExecuteTask pollTask() {
         return taskExecutorService == null ? null : taskExecutorService.pollTask();
     }

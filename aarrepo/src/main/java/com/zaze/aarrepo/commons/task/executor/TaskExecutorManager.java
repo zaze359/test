@@ -59,6 +59,27 @@ public class TaskExecutorManager {
      * @return TaskExecutorManager
      */
     public TaskExecutorManager pushTask(@NonNull String tag, TaskEntity entity, TaskCallback callback) {
+        return pushTask(tag, entity, callback, false);
+    }
+
+    public TaskExecutorManager addFirst(TaskEntity entity, TaskCallback callback) {
+        return addFirst(DEFAULT_TAG, entity, callback);
+    }
+
+    public TaskExecutorManager addFirst(@NonNull String tag, TaskEntity entity, TaskCallback callback) {
+        return pushTask(tag, entity, callback, true);
+    }
+    // --------------------------------------------------
+
+    /**
+     * 添加任务
+     *
+     * @param tag      一类任务的标签（例如 : Download 表示 下载这一类任务）
+     * @param entity   具体任务
+     * @param callback 回调
+     * @return TaskExecutorManager
+     */
+    private TaskExecutorManager pushTask(@NonNull String tag, TaskEntity entity, TaskCallback callback, boolean addFirst) {
         if (entity != null) {
             TaskExecutorService executorService = getTaskExecutorService(tag);
             if (executorService == null) {
@@ -68,7 +89,11 @@ public class TaskExecutorManager {
                 }
             }
             executorMap.put(tag, executorService);
-            executorService.pushTask(entity, callback);
+            if (addFirst) {
+                executorService.addFirst(entity, callback);
+            } else {
+                executorService.pushTask(entity, callback);
+            }
         }
         return this;
     }
@@ -202,16 +227,13 @@ public class TaskExecutorManager {
      */
     public void clearAllTask() {
         for (String tag : executorMap.keySet()) {
-            TaskExecutorService taskExecutorService = getTaskExecutorService(tag);
-            if (taskExecutorService != null) {
-                taskExecutorService.clear();
-            }
+            clearTaskByTag(tag);
         }
     }
 
     /**
-     *
      * 清除指定标签任务
+     *
      * @param tag
      */
     public void clearTaskByTag(String tag) {
@@ -228,7 +250,7 @@ public class TaskExecutorManager {
      * @return TaskExecutorService
      */
     private TaskExecutorService getTaskExecutorService(String tag) {
-        if (!StringUtil.isEmpty(tag) && executorMap.containsKey(tag)) {
+        if (hasTaskExecutorService(tag)) {
             if (needLog) {
                 ZLog.i(ZTag.TAG_TASK, "提取 标签(%s) 任务池", tag);
             }
@@ -241,6 +263,19 @@ public class TaskExecutorManager {
         }
     }
 
+    // --------------------------------------------------
+
+    /**
+     * 是否有指定任务池
+     *
+     * @param tag 任务tag
+     * @return true 存在
+     */
+    public boolean hasTaskExecutorService(String tag) {
+        return !StringUtil.isEmpty(tag) && executorMap.containsKey(tag);
+    }
+
+    // --------------------------------------------------
 
     /**
      * @param isNeedLog true 显示日志

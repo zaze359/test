@@ -8,8 +8,10 @@ import com.zaze.aarrepo.commons.task.TaskEntity;
 import com.zaze.aarrepo.utils.StringUtil;
 import com.zaze.aarrepo.utils.ZTag;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -28,6 +30,9 @@ class SyncTaskExecutorService extends TaskExecutorService {
      */
     private final ConcurrentHashMap<String, ExecuteTask> taskMap = new ConcurrentHashMap<>();
     private final ConcurrentLinkedQueue<String> taskIdQueue = new ConcurrentLinkedQueue<>();
+    /**
+     * 当前正在执行的任务
+     */
     private final Set<String> currentTaskSet = Collections.synchronizedSet(new HashSet<String>());
 
     /**
@@ -78,7 +83,12 @@ class SyncTaskExecutorService extends TaskExecutorService {
      */
     @Override
     public void pushTask(TaskEntity entity, TaskCallback callback) {
-        pushTask(entity, callback, false);
+        pushTask(entity, callback, false, false);
+    }
+
+    @Override
+    public void addFirst(TaskEntity entity, TaskCallback callback) {
+        pushTask(entity, callback, false, true);
     }
 
     /**
@@ -86,17 +96,18 @@ class SyncTaskExecutorService extends TaskExecutorService {
      * @param callback           回调
      * @param isMultiplyCallback true 同个任务有多个回调,false 同个任务只保留最近一个回调
      */
-    private void pushTask(TaskEntity entity, TaskCallback callback, boolean isMultiplyCallback) {
+    private void pushTask(TaskEntity entity, TaskCallback callback, boolean isMultiplyCallback, boolean addFirst) {
         if (entity == null) {
             return;
         }
         String taskId = entity.getTaskId();
         if (currentTaskSet.contains(StringUtil.parseString(taskId))) {
             if (needLog) {
-                ZLog.i(ZTag.TAG_TASK, "重复添加, 该任务正在执行中(%s)", taskId);
+                ZLog.i(ZTag.TAG_TASK, "该任务正在执行中(%s)", taskId);
             }
             return;
         }
+        // --------------------------------------------------
         if (StringUtil.isEmpty(taskId)) {
             taskId = String.valueOf(entity.hashCode());
             entity.setTaskId(taskId);
@@ -111,13 +122,28 @@ class SyncTaskExecutorService extends TaskExecutorService {
         if (callback != null) {
             executeTask.addCallback(callback, isMultiplyCallback);
         }
-
         taskMap.put(taskId, executeTask);
-        if (!taskIdQueue.contains(taskId)) {
-            taskIdQueue.add(taskId);
+        if (addFirst) {
+            if (needLog) {
+                ZLog.i(ZTag.TAG_TASK, "优先执行该任务(%s)", taskId);
+            }
+            if (taskIdQueue.contains(taskId)) {
+                taskIdQueue.remove(taskId);
+            }
+            List<String> list = new ArrayList<>();
+            list.add(taskId);
+            for (String task : taskIdQueue) {
+                list.add(task);
+            }
+            taskIdQueue.clear();
+            taskIdQueue.addAll(list);
+        } else {
+            if (!taskIdQueue.contains(taskId)) {
+                taskIdQueue.add(taskId);
+            }
         }
         if (needLog) {
-            ZLog.i(ZTag.TAG_TASK, "添加任务(%s)", taskId);
+            ZLog.i(ZTag.TAG_TASK, "添加任务成功(%s)", taskId);
         }
     }
 

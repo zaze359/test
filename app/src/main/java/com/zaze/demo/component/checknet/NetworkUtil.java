@@ -6,12 +6,16 @@ import android.net.DhcpInfo;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.text.TextUtils;
 
-import com.zaze.aarrepo.utils.StringUtil;
+import com.zaze.aarrepo.commons.log.ZLog;
+import com.zaze.aarrepo.utils.ZTag;
 
 import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Description :
@@ -40,50 +44,57 @@ public class NetworkUtil {
         return (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
     }
 
-    public static String getWifiMacAddress(Context context) {
-        try {
-            String mac = getWifiManager(context).getConnectionInfo().getMacAddress();
-            if (TextUtils.isEmpty(mac)) {
-                return null;
-            }
-            return mac;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+    private static ConnectivityManager getConnectivityManager(Context context) {
+        return (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
     }
 
+    public static String getNetwork(Context context) {
+        ConnectivityManager connectivityManager = getConnectivityManager(context);
+        NetworkInfo mobileInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        NetworkInfo wifiInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        NetworkInfo activeInfo = connectivityManager.getActiveNetworkInfo();
+        if (activeInfo == null) {
+            ZLog.e(ZTag.TAG_DEBUG, "无网络连接");
+            return "";
+        } else {
+            if (!wifiInfo.isConnected() && mobileInfo.isConnected()) {
+                ZLog.i(ZTag.TAG_DEBUG, "当前使用数据流量");
+                return "4g";
+            } else {
+                ZLog.i(ZTag.TAG_DEBUG, "当前连接wifi");
+                return "wifi";
+            }
+        }
+    }
 
     // --------------------------------------------------
-//    public static String getIPAddress(Context context) {
-//        NetworkInfo info = getNetworkInfo(context);
-//        if (info != null && info.isConnected()) {
-//            if (info.getType() == ConnectivityManager.TYPE_MOBILE) {//当前使用2G/3G/4G网络
-//                try {
-//                    //Enumeration<NetworkInterface> en=NetworkInterface.getNetworkInterfaces();
-//                    for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); ) {
-//                        NetworkInterface intf = en.nextElement();
-//                        for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
-//                            InetAddress inetAddress = enumIpAddr.nextElement();
-//                            if (!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet4Address) {
-//                                return inetAddress.getHostAddress();
-//                            }
-//                        }
-//                    }
-//                } catch (SocketException e) {
-//                    e.printStackTrace();
-//                }
-//            } else if (info.getType() == ConnectivityManager.TYPE_WIFI) {//当前使用无线网络
-//                WifiManager wifiManager = getWifiManager(context);
-//                WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-//                return intToInetAddress(wifiInfo.getIpAddress()).getHostAddress();//得到IPV4地址
-//            }
-//        } else {
-//            //当前无网络连接,请在设置中打开网络
-//        }
-//        return null;
-//    }
-
+    public static String getWLANMacAddress() {
+        /*获取mac地址有一点需要注意的就是android 6.0版本后，以下注释方法不再适用，不管任何手机都会返回"02:00:00:00:00:00"这个默认的mac地址，这是googel官方为了加强权限管理而禁用了getSYstemService(Context.WIFI_SERVICE)方法来获得mac地址。*/
+        String macAddress;
+        StringBuilder buf = new StringBuilder();
+        NetworkInterface networkInterface = null;
+        try {
+            networkInterface = NetworkInterface.getByName("eth1");
+            if (networkInterface == null) {
+                networkInterface = NetworkInterface.getByName("wlan0");
+            }
+            if (networkInterface == null) {
+                return "02:00:00:00:00:02";
+            }
+            byte[] addr = networkInterface.getHardwareAddress();
+            for (byte b : addr) {
+                buf.append(String.format("%02X:", b));
+            }
+            if (buf.length() > 0) {
+                buf.deleteCharAt(buf.length() - 1);
+            }
+            macAddress = buf.toString();
+        } catch (SocketException e) {
+            e.printStackTrace();
+            return "02:00:00:00:00:02";
+        }
+        return macAddress;
+    }
 
     /**
      * @param context context
@@ -106,11 +117,12 @@ public class NetworkUtil {
      * @param context context
      * @return dns
      */
-    public static String getDNS(Context context) {
+    public static List<String> getDNS(Context context) {
         DhcpInfo dhcpInfo = getDhcpInfo(context);
-        String dns1 = intToInetAddress(dhcpInfo.dns1).getHostAddress();
-        String dns2 = intToInetAddress(dhcpInfo.dns2).getHostAddress();
-        return StringUtil.format("%s,%s", dns1, dns2);
+        List<String> list = new ArrayList<>();
+        list.add(intToInetAddress(dhcpInfo.dns1).getHostAddress());
+        list.add(intToInetAddress(dhcpInfo.dns2).getHostAddress());
+        return list;
     }
 
     /**

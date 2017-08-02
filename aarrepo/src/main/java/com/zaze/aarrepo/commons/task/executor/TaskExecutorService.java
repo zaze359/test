@@ -29,6 +29,8 @@ abstract class TaskExecutorService implements ITaskExecutorService {
      */
     public abstract void pushTask(TaskEntity entity, TaskCallback callback);
 
+    public abstract void addFirst(TaskEntity entity, TaskCallback callback);
+
     /**
      * @return 取一个任务
      */

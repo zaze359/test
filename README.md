@@ -27,4 +27,4 @@ ZAZE Android Base Library And Some Test Demo
 1.补充优化工具类
 2.重写了ECallback
 3.学习kotlin
-
+4.Task支持添加任务 addFirst
