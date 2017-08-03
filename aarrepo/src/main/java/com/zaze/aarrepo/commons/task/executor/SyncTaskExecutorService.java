@@ -137,13 +137,20 @@ class SyncTaskExecutorService extends TaskExecutorService {
             }
             taskIdQueue.clear();
             taskIdQueue.addAll(list);
+            if (needLog) {
+                ZLog.i(ZTag.TAG_TASK, "任务置顶成功(%s)", taskId);
+            }
         } else {
             if (!taskIdQueue.contains(taskId)) {
                 taskIdQueue.add(taskId);
+                if (needLog) {
+                    ZLog.i(ZTag.TAG_TASK, "添加任务成功(%s)", taskId);
+                }
+            } else {
+                if (needLog) {
+                    ZLog.i(ZTag.TAG_TASK, "任务已存在(%s)", taskId);
+                }
             }
-        }
-        if (needLog) {
-            ZLog.i(ZTag.TAG_TASK, "添加任务成功(%s)", taskId);
         }
     }
 

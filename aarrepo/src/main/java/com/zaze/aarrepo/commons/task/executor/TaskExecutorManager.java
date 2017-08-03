@@ -19,8 +19,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class TaskExecutorManager {
     private boolean needLog;
     private final ConcurrentHashMap<String, TaskExecutorService> executorMap = new ConcurrentHashMap<>();
-    private final String AUTO_TASK_TAG = "$%#zaze_auto_#%$";
-    private final String MULTI_TASK_TAG = "$%#zaze_multi_#%$";
+    //    private final String AUTO_TASK_TAG = "$%#zaze_auto_#%$";
+//    private final String MULTI_TASK_TAG = "$%#zaze_multi_#%$";
     private final String DEFAULT_TAG = "$%#zaze_default_#%$";
     private static volatile TaskExecutorManager instance;
 
@@ -169,7 +169,7 @@ public class TaskExecutorManager {
      * @param tag 任务标签
      * @param num 执行数
      */
-    public void executeMulti(final String tag, int num) {
+    public void executeMulti(String tag, int num) {
         ZLog.i(ZTag.TAG_TASK, "执行 批量任务标签(%s)（%d）！", tag, num);
         MultiTaskExecutorService multiTaskExecutorService = new MultiTaskExecutorService(getTaskExecutorService(tag));
         multiTaskExecutorService.multiExecuteTask(num, null);
@@ -195,9 +195,9 @@ public class TaskExecutorManager {
             ((AutoTaskExecutorService) taskExecutorService).autoExecute();
         } else {
             AutoTaskExecutorService autoTaskExecutorService = new AutoTaskExecutorService(taskExecutorService);
-            executorMap.remove(tag);
+//            executorMap.remove(tag);
             if (autoTaskExecutorService.autoExecute()) {
-                executorMap.put(AUTO_TASK_TAG + tag, autoTaskExecutorService);
+                executorMap.put(tag, autoTaskExecutorService);
             }
         }
     }
@@ -206,14 +206,14 @@ public class TaskExecutorManager {
      * 终止默认标签中的后续任务
      */
     public void shutdownAutoExecuteTask() {
-        shutdownAutoExecuteTask(AUTO_TASK_TAG + DEFAULT_TAG);
+        shutdownAutoExecuteTask(DEFAULT_TAG);
     }
 
     /**
      * 终止后续任务
      */
     public void shutdownAutoExecuteTask(String tag) {
-        TaskExecutorService taskExecutorService = getTaskExecutorService(AUTO_TASK_TAG + tag);
+        TaskExecutorService taskExecutorService = getTaskExecutorService(tag);
         if (taskExecutorService instanceof AutoTaskExecutorService) {
             ((AutoTaskExecutorService) taskExecutorService).shutdown();
         }

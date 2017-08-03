@@ -13,7 +13,7 @@ import java.util.concurrent.Executors;
  * @version : 2016-12-14 - 10:26
  */
 class AsyncTaskExecutorService extends FilterTaskExecutorService {
-    protected static ExecutorService autoExecutor;
+    protected ExecutorService autoExecutor;
 
     public AsyncTaskExecutorService(TaskExecutorService taskExecutorService) {
         super(taskExecutorService);
@@ -26,8 +26,10 @@ class AsyncTaskExecutorService extends FilterTaskExecutorService {
         if (taskExecutorService == null) {
             return false;
         }
-        if (autoExecutor == null && !taskExecutorService.isEmpty()) {
+        if (autoExecutor == null) {
             autoExecutor = Executors.newSingleThreadExecutor();
+        }
+        if (!taskExecutorService.isEmpty()) {
             autoExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
