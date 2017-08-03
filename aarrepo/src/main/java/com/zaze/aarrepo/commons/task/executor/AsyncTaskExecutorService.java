@@ -13,7 +13,7 @@ import java.util.concurrent.Executors;
  * @version : 2016-12-14 - 10:26
  */
 class AsyncTaskExecutorService extends FilterTaskExecutorService {
-    protected ExecutorService autoExecutor;
+    protected static ExecutorService autoExecutor;
 
     public AsyncTaskExecutorService(TaskExecutorService taskExecutorService) {
         super(taskExecutorService);
