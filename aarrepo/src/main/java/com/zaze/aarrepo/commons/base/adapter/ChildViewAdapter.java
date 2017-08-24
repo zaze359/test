@@ -9,7 +9,7 @@ import android.view.ViewGroup;
  * @author : ZAZE
  * @version : 2016-06-03 - 17:15
  */
-public interface ChildViewAdapter<V, H> {
+interface ChildViewAdapter<V, H> {
     void setViewData(V value, H itemHolder, int position, View convertView, ViewGroup parent);
 
     int getViewLayoutId();

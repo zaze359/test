@@ -40,7 +40,7 @@ public class HttpDataUtil {
      * 处理get请求
      *
      * @param url url
-     * @return Map<String,String>
+     * @return Map<String, String>
      */
     public static Map<String, String> processGetRequest(String url) {
         Map<String, String> map = new HashMap<>();

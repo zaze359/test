@@ -5,9 +5,6 @@ import android.location.LocationListener;
 import android.location.LocationProvider;
 import android.os.Bundle;
 
-import com.zaze.aarrepo.commons.log.ZLog;
-import com.zaze.aarrepo.utils.ZTag;
-
 /**
  * Description :
  *
@@ -24,7 +21,7 @@ public class NetLocationListener implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-        ZLog.i(ZTag.TAG_DEBUG, "NetLocationListener : onLocationChanged : " + location);
+//        XHLog.i(LcTag.TAG_LOCATION, "NetLocationListener : onLocationChanged : " + location);
         if (location != null && locationListener != null) {
             locationListener.onLocationChanged(location);
         }
@@ -32,7 +29,7 @@ public class NetLocationListener implements LocationListener {
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        ZLog.i(ZTag.TAG_DEBUG, "NetLocationListener : onStatusChanged : " + provider);
+//        XHLog.i(LcTag.TAG_LOCATION, "NetLocationListener : onStatusChanged : " + provider);
         switch (status) {
             case LocationProvider.AVAILABLE:
                 break;
@@ -48,7 +45,7 @@ public class NetLocationListener implements LocationListener {
 
     @Override
     public void onProviderEnabled(String provider) {
-        ZLog.i(ZTag.TAG_DEBUG, "NetLocationListener : onProviderEnabled : " + provider);
+//        XHLog.i(LcTag.TAG_LOCATION, "NetLocationListener : onProviderEnabled : " + provider);
         if (locationListener != null) {
             locationListener.onProviderEnabled(provider);
         }
@@ -56,7 +53,7 @@ public class NetLocationListener implements LocationListener {
 
     @Override
     public void onProviderDisabled(String provider) {
-        ZLog.i(ZTag.TAG_DEBUG, "NetLocationListener : onProviderDisabled : " + provider);
+//        XHLog.i(LcTag.TAG_LOCATION, "NetLocationListener : onProviderDisabled : " + provider);
         if (locationListener != null) {
             locationListener.onProviderDisabled(provider);
         }

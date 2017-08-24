@@ -15,7 +15,7 @@ import java.util.Collection;
  * @author : zaze
  * @version : 1.0
  */
-public abstract class BaseListAdapter<V, H> extends DataAdapter<V> implements ChildViewAdapter<V, H> {
+public abstract class BaseListAdapter<V, H> extends ZDataAdapter<V> implements ChildViewAdapter<V, H> {
     private OnItemClickListener<V> onItemClickListener;
 
     public BaseListAdapter(Context context, Collection<V> data) {

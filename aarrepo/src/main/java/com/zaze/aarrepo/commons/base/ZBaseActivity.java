@@ -26,7 +26,6 @@ public abstract class ZBaseActivity extends AppCompatActivity implements ZBaseVi
     private BaseHeadView headFace;
     private LoadingWidget loadProgress;
 
-
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
         if (isNeedHead()) {

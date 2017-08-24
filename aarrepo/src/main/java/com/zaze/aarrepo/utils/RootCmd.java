@@ -1,6 +1,8 @@
 package com.zaze.aarrepo.utils;
 
 
+import android.text.TextUtils;
+
 import com.zaze.aarrepo.commons.log.ZLog;
 
 import java.io.BufferedReader;
@@ -26,11 +28,12 @@ public class RootCmd {
     public static final String COMMAND_LINE_END = "\n";
 
 
-    public static int ERROR = -1;
+    //    public static int ERROR = -1;
+    public static int SUCCESS = 0;
 
     // --------------------------------------------------
     public static void reboot() {
-        RootCmd.execRootCmd("reboot");
+        RootCmd.execCmd("reboot");
     }
 
     /**
@@ -158,7 +161,7 @@ public class RootCmd {
         if (commands == null || commands.length == 0) {
             return new CommandResult(result, null, null);
         }
-        Process process = null;
+        Process process;
         BufferedReader successResult = null;
         BufferedReader errorResult = null;
         StringBuilder errorMsg = null;
@@ -216,8 +219,13 @@ public class RootCmd {
         );
     }
 
+    @Deprecated
     public static boolean isSuccess(int result) {
-        return result != ERROR;
+        return result == SUCCESS;
+    }
+
+    public static boolean isSuccess(CommandResult commandResult) {
+        return commandResult.result == 0 && TextUtils.isEmpty(commandResult.errorMsg);
     }
 
     // --------------------------------------------------

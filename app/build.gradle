@@ -87,11 +87,11 @@ dependencies {
         exclude module: "support-annotations"
     }
     compile 'org.greenrobot:eventbus:3.0.0'
-    compile project(':library')
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     compile 'com.squareup.okhttp3:okhttp:3.8.0'
     //
     //    compile 'com.Android.support:multidex:1.0.0'
+    compile project(':library')
     compile project(':zvector')
 }
 repositories {

@@ -138,16 +138,19 @@ public class ZipUtil {
      */
     public static void zipFolder(String srcFileString, String zipFileString) {
         ZLog.v(ZTag.TAG_DEBUG, "XZip : ZipFolder(String, String)");
+        File file = new File(zipFileString);
+        if (file.exists()) {
+            file.delete();
+        } else {
+            ZFileUtil.INSTANCE.createFile(zipFileString);
+        }
         try {
             //创建Zip包  
             ZipOutputStream outZip = new ZipOutputStream(new FileOutputStream(zipFileString));
             //打开要输出的文件  
-            File file = new File(srcFileString);
-
-            //压缩  
+            //压缩
             zipFiles(file.getParent() + File.separator, file.getName(), outZip);
-
-            //完成,关闭  
+            //完成,关闭
             outZip.finish();
             outZip.close();
         } catch (Exception e) {

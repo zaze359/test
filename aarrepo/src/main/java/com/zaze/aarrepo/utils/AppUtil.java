@@ -117,7 +117,7 @@ public class AppUtil {
      */
     public static boolean installApkSilent(String filePath) {
         ZLog.i(ZTag.TAG_ABOUT_APP, "开始静默安装 %s", filePath);
-        if (RootCmd.execRootCmd("pm install -r " + filePath) != RootCmd.ERROR) {
+        if (RootCmd.isSuccess(RootCmd.execRootCmd("pm install -r " + filePath))) {
             ZLog.i(ZTag.TAG_ABOUT_APP, "静默安装成功!");
             return true;
         } else {
@@ -133,7 +133,7 @@ public class AppUtil {
      */
     public static boolean unInstallApkSilent(String packageName) {
         ZLog.i(ZTag.TAG_ABOUT_APP, "开始静默卸载 %s", packageName);
-        if (RootCmd.execRootCmd("pm uninstall " + packageName) != RootCmd.ERROR) {
+        if (RootCmd.isSuccess(RootCmd.execRootCmd("pm uninstall " + packageName))) {
             ZLog.i(ZTag.TAG_ABOUT_APP, "静默卸载成功!");
             return true;
         } else {

@@ -12,11 +12,9 @@ install {
             project {
                 packaging 'aar'
                 description PROJ_DESCRIPTION
-
                 // Add your description here
                 name PROJ_POM_NAME
                 url PROJ_WEBSITEURL
-
                 // Set your license
                 licenses {
                     license {

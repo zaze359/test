@@ -3,10 +3,7 @@ package com.zaze.demo.debug
 import android.util.Base64
 import com.zaze.aarrepo.commons.date.DateUtil
 import com.zaze.aarrepo.commons.log.ZLog
-import com.zaze.aarrepo.utils.EncryptionUtil
-import com.zaze.aarrepo.utils.FileUtil
-import com.zaze.aarrepo.utils.StringUtil
-import com.zaze.aarrepo.utils.ZAppUtil
+import com.zaze.aarrepo.utils.*
 import com.zaze.demo.app.MyApplication
 import java.io.File
 import java.util.*
@@ -20,10 +17,33 @@ class KotlinDebug {
 
     fun test(): String {
 //        return showLog("print", { print() })
+//        return showLog("createDimens", { createDimens(1f, LocalDisplay.SCREEN_DENSITY) })
         return showLog("createDeveloperAccount", { createDeveloperToken() })
 //        return showLog("clearCacheData", { clearCacheData() })
 //        return showLog("searchFile", { searchFile() })
 //        return "${System.currentTimeMillis()} : ${System.currentTimeMillis() % 10000L}"
+    }
+
+    private fun createDimens(baseDensity: Float, screenDensity: Float): String {
+        var dp = 1
+        val builderBase = StringBuilder()
+        val builder = StringBuilder()
+        builder.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
+        builder.append("<resources>\n")
+        builderBase.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
+        builderBase.append("<resources>\n")
+        do {
+            if (dp <= 10 || dp % 2 == 0) {
+                builder.append(StringUtil.format("\t<dimen name=\"dp_$dp\">%1.1fdp</dimen>\n", dp * baseDensity / screenDensity))
+                builderBase.append("\t<dimen name=\"dp_$dp\">${dp}dp</dimen>\n")
+            }
+            dp++
+        } while (dp <= 2000)
+        builder.append("</resources>")
+        builderBase.append("</resources>")
+        ZFileUtil.writeToFile("${ZFileUtil.getSDCardRoot()}/z_dimens/dimens.xml", builder.toString())
+        ZFileUtil.writeToFile("${ZFileUtil.getSDCardRoot()}/z_dimens/dimens_base.xml", builderBase.toString())
+        return builder.toString()
     }
 
     fun showLog(msg: String, body: () -> String): String {
@@ -79,24 +99,6 @@ class KotlinDebug {
         }
     }
 
-    // --------------------------------------------------
-
-    fun print(): String {
-        var serial: String
-        //        val packageInfo = ZBaseApplication.getInstance().packageManager.getPackageArchiveInfo(
-//                "${FileUtil.getSDCardRoot()}xuehai/download/app/com.xuehai.launcher/1/com.xuehai.launcher.apk"
-//                , 0)
-//        serial = packageInfo.toString()
-        try {
-            val c = Class.forName("android.os.SystemProperties")
-            val get = c.getMethod("get", String::class.java)
-            serial = get.invoke(c, "ro.serialno") as String
-        } catch (e: Exception) {
-            e.printStackTrace()
-            serial = "Exception"
-        }
-        return serial
-    }
 
     fun clearCacheData(): String {
         return "" + ZAppUtil.clearDataInfo(MyApplication.getInstance(), MyApplication.getInstance().packageName)

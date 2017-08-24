@@ -9,6 +9,7 @@ import android.view.ViewGroup;
  * @author : ZAZE
  * @version : 2016-06-03 - 17:15
  */
+@Deprecated
 public interface GroupViewAdapter<V, H> {
     void setViewData(V value, H itemHolder, int position, View convertView, ViewGroup parent);
 

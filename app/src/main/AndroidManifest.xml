@@ -5,7 +5,6 @@
     <!-- <permission android:name="com.zaze.demo.receiver.RECEIVER" /> -->
 
     <uses-permission android:name="android.permission.READ_LOGS" />
-    <!--  -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
@@ -94,7 +93,7 @@
         <!-- contentProvider -->
 
         <activity
-            android:name="com.zaze.demo.component.readpackage.ui.ReadPackageActivity"
+            android:name=".component.readpackage.ui.ReadPackageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
@@ -118,7 +117,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.zaze.demo.component.logcat.ui.LogcatActivity"
+            android:name=".component.logcat.ui.LogcatActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".component.webview.ui.WebViewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
     </application>

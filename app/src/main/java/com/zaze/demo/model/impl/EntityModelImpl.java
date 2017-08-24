@@ -9,12 +9,13 @@ import com.zaze.demo.component.okhttp.ui.OkHttpActivity;
 import com.zaze.demo.component.preference.MyPreferenceActivity;
 import com.zaze.demo.component.progress.ProgressActivity;
 import com.zaze.demo.component.provider.ui.ProviderActivity;
+import com.zaze.demo.component.readpackage.ui.ReadPackageActivity;
 import com.zaze.demo.component.rxandroid.RxAndroidActivity;
 import com.zaze.demo.component.task.ui.TaskActivity;
 import com.zaze.demo.component.time.TimeActivity;
 import com.zaze.demo.component.toolbar.ToolBarDemoActivity;
+import com.zaze.demo.component.webview.ui.WebViewActivity;
 import com.zaze.demo.component.xbus.ui.EventBusActivity;
-import com.zaze.demo.component.readpackage.ui.ReadPackageActivity;
 import com.zaze.demo.model.EntityModel;
 import com.zaze.demo.model.entity.AnimationEntity;
 import com.zaze.demo.model.entity.TableEntity;
@@ -50,9 +51,9 @@ public class EntityModelImpl implements EntityModel {
         list.add(new TableEntity(14, "Progress", ProgressActivity.class));
         list.add(new TableEntity(15, "Vector", VectorActivity.class));
         list.add(new TableEntity(16, "File Explorer", FileExplorerActivity.class));
-
+        list.add(new TableEntity(17, "Web View", WebViewActivity.class));
 //        SortUtil.sortList(list, "getType", "desc");
-
+//        com.android.internal.R.string.config_webViewPackageName
         return list;
     }
 

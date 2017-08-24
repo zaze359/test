@@ -123,7 +123,7 @@ public class FileUtil {
         File file = new File(StringUtil.parseString(savePath));
         int status = UNKNOW;
         File parentFile = file.getParentFile();
-        if (!parentFile.exists()) {
+        if (!parentFile.exists() && !parentFile.getAbsolutePath().equals(getSDCardRoot())) {
             if (parentFile.mkdirs())
                 status = CREATE_DIR_SUCCESS;
             else

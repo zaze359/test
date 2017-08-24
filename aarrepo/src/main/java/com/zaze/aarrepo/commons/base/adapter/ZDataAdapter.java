@@ -14,15 +14,16 @@ import java.util.List;
  * @author : zaze
  * @version : 1.0
  */
-public abstract class DataAdapter<V> extends BaseAdapter {
+abstract class ZDataAdapter<V> extends BaseAdapter {
     private Context context;
     private final List<V> dataList = new ArrayList<V>();
 
     //
-    public DataAdapter(Context context, Collection<V> data) {
+    ZDataAdapter(Context context, Collection<V> data) {
         this.context = context;
         setDataList(data, false);
     }
+
     @Override
     public int getCount() {
         return dataList.size();
@@ -59,6 +60,7 @@ public abstract class DataAdapter<V> extends BaseAdapter {
     public List<V> getDataList() {
         return dataList;
     }
+
     public int getColor(int resId) {
         return context.getResources().getColor(resId);
     }

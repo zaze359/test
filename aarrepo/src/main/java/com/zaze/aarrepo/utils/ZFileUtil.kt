@@ -3,7 +3,6 @@ package com.zaze.aarrepo.utils
 import android.os.Build
 import android.os.Environment
 import android.os.StatFs
-import android.util.Log
 import com.zaze.aarrepo.commons.log.ZLog
 import com.zaze.aarrepo.utils.FileUtil.createParentDir
 import com.zaze.aarrepo.utils.FileUtil.isFileExist
@@ -18,7 +17,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock
  */
 object ZFileUtil {
     var showLog = true
-    private val TAG = "FileUtil"
     private val needLock = true
     private val lock = ReentrantReadWriteLock()
     private fun writeLock(lock: ReadWriteLock) {
@@ -74,8 +72,8 @@ object ZFileUtil {
             result = true
         }
         if (showLog) {
-            Log.v(TAG, "createFile filePath : " + filePath)
-            Log.v(TAG, "createFile result : " + result)
+            ZLog.v(ZTag.TAG_FILE, "createFile filePath : " + filePath)
+            ZLog.v(ZTag.TAG_FILE, "createFile result : " + result)
         }
         return file
     }
@@ -120,43 +118,25 @@ object ZFileUtil {
 
     // --------------------------------------------------
     // --------------------------------------------------
-    /**
-     * 将数据写入sd卡
 
-     * @param filePath
-     * *
-     * @param dataStr
-     * *
+    /**
+     * 将数据写入文件
+     * [filePath]
+     * [dataStr]
      * @return
      */
-    fun writeToFile(filePath: String, dataStr: String, append: Boolean): File? {
+    fun writeToFile(filePath: String, dataStr: String, append: Boolean = false): File? {
         val input = ByteArrayInputStream(dataStr.toByteArray())
         return writeToFile(filePath, input, append)
     }
 
     /**
-     * 将数据写入sd卡
-
-     * @param filePath
-     * *
-     * @param input
-     * *
+     * 将数据写入文件
+     * [filePath]
+     * [inputStream]
      * @return
      */
-    fun writeToFile(filePath: String, input: InputStream): File? {
-        return writeToFile(filePath, input, false)
-    }
-
-    /**
-     * 将数据写入sd卡
-
-     * @param filePath
-     * *
-     * @param input
-     * *
-     * @return
-     */
-    fun writeToFile(filePath: String, input: InputStream, append: Boolean): File? {
+    fun writeToFile(filePath: String, inputStream: InputStream, append: Boolean = false): File? {
         writeLock(lock)
         var file: File? = null
         var output: OutputStream? = null
@@ -164,10 +144,10 @@ object ZFileUtil {
             file = createFile(filePath)
             output = FileOutputStream(file, append)
             val buffer = ByteArray(4 * 1024)
-            var temp = input.read(buffer)
+            var temp = inputStream.read(buffer)
             while (temp != -1) {
                 output.write(buffer, 0, temp)
-                temp = input.read(buffer)
+                temp = inputStream.read(buffer)
             }
             //            String split = "\n-------------------------\n";
             //            output.write(split.getBytes(), 0, split.length());
@@ -176,7 +156,7 @@ object ZFileUtil {
             e.printStackTrace()
         } finally {
             try {
-                input.close()
+                inputStream.close()
                 if (output != null) {
                     output.close()
                 }
