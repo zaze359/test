@@ -3,9 +3,7 @@ package com.zaze.utils
 import android.os.Build
 import android.os.Environment
 import android.os.StatFs
-import com.zaze.aarrepo.commons.log.ZLog
-import com.zaze.aarrepo.utils.FileUtil.createParentDir
-import com.zaze.aarrepo.utils.FileUtil.isFileExist
+import com.zaze.utils.log.ZLog
 import java.io.*
 import java.util.concurrent.locks.ReadWriteLock
 import java.util.concurrent.locks.ReentrantReadWriteLock
@@ -56,6 +54,10 @@ object ZFileUtil {
     fun isDirectory(path: String): Boolean {
         return File(path).isDirectory
     }
+
+    fun isFileExist(filePath: String): Boolean {
+        return File(filePath).exists()
+    }
     // --------------------------------------------------
     /**
      * @param filePath filePath
@@ -76,6 +78,24 @@ object ZFileUtil {
             ZLog.v(ZTag.TAG_FILE, "createFile result : " + result)
         }
         return file
+    }
+
+    fun createParentDir(savePath: String): Boolean {
+        val parentFile = File(savePath).parentFile
+        if (parentFile.exists()) {
+            return true
+        } else {
+            return parentFile.mkdirs()
+        }
+    }
+
+    fun createDir(path: String): Boolean {
+        val file = File(path)
+        if (file.exists()) {
+            return file.isDirectory
+        } else {
+            return file.mkdirs()
+        }
     }
 
     // --------------------------------------------------

@@ -58,7 +58,6 @@ public class FileUtil {
     /**
      * @param filePath
      * @return
-     * @throws IOExceptione
      */
     public static File createFile(String filePath) throws IOException {
         File file = new File(StringUtil.parseString(filePath));

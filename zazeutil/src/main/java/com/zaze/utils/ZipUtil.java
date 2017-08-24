@@ -1,8 +1,7 @@
-package com.zaze.utils
+package com.zaze.utils;
 
 
-import com.zaze.aarrepo.commons.log.ZLog;
-import com.zaze.aarrepo.utils.ZTag;
+import com.zaze.utils.log.ZLog;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -94,7 +93,6 @@ public class ZipUtil {
      *
      * @param zipFileString 压缩包的名字
      * @param outPathString 指定的路径DIR
-     * @throws Exception
      */
     public static void unZipFolder(String zipFileString, String outPathString) {
         ZLog.v(ZTag.TAG_DEBUG, "XZip : UnZipFolder(String, String)");
@@ -107,9 +105,9 @@ public class ZipUtil {
                 if (zipEntry.isDirectory()) {
                     // get the folder name of the widget
                     szName = szName.substring(0, szName.length() - 1);
-                    FileUtil.createDir(outPathString + File.separator + szName);
+                    ZFileUtil.INSTANCE.createDir(outPathString + File.separator + szName);
                 } else {
-                    File file = FileUtil.createFile(outPathString + File.separator + szName);
+                    File file = ZFileUtil.INSTANCE.createFile(outPathString + File.separator + szName);
                     // get the output stream of the file
                     FileOutputStream out = new FileOutputStream(file);
                     int len;
@@ -135,7 +133,6 @@ public class ZipUtil {
      *
      * @param srcFileString 要压缩的文件/文件夹名字
      * @param zipFileString 指定压缩的目的和名字
-     * @throws Exception
      */
     public static void zipFolder(String srcFileString, String zipFileString) {
         ZLog.v(ZTag.TAG_DEBUG, "XZip : ZipFolder(String, String)");
