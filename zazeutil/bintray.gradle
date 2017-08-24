@@ -2,7 +2,7 @@
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-group = GROUP
+group = PROJ_GROUP
 version = VERSION_NAME
 
 install {
