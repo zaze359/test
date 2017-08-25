@@ -12,7 +12,7 @@ import java.lang.annotation.RetentionPolicy;
  * @author : zaze
  * @version : 1.0
  */
-public class LogLevel {
+public class ZLogLevel {
     public static final int ERROR = 1;
     public static final int WARN = 2;
     public static final int INFO = 3;

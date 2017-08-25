@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Process
 import com.zaze.utils.log.ZLog
+import com.zaze.utils.log.ZTag
 import java.io.File
 
 /**

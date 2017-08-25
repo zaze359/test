@@ -15,8 +15,7 @@ import java.util.Locale;
  * @version 2017/3/23 - 下午11:52 1.0
  */
 public class ZLog {
-    private static LogFace logFace;
-    private static int curLevel = 5;
+    private static ZLogFace logFace;
     private static boolean needStack = true;
     // --------------------------------------------------
     private static boolean E = true;
@@ -25,26 +24,25 @@ public class ZLog {
     private static boolean D = true;
     private static boolean V = true;
 
-    public static void setLogLevel(@LogLevel.LogAnno int level) {
-        curLevel = level;
+    public static void setLogLevel(@ZLogLevel.LogAnno int level) {
         E = false;
         W = false;
         I = false;
         D = false;
         V = false;
-        if (level >= LogLevel.ERROR) {
+        if (level >= ZLogLevel.ERROR) {
             E = true;
         }
-        if (level >= LogLevel.WARN) {
+        if (level >= ZLogLevel.WARN) {
             W = true;
         }
-        if (level >= LogLevel.INFO) {
+        if (level >= ZLogLevel.INFO) {
             I = true;
         }
-        if (level >= LogLevel.DEBUG) {
+        if (level >= ZLogLevel.DEBUG) {
             D = true;
         }
-        if (level >= LogLevel.VERBOSE) {
+        if (level >= ZLogLevel.VERBOSE) {
             V = true;
         }
     }
@@ -126,7 +124,7 @@ public class ZLog {
 
     // ---------------------------------------------------
 
-    public static void setLogFace(LogFace face) {
+    public static void setLogFace(ZLogFace face) {
         logFace = face;
     }
 

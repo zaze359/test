@@ -4,6 +4,7 @@ import android.os.Build
 import android.os.Environment
 import android.os.StatFs
 import com.zaze.utils.log.ZLog
+import com.zaze.utils.log.ZTag
 import java.io.*
 import java.util.concurrent.locks.ReadWriteLock
 import java.util.concurrent.locks.ReentrantReadWriteLock

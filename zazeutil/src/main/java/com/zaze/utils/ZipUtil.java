@@ -2,6 +2,7 @@ package com.zaze.utils;
 
 
 import com.zaze.utils.log.ZLog;
+import com.zaze.utils.log.ZTag;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

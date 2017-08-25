@@ -1,6 +1,7 @@
 package com.zaze.utils;
 
 import com.zaze.utils.log.ZLog;
+import com.zaze.utils.log.ZTag;
 
 import java.lang.reflect.Method;
 

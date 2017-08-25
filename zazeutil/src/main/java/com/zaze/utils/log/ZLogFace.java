@@ -7,7 +7,7 @@ package com.zaze.utils.log;
  * @author : zaze
  * @version : 1.0
  */
-public interface LogFace {
+public interface ZLogFace {
 
     void v(String strTag, String strLog);
 

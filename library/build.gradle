@@ -20,11 +20,11 @@ android {
         exclude 'META-INF/NOTICE.txt'
     }
 
-    externalNativeBuild {
-        cmake {
-            path "CMakeLists.txt"
-        }
-    }
+//    externalNativeBuild {
+//        cmake {
+//            path "CMakeLists.txt"
+//        }
+//    }
 
     buildTypes {
         release {
