@@ -1,5 +1,6 @@
 package com.zaze.utils.log;
 
+
 import android.support.annotation.IntDef;
 
 import java.lang.annotation.Retention;
@@ -12,15 +13,12 @@ import java.lang.annotation.RetentionPolicy;
  * @author : zaze
  * @version : 1.0
  */
-public class ZLogLevel {
-    public static final int ERROR = 1;
-    public static final int WARN = 2;
-    public static final int INFO = 3;
-    public static final int DEBUG = 4;
-    public static final int VERBOSE = 5;
-
-    @Retention(RetentionPolicy.SOURCE)
-    @IntDef({ERROR, WARN, INFO, DEBUG, VERBOSE})
-    public @interface LogAnno {
-    }
+@IntDef({ZLogLevel.ERROR, ZLogLevel.WARN, ZLogLevel.INFO, ZLogLevel.DEBUG, ZLogLevel.VERBOSE})
+@Retention(RetentionPolicy.SOURCE)
+public @interface ZLogLevel {
+    int ERROR = 1;
+    int WARN = 2;
+    int INFO = 3;
+    int DEBUG = 4;
+    int VERBOSE = 5;
 }

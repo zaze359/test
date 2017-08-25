@@ -24,7 +24,7 @@ public class ZLog {
     private static boolean D = true;
     private static boolean V = true;
 
-    public static void setLogLevel(@ZLogLevel.LogAnno int level) {
+    public static void setLogLevel(@ZLogLevel int level) {
         E = false;
         W = false;
         I = false;

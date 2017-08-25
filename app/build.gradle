@@ -58,7 +58,6 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    //    compile 'com.zaze.localrepo:localrepo:1.0.6@aar'
     androidTestCompile "com.android.support:support-annotations:$rootProject.supportLibraryVersion"
     androidTestCompile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
     androidTestCompile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
@@ -93,6 +92,11 @@ dependencies {
     //    compile 'com.Android.support:multidex:1.0.0'
     compile project(':library')
     compile project(':zvector')
+    compile project(':aarrepo')
+    //    compile 'com.zaze.localrepo:localrepo:1.0.6@aar'
+        compile 'com.zaze:zazeutil:1.0.1'
+
+
 }
 repositories {
     mavenCentral()
