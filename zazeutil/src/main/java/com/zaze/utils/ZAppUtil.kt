@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
 import android.net.Uri
 import android.os.Process
 import android.text.TextUtils
@@ -56,7 +57,7 @@ object ZAppUtil {
      * [defaultName]
      * @return app名
      */
-    fun getAppName(context: Context, packageName: String, defaultName: String): String {
+    fun getAppName(context: Context, packageName: String, defaultName: String = "未知"): String {
         val applicationInfo = getApplicationInfo(context, packageName)
         if (applicationInfo == null) {
             return defaultName
@@ -111,7 +112,20 @@ object ZAppUtil {
         }
     }
 
+    // --------------------------------------------------
+    fun queryIntentActivities(context: Context): List<ResolveInfo> {
+        val mainIntent = Intent(Intent.ACTION_MAIN, null)
+        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER)
+        return context.packageManager.queryIntentActivities(mainIntent, 0)
+    }
 
+    fun getInstalledPackages(context: Context, flag: Int = 0): List<PackageInfo> {
+        return context.packageManager.getInstalledPackages(flag)
+    }
+
+    fun getInstalledApplications(context: Context, flag: Int = 0): List<ApplicationInfo> {
+        return context.packageManager.getInstalledApplications(flag)
+    }
     // --------------------------------------------------
     // --------------------------------------------------
     /**
@@ -125,6 +139,7 @@ object ZAppUtil {
         return getApplicationInfo(context, packageName) != null
     }
 
+    // --------------------------------------------------
     /**
      * Description : 安装应用
      *
@@ -209,13 +224,13 @@ object ZAppUtil {
      * 清理data数据
      * [packageName] packageName
      */
-    fun clearDataInfo(context: Context, packageName: String) {
+//    fun clearDataInfo(context: Context, packageName: String) {
 //        if (RootCmd.isRoot()) {
 //            RootCmd.execRootCmd("pm clear " + packageName)
 //        } else {
 //            FileUtil.deleteFile("/data/data/" + packageName)
 //            killAppProcess(context, packageName)
 //        }
-    }
+//    }
 
 }

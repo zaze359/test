@@ -6,10 +6,11 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import com.zaze.aarrepo.commons.base.ZBaseActivity
 import com.zaze.aarrepo.commons.base.ZBaseFragment
+import com.zaze.aarrepo.commons.log.ZLog
 import com.zaze.aarrepo.commons.widget.head.ZOrientation
+import com.zaze.aarrepo.utils.AppUtil
+import com.zaze.aarrepo.utils.ZTag
 import com.zaze.demo.component.table.ui.TableFragment
-import com.zaze.demo.debug.KotlinDebug
-import com.zz.library.jni.TestJni
 import kotlinx.android.synthetic.main.activity_home.*
 
 /**
@@ -34,16 +35,22 @@ class HomeActivity : ZBaseActivity() {
 
         home_viewpager.adapter = MyPagerAdapter(supportFragmentManager, fragmentList)
         home_test_button.setOnClickListener {
-            val debug = KotlinDebug()
-            debug.test()
-//        listener.startWatching()
-//        CrashReport.testJavaCrash()
-//        FileUtil.write2SDCardFile("${FileUtil.getSDCardRoot()}zaze.txt", new File)
-            TestJni.newInstance().stringFromJNI()
-            //        val uri: Uri = Settings.System.getUriFor(Settings.System.SCREEN_BRIGHTNESS)
-//        Settings.System.putInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, 24)
-//        contentResolver.notifyChange(uri, null)
-            //
+            //            val debug = KotlinDebug()
+//            debug.test()
+            // --------------------------------------------------
+//            TestJni.newInstance().stringFromJNI()
+            // --------------------------------------------------
+//            val uri: Uri = Settings.System.getUriFor(Settings.System.SCREEN_BRIGHTNESS)
+//            Settings.System.putInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, 24)
+//            contentResolver.notifyChange(uri, null)
+            // --------------------------------------------------
+            val list_1 = AppUtil.getInstalledApp(this)
+            ZLog.i(ZTag.TAG_DEBUG, "${list_1.size}")
+            val list_2 = AppUtil.getInstalledPackage(this, 0)
+            ZLog.i(ZTag.TAG_DEBUG, "${list_2.size}")
+            val list_3 = AppUtil.getInstalledApplications(this, 0)
+            ZLog.i(ZTag.TAG_DEBUG, "${list_3.size}")
+
         }
     }
 

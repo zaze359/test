@@ -25,6 +25,7 @@ import java.util.List;
  * @author : zaze
  * @version : 1.0
  */
+@Deprecated
 public class AppUtil {
 
     @Deprecated
@@ -40,20 +41,24 @@ public class AppUtil {
         return context.getPackageName();
     }
 
+    @Deprecated
     public static List<ResolveInfo> getInstalledApp(Context context) {
         Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         return context.getPackageManager().queryIntentActivities(mainIntent, 0);
     }
 
+    @Deprecated
     public static List<PackageInfo> getInstalledPackage(Context context, int flag) {
         return context.getPackageManager().getInstalledPackages(flag);
     }
 
+    @Deprecated
     public static List<ApplicationInfo> getInstalledApplications(Context context, int flag) {
-        return context.getPackageManager().getInstalledApplications(0);
+        return context.getPackageManager().getInstalledApplications(flag);
     }
 
+    @Deprecated
     public static ApplicationInfo getApplicationInfo(Context context, String packageName) {
         try {
             return context.getPackageManager().getApplicationInfo(packageName, 0);
@@ -71,6 +76,7 @@ public class AppUtil {
      * @param context  context
      * @param filePath 文件绝对路径
      */
+    @Deprecated
     public static int installApk(Context context, String filePath) {
         ZLog.i(ZTag.TAG_ABOUT_APP, "start installApk %s", filePath);
         if (RootCmd.isRoot()) {
@@ -95,6 +101,7 @@ public class AppUtil {
      * @param context     context
      * @param packageName packageName
      */
+    @Deprecated
     public static int unInstallApk(Context context, String packageName) {
         if (RootCmd.isRoot()) {
             if (unInstallApkSilent(packageName)) {
