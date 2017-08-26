@@ -8,6 +8,7 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Process
+import android.text.TextUtils
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import java.io.File
@@ -18,6 +19,8 @@ import java.io.File
  * @version : 2017-05-27 - 17:23
  */
 object ZAppUtil {
+
+
     /**
      * [context] context
      * [packageName] null 使用context 的包名
@@ -64,24 +67,36 @@ object ZAppUtil {
     // --------------------------------------------------
 
     /**
-     * Description :
-     *
+     * Description : 获取对应包名的PackageInfo
+     * [context] context
+     * [packageName] 包名
      * @author zaze
      * @version 2017/5/31 - 下午3:46 1.0
      */
     fun getPackageInfo(context: Context, packageName: String): PackageInfo? {
-        val packageManager = context.packageManager
         try {
-            return packageManager.getPackageInfo(packageName, 0)
+            return context.packageManager.getPackageInfo(packageName, 0)
         } catch (e: PackageManager.NameNotFoundException) {
-            ZLog.e(ZTag.TAG_ERROR, "PackageManager.NameNotFoundException : $packageName")
+            ZLog.e(ZTag.TAG_DEBUG, "PackageManager.NameNotFoundException : $packageName")
             return null
         }
     }
 
     /**
-     * Description :
-     *
+     * Description : 获取apk文件的PackageInfo
+     * [context] context
+     * [fileName] fileName
+     * @author zaze
+     * @version 2017/8/26 - 下午3:23 1.0
+     */
+    fun getPackageArchiveInfo(context: Context, fileName: String): PackageInfo? {
+        if (TextUtils.isEmpty(fileName)) {
+            return null
+        }
+        return context.packageManager.getPackageArchiveInfo(fileName, 0)
+    }
+
+    /**
      * [context] context
      * [packageName] packageName
      * @author zaze
@@ -96,6 +111,8 @@ object ZAppUtil {
         }
     }
 
+
+    // --------------------------------------------------
     // --------------------------------------------------
     /**
      * Description : 应用是否安装

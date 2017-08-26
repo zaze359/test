@@ -13,8 +13,6 @@ import java.security.NoSuchAlgorithmException;
  * @version : 2017-06-20 - 13:25
  */
 public class EncryptionUtil {
-
-
     public static String getMD5(File file) {
         if (null == file || !file.isFile()) {
             return null;

@@ -51,8 +51,7 @@ public class ZCmd {
                 return true;
             }
         } catch (Exception e) {
-//            e.printStackTrace();
-            ZLog.e(ZTag.TAG_ERROR, "设备未Root");
+            ZLog.e(ZTag.TAG_CDM, "设备未Root");
         } finally {
             if (outputStream != null) {
                 try {

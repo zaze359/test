@@ -27,6 +27,7 @@ import java.util.List;
  */
 public class AppUtil {
 
+    @Deprecated
     public static PackageInfo getPackageArchiveInfo(Context context, String fileName) {
         if (StringUtil.isEmpty(fileName)) {
             return null;
@@ -34,6 +35,7 @@ public class AppUtil {
         return context.getPackageManager().getPackageArchiveInfo(fileName, 0);
     }
 
+    @Deprecated
     public static String getAppPackageName(Context context) {
         return context.getPackageName();
     }
