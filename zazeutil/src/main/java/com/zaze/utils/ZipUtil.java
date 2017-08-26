@@ -58,7 +58,6 @@ public class ZipUtil {
                     if (bContainFolder) {
                         fileList.add(folder);
                     }
-
                 } else {
                     File file = new File(szName);
                     if (bContainFile) {

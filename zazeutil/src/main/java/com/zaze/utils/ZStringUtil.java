@@ -1,5 +1,7 @@
 package com.zaze.utils;
 
+import android.text.TextUtils;
+
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Locale;
@@ -210,8 +212,8 @@ public class ZStringUtil {
      * @param str str
      * @return boolean
      */
-    public static boolean isEmpty(String str) {
-        return null == str || str.isEmpty();
+    public static boolean isEmpty(CharSequence str) {
+        return TextUtils.isEmpty(str);
     }
 
     // --------------------------------------------------
@@ -222,23 +224,24 @@ public class ZStringUtil {
      * @return
      */
     public static boolean equals(CharSequence one, CharSequence two) {
-        if (one == two) {
-            return true;
-        }
-        int length;
-        if (one != null && two != null && ((length = one.length()) == two.length())) {
-            if (one instanceof String && two instanceof String) {
-                return one.equals(two);
-            } else {
-                for (int i = 0; i < length; i++) {
-                    if (one.charAt(i) != two.charAt(i)) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-        }
-        return false;
+        return TextUtils.equals(one, two);
+//        if (one == two) {
+//            return true;
+//        }
+//        int length;
+//        if (one != null && two != null && ((length = one.length()) == two.length())) {
+//            if (one instanceof String && two instanceof String) {
+//                return one.equals(two);
+//            } else {
+//                for (int i = 0; i < length; i++) {
+//                    if (one.charAt(i) != two.charAt(i)) {
+//                        return false;
+//                    }
+//                }
+//                return true;
+//            }
+//        }
+//        return false;
     }
 
 }
