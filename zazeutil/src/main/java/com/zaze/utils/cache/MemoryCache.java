@@ -5,8 +5,6 @@ import com.zaze.utils.ZDeviceUtil;
 import com.zaze.utils.ZStringUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
-import com.zaze.utils.task.service.TaskService;
-import com.zaze.utils.task.service.TaskServiceAction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,7 +49,6 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
             synchronized (MemoryCache.class) {
                 if (memoryCache == null) {
                     memoryCache = new MemoryCache();
-                    TaskService.registerOrdinaryTask(TaskServiceAction.RELEASE_MEMORY_CACHE);
                 }
             }
         }
@@ -70,7 +67,6 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
      */
     private String dispatchMemoryCache(byte[] values) {
         // 去检查是否有超时的数据 和无效数据 有就 释放
-//        onRelease();
         ArrayList<Cache> tempCaches = resetSize();
         if (values == null) {
             return "MemoryCache cache.getBytes is null";
@@ -179,7 +175,7 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
             }
         }
         // 已释放大小
-        long releaseLength = 0l;
+        long releaseLength = 0L;
         // 需要释放大小
         long needRelease = passiveRelease > saveSize ? passiveRelease : saveSize;
         // 循环清除
