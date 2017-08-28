@@ -18,10 +18,11 @@ class KotlinDebug {
     fun test(): String {
 //        return showLog("print", { print() })
 //        return showLog("createDimens", { createDimens(1f, LocalDisplay.SCREEN_DENSITY) })
-        return showLog("createDeveloperAccount", { createDeveloperToken() })
+        createDeveloperToken()
+//        return showLog("createDeveloperAccount", { createDeveloperToken() })
 //        return showLog("clearCacheData", { clearCacheData() })
 //        return showLog("searchFile", { searchFile() })
-//        return "${System.currentTimeMillis()} : ${System.currentTimeMillis() % 10000L}"
+        return ""
     }
 
     private fun createDimens(baseDensity: Float, screenDensity: Float): String {
@@ -54,26 +55,28 @@ class KotlinDebug {
 
 
     // --------------------------------------------------
+
+
+    val secretFile = "${ZFileUtil.getSDCardRoot()}/secret/secret.txt"
     /**
      * Description : 获取开发者Token
      * @author zaze
      * @version 2017/6/22 - 上午10:25 1.0
      */
     fun createDeveloperToken(): String {
-//        date = DateUtil.stringToDate("2017-06-23 18:55:55", "yyyy-mm-dd hh:MM:ss")
+//        ZLog.e(ZTag.TAG_DEBUG, EncryptionUtil.getMD5("KiN4dWVoYWkyMDE3JnpoaXRvbmd5dW44JDEwMGZlbjI3QDAjKg=="))
+//        ZLog.e(ZTag.TAG_DEBUG, EncryptionUtil.getMD5("KiN4dWVoYWkyMDE3JnpoaXRvbmd5dW44JDEwMGZlbjI3QDAjKg== "))
+//        ZLog.e(ZTag.TAG_DEBUG, EncryptionUtil.getMD5("KiN4dWVoYWkyMDE3JnpoaXRvbmd5dW44JDEwMGZlbjI3QDAjKg==\n"))
+        FileUtil.deleteFile(secretFile)
         val current = System.currentTimeMillis()
         var start = DateUtil.getDayStart(current)
-        val end = DateUtil.getDayEnd(current) + DateUtil.DAY * 10
-        val builder = StringBuilder()
+        val end = DateUtil.getDayEnd(current) + DateUtil.DAY * 3
         while (start < end) {
             val date = Date(start)
-            builder.append("\n")
-            builder.append(DateUtil.dateToString(date, "yyyy-MM-dd HH:mm:ss"))
-            builder.append(" : ${createDeveloperToken(date)}")
+            ZFileUtil.writeToFile(secretFile, "${DateUtil.dateToString(date, "yyyy-MM-dd HH:mm:ss")} : ${createDeveloperToken(date)}\n", true)
             start += DateUtil.HOUR
         }
-
-        return builder.toString()
+        return "finish"
     }
 
     fun createDeveloperToken(date: Date): String {
@@ -85,20 +88,25 @@ class KotlinDebug {
                 "*#xuehai%d&zhitongyun%d$100fen%d@%d#*",
                 year, month, day, hour
         )
-        val md5 = EncryptionUtil.getMD5(Base64.encode(secret.toByteArray(), Base64.DEFAULT))
-
-//        when (hour) {
-//            in 0..6 -> return md5.substring(0, 8)
-//            in 6..12 -> return md5.substring(8, 16)
-//            in 12..18 -> return md5.substring(16, 24)
-//            else -> return md5.substring(24, 32)
-//        }
+        val md5 = writeKeyToFile(secret)
+        val key: String
         when (hour) {
-            in 12..24 -> return md5.substring(0, 16)
-            else -> return md5.substring(16, 32)
+            in 12..24 -> key = md5.substring(0, 16)
+            else -> key = md5.substring(16, 32)
         }
+        return key
     }
 
+    private fun writeKeyToFile(secret: String): String {
+        ZLog.i(ZTag.TAG_DEBUG, "secret : $secret")
+        val base64 = String(Base64.encode(secret.toByteArray(), Base64.DEFAULT))
+        ZLog.i(ZTag.TAG_DEBUG, "base64 : ${base64.length}")
+        val md5 = EncryptionUtil.getMD5(base64)
+//        ZFileUtil.writeToFile(secretFile, "$secret,$base64,$md5\n", true)
+        return md5
+    }
+
+    // --------------------------------------------------
 
     fun clearCacheData(): String {
         return "" + ZAppUtil.clearDataInfo(MyApplication.getInstance(), MyApplication.getInstance().packageName)

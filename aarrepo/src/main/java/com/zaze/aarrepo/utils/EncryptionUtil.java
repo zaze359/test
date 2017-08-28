@@ -60,15 +60,7 @@ public class EncryptionUtil {
         } catch (NoSuchAlgorithmException e) {
             System.exit(-1);
         }
-        byte[] byteArray = messageDigest.digest();
-        StringBuilder md5Builder = new StringBuilder();
-        for (int i = 0; i < byteArray.length; i++) {
-            if (Integer.toHexString(0xFF & byteArray[i]).length() == 1)
-                md5Builder.append("0").append(Integer.toHexString(0xFF & byteArray[i]));
-            else
-                md5Builder.append(Integer.toHexString(0xFF & byteArray[i]));
-        }
-        return md5Builder.toString().toLowerCase();
+        return byteArrayToHex(messageDigest.digest());
     }
 
     public static String byteArrayToHex(byte[] byteArray) {

@@ -94,7 +94,7 @@ dependencies {
     compile project(':zvector')
     compile project(':aarrepo')
     //    compile 'com.zaze.localrepo:localrepo:1.0.6@aar'
-        compile 'com.zaze:zazeutil:1.0.1'
+        compile 'com.zaze:zazeutil:1.0.2'
 
 
 }
