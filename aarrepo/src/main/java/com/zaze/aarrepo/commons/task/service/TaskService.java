@@ -39,12 +39,12 @@ public class TaskService extends Service {
     /**
      * 一般任务(不会自动解绑, 需手动解绑)
      */
-    private static final ConcurrentHashMap<String, Long> ordinaryActionMap = new ConcurrentHashMap<String, Long>();
+    private static final ConcurrentHashMap<String, Long> ordinaryActionMap = new ConcurrentHashMap<>();
 
     /**
      * 常驻任务(一般为写死在内部)
      */
-    private static final ConcurrentHashMap<String, Long> permanentActionMap = new ConcurrentHashMap<String, Long>();
+    private static final ConcurrentHashMap<String, Long> permanentActionMap = new ConcurrentHashMap<>();
 
     static { // 写死常驻任务
 //        permanentActionMap.put(TaskServiceAction.RELEASE_MEMORY_CACHE, System.currentTimeMillis());
@@ -55,7 +55,7 @@ public class TaskService extends Service {
     private static long lastRunTimeOrdinary = 0L;
     private static long lastRunTimePermanent = 0L;
     // --------------------------------
-    private static long loopTimeFast = 300L;
+    private static long loopTimeFast = 500L;
 
     private static long loopTimeOrdinary = 1000L * 30;
 
@@ -93,7 +93,7 @@ public class TaskService extends Service {
         while (true) {
             executeTask(System.currentTimeMillis());
             try {
-                Thread.sleep(200L);
+                Thread.sleep(300L);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -116,7 +116,7 @@ public class TaskService extends Service {
             HashSet<String> actionSet = new HashSet<>();
             while (!actionPool.isEmpty()) {
                 TaskEntity taskEntity = actionPool.poll();
-                actionSet.add(StringUtil.parseString(taskEntity.getAction()));
+                actionSet.add(StringUtil.parseString(taskEntity.getTaskId()));
             }
             for (String action : actionSet) {
                 sendMessage(action);
@@ -214,7 +214,6 @@ public class TaskService extends Service {
             EventBus.getDefault().post(new TaskEntity(action));
         }
         sendBroadcast(new Intent(action));
-
     }
 
     // ------------------------------------------------
