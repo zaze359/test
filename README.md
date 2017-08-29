@@ -5,6 +5,11 @@ ZAZE Android Base Library And Some Test Demo
 
 ## Add Base Library to your project
 
+### 配置
+
+maven {
+            url "https://dl.bintray.com/zaze359/maven"
+        }
 
 ### Gradle:
 <del>~~compile com.zaze.aarrepo:aarrepo:1.4.22@aar~~</del> 
