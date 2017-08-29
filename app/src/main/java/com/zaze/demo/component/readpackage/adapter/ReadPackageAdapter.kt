@@ -63,8 +63,9 @@ class ReadPackageAdapter(context: Context, data: Collection<PackageEntity>) : Ba
             val builder = StringBuilder()
             for (entity in packageEntityList) {
                 if (builder.isNotEmpty()) {
-                    builder.append(",")
+                    builder.append(",\n")
                 }
+//                builder.append("${entity.appName} : ${entity.packageName}")
                 builder.append(entity.packageName)
             }
             return builder.toString()

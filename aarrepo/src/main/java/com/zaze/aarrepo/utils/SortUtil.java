@@ -12,7 +12,6 @@ import java.util.List;
  * @version : 2015年1月9日 上午11:06:13
  */
 public class SortUtil {
-
     public static final String DESC = "desc";
     public static final String ASC = "asc";
 
@@ -31,16 +30,16 @@ public class SortUtil {
             public int compare(Object lhs, Object rhs) {
                 int flag = 0;
                 try {
-                    Method m1 = ((E) lhs).getClass().getMethod(method, new Class<?>[0]);
-                    Method m2 = ((E) rhs).getClass().getMethod(method, new Class<?>[0]);
+                    Method m1 = lhs.getClass().getMethod(method, new Class<?>[0]);
+                    Method m2 = rhs.getClass().getMethod(method, new Class<?>[0]);
                     if (sort != null && DESC.equalsIgnoreCase(sort)) {
                         // 降序
                         //若第二个大于第一个, 则返回 > 0 交换位置
-                        flag = m2.invoke(((E) rhs), new Object[]{}).toString().compareTo(m1.invoke(((E) lhs), new Object[]{}).toString());
+                        flag = m2.invoke(rhs, new Object[]{}).toString().compareTo(m1.invoke(lhs, new Object[]{}).toString());
                     } else {
                         // 升序
                         //若第一个大于第二个, 则返回 > 0 交换位置
-                        flag = m1.invoke(((E) rhs), new Object[]{}).toString().compareTo(m2.invoke(((E) lhs), new Object[]{}).toString());
+                        flag = m1.invoke(rhs, new Object[]{}).toString().compareTo(m2.invoke(lhs, new Object[]{}).toString());
                     }
                 } catch (Throwable e) {
                     e.printStackTrace();

@@ -76,7 +76,7 @@ object ZFileUtil {
         }
         if (showLog) {
             ZLog.v(ZTag.TAG_FILE, "createFile filePath : " + filePath)
-            ZLog.v(ZTag.TAG_FILE, "createFile result : " + result)
+            ZLog.v(ZTag.TAG_FILE, "createFile code : " + result)
         }
         return file
     }

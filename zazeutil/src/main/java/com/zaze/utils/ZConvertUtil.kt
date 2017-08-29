@@ -7,4 +7,6 @@ package com.zaze.utils
  * *
  * @version 2017/8/26 - 下午4:53 1.0
  */
-class ZConvertUtil
+class ZConvertUtil {
+
+}

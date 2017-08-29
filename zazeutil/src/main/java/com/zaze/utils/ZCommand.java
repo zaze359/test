@@ -20,7 +20,7 @@ import java.util.List;
  * @author : zaze
  * @version : 1.0
  */
-public class ZCmd {
+public class ZCommand {
     public static final String COMMAND_SU = "su";
     public static final String COMMAND_SH = "sh";
     public static final String COMMAND_EXIT = "exit\n";
@@ -105,7 +105,7 @@ public class ZCmd {
      * @return 失败 : = -1; 成功 : != -1
      */
     public static int execRootCmd(String[] cmdArray) {
-        return execCommand(cmdArray, true, false).result;
+        return execCommand(cmdArray, true, false).code;
     }
     // --------------------------------------------------
 
@@ -126,7 +126,7 @@ public class ZCmd {
      * @return 失败 : = -1; 成功 : != -1
      */
     public static int execCmd(String[] cmdArray) {
-        return execCommand(cmdArray, false, false).result;
+        return execCommand(cmdArray, false, false).code;
     }
 
     // --------------------------------------------------
@@ -223,26 +223,26 @@ public class ZCmd {
     }
 
     public static boolean isSuccess(CommandResult commandResult) {
-        return commandResult.result == 0 && TextUtils.isEmpty(commandResult.errorMsg);
+        return commandResult.code == 0 && TextUtils.isEmpty(commandResult.errorMsg);
     }
 
     // --------------------------------------------------
     public static class CommandResult {
-        public int result;
+        public int code;
         public String successMsg = "";
-        public List<String> msgList;
+        public List<String> successList;
         public String errorMsg;
 
-        public CommandResult(int result) {
-            this.result = result;
+        public CommandResult(int code) {
+            this.code = code;
         }
 
-        public CommandResult(int result, String errorMsg, List<String> list) {
-            this.result = result;
-            msgList = new ArrayList<>();
+        public CommandResult(int code, String errorMsg, List<String> list) {
+            this.code = code;
+            successList = new ArrayList<>();
             StringBuilder builder = new StringBuilder();
             if (list != null && !list.isEmpty()) {
-                msgList.addAll(list);
+                successList.addAll(list);
                 for (String str : list) {
                     builder.append(str);
                 }
@@ -254,13 +254,11 @@ public class ZCmd {
         @Override
         public String toString() {
             return "CommandResult{" +
-                    "result=" + result +
+                    "code=" + code +
                     ", successMsg='" + successMsg + '\'' +
-                    ", msgList=" + msgList +
+                    ", successList=" + successList +
                     ", errorMsg='" + errorMsg + '\'' +
                     '}';
         }
     }
-
-
 }
