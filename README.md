@@ -16,28 +16,28 @@ maven {
 
 
 - compile 'com.zaze:zazecommon:1.0.1@aar'
-- compile 'com.zaze:zazeutil:1.0.5'
+- compile 'com.zaze:zazeutil:1.0.7'
 
 
-
-# 说明
 
 ## zazeutil 仓库
 
-### v1.x.x
-
 > 数据相关的工具类
+
+### v1.x.x
 
 1. 一些常用的工具类
 2. Task 模块
 3. MemoryCache 模块
 4. Log 模块
 
+
+
 ## zazecommon 仓库
 
-### v1.x.x
-
 > UI相关的组件
+
+### v1.x.x
 
 1. 一些自定义组件
 2. 一些三方组件的使用封装

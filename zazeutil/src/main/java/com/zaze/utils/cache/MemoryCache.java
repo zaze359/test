@@ -27,6 +27,7 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
      * 缓存空间大小(根据一定规则计算 得到, 默认4 MB)
      */
     private final long maxSize;
+
     /**
      * 强制释放时 最小值
      */
@@ -77,15 +78,6 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
         }
         if (saveSize > cacheBlockLength) {
             return "MemoryCache cacheData is larger than cacheBlockLength " + cacheBlockLength;
-        }
-        long totalFree = ZDeviceUtil.INSTANCE.getVMFreeMemory();
-        if (totalFree <= (30 << 20)) {
-            // 系统总剩余内存 小于30MB
-            // 存磁盘 ???
-            // 释放
-            System.gc();
-            clearMemoryCache();
-            return "MemoryCache Device RomFreeSpace is too small !! " + totalFree;
         }
         if (memoryCacheSize + saveSize >= maxSize) {
             passiveRelease(saveSize, tempCaches);
@@ -151,6 +143,9 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
      * @param caches
      */
     private void passiveRelease(long saveSize, ArrayList<Cache> caches) {
+        if (cacheLog) {
+            ZLog.e(ZTag.TAG_MEMORY, "即将达到memoryCache最大值 >> 强制释放不常用的内存");
+        }
         int length = caches.size();
         // 排序
         for (int i = 0; i < length - 1; i++) {
