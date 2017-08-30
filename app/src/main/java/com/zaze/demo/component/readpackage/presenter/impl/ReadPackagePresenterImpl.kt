@@ -21,18 +21,18 @@ import rx.schedulers.Schedulers
  * @version : 2017-04-17 05:15 1.0
  */
 class ReadPackagePresenterImpl(view: ReadPackageView) : ZBasePresenter<ReadPackageView>(view), ReadPackagePresenter {
-
+    val showList = ArrayList<PackageEntity>()
     override fun filterApp(matchStr: String) {
         Observable.fromCallable({
-            ZAppUtil.getInstalledApplications(ZBaseApplication.getInstance())
+            showList
         }).subscribeOn(Schedulers.io())
                 .map({
                     v ->
                     val list = ArrayList<PackageEntity>()
                     v.filter {
-                        it.packageName.contains(ZStringUtil.parseString(matchStr).toLowerCase())
+                        it.packageName!!.contains(ZStringUtil.parseString(matchStr).toLowerCase())
                     }.mapTo(list) {
-                        initEntity(it.packageName)
+                        initEntity(it.packageName!!)
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
@@ -43,32 +43,31 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : ZBasePresenter<ReadPacka
     }
 
     override fun getAllApkFile(dir: String) {
-        val list = ArrayList<PackageEntity>()
+        showList.clear()
         val result = ZCommand.execRootCmdForRes("ls $dir *.apk")
         val apkList = result.successList
         for (apk in apkList) {
             val packageInfo = ZAppUtil.getPackageArchiveInfo(ZBaseApplication.getInstance(), apk)
             if (packageInfo != null) {
-                list.add(initEntity(packageInfo.packageName))
+                showList.add(initEntity(packageInfo.packageName))
             }
         }
-        view.showPackageList(list)
+        view.showPackageList(showList)
     }
 
     override fun getAllInstallApp() {
         val appList = ZAppUtil.getInstalledApplications(ZBaseApplication.getInstance())
-        val list = ArrayList<PackageEntity>()
-        appList.mapTo(list) { initEntity(it.packageName) }
-        view.showPackageList(list)
+        showList.clear()
+        appList.mapTo(showList) { initEntity(it.packageName) }
+        view.showPackageList(showList)
     }
 
     override fun getAllSystemApp() {
         val appList = ZAppUtil.getInstalledApplications(ZBaseApplication.getInstance())
-        val list = ArrayList<PackageEntity>()
-        appList
-                .filter { it.flags and ApplicationInfo.FLAG_SYSTEM > 0 }
-                .mapTo(list) { initEntity(it.packageName) }
-        view.showPackageList(list)
+        showList.clear()
+        appList.filter { it.flags and ApplicationInfo.FLAG_SYSTEM > 0 }
+                .mapTo(showList) { initEntity(it.packageName) }
+        view.showPackageList(showList)
     }
 
     fun initEntity(packageName: String): PackageEntity {
