@@ -14,7 +14,11 @@ maven {
 ### Gradle:
 <del>~~compile com.zaze.aarrepo:aarrepo:1.4.22@aar~~</del> 
 
-- compile 'com.zaze:zazeutil:1.0.1'
+
+- compile 'com.zaze:zazecommon:1.0.1@aar'
+- compile 'com.zaze:zazeutil:1.0.4'
+
+
 
 # 说明
 
