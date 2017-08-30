@@ -199,6 +199,48 @@ object ZFileUtil {
 
     // --------------------------------------------------
     /**
+     * @param filePath
+     */
+    fun readFromFile(filePath: String): StringBuffer {
+        val file = File(filePath)
+        var result = StringBuffer()
+        if (isFileExist(filePath)) {
+            try {
+                result = readLine(FileReader(file))
+            } catch (e: FileNotFoundException) {
+                e.printStackTrace()
+            }
+
+        }
+        return result
+    }
+
+    fun readLine(reader: Reader): StringBuffer {
+        readLock(lock)
+        var bfReader: BufferedReader? = null
+        val results = StringBuffer()
+        try {
+            bfReader = BufferedReader(reader)
+            var line = bfReader.readLine()
+            while (line != null) {
+                results.append(line)
+                line = bfReader.readLine()
+            }
+            bfReader.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            try {
+                bfReader?.close()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+        readUnlock(lock)
+        return results
+    }
+    // --------------------------------------------------
+    /**
      * [dir] 目标目录下 循环查询文件
      */
     fun searchFileLoop(dir: File?, fileName: String): HashSet<File> {

@@ -196,6 +196,38 @@ object ZAppUtil {
         uninstallIntent.data = Uri.parse("package:$packageName")
         context.startActivity(uninstallIntent)
     }
+
+
+    /**
+     * 静默安装
+     * [filePath] 文件绝对路径
+     */
+    fun installApkSilent(filePath: String): Boolean {
+        ZLog.i(ZTag.TAG_ABOUT_APP, "开始静默安装 %s", filePath)
+        if (ZCommand.isSuccess(ZCommand.execRootCmdForRes("pm install -r " + filePath))) {
+            ZLog.i(ZTag.TAG_ABOUT_APP, "静默安装成功!")
+            return true
+        } else {
+            ZLog.i(ZTag.TAG_ABOUT_APP, "静默安装失败!")
+            return false
+        }
+    }
+
+    /**
+     * 静默卸载
+     * [packageName] 报名
+     */
+    fun unInstallApkSilent(packageName: String): Boolean {
+        ZLog.i(ZTag.TAG_ABOUT_APP, "开始静默卸载 %s", packageName)
+        if (ZCommand.isSuccess(ZCommand.execRootCmdForRes("pm uninstall " + packageName))) {
+            ZLog.i(ZTag.TAG_ABOUT_APP, "静默卸载成功!")
+            return true
+        } else {
+            ZLog.i(ZTag.TAG_ABOUT_APP, "静默卸载失败!")
+            return false
+        }
+    }
+
     // --------------------------------------------------
 
     /**
@@ -244,13 +276,13 @@ object ZAppUtil {
      * 清理data数据
      * [packageName] packageName
      */
-    //    fun clearDataInfo(context: Context, packageName: String) {
-//        if (RootCmd.isRoot()) {
-//            RootCmd.execRootCmd("pm clear " + packageName)
-//        } else {
-//            FileUtil.deleteFile("/data/data/" + packageName)
-//            killAppProcess(context, packageName)
-//        }
-//    }
+    fun clearAppData(context: Context, packageName: String) {
+        if (ZCommand.isRoot()) {
+            ZCommand.execRootCmd("pm clear " + packageName)
+        } else {
+            ZFileUtil.deleteFile("/data/data/" + packageName)
+            killAppProcess(context, packageName)
+        }
+    }
 
 }

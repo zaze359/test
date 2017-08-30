@@ -8,7 +8,7 @@ import com.zaze.common.base.ZBaseActivity
 import com.zaze.common.base.ZBaseFragment
 import com.zaze.common.widget.head.ZOrientation
 import com.zaze.demo.component.table.ui.TableFragment
-import com.zaze.demo.debug.KotlinDebug
+import com.zaze.utils.ZCommand
 import kotlinx.android.synthetic.main.activity_home.*
 
 /**
@@ -33,8 +33,9 @@ class HomeActivity : ZBaseActivity() {
 
         home_viewpager.adapter = MyPagerAdapter(supportFragmentManager, fragmentList)
         home_test_button.setOnClickListener {
-            val debug = KotlinDebug()
-            debug.test()
+            //            val debug = KotlinDebug()
+//            debug.test()
+            ZCommand.reboot()
             // --------------------------------------------------
 //            TestJni.newInstance().stringFromJNI()
             // --------------------------------------------------

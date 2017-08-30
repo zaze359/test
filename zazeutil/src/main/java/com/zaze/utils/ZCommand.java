@@ -31,7 +31,7 @@ public class ZCommand {
 
     // --------------------------------------------------
     public static void reboot() {
-        execCmd("reboot");
+        execRootCmd("reboot");
     }
 
     /**
