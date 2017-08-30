@@ -1,8 +1,6 @@
 package com.zaze.utils;
 
 
-import android.text.TextUtils;
-
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
@@ -26,7 +24,6 @@ public class ZCommand {
     public static final String COMMAND_EXIT = "exit\n";
     public static final String COMMAND_LINE_END = "\n";
 
-    //    public static int ERROR = -1;
     public static int SUCCESS = 0;
 
     // --------------------------------------------------
@@ -46,7 +43,7 @@ public class ZCommand {
             outputStream.writeBytes("exit\n");
             outputStream.flush();
             int exitValue = process.waitFor();
-            if (exitValue == 0) {
+            if (exitValue == SUCCESS) {
                 ZLog.i(ZTag.TAG_CDM, "设备已Root");
                 return true;
             }
@@ -92,7 +89,7 @@ public class ZCommand {
      * 执行命令但不关注结果输出
      *
      * @param cmd
-     * @return 失败 : = -1; 成功 : != -1
+     * @return 成功 : 0
      */
     public static int execRootCmd(String cmd) {
         return execRootCmd(new String[]{cmd});
@@ -102,7 +99,7 @@ public class ZCommand {
      * 执行命令但不关注结果输出
      *
      * @param cmdArray
-     * @return 失败 : = -1; 成功 : != -1
+     * @return 成功 : 0
      */
     public static int execRootCmd(String[] cmdArray) {
         return execCommand(cmdArray, true, false).code;
@@ -113,7 +110,7 @@ public class ZCommand {
      * 执行命令但不关注结果输出
      *
      * @param cmd
-     * @return 失败 : = -1; 成功 : != -1
+     * @return 成功 : 0
      */
     public static int execCmd(String cmd) {
         return execCmd(new String[]{cmd});
@@ -123,7 +120,7 @@ public class ZCommand {
      * 执行命令但不关注结果输出
      *
      * @param cmdArray
-     * @return 失败 : = -1; 成功 : != -1
+     * @return 成功 : 0
      */
     public static int execCmd(String[] cmdArray) {
         return execCommand(cmdArray, false, false).code;
@@ -136,7 +133,7 @@ public class ZCommand {
      * 执行命令但不关注结果输出
      *
      * @param cmd
-     * @return 失败 : = -1; 成功 : != -1
+     * @return 成功 : 0
      */
     public static CommandResult execCmdForRes(String cmd) {
         return execCmdForRes(new String[]{cmd});
@@ -146,7 +143,7 @@ public class ZCommand {
      * 执行命令但不关注结果输出
      *
      * @param cmdArray
-     * @return 失败 : = -1; 成功 : != -1
+     * @return 成功 : 0
      */
     public static CommandResult execCmdForRes(String[] cmdArray) {
         return execCommand(cmdArray, false, true);
@@ -217,13 +214,12 @@ public class ZCommand {
         );
     }
 
-    @Deprecated
     public static boolean isSuccess(int result) {
         return result == SUCCESS;
     }
 
     public static boolean isSuccess(CommandResult commandResult) {
-        return commandResult.code == 0 && TextUtils.isEmpty(commandResult.errorMsg);
+        return isSuccess(commandResult.code);
     }
 
     // --------------------------------------------------
