@@ -16,7 +16,7 @@ maven {
 
 
 - compile 'com.zaze:zazecommon:1.0.1@aar'
-- compile 'com.zaze:zazeutil:1.0.1'
+- compile 'com.zaze:zazeutil:1.0.5'
 
 
 
