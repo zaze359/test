@@ -25,9 +25,9 @@ import java.util.zip.ZipOutputStream;
  * @author : zaze
  * @version : 1.0
  */
-public class ZipUtil {
+public class ZCompressUtil {
 
-    public ZipUtil() {
+    public ZCompressUtil() {
     }
 
     /**

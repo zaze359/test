@@ -37,7 +37,7 @@ public class ZNetUtil {
 
 
     private static NetworkInfo getNetworkInfo(Context context) {
-        return ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
+        return getConnectivityManager(context).getActiveNetworkInfo();
     }
 
     private static WifiManager getWifiManager(Context context) {
@@ -47,7 +47,30 @@ public class ZNetUtil {
     private static ConnectivityManager getConnectivityManager(Context context) {
         return (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
     }
+    // --------------------------------------------------
 
+    /**
+     * 判断网络是否可用
+     *
+     * @param context
+     * @return
+     */
+    public static boolean isAvailable(Context context) {
+        if (context == null) {
+            return false;
+        }
+        // 获取手机所有连接管理对象（包括对wi-fi,net等连接的管理）
+        ConnectivityManager connectivityManager = getConnectivityManager(context);
+        if (connectivityManager == null) {
+            return false;
+        } else {
+            //如果仅仅是用来判断网络连接
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            return networkInfo != null && networkInfo.isAvailable();
+        }
+    }
+
+    // --------------------------------------------------
     public static String getNetwork(Context context) {
         ConnectivityManager connectivityManager = getConnectivityManager(context);
         NetworkInfo mobileInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);

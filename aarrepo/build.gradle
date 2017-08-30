@@ -29,13 +29,6 @@ dependencies {
     compile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
     compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
     //
-    compile('com.marshalchen.ultimaterecyclerview:library:0.7.2') {
-        exclude module: "appcompat-v7"
-        exclude module: "support-v4"
-        exclude module: "support-v13"
-        exclude module: "recyclerview-v7"
-    }
-    //
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'joda-time:joda-time:2.9.6'
     // ---------
@@ -69,7 +62,6 @@ dependencies {
         exclude module: "support-annotations"
     }
     androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2'
-    compile 'org.greenrobot:eventbus:3.0.0'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
 

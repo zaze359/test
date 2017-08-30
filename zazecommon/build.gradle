@@ -39,3 +39,5 @@ dependencies {
 
     compile project(':zazeutil')
 }
+
+apply from: "bintray.gradle"

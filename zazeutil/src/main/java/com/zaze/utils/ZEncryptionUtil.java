@@ -13,6 +13,8 @@ import java.security.NoSuchAlgorithmException;
  * @version : 2017-06-20 - 13:25
  */
 public class ZEncryptionUtil {
+
+    // --------------------------------------------------
     public static String getMD5(File file) {
         if (null == file || !file.isFile()) {
             return null;
@@ -47,7 +49,6 @@ public class ZEncryptionUtil {
         return null;
     }
 
-
     public static String getMD5(byte[] bytes) {
         if (null == bytes) {
             return null;
@@ -79,4 +80,7 @@ public class ZEncryptionUtil {
     }
 
     // ---------------------------------------------------------------------------
+
+
+
 }
