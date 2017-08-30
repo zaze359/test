@@ -1,6 +1,6 @@
 package com.zaze.demo.component.logcat.view
 
-import com.zaze.aarrepo.commons.base.ZBaseView
+import com.zaze.common.base.ZBaseView
 
 
 /**

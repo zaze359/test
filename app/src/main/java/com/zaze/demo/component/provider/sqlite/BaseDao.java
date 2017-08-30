@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.zaze.aarrepo.utils.StringUtil;
+import com.zaze.utils.ZStringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,12 +109,12 @@ public abstract class BaseDao<T> {
     }
 
     protected void delete(String where) {
-        execSQL(StringUtil.format("DELETE FROM %s %s", getTableName(), where));
+        execSQL(ZStringUtil.format("DELETE FROM %s %s", getTableName(), where));
     }
 
 
     void deleteAll() {
-        execSQL(StringUtil.format("DELETE FROM %s", getTableName()));
+        execSQL(ZStringUtil.format("DELETE FROM %s", getTableName()));
     }
 
     public void dropTable() {

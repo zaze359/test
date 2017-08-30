@@ -1,8 +1,8 @@
 package com.zaze.demo;
 
-import com.zaze.aarrepo.utils.ZTag;
 import com.zaze.utils.ZFileUtil;
 import com.zaze.utils.log.ZLog;
+import com.zaze.utils.log.ZTag;
 
 import java.io.BufferedReader;
 import java.io.File;

@@ -1,10 +1,10 @@
 package com.zaze.demo.component.readpackage.view;
 
-import com.zaze.aarrepo.commons.base.ZBaseView;
+
+import com.zaze.common.base.ZBaseView;
 import com.zaze.demo.model.entity.PackageEntity;
 
 import java.util.List;
-
 
 /**
  * Description :

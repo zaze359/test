@@ -5,15 +5,15 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 
-import com.zaze.aarrepo.commons.base.ZBaseApplication;
-import com.zaze.aarrepo.commons.base.ZBasePresenter;
-import com.zaze.aarrepo.commons.log.ZLog;
-import com.zaze.aarrepo.utils.JsonUtil;
-import com.zaze.aarrepo.utils.ZTag;
+import com.zaze.common.base.ZBaseApplication;
+import com.zaze.common.base.ZBasePresenter;
 import com.zaze.demo.component.provider.presenter.ProviderPresenter;
 import com.zaze.demo.component.provider.sqlite.User;
 import com.zaze.demo.component.provider.sqlite.UserDao;
 import com.zaze.demo.component.provider.view.ProviderView;
+import com.zaze.utils.ZJsonUtil;
+import com.zaze.utils.log.ZLog;
+import com.zaze.utils.log.ZTag;
 
 /**
  * Description :
@@ -36,14 +36,14 @@ public class ProviderPresenterImpl extends ZBasePresenter<ProviderView> implemen
                 null, null, null);
         User user = new User();
         if (cursor != null) {
-            if(cursor.moveToNext()) {
+            if (cursor.moveToNext()) {
                 user.setId(cursor.getLong(cursor.getColumnIndex(UserDao.Properties.ID)));
                 user.setUserId(cursor.getLong(cursor.getColumnIndex(UserDao.Properties.USER_ID)));
                 user.setUsername(cursor.getString(cursor.getColumnIndex(UserDao.Properties.USER_NAME)));
             }
             cursor.close();
         }
-        ZLog.i(ZTag.TAG_PROVIDER, JsonUtil.objToJson(user));
+        ZLog.i(ZTag.TAG_PROVIDER, ZJsonUtil.objToJson(user));
 
 
     }

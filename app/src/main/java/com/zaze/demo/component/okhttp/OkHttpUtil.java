@@ -1,8 +1,9 @@
 package com.zaze.demo.component.okhttp;
 
-import com.zaze.aarrepo.commons.log.ZLog;
-import com.zaze.aarrepo.utils.ThreadManager;
-import com.zaze.aarrepo.utils.iface.ECallback;
+
+import com.zaze.utils.ThreadManager;
+import com.zaze.utils.ZCallback;
+import com.zaze.utils.log.ZLog;
 
 import java.io.IOException;
 
@@ -25,14 +26,14 @@ public class OkHttpUtil {
 
     // --------------------------------------------------
 
-    public static void get(String url, ECallback<String> callback) {
+    public static void get(String url, ZCallback<String> callback) {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
         enqueue(request, callback);
     }
 
-    public static void post(String url, String postData, ECallback<String> callback) {
+    public static void post(String url, String postData, ZCallback<String> callback) {
         Request request = new Request.Builder()
                 .url(url)
                 .post(RequestBody.create(MediaType.parse("application/x-www-form-urlencoded; charset=UTF-8"), postData))
@@ -40,7 +41,7 @@ public class OkHttpUtil {
         enqueue(request, callback);
     }
 
-    private static void enqueue(Request request, final ECallback<String> callback) {
+    private static void enqueue(Request request, final ZCallback<String> callback) {
         OkHttpUtil.enqueue(request, new Callback() {
             @Override
             public void onFailure(final Call call, final IOException e) {

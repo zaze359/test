@@ -6,14 +6,14 @@ import android.location.Criteria;
 import android.location.LocationManager;
 import android.provider.Settings;
 
-import com.zaze.aarrepo.commons.base.ZBasePresenter;
-import com.zaze.aarrepo.commons.log.ZLog;
-import com.zaze.aarrepo.utils.ActivityUtil;
-import com.zaze.aarrepo.utils.ZTag;
+import com.zaze.common.base.ZBasePresenter;
 import com.zaze.demo.app.MyApplication;
 import com.zaze.demo.component.gps.LocationHelper;
 import com.zaze.demo.component.gps.presenter.GpsPresenter;
 import com.zaze.demo.component.gps.view.GpsView;
+import com.zaze.utils.ZActivityUtil;
+import com.zaze.utils.log.ZLog;
+import com.zaze.utils.log.ZTag;
 
 /**
  * Description :
@@ -48,7 +48,7 @@ public class GpsPresenterImpl extends ZBasePresenter<GpsView> implements GpsPres
             ZLog.i(ZTag.TAG_DEBUG, "开启GPS导航...");
             // 返回开启GPS导航设置界面
             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            ActivityUtil.startActivityForResult(view.getContext(), intent, 1);
+            ZActivityUtil.startActivityForResult(view.getContext(), intent, 1);
             return;
         }
         LocationHelper.start();

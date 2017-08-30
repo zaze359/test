@@ -1,7 +1,7 @@
 package com.zaze.demo.component.logcat.presenter.impl
 
+import com.zaze.common.base.ZBasePresenter
 import com.zaze.demo.component.logcat.presenter.LogcatPresenter
-import com.zaze.aarrepo.commons.base.ZBasePresenter
 import com.zaze.demo.component.logcat.view.LogcatView
 
 /**

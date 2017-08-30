@@ -1,10 +1,10 @@
 package com.zaze.demo.app;
 
-import com.tencent.bugly.crashreport.CrashReport;
-import com.zaze.aarrepo.commons.base.ZBaseApplication;
-import com.zaze.aarrepo.commons.cache.MemoryCache;
-import com.zaze.aarrepo.utils.LocalDisplay;
 
+import com.tencent.bugly.crashreport.CrashReport;
+import com.zaze.common.base.ZBaseApplication;
+import com.zaze.utils.ZDisplayUtil;
+import com.zaze.utils.cache.MemoryCache;
 
 /**
  * Description :
@@ -17,7 +17,7 @@ public class MyApplication extends ZBaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        LocalDisplay.init(this);
+        ZDisplayUtil.init(this);
         MemoryCache.getInstance().setCacheLog(true);
         CrashReport.initCrashReport(getApplicationContext(), "900013682", false);
 //        receiver = new TestBroadcastReceiver();

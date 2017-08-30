@@ -1,6 +1,7 @@
 package com.zaze.demo.component.device.view;
 
-import com.zaze.aarrepo.commons.base.ZBaseView;
+
+import com.zaze.common.base.ZBaseView;
 import com.zaze.demo.model.entity.DeviceStatus;
 
 import java.util.List;

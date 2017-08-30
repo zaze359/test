@@ -5,12 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.zaze.aarrepo.commons.base.ZBaseActivity;
-import com.zaze.aarrepo.utils.helper.OnClickHelper;
+import com.zaze.common.base.ZBaseActivity;
 import com.zaze.demo.R;
 import com.zaze.demo.component.provider.presenter.ProviderPresenter;
 import com.zaze.demo.component.provider.presenter.impl.ProviderPresenterImpl;
 import com.zaze.demo.component.provider.view.ProviderView;
+import com.zaze.utils.ZOnClickHelper;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -34,13 +34,13 @@ public class ProviderActivity extends ZBaseActivity implements ProviderView {
         setContentView(R.layout.activity_provider);
         ButterKnife.bind(this);
         presenter = new ProviderPresenterImpl(this);
-        OnClickHelper.setOnClickListener(insertBtn, new View.OnClickListener() {
+        ZOnClickHelper.setOnClickListener(insertBtn, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 presenter.insert();
             }
         });
-        OnClickHelper.setOnClickListener(queryBtn, new View.OnClickListener() {
+        ZOnClickHelper.setOnClickListener(queryBtn, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 presenter.query();

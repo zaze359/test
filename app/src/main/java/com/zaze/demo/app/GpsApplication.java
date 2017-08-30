@@ -1,6 +1,7 @@
 package com.zaze.demo.app;
 
-import com.zaze.aarrepo.commons.base.ZBaseApplication;
+
+import com.zaze.common.base.ZBaseApplication;
 
 /**
  * Description :

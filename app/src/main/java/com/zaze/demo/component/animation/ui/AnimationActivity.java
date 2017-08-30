@@ -7,8 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.zaze.common.base.ZBaseActivity;
 import com.zaze.demo.R;
-import com.zaze.aarrepo.commons.base.ZBaseActivity;
 import com.zaze.demo.component.animation.adapter.AnimationAdapter;
 import com.zaze.demo.component.animation.presenter.AnimationPresenter;
 import com.zaze.demo.component.animation.presenter.impl.AnimationPresenterImpl;

@@ -5,8 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.zaze.common.base.ZBaseFragment;
 import com.zaze.demo.R;
-import com.zaze.aarrepo.commons.base.ZBaseFragment;
 
 import butterknife.ButterKnife;
 

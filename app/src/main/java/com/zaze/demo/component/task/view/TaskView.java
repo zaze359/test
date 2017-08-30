@@ -1,7 +1,7 @@
 package com.zaze.demo.component.task.view;
 
-import com.zaze.aarrepo.commons.base.ZBaseView;
 
+import com.zaze.common.base.ZBaseView;
 
 /**
  * Description :

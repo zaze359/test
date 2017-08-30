@@ -1,7 +1,7 @@
 package com.zaze.demo.component.webview.presenter.impl
 
+import com.zaze.common.base.ZBasePresenter
 import com.zaze.demo.component.webview.presenter.WebViewPresenter
-import com.zaze.aarrepo.commons.base.ZBasePresenter
 import com.zaze.demo.component.webview.view.WebViewView
 
 /**

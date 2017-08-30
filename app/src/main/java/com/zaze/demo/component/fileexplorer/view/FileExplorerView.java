@@ -1,6 +1,6 @@
 package com.zaze.demo.component.fileexplorer.view;
 
-import com.zaze.aarrepo.commons.base.ZBaseView;
+import com.zaze.common.base.ZBaseView;
 import com.zaze.demo.component.fileexplorer.adapter.FileEntity;
 
 import org.jetbrains.annotations.NotNull;

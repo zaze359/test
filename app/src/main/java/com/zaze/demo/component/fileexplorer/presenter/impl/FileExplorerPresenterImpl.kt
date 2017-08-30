@@ -1,13 +1,13 @@
 package com.zaze.demo.component.fileexplorer.presenter.impl
 
-import com.zaze.aarrepo.commons.base.ZBasePresenter
-import com.zaze.aarrepo.commons.log.ZLog
-import com.zaze.aarrepo.utils.RootCmd
-import com.zaze.aarrepo.utils.ZTag
+import com.zaze.common.base.ZBasePresenter
 import com.zaze.demo.component.fileexplorer.FileEvent
 import com.zaze.demo.component.fileexplorer.adapter.FileEntity
 import com.zaze.demo.component.fileexplorer.presenter.FileExplorerPresenter
 import com.zaze.demo.component.fileexplorer.view.FileExplorerView
+import com.zaze.utils.ZCommand
+import com.zaze.utils.log.ZLog
+import com.zaze.utils.log.ZTag
 import java.io.File
 
 /**
@@ -22,10 +22,10 @@ class FileExplorerPresenterImpl(view: FileExplorerView) : ZBasePresenter<FileExp
     private var curDirPath = "/"
 
     override fun loadFileList() {
-        val commandResult = RootCmd.execCmdForRes("ls $curDirPath")
+        val commandResult = ZCommand.execCmdForRes("ls $curDirPath")
         val fileList = ArrayList<FileEntity>()
-        if (RootCmd.isSuccess(commandResult.result)) {
-            for (fileName in commandResult.msgList) {
+        if (ZCommand.isSuccess(commandResult)) {
+            for (fileName in commandResult.successList) {
                 val fileEntity = FileEntity()
                 fileEntity.fileName = "/$fileName"
                 fileEntity.absPath = curDirPath + fileName
@@ -34,7 +34,7 @@ class FileExplorerPresenterImpl(view: FileExplorerView) : ZBasePresenter<FileExp
             }
             view.showFileList(fileList)
         } else {
-            ZLog.i(ZTag.TAG_ERROR, commandResult.errorMsg)
+            ZLog.e(ZTag.TAG_DEBUG, commandResult.errorMsg)
         }
     }
 

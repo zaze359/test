@@ -18,7 +18,7 @@ import java.util.TimeZone;
  * @author : zaze
  * @version : 1.0
  */
-public class DateUtil {
+public class ZDateUtil {
     public static final long SECOND = 1000L;
     public static final long MINUTE = 60000L;
     public static final long HOUR = 3600000L;

@@ -1,4 +1,4 @@
-package com.zaze.common.adapter;
+package com.zaze.common.adapter.third;
 
 
 import android.content.Context;
@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
+import com.zaze.common.adapter.OnItemClickListener;
 import com.zaze.utils.ZOnClickHelper;
 import com.zaze.utils.ZViewUtil;
 
@@ -26,7 +27,7 @@ import java.util.List;
  * @author : zaze
  * @version : 1.0
  */
-public abstract class BaseUltimateAdapter<V, VH extends RecyclerView.ViewHolder> extends UltimateViewAdapter<VH> {
+public abstract class ZUltimateRecycleAdapter<V, VH extends RecyclerView.ViewHolder> extends UltimateViewAdapter<VH> {
     private Context context;
     private final List<V> dataList = new ArrayList<>();
     private View.OnClickListener onClickListener;
@@ -35,7 +36,7 @@ public abstract class BaseUltimateAdapter<V, VH extends RecyclerView.ViewHolder>
     private int page;
     private int pageSize = 10;
 
-    public BaseUltimateAdapter(Context context, Collection<V> data) {
+    public ZUltimateRecycleAdapter(Context context, Collection<V> data) {
         this.context = context;
         preSetData();
         this.setDataList(data, false);

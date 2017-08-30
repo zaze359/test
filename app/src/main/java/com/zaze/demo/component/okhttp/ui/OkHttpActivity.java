@@ -4,15 +4,15 @@ package com.zaze.demo.component.okhttp.ui;
 import android.os.Bundle;
 import android.view.View;
 
-import com.zaze.aarrepo.commons.base.ZBaseActivity;
-import com.zaze.aarrepo.commons.log.ZLog;
-import com.zaze.aarrepo.utils.StringUtil;
+import com.zaze.common.base.ZBaseActivity;
 import com.zaze.demo.R;
 import com.zaze.demo.component.okhttp.OkHttpUtil;
 import com.zaze.demo.component.okhttp.TabletReceiverEntity;
 import com.zaze.demo.component.okhttp.presenter.OkHttpPresenter;
 import com.zaze.demo.component.okhttp.presenter.impl.OkHttpPresenterImpl;
 import com.zaze.demo.component.okhttp.view.OkHttpView;
+import com.zaze.utils.ZStringUtil;
+import com.zaze.utils.log.ZLog;
 
 import java.io.IOException;
 
@@ -57,7 +57,7 @@ public class OkHttpActivity extends ZBaseActivity implements OkHttpView {
     public static final MediaType FORM = MediaType.parse("application/x-www-form-urlencoded; charset=UTF-8");
 
     void post(String url, String json) {
-        String str = StringUtil.format("K=%s", json, 0);
+        String str = ZStringUtil.format("K=%s", json, 0);
         RequestBody body = RequestBody.create(FORM, str);
         Request request = new Request.Builder()
                 .url(url)

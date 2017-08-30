@@ -1,6 +1,6 @@
 package com.zaze.demo.component.checknet.view
 
-import com.zaze.aarrepo.commons.base.ZBaseView
+import com.zaze.common.base.ZBaseView
 
 
 /**

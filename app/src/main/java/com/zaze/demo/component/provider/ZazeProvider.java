@@ -10,12 +10,12 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
-import com.zaze.aarrepo.commons.log.ZLog;
-import com.zaze.aarrepo.utils.StringUtil;
-import com.zaze.aarrepo.utils.ZTag;
 import com.zaze.demo.component.provider.sqlite.DBOpenHelper;
 import com.zaze.demo.component.provider.sqlite.User;
 import com.zaze.demo.component.provider.sqlite.UserDao;
+import com.zaze.utils.ZStringUtil;
+import com.zaze.utils.log.ZLog;
+import com.zaze.utils.log.ZTag;
 
 /**
  * Description :
@@ -80,7 +80,7 @@ public class ZazeProvider extends ContentProvider {
     public Uri insert(Uri uri, ContentValues values) {
         String username = values.getAsString(UserDao.Properties.USER_NAME);
         long userId = values.getAsLong(UserDao.Properties.USER_ID);
-        ZLog.i(ZTag.TAG_PROVIDER, StringUtil.format("insert %s %s", username, userId));
+        ZLog.i(ZTag.TAG_PROVIDER, ZStringUtil.format("insert %s %s", username, userId));
         User user = new User();
         user.setUsername(username);
         user.setUserId(userId);

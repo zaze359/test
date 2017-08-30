@@ -1,8 +1,8 @@
 package com.zaze.demo.component.xbus.presenter.impl;
 
+import com.zaze.common.base.ZBasePresenter;
 import com.zaze.demo.component.xbus.event.EventMessage;
 import com.zaze.demo.component.xbus.presenter.EventBus2Presenter;
-import com.zaze.aarrepo.commons.base.ZBasePresenter;
 import com.zaze.demo.component.xbus.view.EventBus2View;
 
 import org.greenrobot.eventbus.EventBus;

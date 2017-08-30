@@ -4,9 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.zaze.aarrepo.commons.log.ZLog;
-import com.zaze.aarrepo.utils.ZTag;
 import com.zaze.demo.component.message.service.MyService;
+import com.zaze.utils.log.ZLog;
+import com.zaze.utils.log.ZTag;
 
 /**
  * Description :

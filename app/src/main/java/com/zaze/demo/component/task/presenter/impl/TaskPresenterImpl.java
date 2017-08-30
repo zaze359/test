@@ -1,6 +1,6 @@
 package com.zaze.demo.component.task.presenter.impl;
 
-import com.zaze.aarrepo.commons.base.ZBasePresenter;
+import com.zaze.common.base.ZBasePresenter;
 import com.zaze.demo.component.task.presenter.TaskPresenter;
 import com.zaze.demo.component.task.view.TaskView;
 

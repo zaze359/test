@@ -2,7 +2,7 @@ package com.zaze.demo.component.checknet.ui
 
 
 import android.os.Bundle
-import com.zaze.aarrepo.commons.base.ZBaseActivity
+import com.zaze.common.base.ZBaseActivity
 import com.zaze.demo.R
 import com.zaze.demo.component.checknet.presenter.CheckNetPresenter
 import com.zaze.demo.component.checknet.presenter.impl.CheckNetPresenterImpl

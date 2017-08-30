@@ -13,8 +13,8 @@ import android.support.test.runner.AndroidJUnit4;
 import android.support.v4.app.ActivityCompat;
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.zaze.aarrepo.commons.log.ZLog;
-import com.zaze.aarrepo.utils.ZTag;
+import com.zaze.utils.log.ZLog;
+import com.zaze.utils.log.ZTag;
 
 import org.junit.Before;
 import org.junit.Test;

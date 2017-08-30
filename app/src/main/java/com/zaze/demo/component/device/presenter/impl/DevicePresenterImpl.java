@@ -1,11 +1,11 @@
 package com.zaze.demo.component.device.presenter.impl;
 
-import com.zaze.aarrepo.commons.base.ZBasePresenter;
-import com.zaze.aarrepo.utils.DeviceUtil;
+import com.zaze.common.base.ZBasePresenter;
 import com.zaze.demo.component.device.presenter.DevicePresenter;
 import com.zaze.demo.component.device.view.DeviceView;
 import com.zaze.demo.model.DeviceModel;
 import com.zaze.demo.model.ModelFactory;
+import com.zaze.utils.ZNetUtil;
 
 /**
  * Description :
@@ -24,7 +24,7 @@ public class DevicePresenterImpl extends ZBasePresenter<DeviceView> implements D
     @Override
     public void getDeviceInfo() {
         view.showDeviceInfo(deviceModel.getDeviceInfo());
-        String macAddress = DeviceUtil.getMacAddress();
+        String macAddress = ZNetUtil.getWLANMacAddress();
         view.showMacAddress(macAddress);
 
     }

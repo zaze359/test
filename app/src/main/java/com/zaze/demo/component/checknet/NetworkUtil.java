@@ -7,8 +7,8 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
-import com.zaze.aarrepo.commons.log.ZLog;
-import com.zaze.aarrepo.utils.ZTag;
+import com.zaze.utils.log.ZLog;
+import com.zaze.utils.log.ZTag;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;

@@ -7,6 +7,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Process
 import android.text.TextUtils
@@ -65,6 +66,8 @@ object ZAppUtil {
             return context.packageManager.getApplicationLabel(applicationInfo).toString()
         }
     }
+
+
     // --------------------------------------------------
 
     /**
@@ -112,6 +115,23 @@ object ZAppUtil {
         }
     }
 
+    /**
+     * [context]
+     * [packageName]
+     * @return 应用图标
+     */
+    fun getAppIcon(context: Context, packageName: String): Drawable? {
+        try {
+            val pManager = context.packageManager
+            val packageInfo = pManager.getPackageInfo(packageName, 0)
+            return pManager.getApplicationIcon(packageInfo.applicationInfo)
+        } catch (e: PackageManager.NameNotFoundException) {
+            ZLog.e(ZTag.TAG_DEBUG, e.message)
+            return null
+        }
+
+    }
+
     // --------------------------------------------------
     fun queryIntentActivities(context: Context): List<ResolveInfo> {
         val mainIntent = Intent(Intent.ACTION_MAIN, null)
@@ -135,7 +155,7 @@ object ZAppUtil {
      * @author zaze
      * @version 2017/5/31 - 下午3:47 1.0
      */
-    fun isAppInstalled(context: Context, packageName: String): Boolean {
+    fun isInstalled(context: Context, packageName: String): Boolean {
         return getApplicationInfo(context, packageName) != null
     }
 
@@ -149,7 +169,7 @@ object ZAppUtil {
      * @author zaze
      * @version 2017/5/31 - 下午2:54 1.0
      */
-    fun installApp(context: Context, filePath: String) {
+    fun install(context: Context, filePath: String) {
         val file = File(filePath)
         if (file.exists()) {
             ZLog.i(ZTag.TAG_ABOUT_APP, "准备安装 $filePath")
@@ -169,7 +189,7 @@ object ZAppUtil {
      * @author zaze
      * @version 2017/5/31 - 下午2:57 1.0
      */
-    fun unInstallApp(context: Context, packageName: String) {
+    fun unInstall(context: Context, packageName: String) {
         ZLog.i(ZTag.TAG_ABOUT_APP, "开始卸载 $packageName")
         val uninstallIntent = Intent()
         uninstallIntent.action = Intent.ACTION_DELETE
@@ -224,7 +244,7 @@ object ZAppUtil {
      * 清理data数据
      * [packageName] packageName
      */
-//    fun clearDataInfo(context: Context, packageName: String) {
+    //    fun clearDataInfo(context: Context, packageName: String) {
 //        if (RootCmd.isRoot()) {
 //            RootCmd.execRootCmd("pm clear " + packageName)
 //        } else {

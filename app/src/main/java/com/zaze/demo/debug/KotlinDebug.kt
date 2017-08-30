@@ -1,10 +1,12 @@
 package com.zaze.demo.debug
 
 import android.util.Base64
-import com.zaze.aarrepo.commons.date.DateUtil
-import com.zaze.aarrepo.commons.log.ZLog
-import com.zaze.aarrepo.utils.*
-import com.zaze.demo.app.MyApplication
+import com.zaze.utils.ZEncryptionUtil
+import com.zaze.utils.ZFileUtil
+import com.zaze.utils.ZStringUtil
+import com.zaze.utils.date.ZDateUtil
+import com.zaze.utils.log.ZLog
+import com.zaze.utils.log.ZTag
 import java.io.File
 import java.util.*
 
@@ -35,7 +37,7 @@ class KotlinDebug {
         builderBase.append("<resources>\n")
         do {
             if (dp <= 10 || dp % 2 == 0) {
-                builder.append(StringUtil.format("\t<dimen name=\"dp_$dp\">%1.1fdp</dimen>\n", dp * baseDensity / screenDensity))
+                builder.append(ZStringUtil.format("\t<dimen name=\"dp_$dp\">%1.1fdp</dimen>\n", dp * baseDensity / screenDensity))
                 builderBase.append("\t<dimen name=\"dp_$dp\">${dp}dp</dimen>\n")
             }
             dp++
@@ -67,24 +69,24 @@ class KotlinDebug {
 //        ZLog.e(ZTag.TAG_DEBUG, EncryptionUtil.getMD5("KiN4dWVoYWkyMDE3JnpoaXRvbmd5dW44JDEwMGZlbjI3QDAjKg=="))
 //        ZLog.e(ZTag.TAG_DEBUG, EncryptionUtil.getMD5("KiN4dWVoYWkyMDE3JnpoaXRvbmd5dW44JDEwMGZlbjI3QDAjKg== "))
 //        ZLog.e(ZTag.TAG_DEBUG, EncryptionUtil.getMD5("KiN4dWVoYWkyMDE3JnpoaXRvbmd5dW44JDEwMGZlbjI3QDAjKg==\n"))
-        FileUtil.deleteFile(secretFile)
+        ZFileUtil.deleteFileByCmd(secretFile)
         val current = System.currentTimeMillis()
-        var start = DateUtil.getDayStart(current)
-        val end = DateUtil.getDayEnd(current) + DateUtil.DAY * 3
+        var start = ZDateUtil.getDayStart(current)
+        val end = ZDateUtil.getDayEnd(current) + ZDateUtil.DAY * 3
         while (start < end) {
             val date = Date(start)
-            ZFileUtil.writeToFile(secretFile, "${DateUtil.dateToString(date, "yyyy-MM-dd HH:mm:ss")} : ${createDeveloperToken(date)}\n", true)
-            start += DateUtil.HOUR
+            ZFileUtil.writeToFile(secretFile, "${ZDateUtil.dateToString(date, "yyyy-MM-dd HH:mm:ss")} : ${createDeveloperToken(date)}\n", true)
+            start += ZDateUtil.HOUR
         }
         return "finish"
     }
 
     fun createDeveloperToken(date: Date): String {
-        val year = DateUtil.getYear(date)
-        val month = DateUtil.getMonth(date).number
-        val day = DateUtil.getDay(date)
-        val hour = DateUtil.getHour(date)
-        val secret = StringUtil.format(
+        val year = ZDateUtil.getYear(date)
+        val month = ZDateUtil.getMonth(date).number
+        val day = ZDateUtil.getDay(date)
+        val hour = ZDateUtil.getHour(date)
+        val secret = ZStringUtil.format(
                 "*#xuehai%d&zhitongyun%d$100fen%d@%d#*",
                 year, month, day, hour
         )
@@ -101,7 +103,7 @@ class KotlinDebug {
         ZLog.i(ZTag.TAG_DEBUG, "secret : $secret")
         val base64 = String(Base64.encode(secret.toByteArray(), Base64.DEFAULT))
         ZLog.i(ZTag.TAG_DEBUG, "base64 : ${base64.length}")
-        val md5 = EncryptionUtil.getMD5(base64)
+        val md5 = ZEncryptionUtil.getMD5(base64)
 //        ZFileUtil.writeToFile(secretFile, "$secret,$base64,$md5\n", true)
         return md5
     }
@@ -109,14 +111,14 @@ class KotlinDebug {
     // --------------------------------------------------
 
     fun clearCacheData(): String {
-        return "" + ZAppUtil.clearDataInfo(MyApplication.getInstance(), MyApplication.getInstance().packageName)
+//        ZAppUtil.clearDataInfo(MyApplication.getInstance(), MyApplication.getInstance().packageName)
 //        return "" + FileUtil.deleteFile("/data/data/" + MyApplication.getInstance().packageName)
-
+        return ""
     }
 
     // --------------------------------------------------
     fun searchFile(): String {
-        val fileSet = FileUtil.searchFileLoop(File("/sdcard/"), "com.xuehai.response_launcher_teacher");
+        val fileSet = ZFileUtil.searchFileLoop(File("/sdcard/"), "com.xuehai.response_launcher_teacher");
         val builder = StringBuilder()
         for (file in fileSet) {
             builder.append(file.absolutePath + "\n")

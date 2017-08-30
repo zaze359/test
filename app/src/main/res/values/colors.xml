@@ -1,6 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
     <color name="head_background">@color/colorPrimary</color>
     <color name="head_text_color_default">@color/white</color>
     <color name="head_text_color_pressed">#999999</color>
+
+    <color name="black_light">#2d2d2d</color>
+    <color name="white">@android:color/white</color>
+
+    <color name="black">@android:color/black</color>
+
+    <color name="red">#FFC93437</color>
+    <color name="red_light">#e1a3a4</color>
+
+    <color name="yellow">#FFF7D23E</color>
+
+    <color name="transparent">#00000000</color>
+
+    <color name="gray_darker">@android:color/darker_gray</color>
+    <color name="gray_light">#e2e2e2</color>
+
+    <color name="blue">#62ade6</color>
+    <color name="blue_dark">#478aff</color>
+    <color name="blue_light">#e2ecfd</color>
+
+
+    <color name="green">#35c243</color>
+    <color name="green_light">#8cdc94</color>
+
+    <!--<color name="green">#FF34A350</color>-->
+    <!--<color name="blue">#FF375BF1</color>-->
+    <color name="popup_title_color">#ffc9cdd1</color>
+    <color name="advance_setting_item_bg">#fff8f8f8</color>
+
+    <color name="circle_white">#fdfdf6</color>
+
+
+    <!---->
+    <color name="grey">#cccccc</color>
+    <color name="orange_light">#ffffdd</color>
+
 </resources>

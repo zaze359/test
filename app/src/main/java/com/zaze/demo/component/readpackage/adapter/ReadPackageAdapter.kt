@@ -6,13 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.zaze.aarrepo.commons.base.ZBaseApplication
-import com.zaze.aarrepo.commons.base.adapter.BaseItemHolder
-import com.zaze.aarrepo.commons.base.adapter.BaseUltimateAdapter
-import com.zaze.aarrepo.utils.AppUtil
-import com.zaze.aarrepo.utils.StringUtil
+import com.zaze.common.adapter.third.ZUltimateRecycleAdapter
+import com.zaze.common.adapter.third.ZUltimateRecyclerViewHolder
+import com.zaze.common.base.ZBaseApplication
 import com.zaze.demo.R
 import com.zaze.demo.model.entity.PackageEntity
+import com.zaze.utils.ZAppUtil
+import com.zaze.utils.ZStringUtil
+import com.zaze.utils.ZViewUtil.findView
 
 /**
  * Description :
@@ -21,7 +22,7 @@ import com.zaze.demo.model.entity.PackageEntity
  * *
  * @version : 2017-04-17 - 17:21
  */
-class ReadPackageAdapter(context: Context, data: Collection<PackageEntity>) : BaseUltimateAdapter<PackageEntity, ReadPackageAdapter.PackageHolder>(context, data) {
+class ReadPackageAdapter(context: Context, data: Collection<PackageEntity>) : ZUltimateRecycleAdapter<PackageEntity, ReadPackageAdapter.PackageHolder>(context, data) {
 
     override fun getViewHolder(view: View, isItem: Boolean): PackageHolder {
         return PackageHolder(view, isItem)
@@ -32,7 +33,7 @@ class ReadPackageAdapter(context: Context, data: Collection<PackageEntity>) : Ba
     }
 
     override fun onBindViewHolder(holder: PackageHolder, value: PackageEntity, position: Int) {
-        val packageName = StringUtil.parseString(value.packageName)
+        val packageName = ZStringUtil.parseString(value.packageName)
         // --------------------------------------------------
         holder.itemAppNameTv!!.text = "应用名 : ${value.appName}"
         holder.itemAppVersionCodeTv!!.text = "版本号 ：${value.versionCode}"
@@ -40,7 +41,7 @@ class ReadPackageAdapter(context: Context, data: Collection<PackageEntity>) : Ba
         holder.itemAppPackageTv!!.text = "包名 : $packageName"
         holder.itemAppDirTv!!.text = "路径 : ${value.sourceDir}"
         // --------------------------------------------------
-        var drawable = AppUtil.getAppIcon(ZBaseApplication.getInstance(), packageName)
+        var drawable = ZAppUtil.getAppIcon(ZBaseApplication.getInstance(), packageName)
         if (drawable == null) {
             drawable = getDrawable(R.mipmap.ic_launcher)
         }
@@ -71,7 +72,7 @@ class ReadPackageAdapter(context: Context, data: Collection<PackageEntity>) : Ba
             return builder.toString()
         }
 
-    inner class PackageHolder(itemView: View, isItem: Boolean) : BaseItemHolder(itemView, isItem) {
+    inner class PackageHolder(itemView: View, isItem: Boolean) : ZUltimateRecyclerViewHolder(itemView, isItem) {
         var itemAppIv: ImageView? = null
         var itemAppNameTv: TextView? = null
         var itemAppPackageTv: TextView? = null

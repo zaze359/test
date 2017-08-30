@@ -8,10 +8,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
-import com.zaze.aarrepo.commons.base.ZBaseActivity;
-import com.zaze.aarrepo.commons.widget.head.ZOrientation;
-import com.zaze.aarrepo.utils.helper.OnClickHelper;
-import com.zaze.aarrepo.utils.helper.UltimateRecyclerViewHelper;
+import com.zaze.common.adapter.third.UltimateRecyclerViewHelper;
+import com.zaze.common.base.ZBaseActivity;
+import com.zaze.common.widget.head.ZOrientation;
 import com.zaze.demo.R;
 import com.zaze.demo.component.fileexplorer.FileEvent;
 import com.zaze.demo.component.fileexplorer.adapter.FileAdapter;
@@ -19,6 +18,7 @@ import com.zaze.demo.component.fileexplorer.adapter.FileEntity;
 import com.zaze.demo.component.fileexplorer.presenter.FileExplorerPresenter;
 import com.zaze.demo.component.fileexplorer.presenter.impl.FileExplorerPresenterImpl;
 import com.zaze.demo.component.fileexplorer.view.FileExplorerView;
+import com.zaze.utils.ZOnClickHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -57,7 +57,7 @@ public class FileExplorerActivity extends ZBaseActivity implements FileExplorerV
                 .setBackClickListener(this);
         presenter = new FileExplorerPresenterImpl(this);
         presenter.loadFileList();
-        OnClickHelper.setOnClickListener(fileExplorerReturnTv, new View.OnClickListener() {
+        ZOnClickHelper.setOnClickListener(fileExplorerReturnTv, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 presenter.backToParent();

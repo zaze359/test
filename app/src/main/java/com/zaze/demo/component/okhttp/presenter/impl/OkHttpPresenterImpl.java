@@ -1,6 +1,6 @@
 package com.zaze.demo.component.okhttp.presenter.impl;
 
-import com.zaze.aarrepo.commons.base.ZBasePresenter;
+import com.zaze.common.base.ZBasePresenter;
 import com.zaze.demo.component.okhttp.presenter.OkHttpPresenter;
 import com.zaze.demo.component.okhttp.view.OkHttpView;
 

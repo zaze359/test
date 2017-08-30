@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.zaze.common.base.ZBaseFragment;
 import com.zaze.demo.R;
-import com.zaze.aarrepo.commons.base.ZBaseFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
  * @author : ZAZE
  * @version : 2016-10-29 - 02:47
  */
+
 /**
  * Description :
  *

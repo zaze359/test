@@ -7,9 +7,9 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.zaze.common.base.ZBaseActivity;
 import com.zaze.demo.R;
-import com.zaze.aarrepo.commons.base.ZBaseActivity;
-import com.zaze.aarrepo.commons.date.DateTimeUtil;
+import com.zaze.utils.date.ZDateUtil;
 
 import java.util.TimeZone;
 
@@ -57,7 +57,7 @@ public class TimeActivity extends ZBaseActivity {
             TimeZone.setDefault(null);
         }
 
-        timeOutTv.setText(DateTimeUtil.timeMillisToString(timeMillis, "yyyy-MM-dd HH:mm:ss"));
+        timeOutTv.setText(ZDateUtil.timeMillisToString(timeMillis, "yyyy-MM-dd HH:mm:ss"));
     }
 
 

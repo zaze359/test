@@ -6,16 +6,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.widget.TextView;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
-import com.zaze.aarrepo.commons.base.ZBaseActivity;
-import com.zaze.aarrepo.utils.LocalDisplay;
-import com.zaze.aarrepo.utils.StringUtil;
-import com.zaze.aarrepo.utils.helper.UltimateRecyclerViewHelper;
+import com.zaze.common.adapter.third.UltimateRecyclerViewHelper;
+import com.zaze.common.base.ZBaseActivity;
 import com.zaze.demo.R;
 import com.zaze.demo.component.device.adapter.DeviceAdapter;
 import com.zaze.demo.component.device.presenter.DevicePresenter;
 import com.zaze.demo.component.device.presenter.impl.DevicePresenterImpl;
 import com.zaze.demo.component.device.view.DeviceView;
 import com.zaze.demo.model.entity.DeviceStatus;
+import com.zaze.utils.ZDisplayUtil;
+import com.zaze.utils.ZStringUtil;
 
 import java.util.List;
 
@@ -48,12 +48,12 @@ public class DeviceActivity extends ZBaseActivity implements DeviceView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device);
         ButterKnife.bind(this);
-        deviceScreen.setText(StringUtil.format(
+        deviceScreen.setText(ZStringUtil.format(
                 "屏幕分辨率 : %dx%d",
-                LocalDisplay.SCREEN_WIDTH_PIXELS,
-                LocalDisplay.SCREEN_HEIGHT_PIXELS)
+                ZDisplayUtil.SCREEN_WIDTH_PIXELS,
+                ZDisplayUtil.SCREEN_HEIGHT_PIXELS)
         );
-        deviceDensity.setText(StringUtil.format("屏幕密度 : %1.2f", LocalDisplay.SCREEN_DENSITY));
+        deviceDensity.setText(ZStringUtil.format("屏幕密度 : %1.2f", ZDisplayUtil.SCREEN_DENSITY));
         presenter = new DevicePresenterImpl(this);
         presenter.getDeviceInfo();
     }
@@ -73,6 +73,6 @@ public class DeviceActivity extends ZBaseActivity implements DeviceView {
 
     @Override
     public void showMacAddress(String macAddress) {
-        deviceMacAddress.setText(StringUtil.parseString(macAddress));
+        deviceMacAddress.setText(ZStringUtil.parseString(macAddress));
     }
 }

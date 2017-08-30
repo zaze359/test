@@ -3,8 +3,8 @@ package com.zaze.demo.component.xbus.ui;
 
 import android.os.Bundle;
 
+import com.zaze.common.base.ZBaseActivity;
 import com.zaze.demo.R;
-import com.zaze.aarrepo.commons.base.ZBaseActivity;
 import com.zaze.demo.component.xbus.presenter.EventBus2Presenter;
 import com.zaze.demo.component.xbus.presenter.impl.EventBus2PresenterImpl;
 import com.zaze.demo.component.xbus.view.EventBus2View;

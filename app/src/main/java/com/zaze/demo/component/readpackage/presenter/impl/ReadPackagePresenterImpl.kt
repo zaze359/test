@@ -1,15 +1,14 @@
 package com.zaze.demo.component.readpackage.presenter.impl
 
 import android.content.pm.ApplicationInfo
-import com.zaze.aarrepo.commons.base.ZBaseApplication
-import com.zaze.aarrepo.commons.base.ZBasePresenter
-import com.zaze.aarrepo.utils.AppUtil
-import com.zaze.aarrepo.utils.RootCmd
-import com.zaze.aarrepo.utils.StringUtil
-import com.zaze.aarrepo.utils.ZAppUtil
+import com.zaze.common.base.ZBaseApplication
+import com.zaze.common.base.ZBasePresenter
 import com.zaze.demo.component.readpackage.presenter.ReadPackagePresenter
 import com.zaze.demo.component.readpackage.view.ReadPackageView
 import com.zaze.demo.model.entity.PackageEntity
+import com.zaze.utils.ZAppUtil
+import com.zaze.utils.ZCommand
+import com.zaze.utils.ZStringUtil
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -24,15 +23,14 @@ import rx.schedulers.Schedulers
 class ReadPackagePresenterImpl(view: ReadPackageView) : ZBasePresenter<ReadPackageView>(view), ReadPackagePresenter {
 
     override fun filterApp(matchStr: String) {
-
         Observable.fromCallable({
-            AppUtil.getInstalledApplications(ZBaseApplication.getInstance(), 0)
+            ZAppUtil.getInstalledApplications(ZBaseApplication.getInstance())
         }).subscribeOn(Schedulers.io())
                 .map({
                     v ->
                     val list = ArrayList<PackageEntity>()
                     v.filter {
-                        it.packageName.contains(StringUtil.parseString(matchStr).toLowerCase())
+                        it.packageName.contains(ZStringUtil.parseString(matchStr).toLowerCase())
                     }.mapTo(list) {
                         initEntity(it.packageName)
                     }
@@ -46,10 +44,10 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : ZBasePresenter<ReadPacka
 
     override fun getAllApkFile(dir: String) {
         val list = ArrayList<PackageEntity>()
-        val result = RootCmd.execRootCmdForRes("ls $dir *.apk")
-        val apkList = result.msgList
+        val result = ZCommand.execRootCmdForRes("ls $dir *.apk")
+        val apkList = result.successList
         for (apk in apkList) {
-            val packageInfo = AppUtil.getPackageArchiveInfo(ZBaseApplication.getInstance(), apk)
+            val packageInfo = ZAppUtil.getPackageArchiveInfo(ZBaseApplication.getInstance(), apk)
             if (packageInfo != null) {
                 list.add(initEntity(packageInfo.packageName))
             }
@@ -58,14 +56,14 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : ZBasePresenter<ReadPacka
     }
 
     override fun getAllInstallApp() {
-        val appList = AppUtil.getInstalledApplications(ZBaseApplication.getInstance(), 0)
+        val appList = ZAppUtil.getInstalledApplications(ZBaseApplication.getInstance())
         val list = ArrayList<PackageEntity>()
         appList.mapTo(list) { initEntity(it.packageName) }
         view.showPackageList(list)
     }
 
     override fun getAllSystemApp() {
-        val appList = AppUtil.getInstalledApplications(ZBaseApplication.getInstance(), 0)
+        val appList = ZAppUtil.getInstalledApplications(ZBaseApplication.getInstance())
         val list = ArrayList<PackageEntity>()
         appList
                 .filter { it.flags and ApplicationInfo.FLAG_SYSTEM > 0 }
@@ -80,9 +78,9 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : ZBasePresenter<ReadPacka
             packageEntity.sourceDir = application.sourceDir
         }
         packageEntity.packageName = packageName
-        packageEntity.appName = AppUtil.getAppName(ZBaseApplication.getInstance(), packageName, "")
-        packageEntity.versionName = AppUtil.getAppVersion(ZBaseApplication.getInstance(), packageName)
-        packageEntity.versionCode = AppUtil.getAppVersionCode(ZBaseApplication.getInstance(), packageName)
+        packageEntity.appName = ZAppUtil.getAppName(ZBaseApplication.getInstance(), packageName)
+        packageEntity.versionName = ZAppUtil.getAppVersionName(ZBaseApplication.getInstance(), packageName)
+        packageEntity.versionCode = ZAppUtil.getAppVersionCode(ZBaseApplication.getInstance(), packageName)
         return packageEntity
     }
 }

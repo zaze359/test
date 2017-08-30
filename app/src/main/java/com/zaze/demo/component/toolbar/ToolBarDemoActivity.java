@@ -13,8 +13,8 @@ import android.widget.Button;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
+import com.zaze.common.base.ZBaseActivity;
 import com.zaze.demo.R;
-import com.zaze.aarrepo.commons.base.ZBaseActivity;
 import com.zaze.demo.component.fragments.TempFragment;
 import com.zaze.demo.component.progress.ProgressFragment;
 

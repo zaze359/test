@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.TextView;
 
-import com.zaze.aarrepo.commons.base.ZBaseActivity;
-import com.zaze.aarrepo.commons.log.ZLog;
+import com.zaze.common.base.ZBaseActivity;
 import com.zaze.demo.R;
+import com.zaze.utils.log.ZLog;
 
 import java.util.Arrays;
 import java.util.List;

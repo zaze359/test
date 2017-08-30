@@ -6,11 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.zaze.common.adapter.third.ZUltimateRecycleAdapter;
+import com.zaze.common.adapter.third.ZUltimateRecyclerViewHolder;
 import com.zaze.demo.R;
-import com.zaze.aarrepo.commons.base.adapter.BaseItemHolder;
-import com.zaze.aarrepo.commons.base.adapter.BaseUltimateAdapter;
-import com.zaze.aarrepo.utils.StringUtil;
 import com.zaze.demo.model.entity.DeviceStatus;
+import com.zaze.utils.ZStringUtil;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
  * @author : ZAZE
  * @version : 2017-01-22 - 14:37
  */
-public class DeviceAdapter extends BaseUltimateAdapter<DeviceStatus, DeviceAdapter.DeviceHolder> {
+public class DeviceAdapter extends ZUltimateRecycleAdapter<DeviceStatus, DeviceAdapter.DeviceHolder> {
 
     public DeviceAdapter(Context context, List<DeviceStatus> data) {
         super(context, data);
@@ -41,8 +41,8 @@ public class DeviceAdapter extends BaseUltimateAdapter<DeviceStatus, DeviceAdapt
 
     @Override
     public void onBindViewHolder(DeviceHolder deviceHolder, DeviceStatus deviceStatus, int i) {
-        deviceHolder.itemDeviceTagTv.setText(StringUtil.parseString(deviceStatus.getTag()));
-        deviceHolder.itemDeviceContentTv.setText(StringUtil.parseString(deviceStatus.getContent()));
+        deviceHolder.itemDeviceTagTv.setText(ZStringUtil.parseString(deviceStatus.getTag()));
+        deviceHolder.itemDeviceContentTv.setText(ZStringUtil.parseString(deviceStatus.getContent()));
     }
 
     @Override
@@ -60,7 +60,7 @@ public class DeviceAdapter extends BaseUltimateAdapter<DeviceStatus, DeviceAdapt
 
     }
 
-    class DeviceHolder extends BaseItemHolder {
+    class DeviceHolder extends ZUltimateRecyclerViewHolder {
         @Bind(R.id.item_device_tag_tv)
         TextView itemDeviceTagTv;
         @Bind(R.id.item_device_content_tv)

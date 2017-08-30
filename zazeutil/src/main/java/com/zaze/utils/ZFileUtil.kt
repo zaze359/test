@@ -6,6 +6,7 @@ import android.os.StatFs
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import java.io.*
+import java.util.*
 import java.util.concurrent.locks.ReadWriteLock
 import java.util.concurrent.locks.ReentrantReadWriteLock
 
@@ -100,44 +101,50 @@ object ZFileUtil {
     }
 
     // --------------------------------------------------
-    // --------------------------------------------------
-    fun getTotalSpace(file: File): Long {
-        ZLog.i(ZTag.TAG_DEBUG, "getTotalSpace : ${file.path}")
-        val stat = StatFs(file.path)
-        return getBlockSize(stat) * getBlockCount(stat)
+
+    /**
+     * 递归删除文件和文件夹
+     * [filePath]  要删除的路径
+     */
+    fun deleteFile(filePath: String) {
+        deleteFile(File(filePath))
     }
 
-    fun getFreeSpace(file: File): Long {
-        val stat = StatFs(file.path)
-        return getBlockSize(stat) * getAvailableBlocks(stat)
-    }
-
-    // --------------------------------------------------
-    fun getBlockSize(statFs: StatFs): Long {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            return statFs.blockSizeLong
-        } else {
-            return statFs.blockSize.toLong()
+    /**
+     * 递归删除文件和文件夹
+     * [destFile] 目标文件或文件夹
+     */
+    fun deleteFile(destFile: File): Boolean {
+        if (destFile.isFile) {
+            return destFile.delete()
         }
-    }
-
-    fun getAvailableBlocks(statFs: StatFs): Long {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            return statFs.availableBlocksLong
-        } else {
-            return statFs.availableBlocks.toLong()
+        if (destFile.isDirectory) {
+            val childFile = destFile.listFiles()
+            if (childFile != null && !childFile.isEmpty()) {
+                for (file in childFile) {
+                    deleteFile(file)
+                }
+            }
         }
+        return destFile.delete()
     }
 
-    fun getBlockCount(statFs: StatFs): Long {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            return statFs.blockCountLong
-        } else {
-            return statFs.blockCount.toLong()
-        }
+    /**
+     * 调用命令删除文件
+     * [file] 删除的文件
+     */
+    fun deleteFileByCmd(file: File): Boolean {
+        return deleteFileByCmd(file.absolutePath)
     }
 
-    // --------------------------------------------------
+    /**
+     * 调用命令删除文件
+     * [filePath] 删除的文件绝对路径
+     */
+    fun deleteFileByCmd(filePath: String): Boolean {
+        return ZCommand.isSuccess(ZCommand.execCmdForRes("rm -r $filePath"))
+    }
+
     // --------------------------------------------------
 
     /**
@@ -189,5 +196,82 @@ object ZFileUtil {
         writeUnlock(lock)
         return file
     }
+
+    // --------------------------------------------------
+    /**
+     * [dir] 目标目录下 循环查询文件
+     */
+    fun searchFileLoop(dir: File?, fileName: String): HashSet<File> {
+        val loopSearchedFile = HashSet<File>()
+        if (dir != null && dir.exists() && dir.isDirectory) {
+            for (file in dir.listFiles()) {
+                if (file.name == fileName) {
+                    loopSearchedFile.add(file)
+                }
+                if (file.isDirectory) {
+                    loopSearchedFile.addAll(searchFileLoop(file, fileName))
+                }
+            }
+        }
+        return loopSearchedFile
+    }
+
+    /**
+     *  查询指定目录下的文件
+     */
+    private fun searchFile(dir: File, fileName: String): HashSet<File> {
+        val searchedFile = HashSet<File>()
+        if (dir.exists() && dir.isDirectory) {
+            val childFileList = dir.listFiles()
+            for (childFile in childFileList) {
+                if (childFile.name == fileName) {
+                    searchedFile.add(childFile)
+                }
+            }
+        }
+        return searchedFile
+    }
+
+    // --------------------------------------------------
+    // --------------------------------------------------
+    fun getTotalSpace(file: File): Long {
+        ZLog.i(ZTag.TAG_DEBUG, "getTotalSpace : ${file.path}")
+        val stat = StatFs(file.path)
+        return getBlockSize(stat) * getBlockCount(stat)
+    }
+
+    fun getFreeSpace(file: File): Long {
+        val stat = StatFs(file.path)
+        return getBlockSize(stat) * getAvailableBlocks(stat)
+    }
+
+    // --------------------------------------------------
+    fun getBlockSize(statFs: StatFs): Long {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            return statFs.blockSizeLong
+        } else {
+            return statFs.blockSize.toLong()
+        }
+    }
+
+    fun getAvailableBlocks(statFs: StatFs): Long {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            return statFs.availableBlocksLong
+        } else {
+            return statFs.availableBlocks.toLong()
+        }
+    }
+
+    fun getBlockCount(statFs: StatFs): Long {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            return statFs.blockCountLong
+        } else {
+            return statFs.blockCount.toLong()
+        }
+    }
+
+    // --------------------------------------------------
+    // --------------------------------------------------
+
 
 }

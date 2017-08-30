@@ -1,6 +1,7 @@
 package com.zaze.demo.component.gps.view;
 
-import com.zaze.aarrepo.commons.base.ZBaseView;
+
+import com.zaze.common.base.ZBaseView;
 
 /**
  * Description :

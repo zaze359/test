@@ -3,7 +3,7 @@ package com.zaze.demo.component.progress;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.zaze.aarrepo.commons.base.ZBaseActivity;
+import com.zaze.common.base.ZBaseActivity;
 import com.zaze.demo.R;
 
 /**

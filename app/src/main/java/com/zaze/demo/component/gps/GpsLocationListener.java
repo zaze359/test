@@ -4,8 +4,8 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 
-import com.zaze.aarrepo.commons.log.ZLog;
-import com.zaze.aarrepo.utils.ZTag;
+import com.zaze.utils.log.ZLog;
+import com.zaze.utils.log.ZTag;
 
 
 /**

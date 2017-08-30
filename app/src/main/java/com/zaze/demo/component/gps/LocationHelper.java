@@ -12,11 +12,11 @@ import android.location.LocationProvider;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 
-import com.zaze.aarrepo.commons.base.ZBaseApplication;
-import com.zaze.aarrepo.commons.log.ZLog;
-import com.zaze.aarrepo.utils.StringUtil;
-import com.zaze.aarrepo.utils.ZTag;
+import com.zaze.common.base.ZBaseApplication;
 import com.zaze.demo.app.MyApplication;
+import com.zaze.utils.ZStringUtil;
+import com.zaze.utils.log.ZLog;
+import com.zaze.utils.log.ZTag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +73,7 @@ public class LocationHelper {
 
                 @Override
                 public void onStatusChanged(String provider, int status, Bundle extras) {
-                    updateGpsStatus(StringUtil.format("onStatusChanged: %s, status: %d, extras: %s", provider, status, extras));
+                    updateGpsStatus(ZStringUtil.format("onStatusChanged: %s, status: %d, extras: %s", provider, status, extras));
                     if (LocationProvider.OUT_OF_SERVICE == status) {
                         updateGpsStatus("GPS服务丢失,切换至网络定位");
                         requestNetLocationUpdates();
@@ -82,12 +82,12 @@ public class LocationHelper {
 
                 @Override
                 public void onProviderEnabled(String provider) {
-                    updateGpsStatus(StringUtil.format("onProviderEnabled: %s", provider));
+                    updateGpsStatus(ZStringUtil.format("onProviderEnabled: %s", provider));
                 }
 
                 @Override
                 public void onProviderDisabled(String provider) {
-                    updateGpsStatus(StringUtil.format("onProviderDisabled: %s", provider));
+                    updateGpsStatus(ZStringUtil.format("onProviderDisabled: %s", provider));
                 }
             });
         }
@@ -114,17 +114,17 @@ public class LocationHelper {
 
                 @Override
                 public void onStatusChanged(String provider, int status, Bundle extras) {
-                    updateGpsStatus(StringUtil.format("onStatusChanged: %s, status: %d, extras: %s", provider, status, extras));
+                    updateGpsStatus(ZStringUtil.format("onStatusChanged: %s, status: %d, extras: %s", provider, status, extras));
                 }
 
                 @Override
                 public void onProviderEnabled(String provider) {
-                    updateGpsStatus(StringUtil.format("onProviderEnabled: %s", provider));
+                    updateGpsStatus(ZStringUtil.format("onProviderEnabled: %s", provider));
                 }
 
                 @Override
                 public void onProviderDisabled(String provider) {
-                    updateGpsStatus(StringUtil.format("onProviderDisabled: %s", provider));
+                    updateGpsStatus(ZStringUtil.format("onProviderDisabled: %s", provider));
                     removeNetUpdates();
                 }
             });
@@ -148,7 +148,7 @@ public class LocationHelper {
             currentLocation = location;
             double longitude = location.getLongitude();
             double latitude = location.getLatitude();
-            String locationInfo = StringUtil.format("经纬度 : (%s,%s)", longitude, latitude);
+            String locationInfo = ZStringUtil.format("经纬度 : (%s,%s)", longitude, latitude);
             ZLog.i(ZTag.TAG_DEBUG, locationInfo);
         }
     }
@@ -173,7 +173,7 @@ public class LocationHelper {
             e.printStackTrace();
         }
         if (addresses == null || addresses.isEmpty()) {
-            ZLog.e(ZTag.TAG_ERROR, "没有找到相关地址!");
+            ZLog.e(ZTag.TAG_DEBUG, "没有找到相关地址!");
         } else {
             Address address = addresses.get(0);
             List<String> addressFragments = new ArrayList<>();

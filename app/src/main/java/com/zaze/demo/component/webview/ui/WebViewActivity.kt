@@ -2,7 +2,7 @@ package com.zaze.demo.component.webview.ui
 
 
 import android.os.Bundle
-import com.zaze.aarrepo.commons.base.ZBaseActivity
+import com.zaze.common.base.ZBaseActivity
 import com.zaze.demo.R
 import com.zaze.demo.component.webview.presenter.WebViewPresenter
 import com.zaze.demo.component.webview.presenter.impl.WebViewPresenterImpl

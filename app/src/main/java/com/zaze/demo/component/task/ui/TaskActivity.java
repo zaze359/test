@@ -4,17 +4,17 @@ package com.zaze.demo.component.task.ui;
 import android.os.Bundle;
 import android.view.View;
 
-import com.zaze.aarrepo.commons.base.ZBaseActivity;
-import com.zaze.aarrepo.commons.log.ZLog;
-import com.zaze.aarrepo.commons.task.TaskCallback;
-import com.zaze.aarrepo.commons.task.TaskEntity;
-import com.zaze.aarrepo.commons.task.executor.TaskExecutorManager;
-import com.zaze.aarrepo.utils.JsonUtil;
-import com.zaze.aarrepo.utils.ZTag;
+import com.zaze.common.base.ZBaseActivity;
 import com.zaze.demo.R;
 import com.zaze.demo.component.task.presenter.TaskPresenter;
 import com.zaze.demo.component.task.presenter.impl.TaskPresenterImpl;
 import com.zaze.demo.component.task.view.TaskView;
+import com.zaze.utils.ZJsonUtil;
+import com.zaze.utils.log.ZLog;
+import com.zaze.utils.log.ZTag;
+import com.zaze.utils.task.TaskCallback;
+import com.zaze.utils.task.TaskEntity;
+import com.zaze.utils.task.executor.TaskExecutorManager;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -49,7 +49,7 @@ public class TaskActivity extends ZBaseActivity implements TaskView {
             TaskExecutorManager.getInstance().pushTask(new TaskEntity(String.valueOf(i)), new TaskCallback() {
                 @Override
                 public void onExecute(TaskEntity entity) {
-                    ZLog.v(ZTag.TAG_TASK, JsonUtil.objToJson(entity));
+                    ZLog.v(ZTag.TAG_TASK, ZJsonUtil.objToJson(entity));
                     TaskExecutorManager.getInstance().executeSyncNext();
                 }
             });
@@ -62,7 +62,7 @@ public class TaskActivity extends ZBaseActivity implements TaskView {
             TaskExecutorManager.getInstance().pushTask(new TaskEntity(String.valueOf(i)), new TaskCallback() {
                 @Override
                 public void onExecute(TaskEntity entity) {
-                    ZLog.v(ZTag.TAG_TASK, JsonUtil.objToJson(entity));
+                    ZLog.v(ZTag.TAG_TASK, ZJsonUtil.objToJson(entity));
                     TaskExecutorManager.getInstance().executeAsyncNext();
                 }
             });
@@ -74,7 +74,7 @@ public class TaskActivity extends ZBaseActivity implements TaskView {
         TaskExecutorManager.getInstance().pushTask(tag, new TaskEntity(), new TaskCallback() {
             @Override
             public void onExecute(TaskEntity entity) {
-                ZLog.v(ZTag.TAG_TASK, JsonUtil.objToJson(entity));
+                ZLog.v(ZTag.TAG_TASK, ZJsonUtil.objToJson(entity));
             }
         });
     }
@@ -91,7 +91,7 @@ public class TaskActivity extends ZBaseActivity implements TaskView {
             TaskExecutorManager.getInstance().pushTask(new TaskEntity(String.valueOf(i)), new TaskCallback() {
                 @Override
                 public void onExecute(TaskEntity entity) {
-                    ZLog.v(ZTag.TAG_TASK, JsonUtil.objToJson(entity));
+                    ZLog.v(ZTag.TAG_TASK, ZJsonUtil.objToJson(entity));
                     try {
                         Thread.sleep(2000L);
                     } catch (InterruptedException e) {
@@ -117,7 +117,7 @@ public class TaskActivity extends ZBaseActivity implements TaskView {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    ZLog.v(ZTag.TAG_TASK, JsonUtil.objToJson(entity));
+                    ZLog.v(ZTag.TAG_TASK, ZJsonUtil.objToJson(entity));
                     TaskExecutorManager.getInstance().executeMulti(1);
                 }
             });

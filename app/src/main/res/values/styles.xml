@@ -1,5 +1,12 @@
 <resources>
 
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:screenOrientation">portrait</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:textSize">@dimen/app_text_size</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
     <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -47,6 +54,6 @@
         <item name="zItemTextSize">@dimen/sp_20</item>
     </style>
 
-    <style name="CustomTheme" parent="AppTheme.NoActionBar"></style>
+    <style name="CustomTheme" parent="AppTheme.NoActionBar" />
 
 </resources>

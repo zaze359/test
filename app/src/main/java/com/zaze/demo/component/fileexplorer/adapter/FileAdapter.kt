@@ -4,10 +4,10 @@ import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
-import com.zaze.aarrepo.commons.base.adapter.BaseUltimateAdapter
-import com.zaze.aarrepo.utils.ZFileUtil
+import com.zaze.common.adapter.third.ZUltimateRecycleAdapter
 import com.zaze.demo.R
 import com.zaze.demo.component.fileexplorer.FileEvent
+import com.zaze.utils.ZFileUtil
 import org.greenrobot.eventbus.EventBus
 
 /**
@@ -17,7 +17,7 @@ import org.greenrobot.eventbus.EventBus
  * *
  * @version : 2017-07-12 - 13:26
  */
-class FileAdapter(context: Context, data: Collection<FileEntity>) : BaseUltimateAdapter<FileEntity, FileItemHolder>(context, data) {
+class FileAdapter(context: Context, data: Collection<FileEntity>) : ZUltimateRecycleAdapter<FileEntity, FileItemHolder>(context, data) {
 
     override fun getViewHolder(view: View, isItem: Boolean): FileItemHolder {
         return FileItemHolder(view, isItem)
