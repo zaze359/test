@@ -18,14 +18,15 @@ public class MemoryCacheHelper {
     public static final long HALF_YEAR = 110376000000L;
     public static final long YEAR = 220752000000L;
 
+    // --------------------------------------------------
     public static String getCache(String key) {
-        return ZStringUtil.bytesToString(MemoryCache.getInstance().getCache(key));
+        return ZStringUtil.bytesToString(getCacheBytes(key));
     }
 
     public static byte[] getCacheBytes(String key) {
         return MemoryCache.getInstance().getCache(key);
     }
-    // -------
+    // --------------------------------------------------
 
     public static void deleteCache(String key) {
         MemoryCache.getInstance().deleteCache(key);

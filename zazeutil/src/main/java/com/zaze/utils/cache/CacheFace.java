@@ -8,7 +8,7 @@ package com.zaze.utils.cache;
  * @version : 1.0
  */
 public interface CacheFace {
-    String setCache(String key, byte[] values, long keepTime, @DataLevel int dataLevel);
+    void setCache(String key, byte[] values, long keepTime, @DataLevel int dataLevel);
 
     byte[] getCache(String key);
 

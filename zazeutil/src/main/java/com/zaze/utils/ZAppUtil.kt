@@ -58,7 +58,7 @@ object ZAppUtil {
      * [defaultName]
      * @return app名
      */
-    fun getAppName(context: Context, packageName: String, defaultName: String = "未知"): String {
+    fun getAppName(context: Context, packageName: String? = null, defaultName: String = "未知"): String {
         val applicationInfo = getApplicationInfo(context, packageName)
         if (applicationInfo == null) {
             return defaultName
@@ -77,9 +77,9 @@ object ZAppUtil {
      * @author zaze
      * @version 2017/5/31 - 下午3:46 1.0
      */
-    fun getPackageInfo(context: Context, packageName: String): PackageInfo? {
+    fun getPackageInfo(context: Context, packageName: String? = null): PackageInfo? {
         try {
-            return context.packageManager.getPackageInfo(packageName, 0)
+            return context.packageManager.getPackageInfo(packageName ?: context.packageName, 0)
         } catch (e: PackageManager.NameNotFoundException) {
             ZLog.e(ZTag.TAG_DEBUG, "PackageManager.NameNotFoundException : $packageName")
             return null
@@ -106,9 +106,9 @@ object ZAppUtil {
      * @author zaze
      * @version 2017/5/31 - 下午3:40 1.0
      */
-    fun getApplicationInfo(context: Context, packageName: String): ApplicationInfo? {
+    fun getApplicationInfo(context: Context, packageName: String? = null): ApplicationInfo? {
         try {
-            return context.packageManager.getApplicationInfo(packageName, 0)
+            return context.packageManager.getApplicationInfo(packageName ?: context.packageName, 0)
         } catch (e: PackageManager.NameNotFoundException) {
             ZLog.e(ZTag.TAG_ABOUT_APP, "没有找到应用信息 : $packageName")
             return null
@@ -120,10 +120,10 @@ object ZAppUtil {
      * [packageName]
      * @return 应用图标
      */
-    fun getAppIcon(context: Context, packageName: String): Drawable? {
+    fun getAppIcon(context: Context, packageName: String? = null): Drawable? {
         try {
             val pManager = context.packageManager
-            val packageInfo = pManager.getPackageInfo(packageName, 0)
+            val packageInfo = pManager.getPackageInfo(packageName ?: context.packageName, 0)
             return pManager.getApplicationIcon(packageInfo.applicationInfo)
         } catch (e: PackageManager.NameNotFoundException) {
             ZLog.e(ZTag.TAG_DEBUG, e.message)
@@ -189,11 +189,11 @@ object ZAppUtil {
      * @author zaze
      * @version 2017/5/31 - 下午2:57 1.0
      */
-    fun unInstall(context: Context, packageName: String) {
-        ZLog.i(ZTag.TAG_ABOUT_APP, "开始卸载 $packageName")
+    fun unInstall(context: Context, packageName: String? = null) {
+        ZLog.i(ZTag.TAG_ABOUT_APP, "开始卸载 ${packageName ?: context.packageName}")
         val uninstallIntent = Intent()
         uninstallIntent.action = Intent.ACTION_DELETE
-        uninstallIntent.data = Uri.parse("package:$packageName")
+        uninstallIntent.data = Uri.parse("package:${packageName ?: context.packageName}")
         context.startActivity(uninstallIntent)
     }
 

@@ -1,16 +1,15 @@
 package com.zaze.utils
 
+import android.content.res.Resources
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.PixelFormat
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
-import java.io.ObjectInputStream
-import java.io.ObjectOutputStream
+import java.io.*
 
 /**
  * Description : 转换工具类
@@ -19,7 +18,68 @@ import java.io.ObjectOutputStream
  * *
  * @version 2017/8/26 - 下午4:53 1.0
  */
-class ZConvertUtil {
+object ZConvertUtil {
+    // --------------------------------------------------
+    // --------------------------------------------------
+    fun objectToByte(obj: Serializable?): ByteArray? {
+        var bytes: ByteArray? = null
+        if (obj != null) {
+            try {
+                val bo = ByteArrayOutputStream()
+                val oo = ObjectOutputStream(bo)
+                oo.writeObject(obj)
+                bytes = bo.toByteArray()
+
+                bo.close()
+                oo.close()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        return bytes
+    }
+
+    fun byteToObject(bytes: ByteArray): Any? {
+        var obj: Any? = null
+        try {
+            val bi = ByteArrayInputStream(bytes)
+            val oi = ObjectInputStream(bi)
+            obj = oi.readObject()
+            bi.close()
+            oi.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return obj
+    }
+    // --------------------------------------------------
+    /**
+     * [bitmap] bitmap
+     * [format] Bitmap.CompressFormat
+     * @return ByteArray
+     */
+    fun bitmap2Bytes(bitmap: Bitmap?, format: Bitmap.CompressFormat = Bitmap.CompressFormat.PNG): ByteArray? {
+        if (bitmap == null) {
+            return null
+        }
+        val outputStream = ByteArrayOutputStream()
+        bitmap.compress(format, 100, outputStream)
+        return outputStream.toByteArray()
+    }
+
+    /**
+     * [bytes] 字节数组
+     * @return bitmap
+     */
+    fun bytes2Bitmap(bytes: ByteArray?): Bitmap? {
+        return if (bytes == null || bytes.isEmpty()) {
+            null
+        } else {
+            BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+        }
+    }
+
+    // --------------------------------------------------
     fun drawable2Bitmap(drawable: Drawable?): Bitmap? {
         var bitmap: Bitmap? = null
         if (drawable != null) {
@@ -44,38 +104,32 @@ class ZConvertUtil {
         return bitmap
     }
 
-
-    // --------------------------------------------------
-    // --------------------------------------------------
-    fun objectToByte(obj: Any): ByteArray? {
-        var bytes: ByteArray? = null
-        try {
-            val bo = ByteArrayOutputStream()
-            val oo = ObjectOutputStream(bo)
-            oo.writeObject(obj)
-
-            bytes = bo.toByteArray()
-
-            bo.close()
-            oo.close()
-        } catch (e: Exception) {
-            e.printStackTrace()
+    fun bitmap2Drawable(res: Resources, bitmap: Bitmap?): Drawable? {
+        return if (bitmap == null) {
+            null
+        } else {
+            BitmapDrawable(res, bitmap)
         }
-        return bytes
+    }
+    // --------------------------------------------------
+    /**
+     * [drawable] drawable
+     * [format] Bitmap.CompressFormat
+     * @return ByteArray
+     */
+    fun drawable2Bytes(drawable: Drawable?, format: Bitmap.CompressFormat): ByteArray? {
+        return if (drawable == null) {
+            null
+        } else {
+            bitmap2Bytes(drawable2Bitmap(drawable), format)
+        }
     }
 
-    fun byteToObject(bytes: ByteArray): Any? {
-        var obj: Any? = null
-        try {
-            val bi = ByteArrayInputStream(bytes)
-            val oi = ObjectInputStream(bi)
-            obj = oi.readObject()
-            bi.close()
-            oi.close()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        return obj
+    /**
+     * [res]Resources
+     * @return drawable
+     */
+    fun bytes2Drawable(res: Resources, bytes: ByteArray): Drawable? {
+        return bitmap2Drawable(res, bytes2Bitmap(bytes))
     }
 }

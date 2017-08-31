@@ -1,6 +1,7 @@
 package com.zaze.demo.model.impl;
 
 
+import com.zaze.demo.component.cache.ui.CacheActivity;
 import com.zaze.demo.component.checknet.ui.CheckNetActivity;
 import com.zaze.demo.component.device.ui.DeviceActivity;
 import com.zaze.demo.component.fileexplorer.ui.FileExplorerActivity;
@@ -52,6 +53,7 @@ public class EntityModelImpl implements EntityModel {
         list.add(new TableEntity(15, "Vector", VectorActivity.class));
         list.add(new TableEntity(16, "File Explorer", FileExplorerActivity.class));
         list.add(new TableEntity(17, "Web View", WebViewActivity.class));
+        list.add(new TableEntity(18, "Memory Cache", CacheActivity.class));
 //        SortUtil.sortList(list, "getType", "desc");
 //        com.android.internal.R.string.config_webViewPackageName
         return list;

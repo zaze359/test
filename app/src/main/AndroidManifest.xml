@@ -124,6 +124,10 @@
             android:name=".component.webview.ui.WebViewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.zaze.demo.component.cache.ui.CacheActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>
