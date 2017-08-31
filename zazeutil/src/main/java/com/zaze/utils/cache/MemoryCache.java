@@ -6,7 +6,6 @@ import com.zaze.utils.ZStringUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
-import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -38,11 +37,12 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
      */
     private long memoryCacheSize = 0;
     /**
-     * 能放进缓存的数据最大值  太大的不放内存
+     * 能放进缓存的数据最大值 太大的不放内存
      */
     private static final long cacheBlockLength = 1 << 20;
     //
-    private static final ConcurrentHashMap<String, SoftReference<Cache>> cacheMap = new ConcurrentHashMap<>();
+//    private static final ConcurrentHashMap<String, SoftReference<Cache>> cacheMap = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, Cache> cacheMap = new ConcurrentHashMap<>();
 
     private static volatile MemoryCache memoryCache;
 
@@ -108,16 +108,10 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
             ZLog.d(ZTag.TAG_MEMORY, "MemoryCache onRelease");
         }
         long currTime = System.currentTimeMillis();
-        Map<String, SoftReference<Cache>> tempMap = new HashMap<>();
+        Map<String, Cache> tempMap = new HashMap<>();
         tempMap.putAll(cacheMap);
         for (String key : tempMap.keySet()) {
-            SoftReference<Cache> softReference = tempMap.get(key);
-            if (softReference == null) {
-                deleteCache(key);
-                continue;
-            }
-            // --------------------------------------------------
-            Cache cache = softReference.get();
+            Cache cache = tempMap.get(key);
             if (cache == null) {
                 deleteCache(key);
                 continue;
@@ -260,7 +254,7 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
         } else {
             cache.updateCache(values, keepTime);
         }
-        cacheMap.put(key, new SoftReference<>(cache));
+        cacheMap.put(key, cache);
         if (cacheLog) {
             ZLog.d(ZTag.TAG_MEMORY, "MemoryCache put key : %s ", key);
 //            ZLog.d(ZTag.TAG_MEMORY, "MemoryCache maxSize : " + maxSize / 1024f + "kb");
@@ -274,10 +268,7 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
 
     private Cache get(String key) {
         if (cacheMap.containsKey(key)) {
-            SoftReference<Cache> weakReference = cacheMap.get(key);
-            if (weakReference != null) {
-                return weakReference.get();
-            }
+            return cacheMap.get(key);
         }
         return null;
     }
