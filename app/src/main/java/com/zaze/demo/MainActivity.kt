@@ -9,7 +9,7 @@ import com.zaze.common.base.ZBaseFragment
 import com.zaze.common.widget.head.ZOrientation
 import com.zaze.demo.component.table.ui.TableFragment
 import com.zaze.demo.debug.KotlinDebug
-import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.activity_main.*
 
 /**
  * Description :
@@ -17,22 +17,24 @@ import kotlinx.android.synthetic.main.activity_home.*
  * @version : 2017-05-19 - 01:41
  */
 
-class HomeActivity : ZBaseActivity() {
+class MainActivity : ZBaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
-        headWidget.setText("主页", ZOrientation.CENTER)
+        setContentView(R.layout.activity_main)
         //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 //            val explode = TransitionInflater.from(this).inflateTransition(R.transition.explode)
 //            window.exitTransition = explode
 //        }
-        home_test_button.text = "测试"
+        headWidget.setText("zZz", ZOrientation.CENTER)
+        // --------------------------------------------------
+        main_test_button.text = "测试"
+        // --------------------------------------------------
         val fragmentList = ArrayList<ZBaseFragment>()
-        fragmentList.add(TableFragment.newInstance("1"))
-
-        home_viewpager.adapter = MyPagerAdapter(supportFragmentManager, fragmentList)
-        home_test_button.setOnClickListener {
+        fragmentList.add(TableFragment.newInstance("0"))
+        // --------------------------------------------------
+        main_viewpager.adapter = MyPagerAdapter(supportFragmentManager, fragmentList)
+        main_test_button.setOnClickListener {
             val debug = KotlinDebug()
             debug.test()
 //            ZCommand.reboot()
@@ -49,7 +51,6 @@ class HomeActivity : ZBaseActivity() {
 //            ZLog.i(ZTag.TAG_DEBUG, "${list_2.size}")
 //            val list_3 = AppUtil.getInstalledApplications(this, 0)
 //            ZLog.i(ZTag.TAG_DEBUG, "${list_3.size}")
-
         }
     }
 

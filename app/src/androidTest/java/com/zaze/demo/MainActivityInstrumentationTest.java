@@ -17,13 +17,13 @@ import org.junit.runner.RunWith;
   @version : 2016-11-20 - 18:15
  */
 @RunWith(AndroidJUnit4.class)
-public class MainActivityInstrumentationTest extends ActivityInstrumentationTestCase2<HomeActivity> {
-    private HomeActivity activity;
+public class MainActivityInstrumentationTest extends ActivityInstrumentationTestCase2<MainActivity> {
+    private MainActivity activity;
     private Button button;
 
     public MainActivityInstrumentationTest() {
         // 所有的ActivityInstrumentationTestCase2子类都需要调用该父类的super(String)构造方法
-        super(HomeActivity.class);
+        super(MainActivity.class);
     }
 
     @Before

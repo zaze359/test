@@ -45,10 +45,12 @@ public interface ZBaseView {
     void toFinish(Intent intent, int code);
 
 
-    // -------
+    // --------------------------------------------------
     String getString(int res);
 
     String getString(int res, Object... objs);
+
+    String[] getStringArray(int res);
 
     int getColor(int colorRes);
 

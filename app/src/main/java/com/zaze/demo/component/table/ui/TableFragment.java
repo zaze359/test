@@ -42,6 +42,10 @@ public class TableFragment extends ZBaseFragment implements ToolView {
     private LinearLayoutManager linearLayoutManager;
     private TablePresenter presenter;
 
+    @Override
+    protected boolean isNeedHead() {
+        return false;
+    }
 
     public static TableFragment newInstance(String title) {
         Bundle args = new Bundle();
@@ -60,11 +64,9 @@ public class TableFragment extends ZBaseFragment implements ToolView {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
-        Bundle arg = getArguments();
         // API 21
 //        Transition explode = TransitionInflater.from(getActivity()).inflateTransition(R.transition.explode);
 //        getActivity().getWindow().setEnterTransition(explode);
-
         presenter = new TablePresenterImpl(this);
         presenter.getToolBox();
         return rootView;

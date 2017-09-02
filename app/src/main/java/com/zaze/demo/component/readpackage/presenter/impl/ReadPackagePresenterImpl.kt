@@ -3,6 +3,7 @@ package com.zaze.demo.component.readpackage.presenter.impl
 import android.content.pm.ApplicationInfo
 import com.zaze.common.base.ZBaseApplication
 import com.zaze.common.base.ZBasePresenter
+import com.zaze.demo.R
 import com.zaze.demo.component.readpackage.presenter.ReadPackagePresenter
 import com.zaze.demo.component.readpackage.view.ReadPackageView
 import com.zaze.demo.model.entity.PackageEntity
@@ -69,6 +70,15 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : ZBasePresenter<ReadPacka
                 .mapTo(showList) { initEntity(it.packageName) }
         view.showPackageList(showList)
     }
+
+    override fun getAssignInstallApp() {
+        val appList = ZAppUtil.getInstalledApplications(ZBaseApplication.getInstance())
+        showList.clear()
+        val keepList = view.getStringArray(R.array.system_keep_app).toList()
+        appList.filter { keepList.contains(it.packageName) }.mapTo(showList) { initEntity(it.packageName) }
+        view.showPackageList(showList)
+    }
+
 
     fun initEntity(packageName: String): PackageEntity {
         val packageEntity = PackageEntity()

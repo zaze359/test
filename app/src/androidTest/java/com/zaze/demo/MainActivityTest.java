@@ -19,7 +19,7 @@ import org.junit.runner.RunWith;
 @LargeTest
 public class MainActivityTest {
     @Rule
-    public ActivityTestRule activityTestRule = new ActivityTestRule(HomeActivity.class);
+    public ActivityTestRule activityTestRule = new ActivityTestRule(MainActivity.class);
 
     @Test
     public void testTextViewDisplay() {

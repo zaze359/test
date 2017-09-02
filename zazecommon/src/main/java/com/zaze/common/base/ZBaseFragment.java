@@ -173,6 +173,7 @@ public abstract class ZBaseFragment extends Fragment implements ZBaseView {
         return inflater;
     }
 
+    // --------------------------------------------------
     @Override
     public int getColor(int colorRes) {
         return getResources().getColor(colorRes);
@@ -183,6 +184,12 @@ public abstract class ZBaseFragment extends Fragment implements ZBaseView {
         return getResources().getDimensionPixelSize(id);
     }
 
+    @Override
+    public String[] getStringArray(int res) {
+        return getResources().getStringArray(res);
+    }
+
+    // --------------------------------------------------
     public <T extends View> T findView(int resId) {
         return ZViewUtil.findView(rootView, resId);
     }
@@ -190,14 +197,7 @@ public abstract class ZBaseFragment extends Fragment implements ZBaseView {
     public <T extends View> T findView(View view, int resId) {
         return ZViewUtil.findView(view, resId);
     }
-    // --------------------
-
-    /**
-     * @return 布局layout.xml
-     */
-    protected abstract int getLayoutId();
-
-    // --------------------
+    // --------------------------------------------------
 
     /**
      * 是否需要使用 通用的header
@@ -206,8 +206,6 @@ public abstract class ZBaseFragment extends Fragment implements ZBaseView {
         return true;
     }
 
-    // -------------------
-
     /**
      * @return 返回hearer 操作类
      */
@@ -215,24 +213,10 @@ public abstract class ZBaseFragment extends Fragment implements ZBaseView {
         return headFace;
     }
 
-    // --------------------
-    private NotifyActivity notifyActivity;
+    // --------------------------------------------------
 
-    public interface NotifyActivity {
-        void fromFragment(int arg, Object object);
-    }
-
-    public void setNotifyActivity(NotifyActivity notifyActivity) {
-        this.notifyActivity = notifyActivity;
-    }
-
-    protected void onNotify(int arg, Object object) {
-        if (notifyActivity != null) {
-            notifyActivity.fromFragment(arg, object);
-        }
-    }
-
-    public void notifyByActivity() {
-    }
-
+    /**
+     * @return 布局layout.xml
+     */
+    protected abstract int getLayoutId();
 }

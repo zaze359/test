@@ -13,14 +13,14 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/home_test_button"
+            android:id="@+id/main_test_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/dp_4"
             android:text="test" />
 
         <TextView
-            android:id="@+id/home_test_tv"
+            android:id="@+id/main_test_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="test"
@@ -34,7 +34,7 @@
         android:layout_height="match_parent">
 
         <com.ogaclejapan.smarttablayout.SmartTabLayout
-            android:id="@+id/home_tab"
+            android:id="@+id/main_carousel"
             android:layout_width="wrap_content"
             android:layout_height="16dp"
             android:layout_alignParentBottom="true"
@@ -52,10 +52,10 @@
             app:stl_underlineThickness="0dp" />
 
         <android.support.v4.view.ViewPager
-            android:id="@+id/home_viewpager"
+            android:id="@+id/main_viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/home_tab"
+            android:layout_above="@id/main_carousel"
             android:layout_alignParentTop="true" />
 
     </RelativeLayout>

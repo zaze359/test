@@ -148,13 +148,18 @@ public abstract class ZBaseActivity extends AppCompatActivity implements ZBaseVi
         finish();
     }
 
-    //
+    // --------------------------------------------------
     @Override
     public int getDimen(int id) {
         return getResources().getDimensionPixelSize(id);
     }
 
-    //
+    @Override
+    public String[] getStringArray(int res) {
+        return getResources().getStringArray(res);
+    }
+
+    // --------------------------------------------------
     public <T extends View> T findView(int resId) {
         return ZViewUtil.findView(this, resId);
     }

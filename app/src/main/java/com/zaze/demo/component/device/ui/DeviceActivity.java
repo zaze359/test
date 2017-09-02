@@ -58,7 +58,6 @@ public class DeviceActivity extends ZBaseActivity implements DeviceView {
         presenter.getDeviceInfo();
     }
 
-
     @Override
     public void showDeviceInfo(List<DeviceStatus> list) {
         if (adapter == null) {
