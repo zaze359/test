@@ -25,7 +25,6 @@ public class AnimationPresenterImpl implements AnimationPresenter {
         List<AnimationEntity> list = new ArrayList<>();
         list.add(new AnimationEntity("View Property Animator", null));
         view.showAnimationList(list);
-
 //        <string -array name="animation_titles">
 //        <item></item>
 //        <item>Object Animator</item>

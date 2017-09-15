@@ -4,28 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <FrameLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/animation_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/animation_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?colorPrimary"
-            android:gravity="center_vertical"
-            android:minHeight="?actionBarSize" />
-
-        <ImageButton
-            android:id="@+id/animation_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start|center_vertical"
-            android:layout_marginLeft="@dimen/dp_24"
-            android:background="@color/transparent"
-            android:src="@drawable/ic_arrow_back"
-            android:tint="?android:textColorPrimary" />
-    </FrameLayout>
+        android:layout_height="wrap_content" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/animation_recycler"

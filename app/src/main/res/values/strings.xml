@@ -10,19 +10,18 @@
         <!--关键保留-->
         <item>android</item>
         <item>com.android.systemui</item>
-        <item>com.android.settings</item>
+        <item>com.sec.android.app.launcher</item>
         <item>com.samsung.klmsagent</item>
         <item>com.sec.esdk.elm</item>
         <item>com.google.android.webview</item>
         <!--测试保留-->
-        <!--<item>com.sec.android.app.launcher</item>-->
+        <!--<item>com.zaze.demo</item>-->
         <!-- ~~~~~~~~~~~~~~~待定~~~~~~~~~~~~ -->
         <item>com.samsung.android.bbc.bbcagent</item>
         <item>com.samsung.android.asksmanager</item>
         <item>com.sec.android.app.personalization</item>
         <item>com.sec.android.emergencylauncher</item>
         <item>com.sec.android.emergencymode.service</item>
-        <item>com.android.providers.downloads</item>
         <!---->
         <item>com.google.android.apps.uploader</item>
         <item>com.google.android.backup</item>
@@ -48,8 +47,6 @@
         <item>com.android.packageinstaller</item>
         <item>com.android.phone</item>
         <item>com.android.providers.applications</item>
-        <item>com.android.providers.calendar</item>
-        <item>com.android.providers.contacts</item>
         <item>com.android.providers.downloads</item>
         <item>com.android.providers.downloads.ui</item>
         <item>com.android.providers.drm</item>
@@ -126,8 +123,190 @@
         <item>com.peel.app</item>
         <item>com.visionobjects.resourcemanager</item>
         <item>com.vlingo.midas</item>
-        <item>com.wsomacp</item>
         <item>org.simalliance.openmobileapi.service</item>
+    </string-array>
+
+
+    <string-array name="system_keep_app_old">
+        <item>com.samsung.android.app.FileShareServer</item>
+        <item>com.samsung.android.app.FileShareClient</item>
+        <item>com.monotype.android.font.miao</item>
+        <item>com.sec.android.app.soundalive</item>
+        <item>com.sec.android.app.chromecustomizations</item>
+        <item>com.dsi.ant.server</item>
+        <item>com.samsung.android.securitylogagent</item>
+        <item>com.sec.android.RilServiceModeApp</item>
+        <item>com.sec.android.app.FlashBarService</item>
+        <item>com.sec.di.SmartSelfShot</item>
+        <item>com.sec.android.app.snsimagecache</item>
+        <item>com.monotype.android.font.kaiti</item>
+        <item>com.sec.android.app.SmartClipService</item>
+        <item>com.samsung.android.beaconmanager</item>
+        <item>com.sec.allsharecastplayer</item>
+        <item>com.dsi.ant.service.socket</item>
+        <item>com.sec.enterprise.mdm.services.simpin</item>
+        <item>com.cleanmaster.sdk</item>
+        <item>com.android.printspooler</item>
+        <item>com.android.onetimeinitializer</item>
+        <item>com.sec.android.easyonehand</item>
+        <item>com.sec.android.app.mt</item>
+        <item>com.samsung.android.smcore</item>
+        <item>com.samsung.android.providers.context</item>
+        <item>com.android.vpndialogs</item>
+        <item>com.samsung.aasaservice</item>
+        <item>com.sec.hearingadjust</item>
+        <item>com.android.server.telecom</item>
+        <item>com.monotype.android.font.shaonv</item>
+        <item>com.samsung.android.sdk.spenv10</item>
+        <item>com.sec.android.provider.emergencymode</item>
+        <item>com.sec.android.Kies</item>
+        <item>com.sec.android.app.factorykeystring</item>
+        <item>com.samsung.android.app.colorblind</item>
+        <item>com.samsung.android.scloud.backup</item>
+        <item>com.android.location.fused</item>
+        <item>com.qualcomm.interfacepermissions</item>
+        <item>com.samsung.android.scloud.proxy.memo</item>
+        <item>com.sec.automation</item>
+        <item>com.sec.android.splitsound</item>
+        <item>com.qualcomm.qti.services.secureui</item>
+        <item>com.samsung.android.scloud.proxy.calendar</item>
+        <item>com.sec.android.app.wluc</item>
+        <item>com.sec.android.app.bluetoothtest</item>
+        <item>com.sec.usbsettings</item>
+        <item>com.samsung.android.provider.shootingmodeprovider</item>
+        <item>com.samsung.android.app.shareaccessibilitysettings</item>
+        <item>com.codeaurora.fmrecording</item>
+        <item>com.android.captiveportallogin</item>
+        <item>com.samsung.android.scloud.proxy.contacts</item>
+        <item>com.gd.mobicore.pa</item>
+        <item>com.sec.knox.bridge</item>
+        <item>com.samsung.android.personalpage.service</item>
+        <item>com.dsi.ant.plugins.antplus</item>
+        <item>com.samsung.android.scloud.proxy.snote3</item>
+        <item>com.android.pacprocessor</item>
+        <item>com.samsung.android.app.talkback</item>
+        <item>com.sec.app.samsungprintservice</item>
+        <item>com.sec.android.providers.security</item>
+        <item>com.sec.android.app.hwmoduletest</item>
+        <item>com.sec.android.Preconfig</item>
+        <item>com.android.stk</item>
+        <item>com.sec.android.diagmonagent</item>
+        <item>com.sec.android.ofviewer</item>
+        <item>com.sec.smartcard.manager</item>
+        <item>com.wssyncmldm</item>
+        <item>com.samsung.android.universalswitch</item>
+        <item>com.qti.backupagent</item>
+        <item>com.android.externalstorage</item>
+        <item>com.samsung.android.SettingsReceiver</item>
+        <item>com.sec.android.providers.tasks</item>
+        <item>com.android.shell</item>
+        <item>com.android.proxyhandler</item>
+        <item>com.sec.android.sidesync.source</item>
+        <item>com.sec.android.app.ringtoneBR</item>
+        <item>com.sec.android.app.wfdbroker</item>
+        <item>com.qualcomm.timeservice</item>
+        <item>com.sec.android.app.parser</item>
+        <item>com.sec.tcpdumpservice</item>
+        <item>com.android.dreams.basic</item>
+        <item>com.android.browser.provider</item>
+        <item>com.sec.factory</item>
+        <item>com.sec.knox.switchknoxII</item>
+        <item>com.sec.enterprise.knox.attestation</item>
+        <item>com.samsung.android.allshare.service.mediashare</item>
+        <item>com.policydm</item>
+        <item>com.sec.android.widgetapp.digitalclock</item>
+        <item>com.samsung.android.scloud.auth</item>
+        <item>com.samsung.android.scloud.sync</item>
+        <item>com.sec.android.pagebuddynotisvc</item>
+        <item>com.sec.knox.knoxsetupwizardclient</item>
+        <item>com.sec.android.wallpapercropper2</item>
+        <item>com.samsung.location</item>
+        <item>com.samsung.knox.rcp.components</item>
+        <item>com.samsung.android.visualeffect.res</item>
+        <item>com.sec.android.widgetapp.dualclockdigital</item>
+        <item>com.samsung.android.scloud.proxy.sbrowser</item>
+        <item>com.samsung.safetyinformation</item>
+        <item>com.samsung.android.writingbuddyservice</item>
+        <item>com.samsung.hs20settings</item>
+        <item>com.sec.android.soagent</item>
+        <item>com.android.wallpapercropper</item>
+        <item>com.samsung.android.allshare.service.fileshare</item>
+        <item>com.sec.msc.nts.android.proxy</item>
+        <item>com.sec.android.daemonapp</item>
+        <item>com.sec.android.app.SamsungContentsAgent</item>
+        <item>com.sec.enterprise.mdm.vpn</item>
+        <item>com.wssnps</item>
+        <item>com.sec.android.app.sns3</item>
+        <item>com.baidu.map.location</item>
+        <item>com.samsung.android.app.accesscontrol</item>
+        <item>com.android.mms.service</item>
+        <item>com.sec.modem.settings</item>
+        <item>com.qualcomm.qcom_qmi</item>
+        <item>com.samsung.android.intelligenceservice</item>
+        <item>com.sec.knox.switchknoxI</item>
+    </string-array>
+
+    <string-array name="system_un_keep_app">
+        <item>com.microsoft.office.powerpoint</item>
+        <item>com.microsoft.office.word</item>
+        <item>com.microsoft.office.onenote</item>
+        <item>com.microsoft.office.excel</item>
+        <item>com.sec.android.widgetapp.samsungapps</item>
+        <item>com.sec.android.widgetapp.at.hero.cmaweather</item>
+        <item>com.sec.android.widgetapp.webmanual</item>
+        <item>com.sec.android.widgetapp.SPlannerAppWidget</item>
+        <item>com.sec.android.app.sbrowser</item>
+        <item>com.sec.android.app.billing</item>
+        <item>com.sec.android.app.launcher</item>
+        <item>com.sec.android.app.clockpackage</item>
+        <item>com.sec.android.app.samsungapps</item>
+        <item>com.sec.android.app.camera</item>
+        <item>com.sec.android.app.music</item>
+        <item>com.sec.android.app.myfiles</item>
+        <item>com.sec.android.providers.chinaholiday</item>
+        <item>com.sec.android.gallery3d</item>
+        <item>com.sec.android.sidesync30</item>
+        <item>com.sec.android.mimage.photoretouching</item>
+        <item>com.sec.factory.camera</item>
+        <item>com.android.dreams.phototable</item>
+        <item>com.android.bluetooth</item>
+        <item>com.android.providers.calendar</item>
+        <item>com.android.mms</item>
+        <item>com.android.providers.contacts</item>
+        <item>com.android.incallui</item>
+        <item>com.android.calendar</item>
+        <item>com.android.documentsui</item>
+        <item>com.samsung.android.app.assistantmenu</item>
+        <item>com.samsung.android.app.withtv</item>
+        <item>com.samsung.android.app.pinboard</item>
+        <item>com.samsung.android.app.galaxyfinder</item>
+        <item>com.samsung.android.email.sync</item>
+        <item>com.samsung.android.email.provider</item>
+        <item>com.samsung.android.email.widget</item>
+        <item>com.samsung.android.email.ui</item>
+        <item>com.samsung.android.email.composer</item>
+        <item>com.samsung.android.video</item>
+        <item>com.samsung.android.sconnect</item>
+        <item>com.samsung.android.snote</item>
+        <item>com.samsung.android.keyguardwallpaperupdator</item>
+        <item>com.samsung.android.sm</item>
+        <item>com.samsung.android.clipboarduiservice</item>
+        <item>com.samsung.android.service.aircommand</item>
+        <item>com.samsung.clipboardsaveservice</item>
+        <item>com.samsung.chn.apps.AutoLogin</item>
+        <item>com.wsomacp</item>
+        <item>com.tencent.update</item>
+        <item>com.tencent.engine</item>
+        <item>com.baidu.searchbox_samsung</item>
+        <item>flipboard.boxer.app</item>
+        <item>com.sec.android.app.myfiles</item>
+        <item>com.sec.android.app.dictionary</item>
+        <item>com.samsung.android.app.pinboard</item>
+        <item>com.sec.android.app.capabilitymanager</item>
+        <item>com.samsung.android.packageinstaller</item>
+        <item>com.samsung.android.service.aircommand</item> <!-- 浮窗指令 -->
+        <item>com.samsung.android.qconnect</item><!--快速连接-->
+        <item>com.android.settings</item>
     </string-array>
 
 

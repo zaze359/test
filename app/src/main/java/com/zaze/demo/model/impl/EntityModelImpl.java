@@ -1,6 +1,7 @@
 package com.zaze.demo.model.impl;
 
 
+import com.zaze.demo.component.animation.ui.AnimationActivity;
 import com.zaze.demo.component.cache.ui.CacheActivity;
 import com.zaze.demo.component.checknet.ui.CheckNetActivity;
 import com.zaze.demo.component.device.ui.DeviceActivity;
@@ -36,7 +37,7 @@ public class EntityModelImpl implements EntityModel {
     @Override
     public List<TableEntity> getTableList() {
         List<TableEntity> list = new ArrayList<>();
-//        list.add(new TableEntity(1, "Animation", AnimationActivity.class));
+        list.add(new TableEntity(1, "Animation", AnimationActivity.class));
         list.add(new TableEntity(2, "toolbar", ToolBarDemoActivity.class));
         list.add(new TableEntity(3, "Rx Android", RxAndroidActivity.class));
         list.add(new TableEntity(4, "Device Info", DeviceActivity.class));

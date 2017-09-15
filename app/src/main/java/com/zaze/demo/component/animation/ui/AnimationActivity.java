@@ -4,8 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.ImageButton;
-import android.widget.TextView;
+import android.support.v7.widget.Toolbar;
+import android.transition.Slide;
+import android.view.Gravity;
 
 import com.zaze.common.base.ZBaseActivity;
 import com.zaze.demo.R;
@@ -19,7 +20,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Description :
@@ -28,24 +28,43 @@ import butterknife.OnClick;
  * @version : 2016-08-23 - 19:31
  */
 public class AnimationActivity extends ZBaseActivity implements AnimationView {
-    @Bind(R.id.animation_title)
-    TextView animationTitle;
-    @Bind(R.id.animation_back)
-    ImageButton animationBack;
+
+    @Bind(R.id.animation_toolbar)
+    Toolbar animationToolbar;
     @Bind(R.id.animation_recycler)
     RecyclerView animationRecycler;
-
     private AnimationAdapter adapter;
     private AnimationPresenter presenter;
 
+
+    @Override
+    protected boolean isNeedHead() {
+        return false;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_animation);
         ButterKnife.bind(this);
+        setupWindowAnimations();
+        setupToolbar();
         presenter = new AnimationPresenterImpl(this);
         presenter.getAnimationList();
+    }
+
+
+    private void setupWindowAnimations() {
+        Slide slideTransition = new Slide();
+        slideTransition.setSlideEdge(Gravity.LEFT);
+        slideTransition.setDuration(getResources().getInteger(R.integer.anim_duration_long));
+        getWindow().setReenterTransition(slideTransition);
+        getWindow().setExitTransition(slideTransition);
+    }
+
+    private void setupToolbar() {
+        setSupportActionBar(animationToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
     }
 
     @Override
@@ -60,11 +79,4 @@ public class AnimationActivity extends ZBaseActivity implements AnimationView {
             adapter.notifyDataSetChanged();
         }
     }
-
-
-    @OnClick(R.id.animation_back)
-    public void back() {
-        finish();
-    }
-
 }

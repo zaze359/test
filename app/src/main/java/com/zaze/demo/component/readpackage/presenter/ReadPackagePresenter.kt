@@ -14,6 +14,8 @@ interface ReadPackagePresenter {
 
     fun getAllSystemApp()
 
+    fun getUnSystemApp()
+
     fun getAssignInstallApp()
 
     fun filterApp(matchStr: String)

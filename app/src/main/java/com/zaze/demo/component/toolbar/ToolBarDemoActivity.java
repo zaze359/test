@@ -1,13 +1,9 @@
 package com.zaze.demo.component.toolbar;
 
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.Button;
 
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
@@ -81,56 +77,55 @@ public class ToolBarDemoActivity extends ZBaseActivity {
     // ----------------  状态栏样式 ----------------
     @OnClick(R.id.tool_bar_demo_btn_0)
     public void reset() {
-        View decorView = getWindow().getDecorView();
-        int option = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(option);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
+//        View decorView = getWindow().getDecorView();
+//        int option = View.SYSTEM_UI_FLAG_FULLSCREEN;
+//        decorView.setSystemUiVisibility(option);
+//        ActionBar actionBar = getSupportActionBar();
+//        actionBar.hide();
     }
 
     @OnClick(R.id.tool_bar_demo_btn_1)
     public void function1() {   // 隐藏状态栏
-        View decorView = getWindow().getDecorView();
-        int option = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(option);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
+//        View decorView = getWindow().getDecorView();
+//        int option = View.SYSTEM_UI_FLAG_FULLSCREEN;
+//        decorView.setSystemUiVisibility(option);
+//        ActionBar actionBar = getSupportActionBar();
+//        actionBar.hide();
     }
 
     @OnClick(R.id.tool_bar_demo_btn_2)
     public void function2() {   // 透明
-        if (Build.VERSION.SDK_INT >= 21) {
-            View decorView = getWindow().getDecorView();
-            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-            decorView.setSystemUiVisibility(option);
-            getWindow().setStatusBarColor(Color.TRANSPARENT);
-        }
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
+//        if (Build.VERSION.SDK_INT >= 21) {
+//            View decorView = getWindow().getDecorView();
+//            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+//            decorView.setSystemUiVisibility(option);
+//            getWindow().setStatusBarColor(Color.TRANSPARENT);
+//        }
+//        ActionBar actionBar = getSupportActionBar();
+//        actionBar.hide();
     }
 
     @OnClick(R.id.tool_bar_demo_btn_3)
     public void function3() {
-        if (Build.VERSION.SDK_INT >= 21) {
-            getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary));
-        }
+//        if (Build.VERSION.SDK_INT >= 21) {
+//            getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary));
+//        }
     }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        // 沉浸式
-        if (hasFocus && Build.VERSION.SDK_INT >= 19) {
-            View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        }
+//        if (hasFocus && Build.VERSION.SDK_INT >= 19) {
+//            View decorView = getWindow().getDecorView();
+//            decorView.setSystemUiVisibility(
+//                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+//                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+//                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+//                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+//                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+//        }
     }
 
 

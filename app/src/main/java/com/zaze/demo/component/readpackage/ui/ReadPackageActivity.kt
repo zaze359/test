@@ -36,13 +36,14 @@ class ReadPackageActivity : ZBaseActivity(), ReadPackageView {
         setContentView(R.layout.activity_read_package)
         headWidget.setText("查看包名", ZOrientation.CENTER)
         presenter = ReadPackagePresenterImpl(this)
-        //        presenter.getAllApkFile("/sdcard/");
-        presenter?.getAllSystemApp();
-//        presenter?.getAssignInstallApp()
+//        presenter?.getAllApkFile("/sdcard/")
+//        presenter?.getAllInstallApp()
+//        presenter?.getUnSystemApp()
+        presenter?.getAssignInstallApp()
         ZOnClickHelper.setOnClickListener(package_extract_btn) {
             val keepApp = adapter!!.packageListStr
             ZLog.i("package", keepApp)
-            ZFileUtil.writeToFile("/zaze/keepApp.txt", keepApp)
+            ZFileUtil.writeToFile("${ZFileUtil.getSDCardRoot()}/zaze/z_app.txt", keepApp)
         }
 
         package_input_et.addTextChangedListener(object : TextWatcher {

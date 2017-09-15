@@ -1,6 +1,7 @@
 package com.zaze.demo.debug
 
 import android.util.Base64
+import com.zaze.utils.ZDisplayUtil
 import com.zaze.utils.ZEncryptionUtil
 import com.zaze.utils.ZFileUtil
 import com.zaze.utils.ZStringUtil
@@ -19,8 +20,8 @@ class KotlinDebug {
 
     fun test(): String {
 //        return showLog("print", { print() })
-//        return showLog("createDimens", { createDimens(1f, LocalDisplay.SCREEN_DENSITY) })
-        createDeveloperToken()
+        showLog("createDimens", { createDimens(1f, ZDisplayUtil.SCREEN_DENSITY) })
+//        createDeveloperToken()
 //        return showLog("createDeveloperAccount", { createDeveloperToken() })
 //        return showLog("clearCacheData", { clearCacheData() })
 //        return showLog("searchFile", { searchFile() })
@@ -72,7 +73,7 @@ class KotlinDebug {
         ZFileUtil.deleteFileByCmd(secretFile)
         val current = System.currentTimeMillis()
         var start = ZDateUtil.getDayStart(current)
-        val end = ZDateUtil.getDayEnd(current) + ZDateUtil.DAY * 3
+        val end = ZDateUtil.getDayEnd(current) + ZDateUtil.DAY * 30
         while (start < end) {
             val date = Date(start)
             ZFileUtil.writeToFile(secretFile, "${ZDateUtil.dateToString(date, "yyyy-MM-dd HH:mm:ss")} : ${createDeveloperToken(date)}\n", true)

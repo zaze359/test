@@ -31,7 +31,7 @@ task clean(type: Delete) {
 }
 
 ext {
-    minSdkVersion = 16
+    minSdkVersion = 15
     targetSdkVersion = 22
     compileSdkVersion = 23
     buildToolsVersion = '23.0.2'

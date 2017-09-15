@@ -28,7 +28,7 @@ object ZAppUtil {
      * [packageName] null 使用context 的包名
      * @return 应用版本名
      */
-    fun getAppVersionName(context: Context, packageName: String?): String {
+    fun getAppVersionName(context: Context, packageName: String? = null): String {
         val packageInfo = getPackageInfo(context, packageName ?: context.packageName)
         if (packageInfo != null) {
             return packageInfo.versionName
@@ -42,7 +42,7 @@ object ZAppUtil {
      * [packageName] null 使用context 的包名
      * @return 应用版本号
      */
-    fun getAppVersionCode(context: Context, packageName: String?): Int {
+    fun getAppVersionCode(context: Context, packageName: String? = null): Int {
         val packageInfo = getPackageInfo(context, packageName ?: context.packageName)
         if (packageInfo != null) {
             return packageInfo.versionCode

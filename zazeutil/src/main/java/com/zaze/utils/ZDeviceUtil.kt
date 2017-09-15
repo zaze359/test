@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Environment
 import android.provider.Settings
 import android.telephony.TelephonyManager
+import android.text.TextUtils
 import java.util.*
 
 /**
@@ -31,24 +32,30 @@ object ZDeviceUtil {
     }
 
     fun getMachineCode(context: Context): String {
-        val uuid: UUID
-        val androidId = getAndroidId(context)
-        try {
-            if ("9774d56d682e549c" != androidId) {
-                uuid = UUID.nameUUIDFromBytes(androidId.toByteArray(charset("utf8")))
-            } else {
-                val deviceId = getDeviceId(context)
-                uuid = if (deviceId != null) {
-                    UUID.nameUUIDFromBytes(deviceId
-                            .toByteArray(charset("utf8")))
+        val key = "getMachineCode"
+        var id = ZSharedPrefUtil.get(context, key, "")
+        if (TextUtils.isEmpty(id)) {
+            val uuid: UUID
+            val androidId = getAndroidId(context)
+            try {
+                if ("9774d56d682e549c" != androidId) {
+                    uuid = UUID.nameUUIDFromBytes(androidId.toByteArray(charset("utf8")))
                 } else {
-                    UUID.randomUUID()
+                    val deviceId = getDeviceId(context)
+                    uuid = if (deviceId != null) {
+                        UUID.nameUUIDFromBytes(deviceId
+                                .toByteArray(charset("utf8")))
+                    } else {
+                        UUID.randomUUID()
+                    }
                 }
+            } catch (e: Exception) {
+                throw RuntimeException(e)
             }
-        } catch (e: Exception) {
-            throw RuntimeException(e)
+            id = uuid.toString()
+            ZSharedPrefUtil.put(context, key, id)
         }
-        return uuid.toString()
+        return id
     }
     // --------------------------------------------------
 
