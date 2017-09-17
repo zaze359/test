@@ -13,7 +13,6 @@ buildscript {
 }
 
 allprojects {
-
     repositories {
         jcenter()
         maven {
@@ -31,7 +30,7 @@ task clean(type: Delete) {
 }
 
 ext {
-    minSdkVersion = 15
+    minSdkVersion = 14
     targetSdkVersion = 22
     compileSdkVersion = 23
     buildToolsVersion = '23.0.2'
