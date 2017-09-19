@@ -1,6 +1,7 @@
 package com.zaze.demo.debug
 
 import android.util.Base64
+import com.zaze.utils.ZAppUtil
 import com.zaze.utils.ZEncryptionUtil
 import com.zaze.utils.ZFileUtil
 import com.zaze.utils.ZStringUtil

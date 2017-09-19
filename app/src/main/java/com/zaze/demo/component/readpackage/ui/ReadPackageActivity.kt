@@ -39,6 +39,7 @@ class ReadPackageActivity : ZBaseActivity(), ReadPackageView {
 //        presenter?.getAllApkFile("/sdcard/")
         presenter?.getAllInstallApp()
 //        presenter?.getUnSystemApp()
+//        presenter?.getAllSystemApp()
 //        presenter?.getAssignInstallApp()
         ZOnClickHelper.setOnClickListener(package_extract_btn) {
             val keepApp = adapter!!.packageListStr

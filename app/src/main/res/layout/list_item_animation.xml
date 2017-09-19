@@ -7,7 +7,10 @@
     <TextView
         android:id="@+id/animation_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/dp_54"
         android:gravity="center_vertical"
-        android:padding="@dimen/dp_16" />
+        android:paddingLeft="@dimen/dp_16"
+        android:paddingRight="@dimen/dp_16" />
+
+    <include layout="@layout/layout_split_line" />
 </LinearLayout>

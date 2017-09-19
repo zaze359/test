@@ -18,8 +18,8 @@ import java.util.List;
  * @version : 1.0
  */
 public abstract class ZRecyclerAdapter<V, H extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<H> {
-    protected Context context;
-    protected final List<V> dataList = new ArrayList<>();
+    private Context context;
+    private final List<V> dataList = new ArrayList<>();
 
     public ZRecyclerAdapter(Context context, List<V> data) {
         this.context = context;
@@ -86,6 +86,15 @@ public abstract class ZRecyclerAdapter<V, H extends RecyclerView.ViewHolder> ext
         return null;
     }
 
+    public Context getContext() {
+        return context;
+    }
+
+    public List<V> getDataList() {
+        return dataList;
+    }
+
+    // --------------------------------------------------
     public abstract int getViewLayoutId();
 
     public abstract H createViewHolder(View convertView);

@@ -1,6 +1,7 @@
 package com.zaze.demo.component.animation.presenter.impl;
 
 import com.zaze.demo.component.animation.presenter.AnimationPresenter;
+import com.zaze.demo.component.animation.ui.AnimationActivity1;
 import com.zaze.demo.component.animation.view.AnimationView;
 import com.zaze.demo.model.entity.AnimationEntity;
 
@@ -23,7 +24,7 @@ public class AnimationPresenterImpl implements AnimationPresenter {
     @Override
     public void getAnimationList() {
         List<AnimationEntity> list = new ArrayList<>();
-        list.add(new AnimationEntity("View Property Animator", null));
+        list.add(new AnimationEntity("View Property Animator", AnimationActivity1.class));
         view.showAnimationList(list);
 //        <string -array name="animation_titles">
 //        <item></item>

@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
 import android.view.Gravity;
+import android.view.Menu;
 
 import com.zaze.common.base.ZBaseActivity;
 import com.zaze.demo.R;
@@ -28,11 +29,12 @@ import butterknife.ButterKnife;
  * @version : 2016-08-23 - 19:31
  */
 public class AnimationActivity extends ZBaseActivity implements AnimationView {
-
+    //
     @Bind(R.id.animation_toolbar)
     Toolbar animationToolbar;
     @Bind(R.id.animation_recycler)
     RecyclerView animationRecycler;
+    //
     private AnimationAdapter adapter;
     private AnimationPresenter presenter;
 
@@ -50,6 +52,12 @@ public class AnimationActivity extends ZBaseActivity implements AnimationView {
         setupToolbar();
         presenter = new AnimationPresenterImpl(this);
         presenter.getAnimationList();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
 

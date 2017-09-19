@@ -1,6 +1,7 @@
 package com.zaze.utils
 
 import android.app.ActivityManager
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
@@ -9,11 +10,13 @@ import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Bundle
 import android.os.Process
 import android.text.TextUtils
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import java.io.File
+
 
 /**
  * Description : App Util
@@ -67,7 +70,37 @@ object ZAppUtil {
         }
     }
 
+    /**
+     * [context]
+     * [packageName]
+     * @return 应用图标
+     */
+    fun getAppIcon(context: Context, packageName: String? = null): Drawable? {
+        try {
+            val pManager = context.packageManager
+            val packageInfo = pManager.getPackageInfo(packageName ?: context.packageName, 0)
+            return pManager.getApplicationIcon(packageInfo.applicationInfo)
+        } catch (e: PackageManager.NameNotFoundException) {
+            ZLog.e(ZTag.TAG_DEBUG, e.message)
+            return null
+        }
 
+    }
+
+    /**
+     * [context] context
+     * [packageName] packageName
+     * @author zaze
+     * @version 2017/5/31 - 下午3:40 1.0
+     */
+    fun getApplicationInfo(context: Context, packageName: String? = null): ApplicationInfo? {
+        try {
+            return context.packageManager.getApplicationInfo(packageName ?: context.packageName, 0)
+        } catch (e: PackageManager.NameNotFoundException) {
+            ZLog.e(ZTag.TAG_ABOUT_APP, "没有找到应用信息 : $packageName")
+            return null
+        }
+    }
     // --------------------------------------------------
 
     /**
@@ -100,42 +133,11 @@ object ZAppUtil {
         return context.packageManager.getPackageArchiveInfo(fileName, 0)
     }
 
-    /**
-     * [context] context
-     * [packageName] packageName
-     * @author zaze
-     * @version 2017/5/31 - 下午3:40 1.0
-     */
-    fun getApplicationInfo(context: Context, packageName: String? = null): ApplicationInfo? {
-        try {
-            return context.packageManager.getApplicationInfo(packageName ?: context.packageName, 0)
-        } catch (e: PackageManager.NameNotFoundException) {
-            ZLog.e(ZTag.TAG_ABOUT_APP, "没有找到应用信息 : $packageName")
-            return null
-        }
-    }
-
-    /**
-     * [context]
-     * [packageName]
-     * @return 应用图标
-     */
-    fun getAppIcon(context: Context, packageName: String? = null): Drawable? {
-        try {
-            val pManager = context.packageManager
-            val packageInfo = pManager.getPackageInfo(packageName ?: context.packageName, 0)
-            return pManager.getApplicationIcon(packageInfo.applicationInfo)
-        } catch (e: PackageManager.NameNotFoundException) {
-            ZLog.e(ZTag.TAG_DEBUG, e.message)
-            return null
-        }
-
-    }
-
     // --------------------------------------------------
-    fun queryIntentActivities(context: Context): List<ResolveInfo> {
+    fun queryIntentActivities(context: Context, packageName: String): List<ResolveInfo> {
         val mainIntent = Intent(Intent.ACTION_MAIN, null)
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER)
+        mainIntent.`package` = packageName
         return context.packageManager.queryIntentActivities(mainIntent, 0)
     }
 
@@ -284,5 +286,51 @@ object ZAppUtil {
             killAppProcess(context, packageName)
         }
     }
+
+
+    // --------------------------------------------------
+    // --------------------------------------------------
+//    fun startApplication(context: Context, packageName: String) {
+//        val packageInfo = getPackageInfo(context, packageName)
+//        if (packageInfo != null) {
+//            // 启动应用程序对应的Activity
+//            val mainIntent = Intent(Intent.ACTION_MAIN)
+//            mainIntent.addCategory(Intent.CATEGORY_LAUNCHER)
+//            mainIntent.`package` = packageName
+//            val apps = queryIntentActivities(context, packageName)
+//            var resolveInfo: ResolveInfo? = null
+//            try {
+//                resolveInfo = apps.iterator().next()
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
+//            if (resolveInfo != null) {
+//                val className = resolveInfo.activityInfo.name
+//                val intent = Intent(Intent.ACTION_MAIN)
+//                intent.addCategory(Intent.CATEGORY_LAUNCHER)
+//                val componentName = ComponentName(packageName, className)
+//                intent.component = componentName
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                context.startActivity(intent)
+//            }
+//        }
+//    }
+
+    fun startApplication(context: Context, packageName: String, bundle: Bundle? = null) {
+        if (!isInstalled(context, packageName)) {
+            ZTipUtil.toast(context, "($packageName)未安装!")
+            ZTipUtil.toast(context, "($packageName)未安装!")
+            return
+        }
+        val intent = context.packageManager.getLaunchIntentForPackage(packageName)
+        if (intent == null) {
+            ZTipUtil.toast(context, "($packageName)不可直接打开!")
+        } else {
+            intent.putExtras(bundle)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            ZActivityUtil.startActivity(context, intent)
+        }
+    }
+
 
 }

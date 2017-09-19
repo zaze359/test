@@ -84,9 +84,8 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : ZBasePresenter<ReadPacka
         val appList = ZAppUtil.getInstalledApplications(ZBaseApplication.getInstance())
         showList.clear()
         val filterList: ArrayList<String> = ArrayList()
-//        filterList.addAll(view.getStringArray(R.array.system_keep_app).toList())
-        filterList.addAll(view.getStringArray(R.array.system_keep_app_old).toList())
-//        filterList.addAll(view.getStringArray(R.array.system_un_keep_app).toList())
+        filterList.addAll(view.getStringArray(R.array.one_list).toList())
+        filterList.removeAll(view.getStringArray(R.array.two_list).toList())
         appList.filter {
             it.flags and ApplicationInfo.FLAG_SYSTEM > 0 && filterList.contains(it.packageName)
         }.mapTo(showList) { initEntity(it.packageName) }

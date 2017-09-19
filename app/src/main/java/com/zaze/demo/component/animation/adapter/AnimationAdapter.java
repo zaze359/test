@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.zaze.common.adapter.ZRecyclerAdapter;
 import com.zaze.demo.R;
 import com.zaze.demo.model.entity.AnimationEntity;
+import com.zaze.utils.ZActivityUtil;
 import com.zaze.utils.ZStringUtil;
 
 import java.util.List;
@@ -40,6 +41,14 @@ public class AnimationAdapter extends ZRecyclerAdapter<AnimationEntity, Animatio
     @Override
     public void onBindViewHolder(AnimationHolder holder, AnimationEntity value, int position) {
         holder.animationTitle.setText(ZStringUtil.parseString(value.getName()));
+        final AnimationEntity value1 = getItem(holder.getAdapterPosition());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                ZAppUtil.INSTANCE.startApplication(getContext(), "com.xuehai.response_launcher_teacher");
+                ZActivityUtil.startActivity(getContext(), value1.getClazz());
+            }
+        });
     }
 
     class AnimationHolder extends RecyclerView.ViewHolder {
