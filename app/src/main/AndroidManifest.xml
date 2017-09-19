@@ -44,6 +44,30 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name=".component.message.receiver.TestBroadcastReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.xh.message.testappid" />
+            </intent-filter>
+        </receiver>
+
+        <!-- 测试接收推送 start -->
+        <service android:name=".component.message.service.MyService" />
+        <!-- 测试接收推送 end -->
+
+        <!-- contentProvider start -->
+        <provider
+            android:name=".component.provider.ZazeProvider"
+            android:authorities="com.zaze.user.provider" />
+
+        <activity
+            android:name=".component.provider.ui.ProviderActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <!-- contentProvider end -->
+
         <activity android:name=".component.animation.ui.AnimationActivity" />
         <activity android:name=".component.rxandroid.RxAndroidActivity" />
         <activity android:name=".component.time.TimeActivity" />
@@ -55,16 +79,6 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".component.gps.ui.GpsActivity" />
 
-        <receiver
-            android:name=".component.message.receiver.TestBroadcastReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.xh.message.testappid" />
-            </intent-filter>
-        </receiver>
-        <!-- 测试接收推送 -->
-        <service android:name=".component.message.service.MyService" />
-
         <activity
             android:name=".component.xbus.ui.EventBusActivity"
             android:screenOrientation="portrait"
@@ -74,23 +88,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
-        <service android:name="com.zaze.aarrepo.commons.task.service.TaskService" />
-
         <activity
             android:name=".component.task.ui.TaskActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
-        <!-- contentProvider -->
-        <provider
-            android:name=".component.provider.ZazeProvider"
-            android:authorities="com.zaze.user.provider" />
-
-        <activity
-            android:name=".component.provider.ui.ProviderActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-        <!-- contentProvider -->
 
         <activity
             android:name=".component.readpackage.ui.ReadPackageActivity"

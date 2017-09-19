@@ -36,7 +36,6 @@ public class AnimationActivity extends ZBaseActivity implements AnimationView {
     private AnimationAdapter adapter;
     private AnimationPresenter presenter;
 
-
     @Override
     protected boolean isNeedHead() {
         return false;
