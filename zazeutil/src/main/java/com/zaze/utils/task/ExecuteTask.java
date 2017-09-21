@@ -15,6 +15,8 @@ public class ExecuteTask extends TaskEntity {
     public ExecuteTask(TaskEntity entity) {
         setTaskId(entity.getTaskId());
         setAction(entity.getAction());
+        setJsonData(entity.getJsonData());
+        setExecuteTime(entity.getExecuteTime());
         setLoopTime(entity.getLoopTime());
     }
 
