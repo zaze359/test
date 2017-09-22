@@ -59,11 +59,7 @@ public abstract class ZRecyclerAdapter<V, H extends RecyclerView.ViewHolder> ext
 
     @Override
     public void onBindViewHolder(H holder, int position) {
-        if (dataList != null && dataList.size() > 0) {
-            onBindViewHolder(holder, dataList.get(position), position);
-        } else {
-            onBindViewHolder(holder, null, position);
-        }
+        onBindView(holder, getItem(position), position);
     }
 
     @Override
@@ -99,5 +95,5 @@ public abstract class ZRecyclerAdapter<V, H extends RecyclerView.ViewHolder> ext
 
     public abstract H createViewHolder(View convertView);
 
-    public abstract void onBindViewHolder(H holder, V value, int position);
+    public abstract void onBindView(H holder, V value, int position);
 }

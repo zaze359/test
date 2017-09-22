@@ -1,5 +1,6 @@
 package com.zaze.demo.component.animation.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -39,14 +40,14 @@ public class AnimationAdapter extends ZRecyclerAdapter<AnimationEntity, Animatio
     }
 
     @Override
-    public void onBindViewHolder(AnimationHolder holder, AnimationEntity value, int position) {
+    public void onBindView(AnimationHolder holder, final AnimationEntity value, int position) {
         holder.animationTitle.setText(ZStringUtil.parseString(value.getName()));
-        final AnimationEntity value1 = getItem(holder.getAdapterPosition());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                ZAppUtil.INSTANCE.startApplication(getContext(), "com.xuehai.response_launcher_teacher");
-                ZActivityUtil.startActivity(getContext(), value1.getClazz());
+                if (getContext() instanceof Activity) {
+                    ZActivityUtil.makeSceneTransitionAnimation((Activity) getContext(), value.getClazz());
+                }
             }
         });
     }
@@ -55,9 +56,11 @@ public class AnimationAdapter extends ZRecyclerAdapter<AnimationEntity, Animatio
         @Bind(R.id.animation_title)
         TextView animationTitle;
 
-        public AnimationHolder(View itemView) {
+        AnimationHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
     }
+
+    // --------------------------------------------------
 }

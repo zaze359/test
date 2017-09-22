@@ -40,7 +40,7 @@ public class TableAdapter extends ZUltimateRecycleAdapter<TableEntity, TableAdap
     }
 
     @Override
-    public void onBindViewHolder(AppItemHolder holder, TableEntity value, int position) {
+    public void onBindView(AppItemHolder holder, TableEntity value, int position) {
         holder.itemToolName.setText(value.getName());
     }
 

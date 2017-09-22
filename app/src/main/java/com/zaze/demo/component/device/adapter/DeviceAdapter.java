@@ -40,7 +40,7 @@ public class DeviceAdapter extends ZUltimateRecycleAdapter<DeviceStatus, DeviceA
     }
 
     @Override
-    public void onBindViewHolder(DeviceHolder deviceHolder, DeviceStatus deviceStatus, int i) {
+    public void onBindView(DeviceHolder deviceHolder, DeviceStatus deviceStatus, int i) {
         deviceHolder.itemDeviceTagTv.setText(ZStringUtil.parseString(deviceStatus.getTag()));
         deviceHolder.itemDeviceContentTv.setText(ZStringUtil.parseString(deviceStatus.getContent()));
     }

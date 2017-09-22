@@ -32,7 +32,7 @@ class ReadPackageAdapter(context: Context, data: Collection<PackageEntity>) : ZU
         return R.layout.list_item_app
     }
 
-    override fun onBindViewHolder(holder: PackageHolder, value: PackageEntity, position: Int) {
+    override fun onBindView(holder: PackageHolder, value: PackageEntity, position: Int) {
         val packageName = ZStringUtil.parseString(value.packageName)
         // --------------------------------------------------
         holder.itemAppNameTv!!.text = "应用名 : ${value.appName}"

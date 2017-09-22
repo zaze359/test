@@ -27,7 +27,7 @@ class FileAdapter(context: Context, data: Collection<FileEntity>) : ZUltimateRec
         return R.layout.list_item_file
     }
 
-    override fun onBindViewHolder(holder: FileItemHolder, value: FileEntity, position: Int) {
+    override fun onBindView(holder: FileItemHolder, value: FileEntity, position: Int) {
         val path = value.absPath
         holder.itemFileNameTv.text = path
         val iconText: String

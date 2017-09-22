@@ -101,7 +101,7 @@ public abstract class ZUltimateRecycleAdapter<V, VH extends RecyclerView.ViewHol
             ZOnClickHelper.setOnClickListener(holder.itemView, onClickListener);
         }
         if (position < getItemCount() && (customHeaderView != null ? position <= size : position < size) && (customHeaderView == null || position > 0)) {
-            this.onBindViewHolder(holder, getItem(position), position);
+            this.onBindView(holder, getItem(position), position);
         }
     }
 
@@ -182,9 +182,9 @@ public abstract class ZUltimateRecycleAdapter<V, VH extends RecyclerView.ViewHol
     }
 
     //
-    public abstract VH getViewHolder(View view, boolean isItem);
-
     public abstract int getViewLayoutId();
 
-    public abstract void onBindViewHolder(VH holder, V value, int position);
+    public abstract VH getViewHolder(View view, boolean isItem);
+
+    public abstract void onBindView(VH holder, V value, int position);
 }
