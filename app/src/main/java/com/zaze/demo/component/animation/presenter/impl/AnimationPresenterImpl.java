@@ -24,7 +24,11 @@ public class AnimationPresenterImpl implements AnimationPresenter {
     @Override
     public void getAnimationList() {
         List<AnimationEntity> list = new ArrayList<>();
-        list.add(new AnimationEntity("View Property Animator", AnimationActivity1.class));
+        list.add(new AnimationEntity("Scene Transition Animation", AnimationActivity1.class));
+        list.add(new AnimationEntity("Scene Transition Animation", AnimationActivity1.class));
+        list.add(new AnimationEntity("Scene Transition Animation", AnimationActivity1.class));
+        list.add(new AnimationEntity("Scene Transition Animation", AnimationActivity1.class));
+        list.add(new AnimationEntity("Scene Transition Animation", AnimationActivity1.class));
         view.showAnimationList(list);
 //        <string -array name="animation_titles">
 //        <item></item>

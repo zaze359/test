@@ -37,9 +37,9 @@ class ReadPackageActivity : ZBaseActivity(), ReadPackageView {
         headWidget.setText("查看包名", ZOrientation.CENTER)
         presenter = ReadPackagePresenterImpl(this)
 //        presenter?.getAllApkFile("/sdcard/")
-        presenter?.getAllInstallApp()
+//        presenter?.getAllInstallApp()
 //        presenter?.getUnSystemApp()
-//        presenter?.getAllSystemApp()
+        presenter?.getAllSystemApp()
 //        presenter?.getAssignInstallApp()
         ZOnClickHelper.setOnClickListener(package_extract_btn) {
             val keepApp = adapter!!.packageListStr

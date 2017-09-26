@@ -70,6 +70,7 @@
 
         <activity android:name=".component.animation.ui.AnimationActivity" />
         <activity android:name=".component.rxandroid.RxAndroidActivity" />
+
         <activity android:name=".component.time.TimeActivity" />
         <activity
             android:name=".component.toolbar.ToolBarDemoActivity"

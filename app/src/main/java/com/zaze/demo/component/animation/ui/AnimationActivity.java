@@ -29,12 +29,12 @@ import butterknife.ButterKnife;
  * @version : 2016-08-23 - 19:31
  */
 public class AnimationActivity extends ZBaseActivity implements AnimationView {
-    //
+    // --------------------------------------------------
     @Bind(R.id.animation_toolbar)
     Toolbar animationToolbar;
     @Bind(R.id.animation_recycler)
     RecyclerView animationRecycler;
-    //
+    // --------------------------------------------------
     private AnimationAdapter adapter;
     private AnimationPresenter presenter;
 

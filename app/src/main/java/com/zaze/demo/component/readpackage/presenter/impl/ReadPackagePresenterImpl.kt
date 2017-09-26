@@ -23,6 +23,7 @@ import rx.schedulers.Schedulers
  */
 class ReadPackagePresenterImpl(view: ReadPackageView) : ZBasePresenter<ReadPackageView>(view), ReadPackagePresenter {
     val showList = ArrayList<PackageEntity>()
+    // --------------------------------------------------
     override fun filterApp(matchStr: String) {
         Observable.fromCallable({
             showList
@@ -43,6 +44,7 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : ZBasePresenter<ReadPacka
                 })
     }
 
+    // --------------------------------------------------
     override fun getAllApkFile(dir: String) {
         showList.clear()
         val result = ZCommand.execRootCmdForRes("ls $dir *.apk")
@@ -79,7 +81,6 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : ZBasePresenter<ReadPacka
         view.showPackageList(showList)
     }
 
-
     override fun getAssignInstallApp() {
         val appList = ZAppUtil.getInstalledApplications(ZBaseApplication.getInstance())
         showList.clear()
@@ -92,8 +93,8 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : ZBasePresenter<ReadPacka
         view.showPackageList(showList)
     }
 
-
-    fun initEntity(packageName: String): PackageEntity {
+    // --------------------------------------------------
+    private fun initEntity(packageName: String): PackageEntity {
         val packageEntity = PackageEntity()
         val application = ZAppUtil.getApplicationInfo(ZBaseApplication.getInstance(), packageName)
         if (application != null) {
