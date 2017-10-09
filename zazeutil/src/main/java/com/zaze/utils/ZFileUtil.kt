@@ -16,7 +16,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock
  * @version : 2017-07-13 - 10:08
  */
 object ZFileUtil {
-    var showLog = true
+    var showLog = false
     private val needLock = true
     private val lock = ReentrantReadWriteLock()
     private fun writeLock(lock: ReadWriteLock) {
@@ -57,12 +57,26 @@ object ZFileUtil {
         return File(path).isDirectory
     }
 
-    fun isFileExist(filePath: String): Boolean {
+    fun isFileExist(filePath: String?): Boolean {
         return File(filePath).exists()
+    }
+
+    // --------------------------------------------------
+    /**
+     * [filePath] 文件路径
+     * [newFileName] 新文件名
+     */
+    fun rename(filePath: String?, newFileName: String): Boolean {
+        val file = File(filePath)
+        if (file.exists()) {
+            return File(filePath).renameTo(File(file.parentFile.absolutePath + File.separator + newFileName))
+        } else {
+            return false
+        }
     }
     // --------------------------------------------------
     /**
-     * @param filePath filePath
+     * [filePath] filePath
      * @return
      */
     fun createFile(filePath: String): File {
@@ -177,8 +191,6 @@ object ZFileUtil {
                 output.write(buffer, 0, temp)
                 temp = inputStream.read(buffer)
             }
-            //            String split = "\n-------------------------\n";
-            //            output.write(split.getBytes(), 0, split.length());
             output.flush()
         } catch (e: IOException) {
             e.printStackTrace()

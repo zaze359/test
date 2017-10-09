@@ -4,6 +4,7 @@ package com.zaze.demo.app;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.zaze.common.base.ZBaseApplication;
 import com.zaze.utils.ZDisplayUtil;
+import com.zaze.utils.ZFileUtil;
 import com.zaze.utils.cache.MemoryCache;
 
 /**
@@ -18,6 +19,7 @@ public class MyApplication extends ZBaseApplication {
     public void onCreate() {
         super.onCreate();
         ZDisplayUtil.init(this);
+        ZFileUtil.INSTANCE.setShowLog(true);
         MemoryCache.getInstance().setCacheLog(true);
         CrashReport.initCrashReport(getApplicationContext(), "900013682", false);
 //        receiver = new TestBroadcastReceiver();

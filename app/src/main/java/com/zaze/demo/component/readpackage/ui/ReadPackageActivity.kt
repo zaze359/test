@@ -14,9 +14,7 @@ import com.zaze.demo.component.readpackage.presenter.ReadPackagePresenter
 import com.zaze.demo.component.readpackage.presenter.impl.ReadPackagePresenterImpl
 import com.zaze.demo.component.readpackage.view.ReadPackageView
 import com.zaze.demo.model.entity.PackageEntity
-import com.zaze.utils.ZFileUtil
 import com.zaze.utils.ZOnClickHelper
-import com.zaze.utils.log.ZLog
 import kotlinx.android.synthetic.main.activity_read_package.*
 
 /**
@@ -30,21 +28,14 @@ class ReadPackageActivity : ZBaseActivity(), ReadPackageView {
     private var presenter: ReadPackagePresenter? = null
     private var adapter: ReadPackageAdapter? = null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_read_package)
         headWidget.setText("查看包名", ZOrientation.CENTER)
         presenter = ReadPackagePresenterImpl(this)
-//        presenter?.getAllApkFile("/sdcard/")
-//        presenter?.getAllInstallApp()
-//        presenter?.getUnSystemApp()
-        presenter?.getAllSystemApp()
-//        presenter?.getAssignInstallApp()
+        presenter?.getAppList()
         ZOnClickHelper.setOnClickListener(package_extract_btn) {
-            val keepApp = adapter!!.packageListStr
-            ZLog.i("package", keepApp)
-            ZFileUtil.writeToFile("${ZFileUtil.getSDCardRoot()}/zaze/z_app.txt", keepApp)
+            presenter?.extract(adapter?.dataList)
         }
 
         package_input_et.addTextChangedListener(object : TextWatcher {

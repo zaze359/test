@@ -21,7 +21,7 @@ public class DeviceModelImpl implements DeviceModel {
         List<DeviceStatus> list = new ArrayList<>();
         DeviceStatus deviceStatus = new DeviceStatus();
         deviceStatus.setTag("Machine Code");
-        deviceStatus.setContent(ZDeviceUtil.INSTANCE.getMachineCode(MyApplication.getInstance()));
+        deviceStatus.setContent(ZDeviceUtil.INSTANCE.getUUID(MyApplication.getInstance()));
         list.add(deviceStatus);
         // --------------------------------------------------
         deviceStatus = new DeviceStatus();

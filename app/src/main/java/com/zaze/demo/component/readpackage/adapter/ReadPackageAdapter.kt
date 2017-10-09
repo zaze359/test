@@ -58,20 +58,6 @@ class ReadPackageAdapter(context: Context, data: Collection<PackageEntity>) : ZU
 
     override fun onBindHeaderViewHolder(holder: RecyclerView.ViewHolder, position: Int) {}
 
-    val packageListStr: String
-        get() {
-            val packageEntityList = dataList
-            val builder = StringBuilder()
-            for (entity in packageEntityList) {
-                if (builder.isNotEmpty()) {
-                    builder.append(",\n")
-                }
-//                builder.append("${entity.appName} : ${entity.packageName}")
-                builder.append(entity.packageName)
-            }
-            return builder.toString()
-        }
-
     inner class PackageHolder(itemView: View, isItem: Boolean) : ZUltimateRecyclerViewHolder(itemView, isItem) {
         var itemAppIv: ImageView? = null
         var itemAppNameTv: TextView? = null

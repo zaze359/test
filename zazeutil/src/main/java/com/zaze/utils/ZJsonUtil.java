@@ -4,6 +4,7 @@ package com.zaze.utils;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.Collection;
@@ -49,13 +50,17 @@ public class ZJsonUtil {
         if (t == null) {
             return null;
         }
-        Gson gson = new Gson();
-        try {
-            return gson.toJson(t);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (t instanceof JSONObject || t instanceof JSONArray) {
+            return t.toString();
+        } else {
+            try {
+                Gson gson = new Gson();
+                return gson.toJson(t);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
         }
-        return null;
     }
 
     /**

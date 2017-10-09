@@ -31,33 +31,32 @@ object ZDeviceUtil {
         return (context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager).deviceId
     }
 
-    fun getMachineCode(context: Context): String {
-        val key = "getMachineCode"
-        var id = ZSharedPrefUtil.get(context, key, "")
+    fun getSimSerialNumber(context: Context): String? {
+        return (context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager).simSerialNumber
+    }
+
+    fun getUUID(context: Context): String {
+        val key = "getUUID"
+        var id = Build.SERIAL
         if (TextUtils.isEmpty(id)) {
-            val uuid: UUID
-            val androidId = getAndroidId(context)
-            try {
-                if ("9774d56d682e549c" != androidId) {
-                    uuid = UUID.nameUUIDFromBytes(androidId.toByteArray(charset("utf8")))
-                } else {
-                    val deviceId = getDeviceId(context)
-                    uuid = if (deviceId != null) {
-                        UUID.nameUUIDFromBytes(deviceId
-                                .toByteArray(charset("utf8")))
-                    } else {
-                        UUID.randomUUID()
+            id = getSimSerialNumber(context)
+            if (TextUtils.isEmpty(id)) {
+                id = getAndroidId(context)
+                if ("9774d56d682e549c" == id) {
+                    id = getDeviceId(context)
+                    if (TextUtils.isEmpty(id)) {
+                        id = ZSharedPrefUtil.get(context, key, "")
+                        if (TextUtils.isEmpty(id)) {
+                            id = UUID.randomUUID().toString()
+                            ZSharedPrefUtil.put(context, key, id)
+                        }
                     }
                 }
-            } catch (e: Exception) {
-                throw RuntimeException(e)
             }
-            id = uuid.toString()
-            ZSharedPrefUtil.put(context, key, id)
         }
-        return id
+        return id!!
     }
-    // --------------------------------------------------
+// --------------------------------------------------
 
     /**
      * @return 机器型号
@@ -73,8 +72,8 @@ object ZDeviceUtil {
         return Build.VERSION.RELEASE
     }
 
-    // --------------------------------------------------
-    // --------------------------------------------------
+// --------------------------------------------------
+// --------------------------------------------------
     /**
      * @return sdcard总空间大小
      */
@@ -88,7 +87,7 @@ object ZDeviceUtil {
     fun getSdFreeSpace(): Long {
         return ZFileUtil.getFreeSpace(Environment.getExternalStorageDirectory())
     }
-    // --------------------------------------------------
+// --------------------------------------------------
     /**
      * Data (内置sd卡 时 同 {@link #getSDTotalSpace()})
      * @return 获取机身总大小
@@ -105,7 +104,7 @@ object ZDeviceUtil {
         return ZFileUtil.getFreeSpace(Environment.getDataDirectory())
     }
 
-    // --------------------------------------------------
+// --------------------------------------------------
     /**
      * RAM
      * java 虚拟机 最大内存
@@ -133,7 +132,7 @@ object ZDeviceUtil {
         return Runtime.getRuntime().totalMemory()
     }
 
-    // --------------------------------------------------
-    // --------------------------------------------------
+// --------------------------------------------------
+// --------------------------------------------------
 
 }

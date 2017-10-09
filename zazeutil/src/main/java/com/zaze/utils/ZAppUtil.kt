@@ -1,7 +1,6 @@
 package com.zaze.utils
 
 import android.app.ActivityManager
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
@@ -11,6 +10,7 @@ import android.content.pm.ResolveInfo
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
+import android.os.Debug
 import android.os.Process
 import android.text.TextUtils
 import com.zaze.utils.log.ZLog
@@ -24,7 +24,6 @@ import java.io.File
  * @version : 2017-05-27 - 17:23
  */
 object ZAppUtil {
-
 
     /**
      * [context] context
@@ -240,10 +239,30 @@ object ZAppUtil {
      * @version 2017/5/31 - 下午2:59 1.0
      */
     fun getAppProcess(context: Context, packageName: String): ArrayList<ActivityManager.RunningAppProcessInfo> {
-        val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val activityManager = getActivityManager(context)
         val list = ArrayList<ActivityManager.RunningAppProcessInfo>()
         activityManager.runningAppProcesses.filterTo(list) { it.pkgList.contains(packageName) }
         return list
+    }
+
+    /**
+     * Description : MemoryInfo
+     * @author zaze
+     * @version 2017/10/9 - 下午1:51 1.0
+     */
+    fun getProcessMemoryInfo(context: Context, pids: IntArray): Array<out Debug.MemoryInfo>? {
+        return getActivityManager(context).getProcessMemoryInfo(pids)
+    }
+
+    fun getAppMemorySize(context: Context, packageName: String): Long {
+        val runningAppProcessInfoList = ZAppUtil.getAppProcess(context, packageName)
+        var memorySize: Long = 0L
+        runningAppProcessInfoList
+                .asSequence()
+                .mapNotNull { getProcessMemoryInfo(context, intArrayOf(it.pid)) }
+                .filter { it.isNotEmpty() }
+                .forEach { memorySize = memorySize.plus(it[0].dalvikPrivateDirty) }
+        return memorySize
     }
 
     /**
@@ -265,7 +284,7 @@ object ZAppUtil {
      * @version 2017/5/22 - 下午3:32 1.0
      */
     fun killAppProcess(context: Context, packageName: String) {
-        val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val activityManager = getActivityManager(context)
         activityManager.killBackgroundProcesses(packageName)
         val processInfoList = getAppProcess(context, packageName);
         for (processInfo in processInfoList) {
@@ -332,5 +351,11 @@ object ZAppUtil {
         }
     }
 
+
+    // --------------------------------------------------
+    // --------------------------------------------------
+    private fun getActivityManager(context: Context): ActivityManager {
+        return context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+    }
 
 }

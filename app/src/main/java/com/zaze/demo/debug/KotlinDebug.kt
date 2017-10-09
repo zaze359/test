@@ -1,7 +1,8 @@
 package com.zaze.demo.debug
 
 import android.util.Base64
-import com.zaze.utils.ZAppUtil
+import com.zaze.demo.app.MyApplication
+import com.zaze.utils.ZDeviceUtil
 import com.zaze.utils.ZEncryptionUtil
 import com.zaze.utils.ZFileUtil
 import com.zaze.utils.ZStringUtil
@@ -18,14 +19,16 @@ import java.util.*
  */
 class KotlinDebug {
 
-    fun test(): String {
+    fun test() {
+        var result: String? = null
 //        return showLog("print", { print() })
 //        showLog("createDimens", { createDimens(1f, ZDisplayUtil.SCREEN_DENSITY) })
-        createDeveloperToken()
+//        createDeveloperToken()
 //        return showLog("createDeveloperAccount", { createDeveloperToken() })
 //        return showLog("clearCacheData", { clearCacheData() })
 //        return showLog("searchFile", { searchFile() })
-        return ""
+        result = ZDeviceUtil.getUUID(MyApplication.getInstance())
+        ZLog.i(ZTag.TAG_DEBUG, result)
     }
 
     private fun createDimens(baseDensity: Float, screenDensity: Float): String {
