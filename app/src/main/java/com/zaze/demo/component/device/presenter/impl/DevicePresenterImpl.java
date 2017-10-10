@@ -25,7 +25,7 @@ public class DevicePresenterImpl extends ZBasePresenter<DeviceView> implements D
     public void getDeviceInfo() {
         view.showDeviceInfo(deviceModel.getDeviceInfo());
         String macAddress = ZNetUtil.getWLANMacAddress();
-        view.showMacAddress(macAddress);
+        view.showMacAddress("WLAN MAC地址 : " + macAddress);
 
     }
 }

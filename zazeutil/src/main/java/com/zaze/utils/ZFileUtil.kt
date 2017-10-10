@@ -69,7 +69,11 @@ object ZFileUtil {
     fun rename(filePath: String?, newFileName: String): Boolean {
         val file = File(filePath)
         if (file.exists()) {
-            return File(filePath).renameTo(File(file.parentFile.absolutePath + File.separator + newFileName))
+            val newFile = File(file.parentFile.absolutePath + File.separator + newFileName)
+            if (newFile.exists()) {
+                ZFileUtil.deleteFile(newFile)
+            }
+            return File(filePath).renameTo(newFile)
         } else {
             return false
         }
