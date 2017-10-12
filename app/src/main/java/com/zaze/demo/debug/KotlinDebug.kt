@@ -1,7 +1,9 @@
 package com.zaze.demo.debug
 
+import android.app.KeyguardManager
+import android.content.Context
 import android.util.Base64
-import com.zaze.utils.ZCompressUtil
+import com.zaze.demo.app.MyApplication
 import com.zaze.utils.ZEncryptionUtil
 import com.zaze.utils.ZFileUtil
 import com.zaze.utils.ZStringUtil
@@ -50,8 +52,11 @@ class KotlinDebug {
 //        phoneInfo += ", SDK: " + android.os.Build.VERSION.SDK_INT + "\n"
 //        result = phoneInfo
         // --------------------------------------------------
-        ZFileUtil.writeToFile("/sdcard/zaze/aaa.txt", "aaaaaaaaaa")
-        ZCompressUtil.zipFolder("/sdcard/xuehai/log", "/sdcard/xuehai/zip/aa.zip")
+//        ZFileUtil.writeToFile("/sdcard/zaze/aaa.txt", "aaaaaaaaaa")
+//        ZCompressUtil.zipFolder("/sdcard/xuehai/log", "/sdcard/xuehai/zip/aa.zip")
+        // --------------------------------------------------
+        val keyguardManager = MyApplication.getInstance().getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+        result = "" + keyguardManager.isKeyguardSecure
         ZLog.i(ZTag.TAG_DEBUG, result)
     }
 
@@ -70,10 +75,11 @@ class KotlinDebug {
             }
             dp++
         } while (dp <= 2000)
+
         builder.append("</resources>")
         builderBase.append("</resources>")
-        ZFileUtil.writeToFile("${ZFileUtil.getSDCardRoot()}/z_dimens/dimens.xml", builder.toString())
-        ZFileUtil.writeToFile("${ZFileUtil.getSDCardRoot()}/z_dimens/dimens_base.xml", builderBase.toString())
+        ZFileUtil.writeToFile("${ZFileUtil.getSDCardRoot()}/zaze/z_dimens/dimens.xml", builder.toString())
+        ZFileUtil.writeToFile("${ZFileUtil.getSDCardRoot()}/zaze/z_dimens/dimens_base.xml", builderBase.toString())
         return builder.toString()
     }
 

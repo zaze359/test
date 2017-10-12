@@ -42,6 +42,7 @@
         <item>flipboard.cn</item>
         <item>viva.android.pad</item>
         <item>com.codeaurora.fmradio</item><!--收音机-->
+        <item>com.sohu.inputmethod.sogouoem</item><!--搜狗输入法-->
     </string-array>
 
     <!-- ~~~~~~~~~~~~~~~~~~~android 系统级应用~~~~~~~~~~~~~~~~~~~~~~~~  -->
@@ -404,100 +405,98 @@
     </string-array>
     <!-- ~~~~~~~~~~~~~~~~~~~测试~~~~~~~~~~~~~~~~~~~~~~~~  -->
     <string-array name="test_app">
-        <item>com.android.bookmarkprovider</item><!--书签提供程序-->
-        <item>com.android.calllogbackup</item><!--通话记录备份/还原-->
-        <item>com.android.carrierconfig</item><!--com.android.carrierconfig-->
-        <item>com.android.cellbroadcastreceiver</item><!--小区广播-->
-        <item>com.android.cts.ctsshim</item><!--com.android.cts.ctsshim-->
-        <item>com.android.cts.priv.ctsshim</item><!--com.android.cts.priv.ctsshim-->
-        <item>com.android.deskclock</item><!--时钟-->
-        <item>com.android.providers.calendar</item><!--日历存储-->
-        <item>com.android.egg</item><!--Android Easter Egg-->
-        <item>com.android.emergency</item><!--急救信息-->
-        <item>com.android.exchange</item><!--Exchange服务-->
-        <item>com.android.frameworks.telresources</item><!--com.android.frameworks.telresources-->
-        <item>com.android.managedprovisioning</item><!--工作资料设置-->
-        <item>com.android.mtp</item><!--MTP 主机-->
-        <item>com.android.poweroffhandlerapp</item><!--关机处理程序应用-->
-        <item>com.android.poweronalert</item><!--com.android.poweronalert-->
-        <item>com.android.printservice.recommendation</item><!--Print Service Recommendation Service-->
-        <item>com.android.providers.blockednumber</item><!--存储已屏蔽的号码-->
-        <item>com.android.provision</item><!--com.android.provision-->
-        <item>com.android.smspush</item><!--com.android.smspush-->
-        <item>com.android.statementservice</item><!--意图筛选器验证服务-->
-        <item>com.android.storagemanager</item><!--存储空间管理器-->
-        <item>com.android.timerswitch</item><!--定时开关机-->
-        <item>com.android.wallpaperbackup</item><!--com.android.wallpaperbackup-->
-        <item>com.android.webview</item><!--Android System WebView-->
-
-        <item>com.dolby.daxappUI</item><!--Dolby-->
-        <item>com.dolby</item><!--Dolby Service-->
-        <item>com.dsi.ant.server</item><!--ANT HAL Service-->
-        <item>com.goodix.rawdata</item><!--RawDataTest-->
-        <item>com.lctautotest.camera</item><!--CameraTest-->
-        <item>com.lenovo.license</item><!--LenovoUserExperience-->
-        <item>com.lenovo.lsf.device</item><!--设备服务-->
-
-        <item>com.lenovo.newue.service</item><!--用户体验-->
-        <item>com.lenovo.ota</item><!--系统升级-->
-        <item>com.lenovo.setupwizard</item><!--开机向导-->
-        <item>com.longcheertel.audioft</item><!--AudioFT-->
-        <item>com.longcheertel.midtest</item><!--装配测试-->
-        <item>com.motorola.demo</item><!--演示模式-->
         <item>com.oma.drm.server</item><!--OMA DRM 引擎服务器-->
-        <item>com.oma.drm</item><!--OMA DRM 引擎-->
-        <item>com.qrd.omadownload</item><!--com.qrd.omadownload-->
-        <item>com.qti.datastoragecleanerservice</item><!--数据存储清除程序服务-->
-        <item>com.qti.dpmserviceapp</item><!--com.qti.dpmserviceapp-->
-        <item>com.qti.launcherunreadservice</item><!--启动程序未读消息服务-->
-        <item>com.qti.qualcomm.datastatusnotification</item><!--com.qti.qualcomm.datastatusnotification-->
-        <item>com.qti.qualcomm.deviceinfo</item><!--设备信息-->
-        <item>com.qti.service.colorservice</item><!--com.qti.service.colorservice-->
-        <item>com.qti.storagecleaner</item><!--手机储存空间清理-->
-        <item>com.qti.xdivert</item><!--Smart-Divert-->
-        <item>com.qualcomm.embms</item><!--com.qualcomm.embms-->
-        <item>com.qualcomm.fastdormancy</item><!--com.qualcomm.fastdormancy-->
-        <item>com.qualcomm.location</item><!--LocationServices-->
-        <item>com.qualcomm.qcrilmsgtunnel</item><!--com.qualcomm.qcrilmsgtunnel-->
-        <item>com.qualcomm.qti.accesscache</item><!--CarrierAccessCacheService-->
-        <item>com.qualcomm.qti.appnetaccess</item><!--应用网络访问-->
-        <item>com.qualcomm.qti.auth.fidocryptoservice</item><!--FidoCryptoService-->
-        <item>com.qualcomm.qti.auth.fidosuiservice</item><!--FidoSuiService-->
-        <item>com.qualcomm.qti.auth.sampleauthenticatorservice</item><!--SampleAuthenticatorService-->
-        <item>com.qualcomm.qti.auth.sampleextauthservice</item><!--SampleExtAuthService-->
-        <item>com.qualcomm.qti.auth.secureextauthservice</item><!--SecureExtAuthService-->
-        <item>com.qualcomm.qti.auth.securesampleauthservice</item><!--SecureSampleAuthService-->
-        <item>com.qualcomm.qti.CdmaCallOptions</item><!--com.qualcomm.qti.CdmaCallOptions-->
-        <item>com.qualcomm.qti.confdialer</item><!--配置拨号器-->
-        <item>com.qualcomm.qti.extsettings</item><!--com.qualcomm.qti.extsettings.ExtSettingsApplication-->
-        <item>com.qualcomm.qti.ims</item><!--com.qualcomm.qti.ims-->
-        <item>com.qualcomm.qti.lunarinfo</item><!--LunarInfoProvider-->
-        <item>com.qualcomm.qti.networksetting</item><!--com.qualcomm.qti.networksetting-->
-        <item>com.qualcomm.qti.phonefeature</item><!--com.qualcomm.qti.phonefeature.AppGlobals-->
-        <item>com.qualcomm.qti.qcom_accesslogkit</item><!--com.qualcomm.qti.qcom_accesslogkit-->
-        <item>com.qualcomm.qti.qs</item><!--com.qualcomm.qti.qs-->
-        <item>com.qualcomm.qti.securemsm.mdtp</item><!--MdtpService-->
-        <item>com.qualcomm.qti.services.secureui</item><!--Secure UI Service-->
-        <item>com.qualcomm.qti.simsettings</item><!--com.qualcomm.qti.simsettings-->
-        <item>com.qualcomm.qti.StatsPollManager</item><!--com.qualcomm.qti.StatsPollManager-->
-        <item>com.qualcomm.qti.telephony.vodafonepack</item><!--com.qualcomm.qti.telephony.vodafonepack.CarrierpackApplication-->
+        <item>com.lctautotest.camera</item><!--CameraTest-->
         <item>com.qualcomm.qti.telephonyservice</item><!--com.qualcomm.qti.telephonyservice-->
-        <item>com.qualcomm.qti.tetherservice</item><!--com.qualcomm.qti.tetherservice-->
-        <item>com.qualcomm.shutdownlistner</item><!--com.qualcomm.shutdownlistner-->
-        <item>com.qualcomm.simcontacts</item><!--SIM卡联系人-->
-        <item>com.qualcomm.timeservice</item><!--com.qualcomm.timeservice-->
-        <item>com.qualcomm.wfd.service</item><!--WFD 服务-->
-        <item>com.quicinc.cne.CNEService</item><!--com.quicinc.cne.CNEService.CNEServiceApp-->
+        <item>com.qualcomm.qti.auth.securesampleauthservice</item><!--SecureSampleAuthService-->
         <item>com.quicinc.wbcserviceapp</item><!--WbcService-->
-        <item>com.sohu.inputmethod.sogouoem</item><!--搜狗输入法-->
-        <item>com.svox.pico</item><!--Pico TTS-->
-        <item>com.wdstechnology.android.kryten</item><!--OTA 接入点配置-->
+        <item>com.qualcomm.qti.auth.fidocryptoservice</item><!--FidoCryptoService-->
+        <item>com.android.timerswitch</item><!--定时开关机-->
+        <item>com.android.calendar</item><!--日历-->
+        <item>com.qti.launcherunreadservice</item><!--启动程序未读消息服务-->
+        <item>com.dsi.ant.server</item><!--ANT HAL Service-->
+        <item>com.android.calllogbackup</item><!--通话记录备份/还原-->
+        <item>com.qualcomm.qti.qcom_accesslogkit</item><!--com.qualcomm.qti.qcom_accesslogkit-->
+        <item>com.longcheertel.audioft</item><!--AudioFT-->
+        <item>com.qti.xdivert</item><!--Smart-Divert-->
+        <item>com.lenovo.newue.service</item><!--用户体验-->
+        <item>com.android.mtp</item><!--MTP 主机-->
+        <item>com.goodix.rawdata</item><!--RawDataTest-->
+        <item>com.android.frameworks.telresources</item><!--com.android.frameworks.telresources-->
+        <item>com.qualcomm.wfd.service</item><!--WFD 服务-->
+        <item>com.android.managedprovisioning</item><!--工作资料设置-->
+        <item>com.android.wallpaperbackup</item><!--com.android.wallpaperbackup-->
+        <item>com.android.poweronalert</item><!--com.android.poweronalert-->
+        <item>com.oma.drm</item><!--OMA DRM 引擎-->
+        <item>com.qti.service.colorservice</item><!--com.qti.service.colorservice-->
+        <item>com.qti.datastoragecleanerservice</item><!--数据存储清除程序服务-->
+        <item>com.qualcomm.timeservice</item><!--com.qualcomm.timeservice-->
+        <item>com.qualcomm.qcrilmsgtunnel</item><!--com.qualcomm.qcrilmsgtunnel-->
+        <item>com.qualcomm.qti.simsettings</item><!--com.qualcomm.qti.simsettings-->
         <item>com.xh.xhsdkdemo</item><!--XHSdkDemo-->
-        <item>com.xuehai.messagedemo</item><!--PNMessageDemo-->
-        <item>com.xuehai.response_launcher_teacher</item><!--智通云-->
+        <item>com.android.smspush</item><!--com.android.smspush-->
+        <item>com.android.printservice.recommendation</item><!--Print Service Recommendation Service-->
+        <item>com.qualcomm.fastdormancy</item><!--com.qualcomm.fastdormancy-->
+        <item>com.qualcomm.qti.auth.sampleextauthservice</item><!--SampleExtAuthService-->
+        <item>com.android.poweroffhandlerapp</item><!--关机处理程序应用-->
+        <item>com.motorola.demo</item><!--演示模式-->
+        <item>com.qualcomm.qti.StatsPollManager</item><!--com.qualcomm.qti.StatsPollManager-->
+        <item>com.dolby</item><!--Dolby Service-->
+        <item>com.android.provision</item><!--com.android.provision-->
+        <item>com.qti.qualcomm.deviceinfo</item><!--设备信息-->
+        <item>com.android.carrierconfig</item><!--com.android.carrierconfig-->
+        <item>com.android.cts.priv.ctsshim</item><!--com.android.cts.priv.ctsshim-->
+        <item>com.qualcomm.qti.phonefeature</item><!--com.qualcomm.qti.phonefeature.AppGlobals-->
+        <item>com.qualcomm.qti.CdmaCallOptions</item><!--com.qualcomm.qti.CdmaCallOptions-->
+        <item>com.qualcomm.qti.tetherservice</item><!--com.qualcomm.qti.tetherservice-->
+        <item>com.qti.qualcomm.datastatusnotification</item><!--com.qti.qualcomm.datastatusnotification-->
+        <item>com.qualcomm.qti.auth.sampleauthenticatorservice</item><!--SampleAuthenticatorService-->
+        <item>com.android.providers.calendar</item><!--日历存储-->
+        <item>com.android.webview</item><!--Android System WebView-->
+        <item>com.lenovo.ota</item><!--系统升级-->
+        <item>com.android.providers.blockednumber</item><!--存储已屏蔽的号码-->
+        <item>com.qualcomm.qti.ims</item><!--com.qualcomm.qti.ims-->
+        <item>com.longcheertel.midtest</item><!--装配测试-->
+        <item>com.qualcomm.qti.networksetting</item><!--com.qualcomm.qti.networksetting-->
+        <item>com.lenovo.setupwizard</item><!--开机向导-->
+        <item>com.android.cellbroadcastreceiver</item><!--小区广播-->
+        <item>com.android.bookmarkprovider</item><!--书签提供程序-->
         <item>org.codeaurora.bluetooth</item><!--org.codeaurora.bluetooth-->
-        <item>org.codeaurora.btmultisim</item><!--org.codeaurora.btmultisim-->
-        <item>org.codeaurora.ims</item><!--org.codeaurora.ims-->
+        <item>com.qualcomm.qti.qs</item><!--com.qualcomm.qti.qs-->
+        <item>com.qualcomm.qti.extsettings</item><!--com.qualcomm.qti.extsettings.ExtSettingsApplication-->
+        <item>com.qualcomm.qti.telephony.vodafonepack</item><!--com.qualcomm.qti.telephony.vodafonepack.CarrierpackApplication-->
+        <item>com.qualcomm.qti.services.secureui</item><!--Secure UI Service-->
+        <item>com.qti.storagecleaner</item><!--手机储存空间清理-->
+        <item>com.android.exchange</item><!--Exchange服务-->
+        <item>com.android.documentsui</item><!--文件-->
+        <item>com.android.cts.ctsshim</item><!--com.android.cts.ctsshim-->
+        <item>com.qualcomm.qti.auth.secureextauthservice</item><!--SecureExtAuthService-->
+        <item>com.lenovo.lsf.device</item><!--设备服务-->
+        <item>com.qrd.omadownload</item><!--com.qrd.omadownload-->
         <item>org.simalliance.openmobileapi.service</item><!--SmartcardService-->
+        <item>com.qualcomm.location</item><!--LocationServices-->
+        <item>com.svox.pico</item><!--Pico TTS-->
+        <item>com.qti.dpmserviceapp</item><!--com.qti.dpmserviceapp-->
+        <item>com.qualcomm.qti.confdialer</item><!--配置拨号器-->
+        <item>com.qualcomm.shutdownlistner</item><!--com.qualcomm.shutdownlistner-->
+        <item>com.xuehai.messagedemo</item><!--PNMessageDemo-->
+        <item>com.qualcomm.qti.appnetaccess</item><!--应用网络访问-->
+        <item>com.qualcomm.qti.auth.fidosuiservice</item><!--FidoSuiService-->
+        <item>com.android.statementservice</item><!--意图筛选器验证服务-->
+        <item>org.codeaurora.btmultisim</item><!--org.codeaurora.btmultisim-->
+        <item>com.qualcomm.embms</item><!--com.qualcomm.embms-->
+        <item>org.codeaurora.ims</item><!--org.codeaurora.ims-->
+        <item>com.wdstechnology.android.kryten</item><!--OTA 接入点配置-->
+        <item>com.qualcomm.qti.securemsm.mdtp</item><!--MdtpService-->
+        <item>com.quicinc.cne.CNEService</item><!--com.quicinc.cne.CNEService.CNEServiceApp-->
+        <item>com.android.deskclock</item><!--时钟-->
+        <item>com.lenovo.license</item><!--LenovoUserExperience-->
+        <item>com.qualcomm.qti.lunarinfo</item><!--LunarInfoProvider-->
+        <item>com.qualcomm.simcontacts</item><!--SIM卡联系人-->
+        <item>com.android.emergency</item><!--急救信息-->
+        <item>com.dolby.daxappUI</item><!--Dolby-->
+        <item>com.android.egg</item><!--Android Easter Egg-->
+        <item>com.android.storagemanager</item><!--存储空间管理器-->
+        <item>com.qualcomm.qti.accesscache</item><!--CarrierAccessCacheService-->
     </string-array>
 </resources>

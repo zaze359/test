@@ -53,7 +53,7 @@ public class DeviceActivity extends ZBaseActivity implements DeviceView {
                 ZDisplayUtil.SCREEN_WIDTH_PIXELS,
                 ZDisplayUtil.SCREEN_HEIGHT_PIXELS)
         );
-        deviceDensity.setText(ZStringUtil.format("屏幕密度 : %1.2f", ZDisplayUtil.SCREEN_DENSITY));
+        deviceDensity.setText(ZStringUtil.format("屏幕密度 : %s(%d)", ZDisplayUtil.getDensityDpiName(), ZDisplayUtil.SCREEN_DENSITY_DPI));
         presenter = new DevicePresenterImpl(this);
         presenter.getDeviceInfo();
     }
