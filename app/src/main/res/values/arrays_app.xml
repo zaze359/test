@@ -5,88 +5,104 @@
         <!--公司应用-->
         <item>com.xuehai.xuehailauncher</item>
         <item>com.xuehai.xuehailauncher_tea</item>
+        <item>com.xuehai.launcher</item>
+        <item>com.xuehai.response_launcher_teacher</item>
+        <item>com.xuehai.assist</item>
         <item>com.zhitongyun.wifimanager</item>
         <item>com.zaze.demo</item>
     </string-array>
 
     <!-- ~~~~~~~~~~~~~~~~~~~ 杂七杂八的需要删除的应用 ~~~~~~~~~~~~~~~~~~~~~~~~  -->
     <string-array name="un_keep_app">
-        <item>com.sina.weibotab</item>
-        <item>com.tencent.pad.qq</item>
-        <item>com.tencent.padbrowser</item>
-        <item>com.youku.pad</item>
-        <item>com.zhangyue.newspaper</item>
-        <item>flipboard.cn</item>
-        <item>com.qiyi.video.pad</item>
-        <item>viva.android.pad</item>
-        <item>com.imgo.pad</item>
-        <item>com.infraware.PolarisOfficeStdForTablet</item>
-        <item>com.chaozh.iReaderFree15</item>
-        <item>com.brid.awesomenote</item>
-        <item>com.baidu.netdisk</item>
-        <item>com.dama.paperartist</item>
         <item>cn.wps.moffice_eng</item><!--WPS Office-->
         <item>com.audiocn.karaoke.huawei.pad</item><!--天籁K歌-->
+        <item>com.baidu.netdisk</item>
+        <item>com.baidu.searchbox_samsung</item><!--搜索-->
+        <item>com.brid.awesomenote</item>
+        <item>com.chaozh.iReaderFree15</item>
+        <item>com.dama.paperartist</item>
         <item>com.iflytek.speechsuite</item><!--讯飞语音引擎-->
+        <item>com.imgo.pad</item>
+        <item>com.infraware.PolarisOfficeStdForTablet</item>
+        <item>com.microsoft.office.excel</item><!--Excel-->
+        <item>com.microsoft.office.onenote</item><!--OneNote-->
+        <item>com.microsoft.office.powerpoint</item><!--PowerPoint-->
+        <item>com.microsoft.office.word</item><!--Word-->
+        <item>com.qiyi.video.pad</item>
+        <item>com.sina.weibotab</item>
         <item>com.sohu.tv</item><!--搜狐视频HD-->
+        <item>com.tencent.engine</item><!--QQengine-->
+        <item>com.tencent.pad.qq</item>
+        <item>com.tencent.padbrowser</item>
+        <item>com.tencent.update</item><!--QQupdate-->
         <item>com.UCMobile</item><!--UC浏览器-->
+        <item>com.youku.pad</item>
+        <item>com.zhangyue.newspaper</item>
+        <item>flipboard.boxer.app</item><!--简报-->
+        <item>flipboard.cn</item>
+        <item>viva.android.pad</item>
+        <item>com.codeaurora.fmradio</item><!--收音机-->
     </string-array>
 
     <!-- ~~~~~~~~~~~~~~~~~~~android 系统级应用~~~~~~~~~~~~~~~~~~~~~~~~  -->
     <string-array name="android_keep_app">
-        <item>android</item>
-        <item>com.android.backupconfirm</item>
-        <item>com.android.browser.provider</item>
-        <item>com.android.captiveportallogin</item>
-        <item>com.android.certinstaller</item>
-        <item>com.android.clipboardsaveservice</item>
-        <item>com.android.defcontainer</item>
-        <item>com.android.dreams.basic</item>
-        <item>com.android.externalstorage</item>
-        <item>com.android.facelock</item>
-        <item>com.android.htmlviewer</item>
-        <item>com.android.inputdevices</item>
-        <item>com.android.keychain</item>
-        <item>com.android.location.fused</item>
-        <item>com.android.mms.service</item>
-        <item>com.android.MtpApplication</item>
-        <item>com.android.musicfx</item>
-        <item>com.android.onetimeinitializer</item>
-        <item>com.android.packageinstaller</item>
-        <item>com.android.pacprocessor</item>
-        <item>com.android.phone</item>
-        <item>com.android.Preconfig</item>
-        <item>com.android.printspooler</item>
-        <item>com.android.providers.applications</item>
-        <item>com.android.providers.downloads.ui</item>
-        <item>com.android.providers.downloads</item>
-        <item>com.android.providers.drm</item>
-        <item>com.android.providers.media</item>
-        <item>com.android.providers.security</item>
-        <item>com.android.providers.settings</item>
-        <item>com.android.providers.telephony</item>
-        <item>com.android.providers.userdictionary</item>
-        <item>com.android.proxyhandler</item>
-        <item>com.android.server.telecom</item>
-        <item>com.android.settings.mt</item>
-        <item>com.android.sharedstoragebackup</item>
-        <item>com.android.shell</item>
-        <item>com.android.stk</item>
-        <item>com.android.systemui</item>
-        <item>com.android.vpndialogs</item>
-        <item>com.android.wallpaper.livepicker</item>
-        <item>com.android.wallpapercropper</item>
-        <item>com.google.android.apps.uploader</item>
-        <item>com.google.android.backup</item>
-        <item>com.google.android.feedback</item>
-        <item>com.google.android.gsf.login</item>
-        <item>com.google.android.gsf</item>
-        <item>com.google.android.location</item>
-        <item>com.google.android.partnersetup</item>
-        <item>com.google.android.setupwizard</item>
-        <item>com.google.android.syncadapters.calendar</item>
-        <item>com.google.android.syncadapters.contacts</item>
-        <item>com.google.android.webview</item>
+        <item>android</item><!--Android 系统-->
+        <item>android.ext.services</item><!--Android 服务库-->
+        <item>android.ext.shared</item><!--Android 共享库-->
+        <item>com.android.dreams.phototable</item><!--照片屏幕保护程序-->
+        <item>com.android.backupconfirm</item><!--com.android.backupconfirm-->
+        <item>com.android.browser.provider</item><!---->
+        <item>com.android.captiveportallogin</item><!--CaptivePortalLogin-->
+        <item>com.android.certinstaller</item><!--证书安装程序-->
+        <item>com.android.clipboardsaveservice</item><!---->
+        <item>com.android.defcontainer</item><!--软件包权限帮助程序-->
+        <item>com.android.dreams.basic</item><!--基本互动屏保-->
+        <item>com.android.externalstorage</item><!--外部存储设备-->
+        <item>com.android.facelock</item><!---->
+        <item>com.android.htmlviewer</item><!--HTML 查看程序-->
+        <item>com.android.inputdevices</item><!--输入设备-->
+        <item>com.android.keychain</item><!--密钥链-->
+        <item>com.android.location.fused</item><!--一体化位置信息-->
+        <item>com.android.mms.service</item><!--MmsService-->
+        <item>com.android.MtpApplication</item><!---->
+        <item>com.android.musicfx</item><!---->
+        <item>com.android.onetimeinitializer</item><!--One Time Init-->
+        <item>com.android.packageinstaller</item><!--软件包安装程序-->
+        <item>com.android.pacprocessor</item><!--PacProcessor-->
+        <item>com.android.phone</item><!--移动数据网络-->
+        <item>com.android.Preconfig</item><!---->
+        <item>com.android.printspooler</item><!--打印处理服务-->
+        <item>com.android.providers.applications</item><!---->
+        <item>com.android.providers.downloads.ui</item><!---->
+        <item>com.android.providers.downloads</item><!--下载管理程序-->
+        <item>com.android.providers.drm</item><!---->
+        <item>com.android.providers.media</item><!--媒体存储-->
+        <item>com.android.providers.security</item><!---->
+        <item>com.android.providers.settings</item><!--设置存储-->
+        <item>com.android.providers.telephony</item><!--移动网络配置-->
+        <item>com.android.providers.userdictionary</item><!--用户字典-->
+        <item>com.android.proxyhandler</item><!--ProxyHandler-->
+        <item>com.android.server.telecom</item><!--通话管理-->
+        <item>com.android.settings.mt</item><!---->
+        <item>com.android.sharedstoragebackup</item><!--com.android.sharedstoragebackup-->
+        <item>com.android.shell</item><!--Shell-->
+        <item>com.android.stk</item><!---->
+        <item>com.android.systemui</item><!--系统界面-->
+        <item>com.android.vpndialogs</item><!--VpnDialogs-->
+        <item>com.android.wallpaper.livepicker</item><!--动态壁纸选择器-->
+        <item>com.android.wallpapercropper</item><!--com.android.wallpapercropper-->
+        <item>com.google.android.apps.uploader</item><!---->
+        <item>com.google.android.backup</item><!---->
+        <item>com.google.android.feedback</item><!---->
+        <item>com.google.android.gsf.login</item><!---->
+        <item>com.google.android.gsf</item><!---->
+        <item>com.google.android.location</item><!---->
+        <item>com.google.android.partnersetup</item><!---->
+        <item>com.google.android.setupwizard</item><!---->
+        <item>com.google.android.syncadapters.calendar</item><!---->
+        <item>com.google.android.syncadapters.contacts</item><!---->
+        <item>com.google.android.webview</item><!-- googleWebView -->
+        <item>com.android.inputmethod.latin</item><!--Android 键盘 (AOSP)-->
     </string-array>
 
     <string-array name="android_un_keep_app">
@@ -102,13 +118,16 @@
         <item>com.android.providers.contacts</item><!--联系人存储-->
         <item>com.android.hwmirror</item><!--镜子-->
         <item>com.android.bluetooth</item><!--蓝牙共享-->
+        <item>com.android.bluetoothmidiservice</item><!--蓝牙 MIDI 服务-->
         <item>com.android.soundrecorder</item><!--录音机-->
-
+        <item>com.android.incallui</item><!--电话-->
+        <item>com.android.mms</item><!--信息-->
     </string-array>
     <!-- ~~~~~~~~~~~~~~~~~~~三星~~~~~~~~~~~~~~~~~~~~~~~~  -->
+    <string-array name="samsung_special_app">
+        <item>com.samsung.android.packageinstaller</item><!--应用安装管理-->
+    </string-array>
     <string-array name="samsung_keep_app">
-        <!--<item>com.sec.android.emergencylauncher</item>-->
-        <!--<item>com.sec.android.emergencymode.service</item>-->
         <item>com.baidu.map.location</item>
         <item>com.cleanmaster.sdk</item>
         <item>com.codeaurora.fmrecording</item>
@@ -284,34 +303,61 @@
     </string-array>
 
     <string-array name="samsung_un_keep_app">
+        <item>com.sec.android.emergencylauncher</item>
+        <item>com.sec.android.emergencymode.service</item>
         <item>com.autonavi.xmgd.navigator.keyboard</item>
+        <item>com.samsung.android.app.galaxyfinder</item><!--S 搜索-->
         <item>com.samsung.android.app.pinboard</item>
-        <item>com.samsung.android.packageinstaller</item><!--应用安装管理-->
+        <item>com.samsung.android.app.withtv</item><!--withTV-->
+        <item>com.samsung.android.email.composer</item><!--电子邮件编写-->
+        <item>com.samsung.android.email.provider</item><!--电子邮件存储-->
+        <item>com.samsung.android.email.sync</item><!--电子邮件同步-->
+        <item>com.samsung.android.email.ui</item><!--电子邮件-->
+        <item>com.samsung.android.email.widget</item><!--电子邮件-->
+        <item>com.samsung.android.fmm</item><!--远程控制-->
+        <item>com.samsung.android.keyguardwallpaperupdator</item><!--我的兴趣-->
         <item>com.samsung.android.qconnect</item><!--快速连接-->
+        <item>com.samsung.android.sconnect</item><!--快速连接-->
         <item>com.samsung.android.service.aircommand</item> <!-- 浮窗指令 -->
+        <item>com.samsung.android.video</item><!--视频-->
+        <item>com.samsung.groupcast</item>
+        <item>com.samsung.helphub</item>
+        <item>com.sec.android.app.billing</item><!--三星账单-->
+        <item>com.sec.android.app.camera</item><!--照相机-->
         <item>com.sec.android.app.capabilitymanager</item>
         <item>com.sec.android.app.chn.readershub</item><!--阅读圈-->
         <item>com.sec.android.app.dictionary</item>
         <item>com.sec.android.app.gamehub</item><!-- 游戏圈-->
         <item>com.sec.android.app.mediashub</item>
+        <item>com.sec.android.app.music</item><!--音乐-->
         <item>com.sec.android.app.myfiles</item><!--文件管理-->
+        <item>com.sec.android.app.popupcalculator</item>
+        <item>com.sec.android.app.samsungapps</item><!--三星应用商店-->
+        <item>com.sec.android.app.sbrowser</item><!--互联网-->
+        <item>com.sec.android.app.snotebook</item>
         <item>com.sec.android.app.videoplayer</item>
         <item>com.sec.android.daemonapp.ap.sinanews</item>
         <item>com.sec.android.daemonapp.ap.sinastock.stockclock</item>
         <item>com.sec.android.daemonapp.ap.sinaweather</item>
+        <item>com.sec.android.gallery3d</item><!--相册-->
+        <item>com.sec.android.mimage.photoretouching</item><!--相片工作室-->
+        <item>com.sec.android.provider.snote</item>
+        <item>com.sec.android.providers.chinaholiday</item><!--中国假期存储-->
         <item>com.sec.android.widgetapp.ap.sinanews</item>
+        <item>com.sec.android.widgetapp.at.hero.cmaweather</item><!--天气-->
         <item>com.sec.android.widgetapp.at.hero.sinaweather.widget</item>
         <item>com.sec.android.widgetapp.at.hero.sinaweather</item>
         <item>com.sec.android.widgetapp.at.sinastock.stockclock</item>
+        <item>com.sec.android.widgetapp.samsungapps</item><!--Galaxy Apps 小组件-->
         <item>com.sec.chaton</item>
+        <item>com.sec.factory.camera</item><!--照相机测试-->
         <item>com.sec.msc.learninghub</item><!--学习圈-->
-        <item>com.sec.android.app.snotebook</item>
         <item>com.sec.pcw</item>
-        <item>com.samsung.groupcast</item>
-        <item>com.samsung.helphub</item>
-        <item>com.sec.android.provider.snote</item>
-        <item>com.sec.android.app.popupcalculator</item>
+        <item>com.samsung.android.snote</item><!--S Note-->
+        <item>com.sec.android.sidesync30</item><!--SideSync 3.0-->
+        <item>com.samsung.android.sm</item><!--智能管理器-->
     </string-array>
+
     <!-- ~~~~~~~~~~~~~~~~~~~华为~~~~~~~~~~~~~~~~~~~~~~~~  -->
     <string-array name="huawei_keep_app">
         <item>com.huawei.android.launcher</item><!--华为桌面-->
@@ -346,57 +392,112 @@
         <item>com.huawei.mmifunction</item><!--手机功能测试-->
         <item>com.huawei.mmitest</item><!--MMI测试-->
     </string-array>
-
+    <!-- ~~~~~~~~~~~~~~~~~~~联想~~~~~~~~~~~~~~~~~~~~~~~~  -->
+    <string-array name="lenovo_keep_app">
+        <item>com.lenovo.launcher.provider</item><!--LenovoLauncherProvider-->
+        <item>com.lenovo.launcher</item><!--联想桌面-->
+    </string-array>
+    <string-array name="lenovo_un_keep_app">
+        <item>org.codeaurora.gallery</item><!--图库-->
+        <item>org.codeaurora.snapcam</item><!--相机-->
+        <item>com.lenovo.lsf</item><!--联想帐号-->
+    </string-array>
     <!-- ~~~~~~~~~~~~~~~~~~~测试~~~~~~~~~~~~~~~~~~~~~~~~  -->
     <string-array name="test_app">
-        <item>androidhwext</item><!--androidhwext-->
-        <item>com.amap.android.location</item><!--网络位置-->
-        <item>com.android.apps.tag</item><!--标记-->
-        <item>com.android.calendar</item><!--日历-->
+        <item>com.android.bookmarkprovider</item><!--书签提供程序-->
+        <item>com.android.calllogbackup</item><!--通话记录备份/还原-->
+        <item>com.android.carrierconfig</item><!--com.android.carrierconfig-->
+        <item>com.android.cellbroadcastreceiver</item><!--小区广播-->
+        <item>com.android.cts.ctsshim</item><!--com.android.cts.ctsshim-->
+        <item>com.android.cts.priv.ctsshim</item><!--com.android.cts.priv.ctsshim-->
         <item>com.android.deskclock</item><!--时钟-->
-        <item>com.android.documentsui</item><!--文档-->
-        <item>com.android.dreams.phototable</item><!--图片屏保程序-->
-        <item>com.android.exchange</item><!--Exchange 服务-->
-        <item>com.android.galaxy4</item><!--黑洞-->
-        <item>com.android.incallui</item><!--InCallUI-->
-        <item>com.android.keyguard</item><!--键盘锁-->
-        <item>com.android.managedprovisioning</item><!--设备配置器-->
-        <item>com.android.noisefield</item><!--气泡-->
-        <item>com.android.phasebeam</item><!--光束-->
-        <item>com.android.phone.common</item><!--com.android.phone.common-->
-        <item>com.android.protips</item><!--主屏幕提示-->
         <item>com.android.providers.calendar</item><!--日历存储-->
-        <item>com.android.providers.partnerbookmarks</item><!--com.android.providers.partnerbookmarks-->
+        <item>com.android.egg</item><!--Android Easter Egg-->
+        <item>com.android.emergency</item><!--急救信息-->
+        <item>com.android.exchange</item><!--Exchange服务-->
+        <item>com.android.frameworks.telresources</item><!--com.android.frameworks.telresources-->
+        <item>com.android.managedprovisioning</item><!--工作资料设置-->
+        <item>com.android.mtp</item><!--MTP 主机-->
+        <item>com.android.poweroffhandlerapp</item><!--关机处理程序应用-->
+        <item>com.android.poweronalert</item><!--com.android.poweronalert-->
+        <item>com.android.printservice.recommendation</item><!--Print Service Recommendation Service-->
+        <item>com.android.providers.blockednumber</item><!--存储已屏蔽的号码-->
+        <item>com.android.provision</item><!--com.android.provision-->
         <item>com.android.smspush</item><!--com.android.smspush-->
-        <item>com.android.wallpaper.holospiral</item><!--com.android.wallpaper.holospiral-->
-        <item>com.fingerprints.service</item><!--com.fingerprints.service-->
-        <item>com.google.android.gms</item><!--Google Play服务-->
-        <item>com.google.android.marvin.talkback</item><!--TalkBack-->
-        <item>com.huawei.android.airsharing</item><!--多屏互动-->
-        <item>com.huawei.android.FloatTasks</item><!--悬浮按钮-->
-        <item>com.huawei.android.hwaps</item><!--HwAps-->
-        <item>com.huawei.android.internal.app</item><!--Android HwResolver-->
-        <item>com.huawei.android.nff</item><!--HwAppObserver-->
-        <item>com.huawei.android.powermonitor</item><!--HwPowerMonitor-->
-        <item>com.huawei.android.projectmenu</item><!--工程菜单-->
-        <item>com.huawei.android.pushagent</item><!--推送服务-->
-        <item>com.huawei.bd</item><!--HwUE-->
-        <item>com.huawei.ca</item><!--CAService-->
-        <item>com.huawei.floatentrance</item><!--悬浮入口-->
-        <item>com.huawei.floatMms</item><!--短信悬浮窗-->
-        <item>com.huawei.hwmwlauncher</item><!--HwMultiWindowLauncher-->
-        <item>com.huawei.hwstartupguide</item><!--HwStartupGuide-->
-        <item>com.huawei.internetaudioservice</item><!--智能线控-->
-        <item>com.huawei.lcagent</item><!--com.huawei.lcagent-->
+        <item>com.android.statementservice</item><!--意图筛选器验证服务-->
+        <item>com.android.storagemanager</item><!--存储空间管理器-->
+        <item>com.android.timerswitch</item><!--定时开关机-->
+        <item>com.android.wallpaperbackup</item><!--com.android.wallpaperbackup-->
+        <item>com.android.webview</item><!--Android System WebView-->
 
-        <item>com.huawei.omacp</item><!--配置信息-->
-        <item>com.huawei.privacymode</item><!--隐私保护-->
-        <item>com.huawei.qrcode.dispatcher</item><!--com.huawei.qrcode.dispatcher-->
-        <item>com.huawei.securitymgr</item><!--com.huawei.securitymgr-->
+        <item>com.dolby.daxappUI</item><!--Dolby-->
+        <item>com.dolby</item><!--Dolby Service-->
+        <item>com.dsi.ant.server</item><!--ANT HAL Service-->
+        <item>com.goodix.rawdata</item><!--RawDataTest-->
+        <item>com.lctautotest.camera</item><!--CameraTest-->
+        <item>com.lenovo.license</item><!--LenovoUserExperience-->
+        <item>com.lenovo.lsf.device</item><!--设备服务-->
+
+        <item>com.lenovo.newue.service</item><!--用户体验-->
+        <item>com.lenovo.ota</item><!--系统升级-->
+        <item>com.lenovo.setupwizard</item><!--开机向导-->
+        <item>com.longcheertel.audioft</item><!--AudioFT-->
+        <item>com.longcheertel.midtest</item><!--装配测试-->
+        <item>com.motorola.demo</item><!--演示模式-->
+        <item>com.oma.drm.server</item><!--OMA DRM 引擎服务器-->
+        <item>com.oma.drm</item><!--OMA DRM 引擎-->
+        <item>com.qrd.omadownload</item><!--com.qrd.omadownload-->
+        <item>com.qti.datastoragecleanerservice</item><!--数据存储清除程序服务-->
+        <item>com.qti.dpmserviceapp</item><!--com.qti.dpmserviceapp-->
+        <item>com.qti.launcherunreadservice</item><!--启动程序未读消息服务-->
+        <item>com.qti.qualcomm.datastatusnotification</item><!--com.qti.qualcomm.datastatusnotification-->
+        <item>com.qti.qualcomm.deviceinfo</item><!--设备信息-->
+        <item>com.qti.service.colorservice</item><!--com.qti.service.colorservice-->
+        <item>com.qti.storagecleaner</item><!--手机储存空间清理-->
+        <item>com.qti.xdivert</item><!--Smart-Divert-->
+        <item>com.qualcomm.embms</item><!--com.qualcomm.embms-->
+        <item>com.qualcomm.fastdormancy</item><!--com.qualcomm.fastdormancy-->
+        <item>com.qualcomm.location</item><!--LocationServices-->
+        <item>com.qualcomm.qcrilmsgtunnel</item><!--com.qualcomm.qcrilmsgtunnel-->
+        <item>com.qualcomm.qti.accesscache</item><!--CarrierAccessCacheService-->
+        <item>com.qualcomm.qti.appnetaccess</item><!--应用网络访问-->
+        <item>com.qualcomm.qti.auth.fidocryptoservice</item><!--FidoCryptoService-->
+        <item>com.qualcomm.qti.auth.fidosuiservice</item><!--FidoSuiService-->
+        <item>com.qualcomm.qti.auth.sampleauthenticatorservice</item><!--SampleAuthenticatorService-->
+        <item>com.qualcomm.qti.auth.sampleextauthservice</item><!--SampleExtAuthService-->
+        <item>com.qualcomm.qti.auth.secureextauthservice</item><!--SecureExtAuthService-->
+        <item>com.qualcomm.qti.auth.securesampleauthservice</item><!--SecureSampleAuthService-->
+        <item>com.qualcomm.qti.CdmaCallOptions</item><!--com.qualcomm.qti.CdmaCallOptions-->
+        <item>com.qualcomm.qti.confdialer</item><!--配置拨号器-->
+        <item>com.qualcomm.qti.extsettings</item><!--com.qualcomm.qti.extsettings.ExtSettingsApplication-->
+        <item>com.qualcomm.qti.ims</item><!--com.qualcomm.qti.ims-->
+        <item>com.qualcomm.qti.lunarinfo</item><!--LunarInfoProvider-->
+        <item>com.qualcomm.qti.networksetting</item><!--com.qualcomm.qti.networksetting-->
+        <item>com.qualcomm.qti.phonefeature</item><!--com.qualcomm.qti.phonefeature.AppGlobals-->
+        <item>com.qualcomm.qti.qcom_accesslogkit</item><!--com.qualcomm.qti.qcom_accesslogkit-->
+        <item>com.qualcomm.qti.qs</item><!--com.qualcomm.qti.qs-->
+        <item>com.qualcomm.qti.securemsm.mdtp</item><!--MdtpService-->
+        <item>com.qualcomm.qti.services.secureui</item><!--Secure UI Service-->
+        <item>com.qualcomm.qti.simsettings</item><!--com.qualcomm.qti.simsettings-->
+        <item>com.qualcomm.qti.StatsPollManager</item><!--com.qualcomm.qti.StatsPollManager-->
+        <item>com.qualcomm.qti.telephony.vodafonepack</item><!--com.qualcomm.qti.telephony.vodafonepack.CarrierpackApplication-->
+        <item>com.qualcomm.qti.telephonyservice</item><!--com.qualcomm.qti.telephonyservice-->
+        <item>com.qualcomm.qti.tetherservice</item><!--com.qualcomm.qti.tetherservice-->
+        <item>com.qualcomm.shutdownlistner</item><!--com.qualcomm.shutdownlistner-->
+        <item>com.qualcomm.simcontacts</item><!--SIM卡联系人-->
+        <item>com.qualcomm.timeservice</item><!--com.qualcomm.timeservice-->
+        <item>com.qualcomm.wfd.service</item><!--WFD 服务-->
+        <item>com.quicinc.cne.CNEService</item><!--com.quicinc.cne.CNEService.CNEServiceApp-->
+        <item>com.quicinc.wbcserviceapp</item><!--WbcService-->
+        <item>com.sohu.inputmethod.sogouoem</item><!--搜狗输入法-->
         <item>com.svox.pico</item><!--Pico TTS-->
+        <item>com.wdstechnology.android.kryten</item><!--OTA 接入点配置-->
+        <item>com.xh.xhsdkdemo</item><!--XHSdkDemo-->
+        <item>com.xuehai.messagedemo</item><!--PNMessageDemo-->
+        <item>com.xuehai.response_launcher_teacher</item><!--智通云-->
+        <item>org.codeaurora.bluetooth</item><!--org.codeaurora.bluetooth-->
+        <item>org.codeaurora.btmultisim</item><!--org.codeaurora.btmultisim-->
+        <item>org.codeaurora.ims</item><!--org.codeaurora.ims-->
         <item>org.simalliance.openmobileapi.service</item><!--SmartcardService-->
     </string-array>
-    <!-- ~~~~~~~~~~~~~~~~~~~联想~~~~~~~~~~~~~~~~~~~~~~~~  -->
-    <string-array name="lenovo_keep_app"></string-array>
-    <string-array name="lenovo_un_keep_app"></string-array>
 </resources>

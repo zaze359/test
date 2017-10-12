@@ -170,7 +170,9 @@ public class TaskExecutorManager {
      * @param num 执行数
      */
     public void executeMulti(String tag, int num) {
-        ZLog.i(ZTag.TAG_TASK, "执行 批量任务标签(%s)（%d）！", tag, num);
+        if (needLog) {
+            ZLog.i(ZTag.TAG_TASK, "执行 批量任务标签(%s)（%d）！", tag, num);
+        }
         MultiTaskExecutorService multiTaskExecutorService = new MultiTaskExecutorService(getTaskExecutorService(tag));
         multiTaskExecutorService.multiExecuteTask(num, null);
     }
@@ -189,7 +191,9 @@ public class TaskExecutorManager {
      * @param tag 标签
      */
     public void autoExecuteTask(String tag) {
-        ZLog.i(ZTag.TAG_TASK, "自动执行 标签(%s)内所有任务！", tag);
+        if (needLog) {
+            ZLog.i(ZTag.TAG_TASK, "自动执行 标签(%s)内所有任务！", tag);
+        }
         TaskExecutorService taskExecutorService = getTaskExecutorService(tag);
         if (taskExecutorService instanceof AutoTaskExecutorService) {
             ((AutoTaskExecutorService) taskExecutorService).autoExecute();

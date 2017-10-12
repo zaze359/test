@@ -13,7 +13,6 @@ import com.zaze.demo.R
 import com.zaze.demo.model.entity.PackageEntity
 import com.zaze.utils.ZAppUtil
 import com.zaze.utils.ZStringUtil
-import com.zaze.utils.ZViewUtil.findView
 
 /**
  * Description :

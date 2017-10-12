@@ -4,6 +4,7 @@ package com.zaze.demo.component.readpackage.ui
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
 import com.zaze.common.adapter.third.UltimateRecyclerViewHelper
 import com.zaze.common.base.ZBaseActivity
@@ -52,13 +53,16 @@ class ReadPackageActivity : ZBaseActivity(), ReadPackageView {
     }
 
     override fun showPackageList(list: List<PackageEntity>) {
+
+        val showList = ArrayList<PackageEntity>()
+        list.filter { !TextUtils.isEmpty(it.sourceDir) }.mapTo(showList) { it }
         if (adapter == null) {
-            adapter = ReadPackageAdapter(this, list)
+            adapter = ReadPackageAdapter(this, showList)
             package_recycle_view!!.layoutManager = LinearLayoutManager(this)
             UltimateRecyclerViewHelper.init(package_recycle_view)
             package_recycle_view.setAdapter(adapter)
         } else {
-            adapter!!.setDataList(list)
+            adapter!!.setDataList(showList)
         }
 
     }

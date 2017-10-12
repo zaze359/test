@@ -9,9 +9,9 @@ package com.zaze.demo.model.entity
  */
 class PackageEntity {
     var appName: String? = ""
-    var packageName: String? = ""
-    var versionCode: Int? = 0
-    var versionName: String? = ""
-    var sourceDir: String? = ""
+    var packageName: String? = null
+    var versionCode: Int = 0
+    var versionName: String? = null
+    var sourceDir: String? = null
 
 }

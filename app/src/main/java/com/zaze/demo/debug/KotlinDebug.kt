@@ -1,8 +1,7 @@
 package com.zaze.demo.debug
 
 import android.util.Base64
-import com.zaze.demo.app.MyApplication
-import com.zaze.utils.ZDeviceUtil
+import com.zaze.utils.ZCompressUtil
 import com.zaze.utils.ZEncryptionUtil
 import com.zaze.utils.ZFileUtil
 import com.zaze.utils.ZStringUtil
@@ -27,29 +26,32 @@ class KotlinDebug {
 //        return showLog("createDeveloperAccount", { createDeveloperToken() })
 //        return showLog("clearCacheData", { clearCacheData() })
 //        return showLog("searchFile", { searchFile() })
-        result = ZDeviceUtil.getUUID(MyApplication.getInstance())
-
-        var phoneInfo = "Product: " + android.os.Build.PRODUCT + "\n"
-        phoneInfo += ", CPU_ABI: " + android.os.Build.CPU_ABI + "\n"
-        phoneInfo += ", TAGS: " + android.os.Build.TAGS + "\n"
-        phoneInfo += ", VERSION_CODES.BASE: " + android.os.Build.VERSION_CODES.BASE + "\n"
-        phoneInfo += ", MODEL: " + android.os.Build.MODEL + "\n"
-        phoneInfo += ", SDK: " + android.os.Build.VERSION.SDK + "\n"
-        phoneInfo += ", VERSION.RELEASE: " + android.os.Build.VERSION.RELEASE + "\n"
-        phoneInfo += ", DEVICE: " + android.os.Build.DEVICE + "\n"
-        phoneInfo += ", DISPLAY: " + android.os.Build.DISPLAY + "\n"
-        phoneInfo += ", BRAND: " + android.os.Build.BRAND + "\n"
-        phoneInfo += ", BOARD: " + android.os.Build.BOARD + "\n"
-        phoneInfo += ", FINGERPRINT: " + android.os.Build.FINGERPRINT + "\n"
-        phoneInfo += ", ID: " + android.os.Build.ID + "\n"
-        phoneInfo += ", MANUFACTURER: " + android.os.Build.MANUFACTURER + "\n"
-        phoneInfo += ", USER: " + android.os.Build.USER + "\n"
-        phoneInfo += ", BOOTLOADER: " + android.os.Build.BOOTLOADER + "\n"
-        phoneInfo += ", HARDWARE: " + android.os.Build.HARDWARE + "\n"
-        phoneInfo += ", INCREMENTAL: " + android.os.Build.VERSION.INCREMENTAL + "\n"
-        phoneInfo += ", CODENAME: " + android.os.Build.VERSION.CODENAME + "\n"
-        phoneInfo += ", SDK: " + android.os.Build.VERSION.SDK_INT + "\n"
-        result = phoneInfo
+//        result = ZDeviceUtil.getUUID(MyApplication.getInstance())
+        // --------------------------------------------------
+//        var phoneInfo = "Product: " + android.os.Build.PRODUCT + "\n"
+//        phoneInfo += ", CPU_ABI: " + android.os.Build.CPU_ABI + "\n"
+//        phoneInfo += ", TAGS: " + android.os.Build.TAGS + "\n"
+//        phoneInfo += ", VERSION_CODES.BASE: " + android.os.Build.VERSION_CODES.BASE + "\n"
+//        phoneInfo += ", MODEL: " + android.os.Build.MODEL + "\n"
+//        phoneInfo += ", SDK: " + android.os.Build.VERSION.SDK + "\n"
+//        phoneInfo += ", VERSION.RELEASE: " + android.os.Build.VERSION.RELEASE + "\n"
+//        phoneInfo += ", DEVICE: " + android.os.Build.DEVICE + "\n"
+//        phoneInfo += ", DISPLAY: " + android.os.Build.DISPLAY + "\n"
+//        phoneInfo += ", BRAND: " + android.os.Build.BRAND + "\n"
+//        phoneInfo += ", BOARD: " + android.os.Build.BOARD + "\n"
+//        phoneInfo += ", FINGERPRINT: " + android.os.Build.FINGERPRINT + "\n"
+//        phoneInfo += ", ID: " + android.os.Build.ID + "\n"
+//        phoneInfo += ", MANUFACTURER: " + android.os.Build.MANUFACTURER + "\n"
+//        phoneInfo += ", USER: " + android.os.Build.USER + "\n"
+//        phoneInfo += ", BOOTLOADER: " + android.os.Build.BOOTLOADER + "\n"
+//        phoneInfo += ", HARDWARE: " + android.os.Build.HARDWARE + "\n"
+//        phoneInfo += ", INCREMENTAL: " + android.os.Build.VERSION.INCREMENTAL + "\n"
+//        phoneInfo += ", CODENAME: " + android.os.Build.VERSION.CODENAME + "\n"
+//        phoneInfo += ", SDK: " + android.os.Build.VERSION.SDK_INT + "\n"
+//        result = phoneInfo
+        // --------------------------------------------------
+        ZFileUtil.writeToFile("/sdcard/zaze/aaa.txt", "aaaaaaaaaa")
+        ZCompressUtil.zipFolder("/sdcard/xuehai/log", "/sdcard/xuehai/zip/aa.zip")
         ZLog.i(ZTag.TAG_DEBUG, result)
     }
 

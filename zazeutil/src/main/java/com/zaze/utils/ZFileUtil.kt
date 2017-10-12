@@ -78,12 +78,14 @@ object ZFileUtil {
             return false
         }
     }
+
     // --------------------------------------------------
     /**
+     * 创建文件
      * [filePath] filePath
      * @return
      */
-    fun createFile(filePath: String): File {
+    fun createFile(filePath: String): Boolean {
         val file = File(filePath)
         var result = false
         if (!isFileExist(filePath)) {
@@ -97,9 +99,27 @@ object ZFileUtil {
             ZLog.v(ZTag.TAG_FILE, "createFile filePath : " + filePath)
             ZLog.v(ZTag.TAG_FILE, "createFile code : " + result)
         }
-        return file
+        return result
     }
 
+    /**
+     * 创建目录
+     * [path] dir
+     */
+    fun createDir(path: String): Boolean {
+        val file = File(path)
+        if (file.exists()) {
+            return file.isDirectory
+        } else {
+            return file.mkdirs()
+        }
+    }
+
+    // --------------------------------------------------
+    /**
+     * 创建指定文件的父目录
+     * [savePath] 绝对路径
+     */
     fun createParentDir(savePath: String): Boolean {
         val parentFile = File(savePath).parentFile
         if (parentFile.exists()) {
@@ -109,13 +129,27 @@ object ZFileUtil {
         }
     }
 
-    fun createDir(path: String): Boolean {
-        val file = File(path)
-        if (file.exists()) {
-            return file.isDirectory
-        } else {
-            return file.mkdirs()
+    // --------------------------------------------------
+    /**
+     * 强制重新创建文件(如果存在则删除创建)
+     * [filePath] 绝对路径
+     */
+    fun reCreateFile(filePath: String): Boolean {
+        if (isFileExist(filePath)) {
+            deleteFile(filePath)
         }
+        return createFile(filePath)
+    }
+
+    /**
+     * 强制重新创建目录(如果存在则删除创建)
+     * [filePath] 绝对路径
+     */
+    fun reCreateDir(filePath: String): Boolean {
+        if (isFileExist(filePath)) {
+            deleteFile(filePath)
+        }
+        return createDir(filePath)
     }
 
     // --------------------------------------------------
@@ -184,10 +218,10 @@ object ZFileUtil {
      */
     fun writeToFile(filePath: String, inputStream: InputStream, append: Boolean = false): File? {
         writeLock(lock)
-        var file: File? = null
+        val file = File(filePath)
         var output: OutputStream? = null
         try {
-            file = createFile(filePath)
+            createFile(filePath)
             output = FileOutputStream(file, append)
             val buffer = ByteArray(4 * 1024)
             var temp = inputStream.read(buffer)

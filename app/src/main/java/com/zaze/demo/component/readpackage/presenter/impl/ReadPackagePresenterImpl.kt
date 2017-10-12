@@ -27,16 +27,17 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : ZBasePresenter<ReadPacka
     val baseDir = "${ZFileUtil.getSDCardRoot()}/zaze/${Build.MODEL}"
     val existsFile = "$baseDir/exists.xml"
     val unExistsFile = "$baseDir/unExists.xml"
-    val extractFile = "$baseDir/z_app.xml"
+    val extractFile = "$baseDir/extract.xml"
+    val allFile = "$baseDir/all.xml"
 
     val packageList = HashSet<String>()
     // --------------------------------------------------
     override fun getAppList() {
 //        getAllApkFile("/sdcard/")
-        getAllInstallApp()
+//        getAllInstallApp()
 //        getUnSystemApp()
 //        getAllSystemApp()
-//        getAssignInstallApp()
+        getAssignInstallApp()
         val showList = ArrayList<PackageEntity>()
         packageList.mapTo(showList) {
             initEntity(it)
@@ -46,11 +47,6 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : ZBasePresenter<ReadPacka
 
     override fun getAllApkFile(dir: String) {
         reset()
-//        val result = ZCommand.execRootCmdForRes("ls $dir *.apk")
-//        val apkList = result.successList
-//        for (apk in apkList) {
-//            initEntity(apk)
-//        }
     }
 
     override fun getAllInstallApp() {
@@ -75,7 +71,6 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : ZBasePresenter<ReadPacka
 
     override fun getAssignInstallApp() {
         reset()
-        getAllSystemApp()
         val filterSet = HashSet<String>()
         filterSet.addAll(view.getStringArray(R.array.xuehai_keep_app).toList())
         filterSet.addAll(view.getStringArray(R.array.un_keep_app).toList())
@@ -83,11 +78,16 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : ZBasePresenter<ReadPacka
         filterSet.addAll(view.getStringArray(R.array.android_un_keep_app).toList())
 //        filterSet.addAll(view.getStringArray(R.array.samsung_keep_app).toList())
 //        filterSet.addAll(view.getStringArray(R.array.samsung_un_keep_app).toList())
-        filterSet.addAll(view.getStringArray(R.array.huawei_keep_app).toList())
-        filterSet.addAll(view.getStringArray(R.array.huawei_un_keep_app).toList())
-//        filterSet.addAll(view.getStringArray(R.array.lenovo_keep_app).toList())
-//        filterSet.addAll(view.getStringArray(R.array.lenovo_un_keep_app).toList())
-        //        filterSet.mapTo(packageList) { it }
+//        filterSet.addAll(view.getStringArray(R.array.huawei_keep_app).toList())
+//        filterSet.addAll(view.getStringArray(R.array.huawei_un_keep_app).toList())
+        filterSet.addAll(view.getStringArray(R.array.lenovo_keep_app).toList())
+        filterSet.addAll(view.getStringArray(R.array.lenovo_un_keep_app).toList())
+        // --------------------------------------------------
+//        filterSet.removeAll(view.getStringArray(R.array.test_app).toList())
+        // --------------------------------------------------
+//        filterSet.mapTo(packageList) { it }
+        // --------------------------------------------------
+        getAllInstallApp()
         packageList.removeAll(filterSet)
 
     }
@@ -98,6 +98,7 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : ZBasePresenter<ReadPacka
         ZFileUtil.deleteFile(existsFile)
         ZFileUtil.deleteFile(unExistsFile)
         ZFileUtil.deleteFile(extractFile)
+        ZFileUtil.deleteFile(allFile)
     }
 
     // --------------------------------------------------
@@ -145,10 +146,11 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : ZBasePresenter<ReadPacka
             packageEntity.appName = ZAppUtil.getAppName(MyApplication.getInstance(), packageName)
             packageEntity.versionName = ZAppUtil.getAppVersionName(MyApplication.getInstance(), packageName)
             packageEntity.versionCode = ZAppUtil.getAppVersionCode(MyApplication.getInstance(), packageName)
-            ZFileUtil.writeToFile(existsFile, "<item>$packageName</item>\n", true)
+            ZFileUtil.writeToFile(existsFile, "<item>$packageName</item><!--${packageEntity.appName}-->\n", true)
         } else {
             ZFileUtil.writeToFile(unExistsFile, "<item>$packageName</item>\n", true)
         }
+        ZFileUtil.writeToFile(allFile, "<item>$packageName</item><!--${packageEntity.appName}-->\n", true)
         return packageEntity
     }
 }
