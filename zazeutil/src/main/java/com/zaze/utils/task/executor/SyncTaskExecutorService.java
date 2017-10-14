@@ -144,11 +144,11 @@ class SyncTaskExecutorService extends TaskExecutorService {
             if (!taskIdQueue.contains(taskId)) {
                 taskIdQueue.add(taskId);
                 if (needLog) {
-                    ZLog.i(ZTag.TAG_TASK, "添加任务成功(%s)", taskId);
+                    ZLog.i(ZTag.TAG_TASK, "添加任务(%s) : 成功", taskId);
                 }
             } else {
                 if (needLog) {
-                    ZLog.i(ZTag.TAG_TASK, "任务已存在(%s)", taskId);
+                    ZLog.w(ZTag.TAG_TASK, "任务(%s) : 已存在", taskId);
                 }
             }
         }
@@ -166,7 +166,7 @@ class SyncTaskExecutorService extends TaskExecutorService {
                     ExecuteTask executeTask = taskMap.get(taskId);
                     taskMap.remove(taskId);
                     if (needLog) {
-                        ZLog.i(ZTag.TAG_TASK, "提取执行任务(%s)", taskId);
+                        ZLog.i(ZTag.TAG_TASK, "提取执行 : 任务(%s)", taskId);
                     }
                     return executeTask;
                 }

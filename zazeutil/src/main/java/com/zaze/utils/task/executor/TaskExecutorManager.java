@@ -192,7 +192,7 @@ public class TaskExecutorManager {
      */
     public void autoExecuteTask(String tag) {
         if (needLog) {
-            ZLog.i(ZTag.TAG_TASK, "自动执行 标签(%s)内所有任务！", tag);
+            ZLog.i(ZTag.TAG_TASK, "开始自动执行任务池(%s)内所有任务！", tag);
         }
         TaskExecutorService taskExecutorService = getTaskExecutorService(tag);
         if (taskExecutorService instanceof AutoTaskExecutorService) {
@@ -256,12 +256,12 @@ public class TaskExecutorManager {
     private TaskExecutorService getTaskExecutorService(String tag) {
         if (hasTaskExecutorService(tag)) {
             if (needLog) {
-                ZLog.i(ZTag.TAG_TASK, "提取 标签(%s) 任务池", tag);
+                ZLog.i(ZTag.TAG_TASK, "提取任务池(%s)", tag);
             }
             return executorMap.get(tag);
         } else {
             if (needLog) {
-                ZLog.i(ZTag.TAG_TASK, "标签(%s) 任务池不存在", tag);
+                ZLog.w(ZTag.TAG_TASK, "任务池(%s) 不存在", tag);
             }
             return null;
         }

@@ -48,7 +48,7 @@ public class AnimationActivity extends ZBaseActivity implements AnimationView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_animation);
         ButterKnife.bind(this);
-        setupWindowAnimations();
+//        setupWindowAnimations();
         setupToolbar();
         presenter = new AnimationPresenterImpl(this);
         presenter.getAnimationList();
@@ -60,13 +60,16 @@ public class AnimationActivity extends ZBaseActivity implements AnimationView {
         return true;
     }
 
-
     private void setupWindowAnimations() {
-        Slide slideTransition = new Slide();
-        slideTransition.setSlideEdge(Gravity.LEFT);
-        slideTransition.setDuration(getResources().getInteger(R.integer.anim_duration_long));
-        getWindow().setReenterTransition(slideTransition);
-        getWindow().setExitTransition(slideTransition);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            Slide slideTransition = new Slide();
+            slideTransition.setSlideEdge(Gravity.LEFT);
+            slideTransition.setDuration(getResources().getInteger(R.integer.anim_duration_long));
+            // 盖在上层activity的退出时
+            getWindow().setReenterTransition(slideTransition);
+            // 打开一个新activity时
+            getWindow().setExitTransition(slideTransition);
+        }
     }
 
     private void setupToolbar() {

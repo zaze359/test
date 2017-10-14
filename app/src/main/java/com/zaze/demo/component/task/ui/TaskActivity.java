@@ -87,13 +87,14 @@ public class TaskActivity extends ZBaseActivity implements TaskView {
 
     @OnClick(R.id.task_auto_btn)
     public void autoExecute(View view) {
-        for (int i = 0; i < 1000; i++) {
-            TaskExecutorManager.getInstance().pushTask(new TaskEntity(String.valueOf(i)), new TaskCallback() {
+        String tag = "aaaaa";
+        for (int i = 0; i < 10; i++) {
+            TaskExecutorManager.getInstance().pushTask(tag, new TaskEntity(String.valueOf(i)), new TaskCallback() {
                 @Override
                 public void onExecute(TaskEntity entity) {
                     ZLog.v(ZTag.TAG_TASK, ZJsonUtil.objToJson(entity));
                     try {
-                        Thread.sleep(2000L);
+                        Thread.sleep(500L);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -103,7 +104,7 @@ public class TaskActivity extends ZBaseActivity implements TaskView {
                 }
             });
         }
-        TaskExecutorManager.getInstance().autoExecuteTask();
+        TaskExecutorManager.getInstance().autoExecuteTask(tag);
     }
 
     @OnClick(R.id.task_multi_btn)

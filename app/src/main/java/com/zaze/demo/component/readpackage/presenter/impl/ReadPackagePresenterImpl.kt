@@ -72,23 +72,23 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : ZBasePresenter<ReadPacka
     override fun getAssignInstallApp() {
         reset()
         val filterSet = HashSet<String>()
-        filterSet.addAll(view.getStringArray(R.array.xuehai_keep_app).toList())
-        filterSet.addAll(view.getStringArray(R.array.un_keep_app).toList())
-        filterSet.addAll(view.getStringArray(R.array.android_keep_app).toList())
-        filterSet.addAll(view.getStringArray(R.array.android_un_keep_app).toList())
+//        filterSet.addAll(view.getStringArray(R.array.xuehai_keep_app).toList())
+//        filterSet.addAll(view.getStringArray(R.array.un_keep_app).toList())
+//        filterSet.addAll(view.getStringArray(R.array.android_keep_app).toList())
+//        filterSet.addAll(view.getStringArray(R.array.android_un_keep_app).toList())
 //        filterSet.addAll(view.getStringArray(R.array.samsung_keep_app).toList())
-//        filterSet.addAll(view.getStringArray(R.array.samsung_un_keep_app).toList())
+        filterSet.addAll(view.getStringArray(R.array.samsung_un_keep_app).toList())
 //        filterSet.addAll(view.getStringArray(R.array.huawei_keep_app).toList())
 //        filterSet.addAll(view.getStringArray(R.array.huawei_un_keep_app).toList())
-        filterSet.addAll(view.getStringArray(R.array.lenovo_keep_app).toList())
-        filterSet.addAll(view.getStringArray(R.array.lenovo_un_keep_app).toList())
+//        filterSet.addAll(view.getStringArray(R.array.lenovo_keep_app).toList())
+//        filterSet.addAll(view.getStringArray(R.array.lenovo_un_keep_app).toList())
         // --------------------------------------------------
 //        filterSet.removeAll(view.getStringArray(R.array.test_app).toList())
         // --------------------------------------------------
-//        filterSet.mapTo(packageList) { it }
+        filterSet.mapTo(packageList) { it }
         // --------------------------------------------------
-        getAllInstallApp()
-        packageList.removeAll(filterSet)
+//        getAllInstallApp()
+//        packageList.removeAll(filterSet)
 
     }
 
