@@ -15,7 +15,7 @@ interface ReadPackagePresenter {
 
     fun getAllInstallApp()
 
-    fun getAllSystemApp()
+    fun getSystemApp()
 
     fun getUnSystemApp()
 

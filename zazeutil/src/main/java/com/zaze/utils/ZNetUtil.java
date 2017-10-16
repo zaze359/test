@@ -80,12 +80,16 @@ public class ZNetUtil {
             ZLog.e(ZTag.TAG_DEBUG, "无网络连接");
             return "";
         } else {
-            if (!wifiInfo.isConnected() && mobileInfo.isConnected()) {
-                ZLog.i(ZTag.TAG_DEBUG, "当前使用数据流量");
-                return "4g";
+            if (wifiInfo != null && mobileInfo != null) {
+                if (!wifiInfo.isConnected() && mobileInfo.isConnected()) {
+                    ZLog.i(ZTag.TAG_DEBUG, "当前使用数据流量");
+                    return "4g";
+                } else {
+                    ZLog.i(ZTag.TAG_DEBUG, "当前连接wifi");
+                    return "wifi";
+                }
             } else {
-                ZLog.i(ZTag.TAG_DEBUG, "当前连接wifi");
-                return "wifi";
+                return "unKnow";
             }
         }
     }

@@ -1,9 +1,7 @@
 package com.zaze.demo.debug
 
-import android.app.KeyguardManager
-import android.content.Context
 import android.util.Base64
-import com.zaze.demo.app.MyApplication
+import com.zaze.utils.ZCommand
 import com.zaze.utils.ZEncryptionUtil
 import com.zaze.utils.ZFileUtil
 import com.zaze.utils.ZStringUtil
@@ -55,8 +53,10 @@ class KotlinDebug {
 //        ZFileUtil.writeToFile("/sdcard/zaze/aaa.txt", "aaaaaaaaaa")
 //        ZCompressUtil.zipFolder("/sdcard/xuehai/log", "/sdcard/xuehai/zip/aa.zip")
         // --------------------------------------------------
-        val keyguardManager = MyApplication.getInstance().getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
-        result = "" + keyguardManager.isKeyguardSecure
+//        val keyguardManager = MyApplication.getInstance().getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+//        result = "" + keyguardManager.isKeyguardSecure
+        // --------------------------------------------------
+        result = "" + ZCommand.isRoot()
         ZLog.i(ZTag.TAG_DEBUG, result)
     }
 

@@ -15,18 +15,16 @@ import java.util.concurrent.Executors;
  * @version : 2016-12-14 - 10:26
  */
 class AutoTaskExecutorService extends AsyncTaskExecutorService {
-    private boolean isRunning = true;
+    private boolean isRunning;
 
     public AutoTaskExecutorService(TaskExecutorService taskExecutorService) {
         super(taskExecutorService);
-
     }
 
     /**
      * 自动依次执行所有任务
      */
     public boolean autoExecute() {
-        isRunning = true;
         return executeAsyncTask();
     }
 
@@ -34,18 +32,20 @@ class AutoTaskExecutorService extends AsyncTaskExecutorService {
     public boolean executeAsyncTask() {
         if (taskExecutorService == null) {
             return false;
-        }
-        if (autoExecutor == null && !taskExecutorService.isEmpty()) {
-            autoExecutor = Executors.newSingleThreadExecutor();
-            autoExecutor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    AutoTaskExecutorService.this.run();
-                }
-            });
-            return true;
         } else {
-            return isRunning;
+            if (!isRunning) {
+                isRunning = true;
+                if (autoExecutor == null) {
+                    autoExecutor = Executors.newSingleThreadExecutor();
+                }
+                autoExecutor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        AutoTaskExecutorService.this.run();
+                    }
+                });
+            }
+            return true;
         }
     }
 
@@ -53,16 +53,13 @@ class AutoTaskExecutorService extends AsyncTaskExecutorService {
     protected void run() {
         try {
             do {
-                if (taskExecutorService.isEmpty()) {
-                    Thread.sleep(5000L);
-                } else {
-                    taskExecutorService.executeNextTask();
-                    Thread.sleep(100L);
-                }
-            } while (isRunning);
+                taskExecutorService.executeNextTask();
+                Thread.sleep(100L);
+            } while (!taskExecutorService.isEmpty());
         } catch (Exception e) {
             e.printStackTrace();
         }
+        isRunning = false;
     }
 
     /**
@@ -74,7 +71,9 @@ class AutoTaskExecutorService extends AsyncTaskExecutorService {
             if (needLog) {
                 ZLog.i(ZTag.TAG_TASK, "中断取消 自动执行任务池中的所有剩余任务!");
             }
-            clear();
+            // --------------------------------------------------
+            this.clear();
+            // --------------------------------------------------
             autoExecutor.shutdown();
             autoExecutor = null;
         } else {

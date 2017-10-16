@@ -36,7 +36,7 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : ZBasePresenter<ReadPacka
 //        getAllApkFile("/sdcard/")
 //        getAllInstallApp()
 //        getUnSystemApp()
-//        getAllSystemApp()
+//        getSystemApp()
         getAssignInstallApp()
         val showList = ArrayList<PackageEntity>()
         packageList.mapTo(showList) {
@@ -55,7 +55,7 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : ZBasePresenter<ReadPacka
         appList.mapTo(packageList) { it.packageName }
     }
 
-    override fun getAllSystemApp() {
+    override fun getSystemApp() {
         val appList = ZAppUtil.getInstalledApplications(MyApplication.getInstance())
         reset()
         appList.filter { it.flags and ApplicationInfo.FLAG_SYSTEM > 0 }
@@ -72,33 +72,36 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : ZBasePresenter<ReadPacka
     override fun getAssignInstallApp() {
         reset()
         val filterSet = HashSet<String>()
-//        filterSet.addAll(view.getStringArray(R.array.xuehai_keep_app).toList())
-//        filterSet.addAll(view.getStringArray(R.array.un_keep_app).toList())
-//        filterSet.addAll(view.getStringArray(R.array.android_keep_app).toList())
-//        filterSet.addAll(view.getStringArray(R.array.android_un_keep_app).toList())
+        filterSet.addAll(view.getStringArray(R.array.xuehai_keep_app).toList())
+        filterSet.addAll(view.getStringArray(R.array.un_keep_app).toList())
+        filterSet.addAll(view.getStringArray(R.array.android_keep_app).toList())
+        filterSet.addAll(view.getStringArray(R.array.android_un_keep_app).toList())
 //        filterSet.addAll(view.getStringArray(R.array.samsung_keep_app).toList())
-        filterSet.addAll(view.getStringArray(R.array.samsung_un_keep_app).toList())
+//        filterSet.addAll(view.getStringArray(R.array.samsung_un_keep_app).toList())
+//        filterSet.addAll(view.getStringArray(R.array.samsung_special_app).toList())
 //        filterSet.addAll(view.getStringArray(R.array.huawei_keep_app).toList())
 //        filterSet.addAll(view.getStringArray(R.array.huawei_un_keep_app).toList())
 //        filterSet.addAll(view.getStringArray(R.array.lenovo_keep_app).toList())
 //        filterSet.addAll(view.getStringArray(R.array.lenovo_un_keep_app).toList())
         // --------------------------------------------------
-//        filterSet.removeAll(view.getStringArray(R.array.test_app).toList())
+//        filterSet.addAll(view.getStringArray(R.array.test_app).toList())
         // --------------------------------------------------
-        filterSet.mapTo(packageList) { it }
+//        filterSet.mapTo(packageList) { it }
         // --------------------------------------------------
 //        getAllInstallApp()
-//        packageList.removeAll(filterSet)
+        getSystemApp()
+//        getUnSystemApp()
+        packageList.removeAll(filterSet)
 
     }
 
     // --------------------------------------------------
     private fun reset() {
         packageList.clear()
-        ZFileUtil.deleteFile(existsFile)
-        ZFileUtil.deleteFile(unExistsFile)
-        ZFileUtil.deleteFile(extractFile)
-        ZFileUtil.deleteFile(allFile)
+        ZFileUtil.deleteFile(baseDir)
+//        ZFileUtil.deleteFile(unExistsFile)
+//        ZFileUtil.deleteFile(extractFile)
+//        ZFileUtil.deleteFile(allFile)
     }
 
     // --------------------------------------------------
