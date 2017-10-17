@@ -34,7 +34,6 @@ class AutoTaskExecutorService extends AsyncTaskExecutorService {
             return false;
         } else {
             if (!isRunning) {
-                isRunning = true;
                 if (autoExecutor == null) {
                     autoExecutor = Executors.newSingleThreadExecutor();
                 }
@@ -53,6 +52,7 @@ class AutoTaskExecutorService extends AsyncTaskExecutorService {
     protected void run() {
         try {
             do {
+                isRunning = true;
                 taskExecutorService.executeNextTask();
                 Thread.sleep(100L);
             } while (!taskExecutorService.isEmpty());

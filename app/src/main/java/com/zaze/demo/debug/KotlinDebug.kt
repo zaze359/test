@@ -1,7 +1,6 @@
 package com.zaze.demo.debug
 
 import android.util.Base64
-import com.zaze.utils.ZCommand
 import com.zaze.utils.ZEncryptionUtil
 import com.zaze.utils.ZFileUtil
 import com.zaze.utils.ZStringUtil
@@ -56,7 +55,7 @@ class KotlinDebug {
 //        val keyguardManager = MyApplication.getInstance().getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
 //        result = "" + keyguardManager.isKeyguardSecure
         // --------------------------------------------------
-        result = "" + ZCommand.isRoot()
+//        result = "" + ZCommand.isRoot()
         ZLog.i(ZTag.TAG_DEBUG, result)
     }
 
