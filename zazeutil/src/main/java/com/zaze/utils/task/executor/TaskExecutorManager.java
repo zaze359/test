@@ -144,7 +144,9 @@ public class TaskExecutorManager {
     public void executeAsyncNext(String tag) {
         TaskExecutorService taskExecutorService = getTaskExecutorService(tag);
         if (taskExecutorService != null) {
-            if (!new AsyncTaskExecutorService(taskExecutorService).executeAsyncTask()) {
+            AsyncTaskExecutorService asyncTaskExecutorService = new AsyncTaskExecutorService(taskExecutorService);
+            asyncTaskExecutorService.executeAsyncTask();
+            if (asyncTaskExecutorService.isEmpty()) {
                 if (needLog) {
                     ZLog.i(ZTag.TAG_TASK, "标签(%s)执行任务已经执行完毕, 移除标签！", tag);
                 }
@@ -196,32 +198,12 @@ public class TaskExecutorManager {
         }
         TaskExecutorService taskExecutorService = getTaskExecutorService(tag);
         if (taskExecutorService instanceof AutoTaskExecutorService) {
-            ((AutoTaskExecutorService) taskExecutorService).autoExecute();
+            ((AutoTaskExecutorService) taskExecutorService).executeAsyncTask();
         } else {
             AutoTaskExecutorService autoTaskExecutorService = new AutoTaskExecutorService(taskExecutorService);
-//            executorMap.remove(tag);
-            if (autoTaskExecutorService.autoExecute()) {
-                executorMap.put(tag, autoTaskExecutorService);
-            }
+            autoTaskExecutorService.executeAsyncTask();
+            executorMap.put(tag, autoTaskExecutorService);
         }
-    }
-
-    /**
-     * 终止默认标签中的后续任务
-     */
-    public void shutdownAutoExecuteTask() {
-        shutdownAutoExecuteTask(DEFAULT_TAG);
-    }
-
-    /**
-     * 终止后续任务
-     */
-    public void shutdownAutoExecuteTask(String tag) {
-        TaskExecutorService taskExecutorService = getTaskExecutorService(tag);
-        if (taskExecutorService instanceof AutoTaskExecutorService) {
-            ((AutoTaskExecutorService) taskExecutorService).shutdown();
-        }
-
     }
 
     // --------------------------------------------------

@@ -4,8 +4,6 @@ package com.zaze.utils.task.executor;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
-import java.util.concurrent.Executors;
-
 /**
  * Description  : 任务池服务
  * taskIdQueue  : 任务id队列
@@ -15,69 +13,55 @@ import java.util.concurrent.Executors;
  * @version : 2016-12-14 - 10:26
  */
 class AutoTaskExecutorService extends AsyncTaskExecutorService {
-    private boolean isRunning;
+    private boolean isRunning = false;
 
     public AutoTaskExecutorService(TaskExecutorService taskExecutorService) {
         super(taskExecutorService);
     }
 
-    /**
-     * 自动依次执行所有任务
-     */
-    public boolean autoExecute() {
-        return executeAsyncTask();
-    }
-
     @Override
     public boolean executeAsyncTask() {
-        if (taskExecutorService == null) {
-            return false;
-        } else {
-            if (!isRunning) {
-                if (autoExecutor == null) {
-                    autoExecutor = Executors.newSingleThreadExecutor();
+        try {
+            if (taskExecutorService == null) {
+                return false;
+            } else {
+                if (!isRunning) {
+                    executorService.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (needLog) {
+                                ZLog.d(ZTag.TAG_TASK, "run start");
+                            }
+                            isRunning = true;
+                            try {
+                                while (!taskExecutorService.isEmpty()) {
+                                    running();
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            isRunning = false;
+                            if (needLog) {
+                                ZLog.d(ZTag.TAG_TASK, "run end");
+                            }
+                        }
+                    });
                 }
-                autoExecutor.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        AutoTaskExecutorService.this.run();
-                    }
-                });
+                return true;
             }
-            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
     @Override
-    protected void run() {
-        try {
-            do {
-                isRunning = true;
-                taskExecutorService.executeNextTask();
-                Thread.sleep(100L);
-            } while (!taskExecutorService.isEmpty());
-        } catch (Exception e) {
-            e.printStackTrace();
+    public void clear() {
+        super.clear();
+        if (needLog) {
+            ZLog.i(ZTag.TAG_TASK, "中断取消 自动执行任务池中的所有剩余任务!");
         }
         isRunning = false;
-    }
-
-    /**
-     * 中断取消所有任务
-     */
-    public void shutdown() {
-        isRunning = false;
-        if (autoExecutor != null) {
-            if (needLog) {
-                ZLog.i(ZTag.TAG_TASK, "中断取消 自动执行任务池中的所有剩余任务!");
-            }
-            // --------------------------------------------------
-            this.clear();
-            // --------------------------------------------------
-            autoExecutor.shutdown();
-            autoExecutor = null;
-        } else {
-            ZLog.i(ZTag.TAG_TASK, "任务池不存在, 不需要中断!");
-        }
+        executorService.shutdown();
     }
 }

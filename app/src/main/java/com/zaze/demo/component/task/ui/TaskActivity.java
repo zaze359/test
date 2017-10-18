@@ -104,6 +104,20 @@ public class TaskActivity extends ZBaseActivity implements TaskView {
                 }
             });
         }
+        for (int i = 10; i < 20; i++) {
+            TaskExecutorManager.getInstance().pushTask(new TaskEntity(String.valueOf(i)), new TaskCallback() {
+                @Override
+                public void onExecute(TaskEntity entity) {
+                    ZLog.v(ZTag.TAG_TASK, ZJsonUtil.objToJson(entity));
+                    try {
+                        Thread.sleep(500L);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+        TaskExecutorManager.getInstance().autoExecuteTask();
         TaskExecutorManager.getInstance().autoExecuteTask(tag);
     }
 

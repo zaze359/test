@@ -1,6 +1,9 @@
 package com.zaze.utils.task.executor;
 
 
+import com.zaze.utils.log.ZLog;
+import com.zaze.utils.log.ZTag;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -13,7 +16,7 @@ import java.util.concurrent.Executors;
  * @version : 2016-12-14 - 10:26
  */
 class AsyncTaskExecutorService extends FilterTaskExecutorService {
-    protected ExecutorService autoExecutor;
+    protected ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     public AsyncTaskExecutorService(TaskExecutorService taskExecutorService) {
         super(taskExecutorService);
@@ -26,14 +29,11 @@ class AsyncTaskExecutorService extends FilterTaskExecutorService {
         if (taskExecutorService == null) {
             return false;
         }
-        if (autoExecutor == null) {
-            autoExecutor = Executors.newSingleThreadExecutor();
-        }
         if (!taskExecutorService.isEmpty()) {
-            autoExecutor.execute(new Runnable() {
+            executorService.execute(new Runnable() {
                 @Override
                 public void run() {
-                    AsyncTaskExecutorService.this.run();
+                    running();
                 }
             });
             return true;
@@ -42,7 +42,10 @@ class AsyncTaskExecutorService extends FilterTaskExecutorService {
         }
     }
 
-    protected void run() {
+    protected void running() {
+        if (needLog) {
+            ZLog.d(ZTag.TAG_TASK, "running");
+        }
         taskExecutorService.executeNextTask();
     }
 }
