@@ -14,7 +14,7 @@ maven { url "https://dl.bintray.com/zaze359/maven" }
 
 
 - compile 'com.zaze:zazecommon:1.0.2@aar'
-- compile 'com.zaze:zazeutil:1.0.19'
+- compile 'com.zaze:zazeutil:1.0.20'
 
 
 

@@ -148,34 +148,34 @@ public class ThreadManager {
         handler.postDelayed(runnable, delay);
     }
 
-    /**
-     * Description	: 终止单线程调用中的方法 等待当前的线程执行完毕后终止所有的线程
-     *
-     * @author : zaze
-     * @version : 2015年6月9日 下午12:31:54
-     */
-    public void shutdownSingleThread() {
-        singleExecutor.shutdown();
-        initSingleExecutor();
-    }
-
-    /**
-     * Description	: 终止多线程  等待当前的线程执行完毕后终止所有的线程
-     *
-     * @author : zaze
-     * @version : 2015年6月9日 下午12:31:54
-     */
-    public void shutdownMultiThread() {
-        multiExecutor.shutdown();
-    }
-
-    /**
-     * Description	: 终止后台  等待当前的线程执行完毕后终止所有的线程
-     *
-     * @author : zaze
-     * @version : 2015年6月9日 下午12:31:54
-     */
-    public void shutdownBackgroundThread() {
-        backgroundExecutor.shutdown();
-    }
+//    /**
+//     * Description	: 终止单线程调用中的方法 等待当前的线程执行完毕后终止所有的线程
+//     *
+//     * @author : zaze
+//     * @version : 2015年6月9日 下午12:31:54
+//     */
+//    public void shutdownSingleThread() {
+//        singleExecutor.shutdown();
+//        initSingleExecutor();
+//    }
+//
+//    /**
+//     * Description	: 终止多线程  等待当前的线程执行完毕后终止所有的线程
+//     *
+//     * @author : zaze
+//     * @version : 2015年6月9日 下午12:31:54
+//     */
+//    public void shutdownMultiThread() {
+//        multiExecutor.shutdown();
+//    }
+//
+//    /**
+//     * Description	: 终止后台  等待当前的线程执行完毕后终止所有的线程
+//     *
+//     * @author : zaze
+//     * @version : 2015年6月9日 下午12:31:54
+//     */
+//    public void shutdownBackgroundThread() {
+//        backgroundExecutor.shutdown();
+//    }
 }

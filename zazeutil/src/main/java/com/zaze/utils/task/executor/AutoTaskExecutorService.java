@@ -62,6 +62,6 @@ class AutoTaskExecutorService extends AsyncTaskExecutorService {
             ZLog.i(ZTag.TAG_TASK, "中断取消 自动执行任务池中的所有剩余任务!");
         }
         isRunning = false;
-        executorService.shutdown();
+//        executorService.shutdown();
     }
 }

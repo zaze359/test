@@ -10,6 +10,7 @@ import com.zaze.utils.log.ZTag
 import java.io.File
 import java.util.*
 
+
 /**
  * Description :
  * @author : ZAZE
@@ -55,7 +56,9 @@ class KotlinDebug {
 //        val keyguardManager = MyApplication.getInstance().getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
 //        result = "" + keyguardManager.isKeyguardSecure
         // --------------------------------------------------
-//        result = "" + ZCommand.isRoot()
+//        resu= "" + ZCommand.isRoot()
+        // --------------------------------------------------
+//        Settings.System.putInt(MyApplication.getInstance().contentResolver, SCREEN_OFF_TIMEOUT, Integer.MAX_VALUE)
         ZLog.i(ZTag.TAG_DEBUG, result)
     }
 
