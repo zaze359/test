@@ -181,10 +181,30 @@ public abstract class ZUltimateRecycleAdapter<V, VH extends RecyclerView.ViewHol
         return ZViewUtil.findView(parentView, resId);
     }
 
-    //
+    // --------------------------------------------------
+
+    /**
+     * get view layout id
+     *
+     * @return int
+     */
     public abstract int getViewLayoutId();
 
+    /**
+     * 构建viewHolder
+     *
+     * @param view   view
+     * @param isItem isItem
+     * @return H
+     */
     public abstract VH getViewHolder(View view, boolean isItem);
 
+    /**
+     * view赋值
+     *
+     * @param holder   holder
+     * @param value    value
+     * @param position position
+     */
     public abstract void onBindView(VH holder, V value, int position);
 }

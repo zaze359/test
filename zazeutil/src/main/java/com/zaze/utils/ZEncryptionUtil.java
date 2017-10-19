@@ -21,13 +21,14 @@ public class ZEncryptionUtil {
         }
         MessageDigest digest;
         FileInputStream in;
-        byte buffer[] = new byte[1024];
+        int maxReadSize = 1024;
+        byte[] byteArray = new byte[maxReadSize];
         int len;
         try {
             digest = MessageDigest.getInstance("MD5");
             in = new FileInputStream(file);
-            while ((len = in.read(buffer, 0, 1024)) != -1) {
-                digest.update(buffer, 0, len);
+            while ((len = in.read(byteArray, 0, maxReadSize)) != -1) {
+                digest.update(byteArray, 0, len);
             }
             in.close();
         } catch (Exception e) {
@@ -80,7 +81,6 @@ public class ZEncryptionUtil {
     }
 
     // ---------------------------------------------------------------------------
-
 
 
 }

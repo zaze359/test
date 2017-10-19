@@ -8,5 +8,8 @@ package com.zaze.demo.component.animation.presenter;
  */
 public interface AnimationPresenter {
 
+    /**
+     * animation列表
+     */
     void getAnimationList();
 }

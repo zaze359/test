@@ -159,8 +159,9 @@ public class ZCompressUtil {
      */
     private static void zipFiles(String folderString, String fileString, ZipOutputStream zipOutputSteam) throws Exception {
         ZLog.v(ZTag.TAG_DEBUG, "XZip : ipFiles(String, String, ZipOutputStream)");
-        if (zipOutputSteam == null)
+        if (zipOutputSteam == null) {
             return;
+        }
         File file = new File(folderString + fileString);
         //判断是不是文件
         if (file.isFile()) {
@@ -175,7 +176,7 @@ public class ZCompressUtil {
             zipOutputSteam.closeEntry();
         } else {
             //文件夹的方式,获取文件夹下的子文件
-            String fileList[] = file.list();
+            String[] fileList = file.list();
             //如果没有子文件, 则添加进去即可
             if (fileList.length <= 0) {
                 ZipEntry zipEntry = new ZipEntry(fileString + File.separator);

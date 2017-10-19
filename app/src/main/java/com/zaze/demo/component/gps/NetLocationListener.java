@@ -37,6 +37,8 @@ public class NetLocationListener implements LocationListener {
                 break;
             case LocationProvider.TEMPORARILY_UNAVAILABLE:
                 break;
+            default:
+                break;
         }
         if (locationListener != null) {
             locationListener.onStatusChanged(provider, status, extras);

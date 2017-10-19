@@ -39,7 +39,7 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
     /**
      * 能放进缓存的数据最大值 太大的不放内存
      */
-    private static final long cacheBlockLength = 1 << 20;
+    private static final long CACHE_BLOCK_LENGTH = 1 << 20;
     //
 //    private static final ConcurrentHashMap<String, SoftReference<Cache>> cacheMap = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<String, Cache> cacheMap = new ConcurrentHashMap<>();
@@ -76,8 +76,8 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
         if (saveSize > maxSize) {
             return "MemoryCache cacheData is larger than maxSize " + maxSize;
         }
-        if (saveSize > cacheBlockLength) {
-            return "MemoryCache cacheData is larger than cacheBlockLength " + cacheBlockLength;
+        if (saveSize > CACHE_BLOCK_LENGTH) {
+            return "MemoryCache cacheData is larger than CACHE_BLOCK_LENGTH " + CACHE_BLOCK_LENGTH;
         }
         passiveRelease(saveSize, tempCaches);
         return "";
@@ -113,18 +113,18 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
         for (String key : tempMap.keySet()) {
             Cache cache = tempMap.get(key);
             if (cache == null) {
-                deleteCache(key);
+                clearCache(key);
                 continue;
             }
             // --------------------------------------------------
             byte[] bytes = cache.getBytes();
             if (bytes == null || bytes.length == 0) {
-                deleteCache(key);
+                clearCache(key);
                 continue;
             }
             // --------------------------------------------------
             if (currTime >= cache.getLastTimeMillis() + cache.getKeepTime()) {
-                deleteCache(key);
+                clearCache(key);
                 if (cacheLog) {
                     ZLog.d(ZTag.TAG_MEMORY, "MemoryCache onRelease : " + cache.toString());
                 }
@@ -181,7 +181,7 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
                 continue;
             }
             releaseLength += cache.getBytes().length;
-            deleteCache(cache.getKey());
+            clearCache(cache.getKey());
         }
         if (cacheLog) {
             ZLog.d(ZTag.TAG_MEMORY, "passiveRelease >> needRelease : " + needRelease);
@@ -193,7 +193,7 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
 
     // --------------------------------------------------
     @Override
-    public void setCache(String key, byte[] values, long keepTime, @DataLevel int dataLevel) {
+    public void saveCache(String key, byte[] values, long keepTime, @DataLevel int dataLevel) {
         if (values == null) {
             return;
         }
@@ -223,7 +223,7 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
     }
 
     @Override
-    public void deleteCache(String key) {
+    public void clearCache(String key) {
         Cache cache = get(key);
         if (cache != null) {
             if (cache.getBytes() != null) {
@@ -231,7 +231,7 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
             }
         }
         if (cacheLog) {
-            ZLog.d(ZTag.TAG_MEMORY, "deleteCache : " + key);
+            ZLog.d(ZTag.TAG_MEMORY, "clearCache : " + key);
         }
         cacheMap.remove(key);
     }

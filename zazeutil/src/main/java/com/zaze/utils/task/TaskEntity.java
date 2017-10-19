@@ -27,17 +27,6 @@ public class TaskEntity {
         this.taskId = taskId;
     }
 
-    @Deprecated
-    public String getAction() {
-        return taskId;
-    }
-
-    @Deprecated
-    public TaskEntity setAction(String action) {
-        this.taskId = action;
-        return this;
-    }
-
     public long getLoopTime() {
         return loopTime;
     }

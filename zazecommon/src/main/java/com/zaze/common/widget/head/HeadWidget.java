@@ -206,7 +206,7 @@ public class HeadWidget extends BaseHeadView {
         }
     }
 
-    // ----------------------- center ----------------------------
+    // ----------------------- CENTER ----------------------------
     private HeadWidget setTitleText(String text) {
         if (text != null) {
             headTitleText.setText(text);
@@ -240,7 +240,7 @@ public class HeadWidget extends BaseHeadView {
         return headTitleText;
     }
 
-    // ----------------------- left ----------------------------
+    // ----------------------- LEFT ----------------------------
     private HeadWidget setLeftText(String text) {
         if (text != null) {
             headLeftText.setText(text);
@@ -280,7 +280,7 @@ public class HeadWidget extends BaseHeadView {
     public HeadWidget setLeftIcon(Bitmap bmp) {
         Drawable drawable = null;
         if (bmp != null) {
-            drawable = new BitmapDrawable(bmp);
+            drawable = new BitmapDrawable(getResources(), bmp);
         }
         headLeftText.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
 //        headTitleText.setImageBitmap(bmp);
@@ -297,7 +297,7 @@ public class HeadWidget extends BaseHeadView {
         return headLeftLayout;
     }
 
-    // ----------------------- right ----------------------------
+    // ----------------------- RIGHT ----------------------------
     public HeadWidget setRightText(String text) {
         if (text != null) {
             headRightText.setText(text);

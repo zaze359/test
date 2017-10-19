@@ -17,9 +17,4 @@ public @interface ZOrientation {
     int LEFT = 2;
     int CENTER = 5;
     int RIGHT = 3;
-
-//    @IntDef({LEFT, CENTER, RIGHT})
-//    @interface Orientation {
-//
-//    }
 }

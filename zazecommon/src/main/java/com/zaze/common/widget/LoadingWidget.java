@@ -29,7 +29,7 @@ public class LoadingWidget {
         loadingMsgTv = ZViewUtil.findView(view, R.id.loading_desc_tv);
         progressDialog.setContentView(view);
         progressDialog.setCancelable(false);
-        progressDialog.setCanceledOnTouchOutside(false);// 点击dialog外不消失
+        progressDialog.setCanceledOnTouchOutside(false);
     }
 
     public void showProgress() {

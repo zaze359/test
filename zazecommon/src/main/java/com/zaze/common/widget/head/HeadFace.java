@@ -65,6 +65,8 @@ public interface HeadFace {
     HeadFace setVisibility(int visibility, @ZOrientation int orientation);
 
     /**
+     * 获取指定view
+     *
      * @param orientation orientation
      * @return View
      */

@@ -6,7 +6,7 @@ package com.zaze.demo.component.okhttp;
  * @author : ZAZE
  * @version : 2017-06-15 - 14:24
  */
-public class TabletReceiverEntity extends BaseEntity {
+public class TabletReceiverEntity {
     private String sReceiverName;
     private String sDevNumber;
     private String sMacAddress;

@@ -27,13 +27,12 @@ public class ZazeProvider extends ContentProvider {
     // --------------------------------------------------
     public static final int MULTIPLE_PEOPLE = 1;
     public static final int SINGLE_PEOPLE = 2;
-
-    public static final UriMatcher uriMatcher;
+    public static final UriMatcher URI_MATCHER;
 
     static {
-        uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        uriMatcher.addURI(User.AUTHORITY, User.PATH_SINGLE, SINGLE_PEOPLE);
-        uriMatcher.addURI(User.AUTHORITY, User.PATH_MULTIPLE, MULTIPLE_PEOPLE);
+        URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
+        URI_MATCHER.addURI(User.AUTHORITY, User.PATH_SINGLE, SINGLE_PEOPLE);
+        URI_MATCHER.addURI(User.AUTHORITY, User.PATH_MULTIPLE, MULTIPLE_PEOPLE);
     }
 
     private DBOpenHelper dbOpenHelper;
@@ -52,7 +51,7 @@ public class ZazeProvider extends ContentProvider {
         ZLog.i(ZTag.TAG_PROVIDER, "query");
         SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
         queryBuilder.setTables(UserDao.Properties.TABLE_NAME);
-        switch (uriMatcher.match(uri)) {
+        switch (URI_MATCHER.match(uri)) {
             case MULTIPLE_PEOPLE:
                 ZLog.i(ZTag.TAG_PROVIDER, "MULTIPLE_PEOPLE");
                 break;
@@ -84,8 +83,8 @@ public class ZazeProvider extends ContentProvider {
         User user = new User();
         user.setUsername(username);
         user.setUserId(userId);
-        long _id = dbOpenHelper.getUserDao().insert(values);
-        Uri newUri = ContentUris.withAppendedId(User.CONTENT_URI, _id);
+        long insertId = dbOpenHelper.getUserDao().insert(values);
+        Uri newUri = ContentUris.withAppendedId(User.CONTENT_URI, insertId);
         getContext().getContentResolver().notifyChange(newUri, null);
         return newUri;
     }

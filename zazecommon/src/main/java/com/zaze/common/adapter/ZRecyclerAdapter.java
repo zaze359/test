@@ -92,9 +92,28 @@ public abstract class ZRecyclerAdapter<V, H extends RecyclerView.ViewHolder> ext
     }
 
     // --------------------------------------------------
+
+    /**
+     * get view layout id
+     *
+     * @return int
+     */
     public abstract int getViewLayoutId();
 
+    /**
+     * 构建viewHolder
+     *
+     * @param convertView convertView
+     * @return H
+     */
     public abstract H createViewHolder(View convertView);
 
+    /**
+     * view赋值
+     *
+     * @param holder   holder
+     * @param value    value
+     * @param position position
+     */
     public abstract void onBindView(H holder, V value, int position);
 }

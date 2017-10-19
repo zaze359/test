@@ -22,7 +22,7 @@ import okhttp3.Response;
  * @version : 2017-06-15 - 13:49
  */
 public class OkHttpUtil {
-    private static final OkHttpClient mOkHttpClient = new OkHttpClient();
+    private static OkHttpClient mOkHttpClient = new OkHttpClient();
 
     // --------------------------------------------------
 

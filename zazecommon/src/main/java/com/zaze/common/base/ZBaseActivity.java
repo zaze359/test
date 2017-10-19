@@ -107,7 +107,7 @@ public abstract class ZBaseActivity extends AppCompatActivity implements ZBaseVi
     }
 
     @Override
-    public void close() {
+    public void finishSelf() {
         ZActivityUtil.finish(this);
     }
 
@@ -115,7 +115,6 @@ public abstract class ZBaseActivity extends AppCompatActivity implements ZBaseVi
     public Context getContext() {
         return this;
     }
-
 
     @Override
     public void jumpToOtherUI(Intent intent, Class<?> cls) {
@@ -138,12 +137,7 @@ public abstract class ZBaseActivity extends AppCompatActivity implements ZBaseVi
     }
 
     @Override
-    public void toFinish() {
-        finish();
-    }
-
-    @Override
-    public void toFinish(Intent intent, int code) {
+    public void finishSelf(Intent intent, int code) {
         setResult(code, intent);
         finish();
     }

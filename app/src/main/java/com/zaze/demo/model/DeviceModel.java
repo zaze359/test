@@ -12,5 +12,10 @@ import java.util.List;
  */
 public interface DeviceModel {
 
+    /**
+     * getDeviceInfo
+     *
+     * @return List<DeviceStatus>
+     */
     List<DeviceStatus> getDeviceInfo();
 }

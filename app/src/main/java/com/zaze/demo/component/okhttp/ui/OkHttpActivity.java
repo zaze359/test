@@ -43,7 +43,6 @@ public class OkHttpActivity extends ZBaseActivity implements OkHttpView {
             @Override
             public void onClick(View v) {
 //                String url = "http://zt.yunzuoye.net:84/apps/overt/"
-                TabletReceiverEntity entity = new TabletReceiverEntity();
                 String json = "{\"M\":1,\"C\":\"1000\",\"S\":\"1\",\"sReceiverName\":\"aichenk\",\"sDevNumber\":\"112233\",\"sMacAddress\":\"DFS:DFSA\",\"iReceivePurpose\":0,\"sReceiverAccount\":\"aichenk\"}";
 //                post("http://zt.yunzuoye.net:84/apps/overt/main/register-tablet-receiver", JsonUtil.objToJson(entity));
                 post("http://common.yunzuoye.net/overt/main/register-tablet-receiver", json);

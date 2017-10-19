@@ -29,7 +29,7 @@ public class MemoryCacheHelper {
     // --------------------------------------------------
 
     public static void deleteCache(String key) {
-        MemoryCache.getInstance().deleteCache(key);
+        MemoryCache.getInstance().clearCache(key);
     }
 
     public static void clearMemoryCache() {
@@ -90,6 +90,6 @@ public class MemoryCacheHelper {
      * @param dataLevel
      */
     public static void saveCacheBytes(String key, byte[] values, long keepTime, @DataLevel int dataLevel) {
-        MemoryCache.getInstance().setCache(key, values, keepTime, dataLevel);
+        MemoryCache.getInstance().saveCache(key, values, keepTime, dataLevel);
     }
 }

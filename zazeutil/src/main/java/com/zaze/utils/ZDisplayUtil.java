@@ -43,22 +43,29 @@ public class ZDisplayUtil {
     }
 
     public static String getDensityDpiName() {
-        if (SCREEN_DENSITY_DPI <= 120) {
+        if (SCREEN_DENSITY_DPI <= LDPI) {
             return "ldpi";
-        } else if (SCREEN_DENSITY_DPI <= 160) {
+        } else if (SCREEN_DENSITY_DPI <= MDPI) {
             return "mdpi";
-        } else if (SCREEN_DENSITY_DPI <= 240) {
+        } else if (SCREEN_DENSITY_DPI <= HDPI) {
             return "hdpi";
-        } else if (SCREEN_DENSITY_DPI <= 320) {
+        } else if (SCREEN_DENSITY_DPI <= XHDPI) {
             return "xhdpi";
-        } else if (SCREEN_DENSITY_DPI <= 480) {
+        } else if (SCREEN_DENSITY_DPI <= XXHDPI) {
             return "xxhdpi";
-        } else if (SCREEN_DENSITY_DPI <= 640) {
+        } else if (SCREEN_DENSITY_DPI <= XXXHDPI) {
             return "xxxhdpi";
         } else {
             return "x????dpi";
         }
     }
+
+    public static final int LDPI = 120;
+    public static final int MDPI = 160;
+    public static final int HDPI = 240;
+    public static final int XHDPI = 320;
+    public static final int XXHDPI = 480;
+    public static final int XXXHDPI = 640;
 
 
 //    public static int designedDP2px(float designedDp) {

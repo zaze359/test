@@ -2,6 +2,7 @@ package com.zaze.common.base;
 
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -54,7 +55,6 @@ public abstract class ZBaseFragment extends Fragment implements ZBaseView {
         return rootView;
     }
 
-    @Deprecated
     protected void init(View view) {
     }
 
@@ -127,8 +127,14 @@ public abstract class ZBaseFragment extends Fragment implements ZBaseView {
     }
 
     @Override
-    public void close() {
+    public void finishSelf() {
         ZActivityUtil.finish(getActivity());
+    }
+
+    @Override
+    public void finishSelf(Intent intent, int code) {
+        getActivity().setResult(code, intent);
+        getActivity().finish();
     }
 
     @Override
@@ -151,18 +157,7 @@ public abstract class ZBaseFragment extends Fragment implements ZBaseView {
         ZActivityUtil.startActivityForResult(this, cls, intent, code);
     }
 
-    @Override
-    public void toFinish() {
-        getActivity().finish();
-    }
-
-    @Override
-    public void toFinish(Intent intent, int code) {
-        getActivity().setResult(code, intent);
-        getActivity().finish();
-    }
-
-    // --------------------
+    // --------------------------------------------------
 
     /**
      * 更换theme
@@ -176,7 +171,11 @@ public abstract class ZBaseFragment extends Fragment implements ZBaseView {
     // --------------------------------------------------
     @Override
     public int getColor(int colorRes) {
-        return getResources().getColor(colorRes);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return getResources().getColor(colorRes, null);
+        } else {
+            return getResources().getColor(colorRes);
+        }
     }
 
     @Override
@@ -207,7 +206,9 @@ public abstract class ZBaseFragment extends Fragment implements ZBaseView {
     }
 
     /**
-     * @return 返回hearer 操作类
+     * hearer 操作类
+     *
+     * @return HeadFace
      */
     public HeadFace getHeadWidget() {
         return headFace;
@@ -216,7 +217,9 @@ public abstract class ZBaseFragment extends Fragment implements ZBaseView {
     // --------------------------------------------------
 
     /**
-     * @return 布局layout.xml
+     * 布局layout.xml
+     *
+     * @return int
      */
     protected abstract int getLayoutId();
 }

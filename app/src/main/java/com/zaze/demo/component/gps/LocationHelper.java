@@ -34,8 +34,8 @@ public class LocationHelper {
     private static GpsLocationListener gpsLocationListener;
     private static NetLocationListener netLocationListener;
     private static Location currentLocation = null;
-    private static final long minTime = 5000L;
-    private static final float minDistance = 5f;
+    private static final long MIN_TIME = 5000L;
+    private static final float MIN_DISTANCE = 5f;
 
     public static void stop() {
         removeNetUpdates();
@@ -92,7 +92,7 @@ public class LocationHelper {
             });
         }
         if (locationManager.getAllProviders().contains(LocationManager.GPS_PROVIDER)) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, minDistance, gpsLocationListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, gpsLocationListener);
         }
     }
 
@@ -130,7 +130,7 @@ public class LocationHelper {
             });
         }
         if (locationManager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER)) {
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, minTime, 0, netLocationListener);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, 0, netLocationListener);
         }
     }
 

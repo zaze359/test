@@ -50,6 +50,9 @@ public class NetworkUtil {
 
     public static String getNetwork(Context context) {
         ConnectivityManager connectivityManager = getConnectivityManager(context);
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+//            Network[] networks = connectivityManager.getAllNetworks();
+//        }
         NetworkInfo mobileInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
         NetworkInfo wifiInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         NetworkInfo activeInfo = connectivityManager.getActiveNetworkInfo();

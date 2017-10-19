@@ -120,6 +120,7 @@ public class GpsPresenterImpl extends ZBasePresenter<GpsView> implements GpsPres
         return criteria;
     }
 
+    @Override
     public void stop() {
         LocationHelper.stop();
     }

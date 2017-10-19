@@ -1,5 +1,11 @@
 package com.zaze.common.base;
 
+/**
+ * Description :
+ *
+ * @author zaze
+ * @version 2017/10/19 - 上午11:22 1.0
+ */
 public abstract class ZBasePresenter<V extends ZBaseView> {
 
     public V view;

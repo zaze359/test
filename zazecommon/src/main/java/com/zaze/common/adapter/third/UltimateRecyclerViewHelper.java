@@ -38,6 +38,8 @@ public class UltimateRecyclerViewHelper {
             public void loadMore(final int itemsCount, final int maxLastVisiblePosition) {
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
+
+                    @Override
                     public void run() {
                         if (onLoadMoreListener != null) {
                             onLoadMoreListener.loadMore(itemsCount, maxLastVisiblePosition);
