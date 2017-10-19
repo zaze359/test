@@ -1,10 +1,14 @@
 package com.zaze.utils.task.executor;
 
 
+import android.support.annotation.NonNull;
+
 import com.zaze.utils.ZCallback;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Description : 多任务池服务
@@ -13,10 +17,21 @@ import java.util.concurrent.Executors;
  * @version 2017/3/25 - 上午12:25 1.0
  */
 class MultiTaskExecutorService extends FilterTaskExecutorService {
-    private static ExecutorService multiExecutor;
+    private static ThreadPoolExecutor multiExecutor;
 
     public MultiTaskExecutorService(TaskExecutorService taskExecutorService) {
         super(taskExecutorService);
+        multiExecutor = new ThreadPoolExecutor(5, 5 * Runtime.getRuntime().availableProcessors(), 60L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(), new ThreadFactory() {
+            @Override
+            public Thread newThread(@NonNull Runnable r) {
+                Thread thread = new Thread(r, "MultiTaskExecutorService");
+                if (thread.isDaemon()) {
+                    thread.setDaemon(false);
+                }
+                return thread;
+            }
+        });
+        multiExecutor.allowCoreThreadTimeOut(true);
     }
 
     /**
@@ -25,9 +40,6 @@ class MultiTaskExecutorService extends FilterTaskExecutorService {
      * @param num 执行任务数
      */
     public void multiExecuteTask(int num, final ZCallback<Boolean> callback) {
-        if (multiExecutor == null) {
-            multiExecutor = Executors.newFixedThreadPool(10);
-        }
         for (int i = 0; i < num; i++) {
             multiExecutor.execute(new Runnable() {
                 @Override

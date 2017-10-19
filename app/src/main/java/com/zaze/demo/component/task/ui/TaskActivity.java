@@ -88,7 +88,7 @@ public class TaskActivity extends ZBaseActivity implements TaskView {
     @OnClick(R.id.task_auto_btn)
     public void autoExecute(View view) {
         String tag = "aaaaa";
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1000; i++) {
             TaskExecutorManager.getInstance().pushTask(tag, new TaskEntity(String.valueOf(i)), new TaskCallback() {
                 @Override
                 public void onExecute(TaskEntity entity) {
@@ -98,13 +98,10 @@ public class TaskActivity extends ZBaseActivity implements TaskView {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-//                    if ("50".equals(entity.getTaskId())) {
-//                        TaskExecutorManager.getInstance().shutdownAutoExecuteTask();
-//                    }
                 }
             });
         }
-        for (int i = 10; i < 20; i++) {
+        for (int i = 1000; i < 2000; i++) {
             TaskExecutorManager.getInstance().pushTask(new TaskEntity(String.valueOf(i)), new TaskCallback() {
                 @Override
                 public void onExecute(TaskEntity entity) {
@@ -123,7 +120,7 @@ public class TaskActivity extends ZBaseActivity implements TaskView {
 
     @OnClick(R.id.task_multi_btn)
     public void multiExecute(View view) {
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 10000; i++) {
             TaskExecutorManager.getInstance().pushTask(new TaskEntity(String.valueOf(i)), new TaskCallback() {
                 @Override
                 public void onExecute(TaskEntity entity) {

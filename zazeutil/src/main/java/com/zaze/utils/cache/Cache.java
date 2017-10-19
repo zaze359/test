@@ -16,7 +16,7 @@ class Cache {
      * 保存时长
      */
     private long keepTime;
-    // -------------------
+    // --------------------------------------------------
     /**
      * 使用次数
      */
@@ -34,9 +34,11 @@ class Cache {
      */
     private int type;
 
-    //
+    /**
+     * key
+     */
     private String key;
-    // -----------------
+    // --------------------------------------------------
 
     public Cache(String key, byte[] bytes, long keepTime, int usedNum, long createDate) {
         this.key = key;

@@ -28,27 +28,32 @@ class KotlinDebug {
 //        return showLog("searchFile", { searchFile() })
 //        result = ZDeviceUtil.getUUID(MyApplication.getInstance())
         // --------------------------------------------------
-//        var phoneInfo = "Product: " + android.os.Build.PRODUCT + "\n"
-//        phoneInfo += ", CPU_ABI: " + android.os.Build.CPU_ABI + "\n"
-//        phoneInfo += ", TAGS: " + android.os.Build.TAGS + "\n"
-//        phoneInfo += ", VERSION_CODES.BASE: " + android.os.Build.VERSION_CODES.BASE + "\n"
-//        phoneInfo += ", MODEL: " + android.os.Build.MODEL + "\n"
-//        phoneInfo += ", SDK: " + android.os.Build.VERSION.SDK + "\n"
-//        phoneInfo += ", VERSION.RELEASE: " + android.os.Build.VERSION.RELEASE + "\n"
-//        phoneInfo += ", DEVICE: " + android.os.Build.DEVICE + "\n"
-//        phoneInfo += ", DISPLAY: " + android.os.Build.DISPLAY + "\n"
-//        phoneInfo += ", BRAND: " + android.os.Build.BRAND + "\n"
-//        phoneInfo += ", BOARD: " + android.os.Build.BOARD + "\n"
-//        phoneInfo += ", FINGERPRINT: " + android.os.Build.FINGERPRINT + "\n"
-//        phoneInfo += ", ID: " + android.os.Build.ID + "\n"
-//        phoneInfo += ", MANUFACTURER: " + android.os.Build.MANUFACTURER + "\n"
-//        phoneInfo += ", USER: " + android.os.Build.USER + "\n"
-//        phoneInfo += ", BOOTLOADER: " + android.os.Build.BOOTLOADER + "\n"
-//        phoneInfo += ", HARDWARE: " + android.os.Build.HARDWARE + "\n"
-//        phoneInfo += ", INCREMENTAL: " + android.os.Build.VERSION.INCREMENTAL + "\n"
-//        phoneInfo += ", CODENAME: " + android.os.Build.VERSION.CODENAME + "\n"
-//        phoneInfo += ", SDK: " + android.os.Build.VERSION.SDK_INT + "\n"
-//        result = phoneInfo
+//        ThreadManager.setNeedLog(true)
+//        ThreadManager.getInstance().runInBackgroundThread {
+//            while (true) {
+//                ZLog.i(ZTag.TAG_DEBUG, "runInBackgroundThread : " + Thread.currentThread().id)
+//                Thread.sleep(1000L)
+//            }
+//        }
+//
+//        for (i in 0..10) {
+//            ThreadManager.getInstance().runInSingleThread {
+//                var times = 0
+//                while (times < 10) {
+//                    ZLog.i(ZTag.TAG_DEBUG, "runInSingleThread : " + Thread.currentThread().id)
+//                    Thread.sleep(1000L)
+//                    times++
+//                }
+//            }
+//        }
+//
+//        for (i in 0..1000) {
+//            ThreadManager.getInstance().runInMultiThread {
+//                ZLog.i(ZTag.TAG_DEBUG, "runInMultiThread : " + Thread.currentThread().id)
+//                Thread.sleep(500L)
+//            }
+//        }
+
         // --------------------------------------------------
 //        ZFileUtil.writeToFile("/sdcard/zaze/aaa.txt", "aaaaaaaaaa")
 //        ZCompressUtil.zipFolder("/sdcard/xuehai/log", "/sdcard/xuehai/zip/aa.zip")
@@ -106,9 +111,10 @@ class KotlinDebug {
 //        ZLog.e(ZTag.TAG_DEBUG, EncryptionUtil.getMD5("KiN4dWVoYWkyMDE3JnpoaXRvbmd5dW44JDEwMGZlbjI3QDAjKg== "))
 //        ZLog.e(ZTag.TAG_DEBUG, EncryptionUtil.getMD5("KiN4dWVoYWkyMDE3JnpoaXRvbmd5dW44JDEwMGZlbjI3QDAjKg==\n"))
         ZFileUtil.deleteFileByCmd(secretFile)
-        val current = System.currentTimeMillis()
-        var start = ZDateUtil.getDayStart(current) - ZDateUtil.DAY * 7
-        val end = ZDateUtil.getDayEnd(current) + ZDateUtil.DAY * 3
+//        val current = System.currentTimeMillis()
+        val current = ZDateUtil.stringToDate("2015-01-01 00:00:00", "yyyy-MM-dd HH:mm:ss").time
+        var start = ZDateUtil.getDayStart(current)
+        val end = ZDateUtil.getDayEnd(current) + ZDateUtil.YEAR * 3
         while (start < end) {
             val date = Date(start)
             ZFileUtil.writeToFile(secretFile, "${ZDateUtil.dateToString(date, "yyyy-MM-dd HH:mm:ss")} : ${createDeveloperToken(date)}\n", true)
@@ -138,7 +144,7 @@ class KotlinDebug {
     private fun writeKeyToFile(secret: String): String {
         ZLog.i(ZTag.TAG_DEBUG, "secret : $secret")
         val base64 = String(Base64.encode(secret.toByteArray(), Base64.DEFAULT))
-        ZLog.i(ZTag.TAG_DEBUG, "base64 : ${base64.length}")
+        ZLog.i(ZTag.TAG_DEBUG, "base64 : $base64")
         val md5 = ZEncryptionUtil.getMD5(base64)
 //        ZFileUtil.writeToFile(secretFile, "$secret,$base64,$md5\n", true)
         return md5

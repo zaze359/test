@@ -17,6 +17,7 @@ class AutoTaskExecutorService extends AsyncTaskExecutorService {
 
     public AutoTaskExecutorService(TaskExecutorService taskExecutorService) {
         super(taskExecutorService);
+
     }
 
     @Override

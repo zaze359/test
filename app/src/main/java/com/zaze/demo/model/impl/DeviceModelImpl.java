@@ -101,6 +101,11 @@ public class DeviceModelImpl implements DeviceModel {
         list.add(deviceStatus);
         // --------------------------------------------------
         deviceStatus = new DeviceStatus();
+        deviceStatus.setTag("CPU 数目");
+        deviceStatus.setContent(Runtime.getRuntime().availableProcessors() + "");
+        list.add(deviceStatus);
+        // --------------------------------------------------
+        deviceStatus = new DeviceStatus();
         deviceStatus.setTag("cpu指令集");
         deviceStatus.setContent(Build.CPU_ABI);
         list.add(deviceStatus);

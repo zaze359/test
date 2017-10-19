@@ -23,8 +23,8 @@ public class ZDateUtil {
     public static final long HOUR = 3600000L;
     public static final long DAY = 86400000L;
     public static final long WEEK = 604800000L;
-    public static final long HALF_YEAR = 110376000000L;
-    public static final long YEAR = 220752000000L;
+    public static final long HALF_YEAR = 15768000000L;
+    public static final long YEAR = 31536000000L;
 
 
     public static String getMinAndSec(long timeMillis) {
