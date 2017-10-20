@@ -58,7 +58,7 @@ public class ThreadManager {
         initBackgroundExecutor();
         initSingleExecutor();
         initMultiExecutor();
-        //
+        // --------------------------------------------------
         handler = new Handler(Looper.getMainLooper());
     }
     // --------------------------------------------------
