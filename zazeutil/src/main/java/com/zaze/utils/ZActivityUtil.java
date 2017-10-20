@@ -27,6 +27,7 @@ import android.view.View;
 public class ZActivityUtil {
 
     // --------------------------------------------------
+
     public static void startActivity(Fragment fragment, Class<?> target) {
         fragment.startActivityForResult(getIntent(fragment.getActivity(), target, null), 1);
     }
@@ -36,6 +37,7 @@ public class ZActivityUtil {
     }
 
     // --------------------------------------------------
+
     public static void startActivity(Context context, Intent intent) {
         startActivity(context, null, intent);
     }
@@ -60,29 +62,77 @@ public class ZActivityUtil {
     }
 
     // --------------------------------------------------
+
+    /**
+     * 平滑的将一个控件平移的过渡到第二个activity
+     *
+     * @param activity          activity
+     * @param target            target
+     * @param sharedElement     sharedElement
+     * @param sharedElementName sharedElementName
+     */
+    public static void makeSceneTransitionAnimation(Activity activity, Class<?> target, View sharedElement, String sharedElementName) {
+        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, sharedElement, sharedElementName);
+        startActivityForAnim(activity, target, optionsCompat);
+    }
+
+    /**
+     * 平滑的将多个控件平移的过渡到第二个activity
+     *
+     * @param activity       activity
+     * @param target         target
+     * @param sharedElements sharedElements
+     */
     @SafeVarargs
     public static void makeSceneTransitionAnimation(Activity activity, Class<?> target, Pair<View, String>... sharedElements) {
         ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, sharedElements);
         startActivityForAnim(activity, target, optionsCompat);
     }
 
+    /**
+     * 平移
+     * 跟overridePendingTransition效果是一样的
+     *
+     * @param activity   activity
+     * @param target     target
+     * @param enterResId enterResId
+     * @param exitResId  exitResId
+     */
     public static void makeCustomAnimation(Activity activity, Class<?> target, int enterResId, int exitResId) {
         ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeCustomAnimation(activity, enterResId, exitResId);
         startActivityForAnim(activity, target, optionsCompat);
     }
 
+    /**
+     * 将一个控件平滑的放大过渡到第二个activity，一般用于相册的具体照片的查看
+     *
+     * @param activity    activity
+     * @param target      target
+     * @param source      source
+     * @param startX      startX
+     * @param startY      startY
+     * @param startWidth  startWidth
+     * @param startHeight startHeight
+     */
     public static void makeScaleUpAnimation(Activity activity, Class<?> target, View source,
                                             int startX, int startY, int startWidth, int startHeight) {
         ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeScaleUpAnimation(source, startX, startY, startWidth, startHeight);
         startActivityForAnim(activity, target, optionsCompat);
     }
 
-    public static void makeSceneTransitionAnimation(Activity activity, Class<?> target, View source,
-                                                    Bitmap thumbnail, int startX, int startY) {
+    public static void makeThumbnailScaleUpAnimation(Activity activity, Class<?> target, View source,
+                                                     Bitmap thumbnail, int startX, int startY) {
         ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeThumbnailScaleUpAnimation(source, thumbnail, startX, startY);
         startActivityForAnim(activity, target, optionsCompat);
     }
 
+    /**
+     * 执行动画
+     *
+     * @param activity      activity
+     * @param target        target
+     * @param optionsCompat optionsCompat
+     */
     public static void startActivityForAnim(Activity activity, Class<?> target, @NonNull ActivityOptionsCompat optionsCompat) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             Intent intent = new Intent(activity, target);
@@ -95,6 +145,7 @@ public class ZActivityUtil {
     // --------------------------------------------------
     // start activity for result
     // --------------------------------------------------
+
     public static void startActivityForResult(
             Context context, Class<?> target, int code) {
         startActivityForResult(context, target, null, code, false);
@@ -146,6 +197,7 @@ public class ZActivityUtil {
 
     // --------------------------------------------------
     // --------------------------------------------------
+
     public static void finish(Context context) {
         if (context instanceof Activity) {
             finish((Activity) context);
@@ -178,9 +230,9 @@ public class ZActivityUtil {
     // --------------------------------------------------
 
     /**
-     * @param context
-     * @param target
-     * @param intent
+     * @param context context
+     * @param target  target
+     * @param intent  intent
      * @return 获取intent
      */
     private static Intent getIntent(Context context, Class<?> target, Intent intent) {
