@@ -34,7 +34,6 @@ public class AnimationActivity extends ZBaseActivity implements AnimationView {
     Toolbar animationToolbar;
     @Bind(R.id.animation_recycler)
     RecyclerView animationRecycler;
-    // --------------------------------------------------
 
     private AnimationAdapter adapter;
     private AnimationPresenter presenter;

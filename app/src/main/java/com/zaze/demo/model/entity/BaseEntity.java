@@ -8,14 +8,14 @@ package com.zaze.demo.model.entity;
  */
 public class BaseEntity {
     private String name;
-    private Class clazz;
+    private Class targetClass;
 
     public BaseEntity() {
     }
 
-    public BaseEntity(String name, Class clazz) {
+    public BaseEntity(String name, Class targetClass) {
         this.name = name;
-        this.clazz = clazz;
+        this.targetClass = targetClass;
     }
 
     public String getName() {
@@ -26,11 +26,11 @@ public class BaseEntity {
         this.name = name;
     }
 
-    public Class getClazz() {
-        return clazz;
+    public Class getTargetClass() {
+        return targetClass;
     }
 
-    public void setClazz(Class clazz) {
-        this.clazz = clazz;
+    public void setTargetClass(Class targetClass) {
+        this.targetClass = targetClass;
     }
 }

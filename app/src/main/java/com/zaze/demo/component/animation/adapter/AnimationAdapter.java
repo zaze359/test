@@ -40,13 +40,23 @@ public class AnimationAdapter extends ZRecyclerAdapter<AnimationEntity, Animatio
     }
 
     @Override
-    public void onBindView(AnimationHolder holder, final AnimationEntity value, int position) {
+    public void onBindView(final AnimationHolder holder, final AnimationEntity value, final int position) {
         holder.animationTitle.setText(ZStringUtil.parseString(value.getName()));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (getContext() instanceof Activity) {
-                    ZActivityUtil.makeSceneTransitionAnimation((Activity) getContext(), value.getClazz());
+                    switch (position) {
+                        case 0:
+                            ZActivityUtil.makeSceneTransitionAnimation((Activity) getContext(), value.getTargetClass());
+                            break;
+                        case 1:
+                            ZActivityUtil.makeScaleUpAnimation((Activity) getContext(), value.getTargetClass(), holder.itemView, 100, 100, 100, 100);
+                            break;
+                        default:
+                            ZActivityUtil.makeSceneTransitionAnimation((Activity) getContext(), value.getTargetClass());
+                            break;
+                    }
                 }
             }
         });

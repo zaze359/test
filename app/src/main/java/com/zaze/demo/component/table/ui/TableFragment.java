@@ -79,7 +79,7 @@ public class TableFragment extends ZBaseFragment implements ToolView {
             adapter.setOnItemClickListener(new OnItemClickListener<TableEntity>() {
                 @Override
                 public void onItemClick(View view, TableEntity value, int position) {
-                    startActivity(new Intent(getActivity(), value.getClazz()));
+                    startActivity(new Intent(getActivity(), value.getTargetClass()));
                 }
             });
 //            linearLayoutManager = new GridLayoutManager(getActivity(), 2);

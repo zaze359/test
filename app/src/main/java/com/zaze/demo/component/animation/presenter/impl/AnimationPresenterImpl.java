@@ -15,6 +15,7 @@ import java.util.List;
  * @version : 2016-08-25 - 09:45
  */
 public class AnimationPresenterImpl implements AnimationPresenter {
+
     private AnimationView view;
 
     public AnimationPresenterImpl(AnimationView view) {
@@ -24,8 +25,8 @@ public class AnimationPresenterImpl implements AnimationPresenter {
     @Override
     public void getAnimationList() {
         List<AnimationEntity> list = new ArrayList<>();
-        list.add(new AnimationEntity("Scene Transition Animation", AnimationActivity1.class));
-        list.add(new AnimationEntity("Scene Transition Animation", AnimationActivity1.class));
+        list.add(new AnimationEntity("Scene Transition Animation(平移过渡)", AnimationActivity1.class));
+        list.add(new AnimationEntity("Scale Up Animation(放大过渡)", AnimationActivity1.class));
         list.add(new AnimationEntity("Scene Transition Animation", AnimationActivity1.class));
         list.add(new AnimationEntity("Scene Transition Animation", AnimationActivity1.class));
         list.add(new AnimationEntity("Scene Transition Animation", AnimationActivity1.class));

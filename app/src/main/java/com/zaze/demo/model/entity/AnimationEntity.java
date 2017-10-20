@@ -6,9 +6,11 @@ package com.zaze.demo.model.entity;
  * @author : ZAZE
  * @version : 2016-08-25 - 09:50
  */
-public class AnimationEntity extends BaseEntity{
+public class AnimationEntity extends BaseEntity {
 
     public AnimationEntity(String name, Class clazz) {
         super(name, clazz);
     }
+
+
 }
