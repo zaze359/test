@@ -150,69 +150,71 @@ public class ZCommand {
     }
 
     // --------------------------------------------------
+
     public static CommandResult execCommand(String[] commands, boolean isRoot, boolean isNeedResultMsg) {
         int result = -1;
         if (commands == null || commands.length == 0) {
             return new CommandResult(result, null, null);
         }
         Process process;
-        BufferedReader successResult = null;
-        BufferedReader errorResult = null;
-        StringBuilder errorMsg = null;
-        DataOutputStream os = null;
+        BufferedReader successReader = null;
+        BufferedReader errorReader = null;
+        StringBuilder errorBuilder = null;
+        DataOutputStream outputStream = null;
         List<String> resultList = null;
         try {
             process = Runtime.getRuntime().exec(isRoot ? COMMAND_SU : COMMAND_SH);
-            os = new DataOutputStream(process.getOutputStream());
+            outputStream = new DataOutputStream(process.getOutputStream());
             for (String command : commands) {
                 if (command == null) {
                     continue;
                 }
                 ZLog.i(ZTag.TAG_CDM, "command ： " + command + "\n");
                 // donnot use os.writeBytes(commmand), avoid chinese charset error
-                os.write(command.getBytes());
-                os.writeBytes(COMMAND_LINE_END);
-                os.flush();
+                outputStream.write(command.getBytes());
+                outputStream.writeBytes(COMMAND_LINE_END);
+                outputStream.flush();
             }
-            os.writeBytes(COMMAND_EXIT);
-            os.flush();
+            outputStream.writeBytes(COMMAND_EXIT);
+            outputStream.flush();
             result = process.waitFor();
             if (isNeedResultMsg) {
                 resultList = new ArrayList<>();
-                errorMsg = new StringBuilder();
-                successResult = new BufferedReader(new InputStreamReader(process.getInputStream()));
-                errorResult = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+                errorBuilder = new StringBuilder();
+                successReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
                 String str;
-                while ((str = successResult.readLine()) != null) {
+                while ((str = successReader.readLine()) != null) {
                     resultList.add(str);
                 }
-                while ((str = errorResult.readLine()) != null) {
-                    errorMsg.append(str);
+                while ((str = errorReader.readLine()) != null) {
+                    errorBuilder.append(str);
                 }
             }
-//            process.destroy();
+            process.destroy();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
-                if (os != null) {
-                    os.close();
+                if (outputStream != null) {
+                    outputStream.close();
                 }
-                if (successResult != null) {
-                    successResult.close();
+                if (successReader != null) {
+                    successReader.close();
                 }
-                if (errorResult != null) {
-                    errorResult.close();
+                if (errorReader != null) {
+                    errorReader.close();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         return new CommandResult(result,
-                errorMsg == null ? null : errorMsg.toString(),
+                errorBuilder == null ? null : errorBuilder.toString(),
                 resultList
         );
     }
+    // --------------------------------------------------
 
     public static boolean isSuccess(int result) {
         return result == SUCCESS;

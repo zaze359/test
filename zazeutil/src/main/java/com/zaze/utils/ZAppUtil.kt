@@ -231,6 +231,20 @@ object ZAppUtil {
 
     // --------------------------------------------------
 
+    fun getAppPid(packageName: String): Int {
+        ZLog.i(ZTag.TAG_DEBUG, "getAppPid : " + packageName)
+        val result = ZCommand.execCmdForRes("ps | grep " + packageName)
+        if (ZCommand.isSuccess(result) && result.successList.size > 0) {
+            val message = result.successList[0]
+            ZLog.i(ZTag.TAG_DEBUG, "getAppPid : " + message)
+            val fields = message.split("\\s+".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
+            if (fields.size > 1) {
+                return ZStringUtil.parseInt(fields[1])
+            }
+        }
+        return 0
+    }
+
     /**
      * Description : 返回 应用所在进程
      * [context] context
@@ -273,7 +287,11 @@ object ZAppUtil {
      * @version 2017/5/22 - 下午3:32 1.0
      */
     fun isAppRunning(context: Context, packageName: String): Boolean {
-        return !getAppProcess(context, packageName).isEmpty()
+        if (getAppProcess(context, packageName).isEmpty()) {
+            return getAppPid(packageName) > 0
+        } else {
+            return false
+        }
     }
 
     /**

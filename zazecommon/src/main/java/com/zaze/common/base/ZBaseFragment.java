@@ -2,10 +2,10 @@ package com.zaze.common.base;
 
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -171,11 +171,7 @@ public abstract class ZBaseFragment extends Fragment implements ZBaseView {
     // --------------------------------------------------
     @Override
     public int getColor(int colorRes) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            return getResources().getColor(colorRes, null);
-        } else {
-            return getResources().getColor(colorRes);
-        }
+        return ContextCompat.getColor(getContext(), colorRes);
     }
 
     @Override
@@ -189,6 +185,7 @@ public abstract class ZBaseFragment extends Fragment implements ZBaseView {
     }
 
     // --------------------------------------------------
+
     public <T extends View> T findView(int resId) {
         return ZViewUtil.findView(rootView, resId);
     }

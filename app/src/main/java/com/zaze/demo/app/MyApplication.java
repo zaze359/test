@@ -19,7 +19,7 @@ public class MyApplication extends ZBaseApplication {
     public void onCreate() {
         super.onCreate();
         ZDisplayUtil.init(this);
-        ZFileUtil.INSTANCE.setShowLog(true);
+        ZFileUtil.INSTANCE.setShowLog(false);
         MemoryCache.getInstance().setCacheLog(true);
         CrashReport.initCrashReport(getApplicationContext(), "900013682", false);
 //        receiver = new TestBroadcastReceiver();

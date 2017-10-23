@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -159,9 +160,10 @@ public abstract class ZUltimateRecycleAdapter<V, VH extends RecyclerView.ViewHol
         return pageSize;
     }
 
-    //
+    // --------------------------------------------------
+
     public int getColor(int resId) {
-        return context.getResources().getColor(resId);
+        return ContextCompat.getColor(context, resId);
     }
 
     public String getString(int resId, Object... args) {
@@ -169,7 +171,7 @@ public abstract class ZUltimateRecycleAdapter<V, VH extends RecyclerView.ViewHol
     }
 
     public Drawable getDrawable(int id) {
-        return context.getResources().getDrawable(id);
+        return ContextCompat.getDrawable(context, id);
     }
 
     public Bitmap getBitmap(int resId) {

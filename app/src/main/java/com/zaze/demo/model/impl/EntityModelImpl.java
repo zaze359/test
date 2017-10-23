@@ -7,6 +7,7 @@ import com.zaze.demo.component.checknet.ui.CheckNetActivity;
 import com.zaze.demo.component.device.ui.DeviceActivity;
 import com.zaze.demo.component.fileexplorer.ui.FileExplorerActivity;
 import com.zaze.demo.component.gps.ui.GpsActivity;
+import com.zaze.demo.component.logcat.ui.LogcatActivity;
 import com.zaze.demo.component.okhttp.ui.OkHttpActivity;
 import com.zaze.demo.component.preference.MyPreferenceActivity;
 import com.zaze.demo.component.progress.ProgressActivity;
@@ -38,6 +39,7 @@ public class EntityModelImpl implements EntityModel {
     public List<TableEntity> getTableList() {
         List<TableEntity> list = new ArrayList<>();
         list.add(new TableEntity(1, "Animation", AnimationActivity.class));
+        list.add(new TableEntity(1, "Logcat", LogcatActivity.class));
         list.add(new TableEntity(2, "toolbar", ToolBarDemoActivity.class));
         list.add(new TableEntity(3, "Rx Android", RxAndroidActivity.class));
         list.add(new TableEntity(4, "Device Info", DeviceActivity.class));

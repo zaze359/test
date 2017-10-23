@@ -4,9 +4,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <Button
+        android:id="@+id/logcat_start_catch"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:text="hello" />
+        android:layout_height="wrap_content"
+        android:text="start" />
 
+    <Button
+        android:id="@+id/logcat_stop_catch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="stop" />
 </LinearLayout>

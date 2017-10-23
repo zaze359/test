@@ -206,8 +206,7 @@ object ZFileUtil {
      * @return
      */
     fun writeToFile(filePath: String, dataStr: String, append: Boolean = false): File? {
-        val input = ByteArrayInputStream(dataStr.toByteArray())
-        return writeToFile(filePath, input, append)
+        return writeToFile(filePath, ByteArrayInputStream(dataStr.toByteArray()), append)
     }
 
     /**
@@ -247,6 +246,27 @@ object ZFileUtil {
         return file
     }
 
+
+    // --------------------------------------------------
+    fun writeToFile(filePath: String, dataStr: String, maxSize: Long): Boolean {
+        return writeToFile(filePath, ByteArrayInputStream(dataStr.toByteArray()), maxSize)
+    }
+
+    fun writeToFile(filePath: String, inputStream: InputStream, maxSize: Long): Boolean {
+        if (maxSize > 0) {
+            val file = File(filePath)
+            if (!file.exists()) {
+                createFile(filePath)
+            } else if (file.length() > maxSize) {
+                val tempFile = "$filePath.1"
+                reCreateFile(tempFile)
+                writeToFile(tempFile, FileInputStream(filePath), true)
+                deleteFile(filePath)
+            }
+        }
+        writeToFile(filePath, inputStream, true)
+        return true
+    }
     // --------------------------------------------------
     /**
      * @param filePath

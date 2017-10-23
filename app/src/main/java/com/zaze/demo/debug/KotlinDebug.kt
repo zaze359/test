@@ -1,6 +1,8 @@
 package com.zaze.demo.debug
 
 import android.util.Base64
+import com.zaze.demo.app.MyApplication
+import com.zaze.utils.ZAppUtil
 import com.zaze.utils.ZEncryptionUtil
 import com.zaze.utils.ZFileUtil
 import com.zaze.utils.ZStringUtil
@@ -64,6 +66,7 @@ class KotlinDebug {
 //        resu= "" + ZCommand.isRoot()
         // --------------------------------------------------
 //        Settings.System.putInt(MyApplication.getInstance().contentResolver, SCREEN_OFF_TIMEOUT, Integer.MAX_VALUE)
+        result = "" + ZAppUtil.isAppRunning(MyApplication.getInstance(), "com.xuehai.response_launcher_teacher")
         ZLog.i(ZTag.TAG_DEBUG, result)
     }
 
