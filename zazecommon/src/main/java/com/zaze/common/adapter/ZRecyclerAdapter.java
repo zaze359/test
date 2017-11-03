@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -27,22 +26,10 @@ public abstract class ZRecyclerAdapter<V, H extends RecyclerView.ViewHolder> ext
         setDataList(data);
     }
 
-    public ZRecyclerAdapter(Context context, V[] data) {
-        this.context = context;
-        setDataList(data);
-    }
-
     public void setDataList(Collection<V> data) {
         dataList.clear();
         if (data != null && data.size() > 0) {
             dataList.addAll(data);
-        }
-    }
-
-    public void setDataList(V[] data) {
-        dataList.clear();
-        if (data != null) {
-            Collections.addAll(dataList, data);
         }
     }
 

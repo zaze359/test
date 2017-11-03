@@ -32,12 +32,12 @@ public class ZSortUtil {
                 try {
                     Method m1 = lhs.getClass().getMethod(method, new Class<?>[0]);
                     Method m2 = rhs.getClass().getMethod(method, new Class<?>[0]);
-                    if (sort != null && DESC.equalsIgnoreCase(sort)) {
-                        // 降序
+                    if (sort != null && ASC.equalsIgnoreCase(sort)) {
+                        // 升序
                         //若第二个大于第一个, 则返回 > 0 交换位置
                         flag = m2.invoke(rhs, new Object[]{}).toString().compareTo(m1.invoke(lhs, new Object[]{}).toString());
                     } else {
-                        // 升序
+                        // 降序
                         //若第一个大于第二个, 则返回 > 0 交换位置
                         flag = m1.invoke(rhs, new Object[]{}).toString().compareTo(m2.invoke(lhs, new Object[]{}).toString());
                     }

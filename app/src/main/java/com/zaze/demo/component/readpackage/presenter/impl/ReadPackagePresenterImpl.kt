@@ -34,10 +34,10 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : ZBasePresenter<ReadPacka
     // --------------------------------------------------
     override fun getAppList() {
 //        getAllApkFile("/sdcard/")
-//        getAllInstallApp()
+        getAllInstallApp()
 //        getUnSystemApp()
 //        getSystemApp()
-        getAssignInstallApp()
+//        getAssignInstallApp()
         val showList = ArrayList<PackageEntity>()
         packageList.mapTo(showList) {
             initEntity(it)

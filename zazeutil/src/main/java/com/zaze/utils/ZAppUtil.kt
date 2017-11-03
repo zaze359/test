@@ -233,13 +233,15 @@ object ZAppUtil {
 
     fun getAppPid(packageName: String): Int {
         ZLog.i(ZTag.TAG_DEBUG, "getAppPid : " + packageName)
-        val result = ZCommand.execCmdForRes("ps | grep " + packageName)
-        if (ZCommand.isSuccess(result) && result.successList.size > 0) {
-            val message = result.successList[0]
-            ZLog.i(ZTag.TAG_DEBUG, "getAppPid : " + message)
-            val fields = message.split("\\s+".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
-            if (fields.size > 1) {
-                return ZStringUtil.parseInt(fields[1])
+        if (ZCommand.isCommandExists("grep")) {
+            val result = ZCommand.execCmdForRes("ps | grep " + packageName)
+            if (ZCommand.isSuccess(result) && result.successList.size > 0) {
+                val message = result.successList[0]
+                ZLog.i(ZTag.TAG_DEBUG, "getAppPid : " + message)
+                val fields = message.split("\\s+".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
+                if (fields.size > 1) {
+                    return ZStringUtil.parseInt(fields[1])
+                }
             }
         }
         return 0
@@ -290,7 +292,7 @@ object ZAppUtil {
         if (getAppProcess(context, packageName).isEmpty()) {
             return getAppPid(packageName) > 0
         } else {
-            return false
+            return true
         }
     }
 
@@ -356,7 +358,6 @@ object ZAppUtil {
     fun startApplication(context: Context, packageName: String, bundle: Bundle? = null) {
         if (!isInstalled(context, packageName)) {
             ZTipUtil.toast(context, "($packageName)未安装!")
-            ZTipUtil.toast(context, "($packageName)未安装!")
             return
         }
         val intent = context.packageManager.getLaunchIntentForPackage(packageName)
@@ -368,7 +369,6 @@ object ZAppUtil {
             ZActivityUtil.startActivity(context, intent)
         }
     }
-
 
     // --------------------------------------------------
     // --------------------------------------------------

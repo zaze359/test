@@ -179,6 +179,7 @@ public abstract class ZUltimateRecycleAdapter<V, VH extends RecyclerView.ViewHol
     }
 
     // --------------------------------------------------
+
     public <T extends View> T findView(View parentView, int resId) {
         return ZViewUtil.findView(parentView, resId);
     }

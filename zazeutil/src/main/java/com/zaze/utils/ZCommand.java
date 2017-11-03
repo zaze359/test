@@ -27,8 +27,21 @@ public class ZCommand {
     public static int SUCCESS = 0;
 
     // --------------------------------------------------
+
+    /**
+     * 重启
+     */
     public static void reboot() {
-        execRootCmd("reboot");
+        String reboot = "reboot";
+        if (isRoot()) {
+            execRootCmd(reboot);
+        } else {
+            execCmd(reboot);
+        }
+    }
+
+    public static boolean isCommandExists(String cmdName) {
+        return ZCommand.isSuccess(execCmdForRes("command -v " + cmdName));
     }
 
     /**
@@ -68,7 +81,7 @@ public class ZCommand {
     // --------------------------------------------------
 
     /**
-     * @param cmd
+     * @param cmd cmd
      * @return 执行命令并且输出结果
      */
     public static CommandResult execRootCmdForRes(String cmd) {
@@ -76,7 +89,7 @@ public class ZCommand {
     }
 
     /**
-     * @param cmdArray
+     * @param cmdArray cmdArray
      * @return 执行命令并且输出结果
      */
     public static CommandResult execRootCmdForRes(String[] cmdArray) {
@@ -88,7 +101,7 @@ public class ZCommand {
     /**
      * 执行命令但不关注结果输出
      *
-     * @param cmd
+     * @param cmd cmd
      * @return 成功 : 0
      */
     public static int execRootCmd(String cmd) {
@@ -98,7 +111,7 @@ public class ZCommand {
     /**
      * 执行命令但不关注结果输出
      *
-     * @param cmdArray
+     * @param cmdArray cmdArray
      * @return 成功 : 0
      */
     public static int execRootCmd(String[] cmdArray) {
@@ -109,7 +122,7 @@ public class ZCommand {
     /**
      * 执行命令但不关注结果输出
      *
-     * @param cmd
+     * @param cmd cmd
      * @return 成功 : 0
      */
     public static int execCmd(String cmd) {
@@ -119,7 +132,7 @@ public class ZCommand {
     /**
      * 执行命令但不关注结果输出
      *
-     * @param cmdArray
+     * @param cmdArray cmdArray
      * @return 成功 : 0
      */
     public static int execCmd(String[] cmdArray) {
@@ -132,7 +145,7 @@ public class ZCommand {
     /**
      * 执行命令但不关注结果输出
      *
-     * @param cmd
+     * @param cmd cmd
      * @return 成功 : 0
      */
     public static CommandResult execCmdForRes(String cmd) {
@@ -142,7 +155,7 @@ public class ZCommand {
     /**
      * 执行命令但不关注结果输出
      *
-     * @param cmdArray
+     * @param cmdArray cmdArray
      * @return 成功 : 0
      */
     public static CommandResult execCmdForRes(String[] cmdArray) {

@@ -6,6 +6,7 @@ import android.net.DhcpInfo;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.telephony.TelephonyManager;
 
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
@@ -190,5 +191,14 @@ public class ZNetUtil {
             throw new AssertionError();
         }
     }
+
+    // --------------------------------------------------
+
+    public static void getProviders(Context context) {
+        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        String IMSI = telephonyManager.getSubscriberId();
+        ZLog.i(ZTag.TAG_DEBUG, IMSI);
+    }
+
 
 }

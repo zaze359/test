@@ -13,8 +13,8 @@ maven { url "https://dl.bintray.com/zaze359/maven" }
 <del>~~compile com.zaze.aarrepo:aarrepo:1.4.22@aar~~</del> 
 
 
-- compile 'com.zaze:zazecommon:1.0.2@aar'
-- compile 'com.zaze:zazeutil:1.1.0'
+- compile 'com.zaze:zazecommon:1.0.3@aar'
+- compile 'com.zaze:zazeutil:1.1.4'
 
 
 

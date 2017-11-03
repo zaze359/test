@@ -2,10 +2,10 @@ package com.zaze.demo.component.checknet.presenter.impl
 
 import com.zaze.common.base.ZBasePresenter
 import com.zaze.demo.app.MyApplication
-import com.zaze.demo.component.checknet.NetworkUtil
 import com.zaze.demo.component.checknet.presenter.CheckNetPresenter
 import com.zaze.demo.component.checknet.view.CheckNetView
 import com.zaze.utils.ZCommand
+import com.zaze.utils.ZNetUtil
 import com.zaze.utils.ZStringUtil
 import rx.Single
 import rx.android.schedulers.AndroidSchedulers
@@ -20,15 +20,15 @@ open class CheckNetPresenterImpl(view: CheckNetView) : ZBasePresenter<CheckNetVi
 
     override fun checkNet() {
         val context = MyApplication.getInstance()
-        val dhcpInfo = NetworkUtil.getDhcpInfo(context)
-        val wifiInfo = NetworkUtil.getConnectionInfo(context)
-        view.showIP(NetworkUtil.intToInetAddress(dhcpInfo.ipAddress).hostAddress)
+        val dhcpInfo = ZNetUtil.getDhcpInfo(context)
+        val wifiInfo = ZNetUtil.getConnectionInfo(context)
+        view.showIP(ZNetUtil.intToInetAddress(dhcpInfo.ipAddress).hostAddress)
         // --------------------------------------------------
-        val dns1 = NetworkUtil.intToInetAddress(dhcpInfo.dns1).hostAddress
-        val dns2 = NetworkUtil.intToInetAddress(dhcpInfo.dns2).hostAddress
+        val dns1 = ZNetUtil.intToInetAddress(dhcpInfo.dns1).hostAddress
+        val dns2 = ZNetUtil.intToInetAddress(dhcpInfo.dns2).hostAddress
         view.showDNS(ZStringUtil.format("%s,%s", dns1, dns2))
         // --------------------------------------------------
-        view.showGateway(NetworkUtil.intToInetAddress(dhcpInfo.gateway).hostAddress)
+        view.showGateway(ZNetUtil.intToInetAddress(dhcpInfo.gateway).hostAddress)
         //
         view.showSSID(wifiInfo.ssid)
         //

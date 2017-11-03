@@ -29,7 +29,6 @@ public class ZzLogCatUtil {
         isRunning = false;
     }
 
-
     /**
      * logcat *:E
      *

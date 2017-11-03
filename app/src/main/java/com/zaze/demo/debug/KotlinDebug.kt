@@ -1,8 +1,9 @@
 package com.zaze.demo.debug
 
+import android.app.ActivityManager
+import android.content.Context
 import android.util.Base64
 import com.zaze.demo.app.MyApplication
-import com.zaze.utils.ZAppUtil
 import com.zaze.utils.ZEncryptionUtil
 import com.zaze.utils.ZFileUtil
 import com.zaze.utils.ZStringUtil
@@ -66,7 +67,15 @@ class KotlinDebug {
 //        resu= "" + ZCommand.isRoot()
         // --------------------------------------------------
 //        Settings.System.putInt(MyApplication.getInstance().contentResolver, SCREEN_OFF_TIMEOUT, Integer.MAX_VALUE)
-        result = "" + ZAppUtil.isAppRunning(MyApplication.getInstance(), "com.xuehai.response_launcher_teacher")
+        // --------------------------------------------------
+//        result = "" + ZAppUtil.isAppRunning(MyApplication.getInstance(), "com.xuehai.response_launcher_teacher")
+        val activityManager = MyApplication.getInstance().getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        result = "" + activityManager.killBackgroundProcesses(MyApplication.getInstance().packageName)
+//        activityManager.forceStopPackage(packageName)
+//        android.os.Process.killProcess(android.os.Process.myPid());
+//        System.exit(0);
+//        ZCommand.isCommandExists("grep")
+//        result = "" + ZNetUtil.getProviders(MyApplication.getInstance())
         ZLog.i(ZTag.TAG_DEBUG, result)
     }
 
