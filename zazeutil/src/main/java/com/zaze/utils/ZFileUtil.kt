@@ -88,7 +88,7 @@ object ZFileUtil {
     fun createFile(filePath: String): Boolean {
         val file = File(filePath)
         var result = false
-        if (!isFileExist(filePath)) {
+        if (!file.exists()) {
             if (createParentDir(filePath)) {
                 result = file.createNewFile()
             }

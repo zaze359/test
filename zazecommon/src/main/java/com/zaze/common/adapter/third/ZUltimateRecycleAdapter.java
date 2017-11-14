@@ -54,7 +54,6 @@ public abstract class ZUltimateRecycleAdapter<V, VH extends RecyclerView.ViewHol
     }
 
     protected void preSetData() {
-
     }
 
     public void setDataList(Collection<V> data) {

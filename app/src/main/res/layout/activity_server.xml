@@ -1,0 +1,25 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/server_start_bt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="启动服务端" />
+
+    <Button
+        android:id="@+id/server_send_broadcast_bt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="发送局域网广播" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/server_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

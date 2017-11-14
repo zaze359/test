@@ -64,11 +64,9 @@ class MainActivity : ZBaseActivity() {
             val debug = KotlinDebug()
             debug.test()
             // --------------------------------------------------
-//            TestJni.newInstance().stringFromJNI()
+
             // --------------------------------------------------
-//            val uri: Uri = Settings.System.getUriFor(Settings.System.SCREEN_BRIGHTNESS)
-//            Settings.System.putInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, 24)
-//            contentResolver.notifyChange(uri, null)
+//            TestJni.newInstance().stringFromJNI()
             // --------------------------------------------------
 //            val mBitmap = CodeUtils.createImage("aaaaa", 48, 48, null)
 //            main_test_iv.setImageBitmap(mBitmap)
@@ -85,9 +83,10 @@ class MainActivity : ZBaseActivity() {
 //
 //            }
         }
+
     }
 
-
+    // --------------------------------------------------
     inner class MyPagerAdapter(fm: FragmentManager, list: ArrayList<ZBaseFragment>?) : FragmentPagerAdapter(fm) {
         private val fragmentList = ArrayList<ZBaseFragment>()
 

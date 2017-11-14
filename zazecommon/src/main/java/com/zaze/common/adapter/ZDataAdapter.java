@@ -1,7 +1,10 @@
 package com.zaze.common.adapter;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.BaseAdapter;
+
+import com.zaze.utils.ZViewUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,25 +21,9 @@ abstract class ZDataAdapter<V> extends BaseAdapter {
     private Context context;
     private final List<V> dataList = new ArrayList<V>();
 
-    //
     ZDataAdapter(Context context, Collection<V> data) {
         this.context = context;
         setDataList(data, false);
-    }
-
-    @Override
-    public int getCount() {
-        return dataList.size();
-    }
-
-    @Override
-    public V getItem(int position) {
-        return dataList.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
     }
 
     public void setDataList(List<V> data) {
@@ -52,6 +39,25 @@ abstract class ZDataAdapter<V> extends BaseAdapter {
             notifyDataSetChanged();
         }
     }
+
+    // --------------------------------------------------
+    @Override
+    public int getCount() {
+        return dataList.size();
+    }
+
+    @Override
+    public V getItem(int position) {
+        return dataList.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+
+    // --------------------------------------------------
 
     public Context getContext() {
         return context;
@@ -69,4 +75,7 @@ abstract class ZDataAdapter<V> extends BaseAdapter {
         return context.getString(resId, args);
     }
 
+    public <T extends View> T findView(View parent, int resId) {
+        return ZViewUtil.findView(parent, resId);
+    }
 }

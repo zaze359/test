@@ -1,17 +1,18 @@
 package com.zaze.demo.debug
 
-import android.app.ActivityManager
-import android.content.Context
 import android.util.Base64
-import com.zaze.demo.app.MyApplication
 import com.zaze.utils.ZEncryptionUtil
 import com.zaze.utils.ZFileUtil
 import com.zaze.utils.ZStringUtil
 import com.zaze.utils.date.ZDateUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
+import rx.Observable
+import rx.Subscriber
+import rx.android.schedulers.AndroidSchedulers
 import java.io.File
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 /**
@@ -31,32 +32,27 @@ class KotlinDebug {
 //        return showLog("searchFile", { searchFile() })
 //        result = ZDeviceUtil.getUUID(MyApplication.getInstance())
         // --------------------------------------------------
-//        ThreadManager.setNeedLog(true)
-//        ThreadManager.getInstance().runInBackgroundThread {
-//            while (true) {
-//                ZLog.i(ZTag.TAG_DEBUG, "runInBackgroundThread : " + Thread.currentThread().id)
-//                Thread.sleep(1000L)
-//            }
-//        }
-//
-//        for (i in 0..10) {
-//            ThreadManager.getInstance().runInSingleThread {
-//                var times = 0
-//                while (times < 10) {
-//                    ZLog.i(ZTag.TAG_DEBUG, "runInSingleThread : " + Thread.currentThread().id)
-//                    Thread.sleep(1000L)
-//                    times++
-//                }
-//            }
-//        }
-//
-//        for (i in 0..1000) {
-//            ThreadManager.getInstance().runInMultiThread {
-//                ZLog.i(ZTag.TAG_DEBUG, "runInMultiThread : " + Thread.currentThread().id)
-//                Thread.sleep(500L)
-//            }
-//        }
+        val count = 10
+        val observable = Observable.interval(0, 1, TimeUnit.SECONDS)
+                .take(count)
+                .map { long ->
+                    count - long
+                }
+                .observeOn(AndroidSchedulers.mainThread())
+        val subscriber = object : Subscriber<Long>() {
+            override fun onError(e: Throwable?) {
+                ZLog.e(ZTag.TAG_DEBUG, "onError")
+            }
 
+            override fun onNext(t: Long?) {
+                ZLog.i(ZTag.TAG_DEBUG, "onNext : " + t)
+            }
+
+            override fun onCompleted() {
+                ZLog.i(ZTag.TAG_DEBUG, "onCompleted")
+            }
+        }
+        observable.subscribe(subscriber)
         // --------------------------------------------------
 //        ZFileUtil.writeToFile("/sdcard/zaze/aaa.txt", "aaaaaaaaaa")
 //        ZCompressUtil.zipFolder("/sdcard/xuehai/log", "/sdcard/xuehai/zip/aa.zip")
@@ -69,13 +65,15 @@ class KotlinDebug {
 //        Settings.System.putInt(MyApplication.getInstance().contentResolver, SCREEN_OFF_TIMEOUT, Integer.MAX_VALUE)
         // --------------------------------------------------
 //        result = "" + ZAppUtil.isAppRunning(MyApplication.getInstance(), "com.xuehai.response_launcher_teacher")
-        val activityManager = MyApplication.getInstance().getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        result = "" + activityManager.killBackgroundProcesses(MyApplication.getInstance().packageName)
+//        val activityManager = MyApplication.getInstance().getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+//        result = "" + activityManager.killBackgrounocesses("com.zaze.demo")
+        // --------------------------------------------------
 //        activityManager.forceStopPackage(packageName)
 //        android.os.Process.killProcess(android.os.Process.myPid());
 //        System.exit(0);
 //        ZCommand.isCommandExists("grep")
 //        result = "" + ZNetUtil.getProviders(MyApplication.getInstance())
+        //
         ZLog.i(ZTag.TAG_DEBUG, result)
     }
 

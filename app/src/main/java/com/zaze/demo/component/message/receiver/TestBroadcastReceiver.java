@@ -22,7 +22,6 @@ public class TestBroadcastReceiver extends BroadcastReceiver {
         Intent serviceIntent = new Intent(context, MyService.class);
         serviceIntent.putExtras(intent.getExtras());
         context.startService(serviceIntent);
-//        notification(context);
     }
 
 

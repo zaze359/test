@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.zaze.utils.ZViewUtil;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -23,13 +25,20 @@ public abstract class ZRecyclerAdapter<V, H extends RecyclerView.ViewHolder> ext
 
     public ZRecyclerAdapter(Context context, Collection<V> data) {
         this.context = context;
-        setDataList(data);
+        setDataList(data, false);
     }
 
     public void setDataList(Collection<V> data) {
+        setDataList(data, true);
+    }
+
+    private void setDataList(Collection<V> data, boolean isNotify) {
         dataList.clear();
         if (data != null && data.size() > 0) {
             dataList.addAll(data);
+        }
+        if (isNotify) {
+            notifyDataSetChanged();
         }
     }
 
@@ -76,6 +85,12 @@ public abstract class ZRecyclerAdapter<V, H extends RecyclerView.ViewHolder> ext
 
     public List<V> getDataList() {
         return dataList;
+    }
+
+    // --------------------------------------------------
+
+    public <T extends View> T findView(View parent, int resId) {
+        return ZViewUtil.findView(parent, resId);
     }
 
     // --------------------------------------------------

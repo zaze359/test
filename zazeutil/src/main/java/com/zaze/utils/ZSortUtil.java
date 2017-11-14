@@ -1,6 +1,5 @@
 package com.zaze.utils;
 
-import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -18,7 +17,7 @@ public class ZSortUtil {
     /**
      * @param list   列表
      * @param method get方法
-     * @param sort   排序方式
+     * @param sort   排序方式 默认升序
      * @param <E>    entity
      */
     public static <E> void sortList(List<E> list, final String method, final String sort) {
@@ -30,16 +29,14 @@ public class ZSortUtil {
             public int compare(Object lhs, Object rhs) {
                 int flag = 0;
                 try {
-                    Method m1 = lhs.getClass().getMethod(method, new Class<?>[0]);
-                    Method m2 = rhs.getClass().getMethod(method, new Class<?>[0]);
-                    if (sort != null && ASC.equalsIgnoreCase(sort)) {
-                        // 升序
-                        //若第二个大于第一个, 则返回 > 0 交换位置
-                        flag = m2.invoke(rhs, new Object[]{}).toString().compareTo(m1.invoke(lhs, new Object[]{}).toString());
+                    String leftValue = lhs.getClass().getMethod(method).invoke(lhs, new Object[]{}).toString();
+                    String rightValue = rhs.getClass().getMethod(method).invoke(rhs, new Object[]{}).toString();
+                    if (sort != null && ZSortUtil.DESC.equalsIgnoreCase(sort)) {
+                        //若第二个大于第一个, 交换位置 则返回 > 0
+                        flag = rightValue.compareTo(leftValue);
                     } else {
-                        // 降序
-                        //若第一个大于第二个, 则返回 > 0 交换位置
-                        flag = m1.invoke(rhs, new Object[]{}).toString().compareTo(m2.invoke(lhs, new Object[]{}).toString());
+                        //若第一个大于第二个, 交换位置 则返回 > 0
+                        flag = leftValue.compareTo(rightValue);
                     }
                 } catch (Throwable e) {
                     e.printStackTrace();
