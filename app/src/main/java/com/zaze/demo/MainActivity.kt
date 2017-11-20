@@ -52,7 +52,7 @@ class MainActivity : ZBaseActivity() {
                     ZLog.i(ZTag.TAG_DEBUG, "item: ${item.toString()}")
                     if (!TextUtils.equals(item.text, "学海教育")) {
                         val cd = ClipData.newPlainText("学海教育", "学海教育")
-                        mClipboardManager.setPrimaryClip(cd)
+                        mClipboardManager.primaryClip = cd
                         break
                     }
                 }

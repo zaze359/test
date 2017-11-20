@@ -55,39 +55,38 @@ public class MemoryCacheHelper {
         saveCache(key, valueStr, dataTime, DataLevel.LOW_LEVEL_DATA);
     }
 
-
     /**
-     * @param key
-     * @param valueStr
-     * @param keepTime
-     * @param dataLevel
+     * @param key       key
+     * @param valueStr  valueStr
+     * @param keepTime  keepTime
+     * @param dataLevel dataLevel
      */
     public static void saveCache(String key, String valueStr, long keepTime, @DataLevel int dataLevel) {
         saveCacheBytes(key, ZStringUtil.string2Bytes(valueStr), keepTime, dataLevel);
     }
 
     /**
-     * @param key
-     * @param values
+     * @param key    key
+     * @param values values
      */
     public static void saveCacheBytes(String key, byte[] values) {
         saveCacheBytes(key, values, HOURE);
     }
 
     /**
-     * @param key
-     * @param values
-     * @param dataTime
+     * @param key      key
+     * @param values   values
+     * @param dataTime dataTime
      */
     public static void saveCacheBytes(String key, byte[] values, long dataTime) {
         saveCacheBytes(key, values, dataTime, DataLevel.LOW_LEVEL_DATA);
     }
 
     /**
-     * @param key
-     * @param values
-     * @param keepTime
-     * @param dataLevel
+     * @param key       key
+     * @param values    values
+     * @param keepTime  keepTime
+     * @param dataLevel dataLevel
      */
     public static void saveCacheBytes(String key, byte[] values, long keepTime, @DataLevel int dataLevel) {
         MemoryCache.getInstance().saveCache(key, values, keepTime, dataLevel);

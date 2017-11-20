@@ -123,8 +123,7 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : ZBasePresenter<ReadPacka
         Observable.fromCallable({
             packageList
         }).subscribeOn(Schedulers.io())
-                .map({
-                    v ->
+                .map({ v ->
                     val list = ArrayList<PackageEntity>()
                     v.filter {
                         it.contains(ZStringUtil.parseString(matchStr).toLowerCase())
@@ -133,8 +132,7 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : ZBasePresenter<ReadPacka
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    v ->
+                .subscribe({ v ->
                     view.showPackageList(v)
                 })
     }

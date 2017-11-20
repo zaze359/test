@@ -242,11 +242,12 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
             ZLog.d(ZTag.TAG_MEMORY, "clearMemoryCache");
         }
         cacheMap.clear();
-        memoryCacheSize = 0;
+        resetSize();
         System.gc();
     }
 
     // --------------------------------------------------
+
     private void put(String key, byte[] values, long keepTime, @DataLevel int dataLevel) {
         Cache cache = get(key);
         if (cache == null) {
@@ -257,8 +258,7 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
         cacheMap.put(key, cache);
         if (cacheLog) {
             ZLog.d(ZTag.TAG_MEMORY, "MemoryCache put key : %s ", key);
-//            ZLog.d(ZTag.TAG_MEMORY, "MemoryCache maxSize : " + maxSize / 1024f + "kb");
-//            ZLog.d(ZTag.TAG_MEMORY, "MemoryCache free : " + (maxSize - memoryCacheSize) / 1024f + "kb");
+            ZLog.d(ZTag.TAG_MEMORY, "MemoryCache maxSize : " + maxSize / 1024f + "kb");
             ZLog.d(ZTag.TAG_MEMORY, "MemoryCache saveSize : %1.3fkb", cache.getBytes().length / 1024f);
             ZLog.d(ZTag.TAG_MEMORY, "MemoryCache current memoryCacheSize : %1.3fkb", memoryCacheSize / 1024f);
             ZLog.d(ZTag.TAG_MEMORY, "MemoryCache maxSize : %1.3fkb", maxSize / 1024f);

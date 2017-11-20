@@ -7,12 +7,8 @@ import com.zaze.utils.ZStringUtil
 import com.zaze.utils.date.ZDateUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
-import rx.Observable
-import rx.Subscriber
-import rx.android.schedulers.AndroidSchedulers
 import java.io.File
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 
 /**
@@ -23,7 +19,7 @@ import java.util.concurrent.TimeUnit
 class KotlinDebug {
 
     fun test() {
-        var result: String? = null
+        var result = ""
 //        return showLog("print", { print() })
 //        showLog("createDimens", { createDimens(1f, ZDisplayUtil.SCREEN_DENSITY) })
 //        createDeveloperToken()
@@ -32,27 +28,27 @@ class KotlinDebug {
 //        return showLog("searchFile", { searchFile() })
 //        result = ZDeviceUtil.getUUID(MyApplication.getInstance())
         // --------------------------------------------------
-        val count = 10
-        val observable = Observable.interval(0, 1, TimeUnit.SECONDS)
-                .take(count)
-                .map { long ->
-                    count - long
-                }
-                .observeOn(AndroidSchedulers.mainThread())
-        val subscriber = object : Subscriber<Long>() {
-            override fun onError(e: Throwable?) {
-                ZLog.e(ZTag.TAG_DEBUG, "onError")
-            }
-
-            override fun onNext(t: Long?) {
-                ZLog.i(ZTag.TAG_DEBUG, "onNext : " + t)
-            }
-
-            override fun onCompleted() {
-                ZLog.i(ZTag.TAG_DEBUG, "onCompleted")
-            }
-        }
-        observable.subscribe(subscriber)
+//        val count = 10
+//        val observable = Observable.interval(0, 1, TimeUnit.SECONDS)
+//                .take(count)
+//                .map { long ->
+//                    count - long
+//                }
+//                .observeOn(AndroidSchedulers.mainThread())
+//        val subscriber = object : Subscriber<Long>() {
+//            override fun onError(e: Throwable?) {
+//                ZLog.e(ZTag.TAG_DEBUG, "onError")
+//            }
+//
+//            override fun onNext(t: Long?) {
+//                ZLog.i(ZTag.TAG_DEBUG, "onNext : " + t)
+//            }
+//
+//            override fun onCompleted() {
+//                ZLog.i(ZTag.TAG_DEBUG, "onCompleted")
+//            }
+//        }
+//        observable.subscribe(subscriber)
         // --------------------------------------------------
 //        ZFileUtil.writeToFile("/sdcard/zaze/aaa.txt", "aaaaaaaaaa")
 //        ZCompressUtil.zipFolder("/sdcard/xuehai/log", "/sdcard/xuehai/zip/aa.zip")
@@ -74,6 +70,11 @@ class KotlinDebug {
 //        ZCommand.isCommandExists("grep")
 //        result = "" + ZNetUtil.getProviders(MyApplication.getInstance())
         //
+        val arrays = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray()
+        val random = Random()
+        for (i in 0 until 5) {
+            result += arrays.get((random.nextInt(arrays.size)))
+        }
         ZLog.i(ZTag.TAG_DEBUG, result)
     }
 

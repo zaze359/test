@@ -4,9 +4,11 @@ package com.zaze.utils;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
@@ -115,7 +117,25 @@ public class ZJsonUtil {
         if (collection != null) {
             for (T t : collection) {
                 if (t != null) {
-                    jsonArray.put(t);
+                    if (t instanceof JSONObject ||
+                            t instanceof JSONArray ||
+                            t instanceof Boolean ||
+                            t instanceof Byte ||
+                            t instanceof Character ||
+                            t instanceof Double ||
+                            t instanceof Float ||
+                            t instanceof Integer ||
+                            t instanceof Long ||
+                            t instanceof Short ||
+                            t instanceof String) {
+                        jsonArray.put(t);
+                    } else {
+                        try {
+                            jsonArray.put(new JSONObject(objToJson(t)));
+                        } catch (JSONException e) {
+                            jsonArray.put(t);
+                        }
+                    }
                 }
             }
         }
@@ -130,15 +150,7 @@ public class ZJsonUtil {
      * @return JSONArray
      */
     public static <T> JSONArray toJsonArray(T[] arrays) {
-        JSONArray jsonArray = new JSONArray();
-        if (arrays != null) {
-            for (T t : arrays) {
-                if (t != null) {
-                    jsonArray.put(t);
-                }
-            }
-        }
-        return jsonArray;
+        return toJsonArray(Arrays.asList(arrays));
     }
 
     // --------------------------------------------------
