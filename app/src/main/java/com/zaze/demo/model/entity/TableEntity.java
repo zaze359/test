@@ -8,22 +8,7 @@ package com.zaze.demo.model.entity;
  * @version : 2016-08-16 - 11:11
  */
 public class TableEntity extends BaseEntity {
-    private int type;
-
-    public TableEntity() {
-    }
-
-    public TableEntity(int type, String name, Class clazz) {
-        super(name, clazz);
-        this.type = type;
-    }
-
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
+    public TableEntity(String name, Class clazz, int type) {
+        super(name, clazz, type);
     }
 }

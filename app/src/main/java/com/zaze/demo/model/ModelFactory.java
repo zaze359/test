@@ -10,7 +10,7 @@ import com.zaze.demo.model.impl.EntityModelImpl;
  * @version : 2016-08-17 - 09:02
  */
 public class ModelFactory {
-    public static EntityModel getTabModel() {
+    public static EntityModel getEntityModel() {
         return new EntityModelImpl();
     }
 

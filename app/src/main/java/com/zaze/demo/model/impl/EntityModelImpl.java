@@ -2,6 +2,7 @@ package com.zaze.demo.model.impl;
 
 
 import com.zaze.demo.component.animation.ui.AnimationActivity;
+import com.zaze.demo.component.animation.ui.AnimationActivity1;
 import com.zaze.demo.component.cache.ui.CacheActivity;
 import com.zaze.demo.component.checknet.ui.CheckNetActivity;
 import com.zaze.demo.component.device.ui.DeviceActivity;
@@ -42,37 +43,40 @@ public class EntityModelImpl implements EntityModel {
     public List<TableEntity> getTableList() {
         List<TableEntity> list = new ArrayList<>();
         int i = 0;
-        list.add(new TableEntity(i++, "Animation", AnimationActivity.class));
-        list.add(new TableEntity(i++, "Logcat", LogcatActivity.class));
-        list.add(new TableEntity(i++, "Socket Server", ServerActivity.class));
-        list.add(new TableEntity(i++, "Socket Client", ClientActivity.class));
-        list.add(new TableEntity(i++, "System", SystemActivity.class));
-        list.add(new TableEntity(i++, "toolbar", ToolBarDemoActivity.class));
-        list.add(new TableEntity(i++, "Rx Android", RxAndroidActivity.class));
-        list.add(new TableEntity(i++, "Device Info", DeviceActivity.class));
-        list.add(new TableEntity(i++, "Time", TimeActivity.class));
-        list.add(new TableEntity(i++, "GPS", GpsActivity.class));
-        list.add(new TableEntity(i++, "Event Bus", EventBusActivity.class));
-        list.add(new TableEntity(i++, "Task", TaskActivity.class));
-        list.add(new TableEntity(i++, "Content Provider", ProviderActivity.class));
-        list.add(new TableEntity(i++, "Read Package", ReadPackageActivity.class));
-        list.add(new TableEntity(i++, "Preference", MyPreferenceActivity.class));
-        list.add(new TableEntity(i++, "Ok Http", OkHttpActivity.class));
-        list.add(new TableEntity(i++, "Check Net", CheckNetActivity.class));
-        list.add(new TableEntity(i++, "Progress", ProgressActivity.class));
-        list.add(new TableEntity(i++, "Vector", VectorActivity.class));
-        list.add(new TableEntity(i++, "File Explorer", FileExplorerActivity.class));
-        list.add(new TableEntity(i++, "Web View", WebViewActivity.class));
-        list.add(new TableEntity(i++, "Memory Cache", CacheActivity.class));
-//        SortUtil.sortList(list, "getType", "desc");
-//        com.android.internal.R.string.config_webViewPackageName
+        list.add(new TableEntity("Animation", AnimationActivity.class, ++i));
+        list.add(new TableEntity("Logcat", LogcatActivity.class, ++i));
+        list.add(new TableEntity("Socket Server", ServerActivity.class, ++i));
+        list.add(new TableEntity("Socket Client", ClientActivity.class, ++i));
+        list.add(new TableEntity("System", SystemActivity.class, ++i));
+        list.add(new TableEntity("toolbar", ToolBarDemoActivity.class, ++i));
+        list.add(new TableEntity("Rx Android", RxAndroidActivity.class, ++i));
+        list.add(new TableEntity("Device Info", DeviceActivity.class, ++i));
+        list.add(new TableEntity("Time", TimeActivity.class, ++i));
+        list.add(new TableEntity("GPS", GpsActivity.class, ++i));
+        list.add(new TableEntity("Event Bus", EventBusActivity.class, ++i));
+        list.add(new TableEntity("Task", TaskActivity.class, ++i));
+        list.add(new TableEntity("Content Provider", ProviderActivity.class, ++i));
+        list.add(new TableEntity("Read Package", ReadPackageActivity.class, ++i));
+        list.add(new TableEntity("Preference", MyPreferenceActivity.class, ++i));
+        list.add(new TableEntity("Ok Http", OkHttpActivity.class, ++i));
+        list.add(new TableEntity("Check Net", CheckNetActivity.class, ++i));
+        list.add(new TableEntity("Progress", ProgressActivity.class, ++i));
+        list.add(new TableEntity("Vector", VectorActivity.class, ++i));
+        list.add(new TableEntity("File Explorer", FileExplorerActivity.class, ++i));
+        list.add(new TableEntity("Web View", WebViewActivity.class, ++i));
+        list.add(new TableEntity("Memory Cache", CacheActivity.class, ++i));
         return list;
     }
 
     @Override
     public List<AnimationEntity> getAnimationList() {
         List<AnimationEntity> list = new ArrayList<>();
-        list.add(new AnimationEntity("View Property Animator", null));
+        list.add(new AnimationEntity("Scene Transition Animation(平移过渡)", AnimationActivity1.class, AnimationEntity.Type.SceneTransitionAnimation));
+        list.add(new AnimationEntity("Scale Up Animation(放大过渡)", AnimationActivity1.class, AnimationEntity.Type.ScaleUpAnimation));
+        list.add(new AnimationEntity("Scene Transition Animation(平移过渡)", AnimationActivity1.class, AnimationEntity.Type.SceneTransitionAnimation));
+        list.add(new AnimationEntity("Scene Transition Animation(平移过渡)", AnimationActivity1.class, AnimationEntity.Type.SceneTransitionAnimation));
+        list.add(new AnimationEntity("Scene Transition Animation(平移过渡)", AnimationActivity1.class, AnimationEntity.Type.SceneTransitionAnimation));
+        list.add(new AnimationEntity("Scene Transition Animation(平移过渡)", AnimationActivity1.class, AnimationEntity.Type.SceneTransitionAnimation));
         return list;
     }
 }

@@ -1,12 +1,9 @@
 package com.zaze.demo.component.animation.presenter.impl;
 
 import com.zaze.demo.component.animation.presenter.AnimationPresenter;
-import com.zaze.demo.component.animation.ui.AnimationActivity1;
 import com.zaze.demo.component.animation.view.AnimationView;
+import com.zaze.demo.model.ModelFactory;
 import com.zaze.demo.model.entity.AnimationEntity;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Description :
@@ -24,13 +21,7 @@ public class AnimationPresenterImpl implements AnimationPresenter {
 
     @Override
     public void getAnimationList() {
-        List<AnimationEntity> list = new ArrayList<>();
-        list.add(new AnimationEntity("Scene Transition Animation(平移过渡)", AnimationActivity1.class));
-        list.add(new AnimationEntity("Scale Up Animation(放大过渡)", AnimationActivity1.class));
-        list.add(new AnimationEntity("Scene Transition Animation", AnimationActivity1.class));
-        list.add(new AnimationEntity("Scene Transition Animation", AnimationActivity1.class));
-        list.add(new AnimationEntity("Scene Transition Animation", AnimationActivity1.class));
-        view.showAnimationList(list);
+        view.showAnimationList(ModelFactory.getEntityModel().getAnimationList());
 //        <string -array name="animation_titles">
 //        <item></item>
 //        <item>Object Animator</item>
@@ -42,5 +33,9 @@ public class AnimationPresenterImpl implements AnimationPresenter {
 //        <!--<item>Shared Element Transitions</item>-->
 //        <!--<item>Animated Vector Drawables</item>-->
 //        </string-array>
+    }
+
+    private AnimationEntity buildAnimationEntity(String name, Class clazz, int type) {
+        return new AnimationEntity(name, clazz, type);
     }
 }

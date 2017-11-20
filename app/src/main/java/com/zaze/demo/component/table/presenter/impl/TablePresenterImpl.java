@@ -18,7 +18,7 @@ public class TablePresenterImpl implements TablePresenter {
 
     public TablePresenterImpl(ToolView view) {
         this.view = view;
-        entityModel = ModelFactory.getTabModel();
+        entityModel = ModelFactory.getEntityModel();
     }
 
     @Override
