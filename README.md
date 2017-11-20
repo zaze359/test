@@ -18,7 +18,7 @@ maven { url "https://dl.bintray.com/zaze359/maven" }
 
 
 
-## zazeutil 仓库
+## 工具类仓库
 
 > 数据相关的工具类
 
@@ -31,7 +31,7 @@ maven { url "https://dl.bintray.com/zaze359/maven" }
 
 
 
-## zazecommon 仓库
+## 组件仓库
 
 > UI相关的组件
 
