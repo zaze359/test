@@ -3,6 +3,8 @@ package com.zaze.demo.model.impl;
 
 import com.zaze.demo.component.animation.ui.AnimationActivity;
 import com.zaze.demo.component.animation.ui.AnimationActivity1;
+import com.zaze.demo.component.animation.ui.SharedElementActivity;
+import com.zaze.demo.component.animation.ui.TransitionActivity;
 import com.zaze.demo.component.cache.ui.CacheActivity;
 import com.zaze.demo.component.checknet.ui.CheckNetActivity;
 import com.zaze.demo.component.device.ui.DeviceActivity;
@@ -71,12 +73,12 @@ public class EntityModelImpl implements EntityModel {
     @Override
     public List<AnimationEntity> getAnimationList() {
         List<AnimationEntity> list = new ArrayList<>();
-        list.add(new AnimationEntity("Scene Transition Animation(平移过渡)", AnimationActivity1.class, AnimationEntity.Type.SceneTransitionAnimation));
-        list.add(new AnimationEntity("Scale Up Animation(放大过渡)", AnimationActivity1.class, AnimationEntity.Type.ScaleUpAnimation));
-        list.add(new AnimationEntity("Scene Transition Animation(平移过渡)", AnimationActivity1.class, AnimationEntity.Type.SceneTransitionAnimation));
-        list.add(new AnimationEntity("Scene Transition Animation(平移过渡)", AnimationActivity1.class, AnimationEntity.Type.SceneTransitionAnimation));
-        list.add(new AnimationEntity("Scene Transition Animation(平移过渡)", AnimationActivity1.class, AnimationEntity.Type.SceneTransitionAnimation));
-        list.add(new AnimationEntity("Scene Transition Animation(平移过渡)", AnimationActivity1.class, AnimationEntity.Type.SceneTransitionAnimation));
+        list.add(new AnimationEntity("Scene Transition Animation(平移过渡)", TransitionActivity.class, AnimationEntity.Type.SCENE_TRANSITION));
+        list.add(new AnimationEntity("Scale Up Animation(放大过渡)", AnimationActivity1.class, AnimationEntity.Type.SCALE_UP));
+        list.add(new AnimationEntity("Shared Element()", SharedElementActivity.class, AnimationEntity.Type.SCENE_TRANSITION));
+        list.add(new AnimationEntity("Scene Transition Animation(平移过渡)", AnimationActivity1.class, AnimationEntity.Type.SCENE_TRANSITION));
+        list.add(new AnimationEntity("Scene Transition Animation(平移过渡)", AnimationActivity1.class, AnimationEntity.Type.SCENE_TRANSITION));
+        list.add(new AnimationEntity("Scene Transition Animation(平移过渡)", AnimationActivity1.class, AnimationEntity.Type.SCENE_TRANSITION));
         return list;
     }
 }

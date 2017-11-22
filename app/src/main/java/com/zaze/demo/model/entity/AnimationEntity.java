@@ -16,7 +16,8 @@ public class AnimationEntity extends BaseEntity {
 
 
     public static class Type {
-        public static final int SceneTransitionAnimation = 0;
-        public static final int ScaleUpAnimation = 1;
+        public static final int SCENE_TRANSITION = 0;
+        public static final int SCALE_UP = 1;
+        public static final int SHARED_ELEMENT = 2;
     }
 }

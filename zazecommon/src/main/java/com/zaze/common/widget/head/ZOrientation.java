@@ -15,6 +15,6 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.SOURCE)
 public @interface ZOrientation {
     int LEFT = 2;
-    int CENTER = 5;
     int RIGHT = 3;
+    int CENTER = 5;
 }

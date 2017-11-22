@@ -132,4 +132,8 @@
     <dimen name="pt_50">@dimen/sp_50</dimen>
     <dimen name="pt_70">@dimen/sp_70</dimen>
     <dimen name="pt_80">@dimen/sp_80</dimen>
+
+
+    <dimen name="spacing_normal">@dimen/dp_8</dimen>
+
 </resources>

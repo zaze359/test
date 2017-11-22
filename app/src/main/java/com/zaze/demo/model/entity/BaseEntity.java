@@ -1,12 +1,14 @@
 package com.zaze.demo.model.entity;
 
+import java.io.Serializable;
+
 /**
  * Description :
  *
  * @author : ZAZE
  * @version : 2016-08-25 - 09:53
  */
-public class BaseEntity {
+public class BaseEntity implements Serializable {
     private String name;
     private Class targetClass;
     private int type;
@@ -43,4 +45,6 @@ public class BaseEntity {
     public void setTargetClass(Class targetClass) {
         this.targetClass = targetClass;
     }
+
+
 }

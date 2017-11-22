@@ -8,6 +8,8 @@ package com.zaze.utils;
  */
 public abstract class ZCallback<D> {
 
+    private String message;
+
     public void onError(int errorCode, String errorMsg) {
     }
 
@@ -19,4 +21,11 @@ public abstract class ZCallback<D> {
 
     public abstract void onCompleted();
 
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }

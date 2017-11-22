@@ -30,6 +30,9 @@ dependencies {
     compile "com.android.support:support-v13:$rootProject.supportLibraryVersion"
     compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
 
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'io.reactivex:rxjava:1.1.6'
+
     compile('com.marshalchen.ultimaterecyclerview:library:0.7.3') {
         exclude module: "appcompat-v7"
         exclude module: "support-v4"

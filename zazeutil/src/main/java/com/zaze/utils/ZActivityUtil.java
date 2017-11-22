@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
@@ -134,8 +135,22 @@ public class ZActivityUtil {
      * @param optionsCompat optionsCompat
      */
     public static void startActivityForAnim(Activity activity, Class<?> target, @NonNull ActivityOptionsCompat optionsCompat) {
+        startActivityForAnim(activity, target, optionsCompat, null);
+    }
+
+    /**
+     * 执行动画
+     *
+     * @param activity      activity
+     * @param target        target
+     * @param optionsCompat optionsCompat
+     */
+    public static void startActivityForAnim(Activity activity, Class<?> target, @NonNull ActivityOptionsCompat optionsCompat, Bundle bundle) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             Intent intent = new Intent(activity, target);
+            if (bundle != null) {
+                intent.putExtras(bundle);
+            }
             activity.startActivity(intent, optionsCompat.toBundle());
         } else {
             startActivity(activity, target);
@@ -146,23 +161,19 @@ public class ZActivityUtil {
     // start activity for result
     // --------------------------------------------------
 
-    public static void startActivityForResult(
-            Context context, Class<?> target, int code) {
+    public static void startActivityForResult(Context context, Class<?> target, int code) {
         startActivityForResult(context, target, null, code, false);
     }
 
-    public static void startActivityForResult(
-            Context context, Intent intent, int code) {
+    public static void startActivityForResult(Context context, Intent intent, int code) {
         startActivityForResult(context, null, intent, code, false);
     }
 
-    public static void startActivityForResult(
-            Context context, Class<?> target, Intent intent, int code) {
+    public static void startActivityForResult(Context context, Class<?> target, Intent intent, int code) {
         startActivityForResult(context, target, intent, code, false);
     }
 
-    public static void startActivityForResult(
-            Context context, Class<?> target, Intent intent, int code, boolean isFinish) {
+    public static void startActivityForResult(Context context, Class<?> target, Intent intent, int code, boolean isFinish) {
         if (context instanceof Activity) {
             Activity activity = (Activity) context;
             activity.startActivityForResult(getIntent(context, target, intent), code);
@@ -172,23 +183,19 @@ public class ZActivityUtil {
         }
     }
 
-    public static void startActivityForResult(
-            Fragment fragment, Class<?> target, int code) {
+    public static void startActivityForResult(Fragment fragment, Class<?> target, int code) {
         startActivityForResult(fragment, target, null, code, false);
     }
 
-    public static void startActivityForResult(
-            Fragment fragment, Intent intent, int code) {
+    public static void startActivityForResult(Fragment fragment, Intent intent, int code) {
         startActivityForResult(fragment, null, intent, code, false);
     }
 
-    public static void startActivityForResult(
-            Fragment fragment, Class<?> target, Intent intent, int code) {
+    public static void startActivityForResult(Fragment fragment, Class<?> target, Intent intent, int code) {
         startActivityForResult(fragment, target, intent, code, false);
     }
 
-    public static void startActivityForResult(
-            Fragment fragment, Class<?> target, Intent intent, int code, boolean isFinish) {
+    public static void startActivityForResult(Fragment fragment, Class<?> target, Intent intent, int code, boolean isFinish) {
         fragment.startActivityForResult(getIntent(fragment.getActivity(), target, intent), code);
         if (isFinish) {
             finish(fragment.getActivity());

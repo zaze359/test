@@ -2,12 +2,16 @@ package com.zaze.demo.component.animation.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import com.zaze.common.adapter.ZRecyclerAdapter;
 import com.zaze.demo.R;
+import com.zaze.demo.component.animation.ui.SharedElementActivity;
 import com.zaze.demo.model.entity.AnimationEntity;
 import com.zaze.utils.ZActivityUtil;
 import com.zaze.utils.ZStringUtil;
@@ -46,15 +50,22 @@ public class AnimationAdapter extends ZRecyclerAdapter<AnimationEntity, Animatio
             @Override
             public void onClick(View v) {
                 if (getContext() instanceof Activity) {
+                    Activity activity = (Activity) getContext();
                     switch (position) {
-                        case 0:
-                            ZActivityUtil.makeSceneTransitionAnimation((Activity) getContext(), value.getTargetClass());
+                        case AnimationEntity.Type.SCENE_TRANSITION:
+                            ZActivityUtil.makeSceneTransitionAnimation(activity, value.getTargetClass());
                             break;
-                        case 1:
-                            ZActivityUtil.makeScaleUpAnimation((Activity) getContext(), value.getTargetClass(), holder.itemView, 100, 100, 100, 100);
+                        case AnimationEntity.Type.SCALE_UP:
+                            ZActivityUtil.makeScaleUpAnimation(activity, value.getTargetClass(), holder.itemView, 100, 100, 100, 100);
+                            break;
+                        case AnimationEntity.Type.SHARED_ELEMENT:
+                            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, new Pair<>(holder.itemView, "holder.itemView"));
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable(SharedElementActivity.EXTRA_ENTITY, value);
+                            ZActivityUtil.startActivityForAnim(activity, value.getTargetClass(), optionsCompat, bundle);
                             break;
                         default:
-                            ZActivityUtil.makeSceneTransitionAnimation((Activity) getContext(), value.getTargetClass());
+                            ZActivityUtil.makeSceneTransitionAnimation(activity, value.getTargetClass());
                             break;
                     }
                 }
@@ -73,4 +84,6 @@ public class AnimationAdapter extends ZRecyclerAdapter<AnimationEntity, Animatio
     }
 
     // --------------------------------------------------
+
+
 }
