@@ -15,6 +15,7 @@ import com.zaze.demo.debug.KotlinDebug
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.regex.Pattern
 
 
 /**
@@ -62,7 +63,18 @@ class MainActivity : ZBaseActivity() {
         main_viewpager.adapter = MyPagerAdapter(supportFragmentManager, fragmentList)
         main_test_button.setOnClickListener {
             val debug = KotlinDebug()
-            debug.test()
+//            debug.test()
+//            ZAppUtil.startApplicationSimple(this, "com.xh.aoscstu")
+//            ZAppUtil.startApplicationSimple(this, "com.xh.assist")
+//            val matchStr = "http[s]?://auth-\\d*.wifi.com/\\d+/mobile.html.*"
+            val matchStr = "http[s]?://auth-\\d*.wifi.com/.*"
+            val pattern = Pattern.compile(matchStr)
+//            val matcher = pattern.matcher("https://auth-332211.wifi.com/1110/mobile.html")
+            val matcher = pattern.matcher("http://auth-22080400.wifi.com/?x=8788950992870874614728340667105083&c=97996915&ref=http://data.yunzuoye.net/data/wifi.html")
+            while (matcher.find()) {
+                ZLog.i(ZTag.TAG_DEBUG, matcher.group())
+            }
+
             // --------------------------------------------------
 
             // --------------------------------------------------

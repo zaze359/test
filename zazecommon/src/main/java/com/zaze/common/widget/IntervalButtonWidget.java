@@ -1,11 +1,15 @@
 package com.zaze.common.widget;
 
-import android.database.Observable;
 import android.widget.Button;
 
 import com.zaze.utils.ZStringUtil;
 
 import java.util.concurrent.TimeUnit;
+
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 
 /**
  * Description :

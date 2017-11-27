@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.DhcpInfo;
 import android.net.NetworkInfo;
+import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
@@ -37,15 +38,15 @@ public class ZNetUtil {
 //    这里得到信号强度就靠wifiinfo.getRssi()；这个方法。得到的值是一个0到-100的区间值，是一个int型数据，其中0到-50表示信号最好，-50到-70表示信号偏差，小于-70表示最差，有可能连接不上或者掉线，一般Wifi已断则值为-200。
 
 
-    private static NetworkInfo getNetworkInfo(Context context) {
+    public static NetworkInfo getNetworkInfo(Context context) {
         return getConnectivityManager(context).getActiveNetworkInfo();
     }
 
-    private static WifiManager getWifiManager(Context context) {
+    public static WifiManager getWifiManager(Context context) {
         return (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
     }
 
-    private static ConnectivityManager getConnectivityManager(Context context) {
+    public static ConnectivityManager getConnectivityManager(Context context) {
         return (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
     }
     // --------------------------------------------------
@@ -193,12 +194,27 @@ public class ZNetUtil {
     }
 
     // --------------------------------------------------
+//    public static void getProviders(Context context) {
+//        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+//        String IMSI = telephonyManager.getSubscriberId();
+//        ZLog.i(ZTag.TAG_DEBUG, IMSI);
+//    }
 
-    public static void getProviders(Context context) {
-        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        String IMSI = telephonyManager.getSubscriberId();
-        ZLog.i(ZTag.TAG_DEBUG, IMSI);
+    public static String formatWifiDesc(ScanResult scanResult) {
+        String descOri = scanResult.capabilities.toUpperCase();
+        StringBuilder descBuilder = new StringBuilder();
+        boolean isWPA = descOri.contains("WPA-PSK");
+        boolean isWPA2 = descOri.contains("WPA2-PSK");
+        boolean isESS = descOri.contains("ESS");
+        if (isWPA) {
+//            appendDesc(descBuilder, "WPA");
+        }
+        if (isWPA2) {
+//            appendDesc(descBuilder, "WPA2");
+        }
+        if (isESS) {
+//            appendDesc(descBuilder, "ESS");
+        }
+        return descBuilder.toString();
     }
-
-
 }

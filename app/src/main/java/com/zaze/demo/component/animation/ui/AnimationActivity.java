@@ -48,7 +48,7 @@ public class AnimationActivity extends ZBaseActivity implements AnimationView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_animation);
         ButterKnife.bind(this);
-//        setupWindowAnimations();
+        setupWindowAnimations();
         setupToolbar();
         presenter = new AnimationPresenterImpl(this);
         presenter.getAnimationList();

@@ -4,15 +4,14 @@ package com.zaze.demo.component.animation.ui;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.ChangeBounds;
 import android.transition.Slide;
 import android.view.Gravity;
 
-import com.zaze.common.base.ZBaseActivity;
 import com.zaze.demo.R;
 import com.zaze.demo.component.animation.presenter.SharedElementPresenter;
-import com.zaze.demo.component.animation.presenter.impl.SharedElementPresenterImpl;
-import com.zaze.demo.component.animation.view.SharedElementView;
 import com.zaze.demo.databinding.ActivitySharedElementBinding;
 import com.zaze.demo.model.entity.AnimationEntity;
 
@@ -23,14 +22,14 @@ import com.zaze.demo.model.entity.AnimationEntity;
  * @author : zaze
  * @version : 2017-11-20 03:46 1.0
  */
-public class SharedElementActivity extends ZBaseActivity implements SharedElementView {
+public class SharedElementActivity extends AppCompatActivity {
     private SharedElementPresenter presenter;
     public static final String EXTRA_ENTITY = "entity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new SharedElementPresenterImpl(this);
+//        presenter = new SharedElementPresenterImpl(this);
         AnimationEntity animationEntity = (AnimationEntity) getIntent().getExtras().getSerializable(EXTRA_ENTITY);
         bindData(animationEntity);
         setupWindowAnimations();
@@ -50,6 +49,12 @@ public class SharedElementActivity extends ZBaseActivity implements SharedElemen
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
 
     private void setupWindowAnimations() {
         // We are not interested in defining a new Enter Transition. Instead we change default transition duration
@@ -58,20 +63,18 @@ public class SharedElementActivity extends ZBaseActivity implements SharedElemen
         }
     }
 
-    private void setupLayout(AnimationEntity sample) {
-        // Transition for fragment1
-        Slide slideTransition = null;
+    private void setupLayout(AnimationEntity entity) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            slideTransition = new Slide(Gravity.LEFT);
+            Slide slideTransition = new Slide(Gravity.LEFT);
             slideTransition.setDuration(getResources().getInteger(R.integer.anim_duration_long));
-            // Create fragment and define some of it transitions
-//            SharedElementFragment1 sharedElementFragment1 = SharedElementFragment1.newInstance(sample);
-//            sharedElementFragment1.setReenterTransition(slideTransition);
-//            sharedElementFragment1.setExitTransition(slideTransition);
-//            sharedElementFragment1.setSharedElementEnterTransition(new ChangeBounds());
-//            getSupportFragmentManager().beginTransaction()
-//                    .replace(R.id.sample2_content, sharedElementFragment1)
-//                    .commit();
+//             Create fragment and define some of it transitions
+            ElementOneFragment elementOneFragment = ElementOneFragment.newInstance(entity);
+            elementOneFragment.setReenterTransition(slideTransition);
+            elementOneFragment.setExitTransition(slideTransition);
+            elementOneFragment.setSharedElementEnterTransition(new ChangeBounds());
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.share_element_frame, elementOneFragment)
+                    .commit();
         }
 
     }

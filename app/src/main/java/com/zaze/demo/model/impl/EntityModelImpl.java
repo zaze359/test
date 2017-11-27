@@ -24,6 +24,7 @@ import com.zaze.demo.component.task.ui.TaskActivity;
 import com.zaze.demo.component.time.TimeActivity;
 import com.zaze.demo.component.toolbar.ToolBarDemoActivity;
 import com.zaze.demo.component.webview.ui.WebViewActivity;
+import com.zaze.demo.component.wifi.ui.WifiActivity;
 import com.zaze.demo.component.xbus.ui.EventBusActivity;
 import com.zaze.demo.model.EntityModel;
 import com.zaze.demo.model.entity.AnimationEntity;
@@ -46,9 +47,7 @@ public class EntityModelImpl implements EntityModel {
         List<TableEntity> list = new ArrayList<>();
         int i = 0;
         list.add(new TableEntity("Animation", AnimationActivity.class, ++i));
-        list.add(new TableEntity("Logcat", LogcatActivity.class, ++i));
-        list.add(new TableEntity("Socket Server", ServerActivity.class, ++i));
-        list.add(new TableEntity("Socket Client", ClientActivity.class, ++i));
+        list.add(new TableEntity("Wifi", WifiActivity.class, ++i));
         list.add(new TableEntity("System", SystemActivity.class, ++i));
         list.add(new TableEntity("toolbar", ToolBarDemoActivity.class, ++i));
         list.add(new TableEntity("Rx Android", RxAndroidActivity.class, ++i));
@@ -67,6 +66,9 @@ public class EntityModelImpl implements EntityModel {
         list.add(new TableEntity("File Explorer", FileExplorerActivity.class, ++i));
         list.add(new TableEntity("Web View", WebViewActivity.class, ++i));
         list.add(new TableEntity("Memory Cache", CacheActivity.class, ++i));
+        list.add(new TableEntity("Logcat", LogcatActivity.class, ++i));
+        list.add(new TableEntity("Socket Server", ServerActivity.class, ++i));
+        list.add(new TableEntity("Socket Client", ClientActivity.class, ++i));
         return list;
     }
 
