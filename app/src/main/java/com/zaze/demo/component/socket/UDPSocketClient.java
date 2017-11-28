@@ -2,6 +2,7 @@ package com.zaze.demo.component.socket;
 
 import android.net.wifi.WifiInfo;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.zaze.demo.app.MyApplication;
 import com.zaze.utils.ThreadManager;
@@ -29,18 +30,14 @@ import java.util.concurrent.TimeUnit;
  * @author : ZAZE
  * @version : 2017-11-27 - 15:07
  */
-public class SocketHelper {
+public class UDPSocketClient extends SocketClient {
     private static int id = 0;
     private ThreadPoolExecutor serverExecutor;
-    private SocketFace socketFace;
     private DatagramSocket serverSocket;
     private boolean isRunning = false;
 
-    public SocketHelper() {
-        this(null);
-    }
-
-    public SocketHelper(SocketFace socketFace) {
+    public UDPSocketClient(String host, int port, SocketFace socketFace) {
+        super(host, port, socketFace);
         serverExecutor = new ThreadPoolExecutor(1, 1, 0L,
                 TimeUnit.MILLISECONDS, new LinkedBlockingQueue(), new ThreadFactory() {
             @Override
@@ -52,19 +49,11 @@ public class SocketHelper {
                 return thread;
             }
         });
-        setSocketFace(socketFace);
     }
 
-    public void setSocketFace(SocketFace socketFace) {
-        this.socketFace = socketFace;
-    }
-
-    public boolean joinGroup(int port) {
-        return joinGroup(ZNetUtil.getIpAddress(MyApplication.getInstance()), port);
-    }
-
-    public boolean joinGroup(final String host, final int port) {
-        ZLog.d(ZTag.TAG_DEBUG, "socket 监听 %s:%s", host, port);
+    @Override
+    public boolean receive() {
+        ZLog.d(ZTag.TAG_DEBUG, "socket 监听 %s:%s", getHost(), getPort());
         if (!isRunning) {
             isRunning = true;
             serverExecutor.execute(new Runnable() {
@@ -72,15 +61,11 @@ public class SocketHelper {
                 public void run() {
                     ZLog.d(ZTag.TAG_DEBUG, "socket 开始接收数据");
                     try {
-                        InetAddress receiveAddress = InetAddress.getByName(host);
-                        if (serverSocket != null) {
-                            serverSocket.close();
-                        }
-                        if (receiveAddress.isMulticastAddress()) {
-                            serverSocket = new MulticastSocket(port);
-                            ((MulticastSocket) serverSocket).joinGroup(receiveAddress);
+                        if (!TextUtils.isEmpty(getHost()) && InetAddress.getByName(getHost()).isMulticastAddress()) {
+                            serverSocket = new MulticastSocket(getPort());
+                            ((MulticastSocket) serverSocket).joinGroup(InetAddress.getByName(getHost()));
                         } else {
-                            serverSocket = new DatagramSocket(port);
+                            serverSocket = new DatagramSocket(getPort());
                         }
                         dealMessage(serverSocket);
                     } catch (IOException e) {
@@ -97,13 +82,6 @@ public class SocketHelper {
         }
     }
 
-    public void stop() {
-        isRunning = false;
-        if (serverSocket != null) {
-            serverSocket.close();
-        }
-    }
-
     private void dealMessage(DatagramSocket socket) {
         byte[] buffer = new byte[1024];
         DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
@@ -116,50 +94,14 @@ public class SocketHelper {
                 socketMessage.setPort(packet.getPort());
                 socketMessage.setMessage(new String(packet.getData(), 0, packet.getLength(), Charset.defaultCharset()));
                 ZLog.d(ZTag.TAG_DEBUG, socketMessage.toString());
-                if (socketFace != null) {
-                    socketFace.onReceiver(socketMessage);
-                }
+                onReceiver(socketMessage);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public void send(final String host, final int port, final JSONObject jsonObject) {
-        // 发送的数据包，局网内的所有地址都可以收到该数据包
-        ThreadManager.getInstance().runInMultiThread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    if (serverSocket != null) {
-                        if (serverSocket instanceof MulticastSocket) {
-                            ((MulticastSocket) serverSocket).setTimeToLive(4);
-                        }
-                        // 将本机的IP（这里可以写动态获取的IP）地址放到数据包里，其实server端接收到数据包后也能获取到发包方的IP的
-                        JSONObject jsonObject = new JSONObject();
-                        jsonObject.put("content", "测试数据");
-                        jsonObject.put("time", System.currentTimeMillis());
-                        byte[] data = jsonObject.toString().getBytes();
-                        WifiInfo wifiInfo = ZNetUtil.getConnectionInfo(MyApplication.getInstance());
-                        if (wifiInfo != null) {
-                            ZLog.d(ZTag.TAG_DEBUG, "发送(%s:%s) : %s ", host, port, jsonObject.toString(4));
-                            InetAddress server = InetAddress.getByName(host);
-                            DatagramPacket dataPacket = new DatagramPacket(data, data.length, server, port);
-                            serverSocket.send(dataPacket);
-                            // socket?.close()
-                        } else {
-                            ZLog.e(ZTag.TAG_DEBUG, "当前未连接网络！");
-
-                        }
-
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
+    @Override
     public void send(final SocketAddress socketAddress, final JSONObject jsonObject) {
         // 发送的数据包，局网内的所有地址都可以收到该数据包
         ThreadManager.getInstance().runInMultiThread(new Runnable() {
@@ -191,18 +133,13 @@ public class SocketHelper {
         });
     }
 
-    // --------------------------------------------------
-
-    /**
-     * Socket回调
-     */
-    public interface SocketFace {
-
-        /**
-         * 接收到数据 异步线程
-         *
-         * @param socketMessage socketMessage
-         */
-        void onReceiver(SocketMessage socketMessage);
+    @Override
+    public void close() {
+        isRunning = false;
+        if (serverSocket != null) {
+            serverSocket.close();
+        }
     }
+
+    // --------------------------------------------------
 }

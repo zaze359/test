@@ -19,7 +19,7 @@
         android:id="@+id/server_send_broadcast_bt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="发送局域网广播" />
+        android:text="发送邀请和回复客户端" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/server_recycler_view"
