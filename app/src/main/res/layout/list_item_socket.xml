@@ -7,6 +7,6 @@
     <TextView
         android:id="@+id/item_socket_msg_tv"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_54" />
+        android:layout_height="@dimen/dp_80" />
 
 </LinearLayout>

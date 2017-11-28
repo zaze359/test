@@ -1,21 +1,23 @@
 buildscript {
-    ext.kotlin_version = '1.1.4-2'
+    ext.kotlin_version = '1.1.4-3'
     repositories {
+        google()
         jcenter()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.android.tools.build:gradle:3.0.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         //下面两个包是用于上传的插件
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.6'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
     }
 }
 
 allprojects {
     repositories {
+        google()
         jcenter()
         mavenCentral()
         maven {
@@ -36,7 +38,7 @@ ext {
     minSdkVersion = 16
     targetSdkVersion = 22
     compileSdkVersion = 23
-    buildToolsVersion = '23.0.2'
+    buildToolsVersion = '26.0.2'
     supportLibraryVersion = '23.1.1'
     versionCode = 1
     versionName = "1.0"

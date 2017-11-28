@@ -7,9 +7,7 @@ import android.widget.TextView;
 
 import com.zaze.common.adapter.ZRecyclerAdapter;
 import com.zaze.demo.R;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.zaze.demo.component.socket.SocketMessage;
 
 import java.util.Collection;
 
@@ -19,9 +17,9 @@ import java.util.Collection;
  * @author : ZAZE
  * @version : 2017-11-09 - 13:10
  */
-public class SocketAdapter extends ZRecyclerAdapter<JSONObject, SocketAdapter.SocketHolder> {
+public class SocketAdapter extends ZRecyclerAdapter<SocketMessage, SocketAdapter.SocketHolder> {
 
-    public SocketAdapter(Context context, Collection<JSONObject> data) {
+    public SocketAdapter(Context context, Collection<SocketMessage> data) {
         super(context, data);
     }
 
@@ -36,14 +34,14 @@ public class SocketAdapter extends ZRecyclerAdapter<JSONObject, SocketAdapter.So
     }
 
     @Override
-    public void onBindView(SocketHolder holder, JSONObject value, int position) {
-        String message = "";
-        try {
-            message = value.getString("message");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        holder.itemSocketMsgTv.setText(message);
+    public void onBindView(SocketHolder holder, SocketMessage value, int position) {
+//        String message = "";
+//        try {
+//            message = value.getString("message");
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+        holder.itemSocketMsgTv.setText(position + ". " + value.toString());
     }
 
     class SocketHolder extends RecyclerView.ViewHolder {

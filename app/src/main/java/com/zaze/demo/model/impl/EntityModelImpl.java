@@ -46,6 +46,8 @@ public class EntityModelImpl implements EntityModel {
     public List<TableEntity> getTableList() {
         List<TableEntity> list = new ArrayList<>();
         int i = 0;
+        list.add(new TableEntity("Socket Server", ServerActivity.class, ++i));
+        list.add(new TableEntity("Socket Client", ClientActivity.class, ++i));
         list.add(new TableEntity("Animation", AnimationActivity.class, ++i));
         list.add(new TableEntity("Wifi", WifiActivity.class, ++i));
         list.add(new TableEntity("System", SystemActivity.class, ++i));
@@ -67,8 +69,6 @@ public class EntityModelImpl implements EntityModel {
         list.add(new TableEntity("Web View", WebViewActivity.class, ++i));
         list.add(new TableEntity("Memory Cache", CacheActivity.class, ++i));
         list.add(new TableEntity("Logcat", LogcatActivity.class, ++i));
-        list.add(new TableEntity("Socket Server", ServerActivity.class, ++i));
-        list.add(new TableEntity("Socket Client", ClientActivity.class, ++i));
         return list;
     }
 

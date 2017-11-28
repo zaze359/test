@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import com.zaze.common.base.ZBaseActivity
 import com.zaze.demo.R
+import com.zaze.demo.component.socket.SocketMessage
 import com.zaze.demo.component.socket.adapter.SocketAdapter
 import com.zaze.demo.component.socket.server.presenter.ServerPresenter
 import com.zaze.demo.component.socket.server.presenter.impl.ServerPresenterImpl
@@ -34,7 +35,7 @@ open class ServerActivity : ZBaseActivity(), ServerView {
         })
     }
 
-    override fun showReceiverMsg(list: List<JSONObject>) {
+    override fun showReceiverMsg(list: List<SocketMessage>) {
         if (adapter == null) {
             adapter = SocketAdapter(this, list)
             server_recycler_view.layoutManager = LinearLayoutManager(this)
@@ -44,5 +45,13 @@ open class ServerActivity : ZBaseActivity(), ServerView {
         }
     }
 
+    override fun showMessage(message: String) {
+        server_message_tv.text = message
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter?.stopServer()
+    }
 
 }

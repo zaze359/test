@@ -7,5 +7,8 @@ package com.zaze.demo.component.socket.server.presenter
  */
 interface ServerPresenter {
     fun startServer()
+
+    fun stopServer()
+
     fun sendBroadCast()
 }

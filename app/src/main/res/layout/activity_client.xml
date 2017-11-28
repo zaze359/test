@@ -5,8 +5,27 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/client_message_tv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:text="hello" />
+
+    <Button
+        android:id="@+id/client_join_bt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="启动Socket" />
+
+    <Button
+        android:id="@+id/client_send_broadcast_bt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="回复所有的邀请" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/client_invite_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 
 </LinearLayout>

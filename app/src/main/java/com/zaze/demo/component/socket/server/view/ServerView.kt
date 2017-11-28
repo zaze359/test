@@ -1,6 +1,7 @@
 package com.zaze.demo.component.socket.server.view
 
 import com.zaze.common.base.ZBaseView
+import com.zaze.demo.component.socket.SocketMessage
 import org.json.JSONObject
 
 
@@ -11,5 +12,7 @@ import org.json.JSONObject
  */
 interface ServerView : ZBaseView {
 
-    fun showReceiverMsg(list: List<JSONObject>)
+    fun showReceiverMsg(list: List<SocketMessage>)
+
+    fun showMessage(message: String)
 }
