@@ -9,7 +9,6 @@ import com.zaze.demo.component.socket.server.view.ServerView
 import com.zaze.utils.ThreadManager
 import org.json.JSONObject
 import java.net.InetSocketAddress
-import java.net.SocketAddress
 import java.util.*
 
 
@@ -21,11 +20,11 @@ import java.util.*
 open class ServerPresenterImpl(view: ServerView) : ZBasePresenter<ServerView>(view), ServerPresenter {
     val list: ArrayList<SocketMessage> = ArrayList()
     val serverSocket: SocketClient
-    val clientSet: HashSet<SocketAddress> = HashSet()
+    val clientSet: HashSet<InetSocketAddress> = HashSet()
 
     init {
         serverSocket = UDPSocketClient("", 8004, { message ->
-            clientSet.add(message.socketAdress)
+            clientSet.add(InetSocketAddress(message.address, message.port))
             list.add(message)
             ThreadManager.getInstance().runInUIThread({
                 view.showReceiverMsg(list)
@@ -45,12 +44,12 @@ open class ServerPresenterImpl(view: ServerView) : ZBasePresenter<ServerView>(vi
         val jsonObject = JSONObject()
         jsonObject.put("content", "服务端邀请")
         jsonObject.put("time", System.currentTimeMillis())
-        serverSocket.send(InetSocketAddress("224.0.0.1", 8003), jsonObject)
+        serverSocket.send("224.0.0.1", 8003, jsonObject)
         clientSet.map {
             val replay = JSONObject()
             replay.put("content", "服务端回执")
             replay.put("time", System.currentTimeMillis())
-            serverSocket.send(it, replay)
+            serverSocket.send(it.address.hostAddress, it.port, replay)
         }
     }
 }

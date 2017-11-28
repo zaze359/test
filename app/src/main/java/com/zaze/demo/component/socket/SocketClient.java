@@ -2,8 +2,6 @@ package com.zaze.demo.component.socket;
 
 import org.json.JSONObject;
 
-import java.net.SocketAddress;
-
 /**
  * Description :
  *
@@ -14,7 +12,11 @@ public abstract class SocketClient {
     private SocketFace socketFace;
     private String host;
     private int port;
+    private int maxSize = 1024 * 100;
 
+    public SocketClient(int port, SocketFace socketFace) {
+        this(null, port, socketFace);
+    }
 
     public SocketClient(String host, int port, SocketFace socketFace) {
         this.host = host;
@@ -26,7 +28,7 @@ public abstract class SocketClient {
 
     public abstract boolean receive();
 
-    public abstract void send(SocketAddress address, JSONObject json);
+    public abstract void send(String host, int port, JSONObject json);
 
     public abstract void close();
 
@@ -61,7 +63,15 @@ public abstract class SocketClient {
         this.port = port;
     }
 
-    // --------------------------------------------------
+    public int getMaxSize() {
+        return maxSize;
+    }
+
+    public void setMaxSize(int maxSize) {
+        this.maxSize = maxSize;
+    }
+
+// --------------------------------------------------
 
     /**
      * Socket回调

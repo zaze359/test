@@ -16,8 +16,8 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.MulticastSocket;
-import java.net.SocketAddress;
 import java.nio.charset.Charset;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
@@ -83,14 +83,13 @@ public class UDPSocketClient extends SocketClient {
     }
 
     private void dealMessage(DatagramSocket socket) {
-        byte[] buffer = new byte[1024];
+        byte[] buffer = new byte[getMaxSize()];
         DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
         while (isRunning) {
             try {
                 socket.receive(packet);
                 SocketMessage socketMessage = new SocketMessage();
                 socketMessage.setAddress(packet.getAddress().getHostAddress());
-                socketMessage.setSocketAdress(packet.getSocketAddress());
                 socketMessage.setPort(packet.getPort());
                 socketMessage.setMessage(new String(packet.getData(), 0, packet.getLength(), Charset.defaultCharset()));
                 ZLog.d(ZTag.TAG_DEBUG, socketMessage.toString());
@@ -102,7 +101,7 @@ public class UDPSocketClient extends SocketClient {
     }
 
     @Override
-    public void send(final SocketAddress socketAddress, final JSONObject jsonObject) {
+    public void send(final String host, final int port, final JSONObject jsonObject) {
         // 发送的数据包，局网内的所有地址都可以收到该数据包
         ThreadManager.getInstance().runInMultiThread(new Runnable() {
             @Override
@@ -116,8 +115,8 @@ public class UDPSocketClient extends SocketClient {
                         byte[] data = jsonObject.toString().getBytes();
                         WifiInfo wifiInfo = ZNetUtil.getConnectionInfo(MyApplication.getInstance());
                         if (wifiInfo != null) {
-                            ZLog.d(ZTag.TAG_DEBUG, "发送(%s) : %s ", socketAddress, jsonObject.toString(4));
-                            DatagramPacket dataPacket = new DatagramPacket(data, data.length, socketAddress);
+                            ZLog.d(ZTag.TAG_DEBUG, "发送(%s:%s) : %s ", host, port, jsonObject.toString(4));
+                            DatagramPacket dataPacket = new DatagramPacket(data, data.length, new InetSocketAddress(host, port));
                             serverSocket.send(dataPacket);
                             // socket?.close()
                         } else {

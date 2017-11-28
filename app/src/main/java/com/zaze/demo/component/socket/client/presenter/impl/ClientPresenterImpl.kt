@@ -10,7 +10,7 @@ import com.zaze.utils.ThreadManager
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import org.json.JSONObject
-import java.net.SocketAddress
+import java.net.InetSocketAddress
 import java.util.*
 
 
@@ -24,11 +24,11 @@ open class ClientPresenterImpl(view: ClientView) : ZBasePresenter<ClientView>(vi
     val inviteSocket: SocketClient
     val clientSocket: SocketClient
     val list: ArrayList<SocketMessage> = ArrayList()
-    val serviceSet: HashSet<SocketAddress> = HashSet()
+    val serviceSet: HashSet<InetSocketAddress> = HashSet()
 
     init {
         inviteSocket = UDPSocketClient("224.0.0.1", 8003, { message ->
-            serviceSet.add(message.socketAdress)
+            serviceSet.add(InetSocketAddress(message.address, message.port))
             ZLog.i(ZTag.TAG_DEBUG, "收到邀请 ： " + message)
         })
         clientSocket = UDPSocketClient("", 8004, { message ->
@@ -55,7 +55,7 @@ open class ClientPresenterImpl(view: ClientView) : ZBasePresenter<ClientView>(vi
         jsonObject.put("content", "客户端回执")
         jsonObject.put("time", System.currentTimeMillis())
         serviceSet.map {
-            clientSocket.send(it, jsonObject)
+            clientSocket.send(it.address.hostAddress, it.port, jsonObject)
         }
     }
 
