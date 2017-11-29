@@ -11,6 +11,15 @@ public class SocketMessage {
     private int port;
     private String message;
 
+    public SocketMessage() {
+    }
+
+    public SocketMessage(String address, int port, String message) {
+        this.address = address;
+        this.port = port;
+        this.message = message;
+    }
+
     public String getAddress() {
         return address;
     }
