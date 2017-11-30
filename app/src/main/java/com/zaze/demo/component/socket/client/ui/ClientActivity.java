@@ -107,7 +107,7 @@ public class ClientActivity extends ZBaseActivity {
             @Override
             public void onReceiver(SocketMessage socketMessage) {
                 list.add(socketMessage);
-                EventBus.getDefault().post(ZJsonUtil.objToJson(list));
+                EventBus.getDefault().post(ZJsonUtil.objToJson(socketMessage));
                 ThreadManager.getInstance().runInUIThread(new Runnable() {
                     @Override
                     public void run() {

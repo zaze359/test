@@ -42,11 +42,15 @@ open class ServerPresenterImpl(view: ServerView) : ZBasePresenter<ServerView>(vi
 
     override fun sendBroadCast() {
         val jsonObject = JSONObject()
+        jsonObject.put("formId", 233)
+        jsonObject.put("destId", 666)
         jsonObject.put("content", "服务端邀请")
         jsonObject.put("time", System.currentTimeMillis())
         serverSocket.send("224.0.0.1", 8003, jsonObject)
         clientSet.map {
             val replay = JSONObject()
+            replay.put("formId", 233)
+            replay.put("destId", 666)
             replay.put("content", "服务端回执")
             replay.put("time", System.currentTimeMillis())
             serverSocket.send(it.address.hostAddress, it.port, replay)

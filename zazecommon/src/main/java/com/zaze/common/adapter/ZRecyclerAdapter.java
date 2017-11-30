@@ -1,6 +1,10 @@
 package com.zaze.common.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +23,7 @@ import java.util.List;
  * @author : zaze
  * @version : 1.0
  */
-public abstract class ZRecyclerAdapter<V, H extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<H> {
+public abstract class ZRecyclerAdapter<V, H extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<H> implements ResourceAdapter {
     private Context context;
     private final List<V> dataList = new ArrayList<>();
 
@@ -89,12 +93,6 @@ public abstract class ZRecyclerAdapter<V, H extends RecyclerView.ViewHolder> ext
 
     // --------------------------------------------------
 
-    public <T extends View> T findView(View parent, int resId) {
-        return ZViewUtil.findView(parent, resId);
-    }
-
-    // --------------------------------------------------
-
     /**
      * get view layout id
      *
@@ -118,4 +116,30 @@ public abstract class ZRecyclerAdapter<V, H extends RecyclerView.ViewHolder> ext
      * @param position position
      */
     public abstract void onBindView(H holder, V value, int position);
+
+    // --------------------------------------------------
+    @Override
+    public <T extends View> T findView(View parentView, int resId) {
+        return ZViewUtil.findView(parentView, resId);
+    }
+
+    @Override
+    public int getColor(int resId) {
+        return ContextCompat.getColor(context, resId);
+    }
+
+    @Override
+    public String getString(int resId, Object... args) {
+        return context.getString(resId, args);
+    }
+
+    @Override
+    public Drawable getDrawable(int id) {
+        return ContextCompat.getDrawable(context, id);
+    }
+
+    @Override
+    public Bitmap getBitmap(int resId) {
+        return BitmapFactory.decodeResource(context.getResources(), resId);
+    }
 }

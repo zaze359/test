@@ -14,10 +14,6 @@ public abstract class SocketClient {
     private int port;
     private int maxSize = 1024 * 100;
 
-    public SocketClient(int port, SocketFace socketFace) {
-        this(null, port, socketFace);
-    }
-
     public SocketClient(String host, int port, SocketFace socketFace) {
         this.host = host;
         this.port = port;

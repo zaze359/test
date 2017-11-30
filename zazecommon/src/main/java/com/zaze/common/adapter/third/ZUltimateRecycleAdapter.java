@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 import com.zaze.common.adapter.OnItemClickListener;
+import com.zaze.common.adapter.ResourceAdapter;
 import com.zaze.utils.ZOnClickHelper;
 import com.zaze.utils.ZViewUtil;
 
@@ -28,7 +29,7 @@ import java.util.List;
  * @author : zaze
  * @version : 1.0
  */
-public abstract class ZUltimateRecycleAdapter<V, VH extends RecyclerView.ViewHolder> extends UltimateViewAdapter<VH> {
+public abstract class ZUltimateRecycleAdapter<V, VH extends RecyclerView.ViewHolder> extends UltimateViewAdapter<VH> implements ResourceAdapter {
     private Context context;
     private final List<V> dataList = new ArrayList<>();
     private View.OnClickListener onClickListener;
@@ -138,11 +139,11 @@ public abstract class ZUltimateRecycleAdapter<V, VH extends RecyclerView.ViewHol
         }
     }
 
-    // --------------
     public void setOnItemClickListener(OnItemClickListener<V> onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 
+    // --------------------------------------------------
     public Context getContext() {
         return context;
     }
@@ -157,30 +158,6 @@ public abstract class ZUltimateRecycleAdapter<V, VH extends RecyclerView.ViewHol
 
     public int getPageSize() {
         return pageSize;
-    }
-
-    // --------------------------------------------------
-
-    public int getColor(int resId) {
-        return ContextCompat.getColor(context, resId);
-    }
-
-    public String getString(int resId, Object... args) {
-        return context.getString(resId, args);
-    }
-
-    public Drawable getDrawable(int id) {
-        return ContextCompat.getDrawable(context, id);
-    }
-
-    public Bitmap getBitmap(int resId) {
-        return BitmapFactory.decodeResource(context.getResources(), resId);
-    }
-
-    // --------------------------------------------------
-
-    public <T extends View> T findView(View parentView, int resId) {
-        return ZViewUtil.findView(parentView, resId);
     }
 
     // --------------------------------------------------
@@ -209,4 +186,30 @@ public abstract class ZUltimateRecycleAdapter<V, VH extends RecyclerView.ViewHol
      * @param position position
      */
     public abstract void onBindView(VH holder, V value, int position);
+
+    // --------------------------------------------------
+    @Override
+    public <T extends View> T findView(View parentView, int resId) {
+        return ZViewUtil.findView(parentView, resId);
+    }
+
+    @Override
+    public int getColor(int resId) {
+        return ContextCompat.getColor(context, resId);
+    }
+
+    @Override
+    public String getString(int resId, Object... args) {
+        return context.getString(resId, args);
+    }
+
+    @Override
+    public Drawable getDrawable(int id) {
+        return ContextCompat.getDrawable(context, id);
+    }
+
+    @Override
+    public Bitmap getBitmap(int resId) {
+        return BitmapFactory.decodeResource(context.getResources(), resId);
+    }
 }

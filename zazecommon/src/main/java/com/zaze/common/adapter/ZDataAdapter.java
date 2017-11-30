@@ -1,6 +1,10 @@
 package com.zaze.common.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.BaseAdapter;
 
@@ -17,7 +21,7 @@ import java.util.List;
  * @author : zaze
  * @version : 1.0
  */
-abstract class ZDataAdapter<V> extends BaseAdapter {
+abstract class ZDataAdapter<V> extends BaseAdapter implements ResourceAdapter {
     private Context context;
     private final List<V> dataList = new ArrayList<V>();
 
@@ -56,9 +60,7 @@ abstract class ZDataAdapter<V> extends BaseAdapter {
         return position;
     }
 
-
     // --------------------------------------------------
-
     public Context getContext() {
         return context;
     }
@@ -67,15 +69,29 @@ abstract class ZDataAdapter<V> extends BaseAdapter {
         return dataList;
     }
 
-    public int getColor(int resId) {
-        return context.getResources().getColor(resId);
+    // --------------------------------------------------
+    @Override
+    public <T extends View> T findView(View parentView, int resId) {
+        return ZViewUtil.findView(parentView, resId);
     }
 
+    @Override
+    public int getColor(int resId) {
+        return ContextCompat.getColor(context, resId);
+    }
+
+    @Override
     public String getString(int resId, Object... args) {
         return context.getString(resId, args);
     }
 
-    public <T extends View> T findView(View parent, int resId) {
-        return ZViewUtil.findView(parent, resId);
+    @Override
+    public Drawable getDrawable(int id) {
+        return ContextCompat.getDrawable(context, id);
+    }
+
+    @Override
+    public Bitmap getBitmap(int resId) {
+        return BitmapFactory.decodeResource(context.getResources(), resId);
     }
 }

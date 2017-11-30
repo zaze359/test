@@ -22,11 +22,6 @@ import java.net.UnknownHostException;
 public class TCPSocketClient extends SocketClient {
     ServerSocket serverSocket;
 
-
-    public TCPSocketClient(int port, SocketFace socketFace) {
-        super(port, socketFace);
-    }
-
     public TCPSocketClient(String host, int port, SocketFace socketFace) {
         super(host, port, socketFace);
     }
