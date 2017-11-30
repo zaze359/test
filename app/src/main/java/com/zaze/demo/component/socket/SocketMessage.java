@@ -10,14 +10,23 @@ public class SocketMessage {
     private String address;
     private int port;
     private String message;
+    private int messageType;
+    private long createTime = System.currentTimeMillis();
+    private long receiverTime;
 
     public SocketMessage() {
     }
 
-    public SocketMessage(String address, int port, String message) {
+    public SocketMessage(String message, int messageType) {
+        this.message = message;
+        this.messageType = messageType;
+    }
+
+    public SocketMessage(String address, int port, String message, int messageType) {
         this.address = address;
         this.port = port;
         this.message = message;
+        this.messageType = messageType;
     }
 
     public String getAddress() {
@@ -44,12 +53,38 @@ public class SocketMessage {
         this.message = message;
     }
 
+    public long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(long createTime) {
+        this.createTime = createTime;
+    }
+
+    public long getReceiverTime() {
+        return receiverTime;
+    }
+
+    public void setReceiverTime(long receiverTime) {
+        this.receiverTime = receiverTime;
+    }
+
+    public int getMessageType() {
+        return messageType;
+    }
+
+    public void setMessageType(int messageType) {
+        this.messageType = messageType;
+    }
+
     @Override
     public String toString() {
         return "SocketMessage{" +
                 "address='" + address + '\'' +
                 ", port=" + port +
                 ", message='" + message + '\'' +
+                ", createTime=" + createTime +
+                ", receiverTime=" + receiverTime +
                 '}';
     }
 }

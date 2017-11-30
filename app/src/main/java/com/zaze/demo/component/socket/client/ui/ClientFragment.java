@@ -8,7 +8,8 @@ import android.view.View;
 
 import com.zaze.common.base.ZBaseFragment;
 import com.zaze.demo.R;
-import com.zaze.demo.component.socket.SocketClient;
+import com.zaze.demo.component.socket.MessageType;
+import com.zaze.demo.component.socket.BaseSocketClient;
 import com.zaze.demo.component.socket.SocketMessage;
 import com.zaze.demo.component.socket.UDPSocketClient;
 import com.zaze.demo.component.socket.adapter.SocketAdapter;
@@ -35,7 +36,7 @@ import java.util.List;
  */
 public class ClientFragment extends ZBaseFragment {
     private SocketAdapter adapter;
-    private SocketClient clientSocket;
+    private BaseSocketClient clientSocket;
     private List<SocketMessage> messageList = new ArrayList<>();
     private HashSet<String> inviteSet = new HashSet<>();
 
@@ -61,9 +62,10 @@ public class ClientFragment extends ZBaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        clientSocket = new UDPSocketClient("", 8004, new SocketClient.SocketFace() {
+        clientSocket = new UDPSocketClient(8004, new BaseSocketClient.BaseSocketFace() {
             @Override
             public void onReceiver(SocketMessage socketMessage) {
+                super.onReceiver(socketMessage);
                 messageList.add(socketMessage);
                 ThreadManager.getInstance().runInUIThread(new Runnable() {
                     @Override
@@ -104,14 +106,14 @@ public class ClientFragment extends ZBaseFragment {
                 try {
                     if (inviteSet != null && !inviteSet.isEmpty()) {
                         JSONObject jsonObject = new JSONObject();
-                        jsonObject.put("formId", 666);
+                        jsonObject.put("fromId", 666);
                         jsonObject.put("destId", 233);
                         jsonObject.put("content", "客户端回执");
                         jsonObject.put("time", System.currentTimeMillis());
                         for (String addressStr : inviteSet) {
                             String[] ipHost = addressStr.split(":");
                             if (ipHost.length == 2) {
-                                clientSocket.send(ipHost[0], ZStringUtil.parseInt(ipHost[1]), jsonObject);
+                                clientSocket.send(ipHost[0], ZStringUtil.parseInt(ipHost[1]), new SocketMessage(jsonObject.toString(), MessageType.CHAT));
                             }
                         }
                     }

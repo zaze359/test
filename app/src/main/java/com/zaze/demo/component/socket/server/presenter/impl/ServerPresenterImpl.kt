@@ -1,7 +1,8 @@
 package com.zaze.demo.component.socket.server.presenter.impl
 
 import com.zaze.common.base.ZBasePresenter
-import com.zaze.demo.component.socket.SocketClient
+import com.zaze.demo.component.socket.MessageType
+import com.zaze.demo.component.socket.BaseSocketClient
 import com.zaze.demo.component.socket.SocketMessage
 import com.zaze.demo.component.socket.UDPSocketClient
 import com.zaze.demo.component.socket.server.presenter.ServerPresenter
@@ -19,16 +20,21 @@ import java.util.*
  */
 open class ServerPresenterImpl(view: ServerView) : ZBasePresenter<ServerView>(view), ServerPresenter {
     val list: ArrayList<SocketMessage> = ArrayList()
-    val serverSocket: SocketClient
+    val serverSocket: BaseSocketClient
     val clientSet: HashSet<InetSocketAddress> = HashSet()
 
     init {
-        serverSocket = UDPSocketClient("", 8004, { message ->
-            clientSet.add(InetSocketAddress(message.address, message.port))
-            list.add(message)
-            ThreadManager.getInstance().runInUIThread({
-                view.showReceiverMsg(list)
-            })
+        serverSocket = UDPSocketClient("", 8004, object : BaseSocketClient.BaseSocketFace() {
+            override fun onChat(socketMessage: SocketMessage?) {
+                super.onChat(socketMessage)
+                if (socketMessage != null) {
+                    clientSet.add(InetSocketAddress(socketMessage.address, socketMessage.port))
+                    list.add(socketMessage)
+                    ThreadManager.getInstance().runInUIThread({
+                        view.showReceiverMsg(list)
+                    })
+                }
+            }
         })
     }
 
@@ -42,18 +48,18 @@ open class ServerPresenterImpl(view: ServerView) : ZBasePresenter<ServerView>(vi
 
     override fun sendBroadCast() {
         val jsonObject = JSONObject()
-        jsonObject.put("formId", 233)
+        jsonObject.put("fromId", 233)
         jsonObject.put("destId", 666)
         jsonObject.put("content", "服务端邀请")
         jsonObject.put("time", System.currentTimeMillis())
-        serverSocket.send("224.0.0.1", 8003, jsonObject)
+        serverSocket.send("224.0.0.1", 8003, SocketMessage(jsonObject.toString(), MessageType.PRESENCE))
         clientSet.map {
             val replay = JSONObject()
-            replay.put("formId", 233)
+            replay.put("fromId", 233)
             replay.put("destId", 666)
             replay.put("content", "服务端回执")
             replay.put("time", System.currentTimeMillis())
-            serverSocket.send(it.address.hostAddress, it.port, replay)
+            serverSocket.send(it.address.hostAddress, it.port, SocketMessage(replay.toString(), MessageType.CONFIG))
         }
     }
 }

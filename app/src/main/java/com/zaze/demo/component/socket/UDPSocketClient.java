@@ -6,11 +6,10 @@ import android.text.TextUtils;
 
 import com.zaze.demo.app.MyApplication;
 import com.zaze.utils.ThreadManager;
+import com.zaze.utils.ZJsonUtil;
 import com.zaze.utils.ZNetUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
-
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -30,13 +29,17 @@ import java.util.concurrent.TimeUnit;
  * @author : ZAZE
  * @version : 2017-11-27 - 15:07
  */
-public class UDPSocketClient extends SocketClient {
+public class UDPSocketClient extends BaseSocketClient {
     private static int id = 0;
     private ThreadPoolExecutor serverExecutor;
     private DatagramSocket serverSocket;
     private boolean isRunning = false;
 
-    public UDPSocketClient(String host, int port, SocketFace socketFace) {
+    public UDPSocketClient(int port, BaseSocketFace socketFace) {
+        this(null, port, socketFace);
+    }
+
+    public UDPSocketClient(String host, int port, BaseSocketFace socketFace) {
         super(host, port, socketFace);
         serverExecutor = new ThreadPoolExecutor(1, 1, 0L,
                 TimeUnit.MILLISECONDS, new LinkedBlockingQueue(), new ThreadFactory() {
@@ -88,10 +91,10 @@ public class UDPSocketClient extends SocketClient {
         while (isRunning) {
             try {
                 socket.receive(packet);
-                SocketMessage socketMessage = new SocketMessage();
+                SocketMessage socketMessage = ZJsonUtil.parseJson(new String(packet.getData(), 0, packet.getLength(), Charset.defaultCharset()), SocketMessage.class);
                 socketMessage.setAddress(packet.getAddress().getHostAddress());
                 socketMessage.setPort(packet.getPort());
-                socketMessage.setMessage(new String(packet.getData(), 0, packet.getLength(), Charset.defaultCharset()));
+                socketMessage.setReceiverTime(System.currentTimeMillis());
                 ZLog.d(ZTag.TAG_DEBUG, socketMessage.toString());
                 onReceiver(socketMessage);
             } catch (Exception e) {
@@ -101,7 +104,7 @@ public class UDPSocketClient extends SocketClient {
     }
 
     @Override
-    public void send(final String host, final int port, final JSONObject jsonObject) {
+    public void send(final String host, final int port, final SocketMessage message) {
         // 发送的数据包，局网内的所有地址都可以收到该数据包
         ThreadManager.getInstance().runInMultiThread(new Runnable() {
             @Override
@@ -112,16 +115,15 @@ public class UDPSocketClient extends SocketClient {
                             ((MulticastSocket) serverSocket).setTimeToLive(4);
                         }
                         // 将本机的IP（这里可以写动态获取的IP）地址放到数据包里，其实server端接收到数据包后也能获取到发包方的IP的
-                        byte[] data = jsonObject.toString().getBytes();
+                        String json = ZJsonUtil.objToJson(message);
+                        byte[] data = json.getBytes();
                         WifiInfo wifiInfo = ZNetUtil.getConnectionInfo(MyApplication.getInstance());
                         if (wifiInfo != null) {
-                            ZLog.d(ZTag.TAG_DEBUG, "发送(%s:%s) : %s ", host, port, jsonObject.toString(4));
+                            ZLog.d(ZTag.TAG_DEBUG, "发送(%s:%s) : %s ", host, port, json);
                             DatagramPacket dataPacket = new DatagramPacket(data, data.length, new InetSocketAddress(host, port));
                             serverSocket.send(dataPacket);
-                            // socket?.close()
                         } else {
                             ZLog.e(ZTag.TAG_DEBUG, "当前未连接网络！");
-
                         }
 
                     }

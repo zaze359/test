@@ -15,14 +15,12 @@ import android.view.View;
 
 import com.zaze.common.base.ZBaseActivity;
 import com.zaze.demo.R;
-import com.zaze.demo.component.socket.SocketClient;
+import com.zaze.demo.component.socket.BaseSocketClient;
 import com.zaze.demo.component.socket.SocketMessage;
 import com.zaze.demo.component.socket.UDPSocketClient;
 import com.zaze.demo.component.socket.adapter.SocketAdapter;
 import com.zaze.utils.ThreadManager;
 import com.zaze.utils.ZJsonUtil;
-import com.zaze.utils.log.ZLog;
-import com.zaze.utils.log.ZTag;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -37,7 +35,7 @@ import java.util.List;
  */
 public class ClientActivity extends ZBaseActivity {
     private SocketAdapter adapter;
-    private SocketClient inviteSocket;
+    private BaseSocketClient inviteSocket;
     private List<SocketMessage> list = new ArrayList<>();
     private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar toolbar;
@@ -103,9 +101,10 @@ public class ClientActivity extends ZBaseActivity {
         mDrawerToggle.syncState();
         clientDrawerLayout.addDrawerListener(mDrawerToggle);
         // --------------------------------------------------
-        inviteSocket = new UDPSocketClient("224.0.0.1", 8003, new SocketClient.SocketFace() {
+        inviteSocket = new UDPSocketClient("224.0.0.1", 8003, new BaseSocketClient.BaseSocketFace() {
             @Override
-            public void onReceiver(SocketMessage socketMessage) {
+            protected void onPresence(SocketMessage socketMessage) {
+                super.onPresence(socketMessage);
                 list.add(socketMessage);
                 EventBus.getDefault().post(ZJsonUtil.objToJson(socketMessage));
                 ThreadManager.getInstance().runInUIThread(new Runnable() {
@@ -114,7 +113,6 @@ public class ClientActivity extends ZBaseActivity {
                         showServerInviteList(list);
                     }
                 });
-                ZLog.i(ZTag.TAG_DEBUG, "收到邀请 ： " + socketMessage);
             }
         });
         inviteSocket.receive();
