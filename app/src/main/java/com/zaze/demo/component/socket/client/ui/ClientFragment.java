@@ -8,8 +8,8 @@ import android.view.View;
 
 import com.zaze.common.base.ZBaseFragment;
 import com.zaze.demo.R;
-import com.zaze.demo.component.socket.MessageType;
 import com.zaze.demo.component.socket.BaseSocketClient;
+import com.zaze.demo.component.socket.MessageType;
 import com.zaze.demo.component.socket.SocketMessage;
 import com.zaze.demo.component.socket.UDPSocketClient;
 import com.zaze.demo.component.socket.adapter.SocketAdapter;
@@ -29,7 +29,7 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
- * Description :
+ * Description .
  *
  * @author : ZAZE
  * @version : 2017-11-29 - 11:28
@@ -42,6 +42,11 @@ public class ClientFragment extends ZBaseFragment {
 
     private RecyclerView clientMessageRecyclerView;
 
+    /**
+     * newInstance.
+     *
+     * @return ClientFragment
+     */
     public static ClientFragment newInstance() {
         Bundle args = new Bundle();
         ClientFragment fragment = new ClientFragment();
@@ -100,28 +105,27 @@ public class ClientFragment extends ZBaseFragment {
                 clientSocket.receive();
             }
         });
-        ZOnClickHelper.setOnClickListener(findView(R.id.client_send_broadcast_bt), new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    if (inviteSet != null && !inviteSet.isEmpty()) {
-                        JSONObject jsonObject = new JSONObject();
-                        jsonObject.put("fromId", 666);
-                        jsonObject.put("destId", 233);
-                        jsonObject.put("content", "客户端回执");
-                        jsonObject.put("time", System.currentTimeMillis());
-                        for (String addressStr : inviteSet) {
-                            String[] ipHost = addressStr.split(":");
-                            if (ipHost.length == 2) {
-                                clientSocket.send(ipHost[0], ZStringUtil.parseInt(ipHost[1]), new SocketMessage(jsonObject.toString(), MessageType.CHAT));
+        ZOnClickHelper.setOnClickListener(findView(R.id.client_send_broadcast_bt),
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            if (inviteSet != null && !inviteSet.isEmpty()) {
+                                JSONObject jsonObject = new JSONObject();
+                                jsonObject.put("content", "客户端回执");
+                                for (String addressStr : inviteSet) {
+                                    String[] ipHost = addressStr.split(":");
+                                    if (ipHost.length == 2) {
+                                        clientSocket.send(ipHost[0], ZStringUtil.parseInt(ipHost[1]),
+                                                new SocketMessage(233, 666, jsonObject.toString(), MessageType.CONFIG));
+                                    }
+                                }
                             }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+                });
         clientSocket.receive();
     }
 

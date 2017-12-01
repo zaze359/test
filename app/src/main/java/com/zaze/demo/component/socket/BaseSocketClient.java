@@ -71,19 +71,19 @@ public abstract class BaseSocketClient {
     // --------------------------------------------------
 
     /**
-     * Socket回调
+     * Socket回调.
      */
     public abstract static class BaseSocketFace {
 
         /**
-         * 接收到数据 异步线程
+         * 接收到数据 异步线程.
          *
          * @param socketMessage socketMessage
          */
         protected void onReceiver(SocketMessage socketMessage) {
             if (socketMessage != null) {
                 ZLog.d(ZTag.TAG_DEBUG, "收到消息 ： " + socketMessage);
-                switch (socketMessage.getMessageType()) {
+                switch (socketMessage.getMsgType()) {
                     case MessageType.PRESENCE:
                         onPresence(socketMessage);
                         break;
@@ -100,7 +100,7 @@ public abstract class BaseSocketClient {
         }
 
         /**
-         * 接收到邀请信息
+         * 接收到邀请信息.
          *
          * @param socketMessage socketMessage
          */
@@ -109,7 +109,7 @@ public abstract class BaseSocketClient {
         }
 
         /**
-         * 接收到配置信息
+         * 接收到配置信息.
          *
          * @param socketMessage socketMessage
          */
@@ -118,7 +118,7 @@ public abstract class BaseSocketClient {
         }
 
         /**
-         * 接收到聊天信息
+         * 接收到聊天信息.
          *
          * @param socketMessage socketMessage
          */

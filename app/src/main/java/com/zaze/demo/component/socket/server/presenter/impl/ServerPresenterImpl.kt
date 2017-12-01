@@ -1,8 +1,8 @@
 package com.zaze.demo.component.socket.server.presenter.impl
 
 import com.zaze.common.base.ZBasePresenter
-import com.zaze.demo.component.socket.MessageType
 import com.zaze.demo.component.socket.BaseSocketClient
+import com.zaze.demo.component.socket.MessageType
 import com.zaze.demo.component.socket.SocketMessage
 import com.zaze.demo.component.socket.UDPSocketClient
 import com.zaze.demo.component.socket.server.presenter.ServerPresenter
@@ -48,18 +48,16 @@ open class ServerPresenterImpl(view: ServerView) : ZBasePresenter<ServerView>(vi
 
     override fun sendBroadCast() {
         val jsonObject = JSONObject()
-        jsonObject.put("fromId", 233)
-        jsonObject.put("destId", 666)
         jsonObject.put("content", "服务端邀请")
-        jsonObject.put("time", System.currentTimeMillis())
-        serverSocket.send("224.0.0.1", 8003, SocketMessage(jsonObject.toString(), MessageType.PRESENCE))
+        serverSocket.send("224.0.0.1", 8003, buildMessage(233, jsonObject, MessageType.PRESENCE))
         clientSet.map {
             val replay = JSONObject()
-            replay.put("fromId", 233)
-            replay.put("destId", 666)
             replay.put("content", "服务端回执")
-            replay.put("time", System.currentTimeMillis())
-            serverSocket.send(it.address.hostAddress, it.port, SocketMessage(replay.toString(), MessageType.CONFIG))
+            serverSocket.send(it.address.hostAddress, it.port, buildMessage(233, replay, MessageType.CONFIG))
         }
+    }
+
+    private fun buildMessage(toId: Long, message: JSONObject, msgType: Int): SocketMessage {
+        return SocketMessage(666, toId, message.toString(), msgType)
     }
 }
