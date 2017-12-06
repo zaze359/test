@@ -11,7 +11,6 @@ import com.zaze.demo.component.socket.server.presenter.ServerPresenter
 import com.zaze.demo.component.socket.server.presenter.impl.ServerPresenterImpl
 import com.zaze.demo.component.socket.server.view.ServerView
 import kotlinx.android.synthetic.main.activity_server.*
-import org.json.JSONObject
 
 /**
  * Description :
@@ -33,6 +32,7 @@ open class ServerActivity : ZBaseActivity(), ServerView {
         server_send_broadcast_bt.setOnClickListener({
             presenter?.sendBroadCast()
         })
+        presenter?.startServer()
     }
 
     override fun showReceiverMsg(list: List<SocketMessage>) {

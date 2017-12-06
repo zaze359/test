@@ -41,6 +41,8 @@ public class ClientFragment extends ZBaseFragment {
     private HashSet<String> inviteSet = new HashSet<>();
 
     private RecyclerView clientMessageRecyclerView;
+    private long fromId = 32142;
+    private long toId = 666L;
 
     /**
      * newInstance.
@@ -117,7 +119,7 @@ public class ClientFragment extends ZBaseFragment {
                                     String[] ipHost = addressStr.split(":");
                                     if (ipHost.length == 2) {
                                         clientSocket.send(ipHost[0], ZStringUtil.parseInt(ipHost[1]),
-                                                new SocketMessage(233, 666, jsonObject.toString(), MessageType.CONFIG));
+                                                new SocketMessage(fromId, toId, jsonObject.toString(), MessageType.CHAT));
                                     }
                                 }
                             }

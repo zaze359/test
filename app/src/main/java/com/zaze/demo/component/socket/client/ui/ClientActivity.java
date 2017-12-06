@@ -1,7 +1,9 @@
 package com.zaze.demo.component.socket.client.ui;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -34,31 +36,37 @@ import java.util.List;
  * @version : 2017-11-29 - 15:03
  */
 public class ClientActivity extends ZBaseActivity {
-  private SocketAdapter adapter;
-  private BaseSocketClient inviteSocket;
-  private List<SocketMessage> list = new ArrayList<>();
-  private ActionBarDrawerToggle mDrawerToggle;
-  private Toolbar toolbar;
-  private RecyclerView clientInviteRecyclerView;
-  private DrawerLayout clientDrawerLayout;
+    private SocketAdapter adapter;
+    private BaseSocketClient inviteSocket;
+    private List<SocketMessage> list = new ArrayList<>();
+    private ActionBarDrawerToggle mDrawerToggle;
+    private Toolbar toolbar;
+    private RecyclerView clientInviteRecyclerView;
+    private DrawerLayout clientDrawerLayout;
+    private PowerManager.WakeLock wakeLock;
 
-  @Override
-  protected boolean isNeedHead() {
-    return false;
-  }
+    @Override
+    protected boolean isNeedHead() {
+        return false;
+    }
 
-  @Override
-  protected void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_client);
-    toolbar = findView(R.id.client_toolbar);
-    clientInviteRecyclerView = findView(R.id.client_invite_recycler_view);
-    clientDrawerLayout = findView(R.id.client_drawer_layout);
-    setupToolbar();
-    getSupportFragmentManager()
-        .beginTransaction()
-        .replace(R.id.client_content_frame, ClientFragment.newInstance())
-        .commit();
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_client);
+        toolbar = findView(R.id.client_toolbar);
+        clientInviteRecyclerView = findView(R.id.client_invite_recycler_view);
+        clientDrawerLayout = findView(R.id.client_drawer_layout);
+        setupToolbar();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.client_content_frame, ClientFragment.newInstance())
+                .commit();
+        // --------------------------------------------------
+        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyWakeLock");
+        wakeLock.acquire();
+
 //            headWidget.setBackClickListener(this)
 //                .setIcon(android.R.drawable.ic_menu_add, ZOrientation.RIGHT)
 //                .setOnClickListener({
@@ -84,83 +92,83 @@ public class ClientActivity extends ZBaseActivity {
 //            }
 //        })
 
-    mDrawerToggle = new ActionBarDrawerToggle(this, clientDrawerLayout, toolbar, R.string.app_name, R.string.app_name) {
-      @Override
-      public void onDrawerOpened(View drawerView) {
-        super.onDrawerOpened(drawerView);
-        showServerInviteList(list);
+        mDrawerToggle = new ActionBarDrawerToggle(this, clientDrawerLayout, toolbar, R.string.app_name, R.string.app_name) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                showServerInviteList(list);
 //                mAnimationDrawable.stop();
-      }
+            }
 
-      @Override
-      public void onDrawerClosed(View drawerView) {
-        super.onDrawerClosed(drawerView);
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
 //                mAnimationDrawable.start();
-      }
-    };
-    mDrawerToggle.syncState();
-    clientDrawerLayout.addDrawerListener(mDrawerToggle);
-    // --------------------------------------------------
-    inviteSocket = new UDPSocketClient("224.0.0.1", 8003, new BaseSocketClient.BaseSocketFace() {
-      @Override
-      protected void onPresence(SocketMessage socketMessage) {
-        super.onPresence(socketMessage);
-        list.add(socketMessage);
-        EventBus.getDefault().post(ZJsonUtil.objToJson(socketMessage));
-        ThreadManager.getInstance().runInUIThread(new Runnable() {
-          @Override
-          public void run() {
-            showServerInviteList(list);
-          }
+            }
+        };
+        mDrawerToggle.syncState();
+        clientDrawerLayout.addDrawerListener(mDrawerToggle);
+        // --------------------------------------------------
+        inviteSocket = new UDPSocketClient("224.0.0.1", 8003, new BaseSocketClient.BaseSocketFace() {
+            @Override
+            protected void onPresence(SocketMessage socketMessage) {
+                super.onPresence(socketMessage);
+                list.add(socketMessage);
+                EventBus.getDefault().post(ZJsonUtil.objToJson(socketMessage));
+                ThreadManager.getInstance().runInUIThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showServerInviteList(list);
+                    }
+                });
+            }
         });
-      }
-    });
-    inviteSocket.receive();
-
-  }
-
-  @Override
-  protected void onDestroy() {
-    super.onDestroy();
-    inviteSocket.close();
-  }
-
-  private void setupToolbar() {
-    setSupportActionBar(toolbar);
-    getSupportActionBar().setDisplayShowTitleEnabled(true);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-  }
-
-  // --------------------------------------------------
-  @Override
-  public boolean onSupportNavigateUp() {
-    onBackPressed();
-    return super.onSupportNavigateUp();
-  }
-
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    MenuInflater inflater = getMenuInflater();
-    inflater.inflate(R.menu.menu_main, menu);
-    return super.onCreateOptionsMenu(menu);
-  }
-
-  @Override
-  public boolean onPrepareOptionsMenu(Menu menu) {
-    boolean drawerOpen = clientDrawerLayout.isDrawerOpen(clientInviteRecyclerView);
-//        menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
-    return super.onPrepareOptionsMenu(menu);
-  }
-
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    // The action bar home/up action should open or close the drawer.
-    // ActionBarDrawerToggle will take care of this.
-    if (mDrawerToggle.onOptionsItemSelected(item)) {
-      return true;
+        inviteSocket.receive();
     }
-    // Handle action buttons
-    switch (item.getItemId()) {
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        inviteSocket.close();
+        wakeLock.release();
+    }
+
+    private void setupToolbar() {
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    // --------------------------------------------------
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        boolean drawerOpen = clientDrawerLayout.isDrawerOpen(clientInviteRecyclerView);
+//        menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // The action bar home/up action should open or close the drawer.
+        // ActionBarDrawerToggle will take care of this.
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        // Handle action buttons
+        switch (item.getItemId()) {
 //            case R.id.action_websearch:
 //                // create intent to perform web search for this planet
 //                Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
@@ -172,36 +180,36 @@ public class ClientActivity extends ZBaseActivity {
 //                    Toast.makeText(this, R.string.app_not_available, Toast.LENGTH_LONG).show();
 //                }
 //                return true;
-      default:
-        return super.onOptionsItemSelected(item);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
-  }
 
-  /**
-   * When using the ActionBarDrawerToggle, you must call it during
-   * onPostCreate() and onConfigurationChanged()...
-   */
-  @Override
-  protected void onPostCreate(Bundle savedInstanceState) {
-    super.onPostCreate(savedInstanceState);
-    // Sync the toggle state after onRestoreInstanceState has occurred.
-    mDrawerToggle.syncState();
-  }
-
-  @Override
-  public void onConfigurationChanged(Configuration newConfig) {
-    super.onConfigurationChanged(newConfig);
-    mDrawerToggle.onConfigurationChanged(newConfig);
-  }
-
-  // --------------------------------------------------
-  private void showServerInviteList(List<SocketMessage> list) {
-    if (adapter == null) {
-      adapter = new SocketAdapter(this, list);
-      clientInviteRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-      clientInviteRecyclerView.setAdapter(adapter);
-    } else {
-      adapter.setDataList(list);
+    /**
+     * When using the ActionBarDrawerToggle, you must call it during
+     * onPostCreate() and onConfigurationChanged()...
+     */
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
     }
-  }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    // --------------------------------------------------
+    private void showServerInviteList(List<SocketMessage> list) {
+        if (adapter == null) {
+            adapter = new SocketAdapter(this, list);
+            clientInviteRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+            clientInviteRecyclerView.setAdapter(adapter);
+        } else {
+            adapter.setDataList(list);
+        }
+    }
 }
