@@ -47,7 +47,7 @@
         </activity>
 
         <receiver
-            android:name=".component.message.receiver.TestBroadcastReceiver"
+            android:name=".component.notification.receiver.TestBroadcastReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.xh.message.testappid" />
@@ -63,7 +63,7 @@
             </intent-filter>
         </receiver>
         <!-- 测试接收推送 start -->
-        <service android:name=".component.message.service.MyService" />
+        <service android:name=".component.notification.service.NotificationService" />
         <!-- 测试接收推送 end -->
 
 

@@ -66,7 +66,6 @@ public class ClientActivity extends ZBaseActivity {
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyWakeLock");
         wakeLock.acquire();
-
 //            headWidget.setBackClickListener(this)
 //                .setIcon(android.R.drawable.ic_menu_add, ZOrientation.RIGHT)
 //                .setOnClickListener({

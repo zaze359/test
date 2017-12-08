@@ -1,4 +1,4 @@
-package com.zaze.demo.component.message.service;
+package com.zaze.demo.component.notification.service;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -17,7 +17,7 @@ import com.zaze.demo.R;
  * @author : ZAZE
  * @version : 2016-11-03 - 17:25
  */
-public class MyService extends Service {
+public class NotificationService extends Service {
 
     static int i = 0;
 
@@ -35,9 +35,8 @@ public class MyService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         i++;
-        String title = intent.getStringExtra("title");
-        title = "正在接收本地消息网关的消息";
-        String content = intent.getStringExtra("content");
+        String title = "正在接收消息";
+        String content = "收到 : " + i;
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 //        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
 //                new Intent(this, MainActivity.class), 0);
@@ -48,7 +47,6 @@ public class MyService extends Service {
         builder.setContentText(content);
         Notification notification = builder.build();
         startForeground(i, notification);
-        //
         notification(intent);
         return super.onStartCommand(intent, flags, startId);
     }

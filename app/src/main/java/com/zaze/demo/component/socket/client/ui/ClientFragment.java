@@ -1,5 +1,6 @@
 package com.zaze.demo.component.socket.client.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +9,7 @@ import android.view.View;
 
 import com.zaze.common.base.ZBaseFragment;
 import com.zaze.demo.R;
+import com.zaze.demo.component.notification.service.NotificationService;
 import com.zaze.demo.component.socket.BaseSocketClient;
 import com.zaze.demo.component.socket.MessageType;
 import com.zaze.demo.component.socket.SocketMessage;
@@ -73,6 +75,10 @@ public class ClientFragment extends ZBaseFragment {
             @Override
             public void onReceiver(SocketMessage socketMessage) {
                 super.onReceiver(socketMessage);
+                //
+                Intent serviceIntent = new Intent(getContext(), NotificationService.class);
+                getContext().startService(serviceIntent);
+                //
                 messageList.add(socketMessage);
                 ThreadManager.getInstance().runInUIThread(new Runnable() {
                     @Override
