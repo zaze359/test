@@ -9,35 +9,35 @@
         android:id="@+id/task_push_sync_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="push sync task" />
+        android:text="添加同步任务" />
 
     <Button
         android:id="@+id/task_push_async_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="push async task" />
+        android:text="添加异步任务" />
 
     <Button
         android:id="@+id/task_execute_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="execute task" />
+        android:text="执行任务" />
 
     <Button
         android:id="@+id/task_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="push and execute" />
+        android:text="添加任务并执行" />
 
     <Button
         android:id="@+id/task_auto_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="auto execute" />
+        android:text="自动执行任务" />
 
     <Button
         android:id="@+id/task_multi_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="multi execute" />
+        android:text="多任务执行" />
 </LinearLayout>
