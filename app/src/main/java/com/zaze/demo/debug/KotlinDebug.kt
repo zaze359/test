@@ -22,7 +22,7 @@ class KotlinDebug {
         var result = ""
 //        return showLog("print", { print() })
 //        showLog("createDimens", { createDimens(1f, ZDisplayUtil.SCREEN_DENSITY) })
-//        createDeveloperToken()
+        createDeveloperToken()
 //        return showLog("createDeveloperAccount", { createDeveloperToken() })
 //        return showLog("clearCacheData", { clearCacheData() })
 //        return showLog("searchFile", { searchFile() })
@@ -70,12 +70,7 @@ class KotlinDebug {
 //        ZCommand.isCommandExists("grep")
 //        result = "" + ZNetUtil.getProviders(MyApplication.getInstance())
         //
-        val arrays = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray()
-        val random = Random()
-        for (i in 0 until 5) {
-            result += arrays.get((random.nextInt(arrays.size)))
-        }
-        ZLog.i(ZTag.TAG_DEBUG, result)
+//        ZLog.i(ZTag.TAG_DEBUG, result)
     }
 
     private fun createDimens(baseDensity: Float, screenDensity: Float): String {
@@ -118,14 +113,11 @@ class KotlinDebug {
      * @version 2017/6/22 - 上午10:25 1.0
      */
     fun createDeveloperToken(): String {
-//        ZLog.e(ZTag.TAG_DEBUG, EncryptionUtil.getMD5("KiN4dWVoYWkyMDE3JnpoaXRvbmd5dW44JDEwMGZlbjI3QDAjKg=="))
-//        ZLog.e(ZTag.TAG_DEBUG, EncryptionUtil.getMD5("KiN4dWVoYWkyMDE3JnpoaXRvbmd5dW44JDEwMGZlbjI3QDAjKg== "))
-//        ZLog.e(ZTag.TAG_DEBUG, EncryptionUtil.getMD5("KiN4dWVoYWkyMDE3JnpoaXRvbmd5dW44JDEwMGZlbjI3QDAjKg==\n"))
         ZFileUtil.deleteFileByCmd(secretFile)
 //        val current = System.currentTimeMillis()
-        val current = ZDateUtil.stringToDate("2015-01-01 00:00:00", "yyyy-MM-dd HH:mm:ss").time
+        val current = ZDateUtil.stringToDate("2014-01-01 00:00:00", "yyyy-MM-dd HH:mm:ss").time
         var start = ZDateUtil.getDayStart(current)
-        val end = ZDateUtil.getDayEnd(current) + ZDateUtil.YEAR * 3
+        val end = ZDateUtil.getDayEnd(current) + ZDateUtil.DAY * 30
         while (start < end) {
             val date = Date(start)
             ZFileUtil.writeToFile(secretFile, "${ZDateUtil.dateToString(date, "yyyy-MM-dd HH:mm:ss")} : ${createDeveloperToken(date)}\n", true)

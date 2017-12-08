@@ -10,6 +10,7 @@ import com.zaze.demo.component.device.ui.DeviceActivity;
 import com.zaze.demo.component.fileexplorer.ui.FileExplorerActivity;
 import com.zaze.demo.component.gps.ui.GpsActivity;
 import com.zaze.demo.component.logcat.ui.LogcatActivity;
+import com.zaze.demo.component.notification.ui.NotificationActivity;
 import com.zaze.demo.component.okhttp.ui.OkHttpActivity;
 import com.zaze.demo.component.preference.MyPreferenceActivity;
 import com.zaze.demo.component.progress.ProgressActivity;
@@ -44,11 +45,10 @@ public class EntityModelImpl implements EntityModel {
     public List<TableEntity> getTableList() {
         List<TableEntity> list = new ArrayList<>();
         int i = 0;
+        list.add(new TableEntity("消息通知栏", NotificationActivity.class, ++i));
         list.add(new TableEntity("应用查询", ReadPackageActivity.class, ++i));
         list.add(new TableEntity("任务机制", TaskActivity.class, ++i));
         list.add(new TableEntity("缓存机制", CacheActivity.class, ++i));
-        list.add(new TableEntity("服务端Socket", ServerActivity.class, ++i));
-        list.add(new TableEntity("客户端Socket", ClientActivity.class, ++i));
         list.add(new TableEntity("动画效果", AnimationActivity.class, ++i));
         list.add(new TableEntity("系统设置", SystemActivity.class, ++i));
         list.add(new TableEntity("网络管理", WifiActivity.class, ++i));
@@ -57,6 +57,8 @@ public class EntityModelImpl implements EntityModel {
         list.add(new TableEntity("时间转换", TimeActivity.class, ++i));
         list.add(new TableEntity("GPS定位", GpsActivity.class, ++i));
         list.add(new TableEntity("进度条", ProgressActivity.class, ++i));
+        list.add(new TableEntity("服务端Socket", ServerActivity.class, ++i));
+        list.add(new TableEntity("客户端Socket", ClientActivity.class, ++i));
         list.add(new TableEntity("OkHttp", OkHttpActivity.class, ++i));
         list.add(new TableEntity("Vector", VectorActivity.class, ++i));
         list.add(new TableEntity("Toolbar", ToolBarDemoActivity.class, ++i));
