@@ -1,4 +1,4 @@
-package com.zaze.demo;
+package com.zaze.demo.debug;
 
 import com.zaze.utils.ZFileUtil;
 import com.zaze.utils.log.ZLog;

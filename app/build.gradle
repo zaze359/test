@@ -100,11 +100,13 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.squareup.okhttp3:okhttp:3.8.0'
-    compile 'com.tencent.bugly:crashreport:latest.release'
-    compile('cn.yipianfengye.android:zxing-library:2.2') {
-        exclude module: "appcompat-v7"
-        exclude module: "support-v4"
-    }
+    compile 'com.tencent.bugly:crashreport:2.6.6.1'
+
+    // 二维码
+//    compile('cn.yipianfengye.android:zxing-library:2.2') {
+//        exclude module: "appcompat-v7"
+//        exclude module: "support-v4"
+//    }
     compile('com.marshalchen.ultimaterecyclerview:library:0.7.0') {
         exclude module: "appcompat-v7"
         exclude module: "support-v4"

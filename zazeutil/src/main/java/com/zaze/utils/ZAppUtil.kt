@@ -365,7 +365,7 @@ object ZAppUtil {
         }
         val intent = context.packageManager.getLaunchIntentForPackage(packageName)
         if (intent == null) {
-            ZTipUtil.toast(context, "($packageName)不可直接打开!")
+            ZTipUtil.toast(context, "($packageName)不可打开!")
         } else {
             if (bundle != null) {
                 intent.putExtras(bundle)
