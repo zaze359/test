@@ -1,6 +1,6 @@
 package com.zaze.utils.config;
 
-import com.zaze.utils.ZStringUtil;
+import android.text.TextUtils;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -23,7 +23,7 @@ public class ZPropertiesUtil {
      */
     public static Properties load(String file) {
         Properties properties = new Properties();
-        if (!ZStringUtil.isEmpty(file)) {
+        if (!TextUtils.isEmpty(file)) {
             FileInputStream inputStream = null;
             try {
                 inputStream = new FileInputStream(file);
@@ -44,7 +44,7 @@ public class ZPropertiesUtil {
     }
 
     public static String getProperty(String file, String key) {
-        if (!ZStringUtil.isEmpty(file) && !ZStringUtil.isEmpty(key)) {
+        if (!TextUtils.isEmpty(file) && !TextUtils.isEmpty(key)) {
             Properties properties = load(file);
             return properties.getProperty(key);
         } else {

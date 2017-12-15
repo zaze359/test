@@ -3,7 +3,7 @@ package com.zaze.demo.component.wifi.presenter.impl;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 
-import com.zaze.common.base.ZBasePresenter;
+import com.zaze.common.base.mvp.BaseMvpPresenter;
 import com.zaze.demo.component.wifi.presenter.WifiPresenter;
 import com.zaze.demo.component.wifi.view.WifiView;
 import com.zaze.utils.ZNetUtil;
@@ -16,7 +16,7 @@ import java.util.List;
  * @author : zaze
  * @version : 2017-11-25 07:33 1.0
  */
-public class WifiPresenterImpl extends ZBasePresenter<WifiView> implements WifiPresenter {
+public class WifiPresenterImpl extends BaseMvpPresenter<WifiView> implements WifiPresenter {
     private WifiManager wifiManager;
 
     public WifiPresenterImpl(WifiView view) {
@@ -33,6 +33,6 @@ public class WifiPresenterImpl extends ZBasePresenter<WifiView> implements WifiP
     @Override
     public void getScanResults() {
         List<ScanResult> list = wifiManager.getScanResults();
-        view.showWifiList(list);
+        getView().showWifiList(list);
     }
 }

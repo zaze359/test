@@ -27,7 +27,7 @@ import java.lang.reflect.Field;
  * @author : zaze
  * @version : 2015-09-22 - 19:38
  */
-public abstract class ZBaseFragment extends Fragment implements ZBaseView {
+public abstract class BaseFragment extends Fragment implements BaseView {
     private BaseHeadView headFace;
     private boolean loadViewFinish = false;
     private LoadingWidget loadProgress;

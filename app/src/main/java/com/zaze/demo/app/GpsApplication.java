@@ -1,7 +1,7 @@
 package com.zaze.demo.app;
 
 
-import com.zaze.common.base.ZBaseApplication;
+import com.zaze.common.base.BaseApplication;
 
 /**
  * Description :
@@ -9,12 +9,12 @@ import com.zaze.common.base.ZBaseApplication;
  * @author : ZAZE
  * @version : 2017-02-14 - 13:58
  */
-public class GpsApplication extends ZBaseApplication {
+public class GpsApplication extends BaseApplication {
 //    private LocationClient locationClient = null;
 //    private static final CopyOnWriteArrayList<BDLocationListener> locationListenerList = new CopyOnWriteArrayList<>();
 //
 //    public static GpsApplication getInstance() {
-//        return (GpsApplication) ZBaseApplication.getInstance();
+//        return (GpsApplication) BaseApplication.getInstance();
 //    }
 //
 //    @Override

@@ -152,6 +152,56 @@ object ZAppUtil {
     // --------------------------------------------------
     // --------------------------------------------------
     /**
+     * Description : app 是否在运行中
+     * [context] 上下文
+     * [packageName] 包名
+     * @author zaze
+     * @version 2017/5/22 - 下午3:32 1.0
+     */
+    fun isAppRunning(context: Context, packageName: String): Boolean {
+        if (getAppProcess(context, packageName).isEmpty()) {
+            return getAppPid(packageName) > 0
+        } else {
+            return true
+        }
+    }
+
+    /**
+     * 是否是系统应用
+     * [context] context
+     * [intent] intent
+     */
+    fun isSystemApp(context: Context, intent: Intent): Boolean {
+        val componentName = intent.component
+        var packageName: String? = null
+        if (componentName == null) {
+            val info = context.packageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY)
+            if (info?.activityInfo != null) {
+                packageName = info.activityInfo.packageName
+            }
+        } else {
+            packageName = componentName.packageName
+        }
+        return isSystemApp(context, packageName)
+    }
+
+    /**
+     * 是否是系统应用
+     * [context] context
+     * [packageName] packageName
+     */
+    fun isSystemApp(context: Context, packageName: String?): Boolean {
+        return if (TextUtils.isEmpty(packageName)) {
+            false
+        } else {
+            val packageInfo = getPackageInfo(context, packageName)
+            (packageInfo?.applicationInfo != null
+                    && packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0)
+        }
+    }
+
+
+    /**
      * Description : 应用是否安装
      * [context]
      * [packageName]
@@ -162,6 +212,7 @@ object ZAppUtil {
         return getApplicationInfo(context, packageName) != null
     }
 
+    // --------------------------------------------------
     // --------------------------------------------------
     /**
      * Description : 安装应用
@@ -281,21 +332,6 @@ object ZAppUtil {
                 .filter { it.isNotEmpty() }
                 .forEach { memorySize = memorySize.plus(it[0].dalvikPrivateDirty) }
         return memorySize
-    }
-
-    /**
-     * Description : app 是否在运行中
-     * [context] 上下文
-     * [packageName] 包名
-     * @author zaze
-     * @version 2017/5/22 - 下午3:32 1.0
-     */
-    fun isAppRunning(context: Context, packageName: String): Boolean {
-        if (getAppProcess(context, packageName).isEmpty()) {
-            return getAppPid(packageName) > 0
-        } else {
-            return true
-        }
     }
 
     /**

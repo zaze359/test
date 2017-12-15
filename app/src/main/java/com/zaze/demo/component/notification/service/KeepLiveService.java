@@ -17,7 +17,8 @@ import com.zaze.demo.component.readpackage.ui.ReadPackageActivity;
  * @author : ZAZE
  * @version : 2016-11-03 - 17:25
  */
-public class NotificationService extends Service {
+public class KeepLiveService extends Service {
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -44,14 +45,13 @@ public class NotificationService extends Service {
         builder.setTicker("Test Ticker");
         Notification notification = builder.build();
         startForeground(0, notification);
+        stopForeground(true);
         // --------------------------------------------------
-//        notification(intent);
         return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        stopForeground(true);
     }
 }

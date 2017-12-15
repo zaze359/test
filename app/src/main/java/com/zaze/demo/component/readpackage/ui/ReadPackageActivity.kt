@@ -7,7 +7,7 @@ import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import com.zaze.common.adapter.third.UltimateRecyclerViewHelper
-import com.zaze.common.base.ZBaseActivity
+import com.zaze.common.base.BaseActivity
 import com.zaze.common.widget.head.ZOrientation
 import com.zaze.demo.R
 import com.zaze.demo.component.readpackage.adapter.ReadPackageAdapter
@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.activity_read_package.*
  * *
  * @version : 2017-04-17 05:15 1.0
  */
-class ReadPackageActivity : ZBaseActivity(), ReadPackageView {
+class ReadPackageActivity : BaseActivity(), ReadPackageView {
     private var presenter: ReadPackagePresenter? = null
     private var adapter: ReadPackageAdapter? = null
 

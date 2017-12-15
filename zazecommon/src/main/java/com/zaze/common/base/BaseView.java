@@ -11,7 +11,7 @@ import android.view.View;
  * @author zaze
  * @version 2017/10/19 - 上午11:13 1.0
  */
-public interface ZBaseView {
+public interface BaseView {
 
     /**
      * 显示Progress

@@ -1,6 +1,6 @@
 package com.zaze.demo.component.notification.view;
 
-import com.zaze.common.base.ZBaseView;
+import com.zaze.common.base.BaseView;
 
 
 /**
@@ -9,6 +9,6 @@ import com.zaze.common.base.ZBaseView;
  * @author : zaze
  * @version : 2017-12-08 03:56 1.0
  */
-public interface NotificationView extends ZBaseView {
+public interface NotificationView extends BaseView {
 
 }

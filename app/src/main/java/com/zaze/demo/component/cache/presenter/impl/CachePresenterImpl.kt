@@ -1,6 +1,6 @@
 package com.zaze.demo.component.cache.presenter.impl
 
-import com.zaze.common.base.ZBasePresenter
+import com.zaze.common.base.mvp.BaseMvpPresenter
 import com.zaze.demo.app.MyApplication
 import com.zaze.demo.component.cache.presenter.CachePresenter
 import com.zaze.demo.component.cache.view.CacheView
@@ -13,7 +13,7 @@ import com.zaze.utils.cache.MemoryCacheHelper
  * @author : zaze
  * @version : 2017-08-31 10:24 1.0
  */
-open class CachePresenterImpl(view: CacheView) : ZBasePresenter<CacheView>(view), CachePresenter {
+open class CachePresenterImpl(view: CacheView) : BaseMvpPresenter<CacheView>(view), CachePresenter {
     override fun cleanCache() {
         MemoryCacheHelper.clearMemoryCache()
     }

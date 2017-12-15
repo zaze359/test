@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.TextView;
 
-import com.zaze.common.base.ZBaseActivity;
+import com.zaze.common.base.BaseActivity;
 import com.zaze.demo.R;
 import com.zaze.utils.log.ZLog;
 
@@ -32,7 +32,7 @@ import rx.subjects.PublishSubject;
  * @author : ZAZE
  * @version : 2016-11-14 - 02:53
  */
-public class RxAndroidActivity extends ZBaseActivity {
+public class RxAndroidActivity extends BaseActivity {
 
     @Bind(R.id.rx_android_test_tv)
     TextView rxAndroidTestTv;

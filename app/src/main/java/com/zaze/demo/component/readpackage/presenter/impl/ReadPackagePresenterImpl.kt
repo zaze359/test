@@ -2,7 +2,7 @@ package com.zaze.demo.component.readpackage.presenter.impl
 
 import android.content.pm.ApplicationInfo
 import android.os.Build
-import com.zaze.common.base.ZBasePresenter
+import com.zaze.common.base.mvp.BaseMvpPresenter
 import com.zaze.demo.R
 import com.zaze.demo.app.MyApplication
 import com.zaze.demo.component.readpackage.presenter.ReadPackagePresenter
@@ -22,7 +22,7 @@ import rx.schedulers.Schedulers
  * *
  * @version : 2017-04-17 05:15 1.0
  */
-class ReadPackagePresenterImpl(view: ReadPackageView) : ZBasePresenter<ReadPackageView>(view), ReadPackagePresenter {
+class ReadPackagePresenterImpl(view: ReadPackageView) : BaseMvpPresenter<ReadPackageView>(view), ReadPackagePresenter {
 
     val baseDir = "${ZFileUtil.getSDCardRoot()}/zaze/${Build.MODEL}"
     val existsFile = "$baseDir/exists.xml"

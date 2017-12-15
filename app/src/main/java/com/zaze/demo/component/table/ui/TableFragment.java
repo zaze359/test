@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.zaze.common.adapter.OnItemClickListener;
 import com.zaze.common.adapter.third.UltimateRecyclerViewHelper;
-import com.zaze.common.base.ZBaseFragment;
+import com.zaze.common.base.BaseFragment;
 import com.zaze.demo.R;
 import com.zaze.demo.component.table.TableAdapter;
 import com.zaze.demo.component.table.presenter.TablePresenter;
@@ -34,7 +34,7 @@ import butterknife.ButterKnife;
  * @author : ZAZE
  * @version : 2016-08-03 - 10:36
  */
-public class TableFragment extends ZBaseFragment implements ToolView {
+public class TableFragment extends BaseFragment implements ToolView {
     @Bind(R.id.table_recycler_view)
     UltimateRecyclerView tableRecyclerView;
 

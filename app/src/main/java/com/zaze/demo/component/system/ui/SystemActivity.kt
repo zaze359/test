@@ -5,7 +5,7 @@ import android.app.KeyguardManager
 import android.content.Context
 import android.os.Bundle
 import android.os.PowerManager
-import com.zaze.common.base.ZBaseActivity
+import com.zaze.common.base.BaseActivity
 import com.zaze.demo.R
 import com.zaze.demo.component.system.presenter.SystemPresenter
 import com.zaze.demo.component.system.presenter.impl.SystemPresenterImpl
@@ -16,7 +16,7 @@ import com.zaze.demo.component.system.view.SystemView
  * @author : zaze
  * @version : 2017-11-08 09:37 1.0
  */
-open class SystemActivity : ZBaseActivity(), SystemView {
+open class SystemActivity : BaseActivity(), SystemView {
     var presenter: SystemPresenter? = null;
     // 键盘管理器
     private var mKeyguardManager: KeyguardManager? = null

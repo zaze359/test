@@ -30,6 +30,12 @@
 
         </android.support.v7.widget.Toolbar>
 
+        <Button
+            android:id="@+id/share_element_test_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="测试按钮" />
+
         <TextView
             style="@style/Material.Text.Body"
             android:text="Toolbar title is a shared element between MainActivity and this activity" />

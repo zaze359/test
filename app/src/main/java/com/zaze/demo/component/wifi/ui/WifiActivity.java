@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 
-import com.zaze.common.base.ZBaseActivity;
+import com.zaze.common.base.BaseActivity;
 import com.zaze.demo.R;
 import com.zaze.demo.component.wifi.adapter.WifiAdapter;
 import com.zaze.demo.component.wifi.presenter.WifiPresenter;
@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
  * @author : zaze
  * @version : 2017-11-25 07:33 1.0
  */
-public class WifiActivity extends ZBaseActivity implements WifiView {
+public class WifiActivity extends BaseActivity implements WifiView {
     @Bind(R.id.wifi_recycler_view)
     RecyclerView wifiRecyclerView;
     @Bind(R.id.wifi_scan_btn)

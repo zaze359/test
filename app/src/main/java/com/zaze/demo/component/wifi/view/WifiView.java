@@ -2,7 +2,7 @@ package com.zaze.demo.component.wifi.view;
 
 import android.net.wifi.ScanResult;
 
-import com.zaze.common.base.ZBaseView;
+import com.zaze.common.base.BaseView;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
  * @author : zaze
  * @version : 2017-11-25 07:33 1.0
  */
-public interface WifiView extends ZBaseView {
+public interface WifiView extends BaseView {
 
     /**
      * 显示wifi列表

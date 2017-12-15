@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import com.zaze.common.base.ZBaseActivity
-import com.zaze.common.base.ZBaseFragment
+import com.zaze.common.base.BaseActivity
+import com.zaze.common.base.BaseFragment
 import com.zaze.common.widget.head.ZOrientation
 import com.zaze.demo.component.table.ui.TableFragment
 import com.zaze.demo.debug.KotlinDebug
+import com.zaze.demo.debug.TestDebug
 import kotlinx.android.synthetic.main.activity_main.*
+
+
 
 
 /**
@@ -18,7 +21,7 @@ import kotlinx.android.synthetic.main.activity_main.*
  * @version : 2017-05-19 - 01:41
  */
 
-class MainActivity : ZBaseActivity() {
+class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,13 +34,14 @@ class MainActivity : ZBaseActivity() {
         // --------------------------------------------------
         main_test_button.text = "测试"
         // --------------------------------------------------
-        val fragmentList = ArrayList<ZBaseFragment>()
+        val fragmentList = ArrayList<BaseFragment>()
         fragmentList.add(TableFragment.newInstance("0"))
         // --------------------------------------------------
         main_viewpager.adapter = MyPagerAdapter(supportFragmentManager, fragmentList)
         main_test_button.setOnClickListener {
             val debug = KotlinDebug()
-            debug.test()
+//            debug.test()
+            TestDebug.a(this)
 //            ZAppUtil.startApplicationSimple(this, "com.xh.aoscstu")
 //            ZAppUtil.startApplicationSimple(this, "com.xh.assist")
             // --------------------------------------------------
@@ -47,8 +51,8 @@ class MainActivity : ZBaseActivity() {
     }
 
     // --------------------------------------------------
-    inner class MyPagerAdapter(fm: FragmentManager, list: ArrayList<ZBaseFragment>?) : FragmentPagerAdapter(fm) {
-        private val fragmentList = ArrayList<ZBaseFragment>()
+    inner class MyPagerAdapter(fm: FragmentManager, list: ArrayList<BaseFragment>?) : FragmentPagerAdapter(fm) {
+        private val fragmentList = ArrayList<BaseFragment>()
 
         init {
             fragmentList.clear()

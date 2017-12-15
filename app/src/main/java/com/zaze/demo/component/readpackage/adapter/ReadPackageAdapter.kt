@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.zaze.common.adapter.third.ZUltimateRecycleAdapter
 import com.zaze.common.adapter.third.ZUltimateRecyclerViewHolder
-import com.zaze.common.base.ZBaseApplication
+import com.zaze.common.base.BaseApplication
 import com.zaze.demo.R
 import com.zaze.demo.model.entity.PackageEntity
 import com.zaze.utils.ZAppUtil
@@ -40,7 +40,7 @@ class ReadPackageAdapter(context: Context, data: Collection<PackageEntity>) : ZU
         holder.itemAppPackageTv!!.text = "包名 : $packageName"
         holder.itemAppDirTv!!.text = "路径 : ${value.sourceDir}"
         // --------------------------------------------------
-        var drawable = ZAppUtil.getAppIcon(ZBaseApplication.getInstance(), packageName)
+        var drawable = ZAppUtil.getAppIcon(BaseApplication.getInstance(), packageName)
         if (drawable == null) {
             drawable = getDrawable(R.mipmap.ic_launcher)
         }

@@ -9,7 +9,7 @@ import android.transition.Slide;
 import android.view.Gravity;
 import android.view.Menu;
 
-import com.zaze.common.base.ZBaseActivity;
+import com.zaze.common.base.BaseActivity;
 import com.zaze.demo.R;
 import com.zaze.demo.component.animation.adapter.AnimationAdapter;
 import com.zaze.demo.component.animation.presenter.AnimationPresenter;
@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
  * @author : ZAZE
  * @version : 2016-08-23 - 19:31
  */
-public class AnimationActivity extends ZBaseActivity implements AnimationView {
+public class AnimationActivity extends BaseActivity implements AnimationView {
     // --------------------------------------------------
     @Bind(R.id.animation_toolbar)
     Toolbar animationToolbar;

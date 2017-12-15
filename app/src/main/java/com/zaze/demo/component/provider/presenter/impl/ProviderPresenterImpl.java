@@ -5,8 +5,8 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 
-import com.zaze.common.base.ZBaseApplication;
-import com.zaze.common.base.ZBasePresenter;
+import com.zaze.common.base.BaseApplication;
+import com.zaze.common.base.mvp.BaseMvpPresenter;
 import com.zaze.demo.component.provider.presenter.ProviderPresenter;
 import com.zaze.demo.component.provider.sqlite.User;
 import com.zaze.demo.component.provider.sqlite.UserDao;
@@ -21,12 +21,12 @@ import com.zaze.utils.log.ZTag;
  * @author : zaze
  * @version : 2017-03-28 04:00 1.0
  */
-public class ProviderPresenterImpl extends ZBasePresenter<ProviderView> implements ProviderPresenter {
+public class ProviderPresenterImpl extends BaseMvpPresenter<ProviderView> implements ProviderPresenter {
     ContentResolver resolver;
 
     public ProviderPresenterImpl(ProviderView view) {
         super(view);
-        resolver = ZBaseApplication.getInstance().getContentResolver();
+        resolver = BaseApplication.getInstance().getContentResolver();
     }
 
     @Override

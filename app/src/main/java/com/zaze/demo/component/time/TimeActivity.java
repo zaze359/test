@@ -7,7 +7,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.zaze.common.base.ZBaseActivity;
+import com.zaze.common.base.BaseActivity;
 import com.zaze.demo.R;
 import com.zaze.utils.date.ZDateUtil;
 
@@ -23,7 +23,7 @@ import butterknife.OnClick;
  * @author : ZAZE
  * @version : 2016-12-22 - 11:10
  */
-public class TimeActivity extends ZBaseActivity {
+public class TimeActivity extends BaseActivity {
     @Bind(R.id.time_input_edt)
     EditText timeInputEdt;
     @Bind(R.id.time_out_tv)

@@ -105,8 +105,8 @@ class KotlinDebug {
 
     // --------------------------------------------------
 
-
     val secretFile = "${ZFileUtil.getSDCardRoot()}/secret/secret.txt"
+
     /**
      * Description : 获取开发者Token
      * @author zaze

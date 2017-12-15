@@ -12,7 +12,7 @@ import android.location.LocationProvider;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 
-import com.zaze.common.base.ZBaseApplication;
+import com.zaze.common.base.BaseApplication;
 import com.zaze.demo.app.MyApplication;
 import com.zaze.utils.ZStringUtil;
 import com.zaze.utils.log.ZLog;
@@ -30,7 +30,7 @@ import java.util.Locale;
  */
 public class LocationHelper {
 
-    private static LocationManager locationManager = (LocationManager) ZBaseApplication.getInstance().getSystemService(Context.LOCATION_SERVICE);
+    private static LocationManager locationManager = (LocationManager) BaseApplication.getInstance().getSystemService(Context.LOCATION_SERVICE);
     private static GpsLocationListener gpsLocationListener;
     private static NetLocationListener netLocationListener;
     private static Location currentLocation = null;
@@ -158,7 +158,7 @@ public class LocationHelper {
     }
 
     private static boolean checkAndroidPermission(String permission) {
-        return ActivityCompat.checkSelfPermission(ZBaseApplication.getInstance(), permission) == PackageManager.PERMISSION_GRANTED;
+        return ActivityCompat.checkSelfPermission(BaseApplication.getInstance(), permission) == PackageManager.PERMISSION_GRANTED;
     }
 
 

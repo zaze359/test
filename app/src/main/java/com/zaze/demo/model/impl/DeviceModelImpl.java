@@ -1,5 +1,6 @@
 package com.zaze.demo.model.impl;
 
+import android.app.ActivityManager;
 import android.os.Build;
 
 import com.zaze.demo.app.MyApplication;
@@ -123,11 +124,19 @@ public class DeviceModelImpl implements DeviceModel {
         }
         // --------------------------------------------------
         deviceStatus = new DeviceStatus();
+        deviceStatus.setTag("运存情况");
+        String vmMax = ZStringUtil.format("%sMB", ZDeviceUtil.INSTANCE.getRuntimeMaxMemory() >> 20);
+        String vmTotal = ZStringUtil.format("%sMB", ZDeviceUtil.INSTANCE.getRuntimeTotalMemory() >> 20);
+        String vmFree = ZStringUtil.format("%sKB", ZDeviceUtil.INSTANCE.getRuntimeFreeMemory() >> 10);
+        deviceStatus.setContent(ZStringUtil.format("最大运存 : %s\n总运存 : %s\n剩余运存 : %s", vmMax, vmTotal, vmFree));
+        list.add(deviceStatus);
+        // --------------------------------------------------
+        deviceStatus = new DeviceStatus();
         deviceStatus.setTag("内存空间");
-        String vmMax = ZStringUtil.format("%sMB", ZDeviceUtil.INSTANCE.getVMMaxMemory() >> 20);
-        String vmTotal = ZStringUtil.format("%sMB", ZDeviceUtil.INSTANCE.getVMTotalMemory() >> 20);
-        String vmFree = ZStringUtil.format("%sMB", ZDeviceUtil.INSTANCE.getVMFreeMemory() >> 20);
-        deviceStatus.setContent(ZStringUtil.format("最大空间 : %s\n总空间 : %s\n剩余空间 : %s", vmMax, vmTotal, vmFree));
+        ActivityManager.MemoryInfo memoryInfo = ZDeviceUtil.INSTANCE.getDeviceMemory(MyApplication.getInstance());
+        String deviceTotalMem = ZStringUtil.format("%sMB", memoryInfo.totalMem >> 20);
+        String deviceAvailMem = ZStringUtil.format("%sMB", memoryInfo.availMem >> 20);
+        deviceStatus.setContent(ZStringUtil.format("总内存 : %s\n可用内存 : %s", deviceTotalMem, deviceAvailMem));
         list.add(deviceStatus);
         // --------------------------------------------------
         deviceStatus = new DeviceStatus();

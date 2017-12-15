@@ -1,5 +1,6 @@
 package com.zaze.utils
 
+import android.app.ActivityManager
 import android.content.Context
 import android.os.Build
 import android.os.Environment
@@ -7,6 +8,9 @@ import android.provider.Settings
 import android.telephony.TelephonyManager
 import android.text.TextUtils
 import java.util.*
+import android.content.Context.ACTIVITY_SERVICE
+import android.os.Debug.getMemoryInfo
+
 
 /**
  * Description :
@@ -35,16 +39,20 @@ object ZDeviceUtil {
         return (context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager).simSerialNumber
     }
 
+    /**
+     * SimSerialNumber -> DeviceId(IMEI) -> AndroidId -> randomId
+     * [context] context
+     */
     fun getUUID(context: Context): String {
         val key = "getUUID"
         var id = Build.SERIAL
         if (TextUtils.isEmpty(id)) {
             id = getSimSerialNumber(context)
             if (TextUtils.isEmpty(id)) {
-                id = getAndroidId(context)
-                if ("9774d56d682e549c" == id) {
-                    id = getDeviceId(context)
-                    if (TextUtils.isEmpty(id)) {
+                id = getDeviceId(context)
+                if (TextUtils.isEmpty(id)) {
+                    id = getAndroidId(context)
+                    if ("9774d56d682e549c" == id) {
                         id = ZSharedPrefUtil.get(context, key, "")
                         if (TextUtils.isEmpty(id)) {
                             id = UUID.randomUUID().toString()
@@ -106,33 +114,40 @@ object ZDeviceUtil {
 
 // --------------------------------------------------
     /**
-     * RAM
-     * java 虚拟机 最大内存
+     * Runtime Max Memory
+     * 单个应用 最大运存
      * @return
      */
-    fun getVMMaxMemory(): Long {
+    fun getRuntimeMaxMemory(): Long {
         return Runtime.getRuntime().maxMemory()
     }
 
     /**
-     * RAM
-     * java 虚拟机 当前 从机器内存中取过来的 内存的 中的空闲内存
+     * Runtime Free Memory
+     * 当前 从机器内存中取过来的 内存的 中的空闲内存
      * @return
      */
-    fun getVMFreeMemory(): Long {
+    fun getRuntimeFreeMemory(): Long {
         return Runtime.getRuntime().freeMemory()
     }
 
     /**
-     * RAM
-     * java 虚拟机 当前 从机器内存中取过来 的 总内存(包括使用了的和 freeMemory)
+     * Runtime Total Memory
+     * 当前 从机器内存中取过来 的 总内存(包括使用了的和 freeMemory)
      * @return
      */
-    fun getVMTotalMemory(): Long {
+    fun getRuntimeTotalMemory(): Long {
         return Runtime.getRuntime().totalMemory()
     }
 
 // --------------------------------------------------
 // --------------------------------------------------
+
+    fun getDeviceMemory(context: Context): ActivityManager.MemoryInfo {
+        val am = context.getSystemService(ACTIVITY_SERVICE) as ActivityManager
+        val outInfo = ActivityManager.MemoryInfo()
+        am.getMemoryInfo(outInfo)
+        return outInfo
+    }
 
 }

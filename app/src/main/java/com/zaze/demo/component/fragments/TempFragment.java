@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.zaze.common.base.ZBaseFragment;
+import com.zaze.common.base.BaseFragment;
 import com.zaze.demo.R;
 
 import butterknife.Bind;
@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
  * @author : ZAZE
  * @version : 2016-10-29 - 02:47
  */
-public class TempFragment extends ZBaseFragment {
+public class TempFragment extends BaseFragment {
 
     @Bind(R.id.temp_tv)
     TextView tempTv;

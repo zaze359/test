@@ -4,7 +4,7 @@ package com.zaze.demo.component.task.ui;
 import android.os.Bundle;
 import android.view.View;
 
-import com.zaze.common.base.ZBaseActivity;
+import com.zaze.common.base.BaseActivity;
 import com.zaze.demo.R;
 import com.zaze.demo.component.task.presenter.TaskPresenter;
 import com.zaze.demo.component.task.presenter.impl.TaskPresenterImpl;
@@ -25,7 +25,7 @@ import butterknife.OnClick;
  * @author : zaze
  * @version : 2017-03-23 11:37 1.0
  */
-public class TaskActivity extends ZBaseActivity implements TaskView {
+public class TaskActivity extends BaseActivity implements TaskView {
     private TaskPresenter presenter;
 
     @Override

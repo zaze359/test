@@ -58,7 +58,7 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
     }
 
     private MemoryCache() {
-        maxSize = ZDeviceUtil.INSTANCE.getVMMaxMemory() / 8;
+        maxSize = ZDeviceUtil.INSTANCE.getRuntimeMaxMemory() / 8;
         passiveRelease = (long) (maxSize * 0.4);
     }
 

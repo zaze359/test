@@ -1,6 +1,6 @@
 package com.zaze.demo.component.device.presenter.impl;
 
-import com.zaze.common.base.ZBasePresenter;
+import com.zaze.common.base.mvp.BaseMvpPresenter;
 import com.zaze.demo.component.device.presenter.DevicePresenter;
 import com.zaze.demo.component.device.view.DeviceView;
 import com.zaze.demo.model.DeviceModel;
@@ -13,7 +13,7 @@ import com.zaze.utils.ZNetUtil;
  * @author : zaze
  * @version : 2017-01-22 01:39 1.0
  */
-public class DevicePresenterImpl extends ZBasePresenter<DeviceView> implements DevicePresenter {
+public class DevicePresenterImpl extends BaseMvpPresenter<DeviceView> implements DevicePresenter {
     private DeviceModel deviceModel;
 
     public DevicePresenterImpl(DeviceView view) {
@@ -23,9 +23,8 @@ public class DevicePresenterImpl extends ZBasePresenter<DeviceView> implements D
 
     @Override
     public void getDeviceInfo() {
-        view.showDeviceInfo(deviceModel.getDeviceInfo());
+        getView().showDeviceInfo(deviceModel.getDeviceInfo());
         String macAddress = ZNetUtil.getWLANMacAddress();
-        view.showMacAddress("WLAN MAC地址 : " + macAddress);
-
+        getView().showMacAddress("WLAN MAC地址 : " + macAddress);
     }
 }

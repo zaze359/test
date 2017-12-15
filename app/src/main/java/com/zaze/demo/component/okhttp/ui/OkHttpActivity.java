@@ -4,10 +4,9 @@ package com.zaze.demo.component.okhttp.ui;
 import android.os.Bundle;
 import android.view.View;
 
-import com.zaze.common.base.ZBaseActivity;
+import com.zaze.common.base.BaseActivity;
 import com.zaze.demo.R;
 import com.zaze.demo.component.okhttp.OkHttpUtil;
-import com.zaze.demo.component.okhttp.TabletReceiverEntity;
 import com.zaze.demo.component.okhttp.presenter.OkHttpPresenter;
 import com.zaze.demo.component.okhttp.presenter.impl.OkHttpPresenterImpl;
 import com.zaze.demo.component.okhttp.view.OkHttpView;
@@ -30,7 +29,7 @@ import okhttp3.Response;
  * @author : zaze
  * @version : 2017-06-15 01:25 1.0
  */
-public class OkHttpActivity extends ZBaseActivity implements OkHttpView {
+public class OkHttpActivity extends BaseActivity implements OkHttpView {
     private OkHttpPresenter presenter;
 
     @Override

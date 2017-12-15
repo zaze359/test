@@ -3,6 +3,7 @@
     package="com.zaze.demo">
 
     <!-- <permission android:name="com.zaze.demo.receiver.RECEIVER" /> -->
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_LOGS" />
@@ -89,14 +90,6 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".component.gps.ui.GpsActivity" />
         <activity
-            android:name=".component.xbus.ui.EventBusActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".component.xbus.ui.EventBus2Activity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-        <activity
             android:name=".component.task.ui.TaskActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
@@ -114,10 +107,6 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".component.okhttp.ui.OkHttpActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".component.checknet.ui.CheckNetActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity

@@ -3,9 +3,7 @@ package com.zaze.common.base;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
@@ -25,13 +23,14 @@ import com.zaze.utils.ZViewUtil;
  * @author : zaze
  * @version : 2017-02-06 22:59 2.0
  */
-public abstract class ZBaseActivity extends AppCompatActivity implements ZBaseView {
+public abstract class BaseActivity extends AppCompatActivity implements BaseView {
     private BaseHeadView headFace;
     private LoadingWidget loadProgress;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onDestroy() {
+        hideProgress();
+        super.onDestroy();
     }
 
     @Override
@@ -71,12 +70,6 @@ public abstract class ZBaseActivity extends AppCompatActivity implements ZBaseVi
 //                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 //        }
 //    }
-
-    @Override
-    protected void onDestroy() {
-        hideProgress();
-        super.onDestroy();
-    }
 
     /**
      * 显示一个普通等待弹窗

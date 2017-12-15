@@ -7,7 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.zaze.common.base.ZBaseFragment;
+import com.zaze.common.base.BaseFragment;
 import com.zaze.demo.R;
 import com.zaze.demo.component.notification.service.NotificationService;
 import com.zaze.demo.component.socket.BaseSocketClient;
@@ -36,7 +36,7 @@ import java.util.List;
  * @author : ZAZE
  * @version : 2017-11-29 - 11:28
  */
-public class ClientFragment extends ZBaseFragment {
+public class ClientFragment extends BaseFragment {
     private SocketAdapter adapter;
     private BaseSocketClient clientSocket;
     private List<SocketMessage> messageList = new ArrayList<>();

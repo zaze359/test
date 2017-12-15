@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.view.View;
 
-import com.zaze.common.base.ZBaseActivity;
+import com.zaze.common.base.BaseActivity;
 import com.zaze.demo.R;
 import com.zaze.demo.component.notification.presenter.NotificationPresenter;
 import com.zaze.demo.component.notification.presenter.impl.NotificationPresenterImpl;
@@ -22,7 +22,7 @@ import com.zaze.demo.component.notification.view.NotificationView;
  * @author : zaze
  * @version : 2017-12-08 03:56 1.0
  */
-public class NotificationActivity extends ZBaseActivity implements NotificationView {
+public class NotificationActivity extends BaseActivity implements NotificationView {
     private NotificationPresenter presenter;
 
     @Override

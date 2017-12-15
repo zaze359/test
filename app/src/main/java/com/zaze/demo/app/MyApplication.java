@@ -2,7 +2,7 @@ package com.zaze.demo.app;
 
 
 import com.tencent.bugly.crashreport.CrashReport;
-import com.zaze.common.base.ZBaseApplication;
+import com.zaze.common.base.BaseApplication;
 import com.zaze.utils.ZDisplayUtil;
 import com.zaze.utils.ZFileUtil;
 import com.zaze.utils.cache.MemoryCache;
@@ -13,7 +13,7 @@ import com.zaze.utils.cache.MemoryCache;
  * @author : ZAZE
  * @version : 2016-11-06 - 20:4
  */
-public class MyApplication extends ZBaseApplication {
+public class MyApplication extends BaseApplication {
     //    BroadcastReceiver receiver;
     @Override
     public void onCreate() {

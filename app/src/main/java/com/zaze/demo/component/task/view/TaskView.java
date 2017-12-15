@@ -1,7 +1,7 @@
 package com.zaze.demo.component.task.view;
 
 
-import com.zaze.common.base.ZBaseView;
+import com.zaze.common.base.BaseView;
 
 /**
  * Description :
@@ -9,6 +9,6 @@ import com.zaze.common.base.ZBaseView;
  * @author : zaze
  * @version : 2017-03-23 11:37 1.0
  */
-public interface TaskView extends ZBaseView {
+public interface TaskView extends BaseView {
 
 }

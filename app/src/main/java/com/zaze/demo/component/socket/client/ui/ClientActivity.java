@@ -15,7 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.zaze.common.base.ZBaseActivity;
+import com.zaze.common.base.BaseActivity;
 import com.zaze.demo.R;
 import com.zaze.demo.component.socket.BaseSocketClient;
 import com.zaze.demo.component.socket.SocketMessage;
@@ -35,7 +35,7 @@ import java.util.List;
  * @author : ZAZE
  * @version : 2017-11-29 - 15:03
  */
-public class ClientActivity extends ZBaseActivity {
+public class ClientActivity extends BaseActivity {
     private SocketAdapter adapter;
     private BaseSocketClient inviteSocket;
     private List<SocketMessage> list = new ArrayList<>();

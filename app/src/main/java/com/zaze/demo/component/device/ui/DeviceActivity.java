@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.zaze.common.adapter.third.UltimateRecyclerViewHelper;
-import com.zaze.common.base.ZBaseActivity;
+import com.zaze.common.base.BaseActivity;
 import com.zaze.demo.R;
 import com.zaze.demo.component.device.adapter.DeviceAdapter;
 import com.zaze.demo.component.device.presenter.DevicePresenter;
@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
  * @author : zaze
  * @version : 2017-01-22 01:39 1.0
  */
-public class DeviceActivity extends ZBaseActivity implements DeviceView {
+public class DeviceActivity extends BaseActivity implements DeviceView {
 
     @Bind(R.id.device_screen)
     TextView deviceScreen;

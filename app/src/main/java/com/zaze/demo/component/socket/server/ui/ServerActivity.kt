@@ -3,7 +3,7 @@ package com.zaze.demo.component.socket.server.ui
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import com.zaze.common.base.ZBaseActivity
+import com.zaze.common.base.BaseActivity
 import com.zaze.demo.R
 import com.zaze.demo.component.socket.SocketMessage
 import com.zaze.demo.component.socket.adapter.SocketAdapter
@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_server.*
  * @author : zaze
  * @version : 2017-11-08 10:53 1.0
  */
-open class ServerActivity : ZBaseActivity(), ServerView {
+open class ServerActivity : BaseActivity(), ServerView {
 
     var presenter: ServerPresenter? = null
     var adapter: SocketAdapter? = null

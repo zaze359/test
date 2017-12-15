@@ -1,6 +1,6 @@
 package com.zaze.demo.component.system.view
 
-import com.zaze.common.base.ZBaseView
+import com.zaze.common.base.BaseView
 
 
 /**
@@ -8,6 +8,6 @@ import com.zaze.common.base.ZBaseView
  * @author : zaze
  * @version : 2017-11-08 09:37 1.0
  */
-interface SystemView : ZBaseView {
+interface SystemView : BaseView {
 
 }

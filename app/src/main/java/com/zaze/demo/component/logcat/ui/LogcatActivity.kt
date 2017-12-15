@@ -2,7 +2,7 @@ package com.zaze.demo.component.logcat.ui
 
 
 import android.os.Bundle
-import com.zaze.common.base.ZBaseActivity
+import com.zaze.common.base.BaseActivity
 import com.zaze.demo.R
 import com.zaze.demo.component.logcat.presenter.LogcatPresenter
 import com.zaze.demo.component.logcat.presenter.impl.LogcatPresenterImpl
@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_logcat.*
  * @author : zaze
  * @version : 2017-07-05 10:03 1.0
  */
-open class LogcatActivity : ZBaseActivity(), LogcatView {
+open class LogcatActivity : BaseActivity(), LogcatView {
     var presenter: LogcatPresenter? = null;
 
     override fun onCreate(savedInstanceState: Bundle?) {

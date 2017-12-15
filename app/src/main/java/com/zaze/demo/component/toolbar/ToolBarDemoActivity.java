@@ -9,7 +9,7 @@ import android.widget.Button;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
-import com.zaze.common.base.ZBaseActivity;
+import com.zaze.common.base.BaseActivity;
 import com.zaze.demo.R;
 import com.zaze.demo.component.fragments.TempFragment;
 import com.zaze.demo.component.progress.ProgressFragment;
@@ -24,7 +24,7 @@ import butterknife.OnClick;
  * @author : ZAZE
  * @version : 2016-10-29 - 00:41
  */
-public class ToolBarDemoActivity extends ZBaseActivity {
+public class ToolBarDemoActivity extends BaseActivity {
 
     @Bind(R.id.tool_bar_demo_bar)
     Toolbar toolBarDemoBar;

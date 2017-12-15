@@ -1,6 +1,6 @@
 package com.zaze.demo.component.fileexplorer.presenter.impl
 
-import com.zaze.common.base.ZBasePresenter
+import com.zaze.common.base.mvp.BaseMvpPresenter
 import com.zaze.demo.component.fileexplorer.FileEvent
 import com.zaze.demo.component.fileexplorer.adapter.FileEntity
 import com.zaze.demo.component.fileexplorer.presenter.FileExplorerPresenter
@@ -17,7 +17,7 @@ import java.io.File
  * *
  * @version : 2017-05-05 04:42 1.0
  */
-class FileExplorerPresenterImpl(view: FileExplorerView) : ZBasePresenter<FileExplorerView>(view), FileExplorerPresenter {
+class FileExplorerPresenterImpl(view: FileExplorerView) : BaseMvpPresenter<FileExplorerView>(view), FileExplorerPresenter {
 
     private var curDirPath = "/"
 

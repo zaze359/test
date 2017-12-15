@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.zaze.common.base.ZBaseFragment;
+import com.zaze.common.base.BaseFragment;
 import com.zaze.demo.R;
 
 import butterknife.ButterKnife;
@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
  * @author : ZAZE
  * @version : 2016-10-29 - 02:47
  */
-public class ProgressFragment extends ZBaseFragment {
+public class ProgressFragment extends BaseFragment {
 
     @Override
     protected int getLayoutId() {

@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.zaze.common.adapter.third.UltimateRecyclerViewHelper;
-import com.zaze.common.base.ZBaseActivity;
+import com.zaze.common.base.BaseActivity;
 import com.zaze.common.widget.head.ZOrientation;
 import com.zaze.demo.R;
 import com.zaze.demo.component.fileexplorer.FileEvent;
@@ -36,7 +36,7 @@ import butterknife.ButterKnife;
  * @author : zaze
  * @version : 2017-05-05 04:42 1.0
  */
-public class FileExplorerActivity extends ZBaseActivity implements FileExplorerView {
+public class FileExplorerActivity extends BaseActivity implements FileExplorerView {
 
     @Bind(R.id.file_explorer_recycler)
     UltimateRecyclerView fileExplorerRecycler;

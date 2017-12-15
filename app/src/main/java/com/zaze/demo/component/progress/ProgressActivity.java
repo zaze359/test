@@ -3,7 +3,7 @@ package com.zaze.demo.component.progress;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.zaze.common.base.ZBaseActivity;
+import com.zaze.common.base.BaseActivity;
 import com.zaze.demo.R;
 
 /**
@@ -12,7 +12,7 @@ import com.zaze.demo.R;
  * @author : ZAZE
  * @version : 2016-10-29 - 02:47
  */
-public class ProgressActivity extends ZBaseActivity {
+public class ProgressActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

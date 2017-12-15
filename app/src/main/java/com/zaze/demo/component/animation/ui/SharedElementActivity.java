@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.transition.ChangeBounds;
 import android.transition.Slide;
 import android.view.Gravity;
+import android.view.View;
 
 import com.zaze.demo.R;
 import com.zaze.demo.component.animation.presenter.SharedElementPresenter;
@@ -25,25 +26,32 @@ import com.zaze.demo.model.entity.AnimationEntity;
 public class SharedElementActivity extends AppCompatActivity {
     private SharedElementPresenter presenter;
     public static final String EXTRA_ENTITY = "entity";
+    AnimationEntity animationEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        presenter = new SharedElementPresenterImpl(this);
-        AnimationEntity animationEntity = (AnimationEntity) getIntent().getExtras().getSerializable(EXTRA_ENTITY);
-        bindData(animationEntity);
+        animationEntity = (AnimationEntity) getIntent().getExtras().getSerializable(EXTRA_ENTITY);
+        bindData();
         setupWindowAnimations();
-        setupLayout(animationEntity);
+        setupLayout();
         setupToolbar();
+        findViewById(R.id.share_element_test_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                animationEntity.setName(animationEntity.getName() + "updated");
+            }
+        });
     }
 
-    private void bindData(AnimationEntity sample) {
+    private void bindData() {
         ActivitySharedElementBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_shared_element);
-        binding.setSharedSample(sample);
+        binding.setSharedSample(animationEntity);
     }
 
     void setupToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -63,12 +71,12 @@ public class SharedElementActivity extends AppCompatActivity {
         }
     }
 
-    private void setupLayout(AnimationEntity entity) {
+    private void setupLayout() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             Slide slideTransition = new Slide(Gravity.LEFT);
             slideTransition.setDuration(getResources().getInteger(R.integer.anim_duration_long));
 //             Create fragment and define some of it transitions
-            ElementOneFragment elementOneFragment = ElementOneFragment.newInstance(entity);
+            ElementOneFragment elementOneFragment = ElementOneFragment.newInstance(animationEntity);
             elementOneFragment.setReenterTransition(slideTransition);
             elementOneFragment.setExitTransition(slideTransition);
             elementOneFragment.setSharedElementEnterTransition(new ChangeBounds());

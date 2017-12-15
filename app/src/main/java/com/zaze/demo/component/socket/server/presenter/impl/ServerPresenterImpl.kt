@@ -2,7 +2,7 @@ package com.zaze.demo.component.socket.server.presenter.impl
 
 import android.content.Context
 import android.os.PowerManager
-import com.zaze.common.base.ZBasePresenter
+import com.zaze.common.base.mvp.BaseMvpPresenter
 import com.zaze.demo.component.socket.BaseSocketClient
 import com.zaze.demo.component.socket.MessageType
 import com.zaze.demo.component.socket.SocketMessage
@@ -20,7 +20,7 @@ import java.util.*
  * @author : zaze
  * @version : 2017-11-08 10:53 1.7
  */
-open class ServerPresenterImpl(view: ServerView) : ZBasePresenter<ServerView>(view), ServerPresenter {
+open class ServerPresenterImpl(view: ServerView) : BaseMvpPresenter<ServerView>(view), ServerPresenter {
     val list: ArrayList<SocketMessage> = ArrayList()
     val serverSocket: BaseSocketClient
     val clientSet: HashSet<InetSocketAddress> = HashSet()
