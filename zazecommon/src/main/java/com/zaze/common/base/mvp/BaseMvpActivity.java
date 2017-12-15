@@ -5,15 +5,17 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.zaze.common.base.BaseActivity;
+import com.zaze.common.base.BasePresenter;
+import com.zaze.common.base.BaseView;
 
 
 /**
- * Description :
+ * Description : 基于mvp 对 BaseActivity 进行再次封装
  *
  * @author : zaze
  * @version : 2017-02-06 22:59 2.0
  */
-public abstract class BaseMvpActivity<V extends BaseMvpView, P extends BaseMvpPresenter<V>> extends BaseActivity implements BaseMvpView {
+public abstract class BaseMvpActivity<V extends BaseView, P extends BasePresenter<V>> extends BaseActivity {
     protected P presenter;
 
     @Override

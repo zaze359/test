@@ -1,5 +1,6 @@
 package com.zaze.demo.component.animation.presenter.impl;
 
+import com.zaze.common.base.mvp.BaseMvpPresenter;
 import com.zaze.demo.component.animation.presenter.AnimationPresenter;
 import com.zaze.demo.component.animation.view.AnimationView;
 import com.zaze.demo.model.ModelFactory;
@@ -11,17 +12,11 @@ import com.zaze.demo.model.entity.AnimationEntity;
  * @author : ZAZE
  * @version : 2016-08-25 - 09:45
  */
-public class AnimationPresenterImpl implements AnimationPresenter {
-
-    private AnimationView view;
-
-    public AnimationPresenterImpl(AnimationView view) {
-        this.view = view;
-    }
+public class AnimationPresenterImpl extends BaseMvpPresenter<AnimationView> implements AnimationPresenter {
 
     @Override
     public void getAnimationList() {
-        view.showAnimationList(ModelFactory.getEntityModel().getAnimationList());
+        getView().showAnimationList(ModelFactory.getEntityModel().getAnimationList());
 //        <string -array name="animation_titles">
 //        <item></item>
 //        <item>Object Animator</item>

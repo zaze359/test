@@ -9,7 +9,7 @@ import android.transition.Slide;
 import android.view.Gravity;
 import android.view.Menu;
 
-import com.zaze.common.base.BaseActivity;
+import com.zaze.common.base.mvp.BaseMvpActivity;
 import com.zaze.demo.R;
 import com.zaze.demo.component.animation.adapter.AnimationAdapter;
 import com.zaze.demo.component.animation.presenter.AnimationPresenter;
@@ -28,15 +28,14 @@ import butterknife.ButterKnife;
  * @author : ZAZE
  * @version : 2016-08-23 - 19:31
  */
-public class AnimationActivity extends BaseActivity implements AnimationView {
+public class AnimationActivity extends BaseMvpActivity<AnimationView, AnimationPresenter> implements AnimationView {
     // --------------------------------------------------
+
     @Bind(R.id.animation_toolbar)
     Toolbar animationToolbar;
     @Bind(R.id.animation_recycler)
     RecyclerView animationRecycler;
-
     private AnimationAdapter adapter;
-    private AnimationPresenter presenter;
 
     @Override
     protected boolean isNeedHead() {
@@ -50,8 +49,12 @@ public class AnimationActivity extends BaseActivity implements AnimationView {
         ButterKnife.bind(this);
         setupWindowAnimations();
         setupToolbar();
-        presenter = new AnimationPresenterImpl(this);
         presenter.getAnimationList();
+    }
+
+    @Override
+    protected AnimationPresenter getPresenter() {
+        return new AnimationPresenterImpl();
     }
 
     @Override
