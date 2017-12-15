@@ -7,6 +7,11 @@ import android.widget.TextView;
 import com.zaze.common.base.BaseActivity;
 import com.zaze.demo.R;
 import com.zaze.utils.log.ZLog;
+import com.zaze.utils.log.ZTag;
+
+import org.reactivestreams.Publisher;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,16 +20,20 @@ import java.util.concurrent.Callable;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Observable;
-import rx.Observer;
-import rx.Single;
-import rx.SingleSubscriber;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.functions.Func2;
-import rx.schedulers.Schedulers;
-import rx.subjects.PublishSubject;
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableEmitter;
+import io.reactivex.FlowableOnSubscribe;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.PublishSubject;
+import kotlin.jvm.functions.Function2;
 
 /**
  * Description :
@@ -70,17 +79,23 @@ public class RxAndroidActivity extends BaseActivity {
         );
         observable.subscribe(new Observer<String>() {
             @Override
-            public void onCompleted() {
-                updateTestText(builder.toString());
-            }
+            public void onSubscribe(Disposable d) {
 
-            @Override
-            public void onError(Throwable e) {
             }
 
             @Override
             public void onNext(String s) {
                 builder.append(s).append("\n");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+                updateTestText(builder.toString());
             }
         });
     }
@@ -104,12 +119,17 @@ public class RxAndroidActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<String>() {
                     @Override
-                    public void onCompleted() {
+                    public void onError(Throwable e) {
 
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
                     }
 
@@ -134,15 +154,10 @@ public class RxAndroidActivity extends BaseActivity {
         });
         single.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleSubscriber<String>() {
+                .subscribe(new Consumer<String>() {
                     @Override
-                    public void onSuccess(String value) {
-                        updateTestText(value);
-                    }
-
-                    @Override
-                    public void onError(Throwable error) {
-
+                    public void accept(String s) throws Exception {
+                        updateTestText(s);
                     }
                 });
     }
@@ -157,60 +172,53 @@ public class RxAndroidActivity extends BaseActivity {
      * map()
      */
     public void test5() {
-        Single.just(4).map(new Func1<Integer, String>() {
+        Single.just(4).map(new Function<Integer, String>() {
             @Override
-            public String call(Integer integer) {
+            public String apply(Integer integer) throws Exception {
                 return "map() : " + String.valueOf(integer);
             }
-        }).subscribe(new SingleSubscriber<String>() {
+        }).subscribe(new Consumer<String>() {
             @Override
-            public void onSuccess(String value) {
+            public void accept(String value) throws Exception {
                 updateTestText(value);
-            }
-
-            @Override
-            public void onError(Throwable error) {
-
             }
         });
     }
 
-
-    // ----------------------------------------------------------------------
-    String[] mManyWords = {"W", "X", "S", "I", "L", "U"};
-    List<String> mManyWordList = Arrays.asList(mManyWords);
-    private Func1<List<String>, Observable<String>> mOneLetterFunc = new Func1<List<String>, Observable<String>>() {
+    private Function2<String, String, String> mMergeStringFunc = new Function2<String, String, String>() {
         @Override
-        public Observable<String> call(List<String> strings) {
-            return Observable.from(strings); // 映射字符串
+        public String invoke(String s, String s2) {
+            // 空格连接字符串
+            return String.format("%s %s", s, s2);
         }
     };
-    // 连接字符串
-    private Func2<String, String, String> mMergeStringFunc = new Func2<String, String, String>() {
-        @Override
-        public String call(String s, String s2) {
-            return String.format("%s %s", s, s2); // 空格连接字符串
-        }
-    };
-
 
     public void test6() {
-        // 直接获取数组, 再分发, 再合并, 再显示toast, Toast顺次执行.
-        Observable.just(mManyWordList)
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .flatMap(mOneLetterFunc)
-                .map(new Func1<String, String>() {
+//        Flowable.fromCallable(new Callable<List<String>>() {
+//            @Override
+//            public List<String> call() throws Exception {
+//                return Arrays.asList("W", "X", "S", "I", "L", "U");
+//            }
+//        })
+        Flowable.create(new FlowableOnSubscribe<List<String>>() {
+            @Override
+            public void subscribe(FlowableEmitter<List<String>> e) throws Exception {
+                e.onNext(Arrays.asList("W", "X", "S", "I", "L", "U"));
+                e.onComplete();
+            }
+        }, BackpressureStrategy.BUFFER)
+                .subscribeOn(Schedulers.newThread())
+                .flatMap(new Function<List<String>, Publisher<String>>() {
                     @Override
-                    public String call(String s) {
-                        ZLog.i("zaze", s);
-                        return s;
+                    public Publisher<String> apply(List<String> strings) throws Exception {
+                        return Flowable.fromIterable(strings);
                     }
                 })
-                .observeOn(Schedulers.io())
-                .map(new Func1<String, String>() {
+//                .observeOn(Schedulers.io())
+                .map(new Function<String, String>() {
                     @Override
-                    public String call(String s) {
-                        ZLog.i("zaze", "执行操作 : " + s);
+                    public String apply(String s) throws Exception {
+                        ZLog.i(ZTag.TAG_DEBUG, "apply : " + s);
                         try {
                             Thread.sleep(500L);
                         } catch (InterruptedException e) {
@@ -223,31 +231,29 @@ public class RxAndroidActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<String>() {
                     @Override
-                    public void onStart() {
-                        super.onStart();
-                        ZLog.i("zaze", "onStart");
-                    }
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
+                    public void onSubscribe(Subscription s) {
+                        ZLog.i(ZTag.TAG_DEBUG, "onStart");
+                        // 请求几个执行几个
+                        s.request(2);
+//                        s.request(100);
                     }
 
                     @Override
                     public void onNext(String s) {
-                        ZLog.i("zaze", "onNext");
+                        ZLog.i(ZTag.TAG_DEBUG, "onNext : " + s);
                         updateTestText(s);
                     }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        ZLog.i(ZTag.TAG_DEBUG, "onError : " + t.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        ZLog.i(ZTag.TAG_DEBUG, "onComplete");
+                    }
                 });
-    }
-
-
-    public void test7() {
     }
 
     // ----------------------------------------------------------------------

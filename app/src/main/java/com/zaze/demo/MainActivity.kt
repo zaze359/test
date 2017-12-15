@@ -42,6 +42,9 @@ class MainActivity : BaseActivity() {
             val debug = KotlinDebug()
 //            debug.test()
             TestDebug.a(this)
+
+
+
 //            ZAppUtil.startApplicationSimple(this, "com.xh.aoscstu")
 //            ZAppUtil.startApplicationSimple(this, "com.xh.assist")
             // --------------------------------------------------
