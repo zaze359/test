@@ -1,6 +1,8 @@
 package com.zaze.utils.cache;
 
 
+import android.content.res.Configuration;
+
 import com.zaze.utils.ZDeviceUtil;
 import com.zaze.utils.ZStringUtil;
 import com.zaze.utils.log.ZLog;
@@ -19,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author : zaze
  * @version : 1.0
  */
-public class MemoryCache implements CacheFace, OnReleaseListener {
+public class MemoryCache implements CacheFace, MemoryListener {
 
     private boolean cacheLog = false;
 
@@ -101,11 +103,10 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
         return caches;
     }
 
-    // 外部线程循环调用 
     @Override
-    public void onRelease() {
+    public void onTrimMemory(int level) {
         if (cacheLog) {
-            ZLog.d(ZTag.TAG_MEMORY, "MemoryCache onRelease");
+            ZLog.d(ZTag.TAG_MEMORY, "MemoryCache onTrimMemory");
         }
         long currTime = System.currentTimeMillis();
         Map<String, Cache> tempMap = new HashMap<>();
@@ -126,10 +127,22 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
             if (currTime >= cache.getLastTimeMillis() + cache.getKeepTime()) {
                 clearCache(key);
                 if (cacheLog) {
-                    ZLog.d(ZTag.TAG_MEMORY, "MemoryCache onRelease : " + cache.toString());
+                    ZLog.d(ZTag.TAG_MEMORY, "MemoryCache onTrimMemory : " + cache.toString());
                 }
             }
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+    }
+
+    @Override
+    public void onLowMemory() {
+        if (cacheLog) {
+            ZLog.d(ZTag.TAG_MEMORY, "MemoryCache onLowMemory");
+        }
+        clearMemoryCache();
     }
 
     /**
@@ -192,6 +205,7 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
     }
 
     // --------------------------------------------------
+
     @Override
     public void saveCache(String key, byte[] values, long keepTime, @DataLevel int dataLevel) {
         if (values == null) {
@@ -276,4 +290,5 @@ public class MemoryCache implements CacheFace, OnReleaseListener {
     public void setCacheLog(boolean cacheLog) {
         this.cacheLog = cacheLog;
     }
+
 }

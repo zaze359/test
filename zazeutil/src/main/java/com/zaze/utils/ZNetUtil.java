@@ -217,4 +217,27 @@ public class ZNetUtil {
         }
         return descBuilder.toString();
     }
+
+
+    // --------------------------------------------------
+
+    public static void analyzeNetworkState() {
+        StringBuffer buffer = ZFileUtil.INSTANCE.readFromFile("/proc/net/xt_qtaguid/stats");
+//        ZFileUtil.INSTANCE.writeToFile("/sdcard/aaa.txt", "aa\nbb\n", true);
+//        StringBuffer buffer = ZFileUtil.INSTANCE.readFromFile("/sdcard/aaa.txt");
+        String lineSplit = "\n";
+        String valueSplit = " ";
+        String[] linesArray = buffer.toString().split(lineSplit);
+        if (linesArray.length > 0) {
+            String[] keyArray = linesArray[0].split(valueSplit);
+
+            for (int i = 1; i < linesArray.length; i++) {
+                String[] valueArray = linesArray[i].split(valueSplit);
+                for (String value : valueArray) {
+                    ZLog.i(ZTag.TAG_DEBUG, value);
+                }
+            }
+        }
+
+    }
 }

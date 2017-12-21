@@ -8,6 +8,10 @@ package com.zaze.demo.component.wifi.presenter;
  */
 public interface WifiPresenter {
 
+    /**
+     * 获取网络状态
+     */
+    void getNetworkState();
 
     /**
      * 开始扫描

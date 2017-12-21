@@ -2,6 +2,7 @@ package com.zaze.common.base;
 
 import android.app.Application;
 
+import com.zaze.utils.ZSharedPrefUtil;
 import com.zaze.utils.cache.MemoryCache;
 
 
@@ -26,12 +27,18 @@ public abstract class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-//        startService(new Intent(this, TaskService.class));
+        ZSharedPrefUtil.initSharedPreferences(this);
     }
 
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        MemoryCache.getInstance().clearMemoryCache();
+        MemoryCache.getInstance().onLowMemory();
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        MemoryCache.getInstance().onTrimMemory(level);
     }
 }

@@ -276,13 +276,38 @@ object ZFileUtil {
         var result = StringBuffer()
         if (isFileExist(filePath)) {
             try {
-                result = readLine(FileReader(file))
+                result = readByBytes(FileInputStream(file))
+//                result = readLine(FileReader(file))
             } catch (e: FileNotFoundException) {
                 e.printStackTrace()
             }
 
         }
         return result
+    }
+
+    fun readByBytes(inputStream: InputStream): StringBuffer {
+        readLock(lock)
+        val results = StringBuffer()
+        try {
+            val bytes = ByteArray(8192)
+            var byteLength = inputStream.read(bytes)
+            while (byteLength != -1) {
+                results.append(String(bytes, 0, byteLength))
+                byteLength = inputStream.read(bytes)
+            }
+            inputStream.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            try {
+                inputStream.close()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+        readUnlock(lock)
+        return results
     }
 
     fun readLine(reader: Reader): StringBuffer {

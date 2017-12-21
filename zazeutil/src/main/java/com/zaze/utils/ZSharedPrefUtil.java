@@ -2,6 +2,7 @@ package com.zaze.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 
 /**
  * Description :
@@ -10,15 +11,53 @@ import android.content.SharedPreferences;
  * @version : 2017-03-08 - 16:02
  */
 public class ZSharedPrefUtil {
-    private static String spName = "sp_zaze";
 
-    public static void setSpName(String spName) {
-        ZSharedPrefUtil.spName = spName;
+    private static String spName = "sp_zaze";
+    private static volatile SharedPreferences sharedPreferences;
+
+    public static void initSharedPreferences(Context context) {
+        if (sharedPreferences == null) {
+            synchronized (ZSharedPrefUtil.class) {
+                sharedPreferences = context.getSharedPreferences(spName, Context.MODE_PRIVATE);
+            }
+        }
     }
 
-    public static <T> void put(Context context, String key, T value) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(spName, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+    private static void initSharedPreferences(Context context, String sharePrefName) {
+        spName = sharePrefName;
+        initSharedPreferences(context);
+    }
+
+
+    /**
+     * 异步
+     *
+     * @param key   key
+     * @param value value
+     * @param <T>   t
+     */
+    public static <T> void apply(String key, @NonNull T value) {
+        if (sharedPreferences != null) {
+            put(key, value, sharedPreferences.edit()).apply();
+        }
+    }
+
+    /**
+     * 同步
+     *
+     * @param key   key
+     * @param value value
+     * @param <T>   t
+     * @return boolean
+     */
+    public static <T> boolean commit(String key, @NonNull T value) {
+        if (sharedPreferences != null) {
+            return put(key, value, sharedPreferences.edit()).commit();
+        }
+        return false;
+    }
+
+    private static <T> SharedPreferences.Editor put(String key, @NonNull T value, SharedPreferences.Editor editor) {
         if (value instanceof String) {
             editor.putString(key, (String) value);
         } else if (value instanceof Integer) {
@@ -30,22 +69,26 @@ public class ZSharedPrefUtil {
         } else if (value instanceof Long) {
             editor.putLong(key, ((Long) value));
         }
-        editor.commit();
+        return editor;
     }
 
-    public static <T> T get(Context context, String key, T defaultValue) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(spName, Context.MODE_PRIVATE);
-        if (defaultValue instanceof String) {
-            return (T) sharedPreferences.getString(key, (String) defaultValue);
-        } else if (defaultValue instanceof Integer) {
-            return (T) new Integer(sharedPreferences.getInt(key, (Integer) defaultValue));
-        } else if (defaultValue instanceof Boolean) {
-            return (T) new Boolean(sharedPreferences.getBoolean(key, (Boolean) defaultValue));
-        } else if (defaultValue instanceof Float) {
-            return (T) new Float(sharedPreferences.getFloat(key, (Float) defaultValue));
-        } else if (defaultValue instanceof Long) {
-            return (T) new Long(sharedPreferences.getLong(key, (Long) defaultValue));
+    // --------------------------------------------------
+
+    public static <T> T get(String key, @NonNull T defaultValue) {
+        if (sharedPreferences != null) {
+            if (defaultValue instanceof String) {
+                return (T) sharedPreferences.getString(key, (String) defaultValue);
+            } else if (defaultValue instanceof Integer) {
+                return (T) Integer.valueOf(sharedPreferences.getInt(key, (Integer) defaultValue));
+            } else if (defaultValue instanceof Boolean) {
+                return (T) Boolean.valueOf(sharedPreferences.getBoolean(key, (Boolean) defaultValue));
+            } else if (defaultValue instanceof Float) {
+                return (T) Float.valueOf(sharedPreferences.getFloat(key, (Float) defaultValue));
+            } else if (defaultValue instanceof Long) {
+                return (T) Long.valueOf(sharedPreferences.getLong(key, (Long) defaultValue));
+            }
         }
-        return null;
+        return defaultValue;
     }
+
 }

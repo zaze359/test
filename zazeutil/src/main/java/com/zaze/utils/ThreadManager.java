@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
+import java.util.concurrent.Executor;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -24,21 +25,23 @@ public class ThreadManager {
      * 后台任务
      */
     private ThreadPoolExecutor backgroundExecutor;
+
+    /**
+     * 推荐磁盘读写调用的线程池
+     */
+    private ThreadPoolExecutor diskIO;
+
     /**
      * 单线程
      */
     private ThreadPoolExecutor singleExecutor;
+
     /**
      * 多线程
      */
     private ThreadPoolExecutor multiExecutor;
 
-    /**
-     * 并发数
-     */
-    private int maxThreadNum = 5;
-
-    private Handler handler;
+    private MainThreadExecutor mainThread;
 
     private static volatile ThreadManager instance;
 
@@ -55,13 +58,31 @@ public class ThreadManager {
 
     private ThreadManager() {
         super();
+        initDiskIO();
         initBackgroundExecutor();
         initSingleExecutor();
         initMultiExecutor();
         // --------------------------------------------------
-        handler = new Handler(Looper.getMainLooper());
+        mainThread = new MainThreadExecutor();
     }
     // --------------------------------------------------
+
+    private void initDiskIO() {
+        diskIO = new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(),
+                new ThreadFactory() {
+                    @Override
+                    public Thread newThread(@NonNull Runnable r) {
+                        Thread thread = new Thread(r, "diskIO");
+                        if (thread.isDaemon()) {
+                            thread.setDaemon(false);
+                        }
+                        if (needLog) {
+                            ZLog.i(ZTag.TAG_DEBUG, "run %s(%s)", thread.getName(), thread.getId());
+                        }
+                        return thread;
+                    }
+                });
+    }
 
     private void initSingleExecutor() {
         singleExecutor = new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(),
@@ -81,7 +102,8 @@ public class ThreadManager {
     }
 
     private void initMultiExecutor() {
-        multiExecutor = new ThreadPoolExecutor(maxThreadNum, maxThreadNum * Runtime.getRuntime().availableProcessors(), 60L, TimeUnit.SECONDS
+//        maxThreadNum * Runtime.getRuntime().availableProcessors()
+        multiExecutor = new ThreadPoolExecutor(3, 10, 30L, TimeUnit.SECONDS
                 , new LinkedBlockingQueue<Runnable>(), new ThreadFactory() {
             @Override
             public Thread newThread(@NonNull Runnable r) {
@@ -132,12 +154,17 @@ public class ThreadManager {
         });
     }
 
+    public void runInDiskIO(Runnable runnable) {
+        diskIO.execute(runnable);
+    }
+
+
     /**
      * Description	: 单线程执行
      *
      * @param runnable runnable
      */
-    public void runInSingleThread(final Runnable runnable) {
+    public void runInSingleThread(Runnable runnable) {
         singleExecutor.execute(runnable);
     }
 
@@ -156,7 +183,7 @@ public class ThreadManager {
      * @param runnable runnable
      */
     public void runInUIThread(Runnable runnable) {
-        handler.post(runnable);
+        mainThread.execute(runnable);
     }
 
     /**
@@ -165,7 +192,7 @@ public class ThreadManager {
      * @param runnable runnable
      */
     public void runInUIThread(Runnable runnable, long delay) {
-        handler.postDelayed(runnable, delay);
+        mainThread.executeDelayed(runnable, delay);
     }
 
     /**
@@ -210,5 +237,20 @@ public class ThreadManager {
      */
     public static void setNeedLog(boolean needLog) {
         ThreadManager.needLog = needLog;
+    }
+
+    // --------------------------------------------------
+
+    private static class MainThreadExecutor implements Executor {
+        private Handler mainThreadHandler = new Handler(Looper.getMainLooper());
+
+        @Override
+        public void execute(@NonNull Runnable command) {
+            mainThreadHandler.post(command);
+        }
+
+        public void executeDelayed(@NonNull Runnable command, long delayMillis) {
+            mainThreadHandler.postDelayed(command, delayMillis);
+        }
     }
 }

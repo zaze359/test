@@ -49,6 +49,7 @@ public class WifiActivity extends BaseActivity implements WifiView {
             }
         });
         presenter = new WifiPresenterImpl(this);
+        presenter.getNetworkState();
         presenter.startScan();
         presenter.getScanResults();
     }

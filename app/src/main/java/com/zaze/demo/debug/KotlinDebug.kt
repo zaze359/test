@@ -3,6 +3,7 @@ package com.zaze.demo.debug
 import android.util.Base64
 import com.zaze.utils.ZEncryptionUtil
 import com.zaze.utils.ZFileUtil
+import com.zaze.utils.ZNetUtil
 import com.zaze.utils.ZStringUtil
 import com.zaze.utils.date.ZDateUtil
 import com.zaze.utils.log.ZLog
@@ -22,55 +23,8 @@ class KotlinDebug {
         var result = ""
 //        return showLog("print", { print() })
 //        showLog("createDimens", { createDimens(1f, ZDisplayUtil.SCREEN_DENSITY) })
-        createDeveloperToken()
-//        return showLog("createDeveloperAccount", { createDeveloperToken() })
-//        return showLog("clearCacheData", { clearCacheData() })
-//        return showLog("searchFile", { searchFile() })
-//        result = ZDeviceUtil.getUUID(MyApplication.getInstance())
-        // --------------------------------------------------
-//        val count = 10
-//        val observable = Observable.interval(0, 1, TimeUnit.SECONDS)
-//                .take(count)
-//                .map { long ->
-//                    count - long
-//                }
-//                .observeOn(AndroidSchedulers.mainThread())
-//        val subscriber = object : Subscriber<Long>() {
-//            override fun onError(e: Throwable?) {
-//                ZLog.e(ZTag.TAG_DEBUG, "onError")
-//            }
-//
-//            override fun onNext(t: Long?) {
-//                ZLog.i(ZTag.TAG_DEBUG, "onNext : " + t)
-//            }
-//
-//            override fun onCompleted() {
-//                ZLog.i(ZTag.TAG_DEBUG, "onCompleted")
-//            }
-//        }
-//        observable.subscribe(subscriber)
-        // --------------------------------------------------
-//        ZFileUtil.writeToFile("/sdcard/zaze/aaa.txt", "aaaaaaaaaa")
-//        ZCompressUtil.zipFolder("/sdcard/xuehai/log", "/sdcard/xuehai/zip/aa.zip")
-        // --------------------------------------------------
-//        val keyguardManager = MyApplication.getInstance().getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
-//        result = "" + keyguardManager.isKeyguardSecure
-        // --------------------------------------------------
-//        resu= "" + ZCommand.isRoot()
-        // --------------------------------------------------
-//        Settings.System.putInt(MyApplication.getInstance().contentResolver, SCREEN_OFF_TIMEOUT, Integer.MAX_VALUE)
-        // --------------------------------------------------
-//        result = "" + ZAppUtil.isAppRunning(MyApplication.getInstance(), "com.xuehai.response_launcher_teacher")
-//        val activityManager = MyApplication.getInstance().getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-//        result = "" + activityManager.killBackgrounocesses("com.zaze.demo")
-        // --------------------------------------------------
-//        activityManager.forceStopPackage(packageName)
-//        android.os.Process.killProcess(android.os.Process.myPid());
-//        System.exit(0);
-//        ZCommand.isCommandExists("grep")
-//        result = "" + ZNetUtil.getProviders(MyApplication.getInstance())
-        //
-//        ZLog.i(ZTag.TAG_DEBUG, result)
+//        createDeveloperToken()
+        ZNetUtil.analyzeNetworkState()
     }
 
     private fun createDimens(baseDensity: Float, screenDensity: Float): String {

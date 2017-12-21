@@ -3,7 +3,9 @@ package com.zaze.common.base;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
@@ -26,6 +28,11 @@ import com.zaze.utils.ZViewUtil;
 public abstract class BaseActivity extends AppCompatActivity implements BaseView {
     private BaseHeadView headFace;
     private LoadingWidget loadProgress;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     protected void onDestroy() {

@@ -53,10 +53,11 @@ object ZDeviceUtil {
                 if (TextUtils.isEmpty(id)) {
                     id = getAndroidId(context)
                     if ("9774d56d682e549c" == id) {
-                        id = ZSharedPrefUtil.get(context, key, "")
+                        ZSharedPrefUtil.initSharedPreferences(context)
+                        id = ZSharedPrefUtil.get(key, "")
                         if (TextUtils.isEmpty(id)) {
                             id = UUID.randomUUID().toString()
-                            ZSharedPrefUtil.put(context, key, id)
+                            ZSharedPrefUtil.commit(key, id)
                         }
                     }
                 }

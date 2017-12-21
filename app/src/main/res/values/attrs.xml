@@ -16,4 +16,9 @@
     <attr name="zItemBackground" format="reference" />
     <attr name="zItemTextColor" format="color" />
     <attr name="zItemTextSize" format="dimension" />
+
+    <declare-styleable name="AddImageLayout">
+        <attr name="hSpace" format="dimension" />
+        <attr name="vSpace" format="dimension" />
+    </declare-styleable>
 </resources>

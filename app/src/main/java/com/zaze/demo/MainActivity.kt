@@ -13,8 +13,6 @@ import com.zaze.demo.debug.TestDebug
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-
-
 /**
  * Description :
  * @author : ZAZE
@@ -40,11 +38,8 @@ class MainActivity : BaseActivity() {
         main_viewpager.adapter = MyPagerAdapter(supportFragmentManager, fragmentList)
         main_test_button.setOnClickListener {
             val debug = KotlinDebug()
-//            debug.test()
+            debug.test()
             TestDebug.a(this)
-
-
-
 //            ZAppUtil.startApplicationSimple(this, "com.xh.aoscstu")
 //            ZAppUtil.startApplicationSimple(this, "com.xh.assist")
             // --------------------------------------------------

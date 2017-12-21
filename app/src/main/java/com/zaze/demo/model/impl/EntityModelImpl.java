@@ -6,6 +6,7 @@ import com.zaze.demo.component.animation.ui.AnimationActivity1;
 import com.zaze.demo.component.animation.ui.SharedElementActivity;
 import com.zaze.demo.component.animation.ui.TransitionActivity;
 import com.zaze.demo.component.cache.ui.CacheActivity;
+import com.zaze.demo.component.customview.ui.CustomViewActivity;
 import com.zaze.demo.component.device.ui.DeviceActivity;
 import com.zaze.demo.component.fileexplorer.ui.FileExplorerActivity;
 import com.zaze.demo.component.gps.ui.GpsActivity;
@@ -45,6 +46,7 @@ public class EntityModelImpl implements EntityModel {
     public List<TableEntity> getTableList() {
         List<TableEntity> list = new ArrayList<>();
         int i = 0;
+        list.add(new TableEntity("自定义View", CustomViewActivity.class, ++i));
         list.add(new TableEntity("消息通知栏", NotificationActivity.class, ++i));
         list.add(new TableEntity("应用查询", ReadPackageActivity.class, ++i));
         list.add(new TableEntity("任务机制", TaskActivity.class, ++i));
