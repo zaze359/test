@@ -7,7 +7,7 @@ package com.zaze.utils.cache;
  * @author : zaze
  * @version : 1.0
  */
-public interface CacheFace {
+interface CacheFace {
     /**
      * 保存到缓存
      *

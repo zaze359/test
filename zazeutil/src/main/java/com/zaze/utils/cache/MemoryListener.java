@@ -9,5 +9,5 @@ import android.content.ComponentCallbacks2;
  * @author : zaze
  * @version : 1.0
  */
-public interface MemoryListener extends ComponentCallbacks2 {
+interface MemoryListener extends ComponentCallbacks2 {
 }

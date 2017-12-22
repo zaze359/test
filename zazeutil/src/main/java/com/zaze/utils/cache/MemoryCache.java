@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author : zaze
  * @version : 1.0
  */
-public class MemoryCache implements CacheFace, MemoryListener {
+class MemoryCache implements CacheFace, MemoryListener {
 
     private boolean cacheLog = false;
 
