@@ -24,7 +24,8 @@ class KotlinDebug {
 //        return showLog("print", { print() })
 //        showLog("createDimens", { createDimens(1f, ZDisplayUtil.SCREEN_DENSITY) })
 //        createDeveloperToken()
-        ZNetUtil.analyzeNetworkState()
+
+        ZLog.i(ZTag.TAG_DEBUG, ZNetUtil.analyzeNetworkState(null).toString())
     }
 
     private fun createDimens(baseDensity: Float, screenDensity: Float): String {

@@ -6,6 +6,9 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.StringRes;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -42,11 +45,11 @@ public class HeadWidget extends BaseHeadView {
 
     private ImageView headRightAfterIcon;
 
-    public HeadWidget(Context context, int layoutResId) {
+    public HeadWidget(Context context, @LayoutRes int layoutResId) {
         super(context, layoutResId);
     }
 
-    public HeadWidget(Context context, int layoutResId, ViewGroup parent) {
+    public HeadWidget(Context context, @LayoutRes int layoutResId, ViewGroup parent) {
         super(context, layoutResId, parent);
     }
 
@@ -71,7 +74,8 @@ public class HeadWidget extends BaseHeadView {
     }
 
     @Override
-    public int getHeadLayoutId() {
+    public @LayoutRes
+    int getHeadLayoutId() {
         return R.layout.layout_main_head;
     }
 
@@ -83,7 +87,7 @@ public class HeadWidget extends BaseHeadView {
      * @return
      */
     @Override
-    public HeadWidget setText(int resId, @ZOrientation int orientation) {
+    public HeadWidget setText(@StringRes int resId, @ZOrientation int orientation) {
         switch (orientation) {
             case ZOrientation.LEFT:
                 setLeftText(resId);
@@ -126,7 +130,7 @@ public class HeadWidget extends BaseHeadView {
     }
 
     @Override
-    public HeadFace setIcon(int resIcon, @ZOrientation int orientation) {
+    public HeadFace setIcon(@DrawableRes int resIcon, @ZOrientation int orientation) {
         switch (orientation) {
             case ZOrientation.LEFT:
                 setLeftIcon(resIcon);

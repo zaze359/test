@@ -50,10 +50,10 @@ public class DeviceActivity extends BaseActivity implements DeviceView {
         ButterKnife.bind(this);
         deviceScreen.setText(ZStringUtil.format(
                 "屏幕分辨率 : %dx%d",
-                ZDisplayUtil.SCREEN_WIDTH_PIXELS,
-                ZDisplayUtil.SCREEN_HEIGHT_PIXELS)
+                ZDisplayUtil.getScreenWidthPixels(),
+                ZDisplayUtil.getScreenHeightPixels())
         );
-        deviceDensity.setText(ZStringUtil.format("屏幕密度 : %s(%d)", ZDisplayUtil.getDensityDpiName(), ZDisplayUtil.SCREEN_DENSITY_DPI));
+        deviceDensity.setText(ZStringUtil.format("屏幕密度 : %s(%d)", ZDisplayUtil.getDensityDpiName(), ZDisplayUtil.getScreenDensityDpi()));
         presenter = new DevicePresenterImpl(this);
         presenter.getDeviceInfo();
     }

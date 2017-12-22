@@ -5,6 +5,9 @@ import android.os.Environment
 import android.os.StatFs
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 import java.io.*
 import java.util.*
 import java.util.concurrent.locks.ReadWriteLock
@@ -20,7 +23,9 @@ object ZFileUtil {
     private val needLock = true
     private val lock = ReentrantReadWriteLock()
     private fun writeLock(lock: ReadWriteLock) {
-        if (needLock) lock.writeLock().lock()
+        if (needLock) {
+            lock.writeLock().lock()
+        }
     }
 
     private fun writeUnlock(lock: ReadWriteLock) {
@@ -28,11 +33,15 @@ object ZFileUtil {
     }
 
     private fun readLock(lock: ReadWriteLock) {
-        if (needLock) lock.readLock().lock()
+        if (needLock) {
+            lock.readLock().lock()
+        }
     }
 
     private fun readUnlock(lock: ReadWriteLock) {
-        if (needLock) lock.readLock().unlock()
+        if (needLock) {
+            lock.readLock().unlock()
+        }
     }
     // --------------------------------------------------
     // --------------------------------------------------
@@ -61,6 +70,13 @@ object ZFileUtil {
         return File(filePath).exists()
     }
 
+    fun isCanRead(filePath: String?): Boolean {
+        return isFileExist(filePath) && File(filePath).canRead()
+    }
+
+    fun isCanWrite(filePath: String?): Boolean {
+        return isFileExist(filePath) && File(filePath).canWrite()
+    }
     // --------------------------------------------------
     /**
      * [filePath] 文件路径
@@ -276,8 +292,8 @@ object ZFileUtil {
         var result = StringBuffer()
         if (isFileExist(filePath)) {
             try {
-                result = readByBytes(FileInputStream(file))
-//                result = readLine(FileReader(file))
+//                result = readByBytes(FileInputStream(file))
+                result = readLine(FileReader(file))
             } catch (e: FileNotFoundException) {
                 e.printStackTrace()
             }
@@ -290,7 +306,9 @@ object ZFileUtil {
         readLock(lock)
         val results = StringBuffer()
         try {
-            val bytes = ByteArray(8192)
+//            val bytes = ByteArray(8192)
+//            val bytes = ByteArray(4096)
+            val bytes = ByteArray(1024)
             var byteLength = inputStream.read(bytes)
             while (byteLength != -1) {
                 results.append(String(bytes, 0, byteLength))
@@ -318,7 +336,7 @@ object ZFileUtil {
             bfReader = BufferedReader(reader)
             var line = bfReader.readLine()
             while (line != null) {
-                results.append(line)
+                results.append("$line\n")
                 line = bfReader.readLine()
             }
             bfReader.close()
@@ -410,5 +428,44 @@ object ZFileUtil {
     // --------------------------------------------------
     // --------------------------------------------------
 
+    /**
+     * 分析特定文件
+     * 格式如下:
+     * aa bb cc
+     * 1 2 3
+     * 22 33 44
+     * [filePath] 文件路径
+     * [lineSplit] 行分隔符
+     * [valueSplit] 每个值之间的分隔符
+     */
+    fun analyzeFile(filePath: String?, lineSplit: String, valueSplit: String): JSONArray? {
+        if (ZFileUtil.isCanRead(filePath)) {
+            val buffer = ZFileUtil.readFromFile(filePath!!)
+            val linesArray = buffer.toString().split(lineSplit.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            // 至少有2行 第一行是tag
+            val lineLength = linesArray.size
+            if (lineLength > 1) {
+                val tagArray = linesArray[0].split(valueSplit.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                val tagLength = tagArray.size
+                val jsonArray = JSONArray()
+                for (i in 1 until lineLength) {
+                    val valueArray = linesArray[i].split(valueSplit.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                    val jsonObject = JSONObject()
+                    valueArray.indices
+                            .filter { it < tagLength }
+                            .forEach {
+                                try {
+                                    jsonObject.put(tagArray[it], valueArray[it])
+                                } catch (e: JSONException) {
+                                    e.printStackTrace()
+                                }
+                            }
+                    jsonArray.put(jsonObject)
+                }
+                return jsonArray
+            }
+        }
+        return null
+    }
 
 }

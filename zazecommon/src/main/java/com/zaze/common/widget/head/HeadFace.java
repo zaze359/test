@@ -1,6 +1,8 @@
 package com.zaze.common.widget.head;
 
 import android.app.Activity;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.StringRes;
 import android.view.View;
 
 /**
@@ -18,7 +20,7 @@ public interface HeadFace {
      * @param orientation orientation
      * @return HeadFace
      */
-    HeadFace setText(int resId, @ZOrientation int orientation);
+    HeadFace setText(@StringRes int resId, @ZOrientation int orientation);
 
     /**
      * 设置文本
@@ -36,7 +38,7 @@ public interface HeadFace {
      * @param orientation orientation
      * @return HeadFace
      */
-    HeadFace setIcon(int resIcon, @ZOrientation int orientation);
+    HeadFace setIcon(@DrawableRes int resIcon, @ZOrientation int orientation);
 
     /**
      * 设置监听

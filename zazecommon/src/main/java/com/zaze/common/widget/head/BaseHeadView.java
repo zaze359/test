@@ -2,6 +2,7 @@ package com.zaze.common.widget.head;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.annotation.LayoutRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,18 +23,18 @@ public abstract class BaseHeadView implements HeadFace {
     private FrameLayout containerView;
     private View headView;
 
-    public BaseHeadView(Context context, int layoutResId) {
+    public BaseHeadView(Context context, @LayoutRes int layoutResId) {
         this(context, layoutResId, null);
     }
 
-    public BaseHeadView(Context context, int layoutResId, ViewGroup parent) {
+    public BaseHeadView(Context context, @LayoutRes int layoutResId, ViewGroup parent) {
         inflater = LayoutInflater.from(context);
         resources = context.getResources();
         containerView = (FrameLayout) inflater.inflate(R.layout.layout_head_container, parent, false);
         init(layoutResId);
     }
 
-    private void init(int layoutResID) {
+    private void init(@LayoutRes int layoutResID) {
         View userView = inflater.inflate(layoutResID, containerView, false);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         params.topMargin = (int) resources.getDimension(R.dimen.head_height);
@@ -74,7 +75,6 @@ public abstract class BaseHeadView implements HeadFace {
      *
      * @return int
      */
-    public abstract int getHeadLayoutId();
-
-
+    public abstract @LayoutRes
+    int getHeadLayoutId();
 }

@@ -8,9 +8,15 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
+
+import org.jetbrains.annotations.Nullable;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -28,11 +34,6 @@ import java.util.List;
 public class ZNetUtil {
 
 //    其中wifiInfo有以下的方法：
-//    wifiinfo.getBSSID()；
-//    wifiinfo.getSSID()；
-//    wifiinfo.getIpAddress()；获取IP地址。
-//    wifiinfo.getMacAddress()；获取MAC地址。
-//    wifiinfo.getNetworkId()；获取网络ID。
 //    wifiinfo.getLinkSpeed()；获取连接速度，可以让用户获知这一信息。
 //    wifiinfo.getRssi()；获取RSSI，RSSI就是接受信号强度指示。在这可以直 接和华为提供的Wi-Fi信号阈值进行比较来提供给用户，让用户对网络或地理位置做出调整来获得最好的连接效果。
 //    这里得到信号强度就靠wifiinfo.getRssi()；这个方法。得到的值是一个0到-100的区间值，是一个int型数据，其中0到-50表示信号最好，-50到-70表示信号偏差，小于-70表示最差，有可能连接不上或者掉线，一般Wifi已断则值为-200。
@@ -221,23 +222,17 @@ public class ZNetUtil {
 
     // --------------------------------------------------
 
-    public static void analyzeNetworkState() {
-        StringBuffer buffer = ZFileUtil.INSTANCE.readFromFile("/proc/net/xt_qtaguid/stats");
-//        ZFileUtil.INSTANCE.writeToFile("/sdcard/aaa.txt", "aa\nbb\n", true);
-//        StringBuffer buffer = ZFileUtil.INSTANCE.readFromFile("/sdcard/aaa.txt");
-        String lineSplit = "\n";
-        String valueSplit = " ";
-        String[] linesArray = buffer.toString().split(lineSplit);
-        if (linesArray.length > 0) {
-            String[] keyArray = linesArray[0].split(valueSplit);
 
-            for (int i = 1; i < linesArray.length; i++) {
-                String[] valueArray = linesArray[i].split(valueSplit);
-                for (String value : valueArray) {
-                    ZLog.i(ZTag.TAG_DEBUG, value);
-                }
-            }
+    /**
+     * 分析网络信息
+     *
+     * @param filePath
+     * @return
+     */
+    public static JSONArray analyzeNetworkState(@Nullable String filePath) {
+        if (TextUtils.isEmpty(filePath)) {
+            filePath = "/proc/net/xt_qtaguid/stats";
         }
-
+        return ZFileUtil.INSTANCE.analyzeFile(filePath, "\n", " ");
     }
 }

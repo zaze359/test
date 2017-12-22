@@ -32,22 +32,22 @@ public class BaseToolbar extends BaseHeadView {
     }
 
     @Override
-    public HeadFace setText(int resId, @ZOrientation int orientation) {
+    public HeadFace setText(int resId, int orientation) {
         return null;
     }
 
     @Override
-    public HeadFace setText(String text, @ZOrientation int orientation) {
+    public HeadFace setText(String text, int orientation) {
         return null;
     }
 
     @Override
-    public HeadFace setIcon(int resIcon, @ZOrientation int orientation) {
+    public HeadFace setIcon(int resIcon, int orientation) {
         return null;
     }
 
     @Override
-    public HeadFace setOnClickListener(View.OnClickListener listener, @ZOrientation int orientation) {
+    public HeadFace setOnClickListener(View.OnClickListener listener, int orientation) {
         return null;
     }
 
@@ -57,13 +57,12 @@ public class BaseToolbar extends BaseHeadView {
     }
 
     @Override
-    public HeadFace setVisibility(int visibility, @ZOrientation int orientation) {
+    public HeadFace setVisibility(int visibility, int orientation) {
         return null;
     }
 
     @Override
-    public View getView(@ZOrientation int orientation) {
+    public View getView(int orientation) {
         return null;
     }
-
 }
