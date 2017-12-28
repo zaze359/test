@@ -21,11 +21,11 @@ import java.util.List;
  * @author : zaze
  * @version : 1.0
  */
-abstract class ZDataAdapter<V> extends BaseAdapter implements ResourceAdapter {
+abstract class BaseDataAdapter<V> extends BaseAdapter implements ResourceAdapter {
     private Context context;
     private final List<V> dataList = new ArrayList<V>();
 
-    ZDataAdapter(Context context, Collection<V> data) {
+    BaseDataAdapter(Context context, Collection<V> data) {
         this.context = context;
         setDataList(data, false);
     }

@@ -100,11 +100,11 @@ public class ZCompressUtil {
                 if (zipEntry.isDirectory()) {
                     // get the folder name of the widget
                     szName = szName.substring(0, szName.length() - 1);
-                    ZFileUtil.INSTANCE.createDir(outPathString + File.separator + szName);
+                    ZFileUtil.INSTANCE.createDirNotExists(outPathString + File.separator + szName);
                 } else {
                     String filePath = outPathString + File.separator + szName;
                     File file = new File(filePath);
-                    ZFileUtil.INSTANCE.createFile(filePath);
+                    ZFileUtil.INSTANCE.createFileNotExists(filePath);
                     // get the output stream of the file
                     FileOutputStream out = new FileOutputStream(file);
                     int len;

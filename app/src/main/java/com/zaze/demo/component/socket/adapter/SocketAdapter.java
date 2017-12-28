@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.zaze.common.adapter.ZRecyclerAdapter;
+import com.zaze.common.adapter.BaseRecyclerAdapter;
 import com.zaze.demo.R;
 import com.zaze.demo.component.socket.SocketMessage;
 
@@ -17,7 +17,7 @@ import java.util.Collection;
  * @author : ZAZE
  * @version : 2017-11-09 - 13:10
  */
-public class SocketAdapter extends ZRecyclerAdapter<SocketMessage, SocketAdapter.SocketHolder> {
+public class SocketAdapter extends BaseRecyclerAdapter<SocketMessage, SocketAdapter.SocketHolder> {
 
     public SocketAdapter(Context context, Collection<SocketMessage> data) {
         super(context, data);

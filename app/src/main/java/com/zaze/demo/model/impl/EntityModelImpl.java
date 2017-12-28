@@ -25,6 +25,7 @@ import com.zaze.demo.component.task.ui.TaskActivity;
 import com.zaze.demo.component.time.TimeActivity;
 import com.zaze.demo.component.toolbar.ToolBarDemoActivity;
 import com.zaze.demo.component.webview.ui.WebViewActivity;
+import com.zaze.demo.component.wifi.ui.NetworkStatsActivity;
 import com.zaze.demo.component.wifi.ui.WifiActivity;
 import com.zaze.demo.model.EntityModel;
 import com.zaze.demo.model.entity.AnimationEntity;
@@ -46,6 +47,7 @@ public class EntityModelImpl implements EntityModel {
     public List<TableEntity> getTableList() {
         List<TableEntity> list = new ArrayList<>();
         int i = 0;
+        list.add(new TableEntity("流量监控", NetworkStatsActivity.class, ++i));
         list.add(new TableEntity("自定义View", CustomViewActivity.class, ++i));
         list.add(new TableEntity("消息通知栏", NotificationActivity.class, ++i));
         list.add(new TableEntity("应用查询", ReadPackageActivity.class, ++i));

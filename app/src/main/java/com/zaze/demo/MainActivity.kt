@@ -46,6 +46,7 @@ class MainActivity : BaseActivity() {
 //            TestJni.newInstance().stringFromJNI()
             // --------------------------------------------------
         }
+
     }
 
     // --------------------------------------------------

@@ -1,7 +1,6 @@
 package com.zaze.utils.cache;
 
 
-import android.content.ComponentCallbacks2;
 import android.content.res.Configuration;
 
 import com.zaze.utils.ZStringUtil;
@@ -12,7 +11,7 @@ import com.zaze.utils.ZStringUtil;
  * @author : ZAZE
  * @version : 2017-02-24 - 14:47
  */
-public class MemoryCacheManager implements ComponentCallbacks2 {
+public class MemoryCacheManager {
     public static final long SECOND = 1000L;
     public static final long MINUTE = 60000L;
     public static final long HOURE = 3600000L;
@@ -43,18 +42,15 @@ public class MemoryCacheManager implements ComponentCallbacks2 {
         MemoryCache.getInstance().setCacheLog(cacheLog);
     }
 
-    @Override
-    public void onTrimMemory(int level) {
+    public static void onTrimMemory(int level) {
         MemoryCache.getInstance().onTrimMemory(level);
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public static void onConfigurationChanged(Configuration newConfig) {
         MemoryCache.getInstance().onConfigurationChanged(newConfig);
     }
 
-    @Override
-    public void onLowMemory() {
+    public static void onLowMemory() {
         MemoryCache.getInstance().onLowMemory();
     }
     // --------------------------------------------------

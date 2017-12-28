@@ -23,11 +23,11 @@ import java.util.List;
  * @author : zaze
  * @version : 1.0
  */
-public abstract class ZRecyclerAdapter<V, H extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<H> implements ResourceAdapter {
+public abstract class BaseRecyclerAdapter<V, H extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<H> implements ResourceAdapter {
     private Context context;
     private final List<V> dataList = new ArrayList<>();
 
-    public ZRecyclerAdapter(Context context, Collection<V> data) {
+    public BaseRecyclerAdapter(Context context, Collection<V> data) {
         this.context = context;
         setDataList(data, false);
     }

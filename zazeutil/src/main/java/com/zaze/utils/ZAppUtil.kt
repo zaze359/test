@@ -13,7 +13,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Debug
 import android.os.Process
-import android.support.v4.content.ContextCompat
 import android.text.TextUtils
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
@@ -148,6 +147,14 @@ object ZAppUtil {
 
     fun getInstalledApplications(context: Context, flag: Int = 0): List<ApplicationInfo> {
         return context.packageManager.getInstalledApplications(flag)
+    }
+
+    fun getPackagesForUid(context: Context, uid: Int): Array<String>? {
+        return context.packageManager.getPackagesForUid(uid)
+    }
+
+    fun getNameForUid(context: Context, uid: Int): String? {
+        return context.packageManager.getNameForUid(uid)
     }
     // --------------------------------------------------
     // --------------------------------------------------

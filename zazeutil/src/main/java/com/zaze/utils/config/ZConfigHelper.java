@@ -1,6 +1,8 @@
 package com.zaze.utils.config;
 
 import com.zaze.utils.ZFileUtil;
+import com.zaze.utils.log.ZLog;
+import com.zaze.utils.log.ZTag;
 
 import java.io.File;
 import java.util.Map;
@@ -14,6 +16,8 @@ import java.util.Properties;
  * @version : 1.0
  */
 public class ZConfigHelper {
+    public static final String KEY_CREATE_TIME = "create_time";
+
     private String filePath;
 
     public static ZConfigHelper newInstance(String filePath) {
@@ -25,6 +29,8 @@ public class ZConfigHelper {
     }
 
 
+    // --------------------------------------------------
+
     /**
      * 保存数据
      *
@@ -35,35 +41,16 @@ public class ZConfigHelper {
         if (key == null || value == null) {
             return;
         }
-        try {
-            ZFileUtil.INSTANCE.createFile(filePath);
-        } catch (Exception e) {
-            e.printStackTrace();
+        boolean isNew = false;
+        if (!ZFileUtil.INSTANCE.isFileExist(filePath)) {
+            ZFileUtil.INSTANCE.createFileNotExists(filePath);
+            isNew = true;
         }
         Properties properties = ZPropertiesUtil.load(filePath);
         properties.setProperty(key, value);
-        ZPropertiesUtil.store(filePath, properties);
-    }
-
-
-    /**
-     * 保存配置信息
-     *
-     * @param key
-     * @param value
-     */
-    @Deprecated
-    public <K, V> void store(K key, V value) {
-        if (key == null || value == null) {
-            return;
+        if (isNew) {
+            properties.setProperty(KEY_CREATE_TIME, String.valueOf(System.currentTimeMillis()));
         }
-        try {
-            ZFileUtil.INSTANCE.createFile(filePath);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Properties properties = ZPropertiesUtil.load(filePath);
-        properties.put(key, value);
         ZPropertiesUtil.store(filePath, properties);
     }
 
@@ -72,19 +59,40 @@ public class ZConfigHelper {
      *
      * @param map
      */
-    public void storeAll(Map<String, String> map) {
-        if (map == null) {
+    public void setProperty(Map<String, String> map) {
+        if (map == null || map.isEmpty()) {
             return;
         }
         try {
-            ZFileUtil.INSTANCE.createFile(filePath);
+            ZFileUtil.INSTANCE.createFileNotExists(filePath);
         } catch (Exception e) {
+            ZLog.e(ZTag.TAG_ERROR, e.getMessage());
             e.printStackTrace();
         }
         Properties properties = ZPropertiesUtil.load(filePath);
         properties.putAll(map);
         ZPropertiesUtil.store(filePath, properties);
     }
+    // --------------------------------------------------
+
+
+    /**
+     * @param key 移除
+     */
+    public void remove(String key) {
+        if (key == null) {
+            return;
+        }
+        try {
+            ZFileUtil.INSTANCE.createFileNotExists(filePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Properties properties = ZPropertiesUtil.load(filePath);
+        properties.remove(key);
+        ZPropertiesUtil.store(filePath, properties);
+    }
+
     // --------------------------------------------------
 
     /**
@@ -95,6 +103,8 @@ public class ZConfigHelper {
     public String getProperty(String key) {
         return ZPropertiesUtil.getProperty(filePath, key);
     }
+
+    // --------------------------------------------------
 
     /**
      * 加载配置信息
@@ -109,6 +119,5 @@ public class ZConfigHelper {
             return new Properties();
         }
     }
-
 
 }

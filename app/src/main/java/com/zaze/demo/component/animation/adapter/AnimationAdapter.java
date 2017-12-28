@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.zaze.common.adapter.ZRecyclerAdapter;
+import com.zaze.common.adapter.BaseRecyclerAdapter;
 import com.zaze.demo.R;
 import com.zaze.demo.component.animation.ui.SharedElementActivity;
 import com.zaze.demo.model.entity.AnimationEntity;
@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
  * @author : ZAZE
  * @version : 2016-08-24 - 14:58
  */
-public class AnimationAdapter extends ZRecyclerAdapter<AnimationEntity, AnimationAdapter.AnimationHolder> {
+public class AnimationAdapter extends BaseRecyclerAdapter<AnimationEntity, AnimationAdapter.AnimationHolder> {
 
     public AnimationAdapter(Context context, List<AnimationEntity> data) {
         super(context, data);

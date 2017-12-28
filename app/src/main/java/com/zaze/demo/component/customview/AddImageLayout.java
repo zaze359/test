@@ -1,4 +1,4 @@
-package com.zaze.demo.debug;
+package com.zaze.demo.component.customview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -29,7 +29,10 @@ public class AddImageLayout extends ViewGroup {
     private int childHeight;
 
     private int addImageResId = android.R.drawable.ic_input_add;
-//    private View addPhotoView;
+
+    public void setAddImageResId(int addImageResId) {
+        this.addImageResId = addImageResId;
+    }
 
     private ArrayList<Integer> imageResList = new ArrayList<>(LINE_IMAGE_COUNT * MAX_IMAGE_LINE);
 

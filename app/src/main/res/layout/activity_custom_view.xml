@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.zaze.demo.debug.AddImageLayout
+    <com.zaze.demo.component.customview.AddImageLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:hSpace="@dimen/dp_20"

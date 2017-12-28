@@ -3,7 +3,7 @@ package com.zaze.common.base;
 import android.app.Application;
 
 import com.zaze.utils.ZSharedPrefUtil;
-import com.zaze.utils.cache.MemoryCache;
+import com.zaze.utils.cache.MemoryCacheManager;
 
 
 /**
@@ -33,12 +33,12 @@ public abstract class BaseApplication extends Application {
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        MemoryCache.getInstance().onLowMemory();
+        MemoryCacheManager.onLowMemory();
     }
 
     @Override
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);
-        MemoryCache.getInstance().onTrimMemory(level);
+        MemoryCacheManager.onTrimMemory(level);
     }
 }

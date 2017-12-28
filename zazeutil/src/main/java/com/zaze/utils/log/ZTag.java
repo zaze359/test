@@ -17,5 +17,6 @@ public interface ZTag {
     String TAG_TASK = "Task[任务]" + TAG_BASE;
     String TAG_ABOUT_APP = "AboutApp[应用相关]" + TAG_BASE;
     String TAG_SYSTEM = "System[系统相关]" + TAG_BASE;
-    String TAG_PROVIDER = "ContentProvider[]" + TAG_BASE;
+    String TAG_PROVIDER = "ContentProvider[数据]" + TAG_BASE;
+    String TAG_ANALYZE = "Analyze[分析]" + TAG_BASE;
 }

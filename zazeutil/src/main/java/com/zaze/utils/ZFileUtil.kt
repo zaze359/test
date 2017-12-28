@@ -5,9 +5,6 @@ import android.os.Environment
 import android.os.StatFs
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
-import org.json.JSONArray
-import org.json.JSONException
-import org.json.JSONObject
 import java.io.*
 import java.util.*
 import java.util.concurrent.locks.ReadWriteLock
@@ -101,7 +98,7 @@ object ZFileUtil {
      * [filePath] filePath
      * @return
      */
-    fun createFile(filePath: String): Boolean {
+    fun createFileNotExists(filePath: String): Boolean {
         val file = File(filePath)
         var result = false
         if (!file.exists()) {
@@ -112,8 +109,8 @@ object ZFileUtil {
             result = true
         }
         if (showLog) {
-            ZLog.v(ZTag.TAG_FILE, "createFile filePath : " + filePath)
-            ZLog.v(ZTag.TAG_FILE, "createFile code : " + result)
+            ZLog.v(ZTag.TAG_FILE, "createFileNotExists filePath : " + filePath)
+            ZLog.v(ZTag.TAG_FILE, "createFileNotExists code : " + result)
         }
         return result
     }
@@ -122,7 +119,7 @@ object ZFileUtil {
      * 创建目录
      * [path] dir
      */
-    fun createDir(path: String): Boolean {
+    fun createDirNotExists(path: String): Boolean {
         val file = File(path)
         if (file.exists()) {
             return file.isDirectory
@@ -154,7 +151,7 @@ object ZFileUtil {
         if (isFileExist(filePath)) {
             deleteFile(filePath)
         }
-        return createFile(filePath)
+        return createFileNotExists(filePath)
     }
 
     /**
@@ -165,7 +162,7 @@ object ZFileUtil {
         if (isFileExist(filePath)) {
             deleteFile(filePath)
         }
-        return createDir(filePath)
+        return createDirNotExists(filePath)
     }
 
     // --------------------------------------------------
@@ -236,7 +233,7 @@ object ZFileUtil {
         val file = File(filePath)
         var output: OutputStream? = null
         try {
-            createFile(filePath)
+            createFileNotExists(filePath)
             output = FileOutputStream(file, append)
             val buffer = ByteArray(4 * 1024)
             var temp = inputStream.read(buffer)
@@ -272,7 +269,7 @@ object ZFileUtil {
         if (maxSize > 0) {
             val file = File(filePath)
             if (!file.exists()) {
-                createFile(filePath)
+                createFileNotExists(filePath)
             } else if (file.length() > maxSize) {
                 val tempFile = "$filePath.1"
                 reCreateFile(tempFile)
@@ -427,45 +424,4 @@ object ZFileUtil {
 
     // --------------------------------------------------
     // --------------------------------------------------
-
-    /**
-     * 分析特定文件
-     * 格式如下:
-     * aa bb cc
-     * 1 2 3
-     * 22 33 44
-     * [filePath] 文件路径
-     * [lineSplit] 行分隔符
-     * [valueSplit] 每个值之间的分隔符
-     */
-    fun analyzeFile(filePath: String?, lineSplit: String, valueSplit: String): JSONArray? {
-        if (ZFileUtil.isCanRead(filePath)) {
-            val buffer = ZFileUtil.readFromFile(filePath!!)
-            val linesArray = buffer.toString().split(lineSplit.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-            // 至少有2行 第一行是tag
-            val lineLength = linesArray.size
-            if (lineLength > 1) {
-                val tagArray = linesArray[0].split(valueSplit.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-                val tagLength = tagArray.size
-                val jsonArray = JSONArray()
-                for (i in 1 until lineLength) {
-                    val valueArray = linesArray[i].split(valueSplit.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-                    val jsonObject = JSONObject()
-                    valueArray.indices
-                            .filter { it < tagLength }
-                            .forEach {
-                                try {
-                                    jsonObject.put(tagArray[it], valueArray[it])
-                                } catch (e: JSONException) {
-                                    e.printStackTrace()
-                                }
-                            }
-                    jsonArray.put(jsonObject)
-                }
-                return jsonArray
-            }
-        }
-        return null
-    }
-
 }

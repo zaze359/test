@@ -103,6 +103,13 @@ public class ZJsonUtil {
         }
     }
 
+    public static <T> List<T> parseJsonArrayToList(JSONArray jsonArray, Type type) {
+        return parseJsonToList(jsonArray.toString(), type);
+    }
+
+    // --------------------------------------------------
+
+
     // --------------------------------------------------
 
     /**

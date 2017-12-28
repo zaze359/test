@@ -3,7 +3,6 @@ package com.zaze.demo.debug
 import android.util.Base64
 import com.zaze.utils.ZEncryptionUtil
 import com.zaze.utils.ZFileUtil
-import com.zaze.utils.ZNetUtil
 import com.zaze.utils.ZStringUtil
 import com.zaze.utils.date.ZDateUtil
 import com.zaze.utils.log.ZLog
@@ -24,8 +23,6 @@ class KotlinDebug {
 //        return showLog("print", { print() })
 //        showLog("createDimens", { createDimens(1f, ZDisplayUtil.SCREEN_DENSITY) })
 //        createDeveloperToken()
-
-        ZLog.i(ZTag.TAG_DEBUG, ZNetUtil.analyzeNetworkState(null).toString())
     }
 
     private fun createDimens(baseDensity: Float, screenDensity: Float): String {

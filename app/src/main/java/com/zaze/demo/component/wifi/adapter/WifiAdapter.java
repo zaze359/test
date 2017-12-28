@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.zaze.common.adapter.ZRecyclerAdapter;
+import com.zaze.common.adapter.BaseRecyclerAdapter;
 import com.zaze.demo.R;
 import com.zaze.utils.ZNetUtil;
 
@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
  * @author : ZAZE
  * @version : 2017-11-25 - 19:45
  */
-public class WifiAdapter extends ZRecyclerAdapter<ScanResult, WifiAdapter.WifiViewHolder> {
+public class WifiAdapter extends BaseRecyclerAdapter<ScanResult, WifiAdapter.WifiViewHolder> {
 
     public WifiAdapter(Context context, Collection<ScanResult> data) {
         super(context, data);

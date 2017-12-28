@@ -216,8 +216,6 @@ public class ZStringUtil {
         return TextUtils.isEmpty(str);
     }
 
-    // --------------------------------------------------
-
     /**
      * @param one
      * @param two
@@ -225,23 +223,6 @@ public class ZStringUtil {
      */
     public static boolean equals(CharSequence one, CharSequence two) {
         return TextUtils.equals(one, two);
-//        if (one == two) {
-//            return true;
-//        }
-//        int length;
-//        if (one != null && two != null && ((length = one.length()) == two.length())) {
-//            if (one instanceof String && two instanceof String) {
-//                return one.equals(two);
-//            } else {
-//                for (int i = 0; i < length; i++) {
-//                    if (one.charAt(i) != two.charAt(i)) {
-//                        return false;
-//                    }
-//                }
-//                return true;
-//            }
-//        }
-//        return false;
     }
 
 }

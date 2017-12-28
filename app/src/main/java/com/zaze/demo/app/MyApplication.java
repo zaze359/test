@@ -3,9 +3,9 @@ package com.zaze.demo.app;
 
 import com.tencent.bugly.crashreport.CrashReport;
 import com.zaze.common.base.BaseApplication;
+import com.zaze.demo.debug.AnalyzeTrafficCompat;
 import com.zaze.utils.ZDisplayUtil;
-import com.zaze.utils.ZFileUtil;
-import com.zaze.utils.cache.MemoryCache;
+import com.zaze.utils.cache.MemoryCacheManager;
 
 /**
  * Description :
@@ -19,8 +19,9 @@ public class MyApplication extends BaseApplication {
     public void onCreate() {
         super.onCreate();
         ZDisplayUtil.init(this);
-        ZFileUtil.INSTANCE.setShowLog(false);
-        MemoryCache.getInstance().setCacheLog(true);
+//        ZFileUtil.INSTANCE.setShowLog(true);
+        MemoryCacheManager.setCacheLog(true);
+        AnalyzeTrafficCompat.setNeedLog(true);
         CrashReport.initCrashReport(getApplicationContext(), "900013682", false);
 //        receiver = new TestBroadcastReceiver();
 //        IntentFilter intentFilter = new IntentFilter("android.intent.action.xh.message.testappid");

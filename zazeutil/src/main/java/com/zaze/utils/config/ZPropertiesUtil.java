@@ -2,6 +2,9 @@ package com.zaze.utils.config;
 
 import android.text.TextUtils;
 
+import com.zaze.utils.log.ZLog;
+import com.zaze.utils.log.ZTag;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -29,13 +32,13 @@ public class ZPropertiesUtil {
                 inputStream = new FileInputStream(file);
                 properties.load(inputStream);
             } catch (Exception e) {
-                e.printStackTrace();
+                ZLog.e(ZTag.TAG_ERROR, e.getMessage());
             } finally {
                 if (inputStream != null) {
                     try {
                         inputStream.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    } catch (Exception e) {
+                        ZLog.e(ZTag.TAG_ERROR, e.getMessage());
                     }
                 }
             }
@@ -65,13 +68,13 @@ public class ZPropertiesUtil {
             outputStream = new FileOutputStream(file, false);
             properties.store(outputStream, "");
         } catch (Exception e) {
-            e.printStackTrace();
+            ZLog.e(ZTag.TAG_ERROR, e.getMessage());
         } finally {
             if (outputStream != null) {
                 try {
                     outputStream.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    ZLog.e(ZTag.TAG_ERROR, e.getMessage());
                 }
             }
         }

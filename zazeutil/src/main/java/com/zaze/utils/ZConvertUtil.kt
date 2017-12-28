@@ -39,7 +39,10 @@ object ZConvertUtil {
         return bytes
     }
 
-    fun byteToObject(bytes: ByteArray): Any? {
+    fun byteToObject(bytes: ByteArray?): Any? {
+        if (bytes == null) {
+            return null
+        }
         var obj: Any? = null
         try {
             val bi = ByteArrayInputStream(bytes)

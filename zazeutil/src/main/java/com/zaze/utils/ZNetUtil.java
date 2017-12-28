@@ -7,16 +7,9 @@ import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.telephony.TelephonyManager;
-import android.text.TextUtils;
 
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
-
-import org.jetbrains.annotations.Nullable;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -218,21 +211,5 @@ public class ZNetUtil {
         }
         return descBuilder.toString();
     }
-
-
     // --------------------------------------------------
-
-
-    /**
-     * 分析网络信息
-     *
-     * @param filePath
-     * @return
-     */
-    public static JSONArray analyzeNetworkState(@Nullable String filePath) {
-        if (TextUtils.isEmpty(filePath)) {
-            filePath = "/proc/net/xt_qtaguid/stats";
-        }
-        return ZFileUtil.INSTANCE.analyzeFile(filePath, "\n", " ");
-    }
 }
