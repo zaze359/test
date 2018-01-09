@@ -25,8 +25,11 @@ class MemoryCache implements CacheFace, MemoryListener {
 
     private boolean cacheLog = false;
 
+    public void setCacheLog(boolean cacheLog) {
+        this.cacheLog = cacheLog;
+    }
     /**
-     * 缓存空间大小(根据一定规则计算 得到, 默认4 MB)
+     * 缓存空间大小(根据一定规则计算)
      */
     private final long maxSize;
 
@@ -39,7 +42,8 @@ class MemoryCache implements CacheFace, MemoryListener {
      */
     private long memoryCacheSize = 0;
     /**
-     * 能放进缓存的数据最大值 太大的不放内存
+     * 能放进缓存的数据最大值1M 太大的不放内存缓存
+     * 大数据考虑改放文件缓存
      */
     private static final long CACHE_BLOCK_LENGTH = 1 << 20;
     //
@@ -60,10 +64,9 @@ class MemoryCache implements CacheFace, MemoryListener {
     }
 
     private MemoryCache() {
-        maxSize = ZDeviceUtil.INSTANCE.getRuntimeMaxMemory() / 8;
+        maxSize = (long) (ZDeviceUtil.INSTANCE.getRuntimeMaxMemory() * 0.3);
         passiveRelease = (long) (maxSize * 0.4);
     }
-
 
     /**
      * 检查数据
@@ -286,9 +289,4 @@ class MemoryCache implements CacheFace, MemoryListener {
         }
         return null;
     }
-
-    public void setCacheLog(boolean cacheLog) {
-        this.cacheLog = cacheLog;
-    }
-
 }

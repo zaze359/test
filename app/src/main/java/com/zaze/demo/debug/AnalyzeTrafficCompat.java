@@ -107,32 +107,14 @@ public abstract class AnalyzeTrafficCompat extends AnalyzeUtil {
                 }
             }
             // --------------------------------------------------
-            List<NetTrafficStats> list = getNewestNetworkTraffic();
-            NetTrafficStats otherNetTrafficStats = null;
+            List<NetTrafficStats> list = this.getNewestNetworkTraffic();
             List<NetTrafficStats> saveList = new ArrayList<>();
             for (NetTrafficStats netTrafficStats : list) {
                 netTrafficStats.setBootTime(bootTime);
                 NetTrafficStats mergedStats = merge(netTrafficStats, latelyTrafficStatsMap.get(netTrafficStats.getUid()));
                 if (mergedStats != null) {
-                    if (mergedStats.getAppShortcut() == null) {
-                        if (otherNetTrafficStats == null) {
-                            otherNetTrafficStats = new NetTrafficStats();
-                            otherNetTrafficStats.setBootTime(bootTime);
-                            // 不明的都归类到未知应用
-                            AppShortcut appShortcut = new AppShortcut();
-                            appShortcut.setName("其他");
-                            appShortcut.setPackageName(KEY_UN_KNOW_APP);
-                            appShortcut.setUid(netTrafficStats.getUid());
-                            otherNetTrafficStats.setAppShortcut(appShortcut);
-                        }
-                        otherNetTrafficStats.setRxBytes(otherNetTrafficStats.getRxBytes() + netTrafficStats.getRxBytes());
-                        otherNetTrafficStats.setTxBytes(otherNetTrafficStats.getTxBytes() + netTrafficStats.getTxBytes());
-                    }
                     saveList.add(mergedStats);
                 }
-            }
-            if (otherNetTrafficStats != null) {
-                saveList.add(otherNetTrafficStats);
             }
             map.put(KEY_TRAFFIC_LIST, ZJsonUtil.objToJson(saveList));
             latelyTrafficStatsFile.setProperty(map);
@@ -148,21 +130,25 @@ public abstract class AnalyzeTrafficCompat extends AnalyzeUtil {
      * @return 合并后的统计
      */
     private NetTrafficStats merge(NetTrafficStats newStats, NetTrafficStats oldStats) {
+        NetTrafficStats netTrafficStats;
         if (oldStats == null) {
-            return newStats;
+            netTrafficStats = newStats;
+        } else {
+            netTrafficStats = oldStats;
+            if (newStats != null) {
+                netTrafficStats.setRxBytes(newStats.getRxBytes());
+                netTrafficStats.setTxBytes(newStats.getTxBytes());
+                netTrafficStats.setBootTime(newStats.getBootTime());
+            }
         }
-        if (newStats == null) {
-            return oldStats;
+        if (netTrafficStats != null) {
+            AppShortcut appShortcut = netTrafficStats.getAppShortcut();
+            if (appShortcut == null) {
+                appShortcut = ApplicationManager.getAppShortcutByUid(netTrafficStats.getUid());
+            }
+            netTrafficStats.setAppShortcut(appShortcut);
         }
-        AppShortcut appShortcut = newStats.getAppShortcut();
-        if (appShortcut == null) {
-            appShortcut = ApplicationManager.getAppShortcutByUid(newStats.getUid());
-        }
-        oldStats.setAppShortcut(appShortcut);
-        oldStats.setRxBytes(newStats.getRxBytes());
-        oldStats.setTxBytes(newStats.getTxBytes());
-        oldStats.setBootTime(newStats.getBootTime());
-        return oldStats;
+        return netTrafficStats;
     }
 
 

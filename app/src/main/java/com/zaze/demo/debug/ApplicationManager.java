@@ -54,13 +54,18 @@ public class ApplicationManager {
         synchronized (lockObj) {
             AppShortcut appShortcut = ZJsonUtil.parseJson(MemoryCacheManager.getCache(String.valueOf(uid)), AppShortcut.class);
             if (appShortcut == null) {
-                String name = ZAppUtil.INSTANCE.getNameForUid(MyApplication.getInstance(), uid);
-                if (!TextUtils.isEmpty(name)) {
-                    appShortcut = AppShortcut.transform(ZAppUtil.INSTANCE.getApplicationInfo(MyApplication.getInstance(), name),
-                            ZAppUtil.INSTANCE.getAppName(MyApplication.getInstance(), name, ""));
+                String packageName = ZAppUtil.INSTANCE.getNameForUid(MyApplication.getInstance(), uid);
+                if (!TextUtils.isEmpty(packageName)) {
+                    appShortcut = AppShortcut.transform(ZAppUtil.INSTANCE.getApplicationInfo(MyApplication.getInstance(), packageName),
+                            ZAppUtil.INSTANCE.getAppName(MyApplication.getInstance(), packageName, ""));
                 }
                 if (appShortcut == null) {
                     appShortcut = ZJsonUtil.parseJson(latelyUidFile.getProperty(String.valueOf(uid)), AppShortcut.class);
+                    if (appShortcut == null) {
+                        appShortcut = new AppShortcut();
+                        appShortcut.setPackageName(packageName);
+                        appShortcut.setName(packageName);
+                    }
                     MemoryCacheManager.deleteCache(String.valueOf(uid));
                 } else {
                     String json = ZJsonUtil.objToJson(appShortcut);

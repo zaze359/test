@@ -22,7 +22,7 @@ class KotlinDebug {
         var result = ""
 //        return showLog("print", { print() })
 //        showLog("createDimens", { createDimens(1f, ZDisplayUtil.SCREEN_DENSITY) })
-//        createDeveloperToken()
+        createDeveloperToken()
     }
 
     private fun createDimens(baseDensity: Float, screenDensity: Float): String {
@@ -67,7 +67,7 @@ class KotlinDebug {
     fun createDeveloperToken(): String {
         ZFileUtil.deleteFileByCmd(secretFile)
 //        val current = System.currentTimeMillis()
-        val current = ZDateUtil.stringToDate("2014-01-01 00:00:00", "yyyy-MM-dd HH:mm:ss").time
+        val current = ZDateUtil.stringToDate("2013-01-01 00:00:00", "yyyy-MM-dd HH:mm:ss").time
         var start = ZDateUtil.getDayStart(current)
         val end = ZDateUtil.getDayEnd(current) + ZDateUtil.DAY * 30
         while (start < end) {

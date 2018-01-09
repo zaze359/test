@@ -1,10 +1,7 @@
 package com.zaze.utils.config;
 
 import com.zaze.utils.ZFileUtil;
-import com.zaze.utils.log.ZLog;
-import com.zaze.utils.log.ZTag;
 
-import java.io.File;
 import java.util.Map;
 import java.util.Properties;
 
@@ -41,16 +38,8 @@ public class ZConfigHelper {
         if (key == null || value == null) {
             return;
         }
-        boolean isNew = false;
-        if (!ZFileUtil.INSTANCE.isFileExist(filePath)) {
-            ZFileUtil.INSTANCE.createFileNotExists(filePath);
-            isNew = true;
-        }
-        Properties properties = ZPropertiesUtil.load(filePath);
+        Properties properties = load();
         properties.setProperty(key, value);
-        if (isNew) {
-            properties.setProperty(KEY_CREATE_TIME, String.valueOf(System.currentTimeMillis()));
-        }
         ZPropertiesUtil.store(filePath, properties);
     }
 
@@ -63,13 +52,7 @@ public class ZConfigHelper {
         if (map == null || map.isEmpty()) {
             return;
         }
-        try {
-            ZFileUtil.INSTANCE.createFileNotExists(filePath);
-        } catch (Exception e) {
-            ZLog.e(ZTag.TAG_ERROR, e.getMessage());
-            e.printStackTrace();
-        }
-        Properties properties = ZPropertiesUtil.load(filePath);
+        Properties properties = load();
         properties.putAll(map);
         ZPropertiesUtil.store(filePath, properties);
     }
@@ -83,12 +66,7 @@ public class ZConfigHelper {
         if (key == null) {
             return;
         }
-        try {
-            ZFileUtil.INSTANCE.createFileNotExists(filePath);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Properties properties = ZPropertiesUtil.load(filePath);
+        Properties properties = load();
         properties.remove(key);
         ZPropertiesUtil.store(filePath, properties);
     }
@@ -96,7 +74,7 @@ public class ZConfigHelper {
     // --------------------------------------------------
 
     /**
-     * 加载配置信息
+     * 获取值
      *
      * @return String value
      */
@@ -104,20 +82,21 @@ public class ZConfigHelper {
         return ZPropertiesUtil.getProperty(filePath, key);
     }
 
-    // --------------------------------------------------
-
     /**
      * 加载配置信息
      *
      * @return Properties
      */
     public Properties load() {
-        File file = new File(filePath);
-        if (file.exists()) {
-            return ZPropertiesUtil.load(filePath);
-        } else {
-            return new Properties();
+        boolean isNew = false;
+        if (!ZFileUtil.INSTANCE.isFileExist(filePath)) {
+            ZFileUtil.INSTANCE.createFileNotExists(filePath);
+            isNew = true;
         }
+        Properties properties = ZPropertiesUtil.load(filePath);
+        if (isNew) {
+            properties.setProperty(KEY_CREATE_TIME, String.valueOf(System.currentTimeMillis()));
+        }
+        return properties;
     }
-
 }

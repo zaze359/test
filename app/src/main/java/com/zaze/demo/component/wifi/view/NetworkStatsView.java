@@ -14,7 +14,15 @@ import java.util.Collection;
  */
 public interface NetworkStatsView extends BaseView {
 
+    /**
+     * 显示网络统计
+     *
+     * @param netTrafficStats netTrafficStats
+     */
     void showNetworkStats(Collection<NetTrafficStats> netTrafficStats);
 
+    /**
+     * 刷新完成时
+     */
     void onRefreshCompleted();
 }

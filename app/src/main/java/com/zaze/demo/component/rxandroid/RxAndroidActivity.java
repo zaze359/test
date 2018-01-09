@@ -29,6 +29,7 @@ import io.reactivex.Observer;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
@@ -203,18 +204,28 @@ public class RxAndroidActivity extends BaseActivity {
         Flowable.create(new FlowableOnSubscribe<List<String>>() {
             @Override
             public void subscribe(FlowableEmitter<List<String>> e) throws Exception {
+                updateTestText("create");
                 e.onNext(Arrays.asList("W", "X", "S", "I", "L", "U"));
                 e.onComplete();
             }
         }, BackpressureStrategy.BUFFER)
-                .subscribeOn(Schedulers.newThread())
+//                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(AndroidSchedulers.mainThread())
                 .flatMap(new Function<List<String>, Publisher<String>>() {
                     @Override
                     public Publisher<String> apply(List<String> strings) throws Exception {
                         return Flowable.fromIterable(strings);
                     }
                 })
-//                .observeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+//                .doOnSubscribe(new Consumer<Subscription>() {
+//                    @Override
+//                    public void accept(Subscription subscription) throws Exception {
+//                        ZLog.i(ZTag.TAG_DEBUG, "doOnSubscribe");
+//                        updateTestText("doOnSubscribe");
+////                        subscription.cancel();
+//                    }
+//                })
                 .map(new Function<String, String>() {
                     @Override
                     public String apply(String s) throws Exception {
@@ -227,14 +238,31 @@ public class RxAndroidActivity extends BaseActivity {
                         return s;
                     }
                 })
-//                .reduce(mMergeStringFunc)
                 .observeOn(AndroidSchedulers.mainThread())
+//                .map(new Function<String, String>() {
+//                    @Override
+//                    public String apply(String s) throws Exception {
+//                        updateTestText("apply : " + s);
+//                        return s;
+//                    }
+//                })
+//                .reduce(mMergeStringFunc)
+                .doFinally(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        ZLog.i(ZTag.TAG_DEBUG, "doFinally");
+                        updateTestText("doFinally");
+                    }
+                })
                 .subscribe(new Subscriber<String>() {
+                    private Subscription subscription;
+
                     @Override
                     public void onSubscribe(Subscription s) {
                         ZLog.i(ZTag.TAG_DEBUG, "onStart");
+                        subscription = s;
                         // 请求几个执行几个
-                        s.request(2);
+                        subscription.request(1);
 //                        s.request(100);
                     }
 
@@ -242,6 +270,7 @@ public class RxAndroidActivity extends BaseActivity {
                     public void onNext(String s) {
                         ZLog.i(ZTag.TAG_DEBUG, "onNext : " + s);
                         updateTestText(s);
+                        subscription.request(1);
                     }
 
                     @Override
@@ -253,7 +282,9 @@ public class RxAndroidActivity extends BaseActivity {
                     public void onComplete() {
                         ZLog.i(ZTag.TAG_DEBUG, "onComplete");
                     }
+
                 });
+
     }
 
     // ----------------------------------------------------------------------
