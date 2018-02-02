@@ -1,7 +1,8 @@
 package com.zaze.demo.app;
 
 
-import com.tencent.bugly.crashreport.CrashReport;
+import android.content.Context;
+
 import com.zaze.common.base.BaseApplication;
 import com.zaze.demo.debug.AnalyzeTrafficCompat;
 import com.zaze.utils.ZDisplayUtil;
@@ -15,6 +16,13 @@ import com.zaze.utils.cache.MemoryCacheManager;
  */
 public class MyApplication extends BaseApplication {
     //    BroadcastReceiver receiver;
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+//        MultiDex.install(this);
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -22,10 +30,12 @@ public class MyApplication extends BaseApplication {
 //        ZFileUtil.INSTANCE.setShowLog(true);
         MemoryCacheManager.setCacheLog(true);
         AnalyzeTrafficCompat.setNeedLog(true);
-        CrashReport.initCrashReport(getApplicationContext(), "900013682", false);
+//        CrashReport.initCrashReport(getApplicationContext(), "900013682", false);
 //        receiver = new TestBroadcastReceiver();
 //        IntentFilter intentFilter = new IntentFilter("android.intent.action.xh.message.testappid");
 //        registerReceiver(receiver, intentFilter);
     }
+
+
 
 }

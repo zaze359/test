@@ -2,14 +2,13 @@ package com.zaze.utils
 
 import android.app.ActivityManager
 import android.content.Context
+import android.content.Context.ACTIVITY_SERVICE
 import android.os.Build
 import android.os.Environment
 import android.provider.Settings
 import android.telephony.TelephonyManager
 import android.text.TextUtils
 import java.util.*
-import android.content.Context.ACTIVITY_SERVICE
-import android.os.Debug.getMemoryInfo
 
 
 /**
@@ -64,21 +63,6 @@ object ZDeviceUtil {
             }
         }
         return id!!
-    }
-// --------------------------------------------------
-
-    /**
-     * @return 机器型号
-     */
-    fun getDeviceModel(): String {
-        return Build.MODEL
-    }
-
-    /**
-     * @return 系统版本
-     */
-    fun getSystemVersion(): String {
-        return Build.VERSION.RELEASE
     }
 
 // --------------------------------------------------

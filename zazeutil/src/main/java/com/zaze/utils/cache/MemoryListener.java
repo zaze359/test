@@ -1,6 +1,6 @@
 package com.zaze.utils.cache;
 
-import android.content.ComponentCallbacks2;
+import android.content.res.Configuration;
 
 /**
  * Description :
@@ -9,5 +9,11 @@ import android.content.ComponentCallbacks2;
  * @author : zaze
  * @version : 1.0
  */
-interface MemoryListener extends ComponentCallbacks2 {
+interface MemoryListener {
+
+    void onTrimMemory(int level);
+
+    void onLowMemory();
+
+    void onConfigurationChanged(Configuration newConfig);
 }

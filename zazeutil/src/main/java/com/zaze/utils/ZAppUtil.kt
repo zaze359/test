@@ -2,18 +2,22 @@ package com.zaze.utils
 
 import android.app.ActivityManager
 import android.content.ComponentName
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
+import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Debug
 import android.os.Process
 import android.text.TextUtils
+import android.util.Log
+import android.util.Pair
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import java.io.File
@@ -133,6 +137,24 @@ object ZAppUtil {
         return context.packageManager.getPackageArchiveInfo(fileName, 0)
     }
 
+
+    fun findSystemApk(context: Context, action: String): Pair<String, Resources>? {
+        val pm = context.packageManager
+//        val intent = Intent(action)
+        for (info in pm.queryBroadcastReceivers(Intent(action), 0)) {
+            if (info.activityInfo != null && info.activityInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0) {
+                val packageName = info.activityInfo.packageName
+                try {
+                    val res = pm.getResourcesForApplication(packageName)
+                    return Pair.create(packageName, res)
+                } catch (e: PackageManager.NameNotFoundException) {
+                    ZLog.w(ZTag.TAG_DEBUG, "Failed to find resources for " + packageName)
+                }
+            }
+        }
+        return null
+    }
+
     // --------------------------------------------------
     fun queryIntentActivities(context: Context, packageName: String): List<ResolveInfo> {
         val mainIntent = Intent(Intent.ACTION_MAIN, null)
@@ -202,8 +224,23 @@ object ZAppUtil {
             false
         } else {
             val packageInfo = getPackageInfo(context, packageName)
-            (packageInfo?.applicationInfo != null
-                    && packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0)
+            if (packageInfo != null) {
+                isSystemApp(packageInfo.applicationInfo)
+            } else {
+                false
+            }
+        }
+    }
+
+    /**
+     * 是否是系统应用
+     * [applicationInfo] applicationInfo
+     */
+    fun isSystemApp(applicationInfo: ApplicationInfo?): Boolean {
+        return if (applicationInfo == null) {
+            false
+        } else {
+            applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
         }
     }
 
@@ -372,7 +409,13 @@ object ZAppUtil {
     }
 
     // --------------------------------------------------
+
     // --------------------------------------------------
+    // --------------------------------------------------
+
+    /**
+     *
+     */
     fun startApplication(context: Context, packageName: String, bundle: Bundle? = null) {
         val packageInfo = getPackageInfo(context, packageName)
         if (packageInfo != null) {

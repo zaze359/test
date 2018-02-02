@@ -26,10 +26,6 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            val explode = TransitionInflater.from(this).inflateTransition(R.transition.explode)
-//            window.exitTransition = explode
-//        }
         headWidget.setText("zZz", ZOrientation.CENTER)
         // --------------------------------------------------
         intervalButton = IntervalButtonWidget(main_test_2_button, "测试2")
@@ -44,8 +40,8 @@ class MainActivity : BaseActivity() {
         main_viewpager.adapter = MyPagerAdapter(supportFragmentManager, fragmentList)
         main_test_button.setOnClickListener {
             val debug = KotlinDebug()
-            debug.test()
-            TestDebug.a(this)
+//            debug.test()
+            TestDebug.test(this)
 //            ZAppUtil.startApplicationSimple(this, "com.xh.aoscstu")
 //            ZAppUtil.startApplicationSimple(this, "com.xh.assist")
             // --------------------------------------------------

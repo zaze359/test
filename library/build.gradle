@@ -49,6 +49,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile "junit:junit:$rootProject.junitVersion"
     //
 
 //    compile 'joda-time:joda-time:2.9.3'

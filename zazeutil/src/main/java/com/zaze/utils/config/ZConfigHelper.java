@@ -1,5 +1,7 @@
 package com.zaze.utils.config;
 
+import android.content.Context;
+
 import com.zaze.utils.ZFileUtil;
 
 import java.util.Map;
@@ -13,16 +15,22 @@ import java.util.Properties;
  * @version : 1.0
  */
 public class ZConfigHelper {
-    public static final String KEY_CREATE_TIME = "create_time";
 
     private String filePath;
+    private int saveMode;
 
     public static ZConfigHelper newInstance(String filePath) {
-        return new ZConfigHelper(filePath);
+        return new ZConfigHelper(filePath, Context.MODE_PRIVATE);
     }
 
-    private ZConfigHelper(String filePath) {
+
+    public static ZConfigHelper newInstance(String filePath, int saveMode) {
+        return new ZConfigHelper(filePath, saveMode);
+    }
+
+    private ZConfigHelper(String filePath, int saveMode) {
         this.filePath = filePath;
+        this.saveMode = saveMode;
     }
 
 
@@ -94,9 +102,6 @@ public class ZConfigHelper {
             isNew = true;
         }
         Properties properties = ZPropertiesUtil.load(filePath);
-        if (isNew) {
-            properties.setProperty(KEY_CREATE_TIME, String.valueOf(System.currentTimeMillis()));
-        }
         return properties;
     }
 }

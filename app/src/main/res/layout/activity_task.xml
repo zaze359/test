@@ -6,28 +6,22 @@
 
 
     <Button
-        android:id="@+id/task_push_sync_btn"
+        android:id="@+id/task_push_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="添加同步任务" />
+        android:text="添加任务" />
 
     <Button
-        android:id="@+id/task_push_async_btn"
+        android:id="@+id/task_execute_sync_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="添加异步任务" />
+        android:text="同步执行" />
 
     <Button
-        android:id="@+id/task_execute_btn"
+        android:id="@+id/task_execute_async_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="执行任务" />
-
-    <Button
-        android:id="@+id/task_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="添加任务并执行" />
+        android:text="异步执行" />
 
     <Button
         android:id="@+id/task_auto_btn"

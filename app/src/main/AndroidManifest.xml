@@ -86,9 +86,11 @@
 
 
         <!-- contentProvider start -->
-        <provider
-            android:name=".component.provider.ZazeProvider"
-            android:authorities="com.zaze.user.provider" />
+        <!--<provider-->
+            <!--android:name="com.zaze.demo.component.provider.ZazeProvider"-->
+            <!--android:authorities="com.zaze.user.provider"-->
+            <!--android:enabled="true"-->
+            <!--android:exported="true" />-->
 
         <activity
             android:name=".component.provider.ui.ProviderActivity"

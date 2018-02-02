@@ -18,6 +18,9 @@ import java.util.Properties;
  */
 public class ZPropertiesUtil {
 
+    private static final String VERSION_KEY = "version_key";
+    private static final String VERSION_VALUE = "1";
+
     /**
      * 加载
      *
@@ -55,17 +58,17 @@ public class ZPropertiesUtil {
         }
     }
 
-
     /**
      * 保存
      *
-     * @param file
-     * @param properties
+     * @param file       file
+     * @param properties properties
      */
     public static void store(String file, Properties properties) {
         FileOutputStream outputStream = null;
         try {
             outputStream = new FileOutputStream(file, false);
+            properties.put(VERSION_KEY, VERSION_VALUE);
             properties.store(outputStream, "");
         } catch (Exception e) {
             ZLog.e(ZTag.TAG_ERROR, e.getMessage());

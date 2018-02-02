@@ -1,12 +1,12 @@
 package com.zaze.demo.component.system;
 
+import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
 import android.os.SystemClock;
 import android.provider.Settings;
-import android.support.annotation.RequiresApi;
 
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
@@ -23,9 +23,10 @@ public class SystemSettings {
 
     /**
      * 获取开机时间
+     *
      * @return 开机时间
      */
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Deprecated
     public static long getBootTime() {
         return System.currentTimeMillis() - SystemClock.elapsedRealtimeNanos() / 1000000;

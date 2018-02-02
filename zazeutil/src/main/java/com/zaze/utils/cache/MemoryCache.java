@@ -25,9 +25,6 @@ class MemoryCache implements CacheFace, MemoryListener {
 
     private boolean cacheLog = false;
 
-    public void setCacheLog(boolean cacheLog) {
-        this.cacheLog = cacheLog;
-    }
     /**
      * 缓存空间大小(根据一定规则计算)
      */
@@ -48,6 +45,7 @@ class MemoryCache implements CacheFace, MemoryListener {
     private static final long CACHE_BLOCK_LENGTH = 1 << 20;
     //
 //    private static final ConcurrentHashMap<String, SoftReference<Cache>> cacheMap = new ConcurrentHashMap<>();
+//    private static final WeakReference<ConcurrentHashMap<String, Cache>> cacheMap = new WeakReference<>(new ConcurrentHashMap<String, Cache>());
     private static final ConcurrentHashMap<String, Cache> cacheMap = new ConcurrentHashMap<>();
 
     private static volatile MemoryCache memoryCache;
@@ -288,5 +286,10 @@ class MemoryCache implements CacheFace, MemoryListener {
             return cacheMap.get(key);
         }
         return null;
+    }
+
+    // --------------------------------------------------
+    void setCacheLog(boolean cacheLog) {
+        this.cacheLog = cacheLog;
     }
 }

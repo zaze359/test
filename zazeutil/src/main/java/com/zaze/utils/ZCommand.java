@@ -24,7 +24,9 @@ public class ZCommand {
     public static final String COMMAND_EXIT = "exit\n";
     public static final String COMMAND_LINE_END = "\n";
 
-    public static int SUCCESS = 0;
+    private static int SUCCESS = 0;
+    private static Boolean isRoot = null;
+    private static final Object object = new Object();
 
     // --------------------------------------------------
 
@@ -45,36 +47,46 @@ public class ZCommand {
     }
 
     /**
-     * @return 检查设备是否Root了
+     * 检查设备是否Root了
+     * 记录状态(只需要判断一次)
+     *
+     * @return true则Root
      */
     public static boolean isRoot() {
-        Process process = null;
-        DataOutputStream outputStream = null;
-        try {
-            process = Runtime.getRuntime().exec("su");
-            outputStream = new DataOutputStream(process.getOutputStream());
-            outputStream.writeBytes("exit\n");
-            outputStream.flush();
-            int exitValue = process.waitFor();
-            if (exitValue == SUCCESS) {
-                ZLog.i(ZTag.TAG_CDM, "设备已Root");
-                return true;
-            }
-        } catch (Exception e) {
-            ZLog.e(ZTag.TAG_CDM, "设备未Root");
-        } finally {
-            if (outputStream != null) {
+        synchronized (object) {
+            if (isRoot == null) {
+                Process process = null;
+                DataOutputStream outputStream = null;
                 try {
-                    outputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    process = Runtime.getRuntime().exec("su");
+                    outputStream = new DataOutputStream(process.getOutputStream());
+                    outputStream.writeBytes("exit\n");
+                    outputStream.flush();
+                    int exitValue = process.waitFor();
+                    if (exitValue == SUCCESS) {
+                        ZLog.i(ZTag.TAG_CDM, "设备已Root");
+                        isRoot = true;
+                    }
+                } catch (Exception e) {
+                    ZLog.e(ZTag.TAG_CDM, "设备未Root");
+                } finally {
+                    if (outputStream != null) {
+                        try {
+                            outputStream.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (process != null) {
+                        process.destroy();
+                    }
+                }
+                if (isRoot == null) {
+                    isRoot = false;
                 }
             }
-            if (process != null) {
-                process.destroy();
-            }
+            return isRoot;
         }
-        return false;
     }
 
 

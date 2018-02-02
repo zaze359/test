@@ -2,13 +2,20 @@ package com.zaze.demo.model.impl;
 
 import android.app.ActivityManager;
 import android.os.Build;
+import android.text.TextUtils;
 
 import com.zaze.demo.app.MyApplication;
 import com.zaze.demo.model.DeviceModel;
 import com.zaze.demo.model.entity.DeviceStatus;
+import com.zaze.utils.ZCommand;
 import com.zaze.utils.ZDeviceUtil;
+import com.zaze.utils.ZFileUtil;
+import com.zaze.utils.ZNetUtil;
 import com.zaze.utils.ZStringUtil;
 import com.zaze.utils.date.ZDateUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,41 +35,49 @@ public class DeviceModelImpl implements DeviceModel {
         // --------------------------------------------------
         deviceStatus = new DeviceStatus();
         deviceStatus.setTag("Android版本");
-        deviceStatus.setContent(ZDeviceUtil.INSTANCE.getSystemVersion());
+        deviceStatus.setName("os");
+        deviceStatus.setContent(Build.VERSION.RELEASE);
         list.add(deviceStatus);
         // --------------------------------------------------
         deviceStatus = new DeviceStatus();
         deviceStatus.setTag("androidSDK");
+        deviceStatus.setName("sdkInt");
         deviceStatus.setContent(String.valueOf(Build.VERSION.SDK_INT));
         list.add(deviceStatus);
         // --------------------------------------------------
         deviceStatus = new DeviceStatus();
         deviceStatus.setTag("型号");
-        deviceStatus.setContent(ZDeviceUtil.INSTANCE.getDeviceModel());
+        deviceStatus.setName("model");
+        deviceStatus.setContent(Build.MODEL);
         list.add(deviceStatus);
         // --------------------------------------------------
         deviceStatus = new DeviceStatus();
         deviceStatus.setTag("主板");
+        deviceStatus.setName("board");
         deviceStatus.setContent(Build.BOARD);
         list.add(deviceStatus);
         // --------------------------------------------------
         deviceStatus = new DeviceStatus();
-        deviceStatus.setTag("DISPLAY");
+        deviceStatus.setTag("版本号");
+        deviceStatus.setName("display");
         deviceStatus.setContent(Build.DISPLAY);
         list.add(deviceStatus);
         // --------------------------------------------------
         deviceStatus = new DeviceStatus();
         deviceStatus.setTag("FINGERPRINT");
+        deviceStatus.setName("fingerprint");
         deviceStatus.setContent(Build.FINGERPRINT);
         list.add(deviceStatus);
         // --------------------------------------------------
         deviceStatus = new DeviceStatus();
-        deviceStatus.setTag("系统启动程序版本号(bootloader)");
+        deviceStatus.setTag("基带版本");
+        deviceStatus.setName("bootloader");
         deviceStatus.setContent(Build.BOOTLOADER);
         list.add(deviceStatus);
         // --------------------------------------------------
         deviceStatus = new DeviceStatus();
         deviceStatus.setTag("系统定制商");
+        deviceStatus.setName("brand");
         deviceStatus.setContent(Build.BRAND);
         list.add(deviceStatus);
         // --------------------------------------------------
@@ -73,6 +88,7 @@ public class DeviceModelImpl implements DeviceModel {
         // --------------------------------------------------
         deviceStatus = new DeviceStatus();
         deviceStatus.setTag("Product");
+        deviceStatus.setName("product");
         deviceStatus.setContent(Build.PRODUCT);
         list.add(deviceStatus);
         // --------------------------------------------------
@@ -91,13 +107,31 @@ public class DeviceModelImpl implements DeviceModel {
         deviceStatus.setContent(Build.TYPE);
         list.add(deviceStatus);
         // --------------------------------------------------
+//        deviceStatus = new DeviceStatus();
+//        deviceStatus.setTag("内核版本");
+//        deviceStatus.setContent(ZFileUtil.INSTANCE.readFromFile(ZFileUtil.INSTANCE.getSDCardRoot() + "/proc/version").toString());
+//        list.add(deviceStatus);
+        // --------------------------------------------------
         deviceStatus = new DeviceStatus();
         deviceStatus.setTag("USER");
         deviceStatus.setContent(Build.USER);
         list.add(deviceStatus);
         // --------------------------------------------------
         deviceStatus = new DeviceStatus();
-        deviceStatus.setTag("Device ID");
+        deviceStatus.setTag("ROOT");
+        deviceStatus.setName("root");
+        deviceStatus.setContent(String.valueOf(ZCommand.isRoot()));
+        list.add(deviceStatus);
+        // --------------------------------------------------
+        deviceStatus = new DeviceStatus();
+        deviceStatus.setTag("设备号");
+        deviceStatus.setName("deviceId");
+        deviceStatus.setContent(ZDeviceUtil.INSTANCE.getUUID(MyApplication.getInstance()));
+        list.add(deviceStatus);
+        // --------------------------------------------------
+        deviceStatus = new DeviceStatus();
+        deviceStatus.setTag("IMEI");
+        deviceStatus.setName("IMEI");
         deviceStatus.setContent(ZDeviceUtil.INSTANCE.getDeviceId(MyApplication.getInstance()));
         list.add(deviceStatus);
         // --------------------------------------------------
@@ -153,6 +187,30 @@ public class DeviceModelImpl implements DeviceModel {
         deviceStatus.setContent(ZStringUtil.format("总大小 : %s\n剩余大小 : %s", dataTotal, dataFree));
         list.add(deviceStatus);
         // --------------------------------------------------
+
+
+        // --------------------------------------------------
+        JSONObject jsonObject = new JSONObject();
+        try {
+            for (DeviceStatus status : list) {
+                String name = status.getName();
+                if (!TextUtils.isEmpty(name)) {
+                    jsonObject.put(name, status.getContent());
+                }
+            }
+            jsonObject.put("mac", ZNetUtil.getWLANMacAddress());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        ZFileUtil.INSTANCE.writeToFile("/sdcard/aaa.json", jsonObject.toString(), false);
+
+//        jsonObject.put("deviceId", XhApplication.getInstance().getDeviceId());
+//        jsonObject.put("model", Build.MODEL);
+//        jsonObject.put("os", Build.VERSION.RELEASE);
+//        jsonObject.put("imei", ZStringUtil.parseString(ZDeviceUtil.INSTANCE.getDeviceId(XhApplication.getInstance())));
+//        jsonObject.put("mac", NetworkUtil.getWLANMacAddress());
+
+
         return list;
     }
 }

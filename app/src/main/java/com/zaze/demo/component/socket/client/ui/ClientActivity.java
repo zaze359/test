@@ -106,7 +106,8 @@ public class ClientActivity extends BaseActivity {
             }
         };
         mDrawerToggle.syncState();
-        clientDrawerLayout.addDrawerListener(mDrawerToggle);
+        clientDrawerLayout.setDrawerListener(mDrawerToggle);
+//        clientDrawerLayout.addDrawerListener(mDrawerToggle);
         // --------------------------------------------------
         inviteSocket = new UDPSocketClient("224.0.0.1", 8003, new BaseSocketClient.BaseSocketFace() {
             @Override

@@ -9,12 +9,14 @@ import com.zaze.demo.R;
 import com.zaze.demo.component.task.presenter.TaskPresenter;
 import com.zaze.demo.component.task.presenter.impl.TaskPresenterImpl;
 import com.zaze.demo.component.task.view.TaskView;
-import com.zaze.utils.ZJsonUtil;
-import com.zaze.utils.log.ZLog;
-import com.zaze.utils.log.ZTag;
-import com.zaze.utils.task.TaskCallback;
+import com.zaze.utils.ThreadManager;
+import com.zaze.utils.task.Executor;
+import com.zaze.utils.task.Task;
 import com.zaze.utils.task.TaskEntity;
-import com.zaze.utils.task.executor.TaskExecutorManager;
+import com.zaze.utils.task.TaskSchedulers;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -27,113 +29,136 @@ import butterknife.OnClick;
  */
 public class TaskActivity extends BaseActivity implements TaskView {
     private TaskPresenter presenter;
+    private String tag = "test";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
         ButterKnife.bind(this);
-        TaskExecutorManager.getInstance().setNeedLog(true);
         presenter = new TaskPresenterImpl(this);
+        Task.setNeedLog(true);
     }
 
-    @OnClick(R.id.task_btn)
+    @OnClick(R.id.task_push_btn)
     public void pushAndExecute(View view) {
-        pushTask("test");
-        TaskExecutorManager.getInstance().executeSyncNext();
-    }
-
-    @OnClick(R.id.task_push_sync_btn)
-    public void pushSyncTask(View view) {
-        for (int i = 0; i < 1000; i++) {
-            TaskExecutorManager.getInstance().pushTask(new TaskEntity(String.valueOf(i)), new TaskCallback() {
-                @Override
-                public void onExecute(TaskEntity entity) {
-                    ZLog.v(ZTag.TAG_TASK, ZJsonUtil.objToJson(entity));
-                    TaskExecutorManager.getInstance().executeSyncNext();
-                }
-            });
-        }
-    }
-
-    @OnClick(R.id.task_push_async_btn)
-    public void pushAsyncTask(View view) {
-        for (int i = 0; i < 1000; i++) {
-            TaskExecutorManager.getInstance().pushTask(new TaskEntity(String.valueOf(i)), new TaskCallback() {
-                @Override
-                public void onExecute(TaskEntity entity) {
-                    ZLog.v(ZTag.TAG_TASK, ZJsonUtil.objToJson(entity));
-                    TaskExecutorManager.getInstance().executeAsyncNext();
-                }
-            });
-        }
-    }
-
-    private void pushTask(final String tag) {
-        ZLog.v("pushTask", tag);
-        TaskExecutorManager.getInstance().pushTask(tag, new TaskEntity(), new TaskCallback() {
+        ThreadManager.getInstance().runInSingleThread(new Runnable() {
             @Override
-            public void onExecute(TaskEntity entity) {
-                ZLog.v(ZTag.TAG_TASK, ZJsonUtil.objToJson(entity));
+            public void run() {
+                List<TaskEntity> list = new ArrayList<>();
+                for (int i = 1; i <= 1000; i++) {
+                    list.add(new TaskEntity(String.valueOf(i)));
+                }
+                Task.create(tag).push(list);
+            }
+        });
+    }
+
+    @OnClick(R.id.task_execute_sync_btn)
+    public void pushSyncTask(View view) {
+        Task.create(tag).executeOn(TaskSchedulers.SYNC).execute(new Executor<TaskEntity>() {
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onExecute(TaskEntity task) throws Exception {
+
+            }
+
+            @Override
+            public void onError() {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+    }
+
+    @OnClick(R.id.task_execute_async_btn)
+    public void pushAsyncTask(View view) {
+        Task.create(tag).executeOn(TaskSchedulers.ASYNC).execute(new Executor<TaskEntity>() {
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onExecute(TaskEntity task) throws Exception {
+
+            }
+
+            @Override
+            public void onError() {
+
+            }
+
+            @Override
+            public void onComplete() {
+
             }
         });
     }
 
     // --------------------------------------------------
-    @OnClick(R.id.task_execute_btn)
-    public void executeNext(View view) {
-        TaskExecutorManager.getInstance().executeSyncNext();
-    }
 
     @OnClick(R.id.task_auto_btn)
     public void autoExecute(View view) {
-        String tag = "aaaaa";
-        for (int i = 0; i < 1000; i++) {
-            TaskExecutorManager.getInstance().pushTask(tag, new TaskEntity(String.valueOf(i)), new TaskCallback() {
-                @Override
-                public void onExecute(TaskEntity entity) {
-                    ZLog.v(ZTag.TAG_TASK, ZJsonUtil.objToJson(entity));
-                    try {
-                        Thread.sleep(500L);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        }
-        for (int i = 1000; i < 2000; i++) {
-            TaskExecutorManager.getInstance().pushTask(new TaskEntity(String.valueOf(i)), new TaskCallback() {
-                @Override
-                public void onExecute(TaskEntity entity) {
-                    ZLog.v(ZTag.TAG_TASK, ZJsonUtil.objToJson(entity));
-                    try {
-                        Thread.sleep(500L);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        }
-        TaskExecutorManager.getInstance().autoExecuteTask();
-        TaskExecutorManager.getInstance().autoExecuteTask(tag);
+        Task.create(tag).executeOn(TaskSchedulers.ASYNC_AUTO).execute(new Executor<TaskEntity>() {
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onExecute(TaskEntity task) throws Exception {
+                Thread.sleep(300);
+            }
+
+            @Override
+            public void onError() {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
     }
 
     @OnClick(R.id.task_multi_btn)
     public void multiExecute(View view) {
-        for (int i = 0; i < 10000; i++) {
-            TaskExecutorManager.getInstance().pushTask(new TaskEntity(String.valueOf(i)), new TaskCallback() {
-                @Override
-                public void onExecute(TaskEntity entity) {
-                    try {
-                        Thread.sleep(1000L);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    ZLog.v(ZTag.TAG_TASK, ZJsonUtil.objToJson(entity));
-                    TaskExecutorManager.getInstance().executeMulti(1);
-                }
-            });
-        }
-        TaskExecutorManager.getInstance().executeMulti(10);
+        Task.create(tag).executeOn(TaskSchedulers.ASYNC_MULTI).execute(new Executor<TaskEntity>() {
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onExecute(TaskEntity task) throws Exception {
+
+            }
+
+            @Override
+            public void onError() {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Task.clear();
     }
 }

@@ -13,6 +13,10 @@ import android.support.annotation.NonNull;
 public class ZSharedPrefUtil {
 
     private static String spName = "sp_zaze";
+
+    public static void setSpName(String spName) {
+        ZSharedPrefUtil.spName = spName;
+    }
     private static volatile SharedPreferences sharedPreferences;
 
     public static void initSharedPreferences(Context context) {

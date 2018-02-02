@@ -1,5 +1,7 @@
 package com.zaze.demo.model.entity;
 
+import android.text.TextUtils;
+
 /**
  * Description :
  *
@@ -8,6 +10,7 @@ package com.zaze.demo.model.entity;
  */
 public class DeviceStatus {
     private String tag;
+    private String name;
     private String content;
 
     public String getTag() {
@@ -24,5 +27,13 @@ public class DeviceStatus {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

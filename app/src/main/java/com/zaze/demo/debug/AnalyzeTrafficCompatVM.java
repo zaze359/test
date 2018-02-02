@@ -1,10 +1,10 @@
 package com.zaze.demo.debug;
 
 
+import android.annotation.TargetApi;
 import android.app.usage.NetworkStatsManager;
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 
 import com.zaze.utils.ZReflectUtil;
 
@@ -21,7 +21,7 @@ import static android.content.Context.NETWORK_STATS_SERVICE;
  * @author : ZAZE
  * @version : 2017-12-22 - 15:05
  */
-@RequiresApi(api = Build.VERSION_CODES.M)
+@TargetApi(Build.VERSION_CODES.M)
 public class AnalyzeTrafficCompatVM extends AnalyzeTrafficCompat {
 
     NetworkStatsManager networkStatsManager;

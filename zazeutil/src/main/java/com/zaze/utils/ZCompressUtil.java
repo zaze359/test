@@ -205,7 +205,12 @@ public class ZCompressUtil {
         return out.toByteArray();
     }
 
-    // 解压缩
+    /**
+     * 解压缩
+     * @param bytes
+     * @return
+     * @throws IOException
+     */
     public static byte[] gzipUncompress(byte[] bytes) throws IOException {
         if (bytes == null || bytes.length == 0) {
             return bytes;

@@ -5,16 +5,14 @@ import com.zaze.utils.ZStringUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 import com.zaze.utils.task.ExecuteTask;
-import com.zaze.utils.task.TaskCallback;
+import com.zaze.utils.task.TaskEmitter;
 import com.zaze.utils.task.TaskEntity;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 /**
  * Description  : 任务池服务
@@ -24,16 +22,22 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * @author : ZAZE
  * @version : 2016-12-14 - 10:26
  */
-class SyncTaskExecutorService extends TaskExecutorService {
+public class SyncTaskPool extends TaskPool {
+
     /**
      * key : taskId
      */
-    private final ConcurrentHashMap<String, ExecuteTask> taskMap = new ConcurrentHashMap<>();
     private final ConcurrentLinkedQueue<String> taskIdQueue = new ConcurrentLinkedQueue<>();
+    private final ConcurrentHashMap<String, ExecuteTask> taskMap = new ConcurrentHashMap<>();
     /**
      * 当前正在执行的任务
      */
-    private final Set<String> currentTaskSet = Collections.synchronizedSet(new HashSet<String>());
+//    private final Set<String> currentTaskSet = Collections.synchronizedSet(new HashSet<String>());
+    private final ConcurrentSkipListSet<String> currentTaskSet = new ConcurrentSkipListSet<>();
+
+    public SyncTaskPool() {
+        isStop = false;
+    }
 
     /**
      * 执行下一个任务
@@ -41,8 +45,8 @@ class SyncTaskExecutorService extends TaskExecutorService {
      * @return true 执行成功, false 执行失败 （没有可任务时才会失败）
      */
     @Override
-    public boolean executeNextTask() {
-        return executeTask(pollTask());
+    public boolean executeTask(TaskEmitter emitter) {
+        return executeTask(pollTask(), emitter);
     }
 
     /**
@@ -51,24 +55,20 @@ class SyncTaskExecutorService extends TaskExecutorService {
      * @param executeTask 任务
      * @return 是否有任务可以执行
      */
-    private boolean executeTask(ExecuteTask executeTask) {
-        if (executeTask != null) {
-            ConcurrentHashMap<String, TaskCallback> callbackMap = executeTask.getCallbackMap();
-            if (!callbackMap.isEmpty()) {
-                for (String key : callbackMap.keySet()) {
-                    TaskCallback callback = callbackMap.get(key);
-                    callbackMap.remove(key);
-                    if (callback != null) {
-                        if (needLog) {
-                            ZLog.i(ZTag.TAG_TASK, "执行任务(%s);剩余任务(%s)", executeTask.getTaskId(), taskIdQueue.size());
-                        }
-                        String taskId = executeTask.getTaskId();
-                        currentTaskSet.add(taskId);
-                        callback.onExecute(executeTask);
-                        currentTaskSet.remove(taskId);
-                    }
-                }
+    private boolean executeTask(ExecuteTask executeTask, TaskEmitter emitter) {
+        if (isStop) {
+            ZLog.i(ZTag.TAG_TASK, "该任务池已停止执行！");
+            return false;
+        }
+        if (executeTask != null && emitter != null) {
+            if (needLog) {
+                ZLog.i(ZTag.TAG_TASK, "执行任务(%s);剩余任务(%s)", executeTask.getTaskId(), taskIdQueue.size());
             }
+            String taskId = executeTask.getTaskId();
+            currentTaskSet.add(taskId);
+            emitter.onExecute(executeTask);
+            currentTaskSet.remove(taskId);
+            emitter.onComplete();
             return true;
         }
         if (needLog) {
@@ -77,26 +77,8 @@ class SyncTaskExecutorService extends TaskExecutorService {
         return false;
     }
 
-    /**
-     * @param entity   TaskEntity
-     * @param callback TaskCallback
-     */
     @Override
-    public void pushTask(TaskEntity entity, TaskCallback callback) {
-        pushTask(entity, callback, false, false);
-    }
-
-    @Override
-    public void addFirst(TaskEntity entity, TaskCallback callback) {
-        pushTask(entity, callback, false, true);
-    }
-
-    /**
-     * @param entity             任务
-     * @param callback           回调
-     * @param isMultiplyCallback true 同个任务有多个回调,false 同个任务只保留最近一个回调
-     */
-    private void pushTask(TaskEntity entity, TaskCallback callback, boolean isMultiplyCallback, boolean addFirst) {
+    public void pushTask(TaskEntity entity, boolean addFirst) {
         if (entity == null) {
             return;
         }
@@ -119,9 +101,6 @@ class SyncTaskExecutorService extends TaskExecutorService {
         } else {
             executeTask = newExecuteTask;
         }
-        if (callback != null) {
-            executeTask.addCallback(callback, isMultiplyCallback);
-        }
         taskMap.put(taskId, executeTask);
         if (addFirst) {
             if (needLog) {
@@ -132,9 +111,7 @@ class SyncTaskExecutorService extends TaskExecutorService {
             }
             List<String> list = new ArrayList<>();
             list.add(taskId);
-            for (String task : taskIdQueue) {
-                list.add(task);
-            }
+            list.addAll(taskIdQueue);
             taskIdQueue.clear();
             taskIdQueue.addAll(list);
             if (needLog) {
@@ -148,9 +125,20 @@ class SyncTaskExecutorService extends TaskExecutorService {
                 }
             } else {
                 if (needLog) {
-                    ZLog.w(ZTag.TAG_TASK, "任务(%s) : 已存在", taskId);
+                    ZLog.w(ZTag.TAG_TASK, "已存在相同任务(%s), 更新为最新", taskId);
                 }
             }
+//            if (taskIdQueue.contains(taskId)) {
+//                if (needLog) {
+//                    ZLog.w(ZTag.TAG_TASK, "已存在相同任务(%s), 更新为最新", taskId);
+//                }
+//            } else {
+//                if (needLog) {
+//                    ZLog.i(ZTag.TAG_TASK, "添加任务(%s) : 成功", taskId);
+//                }
+//            }
+//            taskIdQueue.remove(taskId);
+//            taskIdQueue.add(taskId);
         }
     }
 
@@ -172,6 +160,9 @@ class SyncTaskExecutorService extends TaskExecutorService {
                 }
             }
         }
+        if (needLog) {
+            ZLog.i(ZTag.TAG_TASK, "没有需要执行的任务！");
+        }
         return null;
     }
 
@@ -181,11 +172,16 @@ class SyncTaskExecutorService extends TaskExecutorService {
     }
 
     @Override
+    public void stop() {
+        isStop = false;
+    }
+
+    @Override
     public void clear() {
         taskIdQueue.clear();
         taskMap.clear();
         currentTaskSet.clear();
     }
 
-    // ------------------------------------------------
+    // --------------------------------------------------
 }

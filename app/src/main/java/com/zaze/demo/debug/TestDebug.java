@@ -2,13 +2,17 @@ package com.zaze.demo.debug;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
+import android.content.res.XmlResourceParser;
 import android.provider.Settings;
-import android.support.annotation.RequiresApi;
 
-import com.zaze.utils.DescriptionUtil;
+import com.zaze.utils.config.ZConfigHelper;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
 
 /**
  * Description :
@@ -17,12 +21,28 @@ import com.zaze.utils.log.ZTag;
  * @version : 2017-09-29 - 15:31
  */
 public class TestDebug {
-    public static void a(Context context) {
+    public static void test(Context context) {
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 //            TestDebug.hasPermissionToReadNetworkStats(context);
 //        }
+//        ZLog.d(ZTag.TAG_DEBUG, "toByteUnit : %s", DescriptionUtil.toByteUnit(1024 * 1024 * 1024 + 1024 * 1024));
+        // --------------------------------------------------
+//        String ACTION_LAUNCHER_CUSTOMIZATION = "android.autoinstalls.config.action.PLAY_AUTO_INSTALL";
+//        ZAppUtil.INSTANCE.findSystemApk(context, ACTION_LAUNCHER_CUSTOMIZATION);
+//        SimpleLayoutParser simpleLayoutParser = new SimpleLayoutParser(context);
+//        simpleLayoutParser.parser(R.xml.default_workspace_4x4, new ArrayList<Long>());
+        // --------------------------------------------------
+//        XmlResourceParser parser = context.getResources().getXml(R.xml.default_workspace_4x4);
+//        try {
+//            beginDocument(parser);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
-        ZLog.d(ZTag.TAG_DEBUG, "toByteUnit : %s", DescriptionUtil.toByteUnit(1024 * 1024 * 1024 + 1024 * 1024));
+        ZConfigHelper configHelper = ZConfigHelper.newInstance(context.getFilesDir().getAbsolutePath() + "/config/zaze.ini");
+        configHelper.setProperty("a", "112233");
+        ZLog.d(ZTag.TAG_DEBUG, configHelper.getProperty("a"));
+
 //        File file = new File("/proc/net/xt_qtaguid/stats");
 //        AnalyzeTrafficCompat.getNewestNetworkTraffic();
 //        AnalyzeTrafficCompat.analyzeProcStat();
@@ -53,7 +73,6 @@ public class TestDebug {
 //        }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     public static boolean hasPermissionToReadNetworkStats(Context context) {
 //        final AppOpsManager appOps = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
 //        int mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
@@ -66,5 +85,48 @@ public class TestDebug {
         context.startActivity(intent);
         return false;
     }
+
+
+    public static void beginDocument(XmlResourceParser parser) throws XmlPullParserException, IOException {
+        int type = XmlPullParser.START_DOCUMENT;
+        while (type != XmlPullParser.END_DOCUMENT) {
+            if (type == XmlPullParser.START_TAG) {
+                ZLog.d(ZTag.TAG_DEBUG, "" + getAttributeValue(parser, "resolve"));
+                ZLog.d(ZTag.TAG_DEBUG, "" + getAttributeValue(parser, "favorites"));
+                ZLog.d(ZTag.TAG_DEBUG, "" + getAttributeValue(parser, "screen"));
+            }
+            type = parser.next();
+//            ZLog.i(ZTag.TAG_DEBUG, "" + parser.getName());
+        }
+    }
+
+    /**
+     * Return attribute value, attempting launcher-specific namespace first
+     * before falling back to anonymous attribute.
+     */
+    protected static String getAttributeValue(XmlResourceParser parser, String attribute) {
+        String value = parser.getAttributeValue(
+                "http://schemas.android.com/apk/res-auto/com.android.launcher3", attribute);
+        if (value == null) {
+            value = parser.getAttributeValue(null, attribute);
+        }
+        return value;
+    }
+
+    /**
+     * Return attribute resource value, attempting launcher-specific namespace
+     * first before falling back to anonymous attribute.
+     */
+    protected static int getAttributeResourceValue(XmlResourceParser parser, String attribute,
+                                                   int defaultValue) {
+        int value = parser.getAttributeResourceValue(
+                "http://schemas.android.com/apk/res-auto/com.android.launcher3", attribute,
+                defaultValue);
+        if (value == defaultValue) {
+            value = parser.getAttributeResourceValue(null, attribute, defaultValue);
+        }
+        return value;
+    }
+
 
 }
