@@ -28,6 +28,11 @@ public class ZCommand {
     private static Boolean isRoot = null;
     private static final Object object = new Object();
 
+    private static boolean showLog = false;
+
+    public static void setShowLog(boolean showLog) {
+        ZCommand.showLog = showLog;
+    }
     // --------------------------------------------------
 
     /**
@@ -64,7 +69,9 @@ public class ZCommand {
                     outputStream.flush();
                     int exitValue = process.waitFor();
                     if (exitValue == SUCCESS) {
-                        ZLog.i(ZTag.TAG_CDM, "设备已Root");
+                        if (showLog) {
+                            ZLog.i(ZTag.TAG_CDM, "设备已Root");
+                        }
                         isRoot = true;
                     }
                 } catch (Exception e) {
@@ -194,7 +201,9 @@ public class ZCommand {
                 if (command == null) {
                     continue;
                 }
-                ZLog.i(ZTag.TAG_CDM, "command ： " + command + "\n");
+                if (showLog) {
+                    ZLog.i(ZTag.TAG_CDM, "command ： " + command + "\n");
+                }
                 // donnot use os.writeBytes(commmand), avoid chinese charset error
                 outputStream.write(command.getBytes());
                 outputStream.writeBytes(COMMAND_LINE_END);

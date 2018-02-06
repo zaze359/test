@@ -1,25 +1,23 @@
 package com.zaze.utils.task;
 
-import android.support.annotation.NonNull;
-
 import com.zaze.utils.task.executor.TaskPool;
 
 import java.util.Collection;
 
 /**
  * Description :
+ * TODO : 一个任务标签对应一个线程池, 下一步考虑修改为线程，固定线程池管理
  *
  * @author : ZAZE
  * @version : 2018-02-01 - 10:20
  */
 public abstract class Task<T> implements TaskSource {
+    protected static boolean needLog;
+
     /**
      * 默认标签
      */
     public static final String DEFAULT_TAG = "$%#zaze_default_#%$";
-
-    protected static boolean needLog;
-
     /**
      * 任务分类到标签
      */
@@ -86,17 +84,20 @@ public abstract class Task<T> implements TaskSource {
      */
     protected abstract Task<T> pushTask(TaskEntity entity, boolean pushToHead);
 
-    /**
-     * 指定运行到线程池
-     *
-     * @param schedulers schedulers
-     * @return Task
-     */
-    public abstract Task<T> executeOn(@TaskSchedulers int schedulers);
+    public abstract TaskAsyncMulti<T> executeOnAsyncMulti();
+
+    public abstract TaskAsync<T> executeOnAsync();
+
+    public abstract TaskAsyncAuto<T> executeOnAsyncAuto();
 
     @Override
-    public void execute(@NonNull Executor<TaskEntity> executor) {
+    public void execute(Executor<TaskEntity> executor) {
         executeActual(executor);
+    }
+
+    @Override
+    public void notifyExecute() {
+        executeActual(null);
     }
 
     /**
@@ -105,6 +106,8 @@ public abstract class Task<T> implements TaskSource {
      * @param executor executor
      */
     protected abstract void executeActual(Executor<TaskEntity> executor);
+
+    // --------------------------------------------------
 
     public static void clear() {
         TaskPusher.clearAllPoll();

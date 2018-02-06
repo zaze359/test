@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 public class AsyncTaskPool extends FilterTaskPool {
 
     public static AsyncTaskPool newInstance(TaskPool taskPool) {
-        return taskPool == null ? null : new AsyncTaskPool(taskPool);
+        return new AsyncTaskPool(taskPool);
     }
 
     private AsyncTaskPool(TaskPool taskPool) {
@@ -41,7 +41,7 @@ public class AsyncTaskPool extends FilterTaskPool {
     }
 
     @Override
-    public boolean executeTask(final TaskEmitter emitter) {
+    public boolean executeTask(@NonNull final TaskEmitter emitter) {
         if (!isEmpty()) {
             executorService.execute(new Runnable() {
                 @Override

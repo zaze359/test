@@ -43,6 +43,16 @@ public class MyThreadPoolExecutor extends ThreadPoolExecutor {
         executeNum++;
     }
 
+    @Override
+    public void setMaximumPoolSize(int maximumPoolSize) {
+        super.setMaximumPoolSize(maximumPoolSize);
+    }
+
+    @Override
+    public void setCorePoolSize(int corePoolSize) {
+        super.setCorePoolSize(corePoolSize);
+    }
+
     public int getExecuteNum() {
         return executeNum;
     }

@@ -1,6 +1,8 @@
 package com.zaze.utils.task.executor;
 
 
+import android.support.annotation.NonNull;
+
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 import com.zaze.utils.task.ExecuteTask;
@@ -20,6 +22,9 @@ public abstract class TaskPool {
 
     static volatile boolean needLog = false;
 
+    private final TaskEmitter emitter = new TaskEmitter();
+
+
     public static void setNeedLog(boolean isNeedLog) {
         needLog = isNeedLog;
     }
@@ -29,7 +34,7 @@ public abstract class TaskPool {
      *
      * @return true 执行成功, false 执行失败 （没有可任务时才会失败）
      */
-    public abstract boolean executeTask(TaskEmitter emitter);
+    public abstract boolean executeTask(@NonNull TaskEmitter emitter);
 
     /**
      * 添加任务
@@ -56,7 +61,7 @@ public abstract class TaskPool {
     /**
      * 停止任务
      */
-    void stop() {
+    public void stop() {
         if (needLog) {
             ZLog.i(ZTag.TAG_TASK, "暂停该任务池所有的后续任务!");
         }
@@ -72,4 +77,7 @@ public abstract class TaskPool {
         }
     }
 
+    public TaskEmitter getEmitter() {
+        return emitter;
+    }
 }

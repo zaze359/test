@@ -4,6 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <Button
+        android:id="@+id/task_execute_test_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="测试" />
 
     <Button
         android:id="@+id/task_push_btn"
@@ -11,11 +16,6 @@
         android:layout_height="wrap_content"
         android:text="添加任务" />
 
-    <Button
-        android:id="@+id/task_execute_sync_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="同步执行" />
 
     <Button
         android:id="@+id/task_execute_async_btn"

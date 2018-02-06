@@ -18,7 +18,7 @@ import static com.zaze.utils.ZCommand.COMMAND_LINE_END;
  * @author : ZAZE
  * @version : 2017-10-22 - 21:57
  */
-public class ZzLogCatUtil {
+public class LogCatUtil {
     private static boolean isRunning = false;
 
     public static boolean isRunning() {

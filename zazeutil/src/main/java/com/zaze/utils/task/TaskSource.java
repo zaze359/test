@@ -1,7 +1,5 @@
 package com.zaze.utils.task;
 
-import android.support.annotation.NonNull;
-
 /**
  * Description : 任务源
  *
@@ -15,5 +13,11 @@ public interface TaskSource {
      *
      * @param executor 执行器
      */
-    void execute(@NonNull Executor<TaskEntity> executor);
+    void execute(Executor<TaskEntity> executor);
+
+    /**
+     * 唤醒执行, 使用之前设置的callback 回掉
+     */
+    void notifyExecute();
+
 }

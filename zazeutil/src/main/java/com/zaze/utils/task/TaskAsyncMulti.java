@@ -11,7 +11,7 @@ import com.zaze.utils.task.executor.TaskPool;
  * @author : ZAZE
  * @version : 2018-02-01 - 10:14
  */
-class TaskAsyncMulti<T> extends TaskCreate<T> {
+public class TaskAsyncMulti<T> extends TaskCreate<T> {
     TaskAsyncMulti(TaskCreate<T> create) {
         super(create.poolTag);
     }
@@ -21,9 +21,28 @@ class TaskAsyncMulti<T> extends TaskCreate<T> {
         if (needLog) {
             ZLog.i(ZTag.TAG_TASK, "开始批量执行任务池(%s)内任务！", poolTag);
         }
-        TaskPool taskPool = getTaskPool();
-        boolean replace;
+        executeTask(getTaskPool(), false, executor);
+    }
+
+    public TaskAsyncMulti<T> setMax(@MultiNum int max) {
+        MultiTaskPool multiTaskExecutorService = getTaskPool();
+        multiTaskExecutorService.setMultiNum(max);
+        putTaskPool(multiTaskExecutorService);
+        return this;
+    }
+
+    public TaskAsyncMulti<T> setNotifyCount(@MultiNum int count) {
+        MultiTaskPool multiTaskExecutorService = getTaskPool();
+        multiTaskExecutorService.setNotifyCount(count);
+        putTaskPool(multiTaskExecutorService);
+        return this;
+    }
+
+    @Override
+    protected MultiTaskPool getTaskPool() {
+        TaskPool taskPool = super.getTaskPool();
         MultiTaskPool multiTaskExecutorService;
+        boolean replace;
         if (taskPool instanceof MultiTaskPool) {
             multiTaskExecutorService = (MultiTaskPool) taskPool;
             replace = false;
@@ -34,9 +53,9 @@ class TaskAsyncMulti<T> extends TaskCreate<T> {
             multiTaskExecutorService = MultiTaskPool.newInstance(taskPool);
             replace = true;
         }
-//        if (multiTaskExecutorService != null) {
-//            multiTaskExecutorService.setMultiNum(multiNum);
-//        }
-        executeTask(multiTaskExecutorService, replace, executor);
+        if (replace) {
+            putTaskPool(multiTaskExecutorService);
+        }
+        return multiTaskExecutorService;
     }
 }

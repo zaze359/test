@@ -18,6 +18,7 @@ import java.util.Properties;
  */
 public class ZPropertiesUtil {
 
+    public static final String CREATE_TIME_KEY = "create_time";
     private static final String VERSION_KEY = "version_key";
     private static final String VERSION_VALUE = "1";
 

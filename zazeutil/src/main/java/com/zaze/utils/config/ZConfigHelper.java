@@ -23,7 +23,6 @@ public class ZConfigHelper {
         return new ZConfigHelper(filePath, Context.MODE_PRIVATE);
     }
 
-
     public static ZConfigHelper newInstance(String filePath, int saveMode) {
         return new ZConfigHelper(filePath, saveMode);
     }
@@ -97,11 +96,14 @@ public class ZConfigHelper {
      */
     public Properties load() {
         boolean isNew = false;
-        if (!ZFileUtil.INSTANCE.isFileExist(filePath)) {
+        if (!ZFileUtil.INSTANCE.exists(filePath)) {
             ZFileUtil.INSTANCE.createFileNotExists(filePath);
             isNew = true;
         }
-        Properties properties = ZPropertiesUtil.load(filePath);
+        Properties properties = ZPropertiesUtil.load(this.filePath);
+        if (isNew) {
+            properties.setProperty(ZPropertiesUtil.CREATE_TIME_KEY, String.valueOf(System.currentTimeMillis()));
+        }
         return properties;
     }
 }

@@ -11,7 +11,7 @@ import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Description :
+ * Description : 添加移除任务
  *
  * @author : ZAZE
  * @version : 2018-02-01 - 14:31
@@ -27,15 +27,7 @@ public abstract class TaskPusher<T> extends Task<T> {
     @Override
     protected Task<T> pushTask(TaskEntity entity, boolean pushToHead) {
         if (entity != null) {
-            TaskPool taskPool = getTaskPool();
-            if (taskPool == null) {
-                taskPool = new SyncTaskPool();
-                if (needLog) {
-                    ZLog.i(ZTag.TAG_TASK, "创建任务池(%s)", poolTag);
-                }
-                putTaskPool(taskPool);
-            }
-            taskPool.pushTask(entity, pushToHead);
+            getTaskPool().pushTask(entity, pushToHead);
         }
         return this;
     }
@@ -46,6 +38,9 @@ public abstract class TaskPusher<T> extends Task<T> {
      * @param executor executor
      */
     protected void putTaskPool(TaskPool executor) {
+        if (needLog) {
+            ZLog.i(ZTag.TAG_TASK, "更新任务池(%s)", poolTag);
+        }
         POOL_MAP.put(poolTag, executor);
     }
 
@@ -53,25 +48,36 @@ public abstract class TaskPusher<T> extends Task<T> {
      * 移除任务池
      */
     protected void removeTaskPool() {
+        if (needLog) {
+            ZLog.i(ZTag.TAG_TASK, "移除任务池(%s)!", poolTag);
+        }
         POOL_MAP.remove(poolTag);
     }
 
     protected TaskPool getTaskPool() {
-        return getTaskPool(poolTag);
+        TaskPool taskPool = getTaskPool(poolTag);
+        if (taskPool == null) {
+            if (needLog) {
+                ZLog.i(ZTag.TAG_TASK, "创建任务池(%s)", poolTag);
+            }
+            taskPool = new SyncTaskPool();
+            putTaskPool(taskPool);
+        }
+        return taskPool;
     }
 
     /**
      * @return TaskPool
      */
-    public static TaskPool getTaskPool(String taskTag) {
-        if (hasTaskPool(taskTag)) {
+    public static TaskPool getTaskPool(String poolTag) {
+        if (hasTaskPool(poolTag)) {
             if (needLog) {
-                ZLog.i(ZTag.TAG_TASK, "提取任务池(%s)", taskTag);
+                ZLog.i(ZTag.TAG_TASK, "提取任务池(%s)", poolTag);
             }
-            return POOL_MAP.get(taskTag);
+            return POOL_MAP.get(poolTag);
         } else {
             if (needLog) {
-                ZLog.w(ZTag.TAG_TASK, "任务池(%s)不存在", taskTag);
+                ZLog.e(ZTag.TAG_TASK, "任务池(%s)不存在", poolTag);
             }
             return null;
         }
@@ -88,10 +94,9 @@ public abstract class TaskPusher<T> extends Task<T> {
     }
 
     protected void clearPoll() {
-        TaskPool taskPool = getTaskPool(poolTag);
-        if (taskPool != null) {
-            taskPool.clear();
-        }
+        TaskPool taskPool = getTaskPool();
+        taskPool.clear();
+        taskPool = null;
         POOL_MAP.remove(poolTag);
     }
 
@@ -100,6 +105,7 @@ public abstract class TaskPusher<T> extends Task<T> {
         while (iterator.hasNext()) {
             TaskPool taskPool = getTaskPool((String) iterator.next());
             if (taskPool != null) {
+                taskPool.stop();
                 taskPool.clear();
             }
         }

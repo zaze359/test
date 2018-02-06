@@ -63,16 +63,16 @@ object ZFileUtil {
         return File(path).isDirectory
     }
 
-    fun isFileExist(filePath: String?): Boolean {
+    fun exists(filePath: String?): Boolean {
         return File(filePath).exists()
     }
 
     fun isCanRead(filePath: String?): Boolean {
-        return isFileExist(filePath) && File(filePath).canRead()
+        return exists(filePath) && File(filePath).canRead()
     }
 
     fun isCanWrite(filePath: String?): Boolean {
-        return isFileExist(filePath) && File(filePath).canWrite()
+        return exists(filePath) && File(filePath).canWrite()
     }
     // --------------------------------------------------
     /**
@@ -148,7 +148,7 @@ object ZFileUtil {
      * [filePath] 绝对路径
      */
     fun reCreateFile(filePath: String): Boolean {
-        if (isFileExist(filePath)) {
+        if (exists(filePath)) {
             deleteFile(filePath)
         }
         return createFileNotExists(filePath)
@@ -159,7 +159,7 @@ object ZFileUtil {
      * [filePath] 绝对路径
      */
     fun reCreateDir(filePath: String): Boolean {
-        if (isFileExist(filePath)) {
+        if (exists(filePath)) {
             deleteFile(filePath)
         }
         return createDirNotExists(filePath)
@@ -287,7 +287,7 @@ object ZFileUtil {
     fun readFromFile(filePath: String): StringBuffer {
         val file = File(filePath)
         var result = StringBuffer()
-        if (isFileExist(filePath)) {
+        if (exists(filePath)) {
             try {
 //                result = readByBytes(FileInputStream(file))
                 result = readLine(FileReader(file))

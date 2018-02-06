@@ -11,7 +11,7 @@ import com.zaze.utils.task.executor.TaskPool;
  * @author : ZAZE
  * @version : 2018-02-01 - 10:14
  */
-class TaskAsyncAuto<T> extends TaskCreate<T> {
+public class TaskAsyncAuto<T> extends TaskCreate<T> {
     TaskAsyncAuto(TaskCreate<T> create) {
         super(create.poolTag);
     }

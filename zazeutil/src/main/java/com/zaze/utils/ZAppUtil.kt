@@ -38,7 +38,7 @@ object ZAppUtil {
     fun getAppVersionName(context: Context, packageName: String? = null): String {
         val packageInfo = getPackageInfo(context, packageName ?: context.packageName)
         if (packageInfo != null) {
-            return packageInfo.versionName
+            return packageInfo.versionName ?: ""
         } else {
             return ""
         }

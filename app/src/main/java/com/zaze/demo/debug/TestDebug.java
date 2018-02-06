@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.content.res.XmlResourceParser;
 import android.provider.Settings;
 
-import com.zaze.utils.config.ZConfigHelper;
+import com.zaze.utils.ZFileUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
@@ -39,9 +39,10 @@ public class TestDebug {
 //            e.printStackTrace();
 //        }
 
-        ZConfigHelper configHelper = ZConfigHelper.newInstance(context.getFilesDir().getAbsolutePath() + "/config/zaze.ini");
-        configHelper.setProperty("a", "112233");
-        ZLog.d(ZTag.TAG_DEBUG, configHelper.getProperty("a"));
+//        ZConfigHelper configHelper = ZConfigHelper.newInstance(context.getFilesDir().getAbsolutePath() + "/config/zaze.ini");
+//        configHelper.setProperty("a", "112233");
+//        ZLog.d(ZTag.TAG_DEBUG, configHelper.getProperty("a"));
+        ZFileUtil.INSTANCE.reCreateDir("/sdcard/zaze");
 
 //        File file = new File("/proc/net/xt_qtaguid/stats");
 //        AnalyzeTrafficCompat.getNewestNetworkTraffic();

@@ -24,7 +24,7 @@ public class AutoTaskPool extends FilterTaskPool {
     private boolean isRunning = false;
 
     public static AutoTaskPool newInstance(TaskPool taskPool) {
-        return taskPool == null ? null : new AutoTaskPool(taskPool);
+        return new AutoTaskPool(taskPool);
     }
 
     private AutoTaskPool(TaskPool taskPool) {
@@ -42,7 +42,7 @@ public class AutoTaskPool extends FilterTaskPool {
     }
 
     @Override
-    public boolean executeTask(final TaskEmitter emitter) {
+    public boolean executeTask(@NonNull final TaskEmitter emitter) {
         try {
             if (!isRunning) {
                 executorService.execute(new Runnable() {

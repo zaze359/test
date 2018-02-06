@@ -1,9 +1,12 @@
 package com.zaze.utils.task.executor;
 
 
+import android.support.annotation.NonNull;
+
 import com.zaze.utils.ZStringUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
+import com.zaze.utils.task.Emitter;
 import com.zaze.utils.task.ExecuteTask;
 import com.zaze.utils.task.TaskEmitter;
 import com.zaze.utils.task.TaskEntity;
@@ -25,15 +28,19 @@ import java.util.concurrent.ConcurrentSkipListSet;
 public class SyncTaskPool extends TaskPool {
 
     /**
-     * key : taskId
+     * 需要执行的任务id队列
      */
     private final ConcurrentLinkedQueue<String> taskIdQueue = new ConcurrentLinkedQueue<>();
+
+    /**
+     * 所有任务的集合
+     */
     private final ConcurrentHashMap<String, ExecuteTask> taskMap = new ConcurrentHashMap<>();
     /**
-     * 当前正在执行的任务
+     * 当前正在执行的任务的集合
      */
-//    private final Set<String> currentTaskSet = Collections.synchronizedSet(new HashSet<String>());
     private final ConcurrentSkipListSet<String> currentTaskSet = new ConcurrentSkipListSet<>();
+//    private final Set<String> currentTaskSet = Collections.synchronizedSet(new HashSet<String>());
 
     public SyncTaskPool() {
         isStop = false;
@@ -45,7 +52,7 @@ public class SyncTaskPool extends TaskPool {
      * @return true 执行成功, false 执行失败 （没有可任务时才会失败）
      */
     @Override
-    public boolean executeTask(TaskEmitter emitter) {
+    public boolean executeTask(@NonNull TaskEmitter emitter) {
         return executeTask(pollTask(), emitter);
     }
 
@@ -55,26 +62,28 @@ public class SyncTaskPool extends TaskPool {
      * @param executeTask 任务
      * @return 是否有任务可以执行
      */
-    private boolean executeTask(ExecuteTask executeTask, TaskEmitter emitter) {
+    private boolean executeTask(ExecuteTask executeTask, @NonNull Emitter<TaskEntity> emitter) {
         if (isStop) {
-            ZLog.i(ZTag.TAG_TASK, "该任务池已停止执行！");
+            if (needLog) {
+                ZLog.e(ZTag.TAG_TASK, "该任务池已停止执行！");
+            }
             return false;
         }
-        if (executeTask != null && emitter != null) {
+        if (executeTask == null) {
             if (needLog) {
-                ZLog.i(ZTag.TAG_TASK, "执行任务(%s);剩余任务(%s)", executeTask.getTaskId(), taskIdQueue.size());
+                ZLog.e(ZTag.TAG_TASK, "该任务池已经执行完毕！");
             }
-            String taskId = executeTask.getTaskId();
-            currentTaskSet.add(taskId);
-            emitter.onExecute(executeTask);
-            currentTaskSet.remove(taskId);
-            emitter.onComplete();
-            return true;
+            return false;
         }
         if (needLog) {
-            ZLog.i(ZTag.TAG_TASK, "该任务池中, 所有任务已经执行完毕！");
+            ZLog.i(ZTag.TAG_TASK, "执行任务(%s);剩余任务(%s)", executeTask.getTaskId(), taskIdQueue.size());
         }
-        return false;
+        String taskId = executeTask.getTaskId();
+        currentTaskSet.add(taskId);
+        emitter.onExecute(executeTask);
+        currentTaskSet.remove(taskId);
+        emitter.onComplete();
+        return true;
     }
 
     @Override
@@ -147,7 +156,7 @@ public class SyncTaskPool extends TaskPool {
      */
     @Override
     public ExecuteTask pollTask() {
-        if (!taskIdQueue.isEmpty() && !taskMap.isEmpty()) {
+        if (!isEmpty()) {
             while (taskIdQueue.peek() != null) {
                 String taskId = taskIdQueue.poll();
                 if (!ZStringUtil.isEmpty(taskId) && taskMap.containsKey(taskId)) {
@@ -168,7 +177,7 @@ public class SyncTaskPool extends TaskPool {
 
     @Override
     public boolean isEmpty() {
-        return taskIdQueue.isEmpty();
+        return taskIdQueue.isEmpty() || taskMap.isEmpty();
     }
 
     @Override

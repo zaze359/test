@@ -12,7 +12,7 @@ import com.zaze.utils.task.executor.TaskPool;
  * @author : ZAZE
  * @version : 2018-02-01 - 10:14
  */
-class TaskAsync<T> extends TaskCreate<T> {
+public class TaskAsync<T> extends TaskCreate<T> {
     TaskAsync(TaskCreate<T> create) {
         super(create.poolTag);
     }

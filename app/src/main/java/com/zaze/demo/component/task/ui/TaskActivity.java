@@ -10,10 +10,11 @@ import com.zaze.demo.component.task.presenter.TaskPresenter;
 import com.zaze.demo.component.task.presenter.impl.TaskPresenterImpl;
 import com.zaze.demo.component.task.view.TaskView;
 import com.zaze.utils.ThreadManager;
+import com.zaze.utils.log.ZLog;
+import com.zaze.utils.log.ZTag;
 import com.zaze.utils.task.Executor;
 import com.zaze.utils.task.Task;
 import com.zaze.utils.task.TaskEntity;
-import com.zaze.utils.task.TaskSchedulers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,7 @@ import butterknife.OnClick;
 public class TaskActivity extends BaseActivity implements TaskView {
     private TaskPresenter presenter;
     private String tag = "test";
+    private Task testTask = Task.create(tag);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,31 +42,39 @@ public class TaskActivity extends BaseActivity implements TaskView {
         Task.setNeedLog(true);
     }
 
-    @OnClick(R.id.task_push_btn)
-    public void pushAndExecute(View view) {
-        ThreadManager.getInstance().runInSingleThread(new Runnable() {
-            @Override
-            public void run() {
-                List<TaskEntity> list = new ArrayList<>();
-                for (int i = 1; i <= 1000; i++) {
-                    list.add(new TaskEntity(String.valueOf(i)));
-                }
-                Task.create(tag).push(list);
-            }
-        });
+    @OnClick(R.id.task_execute_test_btn)
+    public void pushSyncTask(View view) {
+        for (int i = 0; i < 100; i++) {
+            aaa(i);
+        }
     }
 
-    @OnClick(R.id.task_execute_sync_btn)
-    public void pushSyncTask(View view) {
-        Task.create(tag).executeOn(TaskSchedulers.SYNC).execute(new Executor<TaskEntity>() {
+    private void aaa(final int taskId) {
+//        ThreadManager.getInstance().runInMultiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Thread.sleep(500);
+//                    ZLog.i(ZTag.TAG_DEBUG, "taskId : " + taskId);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+
+        testTask.push(new TaskEntity(String.valueOf(taskId))).executeOnAsyncAuto().execute(new Executor<TaskEntity>() {
             @Override
             public void onStart() {
-
             }
 
             @Override
             public void onExecute(TaskEntity task) throws Exception {
-
+                Thread.sleep(500);
+                ZLog.i(ZTag.TAG_DEBUG, "==================================================");
+                ZLog.i(ZTag.TAG_DEBUG, "taskId : " + taskId);
+                ZLog.i(ZTag.TAG_DEBUG, "this.hashCode : " + this.hashCode());
+                ZLog.i(ZTag.TAG_DEBUG, "task.getTaskId : " + task.getTaskId());
+                ZLog.i(ZTag.TAG_DEBUG, "==================================================");
             }
 
             @Override
@@ -79,9 +89,23 @@ public class TaskActivity extends BaseActivity implements TaskView {
         });
     }
 
+    @OnClick(R.id.task_push_btn)
+    public void pushAndExecute(View view) {
+        ThreadManager.getInstance().runInSingleThread(new Runnable() {
+            @Override
+            public void run() {
+                List<TaskEntity> list = new ArrayList<>();
+                for (int i = 1; i <= 1000; i++) {
+                    list.add(new TaskEntity(String.valueOf(i)));
+                }
+                testTask.push(list);
+            }
+        });
+    }
+
     @OnClick(R.id.task_execute_async_btn)
     public void pushAsyncTask(View view) {
-        Task.create(tag).executeOn(TaskSchedulers.ASYNC).execute(new Executor<TaskEntity>() {
+        testTask.executeOnAsync().execute(new Executor<TaskEntity>() {
             @Override
             public void onStart() {
 
@@ -108,7 +132,7 @@ public class TaskActivity extends BaseActivity implements TaskView {
 
     @OnClick(R.id.task_auto_btn)
     public void autoExecute(View view) {
-        Task.create(tag).executeOn(TaskSchedulers.ASYNC_AUTO).execute(new Executor<TaskEntity>() {
+        testTask.executeOnAsyncAuto().execute(new Executor<TaskEntity>() {
             @Override
             public void onStart() {
 
@@ -133,7 +157,7 @@ public class TaskActivity extends BaseActivity implements TaskView {
 
     @OnClick(R.id.task_multi_btn)
     public void multiExecute(View view) {
-        Task.create(tag).executeOn(TaskSchedulers.ASYNC_MULTI).execute(new Executor<TaskEntity>() {
+        testTask.executeOnAsyncMulti().execute(new Executor<TaskEntity>() {
             @Override
             public void onStart() {
 
@@ -141,7 +165,7 @@ public class TaskActivity extends BaseActivity implements TaskView {
 
             @Override
             public void onExecute(TaskEntity task) throws Exception {
-
+                Thread.sleep(500);
             }
 
             @Override
@@ -151,7 +175,7 @@ public class TaskActivity extends BaseActivity implements TaskView {
 
             @Override
             public void onComplete() {
-
+                testTask.notifyExecute();
             }
         });
     }

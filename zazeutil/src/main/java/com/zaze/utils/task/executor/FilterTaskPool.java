@@ -1,6 +1,8 @@
 package com.zaze.utils.task.executor;
 
 
+import android.support.annotation.NonNull;
+
 import com.zaze.utils.task.ExecuteTask;
 import com.zaze.utils.task.TaskEmitter;
 import com.zaze.utils.task.TaskEntity;
@@ -19,17 +21,20 @@ public class FilterTaskPool extends TaskPool {
 
     public FilterTaskPool(TaskPool taskPool) {
         if (taskPool instanceof FilterTaskPool) {
+            // 若存在之前的则先暂停之前
             taskPool.stop();
             this.taskPool = ((FilterTaskPool) taskPool).getTaskPool();
         } else {
             this.taskPool = taskPool;
         }
-        taskPool.isStop = false;
+        if (taskPool != null) {
+            taskPool.isStop = false;
+        }
         this.isStop = false;
     }
 
     @Override
-    public boolean executeTask(TaskEmitter emitter) {
+    public boolean executeTask(@NonNull TaskEmitter emitter) {
         return taskPool != null && taskPool.executeTask(emitter);
     }
 

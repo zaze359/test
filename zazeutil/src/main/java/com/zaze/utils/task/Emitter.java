@@ -9,7 +9,7 @@ public interface Emitter<T> {
      *
      * @param error the Throwable to signal, not null
      */
-    void onError(@NonNull Throwable error);
+    void onError(Throwable error);
 
     /**
      * Signal a normal value.
