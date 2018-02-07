@@ -1,10 +1,7 @@
 package com.zaze.utils.task.executor;
 
 
-import android.support.annotation.NonNull;
-
 import com.zaze.utils.task.ExecuteTask;
-import com.zaze.utils.task.TaskEmitter;
 import com.zaze.utils.task.TaskEntity;
 
 import java.util.concurrent.ExecutorService;
@@ -34,8 +31,8 @@ public class FilterTaskPool extends TaskPool {
     }
 
     @Override
-    public boolean executeTask(@NonNull TaskEmitter emitter) {
-        return taskPool != null && taskPool.executeTask(emitter);
+    public boolean executeTask() {
+        return taskPool != null && taskPool.executeTask();
     }
 
     @Override

@@ -30,9 +30,9 @@ public class TaskCreate<T> extends TaskPusher<T> {
     }
 
     @Override
-    protected void executeActual(Executor<TaskEntity> executor) {
+    protected void executeActual() {
         // 同步执行需要注意回调嵌套
-        executeTask(getTaskPool(), false, executor);
+        executeTask(getTaskPool(), false);
 //        TaskPool taskPool = getTaskPool();
 //        if (taskPool instanceof SyncTaskPool) {
 //        } else if (taskPool instanceof FilterTaskPool) {
@@ -47,7 +47,7 @@ public class TaskCreate<T> extends TaskPusher<T> {
      * @param taskPool taskPool
      * @param replace  是否替换线程池
      */
-    protected void executeTask(TaskPool taskPool, boolean replace, Executor<TaskEntity> executor) {
+    protected void executeTask(TaskPool taskPool, boolean replace) {
         if (taskPool != null) {
             if (taskPool.isEmpty()) {
                 removeTaskPool();
@@ -55,12 +55,7 @@ public class TaskCreate<T> extends TaskPusher<T> {
                 if (replace) {
                     putTaskPool(taskPool);
                 }
-                TaskEmitter emitter = taskPool.getEmitter();
-                if (executor != null) {
-                    emitter.setExecutor(executor);
-                    executor.onStart();
-                }
-                taskPool.executeTask(emitter);
+                taskPool.executeTask();
             }
         }
     }

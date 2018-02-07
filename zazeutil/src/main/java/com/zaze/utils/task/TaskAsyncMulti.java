@@ -17,11 +17,11 @@ public class TaskAsyncMulti<T> extends TaskCreate<T> {
     }
 
     @Override
-    protected void executeActual(Executor<TaskEntity> executor) {
+    protected void executeActual() {
         if (needLog) {
             ZLog.i(ZTag.TAG_TASK, "开始批量执行任务池(%s)内任务！", poolTag);
         }
-        executeTask(getTaskPool(), false, executor);
+        executeTask(getTaskPool(), false);
     }
 
     public TaskAsyncMulti<T> setMax(@MultiNum int max) {

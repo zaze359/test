@@ -6,7 +6,7 @@ package com.zaze.utils.task;
  * @author : ZAZE
  * @version : 2016-12-14 - 15:19
  */
-public class TaskEntity {
+public abstract class TaskEntity implements Executor<TaskEntity> {
     private String taskId;
     private String jsonData;
     private long loopTime;
@@ -52,5 +52,20 @@ public class TaskEntity {
     public TaskEntity setJsonData(String jsonData) {
         this.jsonData = jsonData;
         return this;
+    }
+
+    @Override
+    public void onStart() {
+
+    }
+
+    @Override
+    public void onError() {
+
+    }
+
+    @Override
+    public void onComplete() {
+
     }
 }

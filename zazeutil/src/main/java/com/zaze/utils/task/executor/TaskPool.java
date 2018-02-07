@@ -1,11 +1,10 @@
 package com.zaze.utils.task.executor;
 
 
-import android.support.annotation.NonNull;
-
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 import com.zaze.utils.task.ExecuteTask;
+import com.zaze.utils.task.Executor;
 import com.zaze.utils.task.TaskEmitter;
 import com.zaze.utils.task.TaskEntity;
 
@@ -19,9 +18,7 @@ import com.zaze.utils.task.TaskEntity;
  */
 public abstract class TaskPool {
     volatile boolean isStop = false;
-
     static volatile boolean needLog = false;
-
     private final TaskEmitter emitter = new TaskEmitter();
 
 
@@ -31,10 +28,8 @@ public abstract class TaskPool {
 
     /**
      * 执行任务
-     *
-     * @return true 执行成功, false 执行失败 （没有可任务时才会失败）
      */
-    public abstract boolean executeTask(@NonNull TaskEmitter emitter);
+    public abstract boolean executeTask();
 
     /**
      * 添加任务
@@ -77,7 +72,8 @@ public abstract class TaskPool {
         }
     }
 
-    public TaskEmitter getEmitter() {
+    public TaskEmitter getEmitter(Executor<TaskEntity> executor) {
+        emitter.setExecutor(executor);
         return emitter;
     }
 }

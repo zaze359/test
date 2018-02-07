@@ -18,18 +18,18 @@ public class TaskAsync<T> extends TaskCreate<T> {
     }
 
     @Override
-    protected void executeActual(Executor<TaskEntity> executor) {
+    protected void executeActual() {
         if (needLog) {
             ZLog.i(ZTag.TAG_TASK, "开始异步执行任务池(%s)内下一个任务！", poolTag);
         }
         TaskPool taskPool = getTaskPool();
         if (taskPool instanceof AutoTaskPool) {
-            executeTask(taskPool, false, executor);
+            executeTask(taskPool, false);
         } else {
             if (needLog) {
                 ZLog.i(ZTag.TAG_TASK, "转换为异步单任务执行模式(%s)", poolTag);
             }
-            executeTask(AsyncTaskPool.newInstance(taskPool), true, executor);
+            executeTask(AsyncTaskPool.newInstance(taskPool), true);
         }
     }
 }

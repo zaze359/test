@@ -12,7 +12,6 @@ import com.zaze.demo.component.task.view.TaskView;
 import com.zaze.utils.ThreadManager;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
-import com.zaze.utils.task.Executor;
 import com.zaze.utils.task.Task;
 import com.zaze.utils.task.TaskEntity;
 
@@ -62,11 +61,7 @@ public class TaskActivity extends BaseActivity implements TaskView {
 //            }
 //        });
 
-        testTask.push(new TaskEntity(String.valueOf(taskId))).executeOnAsyncAuto().execute(new Executor<TaskEntity>() {
-            @Override
-            public void onStart() {
-            }
-
+        testTask.push(new TaskEntity(String.valueOf(taskId)) {
             @Override
             public void onExecute(TaskEntity task) throws Exception {
                 Thread.sleep(500);
@@ -76,17 +71,7 @@ public class TaskActivity extends BaseActivity implements TaskView {
                 ZLog.i(ZTag.TAG_DEBUG, "task.getTaskId : " + task.getTaskId());
                 ZLog.i(ZTag.TAG_DEBUG, "==================================================");
             }
-
-            @Override
-            public void onError() {
-
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-        });
+        }).executeOnAsyncAuto().execute();
     }
 
     @OnClick(R.id.task_push_btn)
@@ -96,7 +81,12 @@ public class TaskActivity extends BaseActivity implements TaskView {
             public void run() {
                 List<TaskEntity> list = new ArrayList<>();
                 for (int i = 1; i <= 1000; i++) {
-                    list.add(new TaskEntity(String.valueOf(i)));
+                    list.add(new TaskEntity(String.valueOf(i)) {
+                        @Override
+                        public void onExecute(TaskEntity task) throws Exception {
+                            Thread.sleep(300);
+                        }
+                    });
                 }
                 testTask.push(list);
             }
@@ -105,79 +95,19 @@ public class TaskActivity extends BaseActivity implements TaskView {
 
     @OnClick(R.id.task_execute_async_btn)
     public void pushAsyncTask(View view) {
-        testTask.executeOnAsync().execute(new Executor<TaskEntity>() {
-            @Override
-            public void onStart() {
-
-            }
-
-            @Override
-            public void onExecute(TaskEntity task) throws Exception {
-
-            }
-
-            @Override
-            public void onError() {
-
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-        });
+        testTask.executeOnAsync().execute();
     }
 
     // --------------------------------------------------
 
     @OnClick(R.id.task_auto_btn)
     public void autoExecute(View view) {
-        testTask.executeOnAsyncAuto().execute(new Executor<TaskEntity>() {
-            @Override
-            public void onStart() {
-
-            }
-
-            @Override
-            public void onExecute(TaskEntity task) throws Exception {
-                Thread.sleep(300);
-            }
-
-            @Override
-            public void onError() {
-
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-        });
+        testTask.executeOnAsyncAuto().execute();
     }
 
     @OnClick(R.id.task_multi_btn)
     public void multiExecute(View view) {
-        testTask.executeOnAsyncMulti().execute(new Executor<TaskEntity>() {
-            @Override
-            public void onStart() {
-
-            }
-
-            @Override
-            public void onExecute(TaskEntity task) throws Exception {
-                Thread.sleep(500);
-            }
-
-            @Override
-            public void onError() {
-
-            }
-
-            @Override
-            public void onComplete() {
-                testTask.notifyExecute();
-            }
-        });
+        testTask.executeOnAsyncMulti().execute();
     }
 
     @Override

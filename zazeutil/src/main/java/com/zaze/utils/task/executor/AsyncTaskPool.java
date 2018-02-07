@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
-import com.zaze.utils.task.TaskEmitter;
 
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
@@ -41,7 +40,7 @@ public class AsyncTaskPool extends FilterTaskPool {
     }
 
     @Override
-    public boolean executeTask(@NonNull final TaskEmitter emitter) {
+    public boolean executeTask() {
         if (!isEmpty()) {
             executorService.execute(new Runnable() {
                 @Override
@@ -50,7 +49,7 @@ public class AsyncTaskPool extends FilterTaskPool {
                         ZLog.i(ZTag.TAG_TASK, "AsyncTaskPool");
                     }
                     if (!isStop) {
-                        AsyncTaskPool.super.executeTask(emitter);
+                        AsyncTaskPool.super.executeTask();
                     }
                 }
             });

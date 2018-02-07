@@ -91,21 +91,14 @@ public abstract class Task<T> implements TaskSource {
     public abstract TaskAsyncAuto<T> executeOnAsyncAuto();
 
     @Override
-    public void execute(Executor<TaskEntity> executor) {
-        executeActual(executor);
-    }
-
-    @Override
-    public void notifyExecute() {
-        executeActual(null);
+    public void execute() {
+        executeActual();
     }
 
     /**
      * 实际执行方法
-     *
-     * @param executor executor
      */
-    protected abstract void executeActual(Executor<TaskEntity> executor);
+    protected abstract void executeActual();
 
     // --------------------------------------------------
 

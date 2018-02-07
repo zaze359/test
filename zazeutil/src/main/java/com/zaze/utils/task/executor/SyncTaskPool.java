@@ -1,14 +1,11 @@
 package com.zaze.utils.task.executor;
 
 
-import android.support.annotation.NonNull;
-
 import com.zaze.utils.ZStringUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 import com.zaze.utils.task.Emitter;
 import com.zaze.utils.task.ExecuteTask;
-import com.zaze.utils.task.TaskEmitter;
 import com.zaze.utils.task.TaskEntity;
 
 import java.util.ArrayList;
@@ -52,8 +49,8 @@ public class SyncTaskPool extends TaskPool {
      * @return true 执行成功, false 执行失败 （没有可任务时才会失败）
      */
     @Override
-    public boolean executeTask(@NonNull TaskEmitter emitter) {
-        return executeTask(pollTask(), emitter);
+    public boolean executeTask() {
+        return executeTask(pollTask());
     }
 
     /**
@@ -62,16 +59,17 @@ public class SyncTaskPool extends TaskPool {
      * @param executeTask 任务
      * @return 是否有任务可以执行
      */
-    private boolean executeTask(ExecuteTask executeTask, @NonNull Emitter<TaskEntity> emitter) {
+    private boolean executeTask(ExecuteTask executeTask) {
+        Emitter<TaskEntity> emitter = getEmitter(executeTask);
         if (isStop) {
             if (needLog) {
-                ZLog.e(ZTag.TAG_TASK, "该任务池已停止执行！");
+                ZLog.i(ZTag.TAG_TASK, "该任务池已停止执行！");
             }
             return false;
         }
         if (executeTask == null) {
             if (needLog) {
-                ZLog.e(ZTag.TAG_TASK, "该任务池已经执行完毕！");
+                ZLog.i(ZTag.TAG_TASK, "该任务池已经执行完毕！");
             }
             return false;
         }

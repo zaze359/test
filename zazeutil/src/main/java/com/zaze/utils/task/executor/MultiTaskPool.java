@@ -6,8 +6,6 @@ import android.support.annotation.NonNull;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 import com.zaze.utils.task.MultiNum;
-import com.zaze.utils.task.TaskEmitter;
-import com.zaze.utils.task.TaskEntity;
 
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
@@ -25,12 +23,11 @@ public class MultiTaskPool extends FilterTaskPool {
     private static final int MAX = 6;
     private static final long KEEP_ALIVE_TIME = 60L;
     private int notifyCount = DEFAULT;
-
-    private int currentNum = 0;
-
     private MyThreadPoolExecutor multiExecutor;
     private volatile @MultiNum
     int multiNum = DEFAULT;
+    private boolean isFirst = true;
+    private int currentNum = 0;
 
     public static MultiTaskPool newInstance(TaskPool taskPool) {
         return new MultiTaskPool(taskPool);
@@ -55,8 +52,15 @@ public class MultiTaskPool extends FilterTaskPool {
      * 执行一批多个任务(最大同时执行上限5)
      */
     @Override
-    public boolean executeTask(@NonNull final TaskEmitter emitter) {
-        for (; currentNum < notifyCount; currentNum++) {
+    public boolean executeTask() {
+        int count;
+        if (isFirst) {
+            isFirst = false;
+            count = multiNum;
+        } else {
+            count = notifyCount;
+        }
+        for (int i = 0; i < count; i++) {
             multiExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
@@ -64,23 +68,7 @@ public class MultiTaskPool extends FilterTaskPool {
                         if (needLog) {
                             ZLog.i(ZTag.TAG_TASK, "MultiTaskPool");
                         }
-                        MultiTaskPool.super.executeTask(new TaskEmitter() {
-                            @Override
-                            public void onError(Throwable error) {
-                                emitter.onError(error);
-                            }
-
-                            @Override
-                            public void onExecute(@NonNull TaskEntity value) {
-                                emitter.onExecute(value);
-                            }
-
-                            @Override
-                            public void onComplete() {
-                                currentNum--;
-                                emitter.onComplete();
-                            }
-                        });
+                        MultiTaskPool.super.executeTask();
                     }
                 }
             });
@@ -114,8 +102,16 @@ public class MultiTaskPool extends FilterTaskPool {
                 return MAX;
             case MultiNum.MIN:
                 return MIN;
+            case MultiNum.FIVE:
+                return MultiNum.FIVE;
+            case MultiNum.FOUR:
+                return MultiNum.FOUR;
+            case MultiNum.THREE:
+                return MultiNum.THREE;
+            case MultiNum.TWO:
+                return MultiNum.TWO;
             default:
-                return multiNum;
+                return MAX;
         }
     }
 }
