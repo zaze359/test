@@ -56,7 +56,7 @@ public abstract class AnalyzeTrafficCompat extends AnalyzeUtil {
     public static AnalyzeTrafficCompat getInstance(Context context) {
         synchronized (INSTANCE_LOCK) {
             if (compat == null) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                if (Build.VERSION.SDK_INT >= 24) {
                     compat = new AnalyzeTrafficCompatVN(context.getApplicationContext());
                 } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     compat = new AnalyzeTrafficCompatVM(context.getApplicationContext());

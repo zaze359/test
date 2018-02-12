@@ -37,8 +37,8 @@ public class NetworkStatsActivity extends BaseMvpActivity<NetworkStatsView, Netw
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_network_stats);
-        networkStatsRecycler = findViewById(R.id.network_stats_recycler);
-        networkStatsRefreshLayout = findViewById(R.id.network_stats_refresh_layout);
+        networkStatsRecycler = findView(R.id.network_stats_recycler);
+        networkStatsRefreshLayout = findView(R.id.network_stats_refresh_layout);
         networkStatsRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
             @Override

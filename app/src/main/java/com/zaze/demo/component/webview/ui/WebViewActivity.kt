@@ -33,9 +33,9 @@ open class WebViewActivity : BaseActivity(), WebViewView {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
         }
-        web_view.webViewClient = object : WebViewClient() {
-        }
-        web_view.webChromeClient = WebChromeClient()
+        web_view.setWebViewClient(object : WebViewClient() {
+        })
+        web_view.setWebChromeClient(WebChromeClient())
         web_view.loadUrl("www.baidu.com")
     }
 
