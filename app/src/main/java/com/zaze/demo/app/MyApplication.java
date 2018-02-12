@@ -30,12 +30,14 @@ public class MyApplication extends BaseApplication {
 //        ZFileUtil.INSTANCE.setShowLog(true);
         MemoryCacheManager.setCacheLog(true);
         AnalyzeTrafficCompat.setNeedLog(true);
+        //
+//        FontUtil.setDefaultFontFormSystem("DEFAULT", "Roboto-Light.ttf");
+        //
 //        CrashReport.initCrashReport(getApplicationContext(), "900013682", false);
 //        receiver = new TestBroadcastReceiver();
 //        IntentFilter intentFilter = new IntentFilter("android.intent.action.xh.message.testappid");
 //        registerReceiver(receiver, intentFilter);
     }
-
 
 
 }

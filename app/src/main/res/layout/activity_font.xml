@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_48"
+        android:text="测试字体Test"
+        android:textSize="@dimen/sp_20" />
+
+    <TextView
+        android:id="@+id/font_test_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_48"
+        android:text="测试字体Test"
+        android:textSize="@dimen/sp_20" />
+
+    <TextView
+        android:id="@+id/font_roboto_regular_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_48"
+        android:text="测试字体Test"
+        android:textSize="@dimen/sp_20" />
+
+    <TextView
+        android:id="@+id/font_roboto_light_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_48"
+        android:text="测试字体Test"
+        android:textSize="@dimen/sp_20" />
+
+
+</LinearLayout>

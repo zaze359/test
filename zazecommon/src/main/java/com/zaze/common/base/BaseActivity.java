@@ -78,9 +78,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
 //        }
 //    }
 
-    /**
-     * 显示一个普通等待弹窗
-     */
     @Override
     public void showProgress() {
         loadProgress.showProgress();

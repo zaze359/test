@@ -38,6 +38,11 @@ public class TaskAsyncMulti<T> extends TaskCreate<T> {
         return this;
     }
 
+    public TaskAsyncMulti<T> notifyExecute() {
+        getTaskPool().notifyExecute();
+        return this;
+    }
+
     @Override
     protected MultiTaskPool getTaskPool() {
         TaskPool taskPool = super.getTaskPool();

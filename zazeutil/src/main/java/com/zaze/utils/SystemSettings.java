@@ -1,4 +1,4 @@
-package com.zaze.demo.component.system;
+package com.zaze.utils;
 
 import android.annotation.TargetApi;
 import android.content.ContentResolver;

@@ -19,15 +19,13 @@ import java.util.concurrent.TimeUnit;
  */
 public class MultiTaskPool extends FilterTaskPool {
     private static final int MIN = 1;
-    private static final int DEFAULT = 2;
+    private static final int DEFAULT = 5;
     private static final int MAX = 6;
     private static final long KEEP_ALIVE_TIME = 60L;
     private int notifyCount = DEFAULT;
     private MyThreadPoolExecutor multiExecutor;
-    private volatile @MultiNum
+    private @MultiNum
     int multiNum = DEFAULT;
-    private boolean isFirst = true;
-    private int currentNum = 0;
 
     public static MultiTaskPool newInstance(TaskPool taskPool) {
         return new MultiTaskPool(taskPool);
@@ -48,18 +46,18 @@ public class MultiTaskPool extends FilterTaskPool {
         multiExecutor.allowCoreThreadTimeOut(true);
     }
 
-    /**
-     * 执行一批多个任务(最大同时执行上限5)
-     */
     @Override
     public boolean executeTask() {
-        int count;
-        if (isFirst) {
-            isFirst = false;
-            count = multiNum;
-        } else {
-            count = notifyCount;
-        }
+        execute(multiNum);
+        return true;
+    }
+
+
+    public void notifyExecute() {
+        execute(notifyCount);
+    }
+
+    private void execute(int count) {
         for (int i = 0; i < count; i++) {
             multiExecutor.execute(new Runnable() {
                 @Override
@@ -73,7 +71,6 @@ public class MultiTaskPool extends FilterTaskPool {
                 }
             });
         }
-        return true;
     }
 
     public void setMultiNum(@MultiNum int multiNum) {

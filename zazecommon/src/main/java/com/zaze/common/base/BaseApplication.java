@@ -41,4 +41,5 @@ public abstract class BaseApplication extends Application {
         super.onTrimMemory(level);
         MemoryCacheManager.onTrimMemory(level);
     }
+
 }

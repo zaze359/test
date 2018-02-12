@@ -9,6 +9,7 @@ import com.zaze.demo.component.cache.ui.CacheActivity;
 import com.zaze.demo.component.customview.ui.CustomViewActivity;
 import com.zaze.demo.component.device.ui.DeviceActivity;
 import com.zaze.demo.component.fileexplorer.ui.FileExplorerActivity;
+import com.zaze.demo.component.font.ui.FontActivity;
 import com.zaze.demo.component.gps.ui.GpsActivity;
 import com.zaze.demo.component.logcat.ui.LogcatActivity;
 import com.zaze.demo.component.notification.ui.NotificationActivity;
@@ -48,6 +49,7 @@ public class EntityModelImpl implements EntityModel {
         List<TableEntity> list = new ArrayList<>();
         int i = 0;
         list.add(new TableEntity("流量监控", NetworkStatsActivity.class, ++i));
+        list.add(new TableEntity("字体变换", FontActivity.class, ++i));
         list.add(new TableEntity("自定义View", CustomViewActivity.class, ++i));
         list.add(new TableEntity("消息通知栏", NotificationActivity.class, ++i));
         list.add(new TableEntity("应用查询", ReadPackageActivity.class, ++i));
