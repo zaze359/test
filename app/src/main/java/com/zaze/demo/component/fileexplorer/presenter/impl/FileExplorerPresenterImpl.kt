@@ -1,11 +1,11 @@
 package com.zaze.demo.component.fileexplorer.presenter.impl
 
+import android.os.Environment
 import com.zaze.common.base.mvp.BaseMvpPresenter
 import com.zaze.demo.component.fileexplorer.FileEvent
 import com.zaze.demo.component.fileexplorer.adapter.FileEntity
 import com.zaze.demo.component.fileexplorer.presenter.FileExplorerPresenter
 import com.zaze.demo.component.fileexplorer.view.FileExplorerView
-import com.zaze.utils.ZCommand
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import java.io.File
@@ -19,29 +19,31 @@ import java.io.File
  */
 class FileExplorerPresenterImpl(view: FileExplorerView) : BaseMvpPresenter<FileExplorerView>(view), FileExplorerPresenter {
 
-    private var curDirPath = "/"
+    private var curFile = File(Environment.getExternalStorageDirectory().absolutePath)
 
     override fun loadFileList() {
-        val commandResult = ZCommand.execCmdForRes("ls $curDirPath")
-        val fileList = ArrayList<FileEntity>()
-        if (ZCommand.isSuccess(commandResult)) {
-            for (fileName in commandResult.successList) {
-                val fileEntity = FileEntity()
-                fileEntity.fileName = "/$fileName"
-                fileEntity.absPath = curDirPath + fileName
-                ZLog.i(ZTag.TAG_DEBUG, "file : ${fileEntity.absPath}")
-                fileList.add(fileEntity)
+        if (curFile.exists()) {
+            if (curFile.isDirectory) {
+                val list = ArrayList<FileEntity>()
+                val fileList = curFile.listFiles()
+                if (fileList != null && !fileList.isEmpty()) {
+                    for (file in fileList) {
+                        val fileEntity = FileEntity()
+                        fileEntity.fileName = file.name
+                        fileEntity.absPath = file.absolutePath
+                        ZLog.i(ZTag.TAG_DEBUG, "file : ${fileEntity.absPath}")
+                        list.add(fileEntity)
+                    }
+                }
+                view.showFileList(list)
             }
-            view.showFileList(fileList)
-        } else {
-            ZLog.e(ZTag.TAG_DEBUG, commandResult.errorMsg)
         }
     }
 
     override fun backToParent() {
-        val file = File(curDirPath)
-        if (file.parentFile != null) {
-            curDirPath = file.parentFile.absolutePath
+
+        if (curFile.parentFile.exists()) {
+            curFile = curFile.parentFile
             loadFileList()
         }
     }
@@ -52,7 +54,7 @@ class FileExplorerPresenterImpl(view: FileExplorerView) : BaseMvpPresenter<FileE
             val file = File(absPath)
             if (file.isDirectory) {
                 ZLog.i(ZTag.TAG_DEBUG, "打开文件夹 : $absPath")
-                curDirPath = "$absPath/"
+                curFile = file
                 loadFileList()
             } else if (file.isFile) {
                 ZLog.i(ZTag.TAG_DEBUG, "打开文件 : $absPath")

@@ -1,5 +1,7 @@
 package com.zaze.demo
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -11,6 +13,8 @@ import com.zaze.common.widget.head.ZOrientation
 import com.zaze.demo.component.table.ui.TableFragment
 import com.zaze.demo.debug.KotlinDebug
 import com.zaze.demo.debug.TestDebug
+import com.zaze.utils.permission.PermissionCode
+import com.zaze.utils.permission.PermissionUtil
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -47,6 +51,24 @@ class MainActivity : BaseActivity() {
             // --------------------------------------------------
 //            TestJni.newInstance().stringFromJNI()
             // --------------------------------------------------
+        }
+        setupPermission()
+    }
+
+    /**
+     * 申请权限
+     */
+    private fun setupPermission() {
+        PermissionUtil.checkAndRequestUserPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE, PermissionCode.WRITE_EXTERNAL_STORAGE)
+        //        Utilities.checkAndRequestUserPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE, PermissionCode.READ_EXTERNAL_STORAGE);
+        //        Utilities.checkAndRequestUserPermission(this, Manifest.permission.CALL_PHONE, PermissionCode.REQUEST_PERMISSION_CALL_PHONE);
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        val isGranted = grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
+        if (!isGranted) {
+            finish()
         }
     }
 

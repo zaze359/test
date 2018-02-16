@@ -33,23 +33,28 @@ public class AnalyzeTrafficCompatVN extends AnalyzeTrafficCompat {
     protected List<NetTrafficStats> getNewestNetworkTraffic() {
         File file = new File("/proc/uid_stat");
         List<NetTrafficStats> networkStatList = new ArrayList<>();
+
         if (file.exists()) {
             Set<Integer> set = new HashSet<>();
             File[] uidDirs = file.listFiles();
             if (uidDirs.length > 0) {
                 for (File uidDir : uidDirs) {
-                    int uid = ZStringUtil.parseInt(uidDir.getName());
-                    if (!set.contains(uid)) {
-                        set.add(uid);
-                        NetTrafficStats netTrafficStats = new NetTrafficStats();
-                        netTrafficStats.setUid(uid);
-                        netTrafficStats.setRxBytes(Long.valueOf(ZFileUtil.INSTANCE.readFromFile(uidDir.getAbsolutePath() + "/tcp_rcv").toString()));
-                        netTrafficStats.setTxBytes(Long.valueOf(ZFileUtil.INSTANCE.readFromFile(uidDir.getAbsolutePath() + "/tcp_snd").toString()));
-                        networkStatList.add(netTrafficStats);
+                    try {
+                        int uid = ZStringUtil.parseInt(uidDir.getName());
+                        if (!set.contains(uid)) {
+                            set.add(uid);
+                            NetTrafficStats netTrafficStats = new NetTrafficStats();
+                            netTrafficStats.setUid(uid);
+                            netTrafficStats.setRxBytes(Long.valueOf(ZFileUtil.INSTANCE.readFromFile(uidDir.getAbsolutePath() + "/tcp_rcv").toString()));
+                            netTrafficStats.setTxBytes(Long.valueOf(ZFileUtil.INSTANCE.readFromFile(uidDir.getAbsolutePath() + "/tcp_snd").toString()));
+                            networkStatList.add(netTrafficStats);
+                        }
+                    } catch (Exception e) {
                     }
                 }
             }
         }
+
         return networkStatList;
     }
     // --------------------------------------------------

@@ -29,7 +29,6 @@ class FileAdapter(context: Context, data: Collection<FileEntity>) : ZUltimateRec
 
     override fun onBindView(holder: FileItemHolder, value: FileEntity, position: Int) {
         val path = value.absPath
-        holder.itemFileNameTv.text = path
         val iconText: String
         val iconRes: Int
         if (ZFileUtil.isDirectory(path)) {
@@ -44,7 +43,7 @@ class FileAdapter(context: Context, data: Collection<FileEntity>) : ZUltimateRec
         }
         holder.itemFileIconTv.text = iconText
         holder.itemFileIconTv.setBackgroundResource(iconRes)
-
+        holder.itemFileNameTv.text = value.fileName
     }
 
     override fun onItemClick(view: View, value: FileEntity, position: Int) {

@@ -226,7 +226,7 @@ public abstract class AnalyzeTrafficCompat extends AnalyzeUtil {
         try {
             if (TextUtils.isEmpty(value)) {
                 // 配置文件中的时间 单位为 秒
-                value = analyzeProcStat().getString("btime") + "000";
+                value = analyzeProcStat().optString("btime") + "000";
                 MemoryCacheManager.saveCache(key, value);
             }
             return Long.parseLong(value);
