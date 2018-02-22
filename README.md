@@ -1,39 +1,27 @@
-# Learn
+# 主要内容
 
-ZAZE Android Base Library And Some Test Demo
+包含 学习用的测试demo、工具类库、组件库等
 
+## 使用说明
 
-## Add Base Library to your project
-
-### 配置
+### Maven
 
 maven { url "https://dl.bintray.com/zaze359/maven" }
 
-### Gradle:
-<del>~~compile com.zaze.aarrepo:aarrepo:1.4.22@aar~~</del> 
-
-
-- compile 'com.zaze:zazecommon:1.1.0@aar'
-- compile 'com.zaze:zazeutil:1.2.0'
-
-
+### Gradle
 
 ## 工具类仓库
 
-> 数据相关的工具类
-
-### v1.x.x
+> compile 'com.zaze:zazeutil:1.2.1'
 
 1. 一些常用的工具类
 2. Task 模块
 3. MemoryCache 模块
 4. Log 模块
 
-
-
 ## 组件仓库
 
-> UI相关的组件
+> compile 'com.zaze:zazecommon:1.1.1@aar'
 
 ### v1.x.x
 
@@ -41,5 +29,3 @@ maven { url "https://dl.bintray.com/zaze359/maven" }
 2. 一些三方组件的使用封装
 3. 对页面快速开发自定义封装类
 
-## Launcher 
-``https://android.googlesource.com/platform/packages/apps/Launcher3``

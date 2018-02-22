@@ -49,7 +49,8 @@ public abstract class BaseFragment extends Fragment implements BaseView {
             headFace = new HeadWidget(getActivity(), getLayoutId());
             rootView = headFace.getContainerView();
         } else {
-            rootView = inflater.inflate(getLayoutId(), null);
+//            rootView = inflater.inflate(getLayoutId(), null);
+            rootView = inflater.inflate(getLayoutId(), container, false);
         }
         init(rootView);
         return rootView;

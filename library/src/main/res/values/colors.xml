@@ -4,7 +4,16 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="white">@android:color/white</color>
+    <color name="white">#FFFFFF</color>
+    <color name="teal">#00796B</color>
+    <color name="brown">#8D6E63</color>
+    <color name="blue">#2196F3</color>
+    <color name="grey">#607D8B</color>
+    <color name="orange">#F57C00</color>
+    <color name="yellow">#FFF7D23E</color>
+    <color name="green">#35c243</color>
+
+
 
     <color name="black">@android:color/black</color>
     <color name="black_light">#2d2d2d</color>
@@ -12,19 +21,16 @@
     <color name="red">#FFC93437</color>
     <color name="red_light">#e1a3a4</color>
 
-    <color name="yellow">#FFF7D23E</color>
 
     <color name="transparent">#00000000</color>
 
     <color name="gray_darker">@android:color/darker_gray</color>
     <color name="gray_light">#e2e2e2</color>
 
-    <color name="blue">#62ade6</color>
     <color name="blue_dark">#478aff</color>
     <color name="blue_light">#e2ecfd</color>
 
 
-    <color name="green">#35c243</color>
     <color name="green_light">#8cdc94</color>
 
     <!--<color name="green">#FF34A350</color>-->
@@ -35,10 +41,7 @@
     <color name="circle_white">#fdfdf6</color>
 
 
-
-
     <!---->
-    <color name="grey">#cccccc</color>
     <color name="orange_light">#ffffdd</color>
 
 </resources>
