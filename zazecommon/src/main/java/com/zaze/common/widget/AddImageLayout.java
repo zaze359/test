@@ -1,4 +1,4 @@
-package com.zaze.demo.component.customview;
+package com.zaze.common.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -7,7 +7,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.zaze.demo.R;
+import com.zaze.common.R;
 import com.zaze.utils.ZDisplayUtil;
 
 import java.util.ArrayList;
@@ -28,14 +28,17 @@ public class AddImageLayout extends ViewGroup {
     private int childWidth;
     private int childHeight;
 
+    private OnImageAddListener listener;
+
+    /**
+     * 添加操作图标
+     */
     private int addImageResId = android.R.drawable.ic_input_add;
 
-    public void setAddImageResId(int addImageResId) {
-        this.addImageResId = addImageResId;
-    }
-
+    /**
+     * 已添加的图片资源
+     */
     private ArrayList<Integer> imageResList = new ArrayList<>(LINE_IMAGE_COUNT * MAX_IMAGE_LINE);
-
 
     public AddImageLayout(Context context) {
         this(context, null);
@@ -96,16 +99,18 @@ public class AddImageLayout extends ViewGroup {
         for (int i = 0; i < childCount; i++) {
             View child = this.getChildAt(i);
             LayoutParams childLayoutParams = (LayoutParams) child.getLayoutParams();
+            // 绘制子view
             child.layout(childLayoutParams.leftOffset, childLayoutParams.topOffset,
                     childLayoutParams.leftOffset + childWidth,
                     childLayoutParams.topOffset + childHeight);
-
             if (hasVacancy() && i == childCount - 1) {
                 child.setBackgroundResource(addImageResId);
-                child.setOnClickListener(new View.OnClickListener() {
+                child.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View arg0) {
-                        addImageRes(R.mipmap.ic_launcher);
+                        if (listener != null) {
+                            listener.onImageAddListener();
+                        }
                     }
                 });
             } else if (i < imageResList.size()) {
@@ -134,9 +139,17 @@ public class AddImageLayout extends ViewGroup {
         return imageResList.size() < LINE_IMAGE_COUNT * MAX_IMAGE_LINE;
     }
 
+    public void setAddImageResId(int addImageResId) {
+        this.addImageResId = addImageResId;
+    }
+
+    public void setOnImageAddListener(OnImageAddListener onImageAddListener) {
+        this.listener = onImageAddListener;
+    }
+
     // --------------------------------------------------
 
-    class LayoutParams extends ViewGroup.LayoutParams {
+    public class LayoutParams extends ViewGroup.LayoutParams {
         int leftOffset;
         int topOffset;
 
@@ -152,5 +165,12 @@ public class AddImageLayout extends ViewGroup {
         public LayoutParams(ViewGroup.LayoutParams source) {
             super(source);
         }
+    }
+
+    public interface OnImageAddListener {
+        /**
+         * 添加图片
+         */
+        void onImageAddListener();
     }
 }

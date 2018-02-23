@@ -22,7 +22,7 @@ import com.zaze.demo.component.socket.SocketMessage;
 import com.zaze.demo.component.socket.UDPSocketClient;
 import com.zaze.demo.component.socket.adapter.SocketAdapter;
 import com.zaze.utils.ThreadManager;
-import com.zaze.utils.ZJsonUtil;
+import com.zaze.utils.JsonUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -114,7 +114,7 @@ public class ClientActivity extends BaseActivity {
             protected void onPresence(SocketMessage socketMessage) {
                 super.onPresence(socketMessage);
                 list.add(socketMessage);
-                EventBus.getDefault().post(ZJsonUtil.objToJson(socketMessage));
+                EventBus.getDefault().post(JsonUtil.objToJson(socketMessage));
                 ThreadManager.getInstance().runInUIThread(new Runnable() {
                     @Override
                     public void run() {

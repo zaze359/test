@@ -37,7 +37,7 @@ public class MainActivityInstrumentationTest extends ActivityInstrumentationTest
 
     @Test
     public void test1() {
-        // @Test注解表示一个测试用例方法
+
         assertNotNull("MainActivity is null", activity);
     }
 

@@ -31,14 +31,7 @@ public class TaskCreate<T> extends TaskPusher<T> {
 
     @Override
     protected void executeActual() {
-        // 同步执行需要注意回调嵌套
         executeTask(getTaskPool(), false);
-//        TaskPool taskPool = getTaskPool();
-//        if (taskPool instanceof SyncTaskPool) {
-//        } else if (taskPool instanceof FilterTaskPool) {
-//            ZLog.i(ZTag.TAG_TASK, "转换为同步单任务执行模式(%s)", poolTag);
-//            executeTask(((FilterTaskPool) taskPool).getTaskPool(), true, executor);
-//        }
     }
 
     /**

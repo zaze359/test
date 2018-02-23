@@ -1,8 +1,8 @@
 package com.zaze.utils
 
+import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.content.ComponentName
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
@@ -12,12 +12,10 @@ import android.content.pm.ResolveInfo
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Debug
 import android.os.Process
 import android.text.TextUtils
-import android.util.Log
 import android.util.Pair
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
@@ -157,11 +155,14 @@ object ZAppUtil {
     }
 
     // --------------------------------------------------
-    fun queryIntentActivities(context: Context, packageName: String): List<ResolveInfo> {
+    /**
+     * s
+     */
+    fun queryMainIntentActivities(context: Context, packageName: String): List<ResolveInfo> {
         val mainIntent = Intent(Intent.ACTION_MAIN, null)
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER)
         mainIntent.`package` = packageName
-        return context.packageManager.queryIntentActivities(mainIntent, 0)
+        return context.packageManager.queryIntentActivities(mainIntent, PackageManager.MATCH_DEFAULT_ONLY)
     }
 
     fun getInstalledPackages(context: Context, flag: Int = 0): List<PackageInfo> {
@@ -386,10 +387,10 @@ object ZAppUtil {
      * @author zaze
      * @version 2017/5/22 - 下午3:32 1.0
      */
+    @SuppressLint("MissingPermission")
     fun killAppProcess(context: Context, packageName: String) {
-        val activityManager = getActivityManager(context)
-        activityManager.killBackgroundProcesses(packageName)
-        val processInfoList = getAppProcess(context, packageName);
+        getActivityManager(context).killBackgroundProcesses(packageName)
+        val processInfoList = getAppProcess(context, packageName)
         for (processInfo in processInfoList) {
             Process.killProcess(processInfo.pid)
         }
@@ -414,9 +415,7 @@ object ZAppUtil {
     // --------------------------------------------------
     // --------------------------------------------------
 
-    /**
-     *
-     */
+    @Deprecated("")
     fun startApplication(context: Context, packageName: String, bundle: Bundle? = null) {
         val packageInfo = getPackageInfo(context, packageName)
         if (packageInfo != null) {
@@ -424,7 +423,7 @@ object ZAppUtil {
                 ZTipUtil.toast(context, "($packageName)不可直接打开!")
             }
             // 启动应用程序对应的Activity
-            val apps = queryIntentActivities(context, packageName)
+            val apps = queryMainIntentActivities(context, packageName)
             var resolveInfo: ResolveInfo? = null
             try {
                 resolveInfo = apps.iterator().next()

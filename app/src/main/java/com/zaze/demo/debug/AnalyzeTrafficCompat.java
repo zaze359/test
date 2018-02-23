@@ -8,7 +8,7 @@ import android.text.TextUtils;
 import com.google.gson.reflect.TypeToken;
 import com.zaze.utils.AnalyzeUtil;
 import com.zaze.utils.ZFileUtil;
-import com.zaze.utils.ZJsonUtil;
+import com.zaze.utils.JsonUtil;
 import com.zaze.utils.ZStringUtil;
 import com.zaze.utils.cache.MemoryCacheManager;
 import com.zaze.utils.config.ZConfigHelper;
@@ -97,7 +97,7 @@ public abstract class AnalyzeTrafficCompat extends AnalyzeUtil {
                 archiveNetworkTraffic(true);
             }
             // --------------------------------------------------
-            List<NetTrafficStats> latelyTrafficStatsList = ZJsonUtil.parseJsonToList(latelyTrafficStatsFile.getProperty(KEY_TRAFFIC_LIST),
+            List<NetTrafficStats> latelyTrafficStatsList = JsonUtil.parseJsonToList(latelyTrafficStatsFile.getProperty(KEY_TRAFFIC_LIST),
                     new TypeToken<List<NetTrafficStats>>() {
                     }.getType());
             HashMap<Integer, NetTrafficStats> latelyTrafficStatsMap = new HashMap<>();
@@ -116,7 +116,7 @@ public abstract class AnalyzeTrafficCompat extends AnalyzeUtil {
                     saveList.add(mergedStats);
                 }
             }
-            map.put(KEY_TRAFFIC_LIST, ZJsonUtil.objToJson(saveList));
+            map.put(KEY_TRAFFIC_LIST, JsonUtil.objToJson(saveList));
             latelyTrafficStatsFile.setProperty(map);
             return list;
         }
@@ -162,7 +162,7 @@ public abstract class AnalyzeTrafficCompat extends AnalyzeUtil {
             ZLog.i(ZTag.TAG_DEBUG, "检查数据并进行合并归档");
             long bootTime = getBootTime();
             ZConfigHelper dayTrafficStatsFile = this.getDayTrafficStatsFile();
-            Collection<NetTrafficStats> dayTrafficStatsList = ZJsonUtil.parseJsonToList(dayTrafficStatsFile.getProperty(KEY_TRAFFIC_LIST),
+            Collection<NetTrafficStats> dayTrafficStatsList = JsonUtil.parseJsonToList(dayTrafficStatsFile.getProperty(KEY_TRAFFIC_LIST),
                     new TypeToken<List<NetTrafficStats>>() {
                     }.getType());
             HashMap<String, NetTrafficStats> dayTrafficStatsMap = new HashMap<>();
@@ -175,7 +175,7 @@ public abstract class AnalyzeTrafficCompat extends AnalyzeUtil {
                 }
             }
             // --------------------------------------------------
-            List<NetTrafficStats> latelyTrafficStatsList = ZJsonUtil.parseJsonToList(latelyTrafficStatsFile.getProperty(KEY_TRAFFIC_LIST),
+            List<NetTrafficStats> latelyTrafficStatsList = JsonUtil.parseJsonToList(latelyTrafficStatsFile.getProperty(KEY_TRAFFIC_LIST),
                     new TypeToken<List<NetTrafficStats>>() {
                     }.getType());
             List<NetTrafficStats> updateTrafficStatsList = new ArrayList<>();
@@ -204,9 +204,9 @@ public abstract class AnalyzeTrafficCompat extends AnalyzeUtil {
             }
             if (isSave) {
                 // 更新应用流量的上一次合并大小
-                latelyTrafficStatsFile.setProperty(KEY_TRAFFIC_LIST, ZJsonUtil.objToJson(updateTrafficStatsList));
+                latelyTrafficStatsFile.setProperty(KEY_TRAFFIC_LIST, JsonUtil.objToJson(updateTrafficStatsList));
                 // 更新日统计数据
-                dayTrafficStatsFile.setProperty(KEY_TRAFFIC_LIST, ZJsonUtil.objToJson(dayTrafficStatsMap.values()));
+                dayTrafficStatsFile.setProperty(KEY_TRAFFIC_LIST, JsonUtil.objToJson(dayTrafficStatsMap.values()));
                 dayTrafficStatsFile.setProperty(KEY_BOOT_TIME, String.valueOf(bootTime));
             }
             return dayTrafficStatsMap.values();

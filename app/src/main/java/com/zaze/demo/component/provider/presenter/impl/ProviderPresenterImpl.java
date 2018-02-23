@@ -11,7 +11,7 @@ import com.zaze.demo.component.provider.presenter.ProviderPresenter;
 import com.zaze.demo.component.provider.sqlite.User;
 import com.zaze.demo.component.provider.sqlite.UserDao;
 import com.zaze.demo.component.provider.view.ProviderView;
-import com.zaze.utils.ZJsonUtil;
+import com.zaze.utils.JsonUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
@@ -43,7 +43,7 @@ public class ProviderPresenterImpl extends BaseMvpPresenter<ProviderView> implem
             }
             cursor.close();
         }
-        ZLog.i(ZTag.TAG_PROVIDER, ZJsonUtil.objToJson(user));
+        ZLog.i(ZTag.TAG_PROVIDER, JsonUtil.objToJson(user));
 
 
     }

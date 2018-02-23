@@ -45,7 +45,7 @@ public abstract class Task<T> implements TaskSource {
      * @return 指定标签到任务组
      */
     public static <T> Task<T> create(String taskTag) {
-        return new TaskCreate<T>(taskTag);
+        return new TaskCreate<>(taskTag);
     }
 
     /**

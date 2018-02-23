@@ -6,7 +6,7 @@ import android.text.TextUtils;
 
 import com.zaze.demo.app.MyApplication;
 import com.zaze.utils.ThreadManager;
-import com.zaze.utils.ZJsonUtil;
+import com.zaze.utils.JsonUtil;
 import com.zaze.utils.ZNetUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
@@ -91,7 +91,7 @@ public class UDPSocketClient extends BaseSocketClient {
         while (isRunning) {
             try {
                 socket.receive(packet);
-                SocketMessage socketMessage = ZJsonUtil.parseJson(new String(packet.getData(), 0, packet.getLength(), Charset.defaultCharset()), SocketMessage.class);
+                SocketMessage socketMessage = JsonUtil.parseJson(new String(packet.getData(), 0, packet.getLength(), Charset.defaultCharset()), SocketMessage.class);
                 socketMessage.setAddress(packet.getAddress().getHostAddress());
                 socketMessage.setPort(packet.getPort());
                 socketMessage.setReceiverTime(System.currentTimeMillis());
@@ -115,7 +115,7 @@ public class UDPSocketClient extends BaseSocketClient {
                             ((MulticastSocket) serverSocket).setTimeToLive(4);
                         }
                         // 将本机的IP（这里可以写动态获取的IP）地址放到数据包里，其实server端接收到数据包后也能获取到发包方的IP的
-                        String json = ZJsonUtil.objToJson(message);
+                        String json = JsonUtil.objToJson(message);
                         byte[] data = json.getBytes();
                         WifiInfo wifiInfo = ZNetUtil.getConnectionInfo(MyApplication.getInstance());
                         if (wifiInfo != null) {

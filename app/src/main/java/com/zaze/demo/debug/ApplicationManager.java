@@ -7,7 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import com.zaze.demo.app.MyApplication;
 import com.zaze.utils.ZAppUtil;
 import com.zaze.utils.ZFileUtil;
-import com.zaze.utils.ZJsonUtil;
+import com.zaze.utils.JsonUtil;
 import com.zaze.utils.cache.MemoryCacheManager;
 import com.zaze.utils.config.ZConfigHelper;
 import com.zaze.utils.log.ZLog;
@@ -29,7 +29,7 @@ public class ApplicationManager {
     public static List<AppShortcut> getInstalledAppShortcuts() {
         synchronized (lockObj) {
             String key = "getInstalledAppShortcuts";
-            List<AppShortcut> appShortcutList = ZJsonUtil.parseJsonToList(MemoryCacheManager.getCache(key), new TypeToken<List<AppShortcut>>() {
+            List<AppShortcut> appShortcutList = JsonUtil.parseJsonToList(MemoryCacheManager.getCache(key), new TypeToken<List<AppShortcut>>() {
             }.getType());
             if (appShortcutList == null) {
                 List<ApplicationInfo> list = ZAppUtil.INSTANCE.getInstalledApplications(MyApplication.getInstance(), 0);
@@ -37,14 +37,14 @@ public class ApplicationManager {
                 for (ApplicationInfo applicationInfo : list) {
                     AppShortcut appShortcut = AppShortcut.transform(applicationInfo,
                             ZAppUtil.INSTANCE.getAppName(MyApplication.getInstance(), applicationInfo.packageName, ""));
-                    String value = ZJsonUtil.objToJson(appShortcut);
+                    String value = JsonUtil.objToJson(appShortcut);
                     MemoryCacheManager.saveCache(applicationInfo.packageName, value);
                     MemoryCacheManager.saveCache(String.valueOf(applicationInfo.uid), value);
                     latelyUidFile.setProperty(String.valueOf(applicationInfo.uid), value);
                     ZLog.i(ZTag.TAG_DEBUG, applicationInfo.uid + " : " + applicationInfo.packageName);
                     appShortcutList.add(appShortcut);
                 }
-                MemoryCacheManager.saveCache(key, ZJsonUtil.objToJson(appShortcutList));
+                MemoryCacheManager.saveCache(key, JsonUtil.objToJson(appShortcutList));
             }
             return appShortcutList;
         }
@@ -52,7 +52,7 @@ public class ApplicationManager {
 
     public static AppShortcut getAppShortcutByUid(int uid) {
         synchronized (lockObj) {
-            AppShortcut appShortcut = ZJsonUtil.parseJson(MemoryCacheManager.getCache(String.valueOf(uid)), AppShortcut.class);
+            AppShortcut appShortcut = JsonUtil.parseJson(MemoryCacheManager.getCache(String.valueOf(uid)), AppShortcut.class);
             if (appShortcut == null) {
                 String packageName = ZAppUtil.INSTANCE.getNameForUid(MyApplication.getInstance(), uid);
                 if (!TextUtils.isEmpty(packageName)) {
@@ -60,7 +60,7 @@ public class ApplicationManager {
                             ZAppUtil.INSTANCE.getAppName(MyApplication.getInstance(), packageName, ""));
                 }
                 if (appShortcut == null) {
-                    appShortcut = ZJsonUtil.parseJson(latelyUidFile.getProperty(String.valueOf(uid)), AppShortcut.class);
+                    appShortcut = JsonUtil.parseJson(latelyUidFile.getProperty(String.valueOf(uid)), AppShortcut.class);
                     if (appShortcut == null) {
                         appShortcut = new AppShortcut();
                         appShortcut.setPackageName(packageName);
@@ -68,7 +68,7 @@ public class ApplicationManager {
                     }
                     MemoryCacheManager.deleteCache(String.valueOf(uid));
                 } else {
-                    String json = ZJsonUtil.objToJson(appShortcut);
+                    String json = JsonUtil.objToJson(appShortcut);
                     latelyUidFile.setProperty(String.valueOf(uid), json);
                     MemoryCacheManager.saveCache(String.valueOf(uid), json);
                 }

@@ -10,7 +10,7 @@ maven { url "https://dl.bintray.com/zaze359/maven" }
 
 ### Gradle
 
-## 工具类仓库
+## 工具类库
 
 > compile 'com.zaze:zazeutil:1.2.1'
 
@@ -19,7 +19,7 @@ maven { url "https://dl.bintray.com/zaze359/maven" }
 3. MemoryCache 模块
 4. Log 模块
 
-## 组件仓库
+## 组件库
 
 > compile 'com.zaze:zazecommon:1.1.1@aar'
 

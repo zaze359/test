@@ -16,7 +16,7 @@ import com.zaze.demo.component.socket.SocketMessage;
 import com.zaze.demo.component.socket.UDPSocketClient;
 import com.zaze.demo.component.socket.adapter.SocketAdapter;
 import com.zaze.utils.ThreadManager;
-import com.zaze.utils.ZJsonUtil;
+import com.zaze.utils.JsonUtil;
 import com.zaze.utils.ZOnClickHelper;
 import com.zaze.utils.ZStringUtil;
 
@@ -149,7 +149,7 @@ public class ClientFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onSocketEvent(String event) {
-        SocketMessage message = ZJsonUtil.parseJson(event, SocketMessage.class);
+        SocketMessage message = JsonUtil.parseJson(event, SocketMessage.class);
         inviteSet.add(ZStringUtil.format("%s:%s", message.getAddress(), message.getPort()));
     }
 }

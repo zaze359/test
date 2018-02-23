@@ -135,17 +135,6 @@ public class SyncTaskPool extends TaskPool {
                     ZLog.w(ZTag.TAG_TASK, "已存在相同任务(%s), 更新为最新", taskId);
                 }
             }
-//            if (taskIdQueue.contains(taskId)) {
-//                if (needLog) {
-//                    ZLog.w(ZTag.TAG_TASK, "已存在相同任务(%s), 更新为最新", taskId);
-//                }
-//            } else {
-//                if (needLog) {
-//                    ZLog.i(ZTag.TAG_TASK, "添加任务(%s) : 成功", taskId);
-//                }
-//            }
-//            taskIdQueue.remove(taskId);
-//            taskIdQueue.add(taskId);
         }
     }
 

@@ -70,12 +70,12 @@ public class ZCommand {
                     int exitValue = process.waitFor();
                     if (exitValue == SUCCESS) {
                         if (showLog) {
-                            ZLog.i(ZTag.TAG_CDM, "设备已Root");
+                            ZLog.i(ZTag.TAG_CMD, "设备已Root");
                         }
                         isRoot = true;
                     }
                 } catch (Exception e) {
-                    ZLog.e(ZTag.TAG_CDM, "设备未Root");
+                    ZLog.e(ZTag.TAG_CMD, "设备未Root");
                 } finally {
                     if (outputStream != null) {
                         try {
@@ -202,7 +202,7 @@ public class ZCommand {
                     continue;
                 }
                 if (showLog) {
-                    ZLog.i(ZTag.TAG_CDM, "command ： " + command + "\n");
+                    ZLog.i(ZTag.TAG_CMD, "command ： " + command + "\n");
                 }
                 // donnot use os.writeBytes(commmand), avoid chinese charset error
                 outputStream.write(command.getBytes());

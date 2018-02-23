@@ -83,8 +83,12 @@
         <service android:name=".component.notification.service.NotificationService" />
         <!-- 测试接收推送 end -->
 
+        <service
+            android:name=".debug.TestService"
+            android:process=":zaze_assist" />
 
         <!-- contentProvider start -->
+
         <!-- <provider -->
         <!-- android:name="com.zaze.demo.component.provider.ZazeProvider" -->
         <!-- android:authorities="com.zaze.user.provider" -->

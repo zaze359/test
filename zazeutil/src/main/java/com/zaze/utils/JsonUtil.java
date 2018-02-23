@@ -2,6 +2,7 @@ package com.zaze.utils;
 
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,7 +21,11 @@ import java.util.Vector;
  * @author : zaze
  * @version : 1.0
  */
-public class ZJsonUtil {
+public class JsonUtil {
+
+    private static boolean prettyPrinting = false;
+    private static GsonBuilder gsonBuilder;
+
     /**
      * json String 转换为bean
      *
@@ -34,7 +39,7 @@ public class ZJsonUtil {
             return null;
         }
         try {
-            return new Gson().fromJson(json, classOfT);
+            return create().fromJson(json, classOfT);
         } catch (Throwable e) {
             e.printStackTrace();
             return null;
@@ -44,24 +49,18 @@ public class ZJsonUtil {
     /**
      * bean 转换为 jsonStr
      *
-     * @param t   bean
-     * @param <T> T
+     * @param obj Object
      * @return jsonStr
      */
-    public static <T> String objToJson(T t) {
-        if (t == null) {
+    public static String objToJson(Object obj) {
+        if (obj == null) {
             return null;
         }
-        if (t instanceof JSONObject || t instanceof JSONArray) {
-            return t.toString();
-        } else {
-            try {
-                Gson gson = new Gson();
-                return gson.toJson(t);
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
+        try {
+            return create().toJson(obj);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
@@ -96,7 +95,7 @@ public class ZJsonUtil {
             return null;
         }
         try {
-            return new Gson().fromJson(json, type);
+            return create().fromJson(json, type);
         } catch (Throwable e) {
             e.printStackTrace();
             return null;
@@ -161,4 +160,26 @@ public class ZJsonUtil {
     }
 
     // --------------------------------------------------
+
+    private static GsonBuilder builder() {
+        GsonBuilder builder = new GsonBuilder();
+        if (prettyPrinting) {
+            builder.setPrettyPrinting();
+        }
+        return builder;
+    }
+
+    private static Gson create() {
+        if (gsonBuilder == null) {
+            gsonBuilder = builder();
+        }
+        return gsonBuilder.create();
+    }
+
+    public static void prettyPrinting() {
+        if (!prettyPrinting) {
+            prettyPrinting = true;
+            gsonBuilder = builder();
+        }
+    }
 }
