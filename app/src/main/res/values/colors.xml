@@ -4,9 +4,9 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="head_background">@color/colorPrimary</color>
-    <color name="head_text_color_default">@color/white</color>
-    <color name="head_text_color_pressed">#999999</color>
+    <!--<color name="head_background">@color/colorPrimary</color>-->
+    <!--<color name="head_text_color_default">@color/white</color>-->
+    <!--<color name="head_text_color_pressed">#999999</color>-->
 
     <color name="black_light">#2d2d2d</color>
     <color name="white">@android:color/white</color>

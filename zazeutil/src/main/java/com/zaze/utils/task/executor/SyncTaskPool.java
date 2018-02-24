@@ -90,32 +90,22 @@ public class SyncTaskPool extends TaskPool {
             return;
         }
         String taskId = entity.getTaskId();
+        if (ZStringUtil.isEmpty(taskId)) {
+            taskId = String.valueOf(entity.hashCode());
+            entity.setTaskId(taskId);
+        }
         if (currentTaskSet.contains(ZStringUtil.parseString(taskId))) {
             if (needLog) {
                 ZLog.i(ZTag.TAG_TASK, "该任务正在执行中(%s)", taskId);
             }
             return;
         }
-        // --------------------------------------------------
-        if (ZStringUtil.isEmpty(taskId)) {
-            taskId = String.valueOf(entity.hashCode());
-            entity.setTaskId(taskId);
-        }
-        ExecuteTask newExecuteTask = new ExecuteTask(entity);
-        ExecuteTask executeTask;
-        if (taskMap.containsKey(taskId)) {
-            executeTask = taskMap.get(taskId);
-        } else {
-            executeTask = newExecuteTask;
-        }
-        taskMap.put(taskId, executeTask);
+        taskMap.put(taskId, new ExecuteTask(entity));
         if (addFirst) {
             if (needLog) {
                 ZLog.i(ZTag.TAG_TASK, "优先执行该任务(%s)", taskId);
             }
-            if (taskIdQueue.contains(taskId)) {
-                taskIdQueue.remove(taskId);
-            }
+            removeTask(taskId);
             List<String> list = new ArrayList<>();
             list.add(taskId);
             list.addAll(taskIdQueue);
@@ -135,6 +125,13 @@ public class SyncTaskPool extends TaskPool {
                     ZLog.w(ZTag.TAG_TASK, "已存在相同任务(%s), 更新为最新", taskId);
                 }
             }
+        }
+    }
+
+    @Override
+    public void removeTask(String taskId) {
+        if (taskIdQueue.contains(taskId)) {
+            taskIdQueue.remove(taskId);
         }
     }
 

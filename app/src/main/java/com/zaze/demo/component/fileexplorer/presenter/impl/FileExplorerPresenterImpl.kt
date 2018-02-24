@@ -1,6 +1,5 @@
 package com.zaze.demo.component.fileexplorer.presenter.impl
 
-import android.os.Environment
 import com.zaze.common.base.mvp.BaseMvpPresenter
 import com.zaze.demo.component.fileexplorer.FileEvent
 import com.zaze.demo.component.fileexplorer.adapter.FileEntity
@@ -19,7 +18,7 @@ import java.io.File
  */
 class FileExplorerPresenterImpl(view: FileExplorerView) : BaseMvpPresenter<FileExplorerView>(view), FileExplorerPresenter {
 
-    private var curFile = File(Environment.getExternalStorageDirectory().absolutePath)
+    private var curFile = File("/")
 
     override fun loadFileList() {
         if (curFile.exists()) {

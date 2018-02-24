@@ -53,8 +53,15 @@ public class ToolBarDemoActivity extends BaseActivity {
         toolBarDemoBar.setTitle("ToolBarDemo");
         toolBarDemoBar.setSubtitle("SubTitle");
         setSupportActionBar(toolBarDemoBar);
-        //
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         initTab();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
     }
 
     private void initTab() {

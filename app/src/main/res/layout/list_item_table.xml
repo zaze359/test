@@ -3,17 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dp_2"
+    android:layout_marginTop="@dimen/dp_2"
+    android:background="@drawable/touchable_background_white"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="@dimen/dp_2">
+    android:paddingLeft="@dimen/dp_16"
+    android:paddingRight="@dimen/dp_16">
 
     <TextView
         android:id="@+id/item_table_name"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_60"
-        android:background="@drawable/touchable_background_blue"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:textSize="@dimen/sp_20"
-        tools:text="item" />
+        android:layout_height="@dimen/dp_48"
+        android:gravity="center_vertical"
+        tools:text="Item Item Item" />
 </LinearLayout>

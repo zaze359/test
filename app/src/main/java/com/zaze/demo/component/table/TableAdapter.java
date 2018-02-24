@@ -1,16 +1,15 @@
 package com.zaze.demo.component.table;
 
 
-import android.content.Context;
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
-import com.zaze.common.adapter.third.ZUltimateRecycleAdapter;
+import com.zaze.common.adapter.BaseRecyclerAdapter;
 import com.zaze.demo.R;
 import com.zaze.demo.model.entity.TableEntity;
+import com.zaze.utils.ZActivityUtil;
 
 import java.util.List;
 
@@ -23,15 +22,12 @@ import butterknife.ButterKnife;
  * @author : ZAZE
  * @version : 2016-08-15 - 17:06
  */
-public class TableAdapter extends ZUltimateRecycleAdapter<TableEntity, TableAdapter.AppItemHolder> {
+public class TableAdapter extends BaseRecyclerAdapter<TableEntity, TableAdapter.AppItemHolder> {
+    private Activity activity;
 
-    public TableAdapter(Context context, List<TableEntity> data) {
-        super(context, data);
-    }
-
-    @Override
-    public AppItemHolder getViewHolder(View view, boolean isItem) {
-        return new AppItemHolder(view, isItem);
+    public TableAdapter(Activity activity, List<TableEntity> data) {
+        super(activity, data);
+        this.activity = activity;
     }
 
     @Override
@@ -40,34 +36,28 @@ public class TableAdapter extends ZUltimateRecycleAdapter<TableEntity, TableAdap
     }
 
     @Override
-    public void onBindView(AppItemHolder holder, TableEntity value, int position) {
+    public AppItemHolder createViewHolder(View convertView) {
+        return new AppItemHolder(convertView);
+    }
+
+    @Override
+    public void onBindView(AppItemHolder holder, final TableEntity value, int position) {
         holder.itemToolName.setText(value.getName());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ZActivityUtil.startActivity(activity, value.getTargetClass());
+            }
+        });
     }
 
-    @Override
-    public long generateHeaderId(int position) {
-        return 0;
-    }
-
-    @Override
-    public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
-        return null;
-    }
-
-    @Override
-    public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-    }
-
-    public class AppItemHolder extends UltimateRecyclerviewViewHolder {
+    public class AppItemHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.item_table_name)
         TextView itemToolName;
 
-        public AppItemHolder(View itemView, boolean isItem) {
+        public AppItemHolder(View itemView) {
             super(itemView);
-            if (isItem) {
-                ButterKnife.bind(this, itemView);
-            }
+            ButterKnife.bind(this, itemView);
         }
     }
 }

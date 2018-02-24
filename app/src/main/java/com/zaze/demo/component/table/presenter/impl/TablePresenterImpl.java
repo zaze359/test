@@ -22,7 +22,7 @@ public class TablePresenterImpl implements TablePresenter {
     }
 
     @Override
-    public void getToolBox() {
+    public void refresh() {
         view.showAppList(entityModel.getTableList());
     }
 }

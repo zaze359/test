@@ -32,8 +32,11 @@ class FileAdapter(context: Context, data: Collection<FileEntity>) : ZUltimateRec
         val iconText: String
         val iconRes: Int
         if (ZFileUtil.isDirectory(path)) {
-            iconText = "D"
-            iconRes = R.drawable.bg_circle_blue
+//            iconText = "D"
+//            iconRes = R.drawable.bg_circle_blue
+            iconText = ""
+            iconRes = R.mipmap.ic_folder_black_48dp
+
         } else if (ZFileUtil.isFile(path)) {
             iconText = "F"
             iconRes = R.drawable.bg_circle_green

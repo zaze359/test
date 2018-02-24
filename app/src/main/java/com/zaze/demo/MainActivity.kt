@@ -42,6 +42,7 @@ class MainActivity : BaseActivity() {
         fragmentList.add(TableFragment.newInstance("0"))
         // --------------------------------------------------
         main_viewpager.adapter = MyPagerAdapter(supportFragmentManager, fragmentList)
+
         main_test_button.setOnClickListener {
             val debug = KotlinDebug()
 //            debug.test()

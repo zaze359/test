@@ -13,4 +13,5 @@
         android:paddingRight="@dimen/dp_16" />
 
     <include layout="@layout/layout_split_line" />
+
 </LinearLayout>

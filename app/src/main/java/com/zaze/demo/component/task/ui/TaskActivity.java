@@ -10,6 +10,7 @@ import com.zaze.demo.component.task.presenter.TaskPresenter;
 import com.zaze.demo.component.task.presenter.impl.TaskPresenterImpl;
 import com.zaze.demo.component.task.view.TaskView;
 import com.zaze.utils.ThreadManager;
+import com.zaze.utils.ZCallback;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 import com.zaze.utils.task.Task;
@@ -75,7 +76,7 @@ public class TaskActivity extends BaseActivity implements TaskView {
     }
 
     @OnClick(R.id.task_push_btn)
-    public void pushAndExecute(View view) {
+    public void pushTask(View view) {
         ThreadManager.getInstance().runInSingleThread(new Runnable() {
             @Override
             public void run() {
@@ -84,7 +85,27 @@ public class TaskActivity extends BaseActivity implements TaskView {
                     list.add(new TaskEntity(String.valueOf(i)) {
                         @Override
                         public void onExecute(TaskEntity task) throws Exception {
-                            Thread.sleep(300);
+                            String taskId = task.getTaskId();
+                            final Thread thread = Thread.currentThread();
+                            synchronized (thread) {
+                                ZLog.i(ZTag.TAG_DEBUG, "onExecute start : " + taskId);
+                                onExecuteTask(taskId, new ZCallback<String>() {
+                                    @Override
+                                    public void onNext(String s) {
+                                        ZLog.i(ZTag.TAG_DEBUG, "onExecute onNext : " + s);
+                                        synchronized (thread) {
+                                            thread.notify();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCompleted() {
+                                    }
+                                });
+                                thread.wait();
+                                ZLog.i(ZTag.TAG_DEBUG, "onExecute finish : " + taskId);
+                            }
+
                         }
                     });
                 }
@@ -93,12 +114,26 @@ public class TaskActivity extends BaseActivity implements TaskView {
         });
     }
 
-    @OnClick(R.id.task_execute_async_btn)
-    public void pushAsyncTask(View view) {
-        testTask.executeOnAsync().execute();
+    private void onExecuteTask(final String taskId, final ZCallback<String> callback) {
+        ThreadManager.getInstance().runInMultiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                callback.onNext(taskId);
+            }
+        });
     }
 
     // --------------------------------------------------
+
+    @OnClick(R.id.task_execute_async_btn)
+    public void asyncExecute(View view) {
+        testTask.executeOnAsync().execute();
+    }
 
     @OnClick(R.id.task_auto_btn)
     public void autoExecute(View view) {
@@ -109,6 +144,7 @@ public class TaskActivity extends BaseActivity implements TaskView {
     public void multiExecute(View view) {
         testTask.executeOnAsyncMulti().execute();
     }
+
 
     @Override
     protected void onDestroy() {

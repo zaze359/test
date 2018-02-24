@@ -1,23 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/head_height"
-    android:background="@color/head_background">
-
-    <include
-        android:id="@+id/head_bottom_line"
-        layout="@layout/layout_split_line"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" />
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:baselineAligned="false"
         android:gravity="center"
         android:orientation="horizontal">
@@ -25,7 +15,7 @@
         <LinearLayout
             android:id="@+id/head_left_layout"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/head_height"
             android:layout_weight="3"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -37,13 +27,13 @@
 
                 <TextView
                     android:id="@+id/head_left_red"
-                    android:layout_width="@dimen/dp_16"
-                    android:layout_height="@dimen/dp_16"
+                    android:layout_width="@dimen/dp_14"
+                    android:layout_height="@dimen/dp_14"
                     android:layout_gravity="right|top"
                     android:background="@drawable/bg_circle_red"
                     android:gravity="center"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/sp_12"
+                    android:textSize="@dimen/sp_10"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -55,7 +45,7 @@
                     android:drawableLeft="@drawable/icon_return"
                     android:gravity="center_vertical"
                     android:textColor="@color/head_text_color"
-                    android:textSize="@dimen/sp_24"
+                    android:textSize="@dimen/sp_20"
                     tools:text="返回" />
             </FrameLayout>
         </LinearLayout>
@@ -76,7 +66,7 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:textColor="@color/head_text_color"
-                android:textSize="@dimen/sp_28"
+                android:textSize="@dimen/sp_22"
                 tools:text="标题" />
         </LinearLayout>
 
@@ -84,7 +74,7 @@
         <LinearLayout
             android:id="@+id/head_right_layout"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/head_height"
             android:layout_gravity="center_horizontal|right"
             android:layout_weight="3"
             android:orientation="horizontal"
@@ -108,13 +98,13 @@
 
                 <TextView
                     android:id="@+id/head_right_red"
-                    android:layout_width="@dimen/dp_16"
-                    android:layout_height="@dimen/dp_16"
+                    android:layout_width="@dimen/dp_14"
+                    android:layout_height="@dimen/dp_14"
                     android:layout_gravity="right|top"
                     android:background="@drawable/bg_circle_red"
                     android:gravity="center"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/sp_12"
+                    android:textSize="@dimen/sp_10"
                     android:visibility="gone"
                     tools:text="1"
                     tools:visibility="visible" />
@@ -126,7 +116,7 @@
                     android:gravity="center_vertical|right"
                     android:maxLines="1"
                     android:textColor="@color/head_text_color"
-                    android:textSize="@dimen/sp_24"
+                    android:textSize="@dimen/sp_20"
                     tools:text="自练列表" />
             </FrameLayout>
 
@@ -142,5 +132,8 @@
         </LinearLayout>
     </LinearLayout>
 
-</RelativeLayout>
+    <include
+        android:id="@+id/head_bottom_line"
+        layout="@layout/layout_split_line" />
+</LinearLayout>
 

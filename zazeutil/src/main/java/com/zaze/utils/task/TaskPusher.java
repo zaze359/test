@@ -32,6 +32,14 @@ public abstract class TaskPusher<T> extends Task<T> {
         return this;
     }
 
+    @Override
+    protected Task<T> removeTask(String taskId) {
+        if (!TextUtils.isEmpty(taskId)) {
+            getTaskPool().removeTask(taskId);
+        }
+        return this;
+    }
+
     /**
      * 替换更新任务池
      *
@@ -96,7 +104,6 @@ public abstract class TaskPusher<T> extends Task<T> {
     protected void clearPoll() {
         TaskPool taskPool = getTaskPool();
         taskPool.clear();
-        taskPool = null;
         POOL_MAP.remove(poolTag);
     }
 

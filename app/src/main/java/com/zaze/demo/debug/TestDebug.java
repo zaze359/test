@@ -2,6 +2,8 @@ package com.zaze.demo.debug;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.XmlResourceParser;
 import android.provider.Settings;
 
@@ -9,12 +11,14 @@ import com.zaze.utils.JsonUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Description :
@@ -45,33 +49,35 @@ public class TestDebug {
 //        configHelper.setProperty("a", "112233");
 //        ZLog.d(ZTag.TAG_DEBUG, configHelper.getProperty("a"));
 //        ZFileUtil.INSTANCE.reCreateDir();
-        JsonUtil.prettyPrinting();
 
-
-        String uri = "#Intent;action=android.intent.action.MAIN;category=android.intent.category.APP_CONTACTS;end";
+//        JsonUtil.prettyPrinting();
+//        String uri = "#Intent;action=android.intent.action.MAIN;category=android.intent.category.APP_CONTACTS;end";
+        String uri = "#Intent;action=android.intent.action.MAIN;category=android.intent.category.APP_BROWSER;end";
         final Intent metaIntent;
         try {
             metaIntent = Intent.parseUri(uri, 0);
-//            ZAppUtil.INSTANCE.
-//            List<ResolveInfo> appList = mPackageManager.queryIntentActivities(metaIntent, PackageManager.MATCH_DEFAULT_ONLY);
+            JSONArray jsonArray = new JSONArray();
+            List<ResolveInfo> appList = context.getPackageManager().queryIntentActivities(metaIntent, PackageManager.MATCH_DEFAULT_ONLY);
+            for (ResolveInfo resolveInfo : appList) {
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("name", resolveInfo.activityInfo.name);
+                    jsonObject.put("packageName", resolveInfo.activityInfo.packageName);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            try {
+                ZLog.d(ZTag.TAG_DEBUG, jsonArray.toString(4));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            ZLog.d(ZTag.TAG_DEBUG, JsonUtil.objToJson(jsonArray));
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("aa", "ccc");
-            jsonObject.put("bb", 11111);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        try {
-            ZLog.d(ZTag.TAG_DEBUG, jsonObject.toString(4));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        ZLog.d(ZTag.TAG_DEBUG, JsonUtil.objToJson(jsonObject));
 //        File file = new File("/proc/net/xt_qtaguid/stats");
 //        AnalyzeTrafficCompat.getNewestNetworkTraffic();
 //        AnalyzeTrafficCompat.analyzeProcStat();

@@ -43,6 +43,13 @@ public class FilterTaskPool extends TaskPool {
     }
 
     @Override
+    public void removeTask(String taskId) {
+        if (taskPool != null) {
+            taskPool.removeTask(taskId);
+        }
+    }
+
+    @Override
     public ExecuteTask pollTask() {
         return taskPool == null ? null : taskPool.pollTask();
     }

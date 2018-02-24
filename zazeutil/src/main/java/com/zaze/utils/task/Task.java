@@ -75,6 +75,10 @@ public abstract class Task<T> implements TaskSource {
         return pushTask(entity, false);
     }
 
+    public void remove(String taskId) {
+        removeTask(taskId);
+    }
+
     /**
      * 添加任务(默认到末端)
      *
@@ -83,6 +87,13 @@ public abstract class Task<T> implements TaskSource {
      * @return Task
      */
     protected abstract Task<T> pushTask(TaskEntity entity, boolean pushToHead);
+
+    /**
+     * 移除任务
+     *
+     * @param taskId taskId
+     */
+    protected abstract Task<T> removeTask(String taskId);
 
     public abstract TaskAsyncMulti<T> executeOnAsyncMulti();
 

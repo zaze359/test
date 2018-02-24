@@ -40,6 +40,14 @@ public abstract class TaskPool {
     public abstract void pushTask(TaskEntity entity, boolean toHead);
 
     /**
+     * 移除任务
+     *
+     * @param taskId taskId
+     */
+    public abstract void removeTask(String taskId);
+
+
+    /**
      * 取一个任务
      *
      * @return ExecuteTask
