@@ -22,7 +22,7 @@ public class TransitionActivity extends BaseActivity implements TransitionView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_transition);
+        setContentView(R.layout.transition_activity);
         presenter = new TransitionPresenterImpl(this);
     }
 }

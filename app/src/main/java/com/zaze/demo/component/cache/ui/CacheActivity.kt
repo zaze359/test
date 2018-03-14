@@ -7,7 +7,7 @@ import com.zaze.demo.R
 import com.zaze.demo.component.cache.presenter.CachePresenter
 import com.zaze.demo.component.cache.presenter.impl.CachePresenterImpl
 import com.zaze.demo.component.cache.view.CacheView
-import kotlinx.android.synthetic.main.activity_cache.*
+import kotlinx.android.synthetic.main.cache_activity.*
 
 /**
  * Description :
@@ -19,7 +19,7 @@ open class CacheActivity : BaseActivity(), CacheView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_cache)
+        setContentView(R.layout.cache_activity)
         presenter = CachePresenterImpl(this)
 
         cache_save_btn.setOnClickListener {

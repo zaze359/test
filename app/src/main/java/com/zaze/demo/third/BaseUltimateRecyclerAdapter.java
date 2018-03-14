@@ -1,4 +1,4 @@
-package com.zaze.common.adapter.third;
+package com.zaze.demo.third;
 
 
 import android.content.Context;
@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
-import com.zaze.common.adapter.OnItemClickListener;
 import com.zaze.common.adapter.ResourceAdapter;
 import com.zaze.utils.ZOnClickHelper;
 import com.zaze.utils.ZViewUtil;
@@ -29,7 +28,7 @@ import java.util.List;
  * @author : zaze
  * @version : 1.0
  */
-public abstract class ZUltimateRecycleAdapter<V, VH extends RecyclerView.ViewHolder> extends UltimateViewAdapter<VH> implements ResourceAdapter {
+public abstract class BaseUltimateRecyclerAdapter<V, VH extends RecyclerView.ViewHolder> extends UltimateViewAdapter<VH> implements ResourceAdapter {
     private Context context;
     private final List<V> dataList = new ArrayList<>();
     private View.OnClickListener onClickListener;
@@ -38,7 +37,7 @@ public abstract class ZUltimateRecycleAdapter<V, VH extends RecyclerView.ViewHol
     private int page;
     private int pageSize = 10;
 
-    public ZUltimateRecycleAdapter(Context context, Collection<V> data) {
+    public BaseUltimateRecyclerAdapter(Context context, Collection<V> data) {
         this.context = context;
         preSetData();
         this.setDataList(data, false);
@@ -212,4 +211,22 @@ public abstract class ZUltimateRecycleAdapter<V, VH extends RecyclerView.ViewHol
     public Bitmap getBitmap(int resId) {
         return BitmapFactory.decodeResource(context.getResources(), resId);
     }
+
+    /**
+     * Description :
+     *
+     * @author : ZAZE
+     * @version : 2016-12-12 - 00:46
+     */
+    public interface OnItemClickListener<V> {
+        /**
+         * 点击item回调
+         *
+         * @param view     view
+         * @param value    value
+         * @param position position
+         */
+        void onItemClick(View view, V value, int position);
+    }
+
 }

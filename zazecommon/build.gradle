@@ -32,12 +32,6 @@ dependencies {
     provided 'io.reactivex.rxjava2:rxandroid:2.0.1'
     provided 'io.reactivex.rxjava2:rxjava:2.1.7'
     provided 'com.google.code.gson:gson:2.8.0'
-    provided('com.marshalchen.ultimaterecyclerview:library:0.7.3') {
-        exclude module: "appcompat-v7"
-        exclude module: "support-v4"
-        exclude module: "support-v13"
-        exclude module: "recyclerview-v7"
-    }
     provided project(':zazeutil')
 }
 

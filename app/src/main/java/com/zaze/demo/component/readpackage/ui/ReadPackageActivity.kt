@@ -6,7 +6,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
-import com.zaze.common.adapter.third.UltimateRecyclerViewHelper
+import com.zaze.demo.third.UltimateRecyclerViewHelper
 import com.zaze.common.base.BaseActivity
 import com.zaze.common.widget.head.ZOrientation
 import com.zaze.demo.R
@@ -16,7 +16,7 @@ import com.zaze.demo.component.readpackage.presenter.impl.ReadPackagePresenterIm
 import com.zaze.demo.component.readpackage.view.ReadPackageView
 import com.zaze.demo.model.entity.PackageEntity
 import com.zaze.utils.ZOnClickHelper
-import kotlinx.android.synthetic.main.activity_read_package.*
+import kotlinx.android.synthetic.main.read_package_activity.*
 
 /**
  * Description :
@@ -31,7 +31,7 @@ class ReadPackageActivity : BaseActivity(), ReadPackageView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_read_package)
+        setContentView(R.layout.read_package_activity)
         headWidget.setText("查看包名", ZOrientation.CENTER)
         presenter = ReadPackagePresenterImpl(this)
         presenter?.getAppList()

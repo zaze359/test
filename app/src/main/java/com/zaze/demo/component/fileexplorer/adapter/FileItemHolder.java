@@ -3,7 +3,7 @@ package com.zaze.demo.component.fileexplorer.adapter;
 import android.view.View;
 import android.widget.TextView;
 
-import com.zaze.common.adapter.third.ZUltimateRecyclerViewHolder;
+import com.zaze.demo.third.BaseUltimateRecyclerViewHolder;
 import com.zaze.demo.R;
 
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
  * @author : ZAZE
  * @version : 2017-07-12 - 13:27
  */
-public class FileItemHolder extends ZUltimateRecyclerViewHolder {
+public class FileItemHolder extends BaseUltimateRecyclerViewHolder {
 
     @Bind(R.id.item_file_name_tv)
     TextView itemFileNameTv;

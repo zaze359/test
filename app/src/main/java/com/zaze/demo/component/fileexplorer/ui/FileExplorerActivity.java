@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
-import com.zaze.common.adapter.third.UltimateRecyclerViewHelper;
+import com.zaze.demo.third.UltimateRecyclerViewHelper;
 import com.zaze.common.base.BaseActivity;
 import com.zaze.common.widget.head.ZOrientation;
 import com.zaze.demo.R;
@@ -49,7 +49,7 @@ public class FileExplorerActivity extends BaseActivity implements FileExplorerVi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_file_explorer);
+        setContentView(R.layout.file_explorer_activity);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         getHeadWidget()

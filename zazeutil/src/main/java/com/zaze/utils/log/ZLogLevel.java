@@ -16,6 +16,7 @@ import java.lang.annotation.RetentionPolicy;
 @IntDef({ZLogLevel.ERROR, ZLogLevel.WARN, ZLogLevel.INFO, ZLogLevel.DEBUG, ZLogLevel.VERBOSE})
 @Retention(RetentionPolicy.SOURCE)
 public @interface ZLogLevel {
+    int NULL = 0;
     int ERROR = 1;
     int WARN = 2;
     int INFO = 3;

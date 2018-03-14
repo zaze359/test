@@ -1,5 +1,6 @@
 package com.zaze.utils;
 
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -65,10 +66,10 @@ public class ZOnClickHelper {
     }
 
     private static boolean isCanClick() {
-        return Math.abs(System.currentTimeMillis() - clickTime) > 400L;
+        return Math.abs(SystemClock.uptimeMillis() - clickTime) > 400L;
     }
 
     private static void updateClickTime() {
-        clickTime = System.currentTimeMillis();
+        clickTime = SystemClock.uptimeMillis();
     }
 }

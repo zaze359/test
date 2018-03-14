@@ -47,7 +47,7 @@ public class ToolBarDemoActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tool_bar_demo);
+        setContentView(R.layout.tool_bar_activity);
         ButterKnife.bind(this);
         //
         toolBarDemoBar.setTitle("ToolBarDemo");

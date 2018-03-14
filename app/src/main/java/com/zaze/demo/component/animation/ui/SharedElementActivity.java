@@ -13,7 +13,7 @@ import android.view.View;
 
 import com.zaze.demo.R;
 import com.zaze.demo.component.animation.presenter.SharedElementPresenter;
-import com.zaze.demo.databinding.ActivitySharedElementBinding;
+import com.zaze.demo.databinding.SharedElementActivityBinding;
 import com.zaze.demo.model.entity.AnimationEntity;
 
 
@@ -46,7 +46,7 @@ public class SharedElementActivity extends AppCompatActivity {
     }
 
     private void bindData() {
-        ActivitySharedElementBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_shared_element);
+        SharedElementActivityBinding binding = DataBindingUtil.setContentView(this, R.layout.shared_element_activity);
         binding.setSharedSample(animationEntity);
     }
 

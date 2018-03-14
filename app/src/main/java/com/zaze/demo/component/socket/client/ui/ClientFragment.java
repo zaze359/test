@@ -10,6 +10,7 @@ import android.view.View;
 import com.zaze.common.base.BaseFragment;
 import com.zaze.demo.R;
 import com.zaze.demo.component.notification.service.NotificationService;
+import com.zaze.demo.component.socket.AlarmService;
 import com.zaze.demo.component.socket.BaseSocketClient;
 import com.zaze.demo.component.socket.MessageType;
 import com.zaze.demo.component.socket.SocketMessage;
@@ -38,13 +39,13 @@ import java.util.List;
  */
 public class ClientFragment extends BaseFragment {
     private SocketAdapter adapter;
-    private BaseSocketClient clientSocket;
+    public static BaseSocketClient clientSocket;
     private List<SocketMessage> messageList = new ArrayList<>();
-    private HashSet<String> inviteSet = new HashSet<>();
+    private static final HashSet<String> inviteSet = new HashSet<>();
 
     private RecyclerView clientMessageRecyclerView;
-    private long fromId = 32142;
-    private long toId = 666L;
+    private static final long fromId = 32142;
+    private static final long toId = 666L;
 
     /**
      * newInstance.
@@ -65,7 +66,7 @@ public class ClientFragment extends BaseFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_client;
+        return R.layout.client_fragment;
     }
 
     @Override
@@ -91,11 +92,13 @@ public class ClientFragment extends BaseFragment {
         EventBus.getDefault().register(this);
     }
 
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
         clientSocket.close();
+        clientSocket = null;
     }
 
     @Override
@@ -106,35 +109,48 @@ public class ClientFragment extends BaseFragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        AlarmService.runAlarm = true;
         super.onViewCreated(view, savedInstanceState);
         ZOnClickHelper.setOnClickListener(findView(R.id.client_join_bt), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clientSocket.receive();
+                getContext().startService(new Intent(getContext(), AlarmService.class));
             }
         });
         ZOnClickHelper.setOnClickListener(findView(R.id.client_send_broadcast_bt),
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        try {
-                            if (inviteSet != null && !inviteSet.isEmpty()) {
-                                JSONObject jsonObject = new JSONObject();
-                                jsonObject.put("content", "客户端回执");
-                                for (String addressStr : inviteSet) {
-                                    String[] ipHost = addressStr.split(":");
-                                    if (ipHost.length == 2) {
-                                        clientSocket.send(ipHost[0], ZStringUtil.parseInt(ipHost[1]),
-                                                new SocketMessage(fromId, toId, jsonObject.toString(), MessageType.CHAT));
-                                    }
-                                }
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        send();
                     }
                 });
-        clientSocket.receive();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        AlarmService.runAlarm = false;
+    }
+
+    public static void send() {
+        if (clientSocket != null) {
+            try {
+                if (!inviteSet.isEmpty()) {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("content", "客户端回执");
+                    for (String addressStr : inviteSet) {
+                        String[] ipHost = addressStr.split(":");
+                        if (ipHost.length == 2) {
+                            clientSocket.send(ipHost[0], ZStringUtil.parseInt(ipHost[1]),
+                                    new SocketMessage(fromId, toId, jsonObject.toString(), MessageType.CHAT));
+                        }
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void showReceiverMsg(List<SocketMessage> list) {

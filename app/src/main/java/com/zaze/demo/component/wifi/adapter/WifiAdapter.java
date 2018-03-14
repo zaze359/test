@@ -30,7 +30,7 @@ public class WifiAdapter extends BaseRecyclerAdapter<ScanResult, WifiAdapter.Wif
 
     @Override
     public int getViewLayoutId() {
-        return R.layout.item_wifi_info;
+        return R.layout.wifi_info_recycle_item;
     }
 
     @Override

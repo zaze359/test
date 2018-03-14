@@ -36,7 +36,7 @@ public class TaskActivity extends BaseActivity implements TaskView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_task);
+        setContentView(R.layout.task_activity);
         ButterKnife.bind(this);
         presenter = new TaskPresenterImpl(this);
         Task.setNeedLog(true);
@@ -102,7 +102,7 @@ public class TaskActivity extends BaseActivity implements TaskView {
                                     public void onCompleted() {
                                     }
                                 });
-                                thread.wait();
+                                thread.wait(5000);
                                 ZLog.i(ZTag.TAG_DEBUG, "onExecute finish : " + taskId);
                             }
 

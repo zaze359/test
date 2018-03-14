@@ -37,7 +37,7 @@ public class FontActivity extends BaseActivity implements FontView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_font);
+        setContentView(R.layout.font_activity);
         ButterKnife.bind(this);
         presenter = new FontPresenterImpl(this);
         try {

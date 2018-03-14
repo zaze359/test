@@ -28,7 +28,7 @@ public class NotificationActivity extends BaseActivity implements NotificationVi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notification);
+        setContentView(R.layout.notification_activity);
         presenter = new NotificationPresenterImpl(this);
         findViewById(R.id.notification_1_btn).setOnClickListener(new View.OnClickListener() {
             @Override

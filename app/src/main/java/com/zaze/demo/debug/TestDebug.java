@@ -2,23 +2,21 @@ package com.zaze.demo.debug;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.content.res.XmlResourceParser;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.provider.Settings;
 
-import com.zaze.utils.JsonUtil;
+import com.zaze.demo.R;
+import com.zaze.demo.model.entity.DeviceStatus;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Description :
@@ -27,7 +25,15 @@ import java.util.List;
  * @version : 2017-09-29 - 15:31
  */
 public class TestDebug {
+    private static final ArrayList<Bitmap> listOne = new ArrayList<>();
+    private static final ArrayList<Bitmap> listTwo = new ArrayList<>();
+    private static final ArrayList<Bitmap> listThree = new ArrayList<>();
+    private static Bitmap bitmap;
+
     public static void test(Context context) {
+        if (bitmap == null) {
+            bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
+        }
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 //            TestDebug.hasPermissionToReadNetworkStats(context);
 //        }
@@ -44,7 +50,7 @@ public class TestDebug {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-
+        // --------------------------------------------------
 //        ZConfigHelper configHelper = ZConfigHelper.newInstance(context.getFilesDir().getAbsolutePath() + "/config/zaze.ini");
 //        configHelper.setProperty("a", "112233");
 //        ZLog.d(ZTag.TAG_DEBUG, configHelper.getProperty("a"));
@@ -52,31 +58,25 @@ public class TestDebug {
 
 //        JsonUtil.prettyPrinting();
 //        String uri = "#Intent;action=android.intent.action.MAIN;category=android.intent.category.APP_CONTACTS;end";
-        String uri = "#Intent;action=android.intent.action.MAIN;category=android.intent.category.APP_BROWSER;end";
-        final Intent metaIntent;
-        try {
-            metaIntent = Intent.parseUri(uri, 0);
-            JSONArray jsonArray = new JSONArray();
-            List<ResolveInfo> appList = context.getPackageManager().queryIntentActivities(metaIntent, PackageManager.MATCH_DEFAULT_ONLY);
-            for (ResolveInfo resolveInfo : appList) {
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("name", resolveInfo.activityInfo.name);
-                    jsonObject.put("packageName", resolveInfo.activityInfo.packageName);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            try {
-                ZLog.d(ZTag.TAG_DEBUG, jsonArray.toString(4));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            ZLog.d(ZTag.TAG_DEBUG, JsonUtil.objToJson(jsonArray));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        String uri = "#Intent;action=android.intent.action.MAIN;category=android.intent.category.APP_BROWSER;end";
+//        final Intent metaIntent;
+//        try {
+//            metaIntent = Intent.parseUri(uri, 0);
+//            JSONArray jsonArray = new JSONArray();
+//            List<ResolveInfo> appList = context.getPackageManager().queryIntentActivities(metaIntent, PackageManager.MATCH_DEFAULT_ONLY);
+//            for (ResolveInfo resolveInfo : appList) {
+//                JSONObject jsonObject = new JSONObject();
+//                try {
+//                    jsonObject.put("name", resolveInfo.activityInfo.name);
+//                    jsonObject.put("packageName", resolveInfo.activityInfo.packageName);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            ZLog.d(ZTag.TAG_DEBUG, JsonUtil.objToJson(jsonArray));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
 //        File file = new File("/proc/net/xt_qtaguid/stats");
 //        AnalyzeTrafficCompat.getNewestNetworkTraffic();
@@ -106,6 +106,98 @@ public class TestDebug {
 //            usageStatsList = usm.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, 0, System.currentTimeMillis());
 //            ZLog.d(ZTag.TAG_DEBUG, "usageStatsList : " + usageStatsList);
 //        }
+        // --------------------------------------------------
+
+//        int aInt = 0;
+//        String bStr = "a";
+//        boolean bool = true;
+//        int[] intArray = {1, 1};
+//        String[] strArray = {"11", "22"};
+//        boolean[] boolArray = {true, true};
+//        doSome(aInt, bStr, bool, intArray, strArray, boolArray);
+//        ZLog.i(ZTag.TAG_DEBUG, "" + aInt);
+//        ZLog.i(ZTag.TAG_DEBUG, "" + bStr);
+//        ZLog.i(ZTag.TAG_DEBUG, "" + bool);
+//        for (int i = 0; i < 2; i++) {
+//            ZLog.i(ZTag.TAG_DEBUG, "" + intArray[i]);
+//            ZLog.i(ZTag.TAG_DEBUG, "" + strArray[i]);
+//            ZLog.i(ZTag.TAG_DEBUG, "" + boolArray[i]);
+//        }
+
+//        mDeviceStatus.setContent("default");
+//        ThreadManager.getInstance().runInMultiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                Runnable runnable1 = new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        DeviceStatus deviceStatus = mDeviceStatus;
+//                        ZLog.i(ZTag.TAG_DEBUG, "start : " + JsonUtil.objToJson(deviceStatus));
+//                        try {
+//                            Thread.sleep(2000);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                        ZLog.i(ZTag.TAG_DEBUG, "end : " + JsonUtil.objToJson(deviceStatus));
+//                    }
+//                };
+//
+//                Runnable runnable2 = new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        mDeviceStatus = new DeviceStatus();
+//                        mDeviceStatus.setContent("changed");
+//                    }
+//                };
+//                ThreadManager.getInstance().runInMultiThread(runnable1);
+//                try {
+//                    Thread.sleep(200L);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                ThreadManager.getInstance().runInMultiThread(runnable2);
+//            }
+//        });
+
+
+        // --------------------------------------------------
+
+        listOne.add(bitmap);
+        listTwo.add(bitmap);
+        listThree.add(bitmap);
+//        listOne.add(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher));
+//        listTwo.add(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher));
+//        listThree.add(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher));
+        ZLog.i(ZTag.TAG_DEBUG, "%s, %s, %s", listOne.size(), listTwo.size(), listThree.size());
+    }
+
+    public static void runnnnn() {
+        keep_running:
+        {
+            for (int i = 0; i < 3; i++) {
+                ZLog.i(ZTag.TAG_DEBUG, "keep_running : " + i);
+                if (i == 2) {
+                    break keep_running;
+                }
+            }
+            ZLog.i(ZTag.TAG_DEBUG, "keep_running end");
+        }
+        ZLog.i(ZTag.TAG_DEBUG, "end");
+    }
+
+    static DeviceStatus mDeviceStatus = new DeviceStatus();
+
+
+    public static void doSome(int aInt, String bStr, boolean bool, int[] intArray, String[] strArray, boolean[] boolArray) {
+        aInt = 1;
+        bStr = "changed";
+        bool = false;
+//        intArray = new int[]{2, 3};
+        for (int i = 0; i < 2; i++) {
+            intArray[i] = 100;
+            strArray[i] = "changed";
+            boolArray[i] = false;
+        }
     }
 
     public static boolean hasPermissionToReadNetworkStats(Context context) {
@@ -123,15 +215,21 @@ public class TestDebug {
 
 
     public static void beginDocument(XmlResourceParser parser) throws XmlPullParserException, IOException {
-        int type = XmlPullParser.START_DOCUMENT;
+        ZLog.i(ZTag.TAG_DEBUG, "" + parser.getEventType());
+        ZLog.i(ZTag.TAG_DEBUG, "" + parser.getName());
+        int type = parser.next();
+        ZLog.i(ZTag.TAG_DEBUG, "" + type);
+        ZLog.i(ZTag.TAG_DEBUG, "" + parser.getEventType());
+        ZLog.i(ZTag.TAG_DEBUG, "" + parser.getName());
         while (type != XmlPullParser.END_DOCUMENT) {
             if (type == XmlPullParser.START_TAG) {
-                ZLog.d(ZTag.TAG_DEBUG, "" + getAttributeValue(parser, "resolve"));
-                ZLog.d(ZTag.TAG_DEBUG, "" + getAttributeValue(parser, "favorites"));
-                ZLog.d(ZTag.TAG_DEBUG, "" + getAttributeValue(parser, "screen"));
+//                ZLog.d(ZTag.TAG_DEBUG, "" + getAttributeValue(parser, "resolve"));
+//                ZLog.d(ZTag.TAG_DEBUG, "" + getAttributeValue(parser, "favorites"));
+//                ZLog.d(ZTag.TAG_DEBUG, "" + getAttributeValue(parser, "screen"));
             }
             type = parser.next();
-//            ZLog.i(ZTag.TAG_DEBUG, "" + parser.getName());
+            ZLog.i(ZTag.TAG_DEBUG, "" + type);
+            ZLog.i(ZTag.TAG_DEBUG, "" + parser.getName());
         }
     }
 

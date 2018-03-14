@@ -10,7 +10,7 @@ import com.zaze.demo.component.logcat.view.LogcatView
 import com.zaze.utils.ThreadManager
 import com.zaze.utils.ZAppUtil
 import com.zaze.utils.log.LogCatUtil
-import kotlinx.android.synthetic.main.activity_logcat.*
+import kotlinx.android.synthetic.main.logcat_activity.*
 
 /**
  * Description :
@@ -22,7 +22,7 @@ open class LogcatActivity : BaseActivity(), LogcatView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_logcat)
+        setContentView(R.layout.logcat_activity)
         presenter = LogcatPresenterImpl(this)
         logcat_start_catch.setOnClickListener {
             ThreadManager.getInstance().runInMultiThread {

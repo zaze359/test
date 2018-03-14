@@ -35,7 +35,7 @@ public class OkHttpActivity extends BaseActivity implements OkHttpView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ok_http);
+        setContentView(R.layout.ok_http_activity);
         presenter = new OkHttpPresenterImpl(this);
 
         findView(R.id.http_test_btn).setOnClickListener(new View.OnClickListener() {
@@ -65,7 +65,7 @@ public class OkHttpActivity extends BaseActivity implements OkHttpView {
         OkHttpUtil.enqueue(request, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                ZLog.i("okhttp", e.getMessage());
+                ZLog.i("okhttp", e.toString());
             }
 
             @Override

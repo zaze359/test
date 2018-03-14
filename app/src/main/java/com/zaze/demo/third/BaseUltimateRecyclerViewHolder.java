@@ -1,4 +1,4 @@
-package com.zaze.common.adapter.third;
+package com.zaze.demo.third;
 
 import android.view.View;
 
@@ -10,9 +10,9 @@ import com.marshalchen.ultimaterecyclerview.UltimateRecyclerviewViewHolder;
  * @author : ZAZE
  * @version : 2017-08-29 - 19:03
  */
-public class ZUltimateRecyclerViewHolder extends UltimateRecyclerviewViewHolder {
+public class BaseUltimateRecyclerViewHolder extends UltimateRecyclerviewViewHolder {
 
-    public ZUltimateRecyclerViewHolder(View itemView, boolean isItem) {
+    public BaseUltimateRecyclerViewHolder(View itemView, boolean isItem) {
         super(itemView);
         if (isItem) {
             initView(itemView);

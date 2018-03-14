@@ -48,9 +48,9 @@ public class OkHttpUtil {
                 ThreadManager.getInstance().runInUIThread(new Runnable() {
                     @Override
                     public void run() {
-                        ZLog.i("okhttp : ", e.getMessage());
+                        ZLog.i("okhttp : ", e.toString());
                         if (callback != null) {
-                            callback.onError(-1, e.getMessage());
+                            callback.onError(-1, e.toString());
                             callback.onCompleted();
                         }
                     }

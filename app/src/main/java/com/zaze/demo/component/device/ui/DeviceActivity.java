@@ -6,7 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.widget.TextView;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
-import com.zaze.common.adapter.third.UltimateRecyclerViewHelper;
+import com.zaze.demo.third.UltimateRecyclerViewHelper;
 import com.zaze.common.base.BaseActivity;
 import com.zaze.demo.R;
 import com.zaze.demo.component.device.adapter.DeviceAdapter;
@@ -46,7 +46,7 @@ public class DeviceActivity extends BaseActivity implements DeviceView {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_device);
+        setContentView(R.layout.device_activity);
         ButterKnife.bind(this);
         deviceScreen.setText(ZStringUtil.format(
                 "屏幕分辨率 : %dx%d",

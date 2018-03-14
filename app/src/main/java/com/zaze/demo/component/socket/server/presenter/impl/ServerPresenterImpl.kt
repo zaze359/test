@@ -1,14 +1,18 @@
 package com.zaze.demo.component.socket.server.presenter.impl
 
+import android.app.NotificationManager
 import android.content.Context
 import android.os.PowerManager
+import android.support.v4.app.NotificationCompat
 import com.zaze.common.base.mvp.BaseMvpPresenter
+import com.zaze.demo.R
 import com.zaze.demo.component.socket.BaseSocketClient
 import com.zaze.demo.component.socket.MessageType
 import com.zaze.demo.component.socket.SocketMessage
 import com.zaze.demo.component.socket.UDPSocketClient
 import com.zaze.demo.component.socket.server.presenter.ServerPresenter
 import com.zaze.demo.component.socket.server.view.ServerView
+import com.zaze.utils.JsonUtil
 import com.zaze.utils.ThreadManager
 import org.json.JSONObject
 import java.net.InetSocketAddress
@@ -38,10 +42,26 @@ open class ServerPresenterImpl(view: ServerView) : BaseMvpPresenter<ServerView>(
                     ThreadManager.getInstance().runInUIThread({
                         view.showReceiverMsg(list)
                     })
+                    notification(socketMessage)
                     replay()
                 }
             }
         })
+    }
+
+    private fun notification(socketMessage: SocketMessage?) {
+        val builder = NotificationCompat.Builder(view.context)
+        builder.setSmallIcon(R.mipmap.ic_launcher)
+        builder.setContentTitle("title")
+        builder.setContentText(JsonUtil.objToJson(socketMessage))
+        builder.setAutoCancel(true)
+        // 设置通知主题的意图
+        //        Intent resultIntent = new Intent(this, TaskActivity.class);
+        //        PendingIntent resultPendingIntent = PendingIntent.getActivity(
+        //                this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        //        builder.setContentIntent(resultPendingIntent);
+        val mNotificationManager = view.context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
+        mNotificationManager!!.notify(1, builder.build())
     }
 
     override fun startServer() {

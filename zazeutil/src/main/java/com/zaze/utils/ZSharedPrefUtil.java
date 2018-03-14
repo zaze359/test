@@ -17,6 +17,7 @@ public class ZSharedPrefUtil {
     public static void setSpName(String spName) {
         ZSharedPrefUtil.spName = spName;
     }
+
     private static volatile SharedPreferences sharedPreferences;
 
     public static void initSharedPreferences(Context context) {
@@ -61,6 +62,13 @@ public class ZSharedPrefUtil {
         return false;
     }
 
+    public static boolean contains(String key) {
+        if (sharedPreferences != null) {
+            return sharedPreferences.contains(key);
+        }
+        return false;
+    }
+
     private static <T> SharedPreferences.Editor put(String key, @NonNull T value, SharedPreferences.Editor editor) {
         if (value instanceof String) {
             editor.putString(key, (String) value);
@@ -75,6 +83,7 @@ public class ZSharedPrefUtil {
         }
         return editor;
     }
+
 
     // --------------------------------------------------
 

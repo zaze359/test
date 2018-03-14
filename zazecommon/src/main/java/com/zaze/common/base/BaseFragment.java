@@ -17,6 +17,8 @@ import com.zaze.common.widget.head.HeadWidget;
 import com.zaze.utils.ZActivityUtil;
 import com.zaze.utils.ZTipUtil;
 import com.zaze.utils.ZViewUtil;
+import com.zaze.utils.log.ZLog;
+import com.zaze.utils.log.ZTag;
 
 import java.lang.reflect.Field;
 
@@ -44,6 +46,7 @@ public abstract class BaseFragment extends Fragment implements BaseView {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+        ZLog.i(ZTag.TAG_DEBUG, "onCreateView : " + this.getClass().getName());
         inflater = changeThem(inflater);
         if (isNeedHead()) {
             headFace = new HeadWidget(getActivity(), getLayoutId());

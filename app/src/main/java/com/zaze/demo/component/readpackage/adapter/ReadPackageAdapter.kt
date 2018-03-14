@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.zaze.common.adapter.third.ZUltimateRecycleAdapter
-import com.zaze.common.adapter.third.ZUltimateRecyclerViewHolder
+import com.zaze.demo.third.BaseUltimateRecyclerAdapter
+import com.zaze.demo.third.BaseUltimateRecyclerViewHolder
 import com.zaze.common.base.BaseApplication
 import com.zaze.demo.R
 import com.zaze.demo.model.entity.PackageEntity
@@ -21,14 +21,14 @@ import com.zaze.utils.ZStringUtil
  * *
  * @version : 2017-04-17 - 17:21
  */
-class ReadPackageAdapter(context: Context, data: Collection<PackageEntity>) : ZUltimateRecycleAdapter<PackageEntity, ReadPackageAdapter.PackageHolder>(context, data) {
+class ReadPackageAdapter(context: Context, data: Collection<PackageEntity>) : BaseUltimateRecyclerAdapter<PackageEntity, ReadPackageAdapter.PackageHolder>(context, data) {
 
     override fun getViewHolder(view: View, isItem: Boolean): PackageHolder {
         return PackageHolder(view, isItem)
     }
 
     override fun getViewLayoutId(): Int {
-        return R.layout.list_item_app
+        return R.layout.app_recycle_item
     }
 
     override fun onBindView(holder: PackageHolder, value: PackageEntity, position: Int) {
@@ -57,7 +57,7 @@ class ReadPackageAdapter(context: Context, data: Collection<PackageEntity>) : ZU
 
     override fun onBindHeaderViewHolder(holder: RecyclerView.ViewHolder, position: Int) {}
 
-    inner class PackageHolder(itemView: View, isItem: Boolean) : ZUltimateRecyclerViewHolder(itemView, isItem) {
+    inner class PackageHolder(itemView: View, isItem: Boolean) : BaseUltimateRecyclerViewHolder(itemView, isItem) {
         var itemAppIv: ImageView? = null
         var itemAppNameTv: TextView? = null
         var itemAppPackageTv: TextView? = null

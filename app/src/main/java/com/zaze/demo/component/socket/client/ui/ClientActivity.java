@@ -53,7 +53,7 @@ public class ClientActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_client);
+        setContentView(R.layout.client_activity);
         toolbar = findView(R.id.client_toolbar);
         clientInviteRecyclerView = findView(R.id.client_invite_recycler_view);
         clientDrawerLayout = findView(R.id.client_drawer_layout);

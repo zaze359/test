@@ -11,7 +11,7 @@ import java.io.StringWriter;
  * @author : zaze
  * @version : 1.0
  */
-public class ZStackTraceHelper {
+public class StackTraceHelper {
 
     /**
      * @return 直接调用方法的堆栈信息

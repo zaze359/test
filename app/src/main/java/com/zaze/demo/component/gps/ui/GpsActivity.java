@@ -32,7 +32,7 @@ public class GpsActivity extends BaseActivity implements GpsView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gps);
+        setContentView(R.layout.gps_activity);
         ButterKnife.bind(this);
         presenter = new GpsPresenterImpl(this);
 //        presenter = new BaiDuLocationPresenterImpl(this);

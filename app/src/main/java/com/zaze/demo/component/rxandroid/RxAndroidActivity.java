@@ -24,17 +24,21 @@ import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableEmitter;
 import io.reactivex.FlowableOnSubscribe;
+import io.reactivex.MaybeObserver;
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
+import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
-import kotlin.jvm.functions.Function2;
 
 /**
  * Description :
@@ -47,10 +51,12 @@ public class RxAndroidActivity extends BaseActivity {
     @Bind(R.id.rx_android_test_tv)
     TextView rxAndroidTestTv;
 
+    private boolean isRunning;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rxandroid);
+        setContentView(R.layout.rxandroid_activity);
         ButterKnife.bind(this);
     }
 
@@ -60,10 +66,14 @@ public class RxAndroidActivity extends BaseActivity {
 
     @OnClick(R.id.rx_android_test_btn)
     public void test() {
-//        test1();
+        if (!isRunning) {
+            isRunning = true;
+//            test1();
 //        test2();
 //        test3();
-        test6();
+            test6();
+//        test7();
+        }
     }
 
     StringBuilder builder = new StringBuilder();
@@ -78,7 +88,12 @@ public class RxAndroidActivity extends BaseActivity {
                 "RxAndroid Test Observable.just C"
 
         );
-        observable.subscribe(new Observer<String>() {
+        observable.doFinally(new Action() {
+            @Override
+            public void run() throws Exception {
+                isRunning = false;
+            }
+        }).subscribe(new Observer<String>() {
             @Override
             public void onSubscribe(Disposable d) {
 
@@ -118,6 +133,12 @@ public class RxAndroidActivity extends BaseActivity {
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doFinally(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        isRunning = false;
+                    }
+                })
                 .subscribe(new Observer<String>() {
                     @Override
                     public void onError(Throwable e) {
@@ -147,25 +168,38 @@ public class RxAndroidActivity extends BaseActivity {
      * Single 的使用
      */
     public void test3() {
-        Single<String> single = Single.fromCallable(new Callable<String>() {
+        ZLog.i(ZTag.TAG_DEBUG, "start");
+        Single.fromCallable(new Callable<String>() {
             @Override
             public String call() throws Exception {
+                ZLog.i(ZTag.TAG_DEBUG, "start do");
+                Thread.sleep(1000L);
+                ZLog.i(ZTag.TAG_DEBUG, "end do");
                 return "RxAndroid Test Single.just";
             }
+        }).doFinally(new Action() {
+            @Override
+            public void run() throws Exception {
+                isRunning = false;
+            }
+        }).subscribe(new Consumer<String>() {
+            @Override
+            public void accept(String s) throws Exception {
+                updateTestText(s);
+            }
         });
-        single.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<String>() {
-                    @Override
-                    public void accept(String s) throws Exception {
-                        updateTestText(s);
-                    }
-                });
+        ZLog.i(ZTag.TAG_DEBUG, "end");
     }
     // ----------------------------------------------------------------------
 
     public void test4() {
-        PublishSubject.create();
+        PublishSubject.create().doFinally(new Action() {
+            @Override
+            public void run() throws Exception {
+                isRunning = false;
+            }
+        });
+
     }
     // ----------------------------------------------------------------------
 
@@ -178,6 +212,11 @@ public class RxAndroidActivity extends BaseActivity {
             public String apply(Integer integer) throws Exception {
                 return "map() : " + String.valueOf(integer);
             }
+        }).doFinally(new Action() {
+            @Override
+            public void run() throws Exception {
+                isRunning = false;
+            }
         }).subscribe(new Consumer<String>() {
             @Override
             public void accept(String value) throws Exception {
@@ -186,21 +225,15 @@ public class RxAndroidActivity extends BaseActivity {
         });
     }
 
-    private Function2<String, String, String> mMergeStringFunc = new Function2<String, String, String>() {
+    private BiFunction<String, String, String> mMergeStringFunc = new BiFunction<String, String, String>() {
         @Override
-        public String invoke(String s, String s2) {
+        public String apply(String s, String s2) throws Exception {
             // 空格连接字符串
             return String.format("%s %s", s, s2);
         }
     };
 
     public void test6() {
-//        Flowable.fromCallable(new Callable<List<String>>() {
-//            @Override
-//            public List<String> call() throws Exception {
-//                return Arrays.asList("W", "X", "S", "I", "L", "U");
-//            }
-//        })
         Flowable.create(new FlowableOnSubscribe<List<String>>() {
             @Override
             public void subscribe(FlowableEmitter<List<String>> e) throws Exception {
@@ -239,6 +272,19 @@ public class RxAndroidActivity extends BaseActivity {
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
+//                .reduce(mMergeStringFunc)
+                .toList()
+                .map(new Function<List<String>, String>() {
+                    @Override
+                    public String apply(List<String> strings) throws Exception {
+                        StringBuilder builder = new StringBuilder();
+                        for (String str : strings) {
+                            builder.append(str);
+                        }
+                        return builder.toString();
+                    }
+                })
+                .toFlowable()
 //                .map(new Function<String, String>() {
 //                    @Override
 //                    public String apply(String s) throws Exception {
@@ -246,12 +292,12 @@ public class RxAndroidActivity extends BaseActivity {
 //                        return s;
 //                    }
 //                })
-//                .reduce(mMergeStringFunc)
                 .doFinally(new Action() {
                     @Override
                     public void run() throws Exception {
                         ZLog.i(ZTag.TAG_DEBUG, "doFinally");
                         updateTestText("doFinally");
+                        isRunning = false;
                     }
                 })
                 .subscribe(new Subscriber<String>() {
@@ -275,7 +321,7 @@ public class RxAndroidActivity extends BaseActivity {
 
                     @Override
                     public void onError(Throwable t) {
-                        ZLog.i(ZTag.TAG_DEBUG, "onError : " + t.getMessage());
+                        ZLog.i(ZTag.TAG_DEBUG, "onError : " + t.toString());
                     }
 
                     @Override
@@ -284,6 +330,66 @@ public class RxAndroidActivity extends BaseActivity {
                     }
 
                 });
+
+    }
+
+    public void test7() {
+        Observable.create(new ObservableOnSubscribe<List<String>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<String>> e) throws Exception {
+                updateTestText("create");
+                e.onNext(Arrays.asList("W", "X", "S", "I", "L", "U"));
+                e.onComplete();
+            }
+        }).flatMap(new Function<List<String>, ObservableSource<String>>() {
+            @Override
+            public ObservableSource<String> apply(List<String> strings) throws Exception {
+                return Observable.fromIterable(strings);
+            }
+        }).map(new Function<String, String>() {
+            @Override
+            public String apply(String s) throws Exception {
+                ZLog.i(ZTag.TAG_DEBUG, "apply : " + s);
+                try {
+                    Thread.sleep(500L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return s;
+            }
+        }).reduce(mMergeStringFunc).doFinally(new Action() {
+            @Override
+            public void run() throws Exception {
+                ZLog.i(ZTag.TAG_DEBUG, "doFinally");
+                updateTestText("doFinally");
+            }
+        }).doFinally(new Action() {
+            @Override
+            public void run() throws Exception {
+                isRunning = false;
+            }
+        }).subscribe(new MaybeObserver<String>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(String s) {
+                ZLog.i(ZTag.TAG_DEBUG, "onSuccess : " + s);
+                updateTestText(s);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
 
     }
 

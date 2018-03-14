@@ -1,7 +1,5 @@
 package com.zaze.demo.model.entity;
 
-import android.text.TextUtils;
-
 /**
  * Description :
  *
@@ -12,6 +10,15 @@ public class DeviceStatus {
     private String tag;
     private String name;
     private String content;
+
+    public DeviceStatus() {
+    }
+
+    public DeviceStatus(String tag, String name, String content) {
+        this.tag = tag;
+        this.name = name;
+        this.content = content;
+    }
 
     public String getTag() {
         return tag;

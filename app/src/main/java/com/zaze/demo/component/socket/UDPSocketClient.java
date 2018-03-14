@@ -34,6 +34,7 @@ public class UDPSocketClient extends BaseSocketClient {
     private ThreadPoolExecutor serverExecutor;
     private DatagramSocket serverSocket;
     private boolean isRunning = false;
+    private final Object objLock = new Object();
 
     public UDPSocketClient(int port, BaseSocketFace socketFace) {
         this(null, port, socketFace);
@@ -95,7 +96,6 @@ public class UDPSocketClient extends BaseSocketClient {
                 socketMessage.setAddress(packet.getAddress().getHostAddress());
                 socketMessage.setPort(packet.getPort());
                 socketMessage.setReceiverTime(System.currentTimeMillis());
-                ZLog.d(ZTag.TAG_DEBUG, socketMessage.toString());
                 onReceiver(socketMessage);
             } catch (Exception e) {
                 e.printStackTrace();

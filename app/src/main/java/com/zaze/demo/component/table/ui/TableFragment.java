@@ -52,7 +52,7 @@ public class TableFragment extends BaseFragment implements ToolView {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_table;
+        return R.layout.table_fragment;
     }
 
     @Override

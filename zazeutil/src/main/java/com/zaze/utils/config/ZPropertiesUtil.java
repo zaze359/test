@@ -36,13 +36,13 @@ public class ZPropertiesUtil {
                 inputStream = new FileInputStream(file);
                 properties.load(inputStream);
             } catch (Exception e) {
-                ZLog.e(ZTag.TAG_ERROR, e.getMessage());
+                ZLog.e(ZTag.TAG_ERROR, e.toString());
             } finally {
                 if (inputStream != null) {
                     try {
                         inputStream.close();
                     } catch (Exception e) {
-                        ZLog.e(ZTag.TAG_ERROR, e.getMessage());
+                        ZLog.e(ZTag.TAG_ERROR, e.toString());
                     }
                 }
             }
@@ -72,13 +72,13 @@ public class ZPropertiesUtil {
             properties.put(VERSION_KEY, VERSION_VALUE);
             properties.store(outputStream, "");
         } catch (Exception e) {
-            ZLog.e(ZTag.TAG_ERROR, e.getMessage());
+            ZLog.e(ZTag.TAG_ERROR, e.toString());
         } finally {
             if (outputStream != null) {
                 try {
                     outputStream.close();
                 } catch (IOException e) {
-                    ZLog.e(ZTag.TAG_ERROR, e.getMessage());
+                    ZLog.e(ZTag.TAG_ERROR, e.toString());
                 }
             }
         }

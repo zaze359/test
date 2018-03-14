@@ -32,7 +32,7 @@ public class TempFragment extends BaseFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_temp;
+        return R.layout.temp_fragment;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.zaze.demo.component.fileexplorer.presenter.impl
 
+import android.os.Environment
 import com.zaze.common.base.mvp.BaseMvpPresenter
 import com.zaze.demo.component.fileexplorer.FileEvent
 import com.zaze.demo.component.fileexplorer.adapter.FileEntity
@@ -18,7 +19,7 @@ import java.io.File
  */
 class FileExplorerPresenterImpl(view: FileExplorerView) : BaseMvpPresenter<FileExplorerView>(view), FileExplorerPresenter {
 
-    private var curFile = File("/")
+    private var curFile = Environment.getRootDirectory()
 
     override fun loadFileList() {
         if (curFile.exists()) {
@@ -40,11 +41,10 @@ class FileExplorerPresenterImpl(view: FileExplorerView) : BaseMvpPresenter<FileE
     }
 
     override fun backToParent() {
-
-        if (curFile.parentFile.exists()) {
+        if (curFile.parentFile != null && curFile.parentFile.exists()) {
             curFile = curFile.parentFile
-            loadFileList()
         }
+        loadFileList()
     }
 
     override fun openFileOrDir(fileEvent: FileEvent?) {

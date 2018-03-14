@@ -20,7 +20,7 @@ public class ProgressFragment extends BaseFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_progress;
+        return R.layout.progress_fragment;
     }
 
     @Override

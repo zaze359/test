@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.zaze.common.adapter.third.ZUltimateRecycleAdapter;
-import com.zaze.common.adapter.third.ZUltimateRecyclerViewHolder;
+import com.zaze.demo.third.BaseUltimateRecyclerAdapter;
+import com.zaze.demo.third.BaseUltimateRecyclerViewHolder;
 import com.zaze.demo.R;
 import com.zaze.demo.model.entity.DeviceStatus;
 import com.zaze.utils.ZStringUtil;
@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
  * @author : ZAZE
  * @version : 2017-01-22 - 14:37
  */
-public class DeviceAdapter extends ZUltimateRecycleAdapter<DeviceStatus, DeviceAdapter.DeviceHolder> {
+public class DeviceAdapter extends BaseUltimateRecyclerAdapter<DeviceStatus, DeviceAdapter.DeviceHolder> {
 
     public DeviceAdapter(Context context, List<DeviceStatus> data) {
         super(context, data);
@@ -60,7 +60,7 @@ public class DeviceAdapter extends ZUltimateRecycleAdapter<DeviceStatus, DeviceA
 
     }
 
-    class DeviceHolder extends ZUltimateRecyclerViewHolder {
+    class DeviceHolder extends BaseUltimateRecyclerViewHolder {
         @Bind(R.id.item_device_tag_tv)
         TextView itemDeviceTagTv;
         @Bind(R.id.item_device_content_tv)

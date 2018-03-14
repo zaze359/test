@@ -1,4 +1,4 @@
-package com.zaze.common.adapter.third;
+package com.zaze.demo.third;
 
 
 import android.os.Handler;

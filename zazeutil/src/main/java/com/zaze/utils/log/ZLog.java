@@ -3,7 +3,7 @@ package com.zaze.utils.log;
 
 import android.util.Log;
 
-import com.zaze.utils.ZStackTraceHelper;
+import com.zaze.utils.StackTraceHelper;
 import com.zaze.utils.ZStringUtil;
 
 import java.util.Locale;
@@ -30,6 +30,7 @@ public class ZLog {
         I = false;
         D = false;
         V = false;
+
         if (level >= ZLogLevel.ERROR) {
             E = true;
         }
@@ -63,7 +64,7 @@ public class ZLog {
     }
 
     private static String getStackTrace(String format, Object... args) {
-        return ZStringUtil.format("[" + getTag(ZStackTraceHelper.getStackTraceElement(5)) + "] : " + format, args);
+        return ZStringUtil.format("[" + getTag(StackTraceHelper.getStackTraceElement(5)) + "] : " + format, args);
     }
 
     // ----------- V -----------

@@ -12,7 +12,7 @@ import com.zaze.demo.R
 import com.zaze.demo.component.webview.presenter.WebViewPresenter
 import com.zaze.demo.component.webview.presenter.impl.WebViewPresenterImpl
 import com.zaze.demo.component.webview.view.WebViewView
-import kotlinx.android.synthetic.main.activity_web_view.*
+import kotlinx.android.synthetic.main.web_view_activity.*
 
 /**
  * Description :
@@ -25,7 +25,7 @@ open class WebViewActivity : BaseActivity(), WebViewView {
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_web_view)
+        setContentView(R.layout.web_view_activity)
         presenter = WebViewPresenterImpl(this)
         val settings = web_view.settings
         settings.javaScriptEnabled = true

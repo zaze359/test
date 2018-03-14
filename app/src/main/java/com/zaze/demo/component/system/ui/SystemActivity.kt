@@ -29,7 +29,7 @@ open class SystemActivity : BaseActivity(), SystemView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_system)
+        setContentView(R.layout.system_activity)
         presenter = SystemPresenterImpl(this)
         mKeyguardManager = getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
         mPowerManager = getSystemService(Context.POWER_SERVICE) as PowerManager

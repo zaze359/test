@@ -28,7 +28,7 @@ public class CustomViewActivity extends BaseActivity implements CustomViewView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_custom_view);
+        setContentView(R.layout.custom_view_activity);
         ButterKnife.bind(this);
         presenter = new CustomViewPresenterImpl(this);
         customAddImageLayout.setOnImageAddListener(new AddImageLayout.OnImageAddListener() {

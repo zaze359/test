@@ -37,7 +37,7 @@ public class NetworkStatsAdapter extends BaseRecyclerAdapter<NetTrafficStats, Ne
 
     @Override
     public int getViewLayoutId() {
-        return R.layout.item_network_stats;
+        return R.layout.network_stats_recycle_item;
     }
 
     @Override

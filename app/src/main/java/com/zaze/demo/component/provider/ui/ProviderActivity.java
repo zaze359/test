@@ -31,7 +31,7 @@ public class ProviderActivity extends BaseActivity implements ProviderView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_provider);
+        setContentView(R.layout.provider_activity);
         ButterKnife.bind(this);
         presenter = new ProviderPresenterImpl(this);
         ZOnClickHelper.setOnClickListener(insertBtn, new View.OnClickListener() {

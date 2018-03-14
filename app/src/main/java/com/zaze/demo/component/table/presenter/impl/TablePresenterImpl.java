@@ -3,8 +3,17 @@ package com.zaze.demo.component.table.presenter.impl;
 
 import com.zaze.demo.component.table.presenter.TablePresenter;
 import com.zaze.demo.component.table.view.ToolView;
-import com.zaze.demo.model.ModelFactory;
 import com.zaze.demo.model.EntityModel;
+import com.zaze.demo.model.ModelFactory;
+import com.zaze.demo.model.entity.TableEntity;
+
+import java.util.List;
+import java.util.concurrent.Callable;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Description :
@@ -23,6 +32,19 @@ public class TablePresenterImpl implements TablePresenter {
 
     @Override
     public void refresh() {
-        view.showAppList(entityModel.getTableList());
+        Observable.fromCallable(new Callable<List<TableEntity>>() {
+            @Override
+            public List<TableEntity> call() throws Exception {
+                return entityModel.getTableList();
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<TableEntity>>() {
+                    @Override
+                    public void accept(List<TableEntity> tableEntities) throws Exception {
+                        view.showAppList(tableEntities);
+                    }
+                });
+
     }
 }

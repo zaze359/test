@@ -17,6 +17,6 @@ public class AnimationActivity1 extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_animation_1);
+        setContentView(R.layout.animation_1_activity);
     }
 }

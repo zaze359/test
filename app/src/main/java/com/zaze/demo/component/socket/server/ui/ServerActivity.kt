@@ -10,7 +10,7 @@ import com.zaze.demo.component.socket.adapter.SocketAdapter
 import com.zaze.demo.component.socket.server.presenter.ServerPresenter
 import com.zaze.demo.component.socket.server.presenter.impl.ServerPresenterImpl
 import com.zaze.demo.component.socket.server.view.ServerView
-import kotlinx.android.synthetic.main.activity_server.*
+import kotlinx.android.synthetic.main.server_activity.*
 
 /**
  * Description :
@@ -24,7 +24,7 @@ open class ServerActivity : BaseActivity(), ServerView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_server)
+        setContentView(R.layout.server_activity)
         presenter = ServerPresenterImpl(this)
         server_start_bt.setOnClickListener({
             presenter?.startServer()

@@ -23,7 +23,6 @@ import java.util.Vector;
  */
 public class JsonUtil {
 
-    private static boolean prettyPrinting = false;
     private static GsonBuilder gsonBuilder;
 
     /**
@@ -56,11 +55,15 @@ public class JsonUtil {
         if (obj == null) {
             return null;
         }
-        try {
-            return create().toJson(obj);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+        if (obj instanceof JSONObject || obj instanceof JSONArray) {
+            return obj.toString();
+        } else {
+            try {
+                return create().toJson(obj);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
         }
     }
 
@@ -160,26 +163,10 @@ public class JsonUtil {
     }
 
     // --------------------------------------------------
-
-    private static GsonBuilder builder() {
-        GsonBuilder builder = new GsonBuilder();
-        if (prettyPrinting) {
-            builder.setPrettyPrinting();
-        }
-        return builder;
-    }
-
     private static Gson create() {
         if (gsonBuilder == null) {
-            gsonBuilder = builder();
+            gsonBuilder = new GsonBuilder();
         }
         return gsonBuilder.create();
-    }
-
-    public static void prettyPrinting() {
-        if (!prettyPrinting) {
-            prettyPrinting = true;
-            gsonBuilder = builder();
-        }
     }
 }

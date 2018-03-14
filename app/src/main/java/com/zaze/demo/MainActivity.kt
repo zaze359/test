@@ -13,6 +13,8 @@ import com.zaze.common.widget.head.ZOrientation
 import com.zaze.demo.component.table.ui.TableFragment
 import com.zaze.demo.debug.KotlinDebug
 import com.zaze.demo.debug.TestDebug
+import com.zaze.utils.log.ZLog
+import com.zaze.utils.log.ZTag
 import com.zaze.utils.permission.PermissionCode
 import com.zaze.utils.permission.PermissionUtil
 import kotlinx.android.synthetic.main.activity_main.*
@@ -26,9 +28,11 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
     private var intervalButton: IntervalButtonWidget? = null
+//    private lateinit var weakReference: WeakReference<DeviceStatus>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ZLog.i(ZTag.TAG_DEBUG, "onCreate")
         setContentView(R.layout.activity_main)
         headWidget.setText("zZz", ZOrientation.CENTER)
         // --------------------------------------------------
@@ -47,6 +51,7 @@ class MainActivity : BaseActivity() {
             val debug = KotlinDebug()
 //            debug.test()
             TestDebug.test(this)
+//            ZLog.i(ZTag.TAG_DEBUG, "" + weakReference.get())
 //            ZAppUtil.startApplicationSimple(this, "com.xh.aoscstu")
 //            ZAppUtil.startApplicationSimple(this, "com.xh.assist")
             // --------------------------------------------------
@@ -54,6 +59,50 @@ class MainActivity : BaseActivity() {
             // --------------------------------------------------
         }
         setupPermission()
+//        val obj = DeviceStatus()
+//        weakReference = WeakReference(obj)
+    }
+
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        ZLog.i(ZTag.TAG_DEBUG, "onPostCreate")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        ZLog.i(ZTag.TAG_DEBUG, "onStart")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        ZLog.i(ZTag.TAG_DEBUG, "onStop")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        ZLog.i(ZTag.TAG_DEBUG, "onPause")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        ZLog.i(ZTag.TAG_DEBUG, "onRestart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        ZLog.i(ZTag.TAG_DEBUG, "onResume")
+    }
+
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+        ZLog.i(ZTag.TAG_DEBUG, "onResumeFragments")
+
+    }
+
+    override fun onDestroy() {
+        ZLog.i(ZTag.TAG_DEBUG, "onDestroy")
+        super.onDestroy()
+        intervalButton?.stop()
     }
 
     /**
@@ -71,11 +120,6 @@ class MainActivity : BaseActivity() {
         if (!isGranted) {
             finish()
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        intervalButton?.stop()
     }
 
     // --------------------------------------------------
@@ -96,6 +140,5 @@ class MainActivity : BaseActivity() {
         override fun getCount(): Int {
             return fragmentList.size
         }
-
     }
 }

@@ -40,7 +40,7 @@ public class WifiActivity extends BaseActivity implements WifiView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wifi);
+        setContentView(R.layout.wifi_activity);
         ButterKnife.bind(this);
         ZOnClickHelper.setOnClickListener(wifiScanBtn, new View.OnClickListener() {
             @Override

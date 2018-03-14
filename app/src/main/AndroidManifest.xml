@@ -82,7 +82,8 @@
         <!-- 测试接收推送 start -->
         <service android:name=".component.notification.service.NotificationService" />
         <!-- 测试接收推送 end -->
-
+        <!---->
+        <service android:name=".component.socket.AlarmService" />
         <service
             android:name=".debug.TestService"
             android:process=":zaze_assist" />
@@ -191,6 +192,11 @@
             android:name=".component.font.ui.FontActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".component.handler.HandlerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
     </application>
 
 </manifest>

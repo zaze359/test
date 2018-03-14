@@ -35,7 +35,7 @@ public class AnimationAdapter extends BaseRecyclerAdapter<AnimationEntity, Anima
 
     @Override
     public int getViewLayoutId() {
-        return R.layout.list_item_animation;
+        return R.layout.animation_recycle_item;
     }
 
     @Override

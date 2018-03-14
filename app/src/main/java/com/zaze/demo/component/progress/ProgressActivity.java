@@ -17,6 +17,6 @@ public class ProgressActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_progress);
+        setContentView(R.layout.progress_fragment);
     }
 }
