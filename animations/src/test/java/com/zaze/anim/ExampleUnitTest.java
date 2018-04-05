@@ -1,4 +1,4 @@
-package com.zaze.vector;
+package com.zaze.anim;
 
 import org.junit.Test;
 

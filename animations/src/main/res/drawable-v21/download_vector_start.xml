@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/download_vector">
+    <target
+        android:name="point"
+        android:animation="@animator/download_point_anim" />
+
+    <target
+        android:name="pointGroup"
+        android:animation="@animator/download_looper_anim" />
+
+    <target
+        android:name="bar"
+        android:animation="@animator/download_stretch_gone_anim" />
+    <target
+        android:name="arrows_left"
+        android:animation="@animator/download_shrink_anim" />
+    <target
+        android:name="arrows_right"
+        android:animation="@animator/download_shrink_anim" />
+
+    <target
+        android:name="right_left"
+        android:animation="@animator/download_default_gone_anim" />
+
+    <target
+        android:name="right_right"
+        android:animation="@animator/download_default_gone_anim" />
+
+
+</animated-vector>

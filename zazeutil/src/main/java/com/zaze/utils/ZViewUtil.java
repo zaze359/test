@@ -27,7 +27,7 @@ public class ZViewUtil {
         T view = (T) activity.findViewById(resId);
         return view;
     }
-    
+
     //
     public static final int LEFT = 0;
     public static final int TOP = 1;
@@ -39,6 +39,7 @@ public class ZViewUtil {
     public @interface Oritation {
 
     }
+
 
     public static void setCompoundDrawablesWithIntrinsicBounds(Context context, int position, TextView view, @Oritation int resId) {
         Drawable drawable = context.getResources().getDrawable(resId);

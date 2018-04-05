@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class MultiTaskPool extends FilterTaskPool {
     private static final int MIN = 1;
-    private static final int DEFAULT = 5;
+    private static final int DEFAULT = 2;
     private static final int MAX = 6;
     private static final long KEEP_ALIVE_TIME = 60L;
     private int notifyCount = DEFAULT;

@@ -14,7 +14,6 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <!-- 这个权限用于进行网络定位 -->
@@ -82,13 +81,14 @@
         <!-- 测试接收推送 start -->
         <service android:name=".component.notification.service.NotificationService" />
         <!-- 测试接收推送 end -->
-        <!---->
+        <!--  -->
         <service android:name=".component.socket.AlarmService" />
         <service
             android:name=".debug.TestService"
             android:process=":zaze_assist" />
 
         <!-- contentProvider start -->
+
 
         <!-- <provider -->
         <!-- android:name="com.zaze.demo.component.provider.ZazeProvider" -->
@@ -148,10 +148,25 @@
             android:name=".component.cache.ui.CacheActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <!-- animation start -->
         <activity
             android:name=".component.animation.ui.AnimationActivity1"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".component.animation.ui.TransitionActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".component.animation.ui.SharedElementActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".component.animation.VectorActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <!-- animation end -->
+
         <activity
             android:name=".component.system.ui.SystemActivity"
             android:screenOrientation="portrait"
@@ -165,14 +180,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".component.animation.ui.TransitionActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".component.animation.ui.SharedElementActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".component.wifi.ui.WifiActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -182,7 +189,6 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".component.customview.ui.CustomViewActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".component.wifi.ui.NetworkStatsActivity"
@@ -196,7 +202,10 @@
             android:name=".component.handler.HandlerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
+        <activity
+            android:name=".component.animation.ui.TweenedAnimActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

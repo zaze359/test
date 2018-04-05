@@ -1,0 +1,70 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="100dp"
+    android:height="100dp"
+    android:viewportHeight="100.0"
+    android:viewportWidth="100.0">
+
+    <path
+        android:name="circle"
+        android:pathData="M50,10 A40,40 0,1 1 50,90 A40,40 0,1 1 50,10"
+        android:strokeColor="#ffffff"
+        android:strokeLineCap="round"
+        android:strokeWidth="6" />
+
+    <group
+        android:name="pointGroup"
+        android:pivotX="50.0"
+        android:pivotY="50.0"
+        android:rotation="0">
+
+        <path
+            android:name="point"
+            android:pathData="M49.9,10 L50.1,10"
+            android:strokeColor="#5baaf3"
+            android:strokeLineCap="round"
+            android:strokeWidth="10" />
+    </group>
+
+    <path
+        android:name="bar"
+        android:pathData="M50,60 L50,10"
+        android:strokeAlpha="1"
+        android:strokeColor="#5baaf3"
+        android:strokeLineCap="round"
+        android:strokeWidth="6" />
+
+
+    <path
+        android:name="arrows_left"
+        android:pathData="M50,60 L35,45"
+        android:strokeAlpha="1"
+        android:strokeColor="#5baaf3"
+        android:strokeLineCap="round"
+        android:strokeWidth="6" />
+
+    <path
+        android:name="arrows_right"
+        android:pathData="M50,60 L65,45"
+        android:strokeAlpha="1"
+        android:strokeColor="#5baaf3"
+        android:strokeLineCap="round"
+        android:strokeWidth="6" />
+
+
+    <path
+        android:name="right_left"
+        android:pathData="M50,60 L25,35"
+        android:strokeAlpha="1"
+        android:strokeColor="#5baaf3"
+        android:strokeLineCap="round"
+        android:strokeWidth="6" />
+
+    <path
+        android:name="right_right"
+        android:pathData="M50,60 L75,35"
+        android:strokeAlpha="1"
+        android:strokeColor="#5baaf3"
+        android:strokeLineCap="round"
+        android:strokeWidth="6" />
+
+</vector>

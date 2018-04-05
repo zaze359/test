@@ -31,7 +31,7 @@ import com.zaze.demo.component.wifi.ui.WifiActivity;
 import com.zaze.demo.model.EntityModel;
 import com.zaze.demo.model.entity.AnimationEntity;
 import com.zaze.demo.model.entity.TableEntity;
-import com.zaze.vector.VectorActivity;
+import com.zaze.demo.component.animation.VectorActivity;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,5 +1,6 @@
 package com.zaze.demo.debug
 
+import android.os.SystemClock
 import android.util.Base64
 import com.zaze.utils.ZEncryptionUtil
 import com.zaze.utils.ZFileUtil
@@ -16,13 +17,15 @@ import java.util.*
  * @author : ZAZE
  * @version : 2017-06-07 - 14:53
  */
-class KotlinDebug {
+object KotlinDebug {
 
     fun test() {
         var result = ""
 //        return showLog("print", { print() })
 //        showLog("createDimens", { createDimens(1f, ZDisplayUtil.SCREEN_DENSITY) })
-        createDeveloperToken()
+        result += (System.currentTimeMillis() - SystemClock.elapsedRealtime())
+//        createDeveloperToken()
+        ZLog.i(ZTag.TAG_DEBUG, result);
     }
 
     private fun createDimens(baseDensity: Float, screenDensity: Float): String {

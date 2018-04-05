@@ -1,6 +1,7 @@
 package com.zaze.common.base;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -31,47 +32,69 @@ import java.lang.reflect.Field;
  */
 public abstract class BaseFragment extends Fragment implements BaseView {
     private BaseHeadView headFace;
-    private boolean loadViewFinish = false;
     private LoadingWidget loadProgress;
     private View rootView;
 
     @Override
+    public void onAttach(Context context) {
+        ZLog.v(ZTag.TAG_DEBUG, "onAttach : " + this.getClass().getName());
+        super.onAttach(context);
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        loadViewFinish = false;
+        ZLog.v(ZTag.TAG_DEBUG, "onCreate : " + this.getClass().getName());
         loadProgress = new LoadingWidget(getActivity());
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        ZLog.v(ZTag.TAG_DEBUG, "onCreateView : " + this.getClass().getName());
         super.onCreateView(inflater, container, savedInstanceState);
-        ZLog.i(ZTag.TAG_DEBUG, "onCreateView : " + this.getClass().getName());
         inflater = changeThem(inflater);
-        if (isNeedHead()) {
-            headFace = new HeadWidget(getActivity(), getLayoutId());
-            rootView = headFace.getContainerView();
-        } else {
-//            rootView = inflater.inflate(getLayoutId(), null);
-            rootView = inflater.inflate(getLayoutId(), container, false);
+        if(rootView == null) {
+            if (isNeedHead()) {
+                headFace = new HeadWidget(getActivity(), getLayoutId());
+                rootView = headFace.getContainerView();
+            } else {
+                rootView = inflater.inflate(getLayoutId(), container, false);
+            }
+            init(rootView);
         }
-        init(rootView);
         return rootView;
-    }
-
-    protected void init(View view) {
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        ZLog.v(ZTag.TAG_DEBUG, "onViewCreated : " + this.getClass().getName());
         super.onViewCreated(view, savedInstanceState);
-        loadViewFinish = true;
     }
 
     @Override
-    public void onDestroyView() {
-        loadViewFinish = false;
-        super.onDestroyView();
+    public void onStart() {
+        ZLog.v(ZTag.TAG_DEBUG, "onStart : " + this.getClass().getName());
+        super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        ZLog.v(ZTag.TAG_DEBUG, "onResume : " + this.getClass().getName());
+        super.onResume();
+    }
+
+
+    @Override
+    public void onPause() {
+        ZLog.v(ZTag.TAG_DEBUG, "onPause : " + this.getClass().getName());
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        ZLog.v(ZTag.TAG_DEBUG, "onStop : " + this.getClass().getName());
+        super.onStop();
     }
 
     /**
@@ -83,6 +106,7 @@ public abstract class BaseFragment extends Fragment implements BaseView {
      */
     @Override
     public void onDetach() {
+        ZLog.v(ZTag.TAG_DEBUG, "onDetach : " + this.getClass().getName());
         super.onDetach();
         try {
             Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
@@ -94,6 +118,30 @@ public abstract class BaseFragment extends Fragment implements BaseView {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void onDestroyView() {
+        ZLog.v(ZTag.TAG_DEBUG, "onDestroyView : " + this.getClass().getName());
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        ZLog.v(ZTag.TAG_DEBUG, "onDestroy : " + this.getClass().getName());
+        super.onDestroy();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        ZLog.v(ZTag.TAG_DEBUG, "onSaveInstanceState : " + this.getClass().getName());
+        super.onSaveInstanceState(outState);
+    }
+
+    // --------------------------------------------------
+
+    protected void init(View view) {
+    }
+
 
     /**
      * 显示一个普通等待弹窗
@@ -166,7 +214,7 @@ public abstract class BaseFragment extends Fragment implements BaseView {
     /**
      * 更换theme
      *
-     * @param inflater
+     * @param inflater inflater
      */
     protected LayoutInflater changeThem(LayoutInflater inflater) {
         return inflater;

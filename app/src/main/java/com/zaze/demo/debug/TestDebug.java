@@ -9,14 +9,16 @@ import android.provider.Settings;
 
 import com.zaze.demo.R;
 import com.zaze.demo.model.entity.DeviceStatus;
+import com.zaze.utils.ZFileUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Description :
@@ -25,9 +27,6 @@ import java.util.ArrayList;
  * @version : 2017-09-29 - 15:31
  */
 public class TestDebug {
-    private static final ArrayList<Bitmap> listOne = new ArrayList<>();
-    private static final ArrayList<Bitmap> listTwo = new ArrayList<>();
-    private static final ArrayList<Bitmap> listThree = new ArrayList<>();
     private static Bitmap bitmap;
 
     public static void test(Context context) {
@@ -161,14 +160,11 @@ public class TestDebug {
 
 
         // --------------------------------------------------
+        HashSet<File> set = ZFileUtil.INSTANCE.searchFileLoop(new File("/sdcard/xuehai/"), "zip");
+        for (File file : set) {
+            ZLog.i(ZTag.TAG_DEBUG, "%s : %s", file.getName(), file.getAbsolutePath());
+        }
 
-        listOne.add(bitmap);
-        listTwo.add(bitmap);
-        listThree.add(bitmap);
-//        listOne.add(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher));
-//        listTwo.add(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher));
-//        listThree.add(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher));
-        ZLog.i(ZTag.TAG_DEBUG, "%s, %s, %s", listOne.size(), listTwo.size(), listThree.size());
     }
 
     public static void runnnnn() {
