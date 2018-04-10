@@ -5,7 +5,6 @@ import android.content.Context;
 
 import com.zaze.common.base.BaseApplication;
 import com.zaze.demo.debug.AnalyzeTrafficCompat;
-import com.zaze.utils.ZDisplayUtil;
 import com.zaze.utils.cache.MemoryCacheManager;
 
 /**
@@ -26,7 +25,6 @@ public class MyApplication extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        ZDisplayUtil.init(this);
 //        ZFileUtil.INSTANCE.setShowLog(true);
         MemoryCacheManager.setCacheLog(true);
         AnalyzeTrafficCompat.setNeedLog(true);

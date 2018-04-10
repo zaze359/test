@@ -22,7 +22,7 @@ public class MultiTaskPool extends FilterTaskPool {
     private static final int DEFAULT = 2;
     private static final int MAX = 6;
     private static final long KEEP_ALIVE_TIME = 60L;
-    private int notifyCount = DEFAULT;
+    private int notifyCount = 1;
     private MyThreadPoolExecutor multiExecutor;
     private @MultiNum
     int multiNum = DEFAULT;

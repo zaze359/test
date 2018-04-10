@@ -22,19 +22,11 @@ public class ZDisplayUtil {
     private static float screenWidthDp;
     private static float screenHeightDp;
     // --------------------------------------------------
-    private static boolean isInitialed;
 
     private static DisplayMetrics metrics;
-    private static final String TIP_TO_INIT = "请在application中调用init()方法初始化后,使用该方法！";
+    private static final String TIP_TO_INIT = "请调用init()方法初始化后, 使用该方法！";
 
     public static void init(Context context) {
-        if (isInitialed || context == null) {
-            return;
-        }
-        isInitialed = true;
-        metrics = new DisplayMetrics();
-//        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-//        wm.getDefaultDisplay().getMetrics(metrics);
         metrics = context.getResources().getDisplayMetrics();
         screenWidthPixels = metrics.widthPixels;
         screenHeightPixels = metrics.heightPixels;
@@ -42,16 +34,6 @@ public class ZDisplayUtil {
         screenDensityDpi = metrics.densityDpi;
         screenWidthDp = dpiFromPx(screenWidthPixels);
         screenHeightDp = dpiFromPx(screenHeightPixels);
-    }
-
-
-    /**
-     * 是否已经初始化
-     *
-     * @return boolean
-     */
-    public static boolean isIsInitialed() {
-        return isInitialed;
     }
 
 
@@ -102,7 +84,7 @@ public class ZDisplayUtil {
      * @return
      */
     public static float dpiFromPx(int px) {
-        if (isInitialed) {
+        if (metrics != null) {
             float densityRatio = (float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT;
             return (px / densityRatio);
         } else {
@@ -118,7 +100,7 @@ public class ZDisplayUtil {
      * @return
      */
     public static int pxFromDp(float dp) {
-        if (isInitialed) {
+        if (metrics != null) {
             return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, metrics));
         } else {
             ZLog.e(ZTag.TAG_ERROR, TIP_TO_INIT);
@@ -133,7 +115,7 @@ public class ZDisplayUtil {
      * @return
      */
     public static int pxFromSp(float sp) {
-        if (isInitialed) {
+        if (metrics != null) {
             return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, metrics));
         } else {
             ZLog.e(ZTag.TAG_ERROR, TIP_TO_INIT);

@@ -1,7 +1,9 @@
 package com.zaze.common.base;
 
 import android.app.Application;
+import android.content.res.Configuration;
 
+import com.zaze.utils.ZDisplayUtil;
 import com.zaze.utils.ZSharedPrefUtil;
 import com.zaze.utils.cache.MemoryCacheManager;
 
@@ -28,6 +30,7 @@ public abstract class BaseApplication extends Application {
         super.onCreate();
         instance = this;
         ZSharedPrefUtil.initSharedPreferences(this);
+        ZDisplayUtil.init(this);
     }
 
     @Override
@@ -42,4 +45,13 @@ public abstract class BaseApplication extends Application {
         MemoryCacheManager.onTrimMemory(level);
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        ZDisplayUtil.init(this);
+    }
+
+    public boolean isPortrait() {
+        return this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+    }
 }

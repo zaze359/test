@@ -13,11 +13,11 @@ public interface ZTag {
     String TAG_FILE = "File" + TAG_BASE;
     String TAG_DEBUG = "Debug" + TAG_BASE;
     String TAG_CMD = "Cmd" + TAG_BASE;
-    String TAG_MEMORY = "MemoryCache" + TAG_BASE;
+    String TAG_MEMORY = "Cache" + TAG_BASE;
     String TAG_TASK = "Task" + TAG_BASE;
-    String TAG_ABOUT_APP = "AboutApp" + TAG_BASE;
+    String TAG_ABOUT_APP = "App" + TAG_BASE;
     String TAG_SYSTEM = "System" + TAG_BASE;
-    String TAG_PROVIDER = "ContentProvider" + TAG_BASE;
+    String TAG_PROVIDER = "Provider" + TAG_BASE;
     String TAG_ANALYZE = "Analyze" + TAG_BASE;
     String TAG_XML = "XML" + TAG_BASE;
 

@@ -27,14 +27,12 @@ public class TaskAsyncMulti<T> extends TaskCreate<T> {
     public TaskAsyncMulti<T> setMax(@MultiNum int max) {
         MultiTaskPool multiTaskExecutorService = getTaskPool();
         multiTaskExecutorService.setMultiNum(max);
-        putTaskPool(multiTaskExecutorService);
         return this;
     }
 
     public TaskAsyncMulti<T> setNotifyCount(@MultiNum int count) {
         MultiTaskPool multiTaskExecutorService = getTaskPool();
         multiTaskExecutorService.setNotifyCount(count);
-        putTaskPool(multiTaskExecutorService);
         return this;
     }
 

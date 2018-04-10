@@ -2,6 +2,13 @@
 
 包含 学习用的测试demo、工具类库、组件库等
 
+- 优化缓存机制(持续)
+- mvp进行深度封装(持续)
+- 动画效果体验demo(持续)
+- adapter优化(持续)
+- 自定义控件开发(持续)
+
+
 ## 使用说明
 
 ### Maven
@@ -12,7 +19,7 @@ maven { url "https://dl.bintray.com/zaze359/maven" }
 
 ## 工具类库
 
-> compile 'com.zaze:zazeutil:1.2.1'
+> compile 'com.zaze:zazeutil:1.2.3'
 
 1. 一些常用的工具类
 2. Task 模块
@@ -21,7 +28,7 @@ maven { url "https://dl.bintray.com/zaze359/maven" }
 
 ## 组件库
 
-> compile 'com.zaze:zazecommon:1.1.1@aar'
+> compile 'com.zaze:zazecommon:1.2.2@aar'
 
 ### v1.x.x
 
