@@ -2,6 +2,7 @@ package com.zaze.demo.debug
 
 import android.os.SystemClock
 import android.util.Base64
+import com.zaze.utils.ZCompressUtil
 import com.zaze.utils.ZEncryptionUtil
 import com.zaze.utils.ZFileUtil
 import com.zaze.utils.ZStringUtil
@@ -24,6 +25,9 @@ object KotlinDebug {
 //        return showLog("print", { print() })
 //        showLog("createDimens", { createDimens(1f, ZDisplayUtil.SCREEN_DENSITY) })
         result += (System.currentTimeMillis() - SystemClock.elapsedRealtime())
+
+        ZCompressUtil.zipFile("sdcard/xuehai/files", "/sdcard/aa.zip")
+
 //        createDeveloperToken()
         ZLog.i(ZTag.TAG_DEBUG, result);
     }

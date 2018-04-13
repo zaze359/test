@@ -75,32 +75,6 @@ public abstract class Task<T> implements TaskSource {
         return pushTask(entity, false);
     }
 
-    public void remove(String taskId) {
-        removeTask(taskId);
-    }
-
-    /**
-     * 添加任务(默认到末端)
-     *
-     * @param entity     entity
-     * @param pushToHead 是否将任务添加到头部
-     * @return Task
-     */
-    protected abstract Task<T> pushTask(TaskEntity entity, boolean pushToHead);
-
-    /**
-     * 移除任务
-     *
-     * @param taskId taskId
-     */
-    protected abstract Task<T> removeTask(String taskId);
-
-    public abstract TaskAsyncMulti<T> executeOnAsyncMulti();
-
-    public abstract TaskAsync<T> executeOnAsync();
-
-    public abstract TaskAsyncAuto<T> executeOnAsyncAuto();
-
     @Override
     public void execute() {
         executeActual();

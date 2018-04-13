@@ -36,11 +36,10 @@ public class ZCompressUtil {
      * @throws Exception
      */
     public static List<File> getFileList(String zipFileString, boolean bContainFolder, boolean bContainFile) {
-        ZLog.v(ZTag.TAG_DEBUG, "XZip : getFileList(String)");
-
+        ZLog.d(ZTag.TAG_COMPRESS, "getFileList : %s ", zipFileString);
         List<File> fileList = null;
         try {
-            fileList = new ArrayList<File>();
+            fileList = new ArrayList<>();
             ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(zipFileString));
             ZipEntry zipEntry;
             String szName = "";
@@ -89,8 +88,8 @@ public class ZCompressUtil {
      * @param zipFileString 压缩包的名字
      * @param outPathString 指定的路径DIR
      */
-    public static void unZipFolder(String zipFileString, String outPathString) {
-        ZLog.v(ZTag.TAG_DEBUG, "XZip : UnZipFolder(String, String)");
+    public static void unZipToFolder(String zipFileString, String outPathString) {
+        ZLog.d(ZTag.TAG_COMPRESS, "unZipToFolder : %s >> %s ", zipFileString, outPathString);
         try {
             ZipInputStream inZip = new ZipInputStream(new FileInputStream(zipFileString));
             ZipEntry zipEntry;
@@ -128,45 +127,41 @@ public class ZCompressUtil {
     /**
      * 压缩文件,文件夹
      *
-     * @param srcFileString 要压缩的文件/文件夹名字
-     * @param zipFileString 指定压缩的目的和名字
+     * @param srcFilePath 要压缩的文件/文件夹名字
+     * @param outFilePath 指定压缩的目的和名字
      */
-    public static void zipFolder(String srcFileString, String zipFileString) {
-        ZLog.v(ZTag.TAG_DEBUG, "XZip : ZipFolder(String, String)");
-        ZFileUtil.INSTANCE.reCreateDir(new File(zipFileString).getParent());
+    public static void zipFile(String srcFilePath, String outFilePath) {
+        ZLog.d(ZTag.TAG_COMPRESS, "zipFile : %s >> %s", srcFilePath, outFilePath);
+        ZFileUtil.INSTANCE.createDirNotExists(new File(outFilePath).getParent());
+        ZFileUtil.INSTANCE.reCreateFile(outFilePath);
         try {
             //创建Zip包
-            ZipOutputStream outZip = new ZipOutputStream(new FileOutputStream(zipFileString));
-            //打开要输出的文件
-            File file = new File(srcFileString);
+            ZipOutputStream outZip = new ZipOutputStream(new FileOutputStream(outFilePath));
             //压缩
-            zipFiles(file.getParent() + File.separator, file.getName(), outZip);
-            //完成,关闭
+            zipFiles(srcFilePath, outZip);
             outZip.finish();
             outZip.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }//end of func  
+    }
 
     /**
      * 压缩文件
      *
-     * @param folderString
-     * @param fileString
+     * @param filePath
      * @param zipOutputSteam
      * @throws Exception
      */
-    private static void zipFiles(String folderString, String fileString, ZipOutputStream zipOutputSteam) throws Exception {
-        ZLog.v(ZTag.TAG_DEBUG, "XZip : ipFiles(String, String, ZipOutputStream)");
+    private static void zipFiles(String filePath, ZipOutputStream zipOutputSteam) throws Exception {
+        ZLog.v(ZTag.TAG_COMPRESS, "zipFiles : " + filePath);
         if (zipOutputSteam == null) {
             return;
         }
-        File file = new File(folderString + fileString);
-        //判断是不是文件
-        if (file.isFile()) {
-            ZipEntry zipEntry = new ZipEntry(fileString);
-            FileInputStream inputStream = new FileInputStream(file);
+        File zipFile = new File(filePath);
+        if (zipFile.isFile()) {
+            ZipEntry zipEntry = new ZipEntry(zipFile.getName());
+            FileInputStream inputStream = new FileInputStream(zipFile);
             zipOutputSteam.putNextEntry(zipEntry);
             int len;
             byte[] buffer = new byte[4096];
@@ -176,24 +171,24 @@ public class ZCompressUtil {
             zipOutputSteam.closeEntry();
         } else {
             //文件夹的方式,获取文件夹下的子文件
-            String[] fileList = file.list();
+            File[] fileList = zipFile.listFiles();
             //如果没有子文件, 则添加进去即可
-            if (fileList.length <= 0) {
-                ZipEntry zipEntry = new ZipEntry(fileString + File.separator);
+            if (fileList == null || fileList.length <= 0) {
+                ZipEntry zipEntry = new ZipEntry(zipFile.getName());
                 zipOutputSteam.putNextEntry(zipEntry);
                 zipOutputSteam.closeEntry();
+            } else {
+                //如果有子文件, 遍历子文件
+                for (File file : fileList) {
+                    zipFiles(file.getAbsolutePath(), zipOutputSteam);
+                }
             }
-            //如果有子文件, 遍历子文件
-            for (int i = 0; i < fileList.length; i++) {
-                zipFiles(folderString, fileString + File.separator + fileList[i], zipOutputSteam);
-            }//end of for  
-        }//end of if
-    }//end of func
+        }
+    }
 
 
     // --------------------------------------------------
 
-    // 压缩
     public static byte[] gzipCompress(byte[] bytes) throws IOException {
         if (bytes == null || bytes.length == 0) {
             return bytes;
@@ -207,6 +202,7 @@ public class ZCompressUtil {
 
     /**
      * 解压缩
+     *
      * @param bytes
      * @return
      * @throws IOException

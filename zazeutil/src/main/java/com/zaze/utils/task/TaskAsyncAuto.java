@@ -21,7 +21,7 @@ public class TaskAsyncAuto<T> extends TaskCreate<T> {
         if (needLog) {
             ZLog.i(ZTag.TAG_TASK, "开始异步自动依序执行任务池(%s)内所有任务！", poolTag);
         }
-        TaskPool taskPool = getTaskPool();
+        TaskPool taskPool = getOrCreatePool();
         if (taskPool instanceof AutoTaskPool) {
             executeTask(taskPool, false);
         } else {

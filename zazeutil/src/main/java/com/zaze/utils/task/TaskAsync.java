@@ -22,7 +22,7 @@ public class TaskAsync<T> extends TaskCreate<T> {
         if (needLog) {
             ZLog.i(ZTag.TAG_TASK, "开始异步执行任务池(%s)内下一个任务！", poolTag);
         }
-        TaskPool taskPool = getTaskPool();
+        TaskPool taskPool = getOrCreatePool();
         if (taskPool instanceof AutoTaskPool) {
             executeTask(taskPool, false);
         } else {

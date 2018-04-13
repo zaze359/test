@@ -21,29 +21,29 @@ public class TaskAsyncMulti<T> extends TaskCreate<T> {
         if (needLog) {
             ZLog.i(ZTag.TAG_TASK, "开始批量执行任务池(%s)内任务！", poolTag);
         }
-        executeTask(getTaskPool(), false);
+        executeTask(getOrCreatePool(), false);
     }
 
     public TaskAsyncMulti<T> setMax(@MultiNum int max) {
-        MultiTaskPool multiTaskExecutorService = getTaskPool();
+        MultiTaskPool multiTaskExecutorService = getOrCreatePool();
         multiTaskExecutorService.setMultiNum(max);
         return this;
     }
 
     public TaskAsyncMulti<T> setNotifyCount(@MultiNum int count) {
-        MultiTaskPool multiTaskExecutorService = getTaskPool();
+        MultiTaskPool multiTaskExecutorService = getOrCreatePool();
         multiTaskExecutorService.setNotifyCount(count);
         return this;
     }
 
     public TaskAsyncMulti<T> notifyExecute() {
-        getTaskPool().notifyExecute();
+        getOrCreatePool().notifyExecute();
         return this;
     }
 
     @Override
-    protected MultiTaskPool getTaskPool() {
-        TaskPool taskPool = super.getTaskPool();
+    protected MultiTaskPool getOrCreatePool() {
+        TaskPool taskPool = super.getOrCreatePool();
         MultiTaskPool multiTaskExecutorService;
         boolean replace;
         if (taskPool instanceof MultiTaskPool) {
@@ -57,7 +57,7 @@ public class TaskAsyncMulti<T> extends TaskCreate<T> {
             replace = true;
         }
         if (replace) {
-            putTaskPool(multiTaskExecutorService);
+            putPool(multiTaskExecutorService);
         }
         return multiTaskExecutorService;
     }

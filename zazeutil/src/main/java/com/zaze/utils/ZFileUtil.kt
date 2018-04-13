@@ -3,6 +3,7 @@ package com.zaze.utils
 import android.os.Build
 import android.os.Environment
 import android.os.StatFs
+import android.text.TextUtils
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import java.io.*
@@ -180,6 +181,9 @@ object ZFileUtil {
      * [destFile] 目标文件或文件夹
      */
     fun deleteFile(destFile: File): Boolean {
+        if (TextUtils.equals(getSDCardRoot(), destFile.absolutePath)) {
+            return false
+        }
         if (destFile.isFile) {
             return destFile.delete()
         }

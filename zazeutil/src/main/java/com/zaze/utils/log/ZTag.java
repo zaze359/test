@@ -20,5 +20,6 @@ public interface ZTag {
     String TAG_PROVIDER = "Provider" + TAG_BASE;
     String TAG_ANALYZE = "Analyze" + TAG_BASE;
     String TAG_XML = "XML" + TAG_BASE;
+    String TAG_COMPRESS = "Compress" + TAG_BASE;
 
 }

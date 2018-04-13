@@ -31,7 +31,7 @@ public class TaskCreate<T> extends TaskPusher<T> {
 
     @Override
     protected void executeActual() {
-        executeTask(getTaskPool(), false);
+        executeTask(getOrCreatePool(), false);
     }
 
     /**
@@ -43,10 +43,10 @@ public class TaskCreate<T> extends TaskPusher<T> {
     protected void executeTask(TaskPool taskPool, boolean replace) {
         if (taskPool != null) {
             if (taskPool.isEmpty()) {
-                removeTaskPool();
+                removePool();
             } else {
                 if (replace) {
-                    putTaskPool(taskPool);
+                    putPool(taskPool);
                 }
                 taskPool.executeTask();
             }
