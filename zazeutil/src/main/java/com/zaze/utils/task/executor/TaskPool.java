@@ -62,6 +62,11 @@ public abstract class TaskPool {
     public abstract boolean isEmpty();
 
     /**
+     * @return 是否是空闲的
+     */
+    public abstract boolean isIdle();
+
+    /**
      * 停止任务
      */
     public void stop() {

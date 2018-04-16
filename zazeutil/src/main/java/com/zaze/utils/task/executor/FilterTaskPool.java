@@ -60,6 +60,11 @@ public class FilterTaskPool extends TaskPool {
     }
 
     @Override
+    public boolean isIdle() {
+        return taskPool == null || taskPool.isIdle();
+    }
+
+    @Override
     public void stop() {
         super.stop();
         if (executorService != null) {

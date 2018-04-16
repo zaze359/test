@@ -36,5 +36,13 @@ public interface TaskSource<T> {
 
     void clearPoll();
 
+    /**
+     * @return 是否为空
+     */
     boolean isEmpty();
+
+    /**
+     * @return 是否空闲
+     */
+    boolean isIdle();
 }

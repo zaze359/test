@@ -28,7 +28,7 @@ maven { url "https://dl.bintray.com/zaze359/maven" }
 
 ## 组件库
 
-> compile 'com.zaze:zazecommon:1.2.3@aar'
+> compile 'com.zaze:zazecommon:1.2.5@aar'
 
 ### v1.x.x
 

@@ -104,8 +104,10 @@ public abstract class TaskPusher<T> extends Task<T> {
 
     @Override
     public void clearPoll() {
-        TaskPool taskPool = getOrCreatePool();
-        taskPool.clear();
+        TaskPool taskPool = getPool(poolTag);
+        if (taskPool != null) {
+            taskPool.clear();
+        }
         POOL_MAP.remove(poolTag);
     }
 
@@ -113,6 +115,12 @@ public abstract class TaskPusher<T> extends Task<T> {
     public boolean isEmpty() {
         TaskPool taskPool = getPool(poolTag);
         return taskPool == null || taskPool.isEmpty();
+    }
+
+    @Override
+    public boolean isIdle() {
+        TaskPool taskPool = getPool(poolTag);
+        return taskPool == null || taskPool.isIdle();
     }
 
     protected static void clearAllPoll() {

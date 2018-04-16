@@ -149,9 +149,9 @@ public class ZCompressUtil {
     /**
      * 压缩文件
      *
-     * @param filePath
-     * @param zipOutputSteam
-     * @throws Exception
+     * @param filePath       filePath
+     * @param zipOutputSteam zipOutputSteam
+     * @throws Exception Exception
      */
     private static void zipFiles(String filePath, ZipOutputStream zipOutputSteam) throws Exception {
         ZLog.v(ZTag.TAG_COMPRESS, "zipFiles : " + filePath);

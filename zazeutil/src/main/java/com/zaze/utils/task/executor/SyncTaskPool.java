@@ -165,9 +165,15 @@ public class SyncTaskPool extends TaskPool {
     }
 
     @Override
+    public boolean isIdle() {
+        return currentTaskSet.isEmpty() && isEmpty();
+    }
+
+    @Override
     public void stop() {
         isStop = false;
     }
+
 
     @Override
     public void clear() {

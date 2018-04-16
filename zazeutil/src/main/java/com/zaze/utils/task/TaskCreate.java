@@ -41,15 +41,11 @@ public class TaskCreate<T> extends TaskPusher<T> {
      * @param replace  是否替换线程池
      */
     protected void executeTask(TaskPool taskPool, boolean replace) {
-        if (taskPool != null) {
-            if (taskPool.isEmpty()) {
-                removePool();
-            } else {
-                if (replace) {
-                    putPool(taskPool);
-                }
-                taskPool.executeTask();
+        if (taskPool != null && !taskPool.isEmpty()) {
+            if (replace) {
+                putPool(taskPool);
             }
+            taskPool.executeTask();
         }
     }
 }
