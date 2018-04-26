@@ -1,8 +1,12 @@
 package com.zaze.demo
 
 import android.Manifest
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.content.pm.PackageManager
-import android.os.Bundle
+import android.os.*
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
@@ -12,7 +16,10 @@ import com.zaze.common.widget.IntervalButtonWidget
 import com.zaze.common.widget.head.ZOrientation
 import com.zaze.demo.component.table.ui.TableFragment
 import com.zaze.demo.debug.KotlinDebug
+import com.zaze.demo.debug.MessengerService
 import com.zaze.demo.debug.TestDebug
+import com.zaze.utils.log.ZLog
+import com.zaze.utils.log.ZTag
 import com.zaze.utils.permission.PermissionCode
 import com.zaze.utils.permission.PermissionUtil
 import kotlinx.android.synthetic.main.activity_main.*
@@ -28,7 +35,28 @@ class MainActivity : BaseActivity() {
     private val fragmentList = ArrayList<BaseFragment>()
 
     private var intervalButton: IntervalButtonWidget? = null
-//    private lateinit var weakReference: WeakReference<DeviceStatus>
+
+
+    private val messenger = Messenger(object : Handler() {
+        override fun handleMessage(msg: Message?) {
+            super.handleMessage(msg)
+            ZLog.i(ZTag.TAG_DEBUG, "handleMessage")
+        }
+    })
+
+    private var sendMessenger: Messenger? = null
+
+    private val serviceConnection: ServiceConnection = object : ServiceConnection {
+        override fun onServiceDisconnected(name: ComponentName?) {
+            sendMessenger = null
+        }
+
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            sendMessenger = Messenger(service)
+        }
+
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,17 +79,22 @@ class MainActivity : BaseActivity() {
         main_test_button.setOnClickListener {
             KotlinDebug.test()
             TestDebug.test(this)
+            val msg = Message.obtain()
+            msg.replyTo = messenger
+            sendMessenger?.send(msg)
             // --------------------------------------------------
 //            TestJni.newInstance().stringFromJNI()
             // --------------------------------------------------
         }
         setupPermission()
+        bindService(Intent(this, MessengerService::class.java), serviceConnection, Context.BIND_AUTO_CREATE)
 //        val obj = DeviceStatus()
 //        weakReference = WeakReference(obj)
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        unbindService(serviceConnection)
         intervalButton?.stop()
     }
 

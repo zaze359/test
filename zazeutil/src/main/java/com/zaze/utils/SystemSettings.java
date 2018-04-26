@@ -27,9 +27,8 @@ public class SystemSettings {
      * @return 开机时间
      */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    @Deprecated
     public static long getBootTime() {
-        return System.currentTimeMillis() - SystemClock.elapsedRealtimeNanos() / 1000000;
+        return System.currentTimeMillis() - SystemClock.elapsedRealtime();
     }
 
     /**

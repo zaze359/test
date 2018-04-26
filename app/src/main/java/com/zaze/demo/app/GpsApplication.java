@@ -9,6 +9,7 @@ import com.zaze.common.base.BaseApplication;
  * @author : ZAZE
  * @version : 2017-02-14 - 13:58
  */
+@Deprecated
 public class GpsApplication extends BaseApplication {
 //    private LocationClient locationClient = null;
 //    private static final CopyOnWriteArrayList<BDLocationListener> locationListenerList = new CopyOnWriteArrayList<>();

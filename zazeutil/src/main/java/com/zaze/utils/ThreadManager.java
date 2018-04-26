@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
-import java.util.concurrent.Executor;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -41,7 +40,7 @@ public class ThreadManager {
      */
     private ThreadPoolExecutor multiExecutor;
 
-    private MainThreadExecutor mainThread;
+    private Handler mainThreadHandler = new Handler(Looper.getMainLooper());
 
     private static volatile ThreadManager instance;
 
@@ -63,7 +62,6 @@ public class ThreadManager {
         initSingleExecutor();
         initMultiExecutor();
         // --------------------------------------------------
-        mainThread = new MainThreadExecutor();
     }
     // --------------------------------------------------
 
@@ -183,7 +181,7 @@ public class ThreadManager {
      * @param runnable runnable
      */
     public void runInUIThread(Runnable runnable) {
-        mainThread.execute(runnable);
+        mainThreadHandler.post(runnable);
     }
 
     /**
@@ -192,7 +190,7 @@ public class ThreadManager {
      * @param runnable runnable
      */
     public void runInUIThread(Runnable runnable, long delay) {
-        mainThread.executeDelayed(runnable, delay);
+        mainThreadHandler.postDelayed(runnable, delay);
     }
 
     /**
@@ -240,17 +238,4 @@ public class ThreadManager {
     }
 
     // --------------------------------------------------
-
-    private static class MainThreadExecutor implements Executor {
-        private Handler mainThreadHandler = new Handler(Looper.getMainLooper());
-
-        @Override
-        public void execute(@NonNull Runnable command) {
-            mainThreadHandler.post(command);
-        }
-
-        public void executeDelayed(@NonNull Runnable command, long delayMillis) {
-            mainThreadHandler.postDelayed(command, delayMillis);
-        }
-    }
 }

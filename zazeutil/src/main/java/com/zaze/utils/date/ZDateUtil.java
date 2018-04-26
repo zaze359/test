@@ -1,6 +1,8 @@
 package com.zaze.utils.date;
 
 
+import android.text.TextUtils;
+
 import com.zaze.utils.ZStringUtil;
 
 import java.text.ParseException;
@@ -59,7 +61,7 @@ public class ZDateUtil {
      * @return
      */
     public static Date stringToDate(String dateStr, String pattern) {
-        if (dateStr != null) {
+        if (!TextUtils.isEmpty(dateStr)) {
             try {
                 return getDateFormat(pattern).parse(dateStr);
             } catch (ParseException e) {

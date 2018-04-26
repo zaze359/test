@@ -2,7 +2,6 @@ package com.zaze.demo.debug
 
 import android.os.SystemClock
 import android.util.Base64
-import com.zaze.utils.ZCompressUtil
 import com.zaze.utils.ZEncryptionUtil
 import com.zaze.utils.ZFileUtil
 import com.zaze.utils.ZStringUtil
@@ -25,11 +24,8 @@ object KotlinDebug {
 //        return showLog("print", { print() })
 //        showLog("createDimens", { createDimens(1f, ZDisplayUtil.SCREEN_DENSITY) })
         result += (System.currentTimeMillis() - SystemClock.elapsedRealtime())
-
-        ZCompressUtil.zipFile("sdcard/xuehai/files", "/sdcard/aa.zip")
-
 //        createDeveloperToken()
-        ZLog.i(ZTag.TAG_DEBUG, result);
+        ZLog.i(ZTag.TAG_DEBUG, result)
     }
 
     private fun createDimens(baseDensity: Float, screenDensity: Float): String {
@@ -67,16 +63,15 @@ object KotlinDebug {
     val secretFile = "${ZFileUtil.getSDCardRoot()}/secret/secret.txt"
 
     /**
-     * Description : 获取开发者Token
      * @author zaze
      * @version 2017/6/22 - 上午10:25 1.0
      */
     fun createDeveloperToken(): String {
         ZFileUtil.deleteFileByCmd(secretFile)
 //        val current = System.currentTimeMillis()
-        val current = ZDateUtil.stringToDate("2013-01-01 00:00:00", "yyyy-MM-dd HH:mm:ss").time
+        val current = ZDateUtil.stringToDate("2000-01-01 00:00:00", "yyyy-MM-dd HH:mm:ss").time
         var start = ZDateUtil.getDayStart(current)
-        val end = ZDateUtil.getDayEnd(current) + ZDateUtil.DAY * 30
+        val end = ZDateUtil.getDayEnd(current) + ZDateUtil.YEAR * 30
         while (start < end) {
             val date = Date(start)
             ZFileUtil.writeToFile(secretFile, "${ZDateUtil.dateToString(date, "yyyy-MM-dd HH:mm:ss")} : ${createDeveloperToken(date)}\n", true)
@@ -86,12 +81,13 @@ object KotlinDebug {
     }
 
     fun createDeveloperToken(date: Date): String {
+        val secretKey = "%s%s%s%s"
         val year = ZDateUtil.getYear(date)
         val month = ZDateUtil.getMonth(date).number
         val day = ZDateUtil.getDay(date)
         val hour = ZDateUtil.getHour(date)
         val secret = ZStringUtil.format(
-                "*#xuehai%d&zhitongyun%d$100fen%d@%d#*",
+                secretKey,
                 year, month, day, hour
         )
         val md5 = writeKeyToFile(secret)

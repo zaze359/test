@@ -4,21 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.XmlResourceParser;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.provider.Settings;
 
-import com.zaze.demo.R;
 import com.zaze.demo.model.entity.DeviceStatus;
-import com.zaze.utils.ZFileUtil;
+import com.zaze.utils.ZCompressUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.HashSet;
 
 /**
  * Description :
@@ -30,9 +26,6 @@ public class TestDebug {
     private static Bitmap bitmap;
 
     public static void test(Context context) {
-        if (bitmap == null) {
-            bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
-        }
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 //            TestDebug.hasPermissionToReadNetworkStats(context);
 //        }
@@ -158,13 +151,7 @@ public class TestDebug {
 //            }
 //        });
 
-
-        // --------------------------------------------------
-        HashSet<File> set = ZFileUtil.INSTANCE.searchFileLoop(new File("/sdcard/xuehai/"), "zip");
-        for (File file : set) {
-            ZLog.i(ZTag.TAG_DEBUG, "%s : %s", file.getName(), file.getAbsolutePath());
-        }
-
+        ZCompressUtil.zipFile("/sdcard/xuehai/aa", "/sdcard/xuehai/test.zip");
     }
 
     public static void runnnnn() {

@@ -83,9 +83,10 @@
         <!-- 测试接收推送 end -->
         <!--  -->
         <service android:name=".component.socket.AlarmService" />
+
         <service
-            android:name=".debug.TestService"
-            android:process=":zaze_assist" />
+            android:name=".debug.MessengerService"
+            android:process=":messenger" />
 
         <!-- contentProvider start -->
 
