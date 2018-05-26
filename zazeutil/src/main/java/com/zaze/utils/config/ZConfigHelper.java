@@ -1,9 +1,11 @@
 package com.zaze.utils.config;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.zaze.utils.ZFileUtil;
 
+import java.io.File;
 import java.util.Map;
 import java.util.Properties;
 
@@ -15,15 +17,24 @@ import java.util.Properties;
  * @version : 1.0
  */
 public class ZConfigHelper {
+    /**
+     * 最大 10MB
+     */
+    private static final long MAX_SIZE = 10 << 20;
 
     private String filePath;
     private int saveMode;
 
-    public static ZConfigHelper newInstance(String filePath) {
-        return new ZConfigHelper(filePath, Context.MODE_PRIVATE);
+
+    public static ZConfigHelper newInstance(@NonNull File file) {
+        return newInstance(file.getAbsolutePath());
     }
 
-    public static ZConfigHelper newInstance(String filePath, int saveMode) {
+    public static ZConfigHelper newInstance(@NonNull String filePath) {
+        return newInstance(filePath, Context.MODE_PRIVATE);
+    }
+
+    public static ZConfigHelper newInstance(@NonNull String filePath, int saveMode) {
         return new ZConfigHelper(filePath, saveMode);
     }
 
@@ -96,8 +107,8 @@ public class ZConfigHelper {
      */
     public Properties load() {
         boolean isNew = false;
-        if (!ZFileUtil.INSTANCE.exists(filePath)) {
-            ZFileUtil.INSTANCE.createFileNotExists(filePath);
+        if (!ZFileUtil.INSTANCE.exists(filePath) || new File(this.filePath).length() > MAX_SIZE) {
+            ZFileUtil.INSTANCE.reCreateFile(filePath);
             isNew = true;
         }
         Properties properties = ZPropertiesUtil.load(this.filePath);

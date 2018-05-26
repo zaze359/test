@@ -26,8 +26,6 @@ open class LogcatActivity : BaseActivity(), LogcatView {
         presenter = LogcatPresenterImpl(this)
         logcat_start_catch.setOnClickListener {
             ThreadManager.getInstance().runInMultiThread {
-
-                //                LogCatUtil.startCatchLog("logcat ", "/sdcard/zaze/catch.log")
                 LogCatUtil.startCatchLog("logcat -v time process |grep ${ZAppUtil.getAppPid("com.xuehai.response_launcher_teacher")}", "/sdcard/zaze/cach.log", 1 shl 20)
             }
         }

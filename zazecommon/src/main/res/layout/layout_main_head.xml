@@ -27,13 +27,13 @@
 
                 <TextView
                     android:id="@+id/head_left_red"
-                    android:layout_width="@dimen/dp_14"
-                    android:layout_height="@dimen/dp_14"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
                     android:layout_gravity="right|top"
                     android:background="@drawable/bg_circle_red"
                     android:gravity="center"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/sp_10"
+                    android:textSize="10sp"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -45,7 +45,7 @@
                     android:drawableLeft="@drawable/icon_return"
                     android:gravity="center_vertical"
                     android:textColor="@color/head_text_color"
-                    android:textSize="@dimen/sp_20"
+                    android:textSize="20sp"
                     tools:text="返回" />
             </FrameLayout>
         </LinearLayout>
@@ -66,7 +66,7 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:textColor="@color/head_text_color"
-                android:textSize="@dimen/sp_22"
+                android:textSize="22sp"
                 tools:text="标题" />
         </LinearLayout>
 
@@ -98,13 +98,13 @@
 
                 <TextView
                     android:id="@+id/head_right_red"
-                    android:layout_width="@dimen/dp_14"
-                    android:layout_height="@dimen/dp_14"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
                     android:layout_gravity="right|top"
                     android:background="@drawable/bg_circle_red"
                     android:gravity="center"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/sp_10"
+                    android:textSize="10sp"
                     android:visibility="gone"
                     tools:text="1"
                     tools:visibility="visible" />
@@ -116,7 +116,7 @@
                     android:gravity="center_vertical|right"
                     android:maxLines="1"
                     android:textColor="@color/head_text_color"
-                    android:textSize="@dimen/sp_20"
+                    android:textSize="20sp"
                     tools:text="自练列表" />
             </FrameLayout>
 

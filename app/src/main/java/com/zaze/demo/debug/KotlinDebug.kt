@@ -5,11 +5,13 @@ import android.util.Base64
 import com.zaze.utils.ZEncryptionUtil
 import com.zaze.utils.ZFileUtil
 import com.zaze.utils.ZStringUtil
+import com.zaze.utils.config.ZConfigHelper
 import com.zaze.utils.date.ZDateUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import java.io.File
 import java.util.*
+import kotlin.collections.HashMap
 
 
 /**
@@ -22,34 +24,74 @@ object KotlinDebug {
     fun test() {
         var result = ""
 //        return showLog("print", { print() })
-//        showLog("createDimens", { createDimens(1f, ZDisplayUtil.SCREEN_DENSITY) })
+//        showLog("createDimensByDensity", { createDimensByDensity(ZDisplayUtil.getScreenDensity()) })
+//        showLog("createDimensBySW", { createDimensBySW(768, ZDisplayUtil.getScreenWidthDp().toInt()) })
         result += (System.currentTimeMillis() - SystemClock.elapsedRealtime())
+        val file = File("/sdcard/test.ini")
+        val config = ZConfigHelper.newInstance(file)
+        val map = HashMap<String, String>()
+        for (i in 0..100000) {
+            map.put("${System.currentTimeMillis()}" + i, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+        }
+        config.setProperty(map)
 //        createDeveloperToken()
         ZLog.i(ZTag.TAG_DEBUG, result)
     }
 
-    private fun createDimens(baseDensity: Float, screenDensity: Float): String {
+    private fun createDimensByDensity(screenDensity: Float): String {
         var dp = 1
-        val builderBase = StringBuilder()
-        val builder = StringBuilder()
-        builder.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
-        builder.append("<resources>\n")
-        builderBase.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
-        builderBase.append("<resources>\n")
+        val baseBuilder = initBuilder(StringBuilder())
+        val dpBuilder = initBuilder(StringBuilder())
         do {
             if (dp <= 10 || dp % 2 == 0) {
-                builder.append(ZStringUtil.format("\t<dimen name=\"dp_$dp\">%1.1fdp</dimen>\n", dp * baseDensity / screenDensity))
-                builderBase.append("\t<dimen name=\"dp_$dp\">${dp}dp</dimen>\n")
+                dpBuilder.append(ZStringUtil.format("\t<dimen name=\"dp_$dp\">%1.1fdp</dimen>\n", dp * 1f / screenDensity))
+                baseBuilder.append("\t<dimen name=\"dp_$dp\">${dp}dp</dimen>\n")
             }
             dp++
         } while (dp <= 2000)
 
-        builder.append("</resources>")
-        builderBase.append("</resources>")
-        ZFileUtil.writeToFile("${ZFileUtil.getSDCardRoot()}/zaze/z_dimens/dimens.xml", builder.toString())
-        ZFileUtil.writeToFile("${ZFileUtil.getSDCardRoot()}/zaze/z_dimens/dimens_base.xml", builderBase.toString())
-        return builder.toString()
+        dpBuilder.append("</resources>")
+        baseBuilder.append("</resources>")
+        ZFileUtil.writeToFile("${ZFileUtil.getSDCardRoot()}/zaze/z_dimens/dimens.xml", dpBuilder.toString())
+        ZFileUtil.writeToFile("${ZFileUtil.getSDCardRoot()}/zaze/z_dimens/dimens_base.xml", baseBuilder.toString())
+        return dpBuilder.toString()
     }
+
+
+    private fun createDimensBySW(baseSw: Int, screenSw: Int): String {
+        var dp = 1
+        val baseBuilder = initBuilder(StringBuilder())
+        val swBuilder = initBuilder(StringBuilder())
+        do {
+            if (dp <= 10 || dp % 2 == 0) {
+                baseBuilder.append("\t<dimen name=\"dp_$dp\">${dp}dp</dimen>\n")
+                swBuilder.append(ZStringUtil.format("\t<dimen name=\"dp_$dp\">%1.1fdp</dimen>\n", 1.0f * dp * screenSw / baseSw))
+            }
+            dp++
+        } while (dp <= 1024)
+        var sp = 1
+        do {
+            if (sp <= 10 || sp % 2 == 0) {
+                baseBuilder.append("\t<dimen name=\"sp_$sp\">${sp}sp</dimen>\n")
+                swBuilder.append(ZStringUtil.format("\t<dimen name=\"sp_$sp\">%1.1fsp</dimen>\n", 1.0f * sp * screenSw / baseSw))
+            }
+            sp++
+        } while (sp <= 100)
+        swBuilder.append("</resources>")
+        baseBuilder.append("</resources>")
+        ZFileUtil.writeToFile("${ZFileUtil.getSDCardRoot()}/zazen/values-sw${screenSw}dp/dimens.xml", swBuilder.toString())
+        ZFileUtil.writeToFile("${ZFileUtil.getSDCardRoot()}/zazen/values-sw${baseSw}dp/dimens.xml", baseBuilder.toString())
+        return swBuilder.toString()
+    }
+
+    private fun initBuilder(builder: StringBuilder): StringBuilder {
+        builder.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
+        builder.append("<resources>\n")
+        return builder
+    }
+
+
+    // --------------------------------------------------
 
     fun showLog(msg: String, body: () -> String): String {
         val print = body()

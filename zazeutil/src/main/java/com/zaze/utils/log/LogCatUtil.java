@@ -13,7 +13,7 @@ import java.io.InputStreamReader;
 import static com.zaze.utils.ZCommand.COMMAND_LINE_END;
 
 /**
- * Description :
+ * Description : Root情况下可以抓取其他应用的日志， 未Root时将只获得调用应用自身的Log
  *
  * @author : ZAZE
  * @version : 2017-10-22 - 21:57
@@ -42,13 +42,13 @@ public class LogCatUtil {
         }
         isRunning = true;
         int result = -1;
-        if (TextUtils.isEmpty(command) && !ZCommand.isRoot()) {
+        if (TextUtils.isEmpty(command)) {
             return false;
         }
         Process process = null;
         BufferedReader successReader = null;
         try {
-            process = Runtime.getRuntime().exec("su");
+            process = Runtime.getRuntime().exec(ZCommand.isRoot() ? "su" : "sh");
             successReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             DataOutputStream outputStream = new DataOutputStream(process.getOutputStream());
             outputStream.write(command.getBytes());

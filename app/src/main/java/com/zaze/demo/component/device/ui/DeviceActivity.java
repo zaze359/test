@@ -49,11 +49,14 @@ public class DeviceActivity extends BaseActivity implements DeviceView {
         setContentView(R.layout.device_activity);
         ButterKnife.bind(this);
         deviceScreen.setText(ZStringUtil.format(
-                "屏幕分辨率 : %dx%d",
+                "屏幕分辨率 : %dx%d(%1.0fx%1.0f)",
                 ZDisplayUtil.getScreenWidthPixels(),
-                ZDisplayUtil.getScreenHeightPixels())
+                ZDisplayUtil.getScreenHeightPixels(),
+                ZDisplayUtil.getScreenWidthDp(),
+                ZDisplayUtil.getScreenHeightDp())
+
         );
-        deviceDensity.setText(ZStringUtil.format("屏幕密度 : %s(%d)", ZDisplayUtil.getDensityDpiName(), ZDisplayUtil.getScreenDensityDpi()));
+        deviceDensity.setText(ZStringUtil.format("屏幕密度 : %s(%d)(%s)", ZDisplayUtil.getDensityDpiName(), ZDisplayUtil.getScreenDensityDpi(), ZDisplayUtil.getScreenDensity()));
         presenter = new DevicePresenterImpl(this);
         presenter.getDeviceInfo();
     }

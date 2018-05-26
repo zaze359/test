@@ -54,7 +54,7 @@ public abstract class BaseFragment extends Fragment implements BaseView {
         ZLog.v(ZTag.TAG_DEBUG, "onCreateView : " + this.getClass().getName());
         super.onCreateView(inflater, container, savedInstanceState);
         inflater = changeThem(inflater);
-        if(rootView == null) {
+        if (rootView == null) {
             if (isNeedHead()) {
                 headFace = new HeadWidget(getActivity(), getLayoutId());
                 rootView = headFace.getContainerView();

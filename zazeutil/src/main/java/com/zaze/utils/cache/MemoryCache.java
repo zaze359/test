@@ -28,7 +28,7 @@ class MemoryCache implements CacheFace, MemoryListener {
     /**
      * 缓存空间大小(根据一定规则计算)
      */
-    private final long maxSize;
+    private final long CACHE_SIZE_MAX;
 
     /**
      * 强制释放时 最小值
@@ -39,13 +39,11 @@ class MemoryCache implements CacheFace, MemoryListener {
      */
     private long memoryCacheSize = 0;
     /**
-     * 能放进缓存的数据最大值1M 太大的不放内存缓存
+     * 能放进缓存的数据最大值1024kb 太大的不放内存缓存
      * 大数据考虑改放文件缓存
      */
     private static final long CACHE_BLOCK_LENGTH = 1 << 20;
-    //
-//    private static final ConcurrentHashMap<String, SoftReference<Cache>> cacheMap = new ConcurrentHashMap<>();
-//    private static final WeakReference<ConcurrentHashMap<String, Cache>> cacheMap = new WeakReference<>(new ConcurrentHashMap<String, Cache>());
+
     private static final ConcurrentHashMap<String, Cache> cacheMap = new ConcurrentHashMap<>();
 
     private static volatile MemoryCache memoryCache;
@@ -62,27 +60,23 @@ class MemoryCache implements CacheFace, MemoryListener {
     }
 
     private MemoryCache() {
-        maxSize = (long) (ZDeviceUtil.INSTANCE.getRuntimeMaxMemory() * 0.3);
-        passiveRelease = (long) (maxSize * 0.4);
+        CACHE_SIZE_MAX = (long) (ZDeviceUtil.INSTANCE.getRuntimeMaxMemory() * 0.3);
+        passiveRelease = (long) (CACHE_SIZE_MAX * 0.4);
     }
 
     /**
-     * 检查数据
-     * 分配内存
+     * 检查数据大小
+     * 放入内存
      */
     private String dispatchMemoryCache(byte[] values) {
         ArrayList<Cache> tempCaches = resetSize();
         if (values == null) {
             return "MemoryCache cache.getBytes is null";
         }
-        long saveSize = values.length;
-        if (saveSize > maxSize) {
-            return "MemoryCache cacheData is larger than maxSize " + maxSize;
-        }
-        if (saveSize > CACHE_BLOCK_LENGTH) {
+        if (values.length > CACHE_BLOCK_LENGTH) {
             return "MemoryCache cacheData is larger than CACHE_BLOCK_LENGTH " + CACHE_BLOCK_LENGTH;
         }
-        passiveRelease(saveSize, tempCaches);
+        passiveRelease(values.length, tempCaches);
         return "";
     }
 
@@ -107,10 +101,10 @@ class MemoryCache implements CacheFace, MemoryListener {
     @Override
     public void onTrimMemory(int level) {
         if (cacheLog) {
-            ZLog.d(ZTag.TAG_MEMORY, "MemoryCache onTrimMemory");
+            ZLog.d(ZTag.TAG_MEMORY, "onTrimMemory : %s, 释放超时和无效的内存", level);
         }
         long currTime = System.currentTimeMillis();
-        Map<String, Cache> tempMap = new HashMap<>();
+        Map<String, Cache> tempMap = new HashMap<>(cacheMap.size());
         tempMap.putAll(cacheMap);
         for (String key : tempMap.keySet()) {
             Cache cache = tempMap.get(key);
@@ -128,7 +122,7 @@ class MemoryCache implements CacheFace, MemoryListener {
             if (currTime >= cache.getLastTimeMillis() + cache.getKeepTime()) {
                 clearCache(key);
                 if (cacheLog) {
-                    ZLog.d(ZTag.TAG_MEMORY, "MemoryCache onTrimMemory : " + cache.toString());
+                    ZLog.d(ZTag.TAG_MEMORY, "onTrimMemory : " + cache.toString());
                 }
             }
         }
@@ -147,18 +141,18 @@ class MemoryCache implements CacheFace, MemoryListener {
     }
 
     /**
-     * 强制释放不常用的
+     * 当将要超过最大缓存值时, 强制释放不常用的缓存
      * 去检查是否有超时的数据 和无效数据 有就 释放
      *
-     * @param saveSize
-     * @param caches
+     * @param saveSize saveSize
+     * @param caches   caches
      */
     private void passiveRelease(long saveSize, ArrayList<Cache> caches) {
-        if (memoryCacheSize + saveSize < maxSize) {
+        if (memoryCacheSize + saveSize < CACHE_SIZE_MAX) {
             return;
         }
         if (cacheLog) {
-            ZLog.e(ZTag.TAG_MEMORY, "即将达到memoryCache最大值 >> 强制释放不常用的内存");
+            ZLog.e(ZTag.TAG_MEMORY, "即将达到CACHE_SIZE_MAX >> 强制释放不常用的内存");
         }
         int length = caches.size();
         // 排序
@@ -175,7 +169,6 @@ class MemoryCache implements CacheFace, MemoryListener {
                 } else if (p.getLastTimeMillis() == n.getLastTimeMillis()) {
                     // 时间相同 次数多的放在 后面
                     if (p.getUsedNum() > n.getUsedNum()) {
-                        // 时间相同 次数多的放在 后面
                         temp = p;
                         caches.set(j, n);
                         caches.set(j + 1, temp);
@@ -187,7 +180,7 @@ class MemoryCache implements CacheFace, MemoryListener {
         long releaseLength = 0L;
         // 需要释放大小
         long needRelease = passiveRelease > saveSize ? passiveRelease : saveSize;
-        // 循环清除
+        // 循环清除， 直到到达 passiveRelease
         Iterator<Cache> iterator = caches.iterator();
         while (releaseLength < needRelease && iterator.hasNext()) {
             Cache cache = iterator.next();
@@ -198,7 +191,6 @@ class MemoryCache implements CacheFace, MemoryListener {
             clearCache(cache.getKey());
         }
         if (cacheLog) {
-            ZLog.d(ZTag.TAG_MEMORY, "passiveRelease >> needRelease : " + needRelease);
             ZLog.d(ZTag.TAG_MEMORY, "passiveRelease >> releaseLength : " + releaseLength);
             ZLog.d(ZTag.TAG_MEMORY, "passiveRelease >> (after) memoryCacheSize : " + memoryCacheSize);
         }
@@ -215,7 +207,7 @@ class MemoryCache implements CacheFace, MemoryListener {
         String result = dispatchMemoryCache(values);
         if (!ZStringUtil.isEmpty(result)) {
             if (cacheLog) {
-                ZLog.d(ZTag.TAG_MEMORY, result);
+                ZLog.w(ZTag.TAG_MEMORY, result);
             }
         }
         put(key, values, keepTime, dataLevel);
@@ -226,12 +218,12 @@ class MemoryCache implements CacheFace, MemoryListener {
         Cache cache = get(key);
         if (cache != null) {
             if (cacheLog) {
-                ZLog.d(ZTag.TAG_MEMORY, "MemoryCache hit key : " + key);
+                ZLog.d(ZTag.TAG_MEMORY, "hit key : " + key);
             }
             return cache.getBytes();
         } else {
             if (cacheLog) {
-                ZLog.d(ZTag.TAG_MEMORY, "MemoryCache not found key : " + key);
+                ZLog.d(ZTag.TAG_MEMORY, "not found key : " + key);
             }
         }
         return null;
@@ -272,12 +264,11 @@ class MemoryCache implements CacheFace, MemoryListener {
         }
         cacheMap.put(key, cache);
         if (cacheLog) {
-            ZLog.d(ZTag.TAG_MEMORY, "MemoryCache put key : %s ", key);
-            ZLog.d(ZTag.TAG_MEMORY, "MemoryCache maxSize : " + maxSize / 1024f + "kb");
-            ZLog.d(ZTag.TAG_MEMORY, "MemoryCache saveSize : %1.3fkb", cache.getBytes().length / 1024f);
-            ZLog.d(ZTag.TAG_MEMORY, "MemoryCache current memoryCacheSize : %1.3fkb", memoryCacheSize / 1024f);
-            ZLog.d(ZTag.TAG_MEMORY, "MemoryCache maxSize : %1.3fkb", maxSize / 1024f);
-            ZLog.d(ZTag.TAG_MEMORY, "MemoryCache passiveRelease : %1.3fkb", passiveRelease / 1024f);
+            ZLog.d(ZTag.TAG_MEMORY, "数据key : %s ", key);
+            ZLog.d(ZTag.TAG_MEMORY, "数据length : %1.3fkb", cache.getBytes().length / 1024f);
+            ZLog.d(ZTag.TAG_MEMORY, "被动释放临界点 : %1.3fkb", passiveRelease / 1024f);
+            ZLog.d(ZTag.TAG_MEMORY, "缓存空间最大容量 : %1.3fkb", CACHE_SIZE_MAX / 1024f);
+            ZLog.d(ZTag.TAG_MEMORY, "当前缓存空间已使用 : %1.3fkb", memoryCacheSize / 1024f);
         }
     }
 
@@ -288,7 +279,6 @@ class MemoryCache implements CacheFace, MemoryListener {
         return null;
     }
 
-    // --------------------------------------------------
     void setCacheLog(boolean cacheLog) {
         this.cacheLog = cacheLog;
     }

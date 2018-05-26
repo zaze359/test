@@ -5,7 +5,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
@@ -60,7 +59,7 @@ public class JsonUtil {
         } else {
             try {
                 return create().toJson(obj);
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 e.printStackTrace();
                 return null;
             }
@@ -141,7 +140,7 @@ public class JsonUtil {
                     } else {
                         try {
                             jsonArray.put(new JSONObject(objToJson(t)));
-                        } catch (JSONException e) {
+                        } catch (Throwable e) {
                             jsonArray.put(t);
                         }
                     }
@@ -162,7 +161,6 @@ public class JsonUtil {
         return toJsonArray(Arrays.asList(arrays));
     }
 
-    // --------------------------------------------------
     private static Gson create() {
         if (gsonBuilder == null) {
             gsonBuilder = new GsonBuilder();
