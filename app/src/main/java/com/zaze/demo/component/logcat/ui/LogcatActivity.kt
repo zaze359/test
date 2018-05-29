@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.logcat_activity.*
  * @version : 2017-07-05 10:03 1.0
  */
 open class LogcatActivity : BaseActivity(), LogcatView {
-    var presenter: LogcatPresenter? = null;
+    var presenter: LogcatPresenter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +26,8 @@ open class LogcatActivity : BaseActivity(), LogcatView {
         presenter = LogcatPresenterImpl(this)
         logcat_start_catch.setOnClickListener {
             ThreadManager.getInstance().runInMultiThread {
-                LogCatUtil.startCatchLog("logcat -v time process |grep ${ZAppUtil.getAppPid("com.xuehai.response_launcher_teacher")}", "/sdcard/zaze/cach.log", 1 shl 20)
+                LogCatUtil.startCatchLog("logcat -v time process |grep ${ZAppUtil.getAppPid("com.xuehai.response_launcher_teacher")}",
+                        "/sdcard/zaze/cach.log", 1L shl 20)
             }
         }
 

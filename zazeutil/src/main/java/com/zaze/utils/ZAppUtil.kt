@@ -294,6 +294,7 @@ object ZAppUtil {
         val uninstallIntent = Intent()
         uninstallIntent.action = Intent.ACTION_DELETE
         uninstallIntent.data = Uri.parse("package:${packageName ?: context.packageName}")
+        uninstallIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         context.startActivity(uninstallIntent)
     }
 

@@ -2,16 +2,15 @@ package com.zaze.demo.debug
 
 import android.os.SystemClock
 import android.util.Base64
+import com.zaze.utils.ZDeviceUtil
 import com.zaze.utils.ZEncryptionUtil
 import com.zaze.utils.ZFileUtil
 import com.zaze.utils.ZStringUtil
-import com.zaze.utils.config.ZConfigHelper
 import com.zaze.utils.date.ZDateUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import java.io.File
 import java.util.*
-import kotlin.collections.HashMap
 
 
 /**
@@ -26,16 +25,21 @@ object KotlinDebug {
 //        return showLog("print", { print() })
 //        showLog("createDimensByDensity", { createDimensByDensity(ZDisplayUtil.getScreenDensity()) })
 //        showLog("createDimensBySW", { createDimensBySW(768, ZDisplayUtil.getScreenWidthDp().toInt()) })
+        // --------------------------------------------------
         result += (System.currentTimeMillis() - SystemClock.elapsedRealtime())
-        val file = File("/sdcard/test.ini")
-        val config = ZConfigHelper.newInstance(file)
-        val map = HashMap<String, String>()
-        for (i in 0..100000) {
-            map.put("${System.currentTimeMillis()}" + i, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-        }
-        config.setProperty(map)
+        // --------------------------------------------------
+//        val file = File("/sdcard/test.ini")
+//        val config = ZConfigHelper.newInstance(file)
+//        val map = HashMap<String, String>()
+//        for (i in 0..100000) {
+//            map.put("${System.currentTimeMillis()}" + i, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+//        }
+//        config.setProperty(map)
+        // --------------------------------------------------
 //        createDeveloperToken()
-        ZLog.i(ZTag.TAG_DEBUG, result)
+        // --------------------------------------------------
+        ZLog.i(ZTag.TAG_DEBUG, "${ZDeviceUtil.getSdFreeSpace() < 5L shl 30}")
+        ZLog.i(ZTag.TAG_DEBUG, "${ZDeviceUtil.getSdFreeSpace() < 10L shl 30}")
     }
 
     private fun createDimensByDensity(screenDensity: Float): String {
