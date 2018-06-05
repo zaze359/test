@@ -457,7 +457,7 @@ object ZAppUtil {
             if (bundle != null) {
                 intent.putExtras(bundle)
             }
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
             ZActivityUtil.startActivity(context, intent)
         }
     }

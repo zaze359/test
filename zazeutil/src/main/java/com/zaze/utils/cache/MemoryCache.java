@@ -39,7 +39,7 @@ class MemoryCache implements CacheFace, MemoryListener {
      */
     private long memoryCacheSize = 0;
     /**
-     * 能放进缓存的数据最大值1024kb 太大的不放内存缓存
+     * 能放进缓存的数据最大值1024KB 太大的不放内存缓存
      * 大数据考虑改放文件缓存
      */
     private static final long CACHE_BLOCK_LENGTH = 1 << 20;
@@ -265,10 +265,10 @@ class MemoryCache implements CacheFace, MemoryListener {
         cacheMap.put(key, cache);
         if (cacheLog) {
             ZLog.d(ZTag.TAG_MEMORY, "数据key : %s ", key);
-            ZLog.d(ZTag.TAG_MEMORY, "数据length : %1.3fkb", cache.getBytes().length / 1024f);
-            ZLog.d(ZTag.TAG_MEMORY, "被动释放临界点 : %1.3fkb", passiveRelease / 1024f);
-            ZLog.d(ZTag.TAG_MEMORY, "缓存空间最大容量 : %1.3fkb", CACHE_SIZE_MAX / 1024f);
-            ZLog.d(ZTag.TAG_MEMORY, "当前缓存空间已使用 : %1.3fkb", memoryCacheSize / 1024f);
+            ZLog.d(ZTag.TAG_MEMORY, "数据length : %1.3fKB", cache.getBytes().length / 1024f);
+            ZLog.d(ZTag.TAG_MEMORY, "被动释放临界点 : %1.3fKB", passiveRelease / 1024f);
+            ZLog.d(ZTag.TAG_MEMORY, "缓存空间最大容量 : %1.3fKB", CACHE_SIZE_MAX / 1024f);
+            ZLog.d(ZTag.TAG_MEMORY, "当前缓存空间已使用 : %1.3fKB", memoryCacheSize / 1024f);
         }
     }
 
