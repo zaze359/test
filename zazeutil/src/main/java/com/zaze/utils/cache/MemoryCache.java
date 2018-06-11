@@ -10,10 +10,10 @@ import com.zaze.utils.ZStringUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
-import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Description :
@@ -47,9 +47,9 @@ class MemoryCache implements CacheFace, MemoryListener {
 
     private static final Object LOCK = new Object();
 
-//    private static final HashMap<String, Cache> cacheMap = new HashMap<>();
+    private static final HashMap<String, Cache> cacheMap = new HashMap<>();
 
-    private static final HashMap<String, SoftReference<Cache>> cacheMap = new HashMap<>();
+//    private static final HashMap<String, SoftReference<Cache>> cacheMap = new HashMap<>();
 
     private static volatile MemoryCache memoryCache;
 
@@ -106,32 +106,32 @@ class MemoryCache implements CacheFace, MemoryListener {
 
     @Override
     public void onTrimMemory(int level) {
-//        if (cacheLog) {
-//            ZLog.d(ZTag.TAG_MEMORY, "onTrimMemory : %s, 释放超时和无效的内存", level);
-//        }
-//        long currTime = System.currentTimeMillis();
-//        Map<String, Cache> tempMap = new HashMap<>(cacheMap.size());
-//        tempMap.putAll(cacheMap);
-//        for (String key : tempMap.keySet()) {
-//            Cache cache = tempMap.get(key);
-//            if (cache == null) {
-//                clearCache(key);
-//                continue;
-//            }
-//            // --------------------------------------------------
-//            byte[] bytes = cache.getBytes();
-//            if (bytes == null || bytes.length == 0) {
-//                clearCache(key);
-//                continue;
-//            }
-//            // --------------------------------------------------
-//            if (currTime >= cache.getLastTimeMillis() + cache.getKeepTime()) {
-//                clearCache(key);
-//                if (cacheLog) {
-//                    ZLog.d(ZTag.TAG_MEMORY, "onTrimMemory : " + cache.toString());
-//                }
-//            }
-//        }
+        if (cacheLog) {
+            ZLog.d(ZTag.TAG_MEMORY, "onTrimMemory : %s, 释放超时和无效的内存", level);
+        }
+        long currTime = System.currentTimeMillis();
+        Map<String, Cache> tempMap = new HashMap<>(cacheMap.size());
+        tempMap.putAll(cacheMap);
+        for (String key : tempMap.keySet()) {
+            Cache cache = tempMap.get(key);
+            if (cache == null) {
+                clearCache(key);
+                continue;
+            }
+            // --------------------------------------------------
+            byte[] bytes = cache.getBytes();
+            if (bytes == null || bytes.length == 0) {
+                clearCache(key);
+                continue;
+            }
+            // --------------------------------------------------
+            if (currTime >= cache.getLastTimeMillis() + cache.getKeepTime()) {
+                clearCache(key);
+                if (cacheLog) {
+                    ZLog.d(ZTag.TAG_MEMORY, "onTrimMemory : " + cache.toString());
+                }
+            }
+        }
     }
 
     @Override
@@ -201,7 +201,6 @@ class MemoryCache implements CacheFace, MemoryListener {
             ZLog.d(ZTag.TAG_MEMORY, "被动释放策略 >> 释放 : " + releaseLength);
             ZLog.d(ZTag.TAG_MEMORY, "被动释放策略 >> (after) memoryCacheSize : " + memoryCacheSize);
         }
-        System.gc();
     }
 
     // --------------------------------------------------
@@ -275,7 +274,6 @@ class MemoryCache implements CacheFace, MemoryListener {
             cacheMap.clear();
             memoryCacheSize = 0;
         }
-        System.gc();
     }
 
     // --------------------------------------------------
@@ -289,7 +287,7 @@ class MemoryCache implements CacheFace, MemoryListener {
             } else {
                 offset = cache.updateCache(values, keepTime);
             }
-            cacheMap.put(key, new SoftReference<>(cache));
+            cacheMap.put(key, cache);
             memoryCacheSize += offset;
             if (cacheLog) {
                 ZLog.d(ZTag.TAG_MEMORY, "数据key : %s ", key);
@@ -304,10 +302,7 @@ class MemoryCache implements CacheFace, MemoryListener {
     private Cache get(String key) {
         synchronized (LOCK) {
             if (cacheMap.containsKey(key)) {
-                SoftReference<Cache> reference = cacheMap.get(key);
-                if (reference != null) {
-                    return reference.get();
-                }
+                return cacheMap.get(key);
             }
             return null;
         }
