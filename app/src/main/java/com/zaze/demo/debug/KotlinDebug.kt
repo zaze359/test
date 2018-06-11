@@ -1,8 +1,6 @@
 package com.zaze.demo.debug
 
 import android.os.SystemClock
-import com.zaze.demo.app.MyApplication
-import com.zaze.utils.ZAppUtil
 import com.zaze.utils.ZDeviceUtil
 import com.zaze.utils.ZFileUtil
 import com.zaze.utils.ZStringUtil
@@ -39,7 +37,7 @@ object KotlinDebug {
         ZLog.i(ZTag.TAG_DEBUG, "${ZDeviceUtil.getSdFreeSpace() < 5L shl 30}")
         ZLog.i(ZTag.TAG_DEBUG, "${ZDeviceUtil.getSdFreeSpace() < 10L shl 30}")
         // --------------------------------------------------
-        ZAppUtil.startApplicationSimple(MyApplication.getInstance(), "com.xuehai.response_launcher_teacher")
+//        ZAppUtil.startApplicationSimple(MyApplication.getInstance(), "com.xuehai.response_launcher_teacher")
     }
 
     private fun createDimensByDensity(screenDensity: Float): String {

@@ -5,7 +5,8 @@
         <CheckBoxPreference
             android:key="key_sound"
             android:summary="key_sound_summary"
-            android:title="key_sound_title" />
+            android:title="key_sound_title"
+            android:visibility="visible" />
         <CheckBoxPreference
             android:checked="true"
             android:key="key_vibration"

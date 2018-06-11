@@ -14,24 +14,33 @@ import com.zaze.utils.cache.MemoryCacheManager
  * @version : 2017-08-31 10:24 1.0
  */
 open class CachePresenterImpl(view: CacheView) : BaseMvpPresenter<CacheView>(view), CachePresenter {
+
     override fun cleanCache() {
         MemoryCacheManager.clearMemoryCache()
     }
 
     override fun getFromCache() {
-        for (i in 1..1000) {
-            MemoryCacheManager.getCache("$i")
+        for (i in 1..2) {
+            Thread({
+                for (j in 1..1000) {
+                    MemoryCacheManager.getCache("$i$j")
+                }
+            }).start()
         }
     }
 
     override fun saveDataToCache() {
-        for (i in 1..1000) {
-            val drawable = ZAppUtil.getAppIcon(MyApplication.getInstance())
-            if (drawable != null) {
-                val bitmap = ZConvertUtil.drawable2Bitmap(drawable)
-                MemoryCacheManager.saveCacheBytes("$i", ZConvertUtil.bitmap2Bytes(bitmap))
-            } else {
-            }
+        for (i in 1..2) {
+            Thread({
+                for (j in 1..1000) {
+                    val drawable = ZAppUtil.getAppIcon(MyApplication.getInstance())
+                    if (drawable != null) {
+                        val bitmap = ZConvertUtil.drawable2Bitmap(drawable)
+                        MemoryCacheManager.saveCacheBytes("$i$j", ZConvertUtil.bitmap2Bytes(bitmap))
+                    } else {
+                    }
+                }
+            }).start()
         }
     }
 }
