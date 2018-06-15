@@ -433,5 +433,6 @@
         <item>com.samsung.android.service.airviewdictionary</item><!--翻译-->
         <item>com.samsung.android.contacts</item><!--联系人-->
         <item>com.samsung.hongbaoassistant</item><!--红包助手-->
+        <item>com.ckl.tools</item><!--CKLTools-->
     </string-array>
 </resources>

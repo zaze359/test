@@ -105,14 +105,20 @@ class Cache {
     }
 // ----------------------------------------------------
 
-    public long updateCache(byte[] bytes, long keepTime) {
-        long offset = 0;
-        if (bytes != null) {
-            if (this.bytes != null) {
-                offset = bytes.length - this.bytes.length;
-            }
-            this.bytes = new byte[bytes.length];
-            System.arraycopy(bytes, 0, this.bytes, 0, bytes.length);
+    public long updateCache(byte[] newBytes, long keepTime) {
+        long offset;
+        if (this.bytes != null) {
+            offset = this.bytes.length;
+        } else {
+            offset = 0;
+        }
+        if (newBytes != null && newBytes.length > 0) {
+            offset = newBytes.length - offset;
+            this.bytes = new byte[newBytes.length];
+            System.arraycopy(newBytes, 0, this.bytes, 0, newBytes.length);
+        } else {
+            bytes = null;
+            offset = -offset;
         }
         this.keepTime = keepTime;
         this.increaseUsedNum();

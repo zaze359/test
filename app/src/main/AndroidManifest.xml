@@ -67,6 +67,16 @@
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
+
+
+        <!-- wifi start-->
+        <receiver android:name=".receiver.WifiReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+        <!-- wifi end-->
+
         <!-- 安装卸载 start -->
         <receiver android:name=".receiver.PackageReceiver">
             <intent-filter>

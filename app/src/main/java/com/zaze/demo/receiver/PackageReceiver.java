@@ -45,47 +45,13 @@ public class PackageReceiver extends BroadcastReceiver {
     // --------------------------------------------------
     private void afterAppAdded(String packageName) {
         ZLog.i(ZTag.TAG_DEBUG, "添加应用 : " + packageName);
-//        afterAppInstalled(packageName, UpdateType.ADD);
     }
 
     private void afterAppReplaced(String packageName) {
         ZLog.i(ZTag.TAG_DEBUG, "替换应用 : " + packageName);
-//        afterAppInstalled(packageName, UpdateType.UPDATE);
     }
 
     private void afterAppRemoved(String packageName) {
         ZLog.i(ZTag.TAG_DEBUG, "卸载成功" + packageName);
-//        LauncherSPUtil.updateNewAppStatus(packageName, false);
-//        if (SessionData.getUserId() > 0) {
-//            int versionCode = CacheManager.INSTANCE.getLastVersionCode(packageName);
-//            AppUpdateHelper.postUpdateStatus(packageName, versionCode, 0, UpdateStatus.NEED_DOWNLOAD);
-//            AppUpdateHelper.uploadAppInstallStatus(packageName, versionCode, UpdateType.DELETE);
-//        }
-//        CacheManager.INSTANCE.clearLastVersionCode(packageName);
     }
-
-//    // --------------------------------------------------
-//    private void afterAppInstalled(String packageName, int updateType) {
-//        LauncherSPUtil.updateNewAppStatus(packageName, true);
-//        checkApp(packageName);
-//        // -- 重置缓存中的版本号
-//        CacheManager.INSTANCE.clearLastVersionCode(packageName);
-//        int versionCode = CacheManager.INSTANCE.getLastVersionCode(packageName);
-//        XHLog.i(LcTag.TAG_APP, "安装成功 : %s(%s)", packageName, versionCode);
-//        if (SessionData.getUserId() > 0) {
-//            AppUpdateHelper.postUpdateStatus(packageName, versionCode, 100, UpdateStatus.FINISH);
-//            AppUpdateHelper.uploadAppInstallStatus(packageName, versionCode, updateType);
-//        }
-//        EventBus.getDefault().post(new RefreshEvent(RefreshEvent.RefreshType.REFRESH_CURR_PAGE_APP));
-//    }
-//
-
-//    // --------------------------------------------------
-//    private void checkApp(final String packageName) {
-//        Set<String> blackList = DeviceSupportUtil.INSTANCE.getAppBlackList();
-//        if (blackList.contains(packageName)) {
-//            XHLog.i(LcTag.TAG_DELETE, "检查到安装了'走私'应用 " + packageName);
-//            ProcessFactory.getAppProcess().unInstallApk(packageName);
-//        }
-//    }
 }

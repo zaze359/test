@@ -5,13 +5,12 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="@dimen/dp_8">
 
     <TextView
         android:id="@+id/item_wifi_info_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
         tools:text="wifi_name" />
 
     <TextView
@@ -19,6 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/item_wifi_info_name_tv"
+        android:textSize="@dimen/sp_16"
         tools:text="wifi_desc" />
 
     <ImageView

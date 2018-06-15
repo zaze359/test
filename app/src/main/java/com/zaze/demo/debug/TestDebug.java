@@ -3,8 +3,10 @@ package com.zaze.demo.debug;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.XmlResourceParser;
+import android.net.Network;
 import android.provider.Settings;
 
+import com.zaze.utils.ZNetUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
@@ -12,7 +14,6 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -23,22 +24,21 @@ import java.util.regex.Pattern;
  */
 public class TestDebug {
 
+    private static byte[] bytes;
+
     private static final Pattern sTrimPattern =
             Pattern.compile("^[\\s|\\p{javaSpaceChar}]*(.*)[\\s|\\p{javaSpaceChar}]*$");
 
     public static void test(Context context) {
-//        ZCompressUtil.zipFile("/sdcard/xuehai/aa", "/sdcard/xuehai/test.zip");
-        String r = trim("   三  2  ");
-        ZLog.i(ZTag.TAG_DEBUG, r);
-    }
 
-    public static String trim(CharSequence s) {
-        if (s == null) {
-            return null;
+        Network[] networkArray = new Network[0];
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            networkArray = ZNetUtil.getConnectivityManager(context).getAllNetworks();
         }
-        // 只需从开始和结束处删除任何空格或java空格字符序列。
-        Matcher m = sTrimPattern.matcher(s);
-        return m.replaceAll("$1");
+        for (Network network : networkArray) {
+            ZLog.i(ZTag.TAG_DEBUG, "" + network.toString());
+        }
+//        ZCompressUtil.zipFile("/sdcard/xuehai/aa", "/sdcard/xuehai/test.zip");
     }
 
 

@@ -21,35 +21,35 @@
         <!-- -->
         <item name="zHeadBackground">@color/blue</item>
         <item name="zHeadTextColor">@color/white</item>
-        <item name="zHeadTextSize">22sp</item>
+        <item name="zHeadTextSize">@dimen/sp_22</item>
         <!-- -->
         <item name="zTabBackground">@color/blue</item>
         <item name="zTabIndicatorBackground">@color/transparent</item>
         <item name="zTabTextColor">@color/white</item>
-        <item name="zTabTextSize">16sp</item>
+        <item name="zTabTextSize">@dimen/sp_16</item>
         <!-- -->
         <item name="zItemBackground">@color/blue</item>
         <item name="zItemTextColor">@color/white</item>
-        <item name="zItemTextSize">20sp</item>
+        <item name="zItemTextSize">@dimen/sp_20</item>
     </style>
 
     <style name="BlackTheme" parent="CustomTheme">
         <item name="zMainBackground">@color/black</item>
         <item name="zMainTextColor">@color/white</item>
-        <item name="zMainTextSize">18sp</item>
+        <item name="zMainTextSize">@dimen/sp_18</item>
         <!-- -->
         <item name="zHeadBackground">@color/black</item>
         <item name="zHeadTextColor">@color/white</item>
-        <item name="zHeadTextSize">22sp</item>
+        <item name="zHeadTextSize">@dimen/sp_22</item>
         <!-- -->
         <item name="zTabBackground">@color/black</item>
         <item name="zTabIndicatorBackground">@color/transparent</item>
         <item name="zTabTextColor">@color/white</item>
-        <item name="zTabTextSize">16sp</item>
+        <item name="zTabTextSize">@dimen/sp_16</item>
         <!-- -->
         <item name="zItemBackground">@color/black</item>
         <item name="zItemTextColor">@color/white</item>
-        <item name="zItemTextSize">20sp</item>
+        <item name="zItemTextSize">@dimen/sp_20</item>
     </style>
 
     <style name="CustomTheme" parent="AppTheme.NoActionBar" />

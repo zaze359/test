@@ -2,6 +2,7 @@ package com.zaze.demo.component.wifi.adapter;
 
 import android.content.Context;
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiInfo;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,9 +25,13 @@ import butterknife.ButterKnife;
  */
 public class WifiAdapter extends BaseRecyclerAdapter<ScanResult, WifiAdapter.WifiViewHolder> {
 
+    private WifiInfo connInfo;
+
+
     public WifiAdapter(Context context, Collection<ScanResult> data) {
         super(context, data);
     }
+
 
     @Override
     public int getViewLayoutId() {
@@ -48,6 +53,7 @@ public class WifiAdapter extends BaseRecyclerAdapter<ScanResult, WifiAdapter.Wif
         } else {
             desc = "通过 " + desc + " 进行保护";
         }
+        connInfo = ZNetUtil.getConnectionInfo(getContext());
         holder.itemWifiDescTv.setText(desc);
         holder.itemWifiInfoNameTv.setText(value.SSID);
         holder.itemWifiInfoNameTv.setText(value.SSID);

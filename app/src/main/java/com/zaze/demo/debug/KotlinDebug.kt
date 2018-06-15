@@ -2,6 +2,7 @@ package com.zaze.demo.debug
 
 import android.os.SystemClock
 import com.zaze.utils.ZDeviceUtil
+import com.zaze.utils.ZDisplayUtil
 import com.zaze.utils.ZFileUtil
 import com.zaze.utils.ZStringUtil
 import com.zaze.utils.log.ZLog
@@ -20,7 +21,7 @@ object KotlinDebug {
         var result = ""
 //        return showLog("print", { print() })
 //        showLog("createDimensByDensity", { createDimensByDensity(ZDisplayUtil.getScreenDensity()) })
-//        showLog("createDimensBySW", { createDimensBySW(768, ZDisplayUtil.getScreenWidthDp().toInt()) })
+        showLog("createDimensBySW", { createDimensBySW(768, ZDisplayUtil.getScreenWidthDp().toInt()) })
         // --------------------------------------------------
         result += (System.currentTimeMillis() - SystemClock.elapsedRealtime())
         // --------------------------------------------------
@@ -81,8 +82,8 @@ object KotlinDebug {
         } while (sp <= 100)
         swBuilder.append("</resources>")
         baseBuilder.append("</resources>")
-        ZFileUtil.writeToFile("${ZFileUtil.getSDCardRoot()}/zazen/values-sw${screenSw}dp/dimens.xml", swBuilder.toString())
-        ZFileUtil.writeToFile("${ZFileUtil.getSDCardRoot()}/zazen/values-sw${baseSw}dp/dimens.xml", baseBuilder.toString())
+        ZFileUtil.writeToFile("${ZFileUtil.getSDCardRoot()}/zazen/values-${ZDisplayUtil.getDensityDpiName()}-sw${screenSw}dp/dimens.xml", swBuilder.toString())
+        ZFileUtil.writeToFile("${ZFileUtil.getSDCardRoot()}/zazen/values-${ZDisplayUtil.getDensityDpiName()}-sw${baseSw}dp/dimens.xml", baseBuilder.toString())
         return swBuilder.toString()
     }
 
