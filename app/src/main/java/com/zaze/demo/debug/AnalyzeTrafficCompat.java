@@ -7,7 +7,7 @@ import android.text.TextUtils;
 
 import com.google.gson.reflect.TypeToken;
 import com.zaze.utils.AnalyzeUtil;
-import com.zaze.utils.ZFileUtil;
+import com.zaze.utils.FileUtil;
 import com.zaze.utils.JsonUtil;
 import com.zaze.utils.ZStringUtil;
 import com.zaze.utils.cache.MemoryCacheManager;
@@ -41,7 +41,7 @@ public abstract class AnalyzeTrafficCompat extends AnalyzeUtil {
     private static boolean isExecute = false;
 
     private ZConfigHelper latelyTrafficStatsFile = ZConfigHelper.newInstance(
-            ZFileUtil.INSTANCE.getSDCardRoot() + "/xuehai/keep/stats/LatelyNetworkTraffic.stats");
+            FileUtil.INSTANCE.getSDCardRoot() + "/xuehai/keep/stats/LatelyNetworkTraffic.stats");
 
     /**
      * 根据时间返回对应的日统计文件
@@ -50,7 +50,7 @@ public abstract class AnalyzeTrafficCompat extends AnalyzeUtil {
      */
     private ZConfigHelper getDayTrafficStatsFile() {
         return ZConfigHelper.newInstance(ZStringUtil.format("%s/xuehai/keep/stats/DayNetworkTraffic_%s.stats",
-                ZFileUtil.INSTANCE.getSDCardRoot(), ZDateUtil.getDayEnd(System.currentTimeMillis())));
+                FileUtil.INSTANCE.getSDCardRoot(), ZDateUtil.getDayEnd(System.currentTimeMillis())));
     }
 
     public static AnalyzeTrafficCompat getInstance(Context context) {

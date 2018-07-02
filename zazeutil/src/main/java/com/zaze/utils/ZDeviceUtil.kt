@@ -71,14 +71,14 @@ object ZDeviceUtil {
      * @return sdcard总空间大小
      */
     fun getSdTotalSpace(): Long {
-        return ZFileUtil.getTotalSpace(Environment.getExternalStorageDirectory())
+        return FileUtil.getTotalSpace(Environment.getExternalStorageDirectory())
     }
 
     /**
      * @return sdcard 剩余空间大小
      */
     fun getSdFreeSpace(): Long {
-        return ZFileUtil.getFreeSpace(Environment.getExternalStorageDirectory())
+        return FileUtil.getFreeSpace(Environment.getExternalStorageDirectory())
     }
 // --------------------------------------------------
     /**
@@ -86,7 +86,7 @@ object ZDeviceUtil {
      * @return 获取机身总大小
      */
     fun getDataTotalSpace(): Long {
-        return ZFileUtil.getTotalSpace(Environment.getDataDirectory())
+        return FileUtil.getTotalSpace(Environment.getDataDirectory())
     }
 
     /**
@@ -94,7 +94,7 @@ object ZDeviceUtil {
      * @return 获取机身剩余
      */
     fun getDataFreeSpace(): Long {
-        return ZFileUtil.getFreeSpace(Environment.getDataDirectory())
+        return FileUtil.getFreeSpace(Environment.getDataDirectory())
     }
 
 // --------------------------------------------------

@@ -1,12 +1,16 @@
 buildscript {
     ext.kotlin_version = '1.1.4-3'
     repositories {
-        google()
+//        google()
         jcenter()
         mavenCentral()
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:2.2.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         //下面两个包是用于上传的插件
@@ -17,7 +21,7 @@ buildscript {
 
 allprojects {
     repositories {
-        google()
+//        google()
         jcenter()
         mavenCentral()
         maven {
@@ -25,6 +29,10 @@ allprojects {
         }
         maven {
             url "https://dl.bintray.com/zaze359/maven"
+        }
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
         }
     }
 }

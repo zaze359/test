@@ -53,8 +53,8 @@ public class AnalyzeUtil {
      * @return String[]
      */
     protected static String[] analyzeFileByLine(String filePath, String lineSplit) {
-        if (ZFileUtil.INSTANCE.isCanRead(filePath)) {
-            return ZFileUtil.INSTANCE.readFromFile(filePath).toString().split(lineSplit);
+        if (FileUtil.INSTANCE.isCanRead(filePath)) {
+            return FileUtil.INSTANCE.readFromFile(filePath).toString().split(lineSplit);
         } else {
             return null;
         }

@@ -1,17 +1,22 @@
 package com.zaze.demo.component.readpackage.adapter
 
 import android.content.Context
+import android.content.pm.PackageManager
+import android.content.res.Resources
+import android.graphics.drawable.Drawable
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.zaze.demo.third.BaseUltimateRecyclerAdapter
-import com.zaze.demo.third.BaseUltimateRecyclerViewHolder
 import com.zaze.common.base.BaseApplication
 import com.zaze.demo.R
+import com.zaze.demo.debug.InvariantDeviceProfile
 import com.zaze.demo.model.entity.PackageEntity
-import com.zaze.utils.ZAppUtil
+import com.zaze.demo.third.BaseUltimateRecyclerAdapter
+import com.zaze.demo.third.BaseUltimateRecyclerViewHolder
+import com.zaze.utils.AppUtil
+import com.zaze.utils.ConvertUtil
 import com.zaze.utils.ZStringUtil
 
 /**
@@ -22,6 +27,13 @@ import com.zaze.utils.ZStringUtil
  * @version : 2017-04-17 - 17:21
  */
 class ReadPackageAdapter(context: Context, data: Collection<PackageEntity>) : BaseUltimateRecyclerAdapter<PackageEntity, ReadPackageAdapter.PackageHolder>(context, data) {
+    val iconDpi: Int
+
+    val iconSize = 72
+
+    init {
+        iconDpi = InvariantDeviceProfile().getLauncherIconDensity(iconSize)
+    }
 
     override fun getViewHolder(view: View, isItem: Boolean): PackageHolder {
         return PackageHolder(view, isItem)
@@ -40,11 +52,26 @@ class ReadPackageAdapter(context: Context, data: Collection<PackageEntity>) : Ba
         holder.itemAppPackageTv!!.text = "包名 : $packageName"
         holder.itemAppDirTv!!.text = "路径 : ${value.sourceDir}"
         // --------------------------------------------------
-        var drawable = ZAppUtil.getAppIcon(BaseApplication.getInstance(), packageName)
+        var drawable: Drawable? = null
+        val application = AppUtil.getApplicationInfo(context, packageName)
+        if (application != null) {
+            var resources: Resources?
+            try {
+                resources = context.packageManager.getResourcesForApplication(application)
+            } catch (e: PackageManager.NameNotFoundException) {
+                resources = null
+            }
+            if (resources != null) {
+                drawable = AppUtil.getAppIcon(resources, application.icon, iconDpi)
+            }
+        }
+        if (drawable == null) {
+            drawable = AppUtil.getAppIcon(BaseApplication.getInstance(), packageName)
+        }
         if (drawable == null) {
             drawable = getDrawable(R.mipmap.ic_launcher)
         }
-        holder.itemAppIv!!.setImageDrawable(drawable)
+        holder.itemAppIv!!.setImageBitmap(ConvertUtil.drawable2Bitmap(drawable, iconSize))
     }
 
     override fun generateHeaderId(position: Int): Long {

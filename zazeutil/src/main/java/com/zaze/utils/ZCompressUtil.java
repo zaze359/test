@@ -99,11 +99,11 @@ public class ZCompressUtil {
                 if (zipEntry.isDirectory()) {
                     // get the folder name of the widget
                     szName = szName.substring(0, szName.length() - 1);
-                    ZFileUtil.INSTANCE.createDirNotExists(outPathString + File.separator + szName);
+                    FileUtil.INSTANCE.createDirNotExists(outPathString + File.separator + szName);
                 } else {
                     String filePath = outPathString + File.separator + szName;
                     File file = new File(filePath);
-                    ZFileUtil.INSTANCE.createFileNotExists(filePath);
+                    FileUtil.INSTANCE.createFileNotExists(filePath);
                     // get the output stream of the file
                     FileOutputStream out = new FileOutputStream(file);
                     int len;
@@ -132,8 +132,8 @@ public class ZCompressUtil {
      */
     public static void zipFile(String srcFilePath, String outFilePath) {
         ZLog.d(ZTag.TAG_COMPRESS, "zipFile : %s >> %s", srcFilePath, outFilePath);
-        ZFileUtil.INSTANCE.createDirNotExists(new File(outFilePath).getParent());
-        ZFileUtil.INSTANCE.reCreateFile(outFilePath);
+        FileUtil.INSTANCE.createDirNotExists(new File(outFilePath).getParent());
+        FileUtil.INSTANCE.reCreateFile(outFilePath);
         ZipOutputStream outZip = null;
         try {
             //创建Zip包

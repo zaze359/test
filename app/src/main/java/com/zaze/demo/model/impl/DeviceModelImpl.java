@@ -9,7 +9,7 @@ import com.zaze.demo.model.DeviceModel;
 import com.zaze.demo.model.entity.DeviceStatus;
 import com.zaze.utils.ZCommand;
 import com.zaze.utils.ZDeviceUtil;
-import com.zaze.utils.ZFileUtil;
+import com.zaze.utils.FileUtil;
 import com.zaze.utils.ZNetUtil;
 import com.zaze.utils.ZStringUtil;
 import com.zaze.utils.date.ZDateUtil;
@@ -109,7 +109,7 @@ public class DeviceModelImpl implements DeviceModel {
         // --------------------------------------------------
 //        deviceStatus = new DeviceStatus();
 //        deviceStatus.setTag("内核版本");
-//        deviceStatus.setContent(ZFileUtil.INSTANCE.readFromFile(ZFileUtil.INSTANCE.getSDCardRoot() + "/proc/version").toString());
+//        deviceStatus.setContent(FileUtil.INSTANCE.readFromFile(FileUtil.INSTANCE.getSDCardRoot() + "/proc/version").toString());
 //        list.add(deviceStatus);
         // --------------------------------------------------
         deviceStatus = new DeviceStatus();
@@ -202,7 +202,7 @@ public class DeviceModelImpl implements DeviceModel {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        ZFileUtil.INSTANCE.writeToFile("/sdcard/aaa.json", jsonObject.toString(), false);
+        FileUtil.INSTANCE.writeToFile("/sdcard/aaa.json", jsonObject.toString(), false);
 
 //        jsonObject.put("deviceId", XhApplication.getInstance().getDeviceId());
 //        jsonObject.put("model", Build.MODEL);

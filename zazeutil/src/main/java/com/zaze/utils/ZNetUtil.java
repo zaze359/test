@@ -6,8 +6,11 @@ import android.net.ConnectivityManager;
 import android.net.DhcpInfo;
 import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.SystemClock;
+import android.text.TextUtils;
 
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
@@ -32,18 +35,21 @@ public class ZNetUtil {
 //    wifiinfo.getLinkSpeed()；获取连接速度，可以让用户获知这一信息。
 //    wifiinfo.getRssi()；获取RSSI，RSSI就是接受信号强度指示。在这可以直 接和华为提供的Wi-Fi信号阈值进行比较来提供给用户，让用户对网络或地理位置做出调整来获得最好的连接效果。
 //    这里得到信号强度就靠wifiinfo.getRssi()；这个方法。得到的值是一个0到-100的区间值，是一个int型数据，其中0到-50表示信号最好，-50到-70表示信号偏差，小于-70表示最差，有可能连接不上或者掉线，一般Wifi已断则值为-200。
-    private static WifiManager WifiManager;
+    private static WifiManager mWifiManager;
     private static ConnectivityManager connectivityManager;
+
+    private static final String MARK = "\"";
+
 
     public static NetworkInfo getNetworkInfo(Context context) {
         return getConnectivityManager(context).getActiveNetworkInfo();
     }
 
     public static WifiManager getWifiManager(Context context) {
-        if (WifiManager == null) {
-            WifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        if (mWifiManager == null) {
+            mWifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         }
-        return WifiManager;
+        return mWifiManager;
     }
 
     public static ConnectivityManager getConnectivityManager(Context context) {
@@ -54,28 +60,52 @@ public class ZNetUtil {
     }
     // --------------------------------------------------
 
+
+    public static boolean isWifiEnabled(Context context) {
+        return getWifiManager(context).isWifiEnabled();
+    }
+
     /**
      * 判断网络是否可用
      *
-     * @param context
-     * @return
+     * @param context context
+     * @return true : available
      */
     public static boolean isAvailable(Context context) {
-        if (context == null) {
-            return false;
-        }
-        // 获取手机所有连接管理对象（包括对wi-fi,net等连接的管理）
-        ConnectivityManager connectivityManager = getConnectivityManager(context);
-        if (connectivityManager == null) {
-            return false;
+        if (isWifiEnabled(context)) {
+            // 获取手机所有连接管理对象（包括对wi-fi,net等连接的管理）
+            ConnectivityManager connectivityManager = getConnectivityManager(context);
+            if (connectivityManager == null) {
+                return false;
+            } else {
+                //如果仅仅是用来判断网络连接
+                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+                return networkInfo != null && networkInfo.isAvailable();
+            }
         } else {
-            //如果仅仅是用来判断网络连接
-            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-            return networkInfo != null && networkInfo.isAvailable();
+            return false;
         }
     }
 
     // --------------------------------------------------
+
+
+    public static boolean isSSIDEquals(String ssId1, String ssId2) {
+        if (TextUtils.isEmpty(ssId1) || TextUtils.isEmpty(ssId2)) {
+            return false;
+        }
+        if (TextUtils.equals(ssId1, ssId2)) {
+            return true;
+        } else {
+            if (ssId1.startsWith(MARK) && ssId1.endsWith(MARK)) {
+                return TextUtils.equals(ssId1, MARK + ssId2 + MARK);
+            } else if (ssId2.startsWith(MARK) && ssId2.endsWith(MARK)) {
+                return TextUtils.equals(MARK + ssId1 + MARK, ssId2);
+            } else {
+                return false;
+            }
+        }
+    }
 
     public static NetworkInfo getWifiInfo(Context context) {
         return getConnectivityManager(context).getNetworkInfo(ConnectivityManager.TYPE_WIFI);
@@ -188,7 +218,82 @@ public class ZNetUtil {
         return getWifiManager(context).getDhcpInfo();
     }
 
+
     // --------------------------------------------------
+    // --------------------------------------------------
+
+    public static void connect(Context context, String ssId, String password, String capabilities) {
+        if (!isWifiEnabled(context)) {
+            ZLog.e(ZTag.TAG_DEBUG, "当前wifi不可用");
+            return;
+        }
+        // 开启wifi功能需要一段时间(一般需要1-3秒左右)，所以要等到wifi
+        // 状态变成WIFI_STATE_ENABLED的时候才能执行下面的语句
+        while (mWifiManager.getWifiState() == WifiManager.WIFI_STATE_ENABLING) {
+            // 为了避免程序一直while循环，让它睡个100毫秒在检测……
+            SystemClock.sleep(100);
+        }
+
+        WifiConfiguration wifiConfiguration = createWifiInfo(ssId, password, capabilities);
+
+    }
+
+    private static WifiConfiguration createWifiInfo(String ssId, String password, String capabilities) {
+        WifiConfiguration config = new WifiConfiguration();
+        config.allowedAuthAlgorithms.clear();
+        config.allowedGroupCiphers.clear();
+        config.allowedKeyManagement.clear();
+        config.allowedPairwiseCiphers.clear();
+        config.allowedProtocols.clear();
+        config.SSID = "\"" + ssId + "\"";
+        if (capabilities.toUpperCase().contains("WPA")) {
+            // config.preSharedKey = "\"" + Password + "\"";
+            // config.hiddenSSID = true;
+            // config.allowedAuthAlgorithms
+            // .set(WifiConfiguration.AuthAlgorithm.OPEN);
+            // config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
+            // config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
+            // config.allowedPairwiseCiphers
+            // .set(WifiConfiguration.PairwiseCipher.TKIP);
+            // config.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
+            // config.status = WifiConfiguration.Status.ENABLED;
+
+            // 修改之后配置
+            config.preSharedKey = "\"" + password + "\"";
+            config.hiddenSSID = true;
+            config.allowedAuthAlgorithms
+                    .set(WifiConfiguration.AuthAlgorithm.OPEN);
+            config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
+            config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
+            config.allowedPairwiseCiphers
+                    .set(WifiConfiguration.PairwiseCipher.TKIP);
+            // config.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
+            config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
+            config.allowedPairwiseCiphers
+                    .set(WifiConfiguration.PairwiseCipher.CCMP);
+        } else if (capabilities.toUpperCase().contains("WEP")) {
+            config.preSharedKey = "\"" + password + "\"";
+            config.hiddenSSID = true;
+            config.allowedAuthAlgorithms
+                    .set(WifiConfiguration.AuthAlgorithm.SHARED);
+            config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
+            config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
+            config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
+            config.allowedGroupCiphers
+                    .set(WifiConfiguration.GroupCipher.WEP104);
+            config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+            config.wepTxKeyIndex = 0;
+        } else {
+            config.wepKeys[0] = "";
+            config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+            config.wepTxKeyIndex = 0;
+        }
+        return config;
+    }
+
+    // --------------------------------------------------
+    // --------------------------------------------------
+
     public static InetAddress intToInetAddress(int hostAddress) {
         byte[] addressBytes = {(byte) (0xff & hostAddress),
                 (byte) (0xff & (hostAddress >> 8)),

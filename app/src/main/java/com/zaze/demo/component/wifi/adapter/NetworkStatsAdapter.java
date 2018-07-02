@@ -13,7 +13,7 @@ import com.zaze.demo.component.wifi.presenter.NetworkStatsPresenter;
 import com.zaze.demo.debug.AppShortcut;
 import com.zaze.demo.debug.NetTrafficStats;
 import com.zaze.utils.DescriptionUtil;
-import com.zaze.utils.ZAppUtil;
+import com.zaze.utils.AppUtil;
 import com.zaze.utils.ZStringUtil;
 
 import java.util.Collection;
@@ -37,7 +37,7 @@ public class NetworkStatsAdapter extends BaseRecyclerAdapter<NetTrafficStats, Ne
 
     @Override
     public int getViewLayoutId() {
-        return R.layout.network_stats_recycle_item;
+        return R.layout.network_stats_item;
     }
 
     @Override
@@ -51,7 +51,7 @@ public class NetworkStatsAdapter extends BaseRecyclerAdapter<NetTrafficStats, Ne
         Drawable drawable = null;
         if (appShortcut != null) {
             String packageName = appShortcut.getPackageName();
-            drawable = ZAppUtil.INSTANCE.getAppIcon(getContext(), packageName);
+            drawable = AppUtil.INSTANCE.getAppIcon(getContext(), packageName);
             holder.itemNetworkStatsAppPackageTv.setText(packageName);
         }
         if (drawable != null) {

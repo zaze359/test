@@ -13,7 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/load_more_progress_bar"
-        android:layout_marginTop="@dimen/dp_2"
+        android:layout_marginTop="2dp"
         android:gravity="center_horizontal"
         android:text="Loading" />
+
 </RelativeLayout>

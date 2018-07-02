@@ -36,6 +36,9 @@ public class ZDisplayUtil {
         screenHeightDp = dpiFromPx(screenHeightPixels);
     }
 
+    public static DisplayMetrics getMetrics() {
+        return metrics;
+    }
 
     public static int getScreenWidthPixels() {
         return screenWidthPixels;
@@ -127,30 +130,24 @@ public class ZDisplayUtil {
 
 
     public static String getDensityDpiName() {
-        if (screenDensityDpi <= LDPI) {
+        if (screenDensityDpi <= DisplayMetrics.DENSITY_LOW) {
             return "ldpi";
-        } else if (screenDensityDpi <= MDPI) {
+        } else if (screenDensityDpi <= DisplayMetrics.DENSITY_MEDIUM) {
             return "mdpi";
-        } else if (screenDensityDpi <= HDPI) {
+        } else if (screenDensityDpi <= DisplayMetrics.DENSITY_TV) {
+            return "tv";
+        } else if (screenDensityDpi <= DisplayMetrics.DENSITY_HIGH) {
             return "hdpi";
-        } else if (screenDensityDpi <= XHDPI) {
+        } else if (screenDensityDpi <= DisplayMetrics.DENSITY_XHIGH) {
             return "xhdpi";
-        } else if (screenDensityDpi <= XXHDPI) {
+        } else if (screenDensityDpi <= DisplayMetrics.DENSITY_XXHIGH) {
             return "xxhdpi";
-        } else if (screenDensityDpi <= XXXHDPI) {
+        } else if (screenDensityDpi <= DisplayMetrics.DENSITY_XXXHIGH) {
             return "xxxhdpi";
         } else {
             return "x????dpi";
         }
     }
-
-    public static final int LDPI = 120;
-    public static final int MDPI = 160;
-    public static final int HDPI = 240;
-    public static final int XHDPI = 320;
-    public static final int XXHDPI = 480;
-    public static final int XXXHDPI = 640;
-
 
 //    public static int designedDP2px(float designedDp) {
 //        if (screenWidthDp != 320) {

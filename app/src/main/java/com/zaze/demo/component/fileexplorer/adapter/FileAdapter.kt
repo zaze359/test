@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import com.zaze.demo.R
 import com.zaze.demo.component.fileexplorer.FileEvent
 import com.zaze.demo.third.BaseUltimateRecyclerAdapter
-import com.zaze.utils.ZFileUtil
+import com.zaze.utils.FileUtil
 import org.greenrobot.eventbus.EventBus
 
 /**
@@ -31,13 +31,13 @@ class FileAdapter(context: Context, data: Collection<FileEntity>) : BaseUltimate
         val path = value.absPath
         val iconText: String
         val iconRes: Int
-        if (ZFileUtil.isDirectory(path)) {
+        if (FileUtil.isDirectory(path)) {
 //            iconText = "D"
 //            iconRes = R.drawable.bg_circle_blue
             iconText = ""
             iconRes = R.mipmap.ic_folder_black_48dp
 
-        } else if (ZFileUtil.isFile(path)) {
+        } else if (FileUtil.isFile(path)) {
             iconText = "F"
             iconRes = R.drawable.bg_circle_green
         } else {

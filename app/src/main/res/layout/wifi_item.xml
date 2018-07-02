@@ -4,11 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
+    android:background="@drawable/item_white_bg"
     android:orientation="vertical"
     android:padding="@dimen/dp_8">
 
     <TextView
-        android:id="@+id/item_wifi_info_name_tv"
+        android:id="@+id/item_wifi_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="wifi_name" />
@@ -17,7 +18,7 @@
         android:id="@+id/item_wifi_desc_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/item_wifi_info_name_tv"
+        android:layout_below="@+id/item_wifi_name_tv"
         android:textSize="@dimen/sp_16"
         tools:text="wifi_desc" />
 

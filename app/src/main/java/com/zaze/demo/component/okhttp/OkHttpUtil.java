@@ -3,7 +3,7 @@ package com.zaze.demo.component.okhttp;
 
 import com.zaze.utils.ThreadManager;
 import com.zaze.utils.ZCallback;
-import com.zaze.utils.ZFileUtil;
+import com.zaze.utils.FileUtil;
 import com.zaze.utils.log.ZLog;
 
 import java.io.File;
@@ -96,7 +96,7 @@ public class OkHttpUtil {
                 ResponseBody responseBody = response.body();
                 if (responseBody != null) {
                     File file = new File(destPath);
-                    ZFileUtil.INSTANCE.createFileNotExists(destPath);
+                    FileUtil.INSTANCE.createFileNotExists(destPath);
                     InputStream is = null;
                     FileOutputStream fos = null;
                     byte[] buf = new byte[1024];

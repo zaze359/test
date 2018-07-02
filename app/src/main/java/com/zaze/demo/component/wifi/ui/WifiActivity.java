@@ -11,9 +11,8 @@ import android.widget.Button;
 import com.zaze.common.base.BaseActivity;
 import com.zaze.demo.R;
 import com.zaze.demo.component.wifi.adapter.WifiAdapter;
+import com.zaze.demo.component.wifi.contract.WifiContract;
 import com.zaze.demo.component.wifi.presenter.WifiPresenter;
-import com.zaze.demo.component.wifi.presenter.impl.WifiPresenterImpl;
-import com.zaze.demo.component.wifi.view.WifiView;
 import com.zaze.utils.ZOnClickHelper;
 
 import java.util.List;
@@ -28,7 +27,7 @@ import butterknife.ButterKnife;
  * @author : zaze
  * @version : 2017-11-25 07:33 1.0
  */
-public class WifiActivity extends BaseActivity implements WifiView {
+public class WifiActivity extends BaseActivity implements WifiContract.View {
     @Bind(R.id.wifi_recycler_view)
     RecyclerView wifiRecyclerView;
     @Bind(R.id.wifi_scan_btn)
@@ -48,10 +47,9 @@ public class WifiActivity extends BaseActivity implements WifiView {
                 presenter.startScan();
             }
         });
-        presenter = new WifiPresenterImpl(this);
+        presenter = new WifiPresenter(this);
         presenter.getNetworkState();
         presenter.startScan();
-        presenter.getScanResults();
     }
 
     @Override

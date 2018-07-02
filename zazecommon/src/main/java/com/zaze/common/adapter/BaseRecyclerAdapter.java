@@ -38,7 +38,7 @@ public abstract class BaseRecyclerAdapter<V, H extends RecyclerView.ViewHolder> 
         setDataList(data, true);
     }
 
-    private void setDataList(Collection<V> data, boolean isNotify) {
+    protected void setDataList(Collection<V> data, boolean isNotify) {
         dataList.clear();
         if (data != null && data.size() > 0) {
             dataList.addAll(data);

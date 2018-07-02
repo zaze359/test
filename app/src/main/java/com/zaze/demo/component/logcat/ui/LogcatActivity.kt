@@ -8,8 +8,8 @@ import com.zaze.demo.component.logcat.presenter.LogcatPresenter
 import com.zaze.demo.component.logcat.presenter.impl.LogcatPresenterImpl
 import com.zaze.demo.component.logcat.view.LogcatView
 import com.zaze.utils.ThreadManager
-import com.zaze.utils.ZAppUtil
-import com.zaze.utils.log.LogCatUtil
+import com.zaze.utils.AppUtil
+import com.zaze.utils.log.LogcatUtil
 import kotlinx.android.synthetic.main.logcat_activity.*
 
 /**
@@ -26,13 +26,13 @@ open class LogcatActivity : BaseActivity(), LogcatView {
         presenter = LogcatPresenterImpl(this)
         logcat_start_catch.setOnClickListener {
             ThreadManager.getInstance().runInMultiThread {
-                LogCatUtil.startCatchLog("logcat -v time process |grep ${ZAppUtil.getAppPid("com.xuehai.response_launcher_teacher")}",
+                LogcatUtil.startCatchLog("logcat -v time process |grep ${AppUtil.getAppPid("com.xuehai.response_launcher_teacher")}",
                         "/sdcard/zaze/cach.log", 1L shl 20)
             }
         }
 
         logcat_stop_catch.setOnClickListener {
-            LogCatUtil.stopCatchLog()
+            LogcatUtil.stopCatchLog()
         }
     }
 }

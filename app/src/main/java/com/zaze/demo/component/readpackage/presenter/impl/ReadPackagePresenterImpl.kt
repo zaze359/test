@@ -8,8 +8,8 @@ import com.zaze.demo.app.MyApplication
 import com.zaze.demo.component.readpackage.presenter.ReadPackagePresenter
 import com.zaze.demo.component.readpackage.view.ReadPackageView
 import com.zaze.demo.model.entity.PackageEntity
-import com.zaze.utils.ZAppUtil
-import com.zaze.utils.ZFileUtil
+import com.zaze.utils.FileUtil
+import com.zaze.utils.AppUtil
 import com.zaze.utils.ZStringUtil
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -24,7 +24,7 @@ import io.reactivex.schedulers.Schedulers
  */
 class ReadPackagePresenterImpl(view: ReadPackageView) : BaseMvpPresenter<ReadPackageView>(view), ReadPackagePresenter {
 
-    val baseDir = "${ZFileUtil.getSDCardRoot()}/zaze/${Build.MODEL}"
+    val baseDir = "${FileUtil.getSDCardRoot()}/zaze/${Build.MODEL}"
     val existsFile = "$baseDir/exists.xml"
     val unExistsFile = "$baseDir/unExists.xml"
     val extractFile = "$baseDir/extract.xml"
@@ -34,8 +34,8 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : BaseMvpPresenter<ReadPac
     // --------------------------------------------------
     override fun getAppList() {
 //        getAllApkFile("/sdcard/")
-        getAllInstallApp()
-//        getUnSystemApp()
+//        getAllInstallApp()
+        getUnSystemApp()
 //        getSystemApp()
 //        getAssignInstallApp()
         val showList = ArrayList<PackageEntity>()
@@ -51,12 +51,12 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : BaseMvpPresenter<ReadPac
 
     override fun getAllInstallApp() {
         reset()
-        val appList = ZAppUtil.getInstalledApplications(MyApplication.getInstance())
+        val appList = AppUtil.getInstalledApplications(MyApplication.getInstance())
         appList.mapTo(packageList) { it.packageName }
     }
 
     override fun getSystemApp() {
-        val appList = ZAppUtil.getInstalledApplications(MyApplication.getInstance())
+        val appList = AppUtil.getInstalledApplications(MyApplication.getInstance())
         reset()
         appList.filter { it.flags and ApplicationInfo.FLAG_SYSTEM > 0 }
                 .mapTo(packageList) { it.packageName }
@@ -64,7 +64,7 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : BaseMvpPresenter<ReadPac
 
     override fun getUnSystemApp() {
         reset()
-        val appList = ZAppUtil.getInstalledApplications(MyApplication.getInstance())
+        val appList = AppUtil.getInstalledApplications(MyApplication.getInstance())
         appList.filter { it.flags and ApplicationInfo.FLAG_SYSTEM <= 0 }
                 .mapTo(packageList) { it.packageName }
     }
@@ -98,10 +98,10 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : BaseMvpPresenter<ReadPac
     // --------------------------------------------------
     private fun reset() {
         packageList.clear()
-        ZFileUtil.deleteFile(baseDir)
-//        ZFileUtil.deleteFile(unExistsFile)
-//        ZFileUtil.deleteFile(extractFile)
-//        ZFileUtil.deleteFile(allFile)
+        FileUtil.deleteFile(baseDir)
+//        FileUtil.deleteFile(unExistsFile)
+//        FileUtil.deleteFile(extractFile)
+//        FileUtil.deleteFile(allFile)
     }
 
     // --------------------------------------------------
@@ -115,7 +115,7 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : BaseMvpPresenter<ReadPac
                 }
                 builder.append("<item>${entity.packageName}</item><!--${entity.appName}-->")
             }
-            ZFileUtil.writeToFile(extractFile, builder.toString())
+            FileUtil.writeToFile(extractFile, builder.toString())
         }
     }
 
@@ -140,18 +140,18 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : BaseMvpPresenter<ReadPac
     // --------------------------------------------------
     private fun initEntity(packageName: String): PackageEntity {
         val packageEntity = PackageEntity()
-        val application = ZAppUtil.getApplicationInfo(MyApplication.getInstance(), packageName)
+        val application = AppUtil.getApplicationInfo(MyApplication.getInstance(), packageName)
         packageEntity.packageName = packageName
         if (application != null) {
             packageEntity.sourceDir = application.sourceDir
-            packageEntity.appName = ZAppUtil.getAppName(MyApplication.getInstance(), packageName)
-            packageEntity.versionName = ZAppUtil.getAppVersionName(MyApplication.getInstance(), packageName)
-            packageEntity.versionCode = ZAppUtil.getAppVersionCode(MyApplication.getInstance(), packageName)
-            ZFileUtil.writeToFile(existsFile, "<item>$packageName</item><!--${packageEntity.appName}-->\n", true)
+            packageEntity.appName = AppUtil.getAppName(MyApplication.getInstance(), packageName)
+            packageEntity.versionName = AppUtil.getAppVersionName(MyApplication.getInstance(), packageName)
+            packageEntity.versionCode = AppUtil.getAppVersionCode(MyApplication.getInstance(), packageName)
+            FileUtil.writeToFile(existsFile, "<item>$packageName</item><!--${packageEntity.appName}-->\n", true)
         } else {
-            ZFileUtil.writeToFile(unExistsFile, "<item>$packageName</item>\n", true)
+            FileUtil.writeToFile(unExistsFile, "<item>$packageName</item>\n", true)
         }
-        ZFileUtil.writeToFile(allFile, "<item>$packageName</item><!--${packageEntity.appName}-->\n", true)
+        FileUtil.writeToFile(allFile, "<item>$packageName</item><!--${packageEntity.appName}-->\n", true)
         return packageEntity
     }
 }

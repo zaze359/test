@@ -17,7 +17,6 @@
             android:layout_width="@dimen/dp_72"
             android:layout_height="@dimen/dp_72"
             android:contentDescription="@null"
-            android:scaleType="centerInside"
             tools:src="@mipmap/ic_launcher" />
 
         <LinearLayout

@@ -3,7 +3,7 @@ package com.zaze.utils.config;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.zaze.utils.ZFileUtil;
+import com.zaze.utils.FileUtil;
 
 import java.io.File;
 import java.util.Map;
@@ -107,8 +107,8 @@ public class ZConfigHelper {
      */
     public Properties load() {
         boolean isNew = false;
-        if (!ZFileUtil.INSTANCE.exists(filePath) || new File(this.filePath).length() > MAX_SIZE) {
-            ZFileUtil.INSTANCE.reCreateFile(filePath);
+        if (!FileUtil.INSTANCE.exists(filePath) || new File(this.filePath).length() > MAX_SIZE) {
+            FileUtil.INSTANCE.reCreateFile(filePath);
             isNew = true;
         }
         Properties properties = ZPropertiesUtil.load(this.filePath);

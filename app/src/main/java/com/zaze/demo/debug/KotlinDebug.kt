@@ -1,9 +1,9 @@
 package com.zaze.demo.debug
 
 import android.os.SystemClock
+import com.zaze.utils.FileUtil
 import com.zaze.utils.ZDeviceUtil
 import com.zaze.utils.ZDisplayUtil
-import com.zaze.utils.ZFileUtil
 import com.zaze.utils.ZStringUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
@@ -38,7 +38,7 @@ object KotlinDebug {
         ZLog.i(ZTag.TAG_DEBUG, "${ZDeviceUtil.getSdFreeSpace() < 5L shl 30}")
         ZLog.i(ZTag.TAG_DEBUG, "${ZDeviceUtil.getSdFreeSpace() < 10L shl 30}")
         // --------------------------------------------------
-//        ZAppUtil.startApplicationSimple(MyApplication.getInstance(), "com.xuehai.response_launcher_teacher")
+//        AppUtil.startApplicationSimple(MyApplication.getInstance(), "com.xuehai.response_launcher_teacher")
     }
 
     private fun createDimensByDensity(screenDensity: Float): String {
@@ -55,8 +55,8 @@ object KotlinDebug {
 
         dpBuilder.append("</resources>")
         baseBuilder.append("</resources>")
-        ZFileUtil.writeToFile("${ZFileUtil.getSDCardRoot()}/zaze/z_dimens/dimens.xml", dpBuilder.toString())
-        ZFileUtil.writeToFile("${ZFileUtil.getSDCardRoot()}/zaze/z_dimens/dimens_base.xml", baseBuilder.toString())
+        FileUtil.writeToFile("${FileUtil.getSDCardRoot()}/zaze/z_dimens/dimens.xml", dpBuilder.toString())
+        FileUtil.writeToFile("${FileUtil.getSDCardRoot()}/zaze/z_dimens/dimens_base.xml", baseBuilder.toString())
         return dpBuilder.toString()
     }
 
@@ -82,8 +82,8 @@ object KotlinDebug {
         } while (sp <= 100)
         swBuilder.append("</resources>")
         baseBuilder.append("</resources>")
-        ZFileUtil.writeToFile("${ZFileUtil.getSDCardRoot()}/zazen/values-${ZDisplayUtil.getDensityDpiName()}-sw${screenSw}dp/dimens.xml", swBuilder.toString())
-        ZFileUtil.writeToFile("${ZFileUtil.getSDCardRoot()}/zazen/values-${ZDisplayUtil.getDensityDpiName()}-sw${baseSw}dp/dimens.xml", baseBuilder.toString())
+        FileUtil.writeToFile("${FileUtil.getSDCardRoot()}/zazen/values-${ZDisplayUtil.getDensityDpiName()}-sw${screenSw}dp/dimens.xml", swBuilder.toString())
+        FileUtil.writeToFile("${FileUtil.getSDCardRoot()}/zazen/values-${ZDisplayUtil.getDensityDpiName()}-sw${baseSw}dp/dimens.xml", baseBuilder.toString())
         return swBuilder.toString()
     }
 
@@ -106,14 +106,14 @@ object KotlinDebug {
     // --------------------------------------------------
 
     fun clearCacheData(): String {
-//        ZAppUtil.clearDataInfo(MyApplication.getInstance(), MyApplication.getInstance().packageName)
+//        AppUtil.clearDataInfo(MyApplication.getInstance(), MyApplication.getInstance().packageName)
 //        return "" + FileUtil.deleteFile("/data/data/" + MyApplication.getInstance().packageName)
         return ""
     }
 
     // --------------------------------------------------
     fun searchFile(): String {
-        val fileSet = ZFileUtil.searchFileLoop(File("/sdcard/"), "com.xuehai.response_launcher_teacher");
+        val fileSet = FileUtil.searchFileLoop(File("/sdcard/"), "com.xuehai.response_launcher_teacher");
         val builder = StringBuilder()
         for (file in fileSet) {
             builder.append(file.absolutePath + "\n")

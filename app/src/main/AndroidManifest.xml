@@ -94,6 +94,14 @@
         <!--  -->
         <service android:name=".component.socket.AlarmService" />
 
+        <service android:name=".debug.LogcatService">
+            <intent-filter>
+                <action android:name="com.xuehai.logcat.service.start" />
+                <action android:name="com.xuehai.logcat.service.stop" />
+            </intent-filter>
+        </service>
+
+
         <service
             android:name=".debug.MessengerService"
             android:process=":messenger" />

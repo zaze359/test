@@ -15,6 +15,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Debug
 import android.os.Process
+import android.support.v4.content.res.ResourcesCompat
 import android.text.TextUtils
 import android.util.Pair
 import com.zaze.utils.log.ZLog
@@ -27,8 +28,7 @@ import java.io.File
  * @author : ZAZE
  * @version : 2017-05-27 - 17:23
  */
-object ZAppUtil {
-
+object AppUtil {
     /**
      * [context] context
      * [packageName] null 使用context 的包名
@@ -36,10 +36,10 @@ object ZAppUtil {
      */
     fun getAppVersionName(context: Context, packageName: String? = null): String {
         val packageInfo = getPackageInfo(context, packageName ?: context.packageName)
-        if (packageInfo != null) {
-            return packageInfo.versionName ?: ""
+        return if (packageInfo != null) {
+            packageInfo.versionName ?: ""
         } else {
-            return ""
+            ""
         }
     }
 
@@ -50,11 +50,7 @@ object ZAppUtil {
      */
     fun getAppVersionCode(context: Context, packageName: String? = null): Int {
         val packageInfo = getPackageInfo(context, packageName ?: context.packageName)
-        if (packageInfo != null) {
-            return packageInfo.versionCode
-        } else {
-            return 0
-        }
+        return packageInfo?.versionCode ?: 0
     }
 
     /**
@@ -66,10 +62,10 @@ object ZAppUtil {
      */
     fun getAppName(context: Context, packageName: String? = null, defaultName: String = "未知"): String {
         val applicationInfo = getApplicationInfo(context, packageName)
-        if (applicationInfo == null) {
-            return defaultName
+        return if (applicationInfo == null) {
+            defaultName
         } else {
-            return context.packageManager.getApplicationLabel(applicationInfo).toString()
+            context.packageManager.getApplicationLabel(applicationInfo).toString()
         }
     }
 
@@ -79,15 +75,28 @@ object ZAppUtil {
      * @return 应用图标
      */
     fun getAppIcon(context: Context, packageName: String? = null): Drawable? {
-        try {
+        return try {
             val pManager = context.packageManager
             val packageInfo = pManager.getPackageInfo(packageName ?: context.packageName, 0)
-            return pManager.getApplicationIcon(packageInfo.applicationInfo)
+            pManager.getApplicationIcon(packageInfo.applicationInfo)
         } catch (e: PackageManager.NameNotFoundException) {
             ZLog.e(ZTag.TAG_DEBUG, e.message)
-            return null
+            null
         }
+    }
 
+    /**
+     * [resources] resources
+     * [iconId] iconId
+     * [iconDpi] iconDpi
+     * @return 应用图标
+     */
+    fun getAppIcon(resources: Resources, iconId: Int, iconDpi: Int): Drawable? {
+        return try {
+            ResourcesCompat.getDrawableForDensity(resources, iconId, iconDpi, null)
+        } catch (e: Resources.NotFoundException) {
+            null
+        }
     }
 
     /**
@@ -97,11 +106,11 @@ object ZAppUtil {
      * @version 2017/5/31 - 下午3:40 1.0
      */
     fun getApplicationInfo(context: Context, packageName: String? = null): ApplicationInfo? {
-        try {
-            return context.packageManager.getApplicationInfo(packageName ?: context.packageName, 0)
+        return try {
+            context.packageManager.getApplicationInfo(packageName ?: context.packageName, 0)
         } catch (e: PackageManager.NameNotFoundException) {
             ZLog.e(ZTag.TAG_ABOUT_APP, "没有找到应用信息 : $packageName")
-            return null
+            null
         }
     }
     // --------------------------------------------------
@@ -114,11 +123,11 @@ object ZAppUtil {
      * @version 2017/5/31 - 下午3:46 1.0
      */
     fun getPackageInfo(context: Context, packageName: String? = null): PackageInfo? {
-        try {
-            return context.packageManager.getPackageInfo(packageName ?: context.packageName, 0)
+        return try {
+            context.packageManager.getPackageInfo(packageName ?: context.packageName, 0)
         } catch (e: PackageManager.NameNotFoundException) {
             ZLog.e(ZTag.TAG_DEBUG, "PackageManager.NameNotFoundException : $packageName")
-            return null
+            null
         }
     }
 
@@ -139,7 +148,6 @@ object ZAppUtil {
 
     fun findSystemApk(context: Context, action: String): Pair<String, Resources>? {
         val pm = context.packageManager
-//        val intent = Intent(action)
         for (info in pm.queryBroadcastReceivers(Intent(action), 0)) {
             if (info.activityInfo != null && info.activityInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0) {
                 val packageName = info.activityInfo.packageName
@@ -190,10 +198,10 @@ object ZAppUtil {
      * @version 2017/5/22 - 下午3:32 1.0
      */
     fun isAppRunning(context: Context, packageName: String): Boolean {
-        if (getAppProcess(context, packageName).isEmpty()) {
-            return getAppPid(packageName) > 0
+        return if (getAppProcess(context, packageName).isEmpty()) {
+            getAppPid(packageName) > 0
         } else {
-            return true
+            true
         }
     }
 
@@ -357,7 +365,9 @@ object ZAppUtil {
     fun getAppProcess(context: Context, packageName: String): ArrayList<ActivityManager.RunningAppProcessInfo> {
         val activityManager = getActivityManager(context)
         val list = ArrayList<ActivityManager.RunningAppProcessInfo>()
-        activityManager.runningAppProcesses.filterTo(list) { it.pkgList.contains(packageName) }
+        if (activityManager.runningAppProcesses != null) {
+            activityManager.runningAppProcesses.filterTo(list) { it.pkgList.contains(packageName) }
+        }
         return list
     }
 
@@ -371,7 +381,7 @@ object ZAppUtil {
     }
 
     fun getAppMemorySize(context: Context, packageName: String): Long {
-        val runningAppProcessInfoList = ZAppUtil.getAppProcess(context, packageName)
+        val runningAppProcessInfoList = AppUtil.getAppProcess(context, packageName)
         var memorySize: Long = 0L
         runningAppProcessInfoList
                 .asSequence()
@@ -395,6 +405,7 @@ object ZAppUtil {
         for (processInfo in processInfoList) {
             Process.killProcess(processInfo.pid)
         }
+
     }
 
     // --------------------------------------------------
@@ -406,7 +417,7 @@ object ZAppUtil {
         if (ZCommand.isRoot()) {
             ZCommand.execRootCmd("pm clear " + packageName)
         } else {
-            ZFileUtil.deleteFile("/data/data/" + packageName)
+            FileUtil.deleteFile("/data/data/" + packageName)
             killAppProcess(context, packageName)
         }
     }

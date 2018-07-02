@@ -1,6 +1,6 @@
 package com.zaze.demo.debug;
 
-import com.zaze.utils.ZFileUtil;
+import com.zaze.utils.FileUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
@@ -56,7 +56,7 @@ public class HttpDownloader {
             urlConn.connect();
             inputStream = urlConn.getInputStream();
             // TODO: 2017/8/26
-            return ZFileUtil.INSTANCE.writeToFile(filePath, inputStream, true);
+            return FileUtil.INSTANCE.writeToFile(filePath, inputStream, true);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

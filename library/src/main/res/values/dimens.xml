@@ -27,5 +27,4 @@
 
 
     <dimen name="app_icon_size">@dimen/dp_72</dimen>
-    //
 </resources>

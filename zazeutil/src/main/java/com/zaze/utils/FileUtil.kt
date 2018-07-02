@@ -16,7 +16,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock
  * @author : ZAZE
  * @version : 2017-07-13 - 10:08
  */
-object ZFileUtil {
+object FileUtil {
     var showLog = false
     private val needLock = true
     private val lock = ReentrantReadWriteLock()
@@ -85,7 +85,7 @@ object ZFileUtil {
         if (file.exists()) {
             val newFile = File(file.parentFile.absolutePath + File.separator + newFileName)
             if (newFile.exists()) {
-                ZFileUtil.deleteFile(newFile)
+                FileUtil.deleteFile(newFile)
             }
             return File(filePath).renameTo(newFile)
         } else {
@@ -263,12 +263,22 @@ object ZFileUtil {
         return file
     }
 
-
-    // --------------------------------------------------
+    /**
+     * [filePath] filePath
+     * [dataStr] dataStr
+     * [maxSize] maxSize
+     * @return  Boolean
+     */
     fun writeToFile(filePath: String, dataStr: String, maxSize: Long): Boolean {
         return writeToFile(filePath, ByteArrayInputStream(dataStr.toByteArray()), maxSize)
     }
 
+    /**
+     * [filePath] filePath
+     * [inputStream] inputStream
+     * [maxSize] maxSize
+     * @return  Boolean
+     */
     fun writeToFile(filePath: String, inputStream: InputStream, maxSize: Long): Boolean {
         if (maxSize > 0) {
             val file = File(filePath)
@@ -403,26 +413,26 @@ object ZFileUtil {
 
     // --------------------------------------------------
     fun getBlockSize(statFs: StatFs): Long {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            return statFs.blockSizeLong
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            statFs.blockSizeLong
         } else {
-            return statFs.blockSize.toLong()
+            statFs.blockSize.toLong()
         }
     }
 
     fun getAvailableBlocks(statFs: StatFs): Long {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            return statFs.availableBlocksLong
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            statFs.availableBlocksLong
         } else {
-            return statFs.availableBlocks.toLong()
+            statFs.availableBlocks.toLong()
         }
     }
 
     fun getBlockCount(statFs: StatFs): Long {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            return statFs.blockCountLong
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            statFs.blockCountLong
         } else {
-            return statFs.blockCount.toLong()
+            statFs.blockCount.toLong()
         }
     }
 
