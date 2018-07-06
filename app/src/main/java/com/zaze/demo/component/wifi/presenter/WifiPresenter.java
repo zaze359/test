@@ -91,7 +91,7 @@ public class WifiPresenter extends BaseMvpPresenter<WifiContract.View> implement
 //        NetworkStatsManager networkStatsManager = (NetworkStatsManager) getView().getContext().getSystemService(NETWORK_STAT_SERVICE);
         ZLog.i(ZTag.TAG_DEBUG, "TrafficStats.getTotalRxBytes() : " + TrafficStats.getTotalRxBytes());
         ZLog.i(ZTag.TAG_DEBUG, "TrafficStats.getTotalTxBytes() : " + TrafficStats.getTotalTxBytes());
-        ZLog.i(ZTag.TAG_DEBUG, "TrafficStats.getTotalTxBytes() : " + TrafficStats.getUidTxBytes(AppUtil.INSTANCE.getApplicationInfo(getView().getContext(), null).uid));
+        ZLog.i(ZTag.TAG_DEBUG, "TrafficStats.getTotalTxBytes() : " + TrafficStats.getUidTxBytes(AppUtil.getApplicationInfo(getView().getContext(), null).uid));
     }
 
     @Override

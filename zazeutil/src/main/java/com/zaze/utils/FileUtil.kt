@@ -18,8 +18,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock
  */
 object FileUtil {
     var showLog = false
-    private val needLock = true
-    private val lock = ReentrantReadWriteLock()
+    val needLock = true
+    val lock = ReentrantReadWriteLock()
     private fun writeLock(lock: ReadWriteLock) {
         if (needLock) {
             lock.writeLock().lock()
@@ -48,30 +48,37 @@ object FileUtil {
      * @author zaze
      * @version 2017/7/13 - 上午10:08 1.0
      */
+    @JvmStatic
     fun isSdcardEnable(): Boolean {
         return Environment.getExternalStorageState() == android.os.Environment.MEDIA_MOUNTED
     }
 
+    @JvmStatic
     fun getSDCardRoot(): String {
         return Environment.getExternalStorageDirectory().absolutePath
     }
 
+    @JvmStatic
     fun isFile(path: String): Boolean {
         return File(path).isFile
     }
 
+    @JvmStatic
     fun isDirectory(path: String): Boolean {
         return File(path).isDirectory
     }
 
+    @JvmStatic
     fun exists(filePath: String?): Boolean {
         return File(filePath).exists()
     }
 
+    @JvmStatic
     fun isCanRead(filePath: String?): Boolean {
         return exists(filePath) && File(filePath).canRead()
     }
 
+    @JvmStatic
     fun isCanWrite(filePath: String?): Boolean {
         return exists(filePath) && File(filePath).canWrite()
     }
@@ -80,6 +87,7 @@ object FileUtil {
      * [filePath] 文件路径
      * [newFileName] 新文件名
      */
+    @JvmStatic
     fun rename(filePath: String?, newFileName: String): Boolean {
         val file = File(filePath)
         if (file.exists()) {
@@ -99,12 +107,17 @@ object FileUtil {
      * [filePath] filePath
      * @return
      */
+    @JvmStatic
     fun createFileNotExists(filePath: String): Boolean {
         val file = File(filePath)
         var result = false
         if (!file.exists()) {
             if (createParentDir(filePath)) {
-                result = file.createNewFile()
+                result = try {
+                    file.createNewFile()
+                } catch (e: Exception) {
+                    false
+                }
             }
         } else {
             result = true
@@ -120,6 +133,7 @@ object FileUtil {
      * 创建目录
      * [path] dir
      */
+    @JvmStatic
     fun createDirNotExists(path: String): Boolean {
         val file = File(path)
         if (file.exists()) {
@@ -134,6 +148,7 @@ object FileUtil {
      * 创建指定文件的父目录
      * [savePath] 绝对路径
      */
+    @JvmStatic
     fun createParentDir(savePath: String): Boolean {
         val parentFile = File(savePath).parentFile
         if (parentFile.exists()) {
@@ -148,6 +163,7 @@ object FileUtil {
      * 强制重新创建文件(如果存在则删除创建)
      * [filePath] 绝对路径
      */
+    @JvmStatic
     fun reCreateFile(filePath: String): Boolean {
         if (exists(filePath)) {
             deleteFile(filePath)
@@ -159,6 +175,7 @@ object FileUtil {
      * 强制重新创建目录(如果存在则删除创建)
      * [filePath] 绝对路径
      */
+    @JvmStatic
     fun reCreateDir(filePath: String): Boolean {
         if (exists(filePath)) {
             deleteFile(filePath)
@@ -172,6 +189,7 @@ object FileUtil {
      * 递归删除文件和文件夹
      * [filePath]  要删除的路径
      */
+    @JvmStatic
     fun deleteFile(filePath: String) {
         deleteFile(File(filePath))
     }
@@ -180,6 +198,7 @@ object FileUtil {
      * 递归删除文件和文件夹
      * [destFile] 目标文件或文件夹
      */
+    @JvmStatic
     fun deleteFile(destFile: File): Boolean {
         if (TextUtils.equals(getSDCardRoot(), destFile.absolutePath)) {
             return false
@@ -202,6 +221,7 @@ object FileUtil {
      * 调用命令删除文件
      * [file] 删除的文件
      */
+    @JvmStatic
     fun deleteFileByCmd(file: File): Boolean {
         return deleteFileByCmd(file.absolutePath)
     }
@@ -209,7 +229,9 @@ object FileUtil {
     /**
      * 调用命令删除文件
      * [filePath] 删除的文件绝对路径
+     * @return
      */
+    @JvmStatic
     fun deleteFileByCmd(filePath: String): Boolean {
         return ZCommand.isSuccess(ZCommand.execCmdForRes("rm -r $filePath"))
     }
@@ -222,6 +244,8 @@ object FileUtil {
      * [dataStr]
      * @return
      */
+    @JvmStatic
+    @JvmOverloads
     fun writeToFile(filePath: String, dataStr: String, append: Boolean = false): File? {
         return writeToFile(filePath, ByteArrayInputStream(dataStr.toByteArray()), append)
     }
@@ -230,8 +254,11 @@ object FileUtil {
      * 将数据写入文件
      * [filePath]
      * [inputStream]
+     * [append] append
      * @return
      */
+    @JvmStatic
+    @JvmOverloads
     fun writeToFile(filePath: String, inputStream: InputStream, append: Boolean = false): File? {
         writeLock(lock)
         val file = File(filePath)
@@ -269,6 +296,7 @@ object FileUtil {
      * [maxSize] maxSize
      * @return  Boolean
      */
+    @JvmStatic
     fun writeToFile(filePath: String, dataStr: String, maxSize: Long): Boolean {
         return writeToFile(filePath, ByteArrayInputStream(dataStr.toByteArray()), maxSize)
     }
@@ -279,6 +307,7 @@ object FileUtil {
      * [maxSize] maxSize
      * @return  Boolean
      */
+    @JvmStatic
     fun writeToFile(filePath: String, inputStream: InputStream, maxSize: Long): Boolean {
         if (maxSize > 0) {
             val file = File(filePath)
@@ -298,6 +327,7 @@ object FileUtil {
     /**
      * @param filePath
      */
+    @JvmStatic
     fun readFromFile(filePath: String): StringBuffer {
         val file = File(filePath)
         var result = StringBuffer()
@@ -313,6 +343,7 @@ object FileUtil {
         return result
     }
 
+    @JvmStatic
     fun readByBytes(inputStream: InputStream): StringBuffer {
         readLock(lock)
         val results = StringBuffer()
@@ -339,6 +370,7 @@ object FileUtil {
         return results
     }
 
+    @JvmStatic
     fun readLine(reader: Reader): StringBuffer {
         readLock(lock)
         var bfReader: BufferedReader? = null
@@ -367,6 +399,7 @@ object FileUtil {
     /**
      * [dir] 目标目录下 循环查询文件
      */
+    @JvmStatic
     fun searchFileLoop(dir: File?, fileName: String): HashSet<File> {
         val loopSearchedFile = HashSet<File>()
         if (dir != null && dir.exists() && dir.isDirectory) {
@@ -400,18 +433,21 @@ object FileUtil {
 
     // --------------------------------------------------
     // --------------------------------------------------
+    @JvmStatic
     fun getTotalSpace(file: File): Long {
         ZLog.i(ZTag.TAG_DEBUG, "getTotalSpace : ${file.path}")
         val stat = StatFs(file.path)
         return getBlockSize(stat) * getBlockCount(stat)
     }
 
+    @JvmStatic
     fun getFreeSpace(file: File): Long {
         val stat = StatFs(file.path)
         return getBlockSize(stat) * getAvailableBlocks(stat)
     }
 
     // --------------------------------------------------
+    @JvmStatic
     fun getBlockSize(statFs: StatFs): Long {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             statFs.blockSizeLong
@@ -420,6 +456,7 @@ object FileUtil {
         }
     }
 
+    @JvmStatic
     fun getAvailableBlocks(statFs: StatFs): Long {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             statFs.availableBlocksLong
@@ -428,6 +465,7 @@ object FileUtil {
         }
     }
 
+    @JvmStatic
     fun getBlockCount(statFs: StatFs): Long {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             statFs.blockCountLong

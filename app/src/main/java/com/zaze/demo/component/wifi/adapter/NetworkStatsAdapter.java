@@ -51,7 +51,7 @@ public class NetworkStatsAdapter extends BaseRecyclerAdapter<NetTrafficStats, Ne
         Drawable drawable = null;
         if (appShortcut != null) {
             String packageName = appShortcut.getPackageName();
-            drawable = AppUtil.INSTANCE.getAppIcon(getContext(), packageName);
+            drawable = AppUtil.getAppIcon(getContext(), packageName);
             holder.itemNetworkStatsAppPackageTv.setText(packageName);
         }
         if (drawable != null) {

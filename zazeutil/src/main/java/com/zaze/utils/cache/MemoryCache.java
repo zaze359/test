@@ -65,7 +65,7 @@ class MemoryCache implements CacheFace, MemoryListener {
     }
 
     private MemoryCache() {
-        CACHE_SIZE_MAX = (long) (ZDeviceUtil.INSTANCE.getRuntimeMaxMemory() * 0.3);
+        CACHE_SIZE_MAX = (long) (ZDeviceUtil.getRuntimeMaxMemory() * 0.3);
         PASSIVE_RELEASE = (long) (CACHE_SIZE_MAX * 0.4);
     }
 

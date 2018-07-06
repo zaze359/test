@@ -25,7 +25,7 @@ public class MyApplication extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-//        FileUtil.INSTANCE.setShowLog(true);
+//        FileUtil.setShowLog(true);
         MemoryCacheManager.setCacheLog(true);
         AnalyzeTrafficCompat.setNeedLog(true);
         //

@@ -45,8 +45,8 @@ public class AnalyzeTrafficCompatVN extends AnalyzeTrafficCompat {
                             set.add(uid);
                             NetTrafficStats netTrafficStats = new NetTrafficStats();
                             netTrafficStats.setUid(uid);
-                            netTrafficStats.setRxBytes(Long.valueOf(FileUtil.INSTANCE.readFromFile(uidDir.getAbsolutePath() + "/tcp_rcv").toString()));
-                            netTrafficStats.setTxBytes(Long.valueOf(FileUtil.INSTANCE.readFromFile(uidDir.getAbsolutePath() + "/tcp_snd").toString()));
+                            netTrafficStats.setRxBytes(Long.valueOf(FileUtil.readFromFile(uidDir.getAbsolutePath() + "/tcp_rcv").toString()));
+                            netTrafficStats.setTxBytes(Long.valueOf(FileUtil.readFromFile(uidDir.getAbsolutePath() + "/tcp_snd").toString()));
                             networkStatList.add(netTrafficStats);
                         }
                     } catch (Exception e) {

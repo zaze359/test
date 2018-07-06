@@ -41,7 +41,7 @@ public abstract class AnalyzeTrafficCompat extends AnalyzeUtil {
     private static boolean isExecute = false;
 
     private ZConfigHelper latelyTrafficStatsFile = ZConfigHelper.newInstance(
-            FileUtil.INSTANCE.getSDCardRoot() + "/xuehai/keep/stats/LatelyNetworkTraffic.stats");
+            FileUtil.getSDCardRoot() + "/xuehai/keep/stats/LatelyNetworkTraffic.stats");
 
     /**
      * 根据时间返回对应的日统计文件
@@ -50,7 +50,7 @@ public abstract class AnalyzeTrafficCompat extends AnalyzeUtil {
      */
     private ZConfigHelper getDayTrafficStatsFile() {
         return ZConfigHelper.newInstance(ZStringUtil.format("%s/xuehai/keep/stats/DayNetworkTraffic_%s.stats",
-                FileUtil.INSTANCE.getSDCardRoot(), ZDateUtil.getDayEnd(System.currentTimeMillis())));
+                FileUtil.getSDCardRoot(), ZDateUtil.getDayEnd(System.currentTimeMillis())));
     }
 
     public static AnalyzeTrafficCompat getInstance(Context context) {

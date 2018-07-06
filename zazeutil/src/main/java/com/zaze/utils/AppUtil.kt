@@ -29,11 +29,16 @@ import java.io.File
  * @version : 2017-05-27 - 17:23
  */
 object AppUtil {
+
+    private var activityManager: ActivityManager? = null
+
     /**
      * [context] context
      * [packageName] null 使用context 的包名
      * @return 应用版本名
      */
+    @JvmStatic
+    @JvmOverloads
     fun getAppVersionName(context: Context, packageName: String? = null): String {
         val packageInfo = getPackageInfo(context, packageName ?: context.packageName)
         return if (packageInfo != null) {
@@ -48,6 +53,8 @@ object AppUtil {
      * [packageName] null 使用context 的包名
      * @return 应用版本号
      */
+    @JvmStatic
+    @JvmOverloads
     fun getAppVersionCode(context: Context, packageName: String? = null): Int {
         val packageInfo = getPackageInfo(context, packageName ?: context.packageName)
         return packageInfo?.versionCode ?: 0
@@ -60,6 +67,8 @@ object AppUtil {
      * [defaultName]
      * @return app名
      */
+    @JvmStatic
+    @JvmOverloads
     fun getAppName(context: Context, packageName: String? = null, defaultName: String = "未知"): String {
         val applicationInfo = getApplicationInfo(context, packageName)
         return if (applicationInfo == null) {
@@ -74,6 +83,8 @@ object AppUtil {
      * [packageName]
      * @return 应用图标
      */
+    @JvmStatic
+    @JvmOverloads
     fun getAppIcon(context: Context, packageName: String? = null): Drawable? {
         return try {
             val pManager = context.packageManager
@@ -91,6 +102,7 @@ object AppUtil {
      * [iconDpi] iconDpi
      * @return 应用图标
      */
+    @JvmStatic
     fun getAppIcon(resources: Resources, iconId: Int, iconDpi: Int): Drawable? {
         return try {
             ResourcesCompat.getDrawableForDensity(resources, iconId, iconDpi, null)
@@ -105,6 +117,8 @@ object AppUtil {
      * @author zaze
      * @version 2017/5/31 - 下午3:40 1.0
      */
+    @JvmStatic
+    @JvmOverloads
     fun getApplicationInfo(context: Context, packageName: String? = null): ApplicationInfo? {
         return try {
             context.packageManager.getApplicationInfo(packageName ?: context.packageName, 0)
@@ -122,6 +136,8 @@ object AppUtil {
      * @author zaze
      * @version 2017/5/31 - 下午3:46 1.0
      */
+    @JvmStatic
+    @JvmOverloads
     fun getPackageInfo(context: Context, packageName: String? = null): PackageInfo? {
         return try {
             context.packageManager.getPackageInfo(packageName ?: context.packageName, 0)
@@ -138,6 +154,7 @@ object AppUtil {
      * @author zaze
      * @version 2017/8/26 - 下午3:23 1.0
      */
+    @JvmStatic
     fun getPackageArchiveInfo(context: Context, fileName: String): PackageInfo? {
         if (TextUtils.isEmpty(fileName)) {
             return null
@@ -146,6 +163,7 @@ object AppUtil {
     }
 
 
+    @JvmStatic
     fun findSystemApk(context: Context, action: String): Pair<String, Resources>? {
         val pm = context.packageManager
         for (info in pm.queryBroadcastReceivers(Intent(action), 0)) {
@@ -166,6 +184,7 @@ object AppUtil {
     /**
      * s
      */
+    @JvmStatic
     fun queryMainIntentActivities(context: Context, packageName: String): List<ResolveInfo> {
         val mainIntent = Intent(Intent.ACTION_MAIN, null)
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER)
@@ -173,18 +192,22 @@ object AppUtil {
         return context.packageManager.queryIntentActivities(mainIntent, PackageManager.MATCH_DEFAULT_ONLY)
     }
 
+    @JvmStatic
     fun getInstalledPackages(context: Context, flag: Int = 0): List<PackageInfo> {
         return context.packageManager.getInstalledPackages(flag)
     }
 
+    @JvmStatic
     fun getInstalledApplications(context: Context, flag: Int = 0): List<ApplicationInfo> {
         return context.packageManager.getInstalledApplications(flag)
     }
 
+    @JvmStatic
     fun getPackagesForUid(context: Context, uid: Int): Array<String>? {
         return context.packageManager.getPackagesForUid(uid)
     }
 
+    @JvmStatic
     fun getNameForUid(context: Context, uid: Int): String? {
         return context.packageManager.getNameForUid(uid)
     }
@@ -197,8 +220,11 @@ object AppUtil {
      * @author zaze
      * @version 2017/5/22 - 下午3:32 1.0
      */
+    @JvmStatic
     fun isAppRunning(context: Context, packageName: String): Boolean {
-        return if (getAppProcess(context, packageName).isEmpty()) {
+        return if (!isInstalled(context, packageName)) {
+            false
+        } else if (getAppProcess(context, packageName).isEmpty()) {
             getAppPid(packageName) > 0
         } else {
             true
@@ -210,6 +236,7 @@ object AppUtil {
      * [context] context
      * [intent] intent
      */
+    @JvmStatic
     fun isSystemApp(context: Context, intent: Intent): Boolean {
         val componentName = intent.component
         var packageName: String? = null
@@ -229,6 +256,7 @@ object AppUtil {
      * [context] context
      * [packageName] packageName
      */
+    @JvmStatic
     fun isSystemApp(context: Context, packageName: String?): Boolean {
         return if (TextUtils.isEmpty(packageName)) {
             false
@@ -246,6 +274,7 @@ object AppUtil {
      * 是否是系统应用
      * [applicationInfo] applicationInfo
      */
+    @JvmStatic
     fun isSystemApp(applicationInfo: ApplicationInfo?): Boolean {
         return if (applicationInfo == null) {
             false
@@ -262,6 +291,7 @@ object AppUtil {
      * @author zaze
      * @version 2017/5/31 - 下午3:47 1.0
      */
+    @JvmStatic
     fun isInstalled(context: Context, packageName: String): Boolean {
         return getApplicationInfo(context, packageName) != null
     }
@@ -277,6 +307,7 @@ object AppUtil {
      * @author zaze
      * @version 2017/5/31 - 下午2:54 1.0
      */
+    @JvmStatic
     fun install(context: Context, filePath: String) {
         val file = File(filePath)
         if (file.exists()) {
@@ -297,6 +328,8 @@ object AppUtil {
      * @author zaze
      * @version 2017/5/31 - 下午2:57 1.0
      */
+    @JvmStatic
+    @JvmOverloads
     fun unInstall(context: Context, packageName: String? = null) {
         ZLog.i(ZTag.TAG_ABOUT_APP, "开始卸载 ${packageName ?: context.packageName}")
         val uninstallIntent = Intent()
@@ -311,6 +344,7 @@ object AppUtil {
      * 静默安装
      * [filePath] 文件绝对路径
      */
+    @JvmStatic
     fun installApkSilent(filePath: String): Boolean {
         ZLog.i(ZTag.TAG_ABOUT_APP, "开始静默安装 %s", filePath)
         if (ZCommand.isSuccess(ZCommand.execRootCmdForRes("pm install -r " + filePath))) {
@@ -326,6 +360,7 @@ object AppUtil {
      * 静默卸载
      * [packageName] 报名
      */
+    @JvmStatic
     fun unInstallApkSilent(packageName: String): Boolean {
         ZLog.i(ZTag.TAG_ABOUT_APP, "开始静默卸载 %s", packageName)
         if (ZCommand.isSuccess(ZCommand.execRootCmdForRes("pm uninstall " + packageName))) {
@@ -339,6 +374,7 @@ object AppUtil {
 
     // --------------------------------------------------
 
+    @JvmStatic
     fun getAppPid(packageName: String): Int {
         ZLog.i(ZTag.TAG_DEBUG, "getAppPid : " + packageName)
         if (ZCommand.isCommandExists("grep")) {
@@ -362,6 +398,8 @@ object AppUtil {
      * @author zaze
      * @version 2017/5/31 - 下午2:59 1.0
      */
+    @Deprecated("未Root情况下, Android5.0以后只能获取到自己")
+    @JvmStatic
     fun getAppProcess(context: Context, packageName: String): ArrayList<ActivityManager.RunningAppProcessInfo> {
         val activityManager = getActivityManager(context)
         val list = ArrayList<ActivityManager.RunningAppProcessInfo>()
@@ -376,10 +414,12 @@ object AppUtil {
      * @author zaze
      * @version 2017/10/9 - 下午1:51 1.0
      */
-    fun getProcessMemoryInfo(context: Context, pids: IntArray): Array<out Debug.MemoryInfo>? {
+    @JvmStatic
+    fun getProcessMemoryInfo(context: Context, pids: IntArray): Array<Debug.MemoryInfo>? {
         return getActivityManager(context).getProcessMemoryInfo(pids)
     }
 
+    @JvmStatic
     fun getAppMemorySize(context: Context, packageName: String): Long {
         val runningAppProcessInfoList = AppUtil.getAppProcess(context, packageName)
         var memorySize: Long = 0L
@@ -399,6 +439,7 @@ object AppUtil {
      * @version 2017/5/22 - 下午3:32 1.0
      */
     @SuppressLint("MissingPermission")
+    @JvmStatic
     fun killAppProcess(context: Context, packageName: String) {
         getActivityManager(context).killBackgroundProcesses(packageName)
         val processInfoList = getAppProcess(context, packageName)
@@ -413,6 +454,7 @@ object AppUtil {
      * 清理data数据
      * [packageName] packageName
      */
+    @JvmStatic
     fun clearAppData(context: Context, packageName: String) {
         if (ZCommand.isRoot()) {
             ZCommand.execRootCmd("pm clear " + packageName)
@@ -428,6 +470,8 @@ object AppUtil {
     // --------------------------------------------------
 
     @Deprecated("")
+    @JvmStatic
+    @JvmOverloads
     fun startApplication(context: Context, packageName: String, bundle: Bundle? = null) {
         val packageInfo = getPackageInfo(context, packageName)
         if (packageInfo != null) {
@@ -456,6 +500,8 @@ object AppUtil {
         }
     }
 
+    @JvmStatic
+    @JvmOverloads
     fun startApplicationSimple(context: Context, packageName: String, bundle: Bundle? = null) {
         if (!isInstalled(context, packageName)) {
             ZTipUtil.toast(context, "($packageName)未安装!")
@@ -475,8 +521,12 @@ object AppUtil {
 
     // --------------------------------------------------
     // --------------------------------------------------
+
     private fun getActivityManager(context: Context): ActivityManager {
-        return context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        if (activityManager == null) {
+            activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        }
+        return activityManager!!
     }
 
 }

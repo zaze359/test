@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class ApplicationManager {
     private static final Object lockObj = new Object();
-    private static ZConfigHelper latelyUidFile = ZConfigHelper.newInstance(FileUtil.INSTANCE.getSDCardRoot() + "/xuehai/keep/stats/LatelyUid.stats");
+    private static ZConfigHelper latelyUidFile = ZConfigHelper.newInstance(FileUtil.getSDCardRoot() + "/xuehai/keep/stats/LatelyUid.stats");
 
     public static List<AppShortcut> getInstalledAppShortcuts() {
         synchronized (lockObj) {
@@ -32,11 +32,11 @@ public class ApplicationManager {
             List<AppShortcut> appShortcutList = JsonUtil.parseJsonToList(MemoryCacheManager.getCache(key), new TypeToken<List<AppShortcut>>() {
             }.getType());
             if (appShortcutList == null) {
-                List<ApplicationInfo> list = AppUtil.INSTANCE.getInstalledApplications(MyApplication.getInstance(), 0);
+                List<ApplicationInfo> list = AppUtil.getInstalledApplications(MyApplication.getInstance(), 0);
                 appShortcutList = new ArrayList<>();
                 for (ApplicationInfo applicationInfo : list) {
                     AppShortcut appShortcut = AppShortcut.transform(applicationInfo,
-                            AppUtil.INSTANCE.getAppName(MyApplication.getInstance(), applicationInfo.packageName, ""));
+                            AppUtil.getAppName(MyApplication.getInstance(), applicationInfo.packageName, ""));
                     String value = JsonUtil.objToJson(appShortcut);
                     MemoryCacheManager.saveCache(applicationInfo.packageName, value);
                     MemoryCacheManager.saveCache(String.valueOf(applicationInfo.uid), value);
@@ -54,10 +54,10 @@ public class ApplicationManager {
         synchronized (lockObj) {
             AppShortcut appShortcut = JsonUtil.parseJson(MemoryCacheManager.getCache(String.valueOf(uid)), AppShortcut.class);
             if (appShortcut == null) {
-                String packageName = AppUtil.INSTANCE.getNameForUid(MyApplication.getInstance(), uid);
+                String packageName = AppUtil.getNameForUid(MyApplication.getInstance(), uid);
                 if (!TextUtils.isEmpty(packageName)) {
-                    appShortcut = AppShortcut.transform(AppUtil.INSTANCE.getApplicationInfo(MyApplication.getInstance(), packageName),
-                            AppUtil.INSTANCE.getAppName(MyApplication.getInstance(), packageName, ""));
+                    appShortcut = AppShortcut.transform(AppUtil.getApplicationInfo(MyApplication.getInstance(), packageName),
+                            AppUtil.getAppName(MyApplication.getInstance(), packageName, ""));
                 }
                 if (appShortcut == null) {
                     appShortcut = JsonUtil.parseJson(latelyUidFile.getProperty(String.valueOf(uid)), AppShortcut.class);

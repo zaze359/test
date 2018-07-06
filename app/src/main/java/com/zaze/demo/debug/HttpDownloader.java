@@ -56,7 +56,7 @@ public class HttpDownloader {
             urlConn.connect();
             inputStream = urlConn.getInputStream();
             // TODO: 2017/8/26
-            return FileUtil.INSTANCE.writeToFile(filePath, inputStream, true);
+            return FileUtil.writeToFile(filePath, inputStream, true);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -93,7 +93,7 @@ public class HttpDownloader {
                 callback.preDownload(contentLength);
             }
             inputStream = urlConn.getInputStream();
-//            FileUtil.INSTANCE.writeToFile(inputStream, tempFilePath, new ZCallback<Long>() {
+//            FileUtil.writeToFile(inputStream, tempFilePath, new ZCallback<Long>() {
 //                @Override
 //                public void onNext(Long dataSize) {
 //                    if (callback != null) {

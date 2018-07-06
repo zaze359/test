@@ -109,7 +109,7 @@ public class DeviceModelImpl implements DeviceModel {
         // --------------------------------------------------
 //        deviceStatus = new DeviceStatus();
 //        deviceStatus.setTag("内核版本");
-//        deviceStatus.setContent(FileUtil.INSTANCE.readFromFile(FileUtil.INSTANCE.getSDCardRoot() + "/proc/version").toString());
+//        deviceStatus.setContent(FileUtil.readFromFile(FileUtil.getSDCardRoot() + "/proc/version").toString());
 //        list.add(deviceStatus);
         // --------------------------------------------------
         deviceStatus = new DeviceStatus();
@@ -126,13 +126,13 @@ public class DeviceModelImpl implements DeviceModel {
         deviceStatus = new DeviceStatus();
         deviceStatus.setTag("设备号");
         deviceStatus.setName("deviceId");
-        deviceStatus.setContent(ZDeviceUtil.INSTANCE.getUUID(MyApplication.getInstance()));
+        deviceStatus.setContent(ZDeviceUtil.getUUID(MyApplication.getInstance()));
         list.add(deviceStatus);
         // --------------------------------------------------
         deviceStatus = new DeviceStatus();
         deviceStatus.setTag("IMEI");
         deviceStatus.setName("IMEI");
-        deviceStatus.setContent(ZDeviceUtil.INSTANCE.getDeviceId(MyApplication.getInstance()));
+        deviceStatus.setContent(ZDeviceUtil.getDeviceId(MyApplication.getInstance()));
         list.add(deviceStatus);
         // --------------------------------------------------
         deviceStatus = new DeviceStatus();
@@ -159,15 +159,15 @@ public class DeviceModelImpl implements DeviceModel {
         // --------------------------------------------------
         deviceStatus = new DeviceStatus();
         deviceStatus.setTag("运存情况");
-        String vmMax = ZStringUtil.format("%sMB", ZDeviceUtil.INSTANCE.getRuntimeMaxMemory() >> 20);
-        String vmTotal = ZStringUtil.format("%sMB", ZDeviceUtil.INSTANCE.getRuntimeTotalMemory() >> 20);
-        String vmFree = ZStringUtil.format("%sKB", ZDeviceUtil.INSTANCE.getRuntimeFreeMemory() >> 10);
+        String vmMax = ZStringUtil.format("%sMB", ZDeviceUtil.getRuntimeMaxMemory() >> 20);
+        String vmTotal = ZStringUtil.format("%sMB", ZDeviceUtil.getRuntimeTotalMemory() >> 20);
+        String vmFree = ZStringUtil.format("%sKB", ZDeviceUtil.getRuntimeFreeMemory() >> 10);
         deviceStatus.setContent(ZStringUtil.format("最大运存 : %s\n总运存 : %s\n剩余运存 : %s", vmMax, vmTotal, vmFree));
         list.add(deviceStatus);
         // --------------------------------------------------
         deviceStatus = new DeviceStatus();
         deviceStatus.setTag("内存空间");
-        ActivityManager.MemoryInfo memoryInfo = ZDeviceUtil.INSTANCE.getDeviceMemory(MyApplication.getInstance());
+        ActivityManager.MemoryInfo memoryInfo = ZDeviceUtil.getDeviceMemory(MyApplication.getInstance());
         String deviceTotalMem = ZStringUtil.format("%sMB", memoryInfo.totalMem >> 20);
         String deviceAvailMem = ZStringUtil.format("%sMB", memoryInfo.availMem >> 20);
         deviceStatus.setContent(ZStringUtil.format("总内存 : %s\n可用内存 : %s", deviceTotalMem, deviceAvailMem));
@@ -175,15 +175,15 @@ public class DeviceModelImpl implements DeviceModel {
         // --------------------------------------------------
         deviceStatus = new DeviceStatus();
         deviceStatus.setTag("SD卡空间状况");
-        String sdTotal = ZStringUtil.format("%sMB", ZDeviceUtil.INSTANCE.getSdTotalSpace() >> 20);
-        String sdFree = ZStringUtil.format("%sMB", ZDeviceUtil.INSTANCE.getSdFreeSpace() >> 20);
+        String sdTotal = ZStringUtil.format("%sMB", ZDeviceUtil.getSdTotalSpace() >> 20);
+        String sdFree = ZStringUtil.format("%sMB", ZDeviceUtil.getSdFreeSpace() >> 20);
         deviceStatus.setContent(ZStringUtil.format("总空间 : %s\n剩余空间 : %s", sdTotal, sdFree));
         list.add(deviceStatus);
         // --------------------------------------------------
         deviceStatus = new DeviceStatus();
         deviceStatus.setTag("机身空间状况");
-        String dataTotal = ZStringUtil.format("%sMB", ZDeviceUtil.INSTANCE.getDataTotalSpace() >> 20);
-        String dataFree = ZStringUtil.format("%sMB", ZDeviceUtil.INSTANCE.getDataFreeSpace() >> 20);
+        String dataTotal = ZStringUtil.format("%sMB", ZDeviceUtil.getDataTotalSpace() >> 20);
+        String dataFree = ZStringUtil.format("%sMB", ZDeviceUtil.getDataFreeSpace() >> 20);
         deviceStatus.setContent(ZStringUtil.format("总大小 : %s\n剩余大小 : %s", dataTotal, dataFree));
         list.add(deviceStatus);
         // --------------------------------------------------
@@ -202,12 +202,12 @@ public class DeviceModelImpl implements DeviceModel {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        FileUtil.INSTANCE.writeToFile("/sdcard/aaa.json", jsonObject.toString(), false);
+        FileUtil.writeToFile("/sdcard/aaa.json", jsonObject.toString(), false);
 
 //        jsonObject.put("deviceId", XhApplication.getInstance().getDeviceId());
 //        jsonObject.put("model", Build.MODEL);
 //        jsonObject.put("os", Build.VERSION.RELEASE);
-//        jsonObject.put("imei", ZStringUtil.parseString(ZDeviceUtil.INSTANCE.getDeviceId(XhApplication.getInstance())));
+//        jsonObject.put("imei", ZStringUtil.parseString(ZDeviceUtil.getDeviceId(XhApplication.getInstance())));
 //        jsonObject.put("mac", NetworkUtil.getWLANMacAddress());
 
 

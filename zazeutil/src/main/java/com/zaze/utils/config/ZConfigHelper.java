@@ -107,8 +107,8 @@ public class ZConfigHelper {
      */
     public Properties load() {
         boolean isNew = false;
-        if (!FileUtil.INSTANCE.exists(filePath) || new File(this.filePath).length() > MAX_SIZE) {
-            FileUtil.INSTANCE.reCreateFile(filePath);
+        if (!FileUtil.exists(filePath) || new File(this.filePath).length() > MAX_SIZE) {
+            FileUtil.reCreateFile(filePath);
             isNew = true;
         }
         Properties properties = ZPropertiesUtil.load(this.filePath);

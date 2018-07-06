@@ -38,7 +38,7 @@ public class LogcatUtil {
      * @return boolean
      */
     public static boolean startCatchLog(Context context) {
-        return startCatchLog(ZStringUtil.format("%s/catch#%s#.log", FileUtil.INSTANCE.getSDCardRoot() + "/xuehai/log", context.getPackageName()));
+        return startCatchLog(ZStringUtil.format("%s/catch#%s#.log", FileUtil.getSDCardRoot() + "/xuehai/log", context.getPackageName()));
     }
 
     /**
@@ -91,7 +91,7 @@ public class LogcatUtil {
             String line;
             while (isRunning) {
                 if ((line = successReader.readLine()) != null) {
-                    FileUtil.INSTANCE.writeToFile(savePath, line + "\n", maxSize);
+                    FileUtil.writeToFile(savePath, line + "\n", maxSize);
                 }
             }
             isRunning = false;

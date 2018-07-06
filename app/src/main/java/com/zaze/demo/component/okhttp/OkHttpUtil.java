@@ -96,7 +96,7 @@ public class OkHttpUtil {
                 ResponseBody responseBody = response.body();
                 if (responseBody != null) {
                     File file = new File(destPath);
-                    FileUtil.INSTANCE.createFileNotExists(destPath);
+                    FileUtil.createFileNotExists(destPath);
                     InputStream is = null;
                     FileOutputStream fos = null;
                     byte[] buf = new byte[1024];

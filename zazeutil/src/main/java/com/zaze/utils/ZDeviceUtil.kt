@@ -26,15 +26,16 @@ object ZDeviceUtil {
      * @author zaze
      * @version 2017/8/1 - 下午1:52 1.0
      */
+    @JvmStatic
     fun getAndroidId(context: Context): String {
         return Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
     }
 
-    fun getDeviceId(context: Context): String? {
+    @JvmStatic fun getDeviceId(context: Context): String? {
         return (context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager).deviceId
     }
 
-    fun getSimSerialNumber(context: Context): String? {
+    @JvmStatic fun getSimSerialNumber(context: Context): String? {
         return (context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager).simSerialNumber
     }
 
@@ -42,7 +43,7 @@ object ZDeviceUtil {
      * SimSerialNumber -> DeviceId(IMEI) -> AndroidId -> randomId
      * [context] context
      */
-    fun getUUID(context: Context): String {
+    @JvmStatic fun getUUID(context: Context): String {
         val key = "getUUID"
         var id = Build.SERIAL
         if (TextUtils.isEmpty(id)) {
@@ -70,14 +71,14 @@ object ZDeviceUtil {
     /**
      * @return sdcard总空间大小
      */
-    fun getSdTotalSpace(): Long {
+    @JvmStatic fun getSdTotalSpace(): Long {
         return FileUtil.getTotalSpace(Environment.getExternalStorageDirectory())
     }
 
     /**
      * @return sdcard 剩余空间大小
      */
-    fun getSdFreeSpace(): Long {
+    @JvmStatic fun getSdFreeSpace(): Long {
         return FileUtil.getFreeSpace(Environment.getExternalStorageDirectory())
     }
 // --------------------------------------------------
@@ -85,7 +86,7 @@ object ZDeviceUtil {
      * Data (内置sd卡 时 同 {@link #getSDTotalSpace()})
      * @return 获取机身总大小
      */
-    fun getDataTotalSpace(): Long {
+    @JvmStatic fun getDataTotalSpace(): Long {
         return FileUtil.getTotalSpace(Environment.getDataDirectory())
     }
 
@@ -93,7 +94,7 @@ object ZDeviceUtil {
      * Data
      * @return 获取机身剩余
      */
-    fun getDataFreeSpace(): Long {
+    @JvmStatic fun getDataFreeSpace(): Long {
         return FileUtil.getFreeSpace(Environment.getDataDirectory())
     }
 
@@ -103,7 +104,7 @@ object ZDeviceUtil {
      * 单个应用 最大运存
      * @return
      */
-    fun getRuntimeMaxMemory(): Long {
+    @JvmStatic fun getRuntimeMaxMemory(): Long {
         return Runtime.getRuntime().maxMemory()
     }
 
@@ -112,7 +113,7 @@ object ZDeviceUtil {
      * 当前 从机器内存中取过来的 内存的 中的空闲内存
      * @return
      */
-    fun getRuntimeFreeMemory(): Long {
+    @JvmStatic fun getRuntimeFreeMemory(): Long {
         return Runtime.getRuntime().freeMemory()
     }
 
@@ -121,14 +122,14 @@ object ZDeviceUtil {
      * 当前 从机器内存中取过来 的 总内存(包括使用了的和 freeMemory)
      * @return
      */
-    fun getRuntimeTotalMemory(): Long {
+    @JvmStatic fun getRuntimeTotalMemory(): Long {
         return Runtime.getRuntime().totalMemory()
     }
 
 // --------------------------------------------------
 // --------------------------------------------------
 
-    fun getDeviceMemory(context: Context): ActivityManager.MemoryInfo {
+    @JvmStatic fun getDeviceMemory(context: Context): ActivityManager.MemoryInfo {
         val am = context.getSystemService(ACTIVITY_SERVICE) as ActivityManager
         val outInfo = ActivityManager.MemoryInfo()
         am.getMemoryInfo(outInfo)
