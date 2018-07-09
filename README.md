@@ -19,7 +19,7 @@ maven { url "https://dl.bintray.com/zaze359/maven" }
 
 ## 工具类库
 
-> compile 'com.zaze:zazeutil:1.2.8'
+> compile 'com.zaze:zazeutil:1.2.12'
 
 1. 一些常用的工具类
 2. Task 模块

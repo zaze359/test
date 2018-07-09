@@ -19,6 +19,7 @@ object ConvertUtil {
     private val sCanvas = Canvas()
     // --------------------------------------------------
     // --------------------------------------------------
+    @JvmStatic
     fun objectToByte(obj: Serializable?): ByteArray? {
         var bytes: ByteArray? = null
         if (obj != null) {
@@ -37,6 +38,7 @@ object ConvertUtil {
         return bytes
     }
 
+    @JvmStatic
     fun byteToObject(bytes: ByteArray?): Any? {
         if (bytes == null) {
             return null
@@ -59,6 +61,7 @@ object ConvertUtil {
      * [format] Bitmap.CompressFormat
      * @return ByteArray
      */
+    @JvmStatic
     fun bitmap2Bytes(bitmap: Bitmap?, format: Bitmap.CompressFormat = Bitmap.CompressFormat.PNG): ByteArray? {
         if (bitmap == null) {
             return null
@@ -72,6 +75,7 @@ object ConvertUtil {
      * [bytes] 字节数组
      * @return bitmap
      */
+    @JvmStatic
     fun bytes2Bitmap(bytes: ByteArray?): Bitmap? {
         return if (bytes == null || bytes.isEmpty()) {
             null
@@ -81,6 +85,7 @@ object ConvertUtil {
     }
 
     // --------------------------------------------------
+    @JvmStatic
     fun drawable2Bitmap(drawable: Drawable?, bmpSize: Int): Bitmap? {
         synchronized(sCanvas) {
             if (drawable != null) {
@@ -135,6 +140,7 @@ object ConvertUtil {
         }
     }
 
+    @JvmStatic
     fun drawable2Bitmap(drawable: Drawable?): Bitmap? {
         synchronized(sCanvas) {
             if (drawable != null) {
@@ -165,6 +171,7 @@ object ConvertUtil {
         }
     }
 
+    @JvmStatic
     fun bitmap2Drawable(res: Resources, bitmap: Bitmap?): Drawable? {
         return if (bitmap == null) {
             null
@@ -178,6 +185,7 @@ object ConvertUtil {
      * [format] Bitmap.CompressFormat
      * @return ByteArray
      */
+    @JvmStatic
     fun drawable2Bytes(drawable: Drawable?, format: Bitmap.CompressFormat): ByteArray? {
         return if (drawable == null) {
             null
@@ -190,6 +198,7 @@ object ConvertUtil {
      * [res]Resources
      * @return drawable
      */
+    @JvmStatic
     fun bytes2Drawable(res: Resources, bytes: ByteArray): Drawable? {
         return bitmap2Drawable(res, bytes2Bitmap(bytes))
     }
