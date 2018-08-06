@@ -1,5 +1,7 @@
-package com.zaze.demo.component.okhttp;
+package com.xh.common.util;
 
+
+import android.os.SystemClock;
 
 import com.zaze.utils.ThreadManager;
 import com.zaze.utils.ZCallback;
@@ -84,7 +86,10 @@ public class OkHttpUtil {
     // --------------------------------------------------
 
     public static void download(String url, final String destPath, final DownloadCallback callback) {
-        Request request = new Request.Builder().url(url).build();
+        final Request request = new Request.Builder()
+                .url(url)
+                .addHeader("Range", "bytes=0-")
+                .build();
         enqueue(request, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -96,24 +101,29 @@ public class OkHttpUtil {
                 ResponseBody responseBody = response.body();
                 if (responseBody != null) {
                     File file = new File(destPath);
-                    FileUtil.createFileNotExists(destPath);
+                    FileUtil.INSTANCE.createFileNotExists(destPath);
                     InputStream is = null;
                     FileOutputStream fos = null;
-                    byte[] buf = new byte[1024];
+                    byte[] buf = new byte[2048];
                     double total = responseBody.contentLength();
                     callback.startDownload(total);
                     int len;
                     double current = 0;
+                    long timeMillis = SystemClock.uptimeMillis();
+                    long consumeTime = 0;
                     try {
                         is = responseBody.byteStream();
                         fos = new FileOutputStream(file);
                         while ((len = is.read(buf)) != -1) {
                             fos.write(buf, 0, len);
                             current += len;
-                            callback.onProgress(total, current);
+                            consumeTime = (SystemClock.uptimeMillis() - timeMillis) / 1000;
+                            if (consumeTime > 0) {
+                                callback.onProgress(total, current, current / consumeTime);
+                            }
                         }
                         fos.flush();
-                        callback.onSuccess(file.getAbsolutePath());
+                        callback.onSuccess(file.getAbsolutePath(), total / consumeTime);
                     } catch (Exception e) {
                         e.printStackTrace();
                         callback.onError(e.getMessage());
@@ -158,12 +168,23 @@ public class OkHttpUtil {
 
     // --------------------------------------------------
 
+    public static void upload(String filePath) {
+        File file = new File(filePath);
+//        RequestBody fileBody = RequestBody.create(MediaType.parse("application/octet-stream"), file);
+
+        RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+    }
+
+
+    // --------------------------------------------------
+
     public interface DownloadCallback {
         void startDownload(double totalCount);
 
-        void onProgress(double totalCount, double currentCount);
+        void onProgress(double totalCount, double currentCount, double speed);
 
-        void onSuccess(String filePath);
+        void onSuccess(String filePath, double speed);
 
         void onError(String errorMsg);
     }

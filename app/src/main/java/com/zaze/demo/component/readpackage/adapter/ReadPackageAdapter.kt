@@ -16,7 +16,7 @@ import com.zaze.demo.model.entity.PackageEntity
 import com.zaze.demo.third.BaseUltimateRecyclerAdapter
 import com.zaze.demo.third.BaseUltimateRecyclerViewHolder
 import com.zaze.utils.AppUtil
-import com.zaze.utils.ConvertUtil
+import com.zaze.utils.BmpUtil
 import com.zaze.utils.ZStringUtil
 
 /**
@@ -71,7 +71,7 @@ class ReadPackageAdapter(context: Context, data: Collection<PackageEntity>) : Ba
         if (drawable == null) {
             drawable = getDrawable(R.mipmap.ic_launcher)
         }
-        holder.itemAppIv!!.setImageBitmap(ConvertUtil.drawable2Bitmap(drawable, iconSize))
+        holder.itemAppIv!!.setImageBitmap(BmpUtil.drawable2Bitmap(drawable, iconSize))
     }
 
     override fun generateHeaderId(position: Int): Long {

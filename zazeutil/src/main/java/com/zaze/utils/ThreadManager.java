@@ -200,7 +200,7 @@ public class ThreadManager {
         if (needLog) {
             ZLog.i(ZTag.TAG_DEBUG, "shutdownSingleThread");
         }
-        singleExecutor.shutdown();
+        singleExecutor.shutdownNow();
         initSingleExecutor();
     }
 
@@ -211,7 +211,7 @@ public class ThreadManager {
         if (needLog) {
             ZLog.i(ZTag.TAG_DEBUG, "shutdownMultiThread");
         }
-        multiExecutor.shutdown();
+        multiExecutor.shutdownNow();
         initMultiExecutor();
     }
 
@@ -222,8 +222,26 @@ public class ThreadManager {
         if (needLog) {
             ZLog.i(ZTag.TAG_DEBUG, "shutdownBackgroundThread");
         }
-        backgroundExecutor.shutdown();
+        backgroundExecutor.shutdownNow();
         initBackgroundExecutor();
+    }
+
+    /**
+     * Description	: 终止DiskIO Thread
+     */
+    public void shutdownDiskIOThread() {
+        if (needLog) {
+            ZLog.i(ZTag.TAG_DEBUG, "shutdownBackgroundThread");
+        }
+        diskIO.shutdownNow();
+        initDiskIO();
+    }
+
+    public void shutdownAll() {
+        shutdownSingleThread();
+        shutdownBackgroundThread();
+        shutdownMultiThread();
+        shutdownDiskIOThread();
     }
 
     // --------------------------------------------------

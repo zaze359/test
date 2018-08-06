@@ -18,12 +18,12 @@ public class DescriptionUtil {
         long mb = byteLength >> 20;
         long gb = byteLength >> 30;
         if (gb > 0) {
-            return ZStringUtil.format("%.3fGB", mb * 1.0f / 1024);
+            return ZStringUtil.format("%.3fGb", mb * 1.0f / 1024);
         } else if (mb > 0) {
-            return ZStringUtil.format("%.3fMB", kb * 1.0f / 1024);
+            return ZStringUtil.format("%.3fMb", kb * 1.0f / 1024);
         } else if (kb > 0) {
-            return ZStringUtil.format("%dKB", kb);
+            return ZStringUtil.format("%dKb", kb);
         }
-        return ZStringUtil.format("%dB", byteLength);
+        return ZStringUtil.format("%db", byteLength);
     }
 }

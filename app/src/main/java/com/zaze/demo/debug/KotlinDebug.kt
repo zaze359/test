@@ -21,7 +21,7 @@ object KotlinDebug {
         var result = ""
 //        return showLog("print", { print() })
 //        showLog("createDimensByDensity", { createDimensByDensity(ZDisplayUtil.getScreenDensity()) })
-        showLog("createDimensBySW", { createDimensBySW(768, ZDisplayUtil.getScreenWidthDp().toInt()) })
+//        showLog("createDimensBySW", { createDimensBySW(768, ZDisplayUtil.getScreenWidthDp().toInt()) })
         // --------------------------------------------------
         result += (System.currentTimeMillis() - SystemClock.elapsedRealtime())
         // --------------------------------------------------
@@ -113,7 +113,7 @@ object KotlinDebug {
 
     // --------------------------------------------------
     fun searchFile(): String {
-        val fileSet = FileUtil.searchFileLoop(File("/sdcard/"), "com.xuehai.response_launcher_teacher");
+        val fileSet = FileUtil.searchFileAndDir(File("/sdcard/"), "com.xuehai.response_launcher_teacher");
         val builder = StringBuilder()
         for (file in fileSet) {
             builder.append(file.absolutePath + "\n")

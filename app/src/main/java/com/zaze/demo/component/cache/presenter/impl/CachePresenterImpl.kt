@@ -5,7 +5,7 @@ import com.zaze.demo.app.MyApplication
 import com.zaze.demo.component.cache.presenter.CachePresenter
 import com.zaze.demo.component.cache.view.CacheView
 import com.zaze.utils.AppUtil
-import com.zaze.utils.ConvertUtil
+import com.zaze.utils.BmpUtil
 import com.zaze.utils.cache.MemoryCacheManager
 
 /**
@@ -35,8 +35,8 @@ open class CachePresenterImpl(view: CacheView) : BaseMvpPresenter<CacheView>(vie
                 for (j in 1..1000) {
                     val drawable = AppUtil.getAppIcon(MyApplication.getInstance())
                     if (drawable != null) {
-                        val bitmap = ConvertUtil.drawable2Bitmap(drawable)
-                        MemoryCacheManager.saveCacheBytes("$i$j", ConvertUtil.bitmap2Bytes(bitmap))
+                        val bitmap = BmpUtil.drawable2Bitmap(drawable)
+                        MemoryCacheManager.saveCacheBytes("$i$j", BmpUtil.bitmap2Bytes(bitmap))
                     } else {
                     }
                 }

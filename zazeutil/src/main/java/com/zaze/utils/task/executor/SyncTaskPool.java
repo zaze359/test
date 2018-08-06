@@ -171,7 +171,7 @@ public class SyncTaskPool extends TaskPool {
 
     @Override
     public void stop() {
-        isStop = false;
+        isStop = true;
     }
 
 

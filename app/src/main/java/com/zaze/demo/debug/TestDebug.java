@@ -5,8 +5,7 @@ import android.content.Intent;
 import android.content.res.XmlResourceParser;
 import android.net.Network;
 import android.provider.Settings;
-import android.view.inputmethod.InputMethodInfo;
-import android.view.inputmethod.InputMethodManager;
+import android.util.Base64;
 
 import com.zaze.utils.ZNetUtil;
 import com.zaze.utils.log.ZLog;
@@ -16,7 +15,9 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.util.List;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.util.Random;
 import java.util.regex.Pattern;
 
 /**
@@ -41,13 +42,40 @@ public class TestDebug {
             ZLog.i(ZTag.TAG_DEBUG, "" + network.toString());
         }
 
+        ZLog.i(ZTag.TAG_DEBUG, "" + encrypt("abc"));
 
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        List<InputMethodInfo> methodList = imm.getInputMethodList();
-        for (InputMethodInfo methodInfo : methodList) {
-            ZLog.i(ZTag.TAG_DEBUG, "" + methodInfo.toString());
+    }
+
+    public static String encrypt(String password) {
+        long seedValue = System.currentTimeMillis();
+        final Random random = new Random(seedValue);
+
+        byte[] inData = password.getBytes(Charset.forName("utf-8"));
+
+        byte[] mask = {0x0};
+        for (int i = 0; i < inData.length; i++) {
+            random.nextBytes(mask);
+            inData[i] ^= mask[0];
         }
-//        ZCompressUtil.zipFile("/sdcard/xuehai/aa", "/sdcard/xuehai/test.zip");
+
+        final byte[] seeds = longToBytes(seedValue);
+        ByteBuffer buffer = ByteBuffer.allocate(inData.length + seeds.length);
+        buffer.put(inData);
+        buffer.put(seeds);
+        return Base64.encodeToString(buffer.array(), Base64.NO_WRAP | Base64.URL_SAFE);
+    }
+
+    private static byte[] longToBytes(long n) {
+        byte[] b = new byte[8];
+        b[7] = (byte) (n & 0xff);
+        b[6] = (byte) (n >> 8 & 0xff);
+        b[5] = (byte) (n >> 16 & 0xff);
+        b[4] = (byte) (n >> 24 & 0xff);
+        b[3] = (byte) (n >> 32 & 0xff);
+        b[2] = (byte) (n >> 40 & 0xff);
+        b[1] = (byte) (n >> 48 & 0xff);
+        b[0] = (byte) (n >> 56 & 0xff);
+        return b;
     }
 
 

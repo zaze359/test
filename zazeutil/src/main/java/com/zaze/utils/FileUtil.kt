@@ -397,38 +397,50 @@ object FileUtil {
     }
     // --------------------------------------------------
     /**
-     * [dir] 目标目录下 循环查询文件
+     * [dir] 查询目标目录下符合fileName的文件和文件夹
+     * [fileName] fileName
+     * [isDeep] 是否深度查询
      */
     @JvmStatic
-    fun searchFileLoop(dir: File?, fileName: String): HashSet<File> {
-        val loopSearchedFile = HashSet<File>()
-        if (dir != null && dir.exists() && dir.isDirectory) {
-            for (file in dir.listFiles()) {
-                if (file.name == fileName) {
-                    loopSearchedFile.add(file)
-                }
-                if (file.isDirectory) {
-                    loopSearchedFile.addAll(searchFileLoop(file, fileName))
-                }
-            }
-        }
-        return loopSearchedFile
-    }
-
-    /**
-     *  查询指定目录下的文件
-     */
-    private fun searchFile(dir: File, fileName: String): HashSet<File> {
-        val searchedFile = HashSet<File>()
+    @JvmOverloads
+    fun searchFileAndDir(dir: File, fileName: String, isDeep: Boolean = false): ArrayList<File> {
+        val searchedFileList = ArrayList<File>()
         if (dir.exists() && dir.isDirectory) {
             val childFileList = dir.listFiles()
             for (childFile in childFileList) {
                 if (childFile.name == fileName) {
-                    searchedFile.add(childFile)
+                    searchedFileList.add(childFile)
+                }
+                if (isDeep && childFile.isDirectory) {
+                    searchedFileList.addAll(searchFileAndDir(childFile, fileName, isDeep))
                 }
             }
         }
-        return searchedFile
+        return searchedFileList
+    }
+
+    /**
+     * [dir] 目标目录下查询文件
+     * [suffix] suffix
+     * [isDeep] 是否深度查询
+     */
+    @JvmStatic
+    @JvmOverloads
+    fun searchFileBySuffix(dir: File, suffix: String, isDeep: Boolean = false): ArrayList<File> {
+        val searchedFileList = ArrayList<File>()
+        if (dir.exists() && dir.isDirectory) {
+            val childFileList = dir.listFiles()
+            for (childFile in childFileList) {
+                ZLog.i(ZTag.TAG_FILE, "fileName : ${childFile.name}")
+                if (childFile.isFile && childFile.name.endsWith(".$suffix", true)) {
+                    searchedFileList.add(childFile)
+                }
+                if (isDeep && childFile.isDirectory) {
+                    searchedFileList.addAll(searchFileBySuffix(childFile, suffix, isDeep))
+                }
+            }
+        }
+        return searchedFileList
     }
 
     // --------------------------------------------------

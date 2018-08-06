@@ -73,9 +73,8 @@ public class ZDisplayUtil {
      * @deprecated {@link ZDisplayUtil#pxFromDp(float dp)}
      */
     @Deprecated
-    public static int dp2px(float dp) {
-        final float scale = screenDensity;
-        return (int) (dp * scale + 0.5f);
+    public static float dp2px(float dp) {
+        return dp * screenDensity;
     }
 
     // --------------------------------------------------
@@ -88,7 +87,7 @@ public class ZDisplayUtil {
      */
     public static float dpiFromPx(int px) {
         if (metrics != null) {
-            float densityRatio = (float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT;
+            float densityRatio = metrics.densityDpi * 1.0f / DisplayMetrics.DENSITY_DEFAULT;
             return (px / densityRatio);
         } else {
             ZLog.e(ZTag.TAG_ERROR, TIP_TO_INIT);
@@ -102,9 +101,9 @@ public class ZDisplayUtil {
      * @param dp
      * @return
      */
-    public static int pxFromDp(float dp) {
+    public static float pxFromDp(float dp) {
         if (metrics != null) {
-            return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, metrics));
+            return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, metrics);
         } else {
             ZLog.e(ZTag.TAG_ERROR, TIP_TO_INIT);
             return 0;
@@ -117,9 +116,9 @@ public class ZDisplayUtil {
      * @param sp sp
      * @return
      */
-    public static int pxFromSp(float sp) {
+    public static float pxFromSp(float sp) {
         if (metrics != null) {
-            return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, metrics));
+            return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, metrics);
         } else {
             ZLog.e(ZTag.TAG_ERROR, TIP_TO_INIT);
             return 0;

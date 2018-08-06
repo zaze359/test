@@ -22,8 +22,8 @@ public class AddImageLayout extends ViewGroup {
     private static int LINE_IMAGE_COUNT = 4;
     private static int MAX_IMAGE_LINE = 2;
 
-    private int hSpace = ZDisplayUtil.dp2px(12);
-    private int vSpace = ZDisplayUtil.dp2px(12);
+    private int hSpace = (int) ZDisplayUtil.pxFromDp(12);
+    private int vSpace = (int) ZDisplayUtil.pxFromDp(12);
 
     private int childWidth;
     private int childHeight;
