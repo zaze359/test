@@ -8,15 +8,15 @@ package com.zaze.utils
  */
 abstract class ZCallback<D> {
 
-    var message: String? = null
+    open var message: String? = null
 
     open fun onError(errorCode: Int, errorMsg: String?) {}
 
-    open fun preNext(d: D?): D? {
-        return d
+    open fun preNext(result: D?): D? {
+        return result
     }
 
-    abstract fun onNext(d: D?)
+    abstract fun onNext(result: D?)
 
     abstract fun onCompleted()
 }
