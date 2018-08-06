@@ -10,9 +10,9 @@ abstract class ZCallback<D> {
 
     var message: String? = null
 
-    fun onError(errorCode: Int, errorMsg: String?) {}
+    open fun onError(errorCode: Int, errorMsg: String?) {}
 
-    fun preNext(d: D?): D? {
+    open fun preNext(d: D?): D? {
         return d
     }
 

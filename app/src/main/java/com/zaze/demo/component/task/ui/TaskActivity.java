@@ -16,6 +16,8 @@ import com.zaze.utils.log.ZTag;
 import com.zaze.utils.task.Task;
 import com.zaze.utils.task.TaskEntity;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,6 +92,7 @@ public class TaskActivity extends BaseActivity implements TaskView {
                             synchronized (thread) {
                                 ZLog.i(ZTag.TAG_DEBUG, "onExecute start : " + taskId);
                                 onExecuteTask(taskId, new ZCallback<String>() {
+
                                     @Override
                                     public void onNext(String s) {
                                         ZLog.i(ZTag.TAG_DEBUG, "onExecute onNext : " + s);
