@@ -182,7 +182,7 @@ object AppUtil {
 
     // --------------------------------------------------
     /**
-     * s
+     * 获取启动信息
      */
     @JvmStatic
     fun queryMainIntentActivities(context: Context, packageName: String): List<ResolveInfo> {
@@ -213,6 +213,16 @@ object AppUtil {
     }
     // --------------------------------------------------
     // --------------------------------------------------
+
+    @JvmStatic
+    fun isActivityExist(context: Context, intent: Intent?): Boolean {
+        return if (intent != null) {
+            !context.packageManager.queryIntentActivities(intent, 0).isEmpty()
+        } else {
+            false
+        }
+    }
+
     /**
      * Description : app 是否在运行中
      * [context] 上下文

@@ -49,7 +49,6 @@ public class EntityModelImpl implements EntityModel {
         List<TableEntity> list = new ArrayList<>();
         int i = 0;
 //        list.add(new TableEntity("流量监控", NetworkStatsActivity.class, ++i));
-        list.add(new TableEntity("Handler", HandlerActivity.class, ++i));
         list.add(new TableEntity("字体变换", FontActivity.class, ++i));
         list.add(new TableEntity("自定义View", CustomViewActivity.class, ++i));
         list.add(new TableEntity("消息通知栏", NotificationActivity.class, ++i));
@@ -74,6 +73,7 @@ public class EntityModelImpl implements EntityModel {
         list.add(new TableEntity("XmlPreference", MyPreferenceActivity.class, ++i));
         list.add(new TableEntity("Logcat", LogcatActivity.class, ++i));
         list.add(new TableEntity("WebView", WebViewActivity.class, ++i));
+        list.add(new TableEntity("Handler", HandlerActivity.class, ++i));
         return list;
     }
 

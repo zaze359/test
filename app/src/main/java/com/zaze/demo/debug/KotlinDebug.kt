@@ -1,8 +1,10 @@
 package com.zaze.demo.debug
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.os.SystemClock
 import com.zaze.utils.FileUtil
-import com.zaze.utils.ZDeviceUtil
 import com.zaze.utils.ZDisplayUtil
 import com.zaze.utils.ZStringUtil
 import com.zaze.utils.log.ZLog
@@ -17,7 +19,7 @@ import java.io.File
  */
 object KotlinDebug {
 
-    fun test() {
+    fun test(activity: Activity) {
         var result = ""
 //        return showLog("print", { print() })
 //        showLog("createDimensByDensity", { createDimensByDensity(ZDisplayUtil.getScreenDensity()) })
@@ -35,11 +37,47 @@ object KotlinDebug {
         // --------------------------------------------------
 //        createDeveloperToken()
         // --------------------------------------------------
-        ZLog.i(ZTag.TAG_DEBUG, "${ZDeviceUtil.getSdFreeSpace() < 5L shl 30}")
-        ZLog.i(ZTag.TAG_DEBUG, "${ZDeviceUtil.getSdFreeSpace() < 10L shl 30}")
+//        ZLog.i(ZTag.TAG_DEBUG, "${ZDeviceUtil.getSdFreeSpace() < 5L shl 30}")
+//        ZLog.i(ZTag.TAG_DEBUG, "${ZDeviceUtil.getSdFreeSpace() < 10L shl 30}")
+//        ZLog.i(ZTag.TAG_DEBUG, "${ZDateUtil.getWeek(Date())}")
+
+        ZLog.i(ZTag.TAG_DEBUG, "currentTimeMillis : ${System.currentTimeMillis()}")
+        ZLog.i(ZTag.TAG_DEBUG, "currentThreadTimeMillis: ${SystemClock.currentThreadTimeMillis()}")
+        ZLog.i(ZTag.TAG_DEBUG, "elapsedRealtime : ${SystemClock.elapsedRealtime()}")
         // --------------------------------------------------
 //        AppUtil.startApplicationSimple(MyApplication.getInstance(), "com.xuehai.response_launcher_teacher")
+
+        val intent = getTargetActivityIntent(activity, "com.xh.open.WakeupActivity")
+//        val intent = getTargetActivityIntent(activity, "com.xh.open.agent.AgentActivity")
+        intent?.let {
+            activity.startActivity(intent)
+        }
     }
+
+    @JvmStatic
+    fun getTargetActivityIntent(activity: Activity, className: String): Intent? {
+        val intent = Intent()
+        intent.setClassName("com.xuehai.launcher", className)
+        if (isActivityExist(activity, intent)) {
+            return intent
+        }
+        intent.setClassName("com.xuehai.response_launcher_teacher", className)
+        if (isActivityExist(activity, intent)) {
+            return intent
+        }
+        ZLog.e(ZTag.TAG_DEBUG, "指定页面不存在($className)")
+        return null
+    }
+
+    @JvmStatic
+    fun isActivityExist(context: Context, intent: Intent?): Boolean {
+        return if (intent != null) {
+            !context.packageManager.queryIntentActivities(intent, 0).isEmpty()
+        } else {
+            false
+        }
+    }
+
 
     private fun createDimensByDensity(screenDensity: Float): String {
         var dp = 1

@@ -51,12 +51,6 @@ public abstract class BaseRecyclerAdapter<V, H extends RecyclerView.ViewHolder> 
     @Override
     public H onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(getViewLayoutId(), parent, false);
-//        ViewGroup.LayoutParams p = view.getLayoutParams();
-//        if (p == null) {
-//            p = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//        }
-//        p.width = ViewGroup.LayoutParams.MATCH_PARENT;
-//        view.setLayoutParams(p);
         return createViewHolder(view);
     }
 
@@ -72,17 +66,15 @@ public abstract class BaseRecyclerAdapter<V, H extends RecyclerView.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        if (dataList != null) {
-            return dataList.size();
-        }
-        return 0;
+        return dataList.size();
     }
 
     public V getItem(int position) {
-        if (dataList != null) {
+        if (position < 0 || position >= dataList.size()) {
+            return null;
+        } else {
             return dataList.get(position);
         }
-        return null;
     }
 
     public Context getContext() {

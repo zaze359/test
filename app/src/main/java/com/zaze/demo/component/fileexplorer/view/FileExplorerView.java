@@ -16,5 +16,7 @@ import java.util.List;
  */
 public interface FileExplorerView extends BaseView {
 
+    void showCurPath(String path);
+
     void showFileList(@NotNull List<FileEntity> fileList);
 }

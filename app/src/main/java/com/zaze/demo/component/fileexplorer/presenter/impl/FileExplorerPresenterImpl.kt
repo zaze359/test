@@ -19,11 +19,12 @@ import java.io.File
  */
 class FileExplorerPresenterImpl(view: FileExplorerView) : BaseMvpPresenter<FileExplorerView>(view), FileExplorerPresenter {
 
-    private var curFile = Environment.getRootDirectory()
+    private var curFile = Environment.getExternalStorageDirectory()
 
     override fun loadFileList() {
         if (curFile.exists()) {
             if (curFile.isDirectory) {
+                view.showCurPath(curFile.path)
                 val list = ArrayList<FileEntity>()
                 val fileList = curFile.listFiles()
                 if (fileList != null && !fileList.isEmpty()) {

@@ -59,7 +59,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".component.system.ScreenBroadcastReceiver"
+            android:name=".component.system.ScreenLockReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.SCREEN_ON" />
@@ -68,14 +68,14 @@
             </intent-filter>
         </receiver>
 
-
-        <!-- wifi start-->
+        <!-- wifi start -->
         <receiver android:name=".receiver.WifiReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
-        <!-- wifi end-->
+        <!-- wifi end -->
+
 
         <!-- 安装卸载 start -->
         <receiver android:name=".receiver.PackageReceiver">
@@ -93,15 +93,12 @@
         <!-- 测试接收推送 end -->
         <!--  -->
         <service android:name=".component.socket.AlarmService" />
-
         <service android:name=".debug.LogcatService">
             <intent-filter>
                 <action android:name="com.xuehai.logcat.service.start" />
                 <action android:name="com.xuehai.logcat.service.stop" />
             </intent-filter>
         </service>
-
-
         <service
             android:name=".debug.MessengerService"
             android:process=":messenger" />

@@ -42,33 +42,25 @@ public class AutoTaskPool extends FilterTaskPool {
 
     @Override
     public boolean executeTask() {
-        try {
-            if (!isRunning) {
-                executorService.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (needLog) {
-                            ZLog.i(ZTag.TAG_TASK, "AutoTaskPool start");
-                        }
-                        isRunning = true;
-                        try {
-                            while (!taskPool.isEmpty()) {
-                                AutoTaskPool.super.executeTask();
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        isRunning = false;
-                        if (needLog) {
-                            ZLog.d(ZTag.TAG_TASK, "AutoTaskPool end");
-                        }
+        if (!isRunning) {
+            executorService.execute(new Runnable() {
+                @Override
+                public void run() {
+                    if (needLog) {
+                        ZLog.i(ZTag.TAG_TASK, "AutoTaskPool start");
                     }
-                });
-            }
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+                    isRunning = true;
+                    while (!taskPool.isEmpty()) {
+                        AutoTaskPool.super.executeTask();
+                    }
+                    isRunning = false;
+                    if (needLog) {
+                        ZLog.d(ZTag.TAG_TASK, "AutoTaskPool end");
+                    }
+                }
+            });
         }
+        return true;
+
     }
 }

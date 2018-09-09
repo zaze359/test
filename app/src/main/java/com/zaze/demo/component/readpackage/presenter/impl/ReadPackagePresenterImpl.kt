@@ -8,8 +8,8 @@ import com.zaze.demo.app.MyApplication
 import com.zaze.demo.component.readpackage.presenter.ReadPackagePresenter
 import com.zaze.demo.component.readpackage.view.ReadPackageView
 import com.zaze.demo.model.entity.PackageEntity
-import com.zaze.utils.FileUtil
 import com.zaze.utils.AppUtil
+import com.zaze.utils.FileUtil
 import com.zaze.utils.ZStringUtil
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -34,8 +34,8 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : BaseMvpPresenter<ReadPac
     // --------------------------------------------------
     override fun getAppList() {
 //        getAllApkFile("/sdcard/")
-//        getAllInstallApp()
-        getUnSystemApp()
+        getAllInstallApp()
+//        getUnSystemApp()
 //        getSystemApp()
 //        getAssignInstallApp()
         val showList = ArrayList<PackageEntity>()

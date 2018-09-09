@@ -16,7 +16,7 @@ public interface Emitter<T> {
      *
      * @param value the value to signal, not null
      */
-    void onExecute(@NonNull T value);
+    void onExecute(@NonNull T value) throws Exception;
 
 
     /**

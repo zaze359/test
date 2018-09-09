@@ -27,13 +27,9 @@ public class TaskEmitter implements Emitter<TaskEntity> {
     }
 
     @Override
-    public void onExecute(@NonNull TaskEntity value) {
-        try {
-            if (executor != null) {
-                executor.onExecute(value);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+    public void onExecute(@NonNull TaskEntity value) throws Exception {
+        if (executor != null) {
+            executor.onExecute(value);
         }
     }
 

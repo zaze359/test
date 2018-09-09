@@ -13,7 +13,7 @@ import com.zaze.utils.log.ZTag;
  * @author : ZAZE
  * @version : 2017-11-06 - 15:18
  */
-public class ScreenBroadcastReceiver extends BroadcastReceiver {
+public class ScreenLockReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();

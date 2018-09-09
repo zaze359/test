@@ -29,7 +29,6 @@
         <item>flipboard.boxer.app</item><!--简报-->
         <item>com.codeaurora.fmradio</item><!--收音机-->
         <item>com.sohu.inputmethod.sogouoem</item><!--搜狗输入法-->
-
         <item>com.baidu.netdisk</item>
         <item>com.brid.awesomenote</item>
         <item>com.chaozh.iReaderFree15</item>
@@ -407,7 +406,6 @@
     <string-array name="lenovo_un_keep_app">
         <item>org.codeaurora.gallery</item><!--图库-->
         <item>org.codeaurora.snapcam</item><!--相机-->
-        <item>com.lenovo.lsf</item><!--联想帐号-->
     </string-array>
     <!-- ~~~~~~~~~~~~~~~~~~~测试~~~~~~~~~~~~~~~~~~~~~~~~  -->
     <string-array name="test_app">

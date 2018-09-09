@@ -78,7 +78,12 @@ public class SyncTaskPool extends TaskPool {
         }
         String taskId = executeTask.getTaskId();
         currentTaskSet.add(taskId);
-        emitter.onExecute(executeTask);
+        try {
+            emitter.onExecute(executeTask);
+        } catch (Exception e) {
+            e.printStackTrace();
+            emitter.onError(e);
+        }
         currentTaskSet.remove(taskId);
         emitter.onComplete();
         return true;

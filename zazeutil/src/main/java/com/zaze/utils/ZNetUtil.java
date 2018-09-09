@@ -35,6 +35,10 @@ public class ZNetUtil {
 //    wifiinfo.getLinkSpeed()；获取连接速度，可以让用户获知这一信息。
 //    wifiinfo.getRssi()；获取RSSI，RSSI就是接受信号强度指示。在这可以直 接和华为提供的Wi-Fi信号阈值进行比较来提供给用户，让用户对网络或地理位置做出调整来获得最好的连接效果。
 //    这里得到信号强度就靠wifiinfo.getRssi()；这个方法。得到的值是一个0到-100的区间值，是一个int型数据，其中0到-50表示信号最好，-50到-70表示信号偏差，小于-70表示最差，有可能连接不上或者掉线，一般Wifi已断则值为-200。
+
+    public static final String WIFI = "wifi";
+    public static final String MOBILE = "mobile";
+
     private static WifiManager mWifiManager;
     private static ConnectivityManager connectivityManager;
 
@@ -72,23 +76,13 @@ public class ZNetUtil {
      * @return true : available
      */
     public static boolean isAvailable(Context context) {
-        if (isWifiEnabled(context)) {
-            // 获取手机所有连接管理对象（包括对wi-fi,net等连接的管理）
-            ConnectivityManager connectivityManager = getConnectivityManager(context);
-            if (connectivityManager == null) {
-                return false;
-            } else {
-                //如果仅仅是用来判断网络连接
-                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-                return networkInfo != null && networkInfo.isAvailable();
-            }
-        } else {
-            return false;
-        }
+        // 获取手机所有连接管理对象（包括对wi-fi,net等连接的管理）
+        //如果仅仅是用来判断网络连接
+        NetworkInfo networkInfo = getConnectivityManager(context).getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isAvailable();
     }
 
     // --------------------------------------------------
-
 
     public static boolean isSSIDEquals(String ssId1, String ssId2) {
         if (TextUtils.isEmpty(ssId1) || TextUtils.isEmpty(ssId2)) {
@@ -123,10 +117,10 @@ public class ZNetUtil {
             if (wifiInfo != null && mobileInfo != null) {
                 if (!wifiInfo.isConnected() && mobileInfo.isConnected()) {
                     ZLog.i(ZTag.TAG_DEBUG, "当前使用数据流量");
-                    return "4g";
+                    return MOBILE;
                 } else {
                     ZLog.i(ZTag.TAG_DEBUG, "当前连接wifi");
-                    return "wifi";
+                    return WIFI;
                 }
             } else {
                 return "unKnow";

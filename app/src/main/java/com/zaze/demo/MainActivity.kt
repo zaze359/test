@@ -76,7 +76,7 @@ class MainActivity : BaseActivity() {
         main_viewpager.adapter = MyPagerAdapter(supportFragmentManager, fragmentList)
 
         main_test_button.setOnClickListener {
-            KotlinDebug.test()
+            KotlinDebug.test(this)
             TestDebug.test(this)
             val msg = Message.obtain()
             msg.replyTo = messenger

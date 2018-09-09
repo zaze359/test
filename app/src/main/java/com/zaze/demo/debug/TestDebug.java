@@ -3,11 +3,9 @@ package com.zaze.demo.debug;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.XmlResourceParser;
-import android.net.Network;
 import android.provider.Settings;
 import android.util.Base64;
 
-import com.zaze.utils.ZNetUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
@@ -34,16 +32,23 @@ public class TestDebug {
             Pattern.compile("^[\\s|\\p{javaSpaceChar}]*(.*)[\\s|\\p{javaSpaceChar}]*$");
 
     public static void test(Context context) {
-        Network[] networkArray = new Network[0];
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            networkArray = ZNetUtil.getConnectivityManager(context).getAllNetworks();
-        }
-        for (Network network : networkArray) {
-            ZLog.i(ZTag.TAG_DEBUG, "" + network.toString());
-        }
 
-        ZLog.i(ZTag.TAG_DEBUG, "" + encrypt("abc"));
+//        try {
+//            Intent intent = new Intent("com.xh.launcher.wake.up");
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+//            context.startActivity(intent);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        Network[] networkArray = new Network[0];
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+//            networkArray = ZNetUtil.getConnectivityManager(context).getAllNetworks();
+//        }
+//        for (Network network : networkArray) {
+//            ZLog.i(ZTag.TAG_DEBUG, "" + network.toString());
+//        }
 
+//        ZLog.i(ZTag.TAG_DEBUG, "" + encrypt("abc"));
     }
 
     public static String encrypt(String password) {

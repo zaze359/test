@@ -78,6 +78,11 @@ public class FileExplorerActivity extends BaseActivity implements FileExplorerVi
     }
 
     @Override
+    public void showCurPath(String path) {
+        fileExplorerReturnTv.setText(path);
+    }
+
+    @Override
     public void showFileList(@NotNull List<FileEntity> fileList) {
         if (adapter == null) {
             adapter = new FileAdapter(this, fileList);
