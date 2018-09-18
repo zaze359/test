@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.XmlResourceParser;
 import android.provider.Settings;
 import android.util.Base64;
+import android.widget.Toast;
 
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
@@ -32,6 +33,7 @@ public class TestDebug {
             Pattern.compile("^[\\s|\\p{javaSpaceChar}]*(.*)[\\s|\\p{javaSpaceChar}]*$");
 
     public static void test(Context context) {
+        Toast.makeText(context, "sss", Toast.LENGTH_SHORT).show();
 
 //        try {
 //            Intent intent = new Intent("com.xh.launcher.wake.up");
