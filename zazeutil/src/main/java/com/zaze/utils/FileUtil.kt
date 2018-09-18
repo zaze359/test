@@ -18,8 +18,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock
  */
 object FileUtil {
     var showLog = false
-    val needLock = true
-    val lock = ReentrantReadWriteLock()
+    var needLock = true
+    private val lock = ReentrantReadWriteLock()
     private fun writeLock(lock: ReadWriteLock) {
         if (needLock) {
             lock.writeLock().lock()
@@ -88,16 +88,32 @@ object FileUtil {
      * [newFileName] 新文件名
      */
     @JvmStatic
-    fun rename(filePath: String?, newFileName: String): Boolean {
+    fun rename(filePath: String, newFileName: String): Boolean {
         val file = File(filePath)
-        if (file.exists()) {
-            val newFile = File(file.parentFile.absolutePath + File.separator + newFileName)
-            if (newFile.exists()) {
-                FileUtil.deleteFile(newFile)
-            }
-            return File(filePath).renameTo(newFile)
+        if(file.exists()) {
+            return renameFile(filePath, file.parentFile.absolutePath + File.separator + newFileName)
+        }
+        return false
+    }
+
+    @JvmStatic
+    fun move(source: String, target: String): Boolean {
+        return renameFile(source, target)
+    }
+
+    /**
+     * [source] 文件路径
+     * [target] 新文件名
+     */
+    @JvmStatic
+    private fun renameFile(source: String, target: String): Boolean {
+        val sourceFile = File(source)
+        return if (sourceFile.exists()) {
+            reCreateFile(target)
+            createParentDir(target)
+            sourceFile.renameTo(File(target))
         } else {
-            return false
+            false
         }
     }
 
@@ -151,10 +167,10 @@ object FileUtil {
     @JvmStatic
     fun createParentDir(savePath: String): Boolean {
         val parentFile = File(savePath).parentFile
-        if (parentFile.exists()) {
-            return true
+        return if (parentFile.exists()) {
+            true
         } else {
-            return parentFile.mkdirs()
+            parentFile.mkdirs()
         }
     }
 
