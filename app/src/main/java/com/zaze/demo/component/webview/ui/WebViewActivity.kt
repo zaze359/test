@@ -2,16 +2,23 @@ package com.zaze.demo.component.webview.ui
 
 
 import android.annotation.SuppressLint
+import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
+import android.view.View
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings
+import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.zaze.common.base.BaseActivity
 import com.zaze.demo.R
 import com.zaze.demo.component.webview.presenter.WebViewPresenter
 import com.zaze.demo.component.webview.presenter.impl.WebViewPresenterImpl
 import com.zaze.demo.component.webview.view.WebViewView
+import com.zaze.utils.log.ZLog
+import com.zaze.utils.log.ZTag
 import kotlinx.android.synthetic.main.web_view_activity.*
 
 /**
@@ -34,9 +41,45 @@ open class WebViewActivity : BaseActivity(), WebViewView {
             settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
         }
         web_view.setWebViewClient(object : WebViewClient() {
+            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                super.onPageStarted(view, url, favicon)
+                ZLog.i(ZTag.TAG_DEBUG, "onPageStarted ：${System.currentTimeMillis()}")
+            }
+
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                ZLog.i(ZTag.TAG_DEBUG, "onPageFinished ：${System.currentTimeMillis()}")
+            }
+
+            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                ZLog.i(ZTag.TAG_DEBUG, "发生跳转 ：$url")
+                return super.shouldOverrideUrlLoading(view, url)
+            }
         })
-        web_view.setWebChromeClient(WebChromeClient())
-        web_view.loadUrl("www.baidu.com")
+        web_view.setWebChromeClient(object : WebChromeClient() {
+            override fun onProgressChanged(view: WebView, newProgress: Int) {
+                web_progress_bar.progress = newProgress
+                if (newProgress == 100) {
+                    web_progress_bar.visibility = View.INVISIBLE
+                    val animation = AlphaAnimation(1.0f, 0.0f)
+                    animation.duration = 500
+                    animation.setAnimationListener(object : Animation.AnimationListener {
+                        override fun onAnimationStart(animation: Animation) {}
+
+                        override fun onAnimationEnd(animation: Animation) {
+                            web_progress_bar.visibility = View.INVISIBLE
+                        }
+
+                        override fun onAnimationRepeat(animation: Animation) {}
+                    })
+                    web_progress_bar.startAnimation(animation)
+                } else {
+                    web_progress_bar.visibility = View.VISIBLE
+                }
+            }
+        })
+//        web_view.loadUrl("http://www.baidu.com")
+        web_view.loadUrl("file:///android_asset/ppt/5281a115ce50f8fd676e56b295aee5e4/index.html")
     }
 
 }

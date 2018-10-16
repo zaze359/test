@@ -12,10 +12,10 @@ import android.content.pm.ResolveInfo
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Debug
 import android.os.Process
-import android.support.v4.content.res.ResourcesCompat
 import android.text.TextUtils
 import android.util.Pair
 import com.zaze.utils.log.ZLog
@@ -100,12 +100,18 @@ object AppUtil {
      * [resources] resources
      * [iconId] iconId
      * [iconDpi] iconDpi
+     * use ResourcesCompat.getDrawableForDensity(resources, iconId, iconDpi, null)
      * @return 应用图标
      */
     @JvmStatic
+    @Deprecated("")
     fun getAppIcon(resources: Resources, iconId: Int, iconDpi: Int): Drawable? {
         return try {
-            ResourcesCompat.getDrawableForDensity(resources, iconId, iconDpi, null)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                resources.getDrawableForDensity(iconId, iconDpi, null)
+            } else {
+                resources.getDrawableForDensity(iconId, iconDpi)
+            }
         } catch (e: Resources.NotFoundException) {
             null
         }
@@ -155,7 +161,7 @@ object AppUtil {
      * @version 2017/8/26 - 下午3:23 1.0
      */
     @JvmStatic
-    fun getPackageArchiveInfo(context: Context, fileName: String): PackageInfo? {
+    fun getPackageArchiveInfo(context: Context, fileName: String?): PackageInfo? {
         if (TextUtils.isEmpty(fileName)) {
             return null
         }
@@ -507,25 +513,6 @@ object AppUtil {
             }
         } else {
             ZTipUtil.toast(context, "($packageName)未安装!")
-        }
-    }
-
-    @JvmStatic
-    @JvmOverloads
-    fun startApplicationSimple(context: Context, packageName: String, bundle: Bundle? = null) {
-        if (!isInstalled(context, packageName)) {
-            ZTipUtil.toast(context, "($packageName)未安装!")
-            return
-        }
-        val intent = context.packageManager.getLaunchIntentForPackage(packageName)
-        if (intent == null) {
-            ZTipUtil.toast(context, "($packageName)不可打开!")
-        } else {
-            if (bundle != null) {
-                intent.putExtras(bundle)
-            }
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
-            ZActivityUtil.startActivity(context, intent)
         }
     }
 

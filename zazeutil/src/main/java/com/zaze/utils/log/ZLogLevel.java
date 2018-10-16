@@ -1,8 +1,6 @@
 package com.zaze.utils.log;
 
 
-import android.support.annotation.IntDef;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -13,7 +11,6 @@ import java.lang.annotation.RetentionPolicy;
  * @author : zaze
  * @version : 1.0
  */
-@IntDef({ZLogLevel.ERROR, ZLogLevel.WARN, ZLogLevel.INFO, ZLogLevel.DEBUG, ZLogLevel.VERBOSE})
 @Retention(RetentionPolicy.SOURCE)
 public @interface ZLogLevel {
     int NULL = 0;

@@ -1,6 +1,5 @@
 package com.zaze.utils.task;
 
-import android.support.annotation.NonNull;
 
 public interface Emitter<T> {
 
@@ -16,7 +15,7 @@ public interface Emitter<T> {
      *
      * @param value the value to signal, not null
      */
-    void onExecute(@NonNull T value) throws Exception;
+    void onExecute(T value) throws Exception;
 
 
     /**

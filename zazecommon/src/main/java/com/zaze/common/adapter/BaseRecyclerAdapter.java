@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
-import com.zaze.utils.ZViewUtil;
+import com.zaze.common.util.ViewUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -114,7 +114,7 @@ public abstract class BaseRecyclerAdapter<V, H extends RecyclerView.ViewHolder> 
     // --------------------------------------------------
     @Override
     public <T extends View> T findView(View parentView, int resId) {
-        return ZViewUtil.findView(parentView, resId);
+        return ViewUtil.findView(parentView, resId);
     }
 
     @Override

@@ -1,8 +1,6 @@
 package com.zaze.utils.task.executor;
 
 
-import android.support.annotation.NonNull;
-
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 import com.zaze.utils.task.MultiNum;
@@ -35,7 +33,7 @@ public class MultiTaskPool extends FilterTaskPool {
         super(taskPool);
         multiExecutor = new MyThreadPoolExecutor(MIN, DEFAULT, KEEP_ALIVE_TIME, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(), new ThreadFactory() {
             @Override
-            public Thread newThread(@NonNull Runnable r) {
+            public Thread newThread(Runnable r) {
                 Thread thread = new Thread(r, "MultiTaskPool");
                 if (thread.isDaemon()) {
                     thread.setDaemon(false);

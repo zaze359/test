@@ -7,11 +7,11 @@ import android.location.LocationManager;
 import android.provider.Settings;
 
 import com.zaze.common.base.mvp.BaseMvpPresenter;
+import com.zaze.common.util.ActivityUtil;
 import com.zaze.demo.app.MyApplication;
 import com.zaze.demo.component.gps.LocationHelper;
 import com.zaze.demo.component.gps.presenter.GpsPresenter;
 import com.zaze.demo.component.gps.view.GpsView;
-import com.zaze.utils.ZActivityUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
@@ -48,7 +48,7 @@ public class GpsPresenterImpl extends BaseMvpPresenter<GpsView> implements GpsPr
             ZLog.i(ZTag.TAG_DEBUG, "开启GPS导航...");
             // 返回开启GPS导航设置界面
             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            ZActivityUtil.startActivityForResult(getView().getContext(), intent, 1);
+            ActivityUtil.startActivityForResult(getView().getContext(), intent, 1);
             return;
         }
         LocationHelper.start();

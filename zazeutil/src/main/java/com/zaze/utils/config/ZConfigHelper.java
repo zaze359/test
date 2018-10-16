@@ -1,7 +1,6 @@
 package com.zaze.utils.config;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import com.zaze.utils.FileUtil;
 
@@ -26,15 +25,15 @@ public class ZConfigHelper {
     private int saveMode;
 
 
-    public static ZConfigHelper newInstance(@NonNull File file) {
+    public static ZConfigHelper newInstance(File file) {
         return newInstance(file.getAbsolutePath());
     }
 
-    public static ZConfigHelper newInstance(@NonNull String filePath) {
+    public static ZConfigHelper newInstance(String filePath) {
         return newInstance(filePath, Context.MODE_PRIVATE);
     }
 
-    public static ZConfigHelper newInstance(@NonNull String filePath, int saveMode) {
+    public static ZConfigHelper newInstance(String filePath, int saveMode) {
         return new ZConfigHelper(filePath, saveMode);
     }
 

@@ -1,6 +1,5 @@
 package com.zaze.utils.cache;
 
-import android.support.annotation.IntDef;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -13,9 +12,6 @@ import java.lang.annotation.RetentionPolicy;
  * @version : 1.0
  */
 @Retention(RetentionPolicy.SOURCE)
-@IntDef({DataLevel.LOW_LEVEL_DATA, DataLevel.LOW_LEVEL_BITMAP,
-        DataLevel.DATA, DataLevel.BITMAP,
-        DataLevel.HIGH_LEVEL_DATA, DataLevel.HIGH_LEVEL_BITMAP})
 public @interface DataLevel {
     // 低优先级
     int LOW_LEVEL_DATA = 100;

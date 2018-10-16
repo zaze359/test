@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zaze.common.R;
-import com.zaze.utils.ZActivityUtil;
+import com.zaze.common.util.ActivityUtil;
 import com.zaze.utils.ZOnClickHelper;
 
 /**
@@ -172,7 +172,7 @@ public class HeadWidget extends BaseHeadView {
             @Override
             public void onClick(View v) {
 //                InputMethodUtil.dismiss(activity);
-                ZActivityUtil.finish(activity);
+                ActivityUtil.finish(activity);
             }
         });
         return this;

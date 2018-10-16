@@ -8,7 +8,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.BaseAdapter;
 
-import com.zaze.utils.ZViewUtil;
+import com.zaze.common.util.ViewUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -72,7 +72,7 @@ abstract class BaseDataAdapter<V> extends BaseAdapter implements ResourceAdapter
     // --------------------------------------------------
     @Override
     public <T extends View> T findView(View parentView, int resId) {
-        return ZViewUtil.findView(parentView, resId);
+        return ViewUtil.findView(parentView, resId);
     }
 
     @Override

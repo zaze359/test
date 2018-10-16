@@ -19,20 +19,22 @@ maven { url "https://dl.bintray.com/zaze359/maven" }
 
 ## 工具类库
 
-> compile 'com.zaze:zazeutil:1.2.12'
+> compile 'com.zaze:zazeutil:1.3.0'
 
 1. 一些常用的工具类
 2. Task 模块
 3. MemoryCache 模块
 4. Log 模块
+5. 将涉及到support库的类转移到zazecommon中
 
 ## 组件库
 
-> compile 'com.zaze:zazecommon:1.2.3@aar'
+> compile 'com.zaze:zazecommon:1.3.0@aar'
 
 ### v1.x.x
 
 1. 一些自定义组件
 2. 一些三方组件的使用封装
 3. 对页面快速开发自定义封装类
+4. 将涉及到support库的类转移到zazecommon中
 

@@ -7,9 +7,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.zaze.common.adapter.BaseRecyclerAdapter;
+import com.zaze.common.util.ActivityUtil;
 import com.zaze.demo.R;
 import com.zaze.demo.model.entity.TableEntity;
-import com.zaze.utils.ZActivityUtil;
 
 import java.util.List;
 
@@ -46,7 +46,7 @@ public class TableAdapter extends BaseRecyclerAdapter<TableEntity, TableAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ZActivityUtil.startActivity(activity, value.getTargetClass());
+                ActivityUtil.startActivity(activity, value.getTargetClass());
             }
         });
     }

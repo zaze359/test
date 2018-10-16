@@ -1,4 +1,4 @@
-package com.zaze.utils;
+package com.zaze.common.util;
 
 /**
  * Description :
@@ -19,13 +19,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.util.Pair;
 import android.view.View;
 
+import com.zaze.utils.AppUtil;
+import com.zaze.utils.ZTipUtil;
+
 /**
  * Description :
  *
  * @author : zaze
  * @version : 2015-10-10 - 14:10
  */
-public class ZActivityUtil {
+public class ActivityUtil {
 
     // --------------------------------------------------
 
@@ -236,6 +239,44 @@ public class ZActivityUtil {
     // --------------------------------------------------
     // --------------------------------------------------
 
+//    @JvmStatic
+//    @JvmOverloads
+//    fun startApplicationSimple(context: Context, packageName: String, bundle: Bundle? = null) {
+//        if (!isInstalled(context, packageName)) {
+//            ZTipUtil.toast(context, "($packageName)未安装!")
+//            return
+//        }
+//        val intent = context.packageManager.getLaunchIntentForPackage(packageName)
+//        if (intent == null) {
+//            ZTipUtil.toast(context, "($packageName)不可打开!")
+//        } else {
+//            if (bundle != null) {
+//                intent.putExtras(bundle)
+//            }
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
+//            ZActivityUtil.startActivity(context, intent)
+//        }
+//    }
+
+    public static void startApplicationSimple(Context context, String packageName, Bundle bundle) {
+        if (!AppUtil.isInstalled(context, packageName)) {
+            ZTipUtil.toast(context, packageName + " 未安装!");
+            return;
+        }
+        Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+        if (intent == null) {
+            ZTipUtil.toast(context, packageName + " 不可打开!");
+        } else {
+            if (bundle != null) {
+                intent.putExtras(bundle);
+            }
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+            startActivity(context, intent);
+        }
+    }
+    // --------------------------------------------------
+    // --------------------------------------------------
+
     /**
      * @param context context
      * @param target  target
@@ -251,4 +292,5 @@ public class ZActivityUtil {
         }
         return intent;
     }
+
 }

@@ -1,4 +1,4 @@
-package com.zaze.utils;
+package com.zaze.common.util;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,7 +17,8 @@ import java.lang.annotation.RetentionPolicy;
  * @author : zaze
  * @version : 1.0
  */
-public class ZViewUtil {
+@Deprecated
+public class ViewUtil {
     public static <T extends View> T findView(View parent, int resId) {
         T view = (T) parent.findViewById(resId);
         return view;
@@ -34,12 +35,11 @@ public class ZViewUtil {
     public static final int RIGHT = 2;
     public static final int BOTTOM = 3;
 
-    @IntDef({LEFT, TOP, RIGHT, BOTTOM})
     @Retention(RetentionPolicy.SOURCE)
+    @IntDef({LEFT, TOP, RIGHT, BOTTOM})
     public @interface Oritation {
 
     }
-
 
     public static void setCompoundDrawablesWithIntrinsicBounds(Context context, int position, TextView view, @Oritation int resId) {
         Drawable drawable = context.getResources().getDrawable(resId);

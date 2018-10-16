@@ -10,10 +10,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.zaze.common.adapter.BaseRecyclerAdapter;
+import com.zaze.common.util.ActivityUtil;
 import com.zaze.demo.R;
 import com.zaze.demo.component.animation.ui.SharedElementActivity;
 import com.zaze.demo.model.entity.AnimationEntity;
-import com.zaze.utils.ZActivityUtil;
 import com.zaze.utils.ZStringUtil;
 
 import java.util.List;
@@ -53,19 +53,19 @@ public class AnimationAdapter extends BaseRecyclerAdapter<AnimationEntity, Anima
                     Activity activity = (Activity) getContext();
                     switch (position) {
                         case AnimationEntity.Type.SCENE_TRANSITION:
-                            ZActivityUtil.makeSceneTransitionAnimation(activity, value.getTargetClass());
+                            ActivityUtil.makeSceneTransitionAnimation(activity, value.getTargetClass());
                             break;
                         case AnimationEntity.Type.SCALE_UP:
-                            ZActivityUtil.makeScaleUpAnimation(activity, value.getTargetClass(), holder.itemView, 100, 100, 100, 100);
+                            ActivityUtil.makeScaleUpAnimation(activity, value.getTargetClass(), holder.itemView, 100, 100, 100, 100);
                             break;
                         case AnimationEntity.Type.SHARED_ELEMENT:
                             ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, new Pair<>(holder.itemView, "holder.itemView"));
                             Bundle bundle = new Bundle();
                             bundle.putSerializable(SharedElementActivity.EXTRA_ENTITY, value);
-                            ZActivityUtil.startActivityForAnim(activity, value.getTargetClass(), optionsCompat, bundle);
+                            ActivityUtil.startActivityForAnim(activity, value.getTargetClass(), optionsCompat, bundle);
                             break;
                         default:
-                            ZActivityUtil.makeSceneTransitionAnimation(activity, value.getTargetClass());
+                            ActivityUtil.makeSceneTransitionAnimation(activity, value.getTargetClass());
                             break;
                     }
                 }

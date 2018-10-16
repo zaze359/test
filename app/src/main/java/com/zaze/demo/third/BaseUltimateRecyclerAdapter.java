@@ -14,8 +14,8 @@ import android.view.ViewGroup;
 
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
 import com.zaze.common.adapter.ResourceAdapter;
+import com.zaze.common.util.ViewUtil;
 import com.zaze.utils.ZOnClickHelper;
-import com.zaze.utils.ZViewUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -189,7 +189,7 @@ public abstract class BaseUltimateRecyclerAdapter<V, VH extends RecyclerView.Vie
     // --------------------------------------------------
     @Override
     public <T extends View> T findView(View parentView, int resId) {
-        return ZViewUtil.findView(parentView, resId);
+        return ViewUtil.findView(parentView, resId);
     }
 
     @Override

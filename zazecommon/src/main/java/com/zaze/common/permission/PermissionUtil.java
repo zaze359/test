@@ -1,4 +1,4 @@
-package com.zaze.utils.permission;
+package com.zaze.common.permission;
 
 import android.app.Activity;
 import android.content.Context;

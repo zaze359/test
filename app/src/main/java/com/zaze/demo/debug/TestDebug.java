@@ -3,20 +3,30 @@ package com.zaze.demo.debug;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.XmlResourceParser;
+import android.os.Environment;
 import android.provider.Settings;
 import android.util.Base64;
-import android.widget.Toast;
 
-import com.zaze.utils.FileUtil;
+import com.zaze.demo.model.entity.DeviceStatus;
+import com.zaze.utils.ThreadManager;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
+import org.sevenzip4j.SevenZipArchiveOutputStream;
+import org.sevenzip4j.archive.SevenZipEntry;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.lang.ref.WeakReference;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 import java.util.regex.Pattern;
 
@@ -33,12 +43,20 @@ public class TestDebug {
     private static final Pattern sTrimPattern =
             Pattern.compile("^[\\s|\\p{javaSpaceChar}]*(.*)[\\s|\\p{javaSpaceChar}]*$");
 
-    public static void test(Context context) {
-//        Toast.makeText(context, "sss", Toast.LENGTH_SHORT).show();
-        FileUtil.reCreateFile("/sdcard/a.txt");
-        FileUtil.rename("/sdcard/a.txt", "b.txt");
-        FileUtil.move("/sdcard/b.txt", "/sdcard/b/b.txt");
+    private static DeviceStatus deviceStatus = new DeviceStatus();
+    private static WeakReference<List<DeviceStatus>> reference1 = new WeakReference<>(Collections.singletonList(deviceStatus));
+    private static WeakReference<DeviceStatus> reference2 = new WeakReference<>(deviceStatus);
+    private static List<WeakReference<DeviceStatus>> reference3 = null;
 
+    public static void test(Context context) {
+        // --------------------------------------------------
+//        Toast.makeText(context, "sss", Toast.LENGTH_SHORT).show();
+//        FileUtil.writeToFile("/sdcard/a.txt", "adsfasdfasdfasdfd");
+//        FileUtil.rename("/sdcard/a.txt", "b.txt");
+//        FileUtil.move("/sdcard/b.txt", "/sdcard/b/b.txt");
+//        FileUtil.writeToFile("/sdcard/b/ba.txt", "ccccc#######!@#lkajsd;flkj;sdjhfl12ou1o2kjlhklsdhjfksd");
+//        build7Zip("/sdcard/b");
+        // --------------------------------------------------
 //        try {
 //            Intent intent = new Intent("com.xh.launcher.wake.up");
 //            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
@@ -53,9 +71,83 @@ public class TestDebug {
 //        for (Network network : networkArray) {
 //            ZLog.i(ZTag.TAG_DEBUG, "" + network.toString());
 //        }
-
+        // --------------------------------------------------
 //        ZLog.i(ZTag.TAG_DEBUG, "" + encrypt("abc"));
+        // --------------------------------------------------
+        // --------------------------------------------------
+//        if (reference3 == null) {
+//            reference3 = new ArrayList<>();
+//            reference3.add(new WeakReference<>(deviceStatus));
+//            reference3.add(new WeakReference<>(new DeviceStatus()));
+//            reference3.add(new WeakReference<>(new DeviceStatus()));
+//            reference3.add(new WeakReference<>(new DeviceStatus()));
+//            reference3.add(new WeakReference<>(new DeviceStatus()));
+//            reference3.add(new WeakReference<>(new DeviceStatus()));
+//        }
+//        ZLog.i(ZTag.TAG_DEBUG, "reference1 : " + reference1.get());
+//        ZLog.i(ZTag.TAG_DEBUG, "reference2 : " + reference2.get());
+//        for (WeakReference weakReference : reference3) {
+//            ZLog.i(ZTag.TAG_DEBUG, "reference3 : " + weakReference.get());
+//        }
     }
+
+
+    /**
+     * Compress test
+     */
+    static void build7Zip(final String dir) {
+        ThreadManager.getInstance().runInMultiThread(new Runnable() {
+            @Override
+            public void run() {
+                SevenZipArchiveOutputStream os = null;
+                try {
+                    os = new SevenZipArchiveOutputStream(new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/testout.7z"));
+                    File dirFile = new File(dir);
+                    for (File file : dirFile.listFiles()) {
+                        SevenZipEntry sevenEntry = new SevenZipEntry();
+                        setSevenZipEntryAttributes(file, sevenEntry);
+                        os.putNextEntry(sevenEntry);
+                        copy(os, new FileInputStream(file));
+                    }
+                    os.finish();
+                    os.close();
+                } catch (Exception e) {
+                    try {
+                        if (os != null) {
+                            os.close();
+                        }
+                    } catch (Exception e2) {
+                        e2.printStackTrace();
+                    }
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+
+    private static void copy(OutputStream out, InputStream in) throws IOException {
+        byte[] buf = new byte[1024 * 1024];
+        int i = 0;
+        while ((i = in.read(buf)) != -1) {
+            out.write(buf, 0, i);
+        }
+    }
+
+    /**
+     * set zip options
+     */
+    private static void setSevenZipEntryAttributes(File file, SevenZipEntry sevenEntry) {
+        sevenEntry.setName(file.getName());
+        sevenEntry.setSize(file.length());
+        sevenEntry.setLastWriteTime(file.lastModified());
+        sevenEntry.setReadonly(!file.canWrite());
+        sevenEntry.setHidden(file.isHidden());
+        sevenEntry.setDirectory(file.isDirectory());
+        sevenEntry.setArchive(true);
+        sevenEntry.setSystem(false);
+    }
+
 
     public static String encrypt(String password) {
         long seedValue = System.currentTimeMillis();

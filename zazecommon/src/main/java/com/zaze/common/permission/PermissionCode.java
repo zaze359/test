@@ -1,4 +1,4 @@
-package com.zaze.utils.permission;
+package com.zaze.common.permission;
 
 /**
  * Description :

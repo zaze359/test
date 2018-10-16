@@ -3,6 +3,7 @@ package com.zaze.demo.debug
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.SystemClock
 import com.zaze.utils.FileUtil
 import com.zaze.utils.ZDisplayUtil
@@ -47,12 +48,55 @@ object KotlinDebug {
         // --------------------------------------------------
 //        AppUtil.startApplicationSimple(MyApplication.getInstance(), "com.xuehai.response_launcher_teacher")
 
-        val intent = getTargetActivityIntent(activity, "com.xh.open.WakeupActivity")
+//        val intent = getTargetActivityIntent(activity, "com.xh.open.WakeupActivity")
 //        val intent = getTargetActivityIntent(activity, "com.xh.open.agent.AgentActivity")
-        intent?.let {
-            activity.startActivity(intent)
-        }
+//        intent?.let {
+//            activity.startActivity(intent)
+//        }
+        getNetType(activity)
     }
+
+    @JvmStatic
+    fun getNetType(context: Context) {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val mobileInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
+        val wifiInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
+        val activeInfo = connectivityManager.activeNetworkInfo
+        //        XHLog.i(LcTag.TAG_DEBUG, "mobileInfo : $mobileInfo")
+//        XHLog.i(LcTag.TAG_DEBUG, "wifiInfo : $wifiInfo")
+
+        ZLog.i(ZTag.TAG_DEBUG, "activeInfo : $activeInfo")
+        if (wifiInfo != null) {
+            if (wifiInfo.isConnected) {
+                ZLog.i(ZTag.TAG_DEBUG, "当前连接wifi isConnected")
+                return
+            } else {
+                ZLog.e(ZTag.TAG_DEBUG, "当前连接wifi, 不可用")
+            }
+        }
+        if (mobileInfo != null) {
+            if (mobileInfo.isConnected) {
+                ZLog.i(ZTag.TAG_DEBUG, "当前使用数据流量, isConnected")
+                return
+            } else {
+                ZLog.e(ZTag.TAG_DEBUG, "当前使用数据流量, 不可用")
+            }
+        }
+        ZLog.e(ZTag.TAG_DEBUG, "获取不到网络状态")
+//
+//        if (activeInfo == null) {
+//            ZLog.e(ZTag.TAG_DEBUG, "无网络连接")
+//        } else {
+//            if (wifiInfo != null && wifiInfo.isConnected) {
+//                ZLog.i(ZTag.TAG_DEBUG, "当前连接wifi")
+//            } else if (mobileInfo != null && mobileInfo.isConnected) {
+//                ZLog.i(ZTag.TAG_DEBUG, "当前使用数据流量")
+//            } else {
+//                ZLog.e(ZTag.TAG_DEBUG, "有网但是获取不到网络状态")
+//            }
+//        }
+    }
+
 
     @JvmStatic
     fun getTargetActivityIntent(activity: Activity, className: String): Intent? {

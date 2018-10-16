@@ -65,6 +65,7 @@ public class HandlerActivity extends BaseActivity {
         Looper.myQueue().addIdleHandler(new IdleOnce());
     }
 
+    //
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);

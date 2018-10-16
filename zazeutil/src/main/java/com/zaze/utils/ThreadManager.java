@@ -2,7 +2,6 @@ package com.zaze.utils;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
 
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
@@ -69,7 +68,7 @@ public class ThreadManager {
         diskIO = new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(),
                 new ThreadFactory() {
                     @Override
-                    public Thread newThread(@NonNull Runnable r) {
+                    public Thread newThread(Runnable r) {
                         Thread thread = new Thread(r, "diskIO");
                         if (thread.isDaemon()) {
                             thread.setDaemon(false);
@@ -86,7 +85,7 @@ public class ThreadManager {
         singleExecutor = new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(),
                 new ThreadFactory() {
                     @Override
-                    public Thread newThread(@NonNull Runnable r) {
+                    public Thread newThread(Runnable r) {
                         Thread thread = new Thread(r, "singleExecutor");
                         if (thread.isDaemon()) {
                             thread.setDaemon(false);
@@ -104,7 +103,7 @@ public class ThreadManager {
         multiExecutor = new ThreadPoolExecutor(3, 10, 30L, TimeUnit.SECONDS
                 , new LinkedBlockingQueue<Runnable>(), new ThreadFactory() {
             @Override
-            public Thread newThread(@NonNull Runnable r) {
+            public Thread newThread(Runnable r) {
                 Thread thread = new Thread(r, "multiExecutor");
                 if (thread.isDaemon()) {
                     thread.setDaemon(false);
@@ -121,7 +120,7 @@ public class ThreadManager {
     private void initBackgroundExecutor() {
         backgroundExecutor = new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(), new ThreadFactory() {
             @Override
-            public Thread newThread(@NonNull Runnable runnable) {
+            public Thread newThread(Runnable runnable) {
                 Thread thread = new Thread(runnable, "backgroundExecutor");
                 thread.setPriority(Thread.MIN_PRIORITY);
                 thread.setDaemon(true);

@@ -237,20 +237,17 @@ public class RxAndroidActivity extends BaseActivity {
         Flowable.create(new FlowableOnSubscribe<List<String>>() {
             @Override
             public void subscribe(FlowableEmitter<List<String>> e) throws Exception {
-                updateTestText("create");
                 e.onNext(Arrays.asList("W", "X", "S", "I", "L", "U"));
                 e.onComplete();
             }
         }, BackpressureStrategy.BUFFER)
-//                .subscribeOn(Schedulers.newThread())
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
                 .flatMap(new Function<List<String>, Publisher<String>>() {
                     @Override
                     public Publisher<String> apply(List<String> strings) throws Exception {
                         return Flowable.fromIterable(strings);
                     }
                 })
-                .observeOn(Schedulers.io())
 //                .doOnSubscribe(new Consumer<Subscription>() {
 //                    @Override
 //                    public void accept(Subscription subscription) throws Exception {
@@ -309,6 +306,7 @@ public class RxAndroidActivity extends BaseActivity {
                         subscription = s;
                         // 请求几个执行几个
                         subscription.request(1);
+                        subscription.cancel();
 //                        s.request(100);
                     }
 
@@ -330,7 +328,6 @@ public class RxAndroidActivity extends BaseActivity {
                     }
 
                 });
-
     }
 
     public void test7() {

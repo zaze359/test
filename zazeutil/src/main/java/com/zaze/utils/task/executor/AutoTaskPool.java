@@ -1,8 +1,6 @@
 package com.zaze.utils.task.executor;
 
 
-import android.support.annotation.NonNull;
-
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
@@ -30,7 +28,7 @@ public class AutoTaskPool extends FilterTaskPool {
         super(taskPool);
         executorService = new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(), new ThreadFactory() {
             @Override
-            public Thread newThread(@NonNull Runnable r) {
+            public Thread newThread(Runnable r) {
                 Thread thread = new Thread(r, "AutoTaskPool");
                 if (thread.isDaemon()) {
                     thread.setDaemon(false);

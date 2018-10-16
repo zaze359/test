@@ -1,0 +1,112 @@
+#comment{position: static;font-family: "Helvetica Neue",Helvetica,"Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;transform: scale(4); transform-origin: 0px 0px 0px;-webkit-transform: scale(4); -webkit-transform-origin: 0px 0px 0px;}
+#comment img{position:relative;float: right;margin-left:3px;margin-right:15px;}
+#comment a{float:right;margin-bottom:30px;color: #607fa6;font-size: 18px;}
+#comment a:hover{text-decoration:none;}
+#comment a:link{text-decoration:none;}
+#comment .tips{margin-top:30px;padding:10px 0 5px 0;position:relative;text-align:center;}
+.tbcomment{
+	position:relative;
+	margin:20px auto;
+	width:95%;
+	vertical-align:top;
+	table-layout: fixed;
+	word-wrap:break-word;
+}
+.tbcomment .addspace{
+	height:40px;
+}
+.tbcomment tr th{width:60px;height:50px;padding:0;vertical-align:top;}
+.tbcomment tr th img{position:static;width:40px;border-radius:5px;}
+.tbcomment tr .nickname{
+	padding:0;
+	font-family:simsun;
+	color:#717171;
+}
+.tbcomment tr .content{
+	padding:0;
+	line-height:22px;
+	letter-spacing:0.3px;
+	font-family:simsun;
+	font-size:18px;
+	color:#434343;
+}
+.tbcomment tr .content .time{
+	color:#8A8A8A;
+	font-size:12px;
+}
+.frm_textarea{
+	width: 90%;
+	margin:0 auto;
+	height:144px;
+    background-color: transparent;
+    border: 0;
+    display: block;
+	font-family: monospace;
+    font-size: 14px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px 15px;
+    resize: none;
+    outline: 0;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+.discuss_btn_wrp{
+	position:static;
+	width:95%;
+	margin-top: 20px;
+    margin-bottom: 20px;
+	margin-left:auto;
+	margin-right:auto;
+    text-align: right;
+}
+.btn{
+	position:static;
+	display: block;
+	width:45%;
+    padding-left: 14px;
+    padding-right: 14px;
+    font-size: 18px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    color: #fff;
+    line-height: 42px;
+    -webkit-tap-highlight-color: rgba(255,255,255,0);
+}
+.btn_discuss {
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+}
+.btn_disabled {
+    color: rgba(255,255,255,0.6);
+}
+.btn_primary {
+	float:right;
+    background-color: #04be02;
+}
+.btn_close{
+	float:left;
+	background-color: #DD524D;
+}
+#gettitle{
+	position:static;
+	width:95%;
+	margin:10px auto;
+	font-size:18px;
+}
+
+.close{
+	position:fixed;
+	width:100px;
+	left:50%;
+	margin-left:-50px;
+	bottom:0px;
+}
+.subdiv{
+display:none;position:fixed;width:100%;height:100%;top:0;left:0;background-color:#F3F3F3;z-index:2;
+}

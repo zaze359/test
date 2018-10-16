@@ -110,8 +110,10 @@ class MemoryCache implements CacheFace, MemoryListener {
             ZLog.d(ZTag.TAG_MEMORY, "onTrimMemory : %s, 释放超时和无效的内存", level);
         }
         long currTime = System.currentTimeMillis();
-        Map<String, Cache> tempMap = new HashMap<>(cacheMap.size());
-        tempMap.putAll(cacheMap);
+        Map<String, Cache> tempMap;
+        synchronized (LOCK) {
+            tempMap = new HashMap<>(cacheMap);
+        }
         for (String key : tempMap.keySet()) {
             Cache cache = tempMap.get(key);
             if (cache == null) {

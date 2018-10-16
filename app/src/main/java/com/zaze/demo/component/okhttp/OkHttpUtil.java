@@ -49,8 +49,9 @@ public class OkHttpUtil {
         enqueue(request, callback);
     }
 
-    private static void enqueue(Request request, final ZCallback<String> callback) {
+    private static void enqueue(final Request request, final ZCallback<String> callback) {
         enqueue(request, new Callback() {
+
             @Override
             public void onFailure(final Call call, final IOException e) {
                 ThreadManager.getInstance().runInUIThread(new Runnable() {
@@ -66,14 +67,14 @@ public class OkHttpUtil {
             }
 
             @Override
-            public void onResponse(final Call call, Response response) throws IOException {
-                final String body = response.body().string();
+            public void onResponse(final Call call, final Response response) throws IOException {
                 ThreadManager.getInstance().runInUIThread(new Runnable() {
                     @Override
                     public void run() {
+                        ResponseBody body = response.body();
                         ZLog.i("okhttp : ", "" + body);
                         if (callback != null) {
-                            callback.onNext(body);
+                            callback.onNext(body == null ? "" : body.toString());
                             callback.onCompleted();
                         }
                     }

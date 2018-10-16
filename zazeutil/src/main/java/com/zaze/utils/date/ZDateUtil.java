@@ -10,7 +10,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 
 /**
  * Description :
@@ -305,17 +304,13 @@ public class ZDateUtil {
         return month;
     }
     // ---------------- private func ------------------
-
-//    public static long dong8QuTimeMillis() {
-//        return System.currentTimeMillis() + 28800000L;
+//
+//    /**
+//     * 服务器时间已经是东八区 设置为GMT 防止转换时多加了时区
+//     */
+//    public static void setGMTTimeZone() {
+//        TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
 //    }
-
-    /**
-     * 服务器时间已经是东八区 设置为GMT 防止转换时多加了时区
-     */
-    public static void setGMTTimeZone() {
-        TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
-    }
 
     /**
      * @param timeMillis 日期

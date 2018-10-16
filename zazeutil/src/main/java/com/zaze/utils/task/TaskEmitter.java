@@ -1,6 +1,5 @@
 package com.zaze.utils.task;
 
-import android.support.annotation.NonNull;
 
 /**
  * Description :
@@ -27,7 +26,7 @@ public class TaskEmitter implements Emitter<TaskEntity> {
     }
 
     @Override
-    public void onExecute(@NonNull TaskEntity value) throws Exception {
+    public void onExecute(TaskEntity value) throws Exception {
         if (executor != null) {
             executor.onExecute(value);
         }

@@ -10,13 +10,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 
+import com.zaze.common.util.ActivityUtil;
+import com.zaze.common.util.ViewUtil;
 import com.zaze.common.widget.LoadingWidget;
 import com.zaze.common.widget.head.BaseHeadView;
 import com.zaze.common.widget.head.HeadFace;
 import com.zaze.common.widget.head.HeadWidget;
-import com.zaze.utils.ZActivityUtil;
 import com.zaze.utils.ZTipUtil;
-import com.zaze.utils.ZViewUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
@@ -179,7 +179,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
 
     @Override
     public void finishSelf() {
-        ZActivityUtil.finish(this);
+        ActivityUtil.finish(this);
     }
 
     @Override
@@ -189,22 +189,22 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
 
     @Override
     public void jumpToOtherUI(Intent intent, Class<?> cls) {
-        ZActivityUtil.startActivity(this, cls, intent);
+        ActivityUtil.startActivity(this, cls, intent);
     }
 
     @Override
     public void jumpToOtherUI(Class<?> cls) {
-        ZActivityUtil.startActivity(this, cls);
+        ActivityUtil.startActivity(this, cls);
     }
 
     @Override
     public void jumpToOtherUI(Class<?> cls, int code) {
-        ZActivityUtil.startActivityForResult(this, cls, code);
+        ActivityUtil.startActivityForResult(this, cls, code);
     }
 
     @Override
     public void jumpToOtherUI(Intent intent, Class<?> cls, int code) {
-        ZActivityUtil.startActivityForResult(this, cls, intent, code);
+        ActivityUtil.startActivityForResult(this, cls, intent, code);
     }
 
     @Override
@@ -227,7 +227,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     // --------------------------------------------------
 
     public <T extends View> T findView(int resId) {
-        return ZViewUtil.findView(this, resId);
+        return ViewUtil.findView(this, resId);
     }
 
     /**

@@ -2,7 +2,6 @@ package com.zaze.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
 
 /**
  * Description :
@@ -41,7 +40,7 @@ public class ZSharedPrefUtil {
      * @param value value
      * @param <T>   t
      */
-    public static <T> void apply(String key, @NonNull T value) {
+    public static <T> void apply(String key, T value) {
         if (sharedPreferences != null) {
             put(key, value, sharedPreferences.edit()).apply();
         }
@@ -55,7 +54,7 @@ public class ZSharedPrefUtil {
      * @param <T>   t
      * @return boolean
      */
-    public static <T> boolean commit(String key, @NonNull T value) {
+    public static <T> boolean commit(String key, T value) {
         if (sharedPreferences != null) {
             return put(key, value, sharedPreferences.edit()).commit();
         }
@@ -69,7 +68,7 @@ public class ZSharedPrefUtil {
         return false;
     }
 
-    private static <T> SharedPreferences.Editor put(String key, @NonNull T value, SharedPreferences.Editor editor) {
+    private static <T> SharedPreferences.Editor put(String key, T value, SharedPreferences.Editor editor) {
         if (value instanceof String) {
             editor.putString(key, (String) value);
         } else if (value instanceof Integer) {
@@ -87,7 +86,7 @@ public class ZSharedPrefUtil {
 
     // --------------------------------------------------
 
-    public static <T> T get(String key, @NonNull T defaultValue) {
+    public static <T> T get(String key, T defaultValue) {
         if (sharedPreferences != null) {
             if (defaultValue instanceof String) {
                 return (T) sharedPreferences.getString(key, (String) defaultValue);

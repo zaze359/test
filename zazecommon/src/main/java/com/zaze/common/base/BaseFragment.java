@@ -11,13 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.zaze.common.util.ActivityUtil;
+import com.zaze.common.util.ViewUtil;
 import com.zaze.common.widget.LoadingWidget;
 import com.zaze.common.widget.head.BaseHeadView;
 import com.zaze.common.widget.head.HeadFace;
 import com.zaze.common.widget.head.HeadWidget;
-import com.zaze.utils.ZActivityUtil;
 import com.zaze.utils.ZTipUtil;
-import com.zaze.utils.ZViewUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
@@ -180,7 +180,7 @@ public abstract class BaseFragment extends Fragment implements BaseView {
 
     @Override
     public void finishSelf() {
-        ZActivityUtil.finish(getActivity());
+        ActivityUtil.finish(getActivity());
     }
 
     @Override
@@ -191,22 +191,22 @@ public abstract class BaseFragment extends Fragment implements BaseView {
 
     @Override
     public void jumpToOtherUI(Intent intent, Class<?> cls) {
-        ZActivityUtil.startActivity(this, cls, intent);
+        ActivityUtil.startActivity(this, cls, intent);
     }
 
     @Override
     public void jumpToOtherUI(Class<?> cls) {
-        ZActivityUtil.startActivity(this, cls);
+        ActivityUtil.startActivity(this, cls);
     }
 
     @Override
     public void jumpToOtherUI(Class<?> cls, int code) {
-        ZActivityUtil.startActivityForResult(this, cls, code);
+        ActivityUtil.startActivityForResult(this, cls, code);
     }
 
     @Override
     public void jumpToOtherUI(Intent intent, Class<?> cls, int code) {
-        ZActivityUtil.startActivityForResult(this, cls, intent, code);
+        ActivityUtil.startActivityForResult(this, cls, intent, code);
     }
 
     // --------------------------------------------------
@@ -239,11 +239,11 @@ public abstract class BaseFragment extends Fragment implements BaseView {
     // --------------------------------------------------
 
     public <T extends View> T findView(int resId) {
-        return ZViewUtil.findView(rootView, resId);
+        return ViewUtil.findView(rootView, resId);
     }
 
     public <T extends View> T findView(View view, int resId) {
-        return ZViewUtil.findView(view, resId);
+        return ViewUtil.findView(view, resId);
     }
     // --------------------------------------------------
 

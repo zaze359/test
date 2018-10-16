@@ -12,6 +12,8 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import com.zaze.common.base.BaseActivity
 import com.zaze.common.base.BaseFragment
+import com.zaze.common.permission.PermissionCode
+import com.zaze.common.permission.PermissionUtil
 import com.zaze.common.widget.IntervalButtonWidget
 import com.zaze.common.widget.head.ZOrientation
 import com.zaze.demo.component.table.ui.TableFragment
@@ -20,8 +22,6 @@ import com.zaze.demo.debug.MessengerService
 import com.zaze.demo.debug.TestDebug
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
-import com.zaze.utils.permission.PermissionCode
-import com.zaze.utils.permission.PermissionUtil
 import kotlinx.android.synthetic.main.activity_main.*
 
 
