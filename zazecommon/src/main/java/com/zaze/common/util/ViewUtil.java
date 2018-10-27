@@ -3,12 +3,13 @@ package com.zaze.common.util;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.TextView;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
+import androidx.annotation.IntDef;
 
 /**
  * Description :
@@ -35,7 +36,7 @@ public class ViewUtil {
     public static final int RIGHT = 2;
     public static final int BOTTOM = 3;
 
-    @Retention(RetentionPolicy.SOURCE)
+    @Retention(RetentionPolicy.CLASS)
     @IntDef({LEFT, TOP, RIGHT, BOTTOM})
     public @interface Oritation {
 

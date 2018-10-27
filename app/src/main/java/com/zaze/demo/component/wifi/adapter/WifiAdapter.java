@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,8 +16,7 @@ import com.zaze.utils.ZOnClickHelper;
 
 import java.util.Collection;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Description :
@@ -91,16 +89,15 @@ public class WifiAdapter extends BaseRecyclerAdapter<ScanResult, WifiAdapter.Wif
 
 
     class WifiViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.item_wifi_name_tv)
         TextView itemWifiInfoNameTv;
-        @Bind(R.id.item_wifi_desc_tv)
         TextView itemWifiDescTv;
-        @Bind(R.id.item_wifi_level_img)
         ImageView itemWifiLevelImg;
 
         public WifiViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            itemWifiInfoNameTv = itemView.findViewById(R.id.item_wifi_name_tv);
+            itemWifiDescTv = itemView.findViewById(R.id.item_wifi_desc_tv);
+            itemWifiLevelImg = itemView.findViewById(R.id.item_wifi_level_img);
         }
     }
 

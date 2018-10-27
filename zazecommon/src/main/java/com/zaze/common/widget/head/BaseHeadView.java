@@ -2,13 +2,14 @@ package com.zaze.common.widget.head;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.annotation.LayoutRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.zaze.common.R;
+
+import androidx.annotation.LayoutRes;
 
 
 /**

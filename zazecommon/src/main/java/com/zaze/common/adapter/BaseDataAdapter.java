@@ -4,15 +4,14 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.BaseAdapter;
-
-import com.zaze.common.util.ViewUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import androidx.core.content.ContextCompat;
 
 /**
  * Description :
@@ -72,7 +71,7 @@ abstract class BaseDataAdapter<V> extends BaseAdapter implements ResourceAdapter
     // --------------------------------------------------
     @Override
     public <T extends View> T findView(View parentView, int resId) {
-        return ViewUtil.findView(parentView, resId);
+        return parentView.findViewById(resId);
     }
 
     @Override

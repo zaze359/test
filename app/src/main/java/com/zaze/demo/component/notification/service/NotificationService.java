@@ -5,11 +5,11 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
 
 import com.zaze.demo.R;
 import com.zaze.demo.component.readpackage.ui.ReadPackageActivity;
+
+import androidx.core.app.NotificationCompat;
 
 /**
  * Description :
@@ -18,7 +18,6 @@ import com.zaze.demo.component.readpackage.ui.ReadPackageActivity;
  * @version : 2016-11-03 - 17:25
  */
 public class NotificationService extends Service {
-    @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;

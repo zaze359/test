@@ -2,9 +2,6 @@ package com.zaze.demo.component.table.ui;
 
 
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +17,9 @@ import com.zaze.demo.model.entity.TableEntity;
 
 import java.util.List;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 /**
  * Description :
@@ -30,10 +28,8 @@ import butterknife.ButterKnife;
  * @version : 2016-08-03 - 10:36
  */
 public class TableFragment extends BaseFragment implements ToolView {
-    @Bind(R.id.table_refresh_layout)
-    SwipeRefreshLayout tableRefreshLayout;
-    @Bind(R.id.table_recycler_view)
-    RecyclerView tableRecyclerView;
+    private SwipeRefreshLayout tableRefreshLayout;
+    private RecyclerView tableRecyclerView;
     private TableAdapter adapter;
     private TablePresenter presenter;
 
@@ -48,7 +44,10 @@ public class TableFragment extends BaseFragment implements ToolView {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.table_fragment, container, false);
-        ButterKnife.bind(this, rootView);
+
+        tableRefreshLayout = rootView.findViewById(R.id.table_refresh_layout);
+        tableRecyclerView = rootView.findViewById(R.id.table_recycler_view);
+
         presenter = new TablePresenterImpl(this);
         tableRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -78,11 +77,4 @@ public class TableFragment extends BaseFragment implements ToolView {
         }
         tableRefreshLayout.setRefreshing(false);
     }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-    }
-
 }

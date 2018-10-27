@@ -3,9 +3,6 @@ package com.zaze.demo.component.animation.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
@@ -18,8 +15,9 @@ import com.zaze.utils.ZStringUtil;
 
 import java.util.List;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Description :
@@ -74,12 +72,11 @@ public class AnimationAdapter extends BaseRecyclerAdapter<AnimationEntity, Anima
     }
 
     class AnimationHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.animation_title)
         TextView animationTitle;
 
         AnimationHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            animationTitle = itemView.findViewById(R.id.animation_title);
         }
     }
 

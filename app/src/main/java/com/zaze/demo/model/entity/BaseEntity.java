@@ -1,11 +1,12 @@
 package com.zaze.demo.model.entity;
 
-import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 
 import com.zaze.demo.BR;
 
 import java.io.Serializable;
+
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
 
 /**
  * Description :

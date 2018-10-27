@@ -5,7 +5,6 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
 import android.view.View;
 
 import com.zaze.common.base.BaseActivity;
@@ -14,6 +13,8 @@ import com.zaze.demo.component.notification.presenter.NotificationPresenter;
 import com.zaze.demo.component.notification.presenter.impl.NotificationPresenterImpl;
 import com.zaze.demo.component.notification.service.NotificationService;
 import com.zaze.demo.component.notification.view.NotificationView;
+
+import androidx.core.app.NotificationCompat;
 
 
 /**

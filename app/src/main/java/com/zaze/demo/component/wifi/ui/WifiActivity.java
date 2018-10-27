@@ -3,8 +3,6 @@ package com.zaze.demo.component.wifi.ui;
 
 import android.net.wifi.ScanResult;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 
@@ -17,8 +15,8 @@ import com.zaze.utils.ZOnClickHelper;
 
 import java.util.List;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 /**
@@ -28,9 +26,7 @@ import butterknife.ButterKnife;
  * @version : 2017-11-25 07:33 1.0
  */
 public class WifiActivity extends BaseActivity implements WifiContract.View {
-    @Bind(R.id.wifi_recycler_view)
     RecyclerView wifiRecyclerView;
-    @Bind(R.id.wifi_scan_btn)
     Button wifiScanBtn;
 
     private WifiAdapter adapter;
@@ -40,7 +36,10 @@ public class WifiActivity extends BaseActivity implements WifiContract.View {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wifi_activity);
-        ButterKnife.bind(this);
+
+        wifiRecyclerView = findViewById(R.id.wifi_recycler_view);
+        wifiScanBtn = findViewById(R.id.wifi_scan_btn);
+
         ZOnClickHelper.setOnClickListener(wifiScanBtn, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,12 +49,6 @@ public class WifiActivity extends BaseActivity implements WifiContract.View {
         presenter = new WifiPresenter(this);
         presenter.getNetworkState();
         presenter.startScan();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ButterKnife.unbind(this);
     }
 
     @Override

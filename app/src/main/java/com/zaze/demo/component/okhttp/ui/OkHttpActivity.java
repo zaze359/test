@@ -38,7 +38,7 @@ public class OkHttpActivity extends BaseActivity implements OkHttpView {
         setContentView(R.layout.ok_http_activity);
         presenter = new OkHttpPresenterImpl(this);
 
-        findView(R.id.http_test_btn).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.http_test_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                String url = "http://zt.yunzuoye.net:84/apps/overt/"

@@ -13,9 +13,6 @@ import com.zaze.demo.component.font.view.FontView;
 
 import java.lang.reflect.Field;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 
 /**
  * Description :
@@ -24,21 +21,20 @@ import butterknife.ButterKnife;
  * @version : 2018-02-07 03:11 1.0
  */
 public class FontActivity extends BaseActivity implements FontView {
-    @Bind(R.id.font_roboto_light_tv)
     TextView fontRobotoLightTv;
-    @Bind(R.id.font_test_tv)
     TextView fontTestTv;
-    @Bind(R.id.font_roboto_regular_tv)
     TextView fontRobotoRegularTv;
 
     private FontPresenter presenter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.font_activity);
-        ButterKnife.bind(this);
+        fontRobotoLightTv = findViewById(R.id.font_roboto_light_tv);
+        fontTestTv = findViewById(R.id.font_test_tv);
+        fontRobotoRegularTv = findViewById(R.id.font_roboto_regular_tv);
+
         presenter = new FontPresenterImpl(this);
         try {
             Field staticField = Typeface.class.getDeclaredField("DEFAULT");

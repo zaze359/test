@@ -10,7 +10,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 
 import com.zaze.common.base.BaseApplication;
 import com.zaze.demo.app.MyApplication;
@@ -21,6 +20,8 @@ import com.zaze.utils.log.ZTag;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import androidx.core.app.ActivityCompat;
 
 /**
  * Description :

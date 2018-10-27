@@ -2,7 +2,6 @@ package com.zaze.common.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,8 @@ import com.zaze.common.R;
 import com.zaze.utils.ZDisplayUtil;
 
 import java.util.ArrayList;
+
+import androidx.annotation.DrawableRes;
 
 /**
  * Description :

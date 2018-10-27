@@ -34,7 +34,7 @@ open class SystemActivity : BaseActivity(), SystemView {
         mKeyguardManager = getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
         mPowerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
         // 点亮亮屏
-        mWakeLock = mPowerManager?.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP or PowerManager.SCREEN_DIM_WAKE_LOCK, "Tag")
+        mWakeLock = mPowerManager?.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP or PowerManager.SCREEN_DIM_WAKE_LOCK, this.javaClass.name)
         mWakeLock?.acquire()
         // 初始化键盘锁
         mKeyguardLock = mKeyguardManager?.newKeyguardLock("")

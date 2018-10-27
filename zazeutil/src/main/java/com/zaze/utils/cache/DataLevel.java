@@ -11,7 +11,7 @@ import java.lang.annotation.RetentionPolicy;
  * @author : zaze
  * @version : 1.0
  */
-@Retention(RetentionPolicy.SOURCE)
+@Retention(RetentionPolicy.CLASS)
 public @interface DataLevel {
     // 低优先级
     int LOW_LEVEL_DATA = 100;

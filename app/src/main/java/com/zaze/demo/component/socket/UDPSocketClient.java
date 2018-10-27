@@ -1,12 +1,11 @@
 package com.zaze.demo.component.socket;
 
 import android.net.wifi.WifiInfo;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.zaze.demo.app.MyApplication;
-import com.zaze.utils.ThreadManager;
 import com.zaze.utils.JsonUtil;
+import com.zaze.utils.ThreadManager;
 import com.zaze.utils.ZNetUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
@@ -22,6 +21,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
+import androidx.annotation.NonNull;
 
 /**
  * Description :

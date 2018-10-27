@@ -2,7 +2,6 @@ package com.zaze.demo.component.table;
 
 
 import android.app.Activity;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,8 +12,7 @@ import com.zaze.demo.model.entity.TableEntity;
 
 import java.util.List;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Description :
@@ -52,12 +50,11 @@ public class TableAdapter extends BaseRecyclerAdapter<TableEntity, TableAdapter.
     }
 
     public class AppItemHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.item_table_name)
         TextView itemToolName;
 
         public AppItemHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            itemToolName = itemView.findViewById(R.id.item_table_name);
         }
     }
 }

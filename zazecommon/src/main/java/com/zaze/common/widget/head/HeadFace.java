@@ -1,9 +1,10 @@
 package com.zaze.common.widget.head;
 
 import android.app.Activity;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.StringRes;
 import android.view.View;
+
+import androidx.annotation.DrawableRes;
+import androidx.annotation.StringRes;
 
 /**
  * Description :

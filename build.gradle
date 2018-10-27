@@ -1,7 +1,24 @@
 buildscript {
-    ext.kotlin_version = '1.1.4-3'
+    ext {
+        kotlin_version = '1.2.71'
+        gradlePluginVersion = '3.2.1'
+        butterKnife = "9.0.0-SNAPSHOT"
+        compileSdkVersion = 28
+        buildToolsVersion = '28.0.3'
+        minSdkVersion = 16
+        targetSdkVersion = 28
+        supportLibraryVersion = '1.0.0'
+
+        runnerVersion = '1.0.1'
+        rulesVersion = '1.0.1'
+        espressoVersion = '3.1.0-alpha3'
+
+        junitVersion = '4.12'
+        versionCode = 1
+        versionName = "1.0"
+    }
     repositories {
-//        google()
+        google()
         jcenter()
         mavenCentral()
         maven {
@@ -10,20 +27,21 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath "com.android.tools.build:gradle:$gradlePluginVersion"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-
+//        classpath 'com.jakewharton:butterknife-gradle-plugin:9.0.0-rc1'
         //下面两个包是用于上传的插件
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.6'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
     }
 }
 
 allprojects {
     repositories {
-//        google()
+        google()
         jcenter()
         mavenCentral()
+//        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
         maven {
             url 'file:///Users/zaze/Documents/maven/localrepo/'
         }
@@ -40,23 +58,5 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
-}
-
-ext {
-//    compileSdkVersion = 26
-//    buildToolsVersion = '26.0.2'
-//    minSdkVersion = 16
-//    targetSdkVersion = 22
-//    supportLibraryVersion = '26.1.0'
-
-    compileSdkVersion = 23
-    buildToolsVersion = '23.0.2'
-    minSdkVersion = 16
-    targetSdkVersion = 22
-    supportLibraryVersion = '23.1.1'
-
-    junitVersion = '4.12'
-    versionCode = 1
-    versionName = "1.0"
 }
 

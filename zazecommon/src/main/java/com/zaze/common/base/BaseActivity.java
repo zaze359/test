@@ -4,16 +4,15 @@ package com.zaze.common.base;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 
 import com.zaze.common.util.ActivityUtil;
-import com.zaze.common.util.ViewUtil;
 import com.zaze.utils.ZTipUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
+
+import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 
 /**
@@ -186,16 +185,5 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     }
 
     // --------------------------------------------------
-
-    public <T extends View> T findView(int resId) {
-        return ViewUtil.findView(this, resId);
-    }
-
-    /**
-     * 是否需要使用 通用的header
-     */
-    protected boolean isNeedHead() {
-        return true;
-    }
 
 }

@@ -2,12 +2,13 @@ package com.zaze.demo.component.preference;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import android.support.annotation.Nullable;
 import android.widget.Button;
 
 import com.zaze.demo.R;
 
 import java.util.List;
+
+import androidx.annotation.Nullable;
 
 /**
  * Description :

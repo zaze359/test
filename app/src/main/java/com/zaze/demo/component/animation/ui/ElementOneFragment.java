@@ -1,13 +1,14 @@
 package com.zaze.demo.component.animation.ui;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.zaze.demo.R;
 import com.zaze.demo.model.entity.AnimationEntity;
+
+import androidx.fragment.app.Fragment;
 
 /**
  * Description :

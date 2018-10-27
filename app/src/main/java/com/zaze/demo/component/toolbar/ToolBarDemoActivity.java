@@ -1,22 +1,14 @@
 package com.zaze.demo.component.toolbar;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 
-import com.ogaclejapan.smarttablayout.SmartTabLayout;
-import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
-import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.zaze.common.base.BaseActivity;
 import com.zaze.demo.R;
-import com.zaze.demo.component.fragments.TempFragment;
-import com.zaze.demo.component.progress.ProgressFragment;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
 
 /**
  * Description :
@@ -26,29 +18,22 @@ import butterknife.OnClick;
  */
 public class ToolBarDemoActivity extends BaseActivity {
 
-    @Bind(R.id.tool_bar_demo_bar)
     Toolbar toolBarDemoBar;
-    @Bind(R.id.tool_bar_demo_tab)
-    SmartTabLayout toolBarDemoTab;
-    @Bind(R.id.tool_bar_demo_viewpager)
     ViewPager toolBarDemoViewpager;
-    @Bind(R.id.tool_bar_demo_btn_1)
     Button toolBarDemoBtn1;
-    @Bind(R.id.tool_bar_demo_btn_2)
     Button toolBarDemoBtn2;
-    @Bind(R.id.tool_bar_demo_btn_3)
     Button toolBarDemoBtn3;
-
-    @Override
-    protected boolean isNeedHead() {
-        return false;
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tool_bar_activity);
-        ButterKnife.bind(this);
+        toolBarDemoBar = findViewById(R.id.tool_bar_demo_bar);
+        toolBarDemoViewpager = findViewById(R.id.tool_bar_demo_viewpager);
+        toolBarDemoBtn1 = findViewById(R.id.tool_bar_demo_btn_1);
+        toolBarDemoBtn2 = findViewById(R.id.tool_bar_demo_btn_2);
+        toolBarDemoBtn3 = findViewById(R.id.tool_bar_demo_btn_3);
+
         //
         toolBarDemoBar.setTitle("ToolBarDemo");
         toolBarDemoBar.setSubtitle("SubTitle");
@@ -65,14 +50,14 @@ public class ToolBarDemoActivity extends BaseActivity {
     }
 
     private void initTab() {
-        FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
-                getSupportFragmentManager(), FragmentPagerItems.with(this)
-                .add("Tab One", ProgressFragment.class, getBundle("Tab One Content"))
-                .add("Tab Two", TempFragment.class, getBundle("Tab Two Content"))
-                .create()
-        );
-        toolBarDemoViewpager.setAdapter(adapter);
-        toolBarDemoTab.setViewPager(toolBarDemoViewpager);
+//        FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
+//                getSupportFragmentManager(), FragmentPagerItems.with(this)
+//                .add("Tab One", ProgressFragment.class, getBundle("Tab One Content"))
+//                .add("Tab Two", TempFragment.class, getBundle("Tab Two Content"))
+//                .create()
+//        );
+//        toolBarDemoViewpager.setAdapter(adapter);
+//        toolBarDemoTab.setViewPager(toolBarDemoViewpager);
     }
 
     public Bundle getBundle(String msg) {
@@ -82,7 +67,6 @@ public class ToolBarDemoActivity extends BaseActivity {
     }
 
     // ----------------  状态栏样式 ----------------
-    @OnClick(R.id.tool_bar_demo_btn_0)
     public void reset() {
 //        View decorView = getWindow().getDecorView();
 //        int option = View.SYSTEM_UI_FLAG_FULLSCREEN;
@@ -91,7 +75,6 @@ public class ToolBarDemoActivity extends BaseActivity {
 //        actionBar.hide();
     }
 
-    @OnClick(R.id.tool_bar_demo_btn_1)
     public void function1() {   // 隐藏状态栏
 //        View decorView = getWindow().getDecorView();
 //        int option = View.SYSTEM_UI_FLAG_FULLSCREEN;
@@ -100,7 +83,6 @@ public class ToolBarDemoActivity extends BaseActivity {
 //        actionBar.hide();
     }
 
-    @OnClick(R.id.tool_bar_demo_btn_2)
     public void function2() {   // 透明
 //        if (Build.VERSION.SDK_INT >= 21) {
 //            View decorView = getWindow().getDecorView();
@@ -113,7 +95,6 @@ public class ToolBarDemoActivity extends BaseActivity {
 //        actionBar.hide();
     }
 
-    @OnClick(R.id.tool_bar_demo_btn_3)
     public void function3() {
 //        if (Build.VERSION.SDK_INT >= 21) {
 //            getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary));

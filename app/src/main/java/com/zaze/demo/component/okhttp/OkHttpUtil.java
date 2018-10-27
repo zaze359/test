@@ -1,11 +1,10 @@
 package com.zaze.demo.component.okhttp;
 
 import android.os.SystemClock;
-import android.support.annotation.NonNull;
 
+import com.zaze.utils.FileUtil;
 import com.zaze.utils.ThreadManager;
 import com.zaze.utils.ZCallback;
-import com.zaze.utils.FileUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
@@ -14,6 +13,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import androidx.annotation.NonNull;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;

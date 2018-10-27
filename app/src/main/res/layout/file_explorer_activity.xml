@@ -3,7 +3,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/file_explorer_toolbar"
         style="@style/Toolbar" />
 
@@ -17,7 +17,7 @@
         android:paddingLeft="@dimen/dp_8"
         android:text=".." />
 
-    <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/file_explorer_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

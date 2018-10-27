@@ -2,7 +2,6 @@ package com.zaze.demo.component.wifi.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,14 +11,13 @@ import com.zaze.demo.R;
 import com.zaze.demo.component.wifi.presenter.NetworkStatsPresenter;
 import com.zaze.demo.debug.AppShortcut;
 import com.zaze.demo.debug.NetTrafficStats;
-import com.zaze.utils.DescriptionUtil;
 import com.zaze.utils.AppUtil;
+import com.zaze.utils.DescriptionUtil;
 import com.zaze.utils.ZStringUtil;
 
 import java.util.Collection;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Description :
@@ -65,20 +63,19 @@ public class NetworkStatsAdapter extends BaseRecyclerAdapter<NetTrafficStats, Ne
     }
 
     class NetworkStatsHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.item_network_stats_app_iv)
         ImageView itemNetworkStatsAppIv;
-        @Bind(R.id.item_network_stats_app_name_tv)
         TextView itemNetworkStatsAppNameTv;
-        @Bind(R.id.item_network_stats_app_package_tv)
         TextView itemNetworkStatsAppPackageTv;
-        @Bind(R.id.item_network_stats_send_tv)
         TextView itemNetworkStatsSendTv;
-        @Bind(R.id.item_network_stats_receiver_tv)
         TextView itemNetworkStatsReceiverTv;
 
         public NetworkStatsHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            itemNetworkStatsAppIv = itemView.findViewById(R.id.item_network_stats_app_iv);
+            itemNetworkStatsAppNameTv = itemView.findViewById(R.id.item_network_stats_app_name_tv);
+            itemNetworkStatsAppPackageTv = itemView.findViewById(R.id.item_network_stats_app_package_tv);
+            itemNetworkStatsSendTv = itemView.findViewById(R.id.item_network_stats_send_tv);
+            itemNetworkStatsReceiverTv = itemView.findViewById(R.id.item_network_stats_receiver_tv);
         }
     }
 }

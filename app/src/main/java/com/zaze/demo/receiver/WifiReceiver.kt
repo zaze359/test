@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
-import android.support.v4.net.ConnectivityManagerCompat
+import androidx.core.net.ConnectivityManagerCompat
 import com.zaze.utils.ThreadManager
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
@@ -33,11 +33,11 @@ class WifiReceiver : BroadcastReceiver() {
             val mobileInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
             val wifiInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
             val activeInfo = connectivityManager.activeNetworkInfo
-            val networkInfo = ConnectivityManagerCompat.getNetworkInfoFromBroadcast(connectivityManager, intent);
+            val networkInfo = ConnectivityManagerCompat.getNetworkInfoFromBroadcast(connectivityManager, intent!!)
             ZLog.i(ZTag.TAG_DEBUG, "mobileInfo : $mobileInfo")
             ZLog.i(ZTag.TAG_DEBUG, "wifiInfo : $wifiInfo")
             ZLog.i(ZTag.TAG_DEBUG, "activeInfo : $activeInfo")
-            ZLog.i(ZTag.TAG_DEBUG, "getNetworkInfoFromBroadcast : " + "$networkInfo")
+            ZLog.i(ZTag.TAG_DEBUG, "getNetworkInfoFromBroadcast : $networkInfo")
             if (activeInfo == null) {
                 ZLog.e(ZTag.TAG_DEBUG, "无网络连接")
             } else {
@@ -49,11 +49,11 @@ class WifiReceiver : BroadcastReceiver() {
                     ZLog.e(ZTag.TAG_DEBUG, "有网但是获取不到网络状态")
                 }
             }
-            ThreadManager.getInstance().runInUIThread({
+            ThreadManager.getInstance().runInUIThread {
                 callbackList.map { callback ->
                     callback.onReceive(networkInfo)
                 }
-            })
+            }
         }
     }
 

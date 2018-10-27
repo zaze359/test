@@ -1,7 +1,7 @@
 package com.zaze.demo.component.rxandroid;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.TextView;
 
 import com.zaze.common.base.BaseActivity;
@@ -17,9 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+import androidx.annotation.Nullable;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableEmitter;
@@ -48,7 +46,6 @@ import io.reactivex.subjects.PublishSubject;
  */
 public class RxAndroidActivity extends BaseActivity {
 
-    @Bind(R.id.rx_android_test_tv)
     TextView rxAndroidTestTv;
 
     private boolean isRunning;
@@ -57,15 +54,21 @@ public class RxAndroidActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rxandroid_activity);
-        ButterKnife.bind(this);
+        rxAndroidTestTv = findViewById(R.id.rx_android_test_tv);
+        findViewById(R.id.rx_android_test_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                test();
+            }
+        });
+
     }
 
     private void updateTestText(String text) {
         rxAndroidTestTv.setText(text);
     }
 
-    @OnClick(R.id.rx_android_test_btn)
-    public void test() {
+    private void test() {
         if (!isRunning) {
             isRunning = true;
 //            test1();

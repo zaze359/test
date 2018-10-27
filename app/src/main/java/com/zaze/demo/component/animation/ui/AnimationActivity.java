@@ -1,10 +1,6 @@
 package com.zaze.demo.component.animation.ui;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
 import android.view.Gravity;
 import android.view.Menu;
@@ -19,8 +15,10 @@ import com.zaze.demo.model.entity.AnimationEntity;
 
 import java.util.List;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Description :
@@ -31,24 +29,21 @@ import butterknife.ButterKnife;
 public class AnimationActivity extends BaseMvpActivity<AnimationView, AnimationPresenter> implements AnimationView {
     // --------------------------------------------------
 
-    @Bind(R.id.animation_toolbar)
-    Toolbar animationToolbar;
-    @Bind(R.id.animation_recycler)
-    RecyclerView animationRecycler;
+    private Toolbar animationToolbar;
+    private RecyclerView animationRecycler;
     private AnimationAdapter adapter;
-
-    @Override
-    protected boolean isNeedHead() {
-        return false;
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.animation_activity);
-        ButterKnife.bind(this);
+
+        animationToolbar = findViewById(R.id.animation_toolbar);
+        animationRecycler = findViewById(R.id.animation_recycler);
+
         setupWindowAnimations();
         setupToolbar();
+
         presenter.getAnimationList();
     }
 

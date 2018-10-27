@@ -2,11 +2,12 @@ package com.zaze.common.base.mvp;
 
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 
 import com.zaze.common.base.BaseActivity;
 import com.zaze.common.base.BasePresenter;
 import com.zaze.common.base.BaseView;
+
+import androidx.annotation.Nullable;
 
 
 /**

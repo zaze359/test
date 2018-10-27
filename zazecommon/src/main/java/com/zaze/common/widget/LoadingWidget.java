@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.zaze.common.R;
-import com.zaze.common.util.ViewUtil;
 import com.zaze.utils.ZOnClickHelper;
 import com.zaze.utils.ZStringUtil;
 
@@ -26,7 +25,7 @@ public class LoadingWidget {
     public LoadingWidget(Context context) {
         progressDialog = new Dialog(context, R.style.MyDialog);
         View view = View.inflate(context, R.layout.layout_loading, null);
-        loadingMsgTv = ViewUtil.findView(view, R.id.loading_desc_tv);
+        loadingMsgTv = view.findViewById(R.id.loading_desc_tv);
         progressDialog.setContentView(view);
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);

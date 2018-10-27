@@ -11,7 +11,7 @@ import java.lang.annotation.RetentionPolicy;
  * @author : zaze
  * @version : 1.0
  */
-@Retention(RetentionPolicy.SOURCE)
+@Retention(RetentionPolicy.CLASS)
 public @interface ZLogLevel {
     int NULL = 0;
     int ERROR = 1;

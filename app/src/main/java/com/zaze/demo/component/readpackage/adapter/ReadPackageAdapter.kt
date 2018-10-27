@@ -4,17 +4,15 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
-import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.zaze.common.adapter.BaseRecyclerAdapter
 import com.zaze.common.base.BaseApplication
 import com.zaze.demo.R
 import com.zaze.demo.debug.InvariantDeviceProfile
 import com.zaze.demo.model.entity.PackageEntity
-import com.zaze.demo.third.BaseUltimateRecyclerAdapter
-import com.zaze.demo.third.BaseUltimateRecyclerViewHolder
 import com.zaze.utils.AppUtil
 import com.zaze.utils.BmpUtil
 import com.zaze.utils.ZStringUtil
@@ -26,7 +24,8 @@ import com.zaze.utils.ZStringUtil
  * *
  * @version : 2017-04-17 - 17:21
  */
-class ReadPackageAdapter(context: Context, data: Collection<PackageEntity>) : BaseUltimateRecyclerAdapter<PackageEntity, ReadPackageAdapter.PackageHolder>(context, data) {
+class ReadPackageAdapter(context: Context, data: Collection<PackageEntity>) : BaseRecyclerAdapter<PackageEntity, ReadPackageAdapter.PackageHolder>(context, data) {
+
     val iconDpi: Int
 
     val iconSize = 72
@@ -35,8 +34,8 @@ class ReadPackageAdapter(context: Context, data: Collection<PackageEntity>) : Ba
         iconDpi = InvariantDeviceProfile().getLauncherIconDensity(iconSize)
     }
 
-    override fun getViewHolder(view: View, isItem: Boolean): PackageHolder {
-        return PackageHolder(view, isItem)
+    override fun createViewHolder(convertView: View): PackageHolder {
+        return PackageHolder(convertView)
     }
 
     override fun getViewLayoutId(): Int {
@@ -74,17 +73,7 @@ class ReadPackageAdapter(context: Context, data: Collection<PackageEntity>) : Ba
         holder.itemAppIv!!.setImageBitmap(BmpUtil.drawable2Bitmap(drawable, iconSize))
     }
 
-    override fun generateHeaderId(position: Int): Long {
-        return 0
-    }
-
-    override fun onCreateHeaderViewHolder(parent: ViewGroup): RecyclerView.ViewHolder? {
-        return null
-    }
-
-    override fun onBindHeaderViewHolder(holder: RecyclerView.ViewHolder, position: Int) {}
-
-    inner class PackageHolder(itemView: View, isItem: Boolean) : BaseUltimateRecyclerViewHolder(itemView, isItem) {
+    inner class PackageHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var itemAppIv: ImageView? = null
         var itemAppNameTv: TextView? = null
         var itemAppPackageTv: TextView? = null
@@ -92,13 +81,13 @@ class ReadPackageAdapter(context: Context, data: Collection<PackageEntity>) : Ba
         var itemAppVersionNameTv: TextView? = null
         var itemAppDirTv: TextView? = null
 
-        override fun initView(itemView: View) {
-            itemAppIv = findView(view, R.id.item_app_iv)
-            itemAppNameTv = findView(view, R.id.item_app_name_tv)
-            itemAppPackageTv = findView(view, R.id.item_app_package_tv)
-            itemAppVersionCodeTv = findView(view, R.id.item_app_version_code_tv)
-            itemAppVersionNameTv = findView(view, R.id.item_app_version_name_tv)
-            itemAppDirTv = findView(view, R.id.item_app_dir_tv)
+        init {
+            itemAppIv = itemView.findViewById(R.id.item_app_iv)
+            itemAppNameTv = itemView.findViewById(R.id.item_app_name_tv)
+            itemAppPackageTv = itemView.findViewById(R.id.item_app_package_tv)
+            itemAppVersionCodeTv = itemView.findViewById(R.id.item_app_version_code_tv)
+            itemAppVersionNameTv = itemView.findViewById(R.id.item_app_version_name_tv)
+            itemAppDirTv = itemView.findViewById(R.id.item_app_dir_tv)
         }
     }
 }

@@ -8,7 +8,6 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
-import android.support.annotation.Nullable;
 
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
@@ -41,7 +40,6 @@ public class MessengerService extends Service {
         }
     });
 
-    @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return messenger.getBinder();

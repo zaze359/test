@@ -2,10 +2,10 @@ package com.zaze.demo.component.readpackage.ui
 
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.zaze.common.base.BaseActivity
 import com.zaze.demo.R
 import com.zaze.demo.component.readpackage.adapter.ReadPackageAdapter
@@ -13,7 +13,6 @@ import com.zaze.demo.component.readpackage.presenter.ReadPackagePresenter
 import com.zaze.demo.component.readpackage.presenter.impl.ReadPackagePresenterImpl
 import com.zaze.demo.component.readpackage.view.ReadPackageView
 import com.zaze.demo.model.entity.PackageEntity
-import com.zaze.demo.third.UltimateRecyclerViewHelper
 import com.zaze.utils.ZOnClickHelper
 import kotlinx.android.synthetic.main.read_package_activity.*
 
@@ -57,8 +56,7 @@ class ReadPackageActivity : BaseActivity(), ReadPackageView {
         if (adapter == null) {
             adapter = ReadPackageAdapter(this, showList)
             package_recycle_view!!.layoutManager = LinearLayoutManager(this)
-            UltimateRecyclerViewHelper.init(package_recycle_view)
-            package_recycle_view.setAdapter(adapter)
+            package_recycle_view.adapter = adapter
         } else {
             adapter!!.setDataList(showList)
         }

@@ -21,18 +21,23 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    testCompile "junit:junit:$rootProject.junitVersion"
-    compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
-    compile "com.android.support:support-v13:$rootProject.supportLibraryVersion"
-    compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
-    provided 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    provided 'io.reactivex.rxjava2:rxjava:2.1.7'
-    provided 'com.google.code.gson:gson:2.8.0'
-    provided project(':zazeutil')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    testImplementation "junit:junit:$rootProject.junitVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$rootProject.espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
+
+    compileOnly "androidx.recyclerview:recyclerview:$rootProject.supportLibraryVersion"
+    compileOnly "androidx.appcompat:appcompat:$rootProject.supportLibraryVersion"
+
+//    compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
+//    compile "com.android.support:support-v13:$rootProject.supportLibraryVersion"
+//    compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+
+    compileOnly 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    compileOnly 'io.reactivex.rxjava2:rxjava:2.1.14'
+    compileOnly 'com.google.code.gson:gson:2.8.2'
+    compileOnly project(':zazeutil')
 }
 
 apply from: "bintray.gradle"

@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
 
 import com.zaze.demo.component.socket.client.ui.ClientFragment;
 
@@ -19,7 +18,6 @@ public class AlarmService extends Service {
     private AlarmManager alarmManager;
     public static boolean runAlarm = false;
 
-    @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;

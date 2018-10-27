@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.support.annotation.Nullable;
 
 import com.zaze.demo.component.provider.sqlite.DBOpenHelper;
 import com.zaze.demo.component.provider.sqlite.User;
@@ -45,7 +44,6 @@ public class ZazeProvider extends ContentProvider {
         return false;
     }
 
-    @Nullable
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         ZLog.i(ZTag.TAG_PROVIDER, "query");
@@ -68,13 +66,11 @@ public class ZazeProvider extends ContentProvider {
         );
     }
 
-    @Nullable
     @Override
     public String getType(Uri uri) {
         return null;
     }
 
-    @Nullable
     @Override
     public Uri insert(Uri uri, ContentValues values) {
         String username = values.getAsString(UserDao.Properties.USER_NAME);

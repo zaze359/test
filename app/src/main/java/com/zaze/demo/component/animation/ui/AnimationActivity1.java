@@ -1,10 +1,11 @@
 package com.zaze.demo.component.animation.ui;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 
 import com.zaze.common.base.BaseActivity;
 import com.zaze.demo.R;
+
+import androidx.annotation.Nullable;
 
 /**
  * Description :

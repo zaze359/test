@@ -2,9 +2,6 @@ package com.zaze.demo.component.socket.client.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +15,8 @@ import com.zaze.demo.component.socket.MessageType;
 import com.zaze.demo.component.socket.SocketMessage;
 import com.zaze.demo.component.socket.UDPSocketClient;
 import com.zaze.demo.component.socket.adapter.SocketAdapter;
-import com.zaze.utils.ThreadManager;
 import com.zaze.utils.JsonUtil;
+import com.zaze.utils.ThreadManager;
 import com.zaze.utils.ZOnClickHelper;
 import com.zaze.utils.ZStringUtil;
 
@@ -32,6 +29,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Description .

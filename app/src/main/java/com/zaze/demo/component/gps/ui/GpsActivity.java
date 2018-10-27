@@ -10,9 +10,6 @@ import com.zaze.demo.component.gps.presenter.impl.GpsPresenterImpl;
 import com.zaze.demo.component.gps.view.GpsView;
 import com.zaze.utils.ZStringUtil;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 
 /**
  * Description :
@@ -21,11 +18,8 @@ import butterknife.ButterKnife;
  * @version : 2017-02-06 09:59 1.0
  */
 public class GpsActivity extends BaseActivity implements GpsView {
-    @Bind(R.id.gps_status_tv)
     TextView gpsStatusTv;
-    @Bind(R.id.gps_location_tv)
     TextView gpsLocationTv;
-    @Bind(R.id.gps_address_tv)
     TextView gpsAddressTv;
     private GpsPresenter presenter;
 
@@ -33,7 +27,11 @@ public class GpsActivity extends BaseActivity implements GpsView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gps_activity);
-        ButterKnife.bind(this);
+        gpsStatusTv = findViewById(R.id.gps_status_tv);
+        gpsLocationTv = findViewById(R.id.gps_location_tv);
+        gpsAddressTv = findViewById(R.id.gps_address_tv);
+
+
         presenter = new GpsPresenterImpl(this);
 //        presenter = new BaiDuLocationPresenterImpl(this);
         presenter.register();

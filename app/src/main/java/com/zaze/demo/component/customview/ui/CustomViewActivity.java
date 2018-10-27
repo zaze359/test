@@ -10,9 +10,6 @@ import com.zaze.demo.component.customview.presenter.CustomViewPresenter;
 import com.zaze.demo.component.customview.presenter.impl.CustomViewPresenterImpl;
 import com.zaze.demo.component.customview.view.CustomViewView;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 
 /**
  * Description :
@@ -21,7 +18,6 @@ import butterknife.ButterKnife;
  * @version : 2017-12-21 10:38 1.0
  */
 public class CustomViewActivity extends BaseActivity implements CustomViewView {
-    @Bind(R.id.custom_add_image_layout)
     AddImageLayout customAddImageLayout;
     private CustomViewPresenter presenter;
 
@@ -29,7 +25,8 @@ public class CustomViewActivity extends BaseActivity implements CustomViewView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.custom_view_activity);
-        ButterKnife.bind(this);
+        customAddImageLayout = findViewById(R.id.custom_add_image_layout);
+
         presenter = new CustomViewPresenterImpl(this);
         customAddImageLayout.setOnImageAddListener(new AddImageLayout.OnImageAddListener() {
             @Override

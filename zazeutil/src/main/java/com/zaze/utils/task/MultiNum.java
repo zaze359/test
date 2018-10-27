@@ -10,7 +10,7 @@ import java.lang.annotation.RetentionPolicy;
  * @author : ZAZE
  * @version : 2018-01-31 - 16:09
  */
-@Retention(RetentionPolicy.SOURCE)
+@Retention(RetentionPolicy.CLASS)
 public @interface MultiNum {
     int DEFAULT = -1;
     int KEEP = -2;

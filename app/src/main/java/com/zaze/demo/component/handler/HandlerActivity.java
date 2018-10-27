@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.MessageQueue;
-import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.View;
 
@@ -13,6 +12,8 @@ import com.zaze.common.base.BaseActivity;
 import com.zaze.demo.R;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
+
+import androidx.annotation.Nullable;
 
 /**
  * Description :
@@ -40,7 +41,7 @@ public class HandlerActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.handler_activity);
-        findView(R.id.handler_btn).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.handler_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ZLog.i(ZTag.TAG_DEBUG, "sendEmptyMessage start");

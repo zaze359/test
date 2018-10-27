@@ -1,7 +1,6 @@
 package com.zaze.demo.component.socket.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
@@ -10,6 +9,8 @@ import com.zaze.demo.R;
 import com.zaze.demo.component.socket.SocketMessage;
 
 import java.util.Collection;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Description :

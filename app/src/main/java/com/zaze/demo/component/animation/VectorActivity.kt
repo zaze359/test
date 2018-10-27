@@ -1,10 +1,11 @@
 package com.zaze.demo.component.animation
 
+import android.annotation.TargetApi
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.content.res.ResourcesCompat
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import com.zaze.demo.R
 import kotlinx.android.synthetic.main.activity_vector.*
 
@@ -14,6 +15,7 @@ class VectorActivity : AppCompatActivity() {
     lateinit var beginAnim: AnimatedVectorDrawable
     lateinit var finishAnim: AnimatedVectorDrawable
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_vector)

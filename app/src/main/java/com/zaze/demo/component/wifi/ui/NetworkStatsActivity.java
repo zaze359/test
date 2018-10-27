@@ -1,9 +1,6 @@
 package com.zaze.demo.component.wifi.ui;
 
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 
 import com.zaze.common.base.mvp.BaseMvpActivity;
 import com.zaze.demo.R;
@@ -14,6 +11,10 @@ import com.zaze.demo.component.wifi.view.NetworkStatsView;
 import com.zaze.demo.debug.NetTrafficStats;
 
 import java.util.Collection;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
 /**
@@ -29,16 +30,11 @@ public class NetworkStatsActivity extends BaseMvpActivity<NetworkStatsView, Netw
     private NetworkStatsAdapter adapter;
 
     @Override
-    protected boolean isNeedHead() {
-        return true;
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.network_stats_activity);
-        networkStatsRecycler = findView(R.id.network_stats_recycler);
-        networkStatsRefreshLayout = findView(R.id.network_stats_refresh_layout);
+        networkStatsRecycler = findViewById(R.id.network_stats_recycler);
+        networkStatsRefreshLayout = findViewById(R.id.network_stats_refresh_layout);
         networkStatsRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
             @Override

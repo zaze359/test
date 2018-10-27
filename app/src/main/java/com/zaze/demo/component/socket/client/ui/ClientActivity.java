@@ -4,12 +4,6 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.PowerManager;
-import android.support.annotation.Nullable;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,13 +15,20 @@ import com.zaze.demo.component.socket.BaseSocketClient;
 import com.zaze.demo.component.socket.SocketMessage;
 import com.zaze.demo.component.socket.UDPSocketClient;
 import com.zaze.demo.component.socket.adapter.SocketAdapter;
-import com.zaze.utils.ThreadManager;
 import com.zaze.utils.JsonUtil;
+import com.zaze.utils.ThreadManager;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Description :
@@ -46,17 +47,12 @@ public class ClientActivity extends BaseActivity {
     private PowerManager.WakeLock wakeLock;
 
     @Override
-    protected boolean isNeedHead() {
-        return false;
-    }
-
-    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.client_activity);
-        toolbar = findView(R.id.client_toolbar);
-        clientInviteRecyclerView = findView(R.id.client_invite_recycler_view);
-        clientDrawerLayout = findView(R.id.client_drawer_layout);
+        toolbar = findViewById(R.id.client_toolbar);
+        clientInviteRecyclerView = findViewById(R.id.client_invite_recycler_view);
+        clientDrawerLayout = findViewById(R.id.client_drawer_layout);
         setupToolbar();
         getSupportFragmentManager()
                 .beginTransaction()
@@ -64,7 +60,7 @@ public class ClientActivity extends BaseActivity {
                 .commit();
         // --------------------------------------------------
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyWakeLock");
+        wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, this.getClass().getName());
         wakeLock.acquire();
 //            headWidget.setBackClickListener(this)
 //                .setIcon(android.R.drawable.ic_menu_add, ZOrientation.RIGHT)

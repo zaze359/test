@@ -2,7 +2,7 @@ package com.zaze.demo.component.socket.server.ui
 
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.zaze.common.base.BaseActivity
 import com.zaze.demo.R
 import com.zaze.demo.component.socket.SocketMessage
@@ -26,12 +26,12 @@ open class ServerActivity : BaseActivity(), ServerView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.server_activity)
         presenter = ServerPresenterImpl(this)
-        server_start_bt.setOnClickListener({
+        server_start_bt.setOnClickListener {
             presenter?.startServer()
-        })
-        server_send_broadcast_bt.setOnClickListener({
+        }
+        server_send_broadcast_bt.setOnClickListener {
             presenter?.sendBroadCast()
-        })
+        }
         presenter?.startServer()
     }
 

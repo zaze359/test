@@ -8,12 +8,14 @@ import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.*
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
+import android.view.MenuItem
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.view.GravityCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 import com.zaze.common.base.BaseActivity
 import com.zaze.common.base.BaseFragment
-import com.zaze.common.permission.PermissionCode
 import com.zaze.common.permission.PermissionUtil
 import com.zaze.common.widget.IntervalButtonWidget
 import com.zaze.demo.component.table.ui.TableFragment
@@ -34,6 +36,10 @@ import kotlinx.android.synthetic.main.activity_main.*
  */
 
 class MainActivity : BaseActivity() {
+
+
+    private lateinit var drawerToggle: ActionBarDrawerToggle
+
     private val fragmentList = ArrayList<BaseFragment>()
 
     private var intervalButton: IntervalButtonWidget? = null
@@ -64,21 +70,17 @@ class MainActivity : BaseActivity() {
         setImmersion()
         setupActionBar(R.id.main_toolbar) {
             setTitle(R.string.app_name)
+            setDisplayHomeAsUpEnabled(true)
+            setHomeButtonEnabled(true)
         }
+        setupPermission()
+        bindService(Intent(this, MessengerService::class.java), serviceConnection, Context.BIND_AUTO_CREATE)
         // --------------------------------------------------
-        intervalButton = IntervalButtonWidget(main_test_2_button, "测试2")
+        intervalButton = IntervalButtonWidget(main_test_2_button, "倒计时")
         main_test_2_button.setOnClickListener {
             intervalButton?.start()
         }
         main_test_button.text = "测试"
-        // --------------------------------------------------
-        fragmentList.clear()
-        fragmentList.add(TableFragment.newInstance("0"))
-        fragmentList.add(TableFragment.newInstance("1"))
-        fragmentList.add(TableFragment.newInstance("2"))
-        // --------------------------------------------------
-        main_viewpager.adapter = MyPagerAdapter(supportFragmentManager, fragmentList)
-
         main_test_button.setOnClickListener {
             KotlinDebug.test(this)
             TestDebug.test(this)
@@ -89,7 +91,11 @@ class MainActivity : BaseActivity() {
 //            TestJni.newInstance().stringFromJNI()
             // --------------------------------------------------
         }
-        setupPermission()
+        // ------------------------------------------------------
+        drawerToggle = ActionBarDrawerToggle(this, main_drawer_layout, R.string.app_name, R.string.app_name).apply {
+            syncState()
+        }
+        main_drawer_layout.addDrawerListener(drawerToggle)
 
         main_left_nav.run {
             setNavigationItemSelectedListener { menuItem ->
@@ -103,9 +109,39 @@ class MainActivity : BaseActivity() {
                 true
             }
         }
-        bindService(Intent(this, MessengerService::class.java), serviceConnection, Context.BIND_AUTO_CREATE)
+        // ------------------------------------------------------
+        fragmentList.clear()
+        fragmentList.add(TableFragment.newInstance("0"))
+        fragmentList.add(TableFragment.newInstance("1"))
+        // --------------------------------------------------
+        main_viewpager.adapter = MyPagerAdapter(supportFragmentManager, fragmentList)
+
 //        val obj = DeviceStatus()
 //        weakReference = WeakReference(obj)
+    }
+
+    fun aa() {
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return item?.run {
+            return when (itemId) {
+                android.R.id.home -> {
+                    main_drawer_layout.openDrawer(GravityCompat.START)
+                    true
+                }
+                else -> super.onOptionsItemSelected(item)
+            }
+        } ?: return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        if (main_drawer_layout.isDrawerOpen(main_left_nav)) {
+            main_drawer_layout.closeDrawer(main_left_nav)
+        } else {
+            super.onBackPressed()
+        }
     }
 
     override fun onDestroy() {
@@ -114,13 +150,15 @@ class MainActivity : BaseActivity() {
         intervalButton?.stop()
     }
 
+
     /**
      * 申请权限
      */
     private fun setupPermission() {
-        PermissionUtil.checkAndRequestUserPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE, PermissionCode.WRITE_EXTERNAL_STORAGE)
-        //        PermissionUtil.checkAndRequestUserPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE, PermissionCode.READ_EXTERNAL_STORAGE);
-        //        PermissionUtil.checkAndRequestUserPermission(this, Manifest.permission.CALL_PHONE, PermissionCode.REQUEST_PERMISSION_CALL_PHONE);
+        PermissionUtil.checkAndRequestUserPermission(this, arrayOf(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.INTERNET
+        ), 1)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {

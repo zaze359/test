@@ -3,18 +3,17 @@ package com.zaze.common.base.header;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.LayoutRes;
-import android.view.View;
 import android.view.Window;
 
 import com.zaze.common.base.BaseActivity;
 import com.zaze.common.base.BaseView;
 import com.zaze.common.util.ActivityUtil;
-import com.zaze.common.util.ViewUtil;
 import com.zaze.common.widget.head.BaseHeadView;
 import com.zaze.common.widget.head.HeadFace;
 import com.zaze.common.widget.head.HeadWidget;
 import com.zaze.utils.ZTipUtil;
+
+import androidx.annotation.LayoutRes;
 
 
 /**
@@ -123,10 +122,6 @@ public abstract class BaseHeaderActivity extends BaseActivity implements BaseVie
     }
 
     // --------------------------------------------------
-
-    public <T extends View> T findView(int resId) {
-        return ViewUtil.findView(this, resId);
-    }
 
     /**
      * 是否需要使用 通用的header

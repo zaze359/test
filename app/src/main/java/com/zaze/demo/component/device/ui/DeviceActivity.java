@@ -1,12 +1,8 @@
 package com.zaze.demo.component.device.ui;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.widget.TextView;
 
-import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
-import com.zaze.demo.third.UltimateRecyclerViewHelper;
 import com.zaze.common.base.BaseActivity;
 import com.zaze.demo.R;
 import com.zaze.demo.component.device.adapter.DeviceAdapter;
@@ -19,8 +15,9 @@ import com.zaze.utils.ZStringUtil;
 
 import java.util.List;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 /**
@@ -31,13 +28,9 @@ import butterknife.ButterKnife;
  */
 public class DeviceActivity extends BaseActivity implements DeviceView {
 
-    @Bind(R.id.device_screen)
     TextView deviceScreen;
-    @Bind(R.id.device_density)
     TextView deviceDensity;
-    @Bind(R.id.device_recycler_view)
-    UltimateRecyclerView deviceRecyclerView;
-    @Bind(R.id.device_mac_address)
+    RecyclerView deviceRecyclerView;
     TextView deviceMacAddress;
 
     private DevicePresenter presenter;
@@ -47,7 +40,10 @@ public class DeviceActivity extends BaseActivity implements DeviceView {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.device_activity);
-        ButterKnife.bind(this);
+        deviceScreen = findViewById(R.id.device_screen);
+        deviceDensity = findViewById(R.id.device_density);
+        deviceRecyclerView = findViewById(R.id.device_recycler_view);
+        deviceMacAddress = findViewById(R.id.device_mac_address);
         deviceScreen.setText(ZStringUtil.format(
                 "屏幕分辨率 : %dx%d(%1.0fx%1.0f)",
                 ZDisplayUtil.getScreenWidthPixels(),
@@ -65,7 +61,6 @@ public class DeviceActivity extends BaseActivity implements DeviceView {
     public void showDeviceInfo(List<DeviceStatus> list) {
         if (adapter == null) {
             adapter = new DeviceAdapter(this, list);
-            UltimateRecyclerViewHelper.init(deviceRecyclerView);
             deviceRecyclerView.setLayoutManager(new LinearLayoutManager(this));
             deviceRecyclerView.setAdapter(adapter);
         } else {

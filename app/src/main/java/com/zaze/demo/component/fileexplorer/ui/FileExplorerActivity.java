@@ -2,13 +2,10 @@ package com.zaze.demo.component.fileexplorer.ui;
 
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
-import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.zaze.common.base.BaseActivity;
 import com.zaze.demo.R;
 import com.zaze.demo.component.fileexplorer.FileEvent;
@@ -17,7 +14,6 @@ import com.zaze.demo.component.fileexplorer.adapter.FileEntity;
 import com.zaze.demo.component.fileexplorer.presenter.FileExplorerPresenter;
 import com.zaze.demo.component.fileexplorer.presenter.impl.FileExplorerPresenterImpl;
 import com.zaze.demo.component.fileexplorer.view.FileExplorerView;
-import com.zaze.demo.third.UltimateRecyclerViewHelper;
 import com.zaze.utils.ZOnClickHelper;
 
 import org.greenrobot.eventbus.EventBus;
@@ -27,8 +23,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import androidx.appcompat.app.ActionBar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
@@ -42,19 +39,19 @@ import static com.zaze.demo.util.AppCompatActivityExtKt.setupActionBar;
  */
 public class FileExplorerActivity extends BaseActivity implements FileExplorerView {
 
-    @Bind(R.id.file_explorer_recycler)
-    UltimateRecyclerView fileExplorerRecycler;
-    @Bind(R.id.file_explorer_return_tv)
+    RecyclerView fileExplorerRecycler;
     TextView fileExplorerReturnTv;
     private FileExplorerPresenter presenter;
-
     private FileAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.file_explorer_activity);
-        ButterKnife.bind(this);
+        fileExplorerRecycler = findViewById(R.id.file_explorer_recycler);
+        fileExplorerReturnTv = findViewById(R.id.file_explorer_return_tv);
+
+
         EventBus.getDefault().register(this);
         setupActionBar(this, R.id.file_explorer_toolbar, new Function1<ActionBar, Unit>() {
             @Override
@@ -78,7 +75,6 @@ public class FileExplorerActivity extends BaseActivity implements FileExplorerVi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
         EventBus.getDefault().unregister(this);
     }
 
@@ -96,7 +92,6 @@ public class FileExplorerActivity extends BaseActivity implements FileExplorerVi
     public void showFileList(@NotNull List<FileEntity> fileList) {
         if (adapter == null) {
             adapter = new FileAdapter(this, fileList);
-            UltimateRecyclerViewHelper.init(fileExplorerRecycler);
             fileExplorerRecycler.setLayoutManager(new LinearLayoutManager(this));
             fileExplorerRecycler.setAdapter(adapter);
         } else {

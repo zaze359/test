@@ -19,9 +19,6 @@ import com.zaze.utils.task.TaskEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 /**
  * Description :
  *
@@ -37,13 +34,43 @@ public class TaskActivity extends BaseActivity implements TaskView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.task_activity);
-        ButterKnife.bind(this);
         presenter = new TaskPresenterImpl(this);
         Task.setNeedLog(true);
+        findViewById(R.id.task_execute_test_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pushSyncTask();
+            }
+        });
+        findViewById(R.id.task_push_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pushTask();
+            }
+        });
+
+
+        findViewById(R.id.task_execute_async_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                testTask.executeOnAsync().execute();
+            }
+        });
+        findViewById(R.id.task_auto_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                testTask.executeOnAsyncAuto().execute();
+            }
+        });
+        findViewById(R.id.task_multi_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                testTask.executeOnAsyncMulti().execute();
+            }
+        });
     }
 
-    @OnClick(R.id.task_execute_test_btn)
-    public void pushSyncTask(View view) {
+    public void pushSyncTask() {
         for (int i = 0; i < 100; i++) {
             aaa(i);
         }
@@ -75,8 +102,7 @@ public class TaskActivity extends BaseActivity implements TaskView {
         }).executeOnAsyncAuto().execute();
     }
 
-    @OnClick(R.id.task_push_btn)
-    public void pushTask(View view) {
+    public void pushTask() {
         ThreadManager.getInstance().runInSingleThread(new Runnable() {
             @Override
             public void run() {
@@ -127,23 +153,6 @@ public class TaskActivity extends BaseActivity implements TaskView {
                 callback.onNext(taskId);
             }
         });
-    }
-
-    // --------------------------------------------------
-
-    @OnClick(R.id.task_execute_async_btn)
-    public void asyncExecute(View view) {
-        testTask.executeOnAsync().execute();
-    }
-
-    @OnClick(R.id.task_auto_btn)
-    public void autoExecute(View view) {
-        testTask.executeOnAsyncAuto().execute();
-    }
-
-    @OnClick(R.id.task_multi_btn)
-    public void multiExecute(View view) {
-        testTask.executeOnAsyncMulti().execute();
     }
 
 

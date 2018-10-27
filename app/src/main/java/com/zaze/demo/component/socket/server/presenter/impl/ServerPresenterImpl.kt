@@ -3,7 +3,7 @@ package com.zaze.demo.component.socket.server.presenter.impl
 import android.app.NotificationManager
 import android.content.Context
 import android.os.PowerManager
-import android.support.v4.app.NotificationCompat
+import androidx.core.app.NotificationCompat
 import com.zaze.common.base.mvp.BaseMvpPresenter
 import com.zaze.demo.R
 import com.zaze.demo.component.socket.BaseSocketClient
@@ -39,9 +39,9 @@ open class ServerPresenterImpl(view: ServerView) : BaseMvpPresenter<ServerView>(
                 if (socketMessage != null) {
                     clientSet.add(InetSocketAddress(socketMessage.address, socketMessage.port))
                     list.add(socketMessage)
-                    ThreadManager.getInstance().runInUIThread({
+                    ThreadManager.getInstance().runInUIThread {
                         view.showReceiverMsg(list)
-                    })
+                    }
                     notification(socketMessage)
                     replay()
                 }

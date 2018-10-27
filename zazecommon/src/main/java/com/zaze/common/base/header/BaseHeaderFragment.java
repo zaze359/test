@@ -2,17 +2,17 @@ package com.zaze.common.base.header;
 
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.zaze.common.base.BaseFragment;
 import com.zaze.common.base.BaseView;
-import com.zaze.common.util.ViewUtil;
 import com.zaze.common.widget.head.BaseHeadView;
 import com.zaze.common.widget.head.HeadFace;
 import com.zaze.common.widget.head.HeadWidget;
+
+import androidx.annotation.Nullable;
 
 
 /**
@@ -44,17 +44,6 @@ public abstract class BaseHeaderFragment extends BaseFragment implements BaseVie
 
     protected void init(View view) {
     }
-
-
-    // --------------------------------------------------
-    public <T extends View> T findView(int resId) {
-        return ViewUtil.findView(rootView, resId);
-    }
-
-    public <T extends View> T findView(View view, int resId) {
-        return ViewUtil.findView(view, resId);
-    }
-    // --------------------------------------------------
 
     /**
      * 是否需要使用 通用的header

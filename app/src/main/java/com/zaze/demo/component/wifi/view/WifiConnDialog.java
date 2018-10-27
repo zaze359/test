@@ -4,12 +4,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.net.wifi.ScanResult;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 
 import com.zaze.demo.R;
 import com.zaze.utils.ZOnClickHelper;
+
+import androidx.annotation.NonNull;
 
 /**
  * Description :

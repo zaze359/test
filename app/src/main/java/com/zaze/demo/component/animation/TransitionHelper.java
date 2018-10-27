@@ -17,14 +17,16 @@
 package com.zaze.demo.component.animation;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.util.Pair;
 import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
+import androidx.core.view.ViewCompat;
 
 class TransitionHelper {
     public static Pair<View, String>[] createSafeTransitionParticipants(@NonNull Activity activity,
@@ -51,7 +53,7 @@ class TransitionHelper {
         if (view == null) {
             return;
         }
-        participants.add(new Pair<>(view, view.getTransitionName()));
+        participants.add(new Pair<>(view, ViewCompat.getTransitionName(view)));
     }
 
 }

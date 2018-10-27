@@ -40,7 +40,7 @@ open class WebViewActivity : BaseActivity(), WebViewView {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
         }
-        web_view.setWebViewClient(object : WebViewClient() {
+        web_view.webViewClient = object : WebViewClient() {
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
                 ZLog.i(ZTag.TAG_DEBUG, "onPageStarted ：${System.currentTimeMillis()}")
@@ -55,8 +55,8 @@ open class WebViewActivity : BaseActivity(), WebViewView {
                 ZLog.i(ZTag.TAG_DEBUG, "发生跳转 ：$url")
                 return super.shouldOverrideUrlLoading(view, url)
             }
-        })
-        web_view.setWebChromeClient(object : WebChromeClient() {
+        }
+        web_view.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView, newProgress: Int) {
                 web_progress_bar.progress = newProgress
                 if (newProgress == 100) {
@@ -77,7 +77,7 @@ open class WebViewActivity : BaseActivity(), WebViewView {
                     web_progress_bar.visibility = View.VISIBLE
                 }
             }
-        })
+        }
 //        web_view.loadUrl("http://www.baidu.com")
         web_view.loadUrl("file:///android_asset/ppt/5281a115ce50f8fd676e56b295aee5e4/index.html")
     }
