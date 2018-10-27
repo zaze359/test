@@ -12,11 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.zaze.common.util.ActivityUtil;
-import com.zaze.common.util.ViewUtil;
-import com.zaze.common.widget.LoadingWidget;
-import com.zaze.common.widget.head.BaseHeadView;
-import com.zaze.common.widget.head.HeadFace;
-import com.zaze.common.widget.head.HeadWidget;
 import com.zaze.utils.ZTipUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
@@ -31,9 +26,6 @@ import java.lang.reflect.Field;
  * @version : 2015-09-22 - 19:38
  */
 public abstract class BaseFragment extends Fragment implements BaseView {
-    private BaseHeadView headFace;
-    private LoadingWidget loadProgress;
-    private View rootView;
 
     @Override
     public void onAttach(Context context) {
@@ -45,25 +37,16 @@ public abstract class BaseFragment extends Fragment implements BaseView {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ZLog.v(ZTag.TAG_DEBUG, "onCreate : " + this.getClass().getName());
-        loadProgress = new LoadingWidget(getActivity());
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ZLog.v(ZTag.TAG_DEBUG, "onCreateView : " + this.getClass().getName());
-        super.onCreateView(inflater, container, savedInstanceState);
-        inflater = changeThem(inflater);
-        if (rootView == null) {
-            if (isNeedHead()) {
-                headFace = new HeadWidget(getActivity(), getLayoutId());
-                rootView = headFace.getContainerView();
-            } else {
-                rootView = inflater.inflate(getLayoutId(), container, false);
-            }
-            init(rootView);
-        }
-        return rootView;
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+        changeTheme(inflater);
+        return view;
+
     }
 
     @Override
@@ -138,36 +121,6 @@ public abstract class BaseFragment extends Fragment implements BaseView {
     }
 
     // --------------------------------------------------
-
-    protected void init(View view) {
-    }
-
-
-    /**
-     * 显示一个普通等待弹窗
-     */
-    @Override
-    public void showProgress() {
-        loadProgress.showProgress();
-    }
-
-    @Override
-    public void showProgress(String msg) {
-        loadProgress.setText(msg);
-        loadProgress.showProgress();
-    }
-
-    @Override
-    public void showProgress(String msg, View.OnClickListener onClickListener) {
-        showProgress(msg);
-        loadProgress.setTextOnClick(onClickListener);
-    }
-
-    @Override
-    public void hideProgress() {
-        loadProgress.dismissProgress();
-    }
-
     @Override
     public void showToast(int msg) {
         ZTipUtil.toast(getContext(), getString(msg));
@@ -216,7 +169,7 @@ public abstract class BaseFragment extends Fragment implements BaseView {
      *
      * @param inflater inflater
      */
-    protected LayoutInflater changeThem(LayoutInflater inflater) {
+    protected LayoutInflater changeTheme(LayoutInflater inflater) {
         return inflater;
     }
 
@@ -237,38 +190,4 @@ public abstract class BaseFragment extends Fragment implements BaseView {
     }
 
     // --------------------------------------------------
-
-    public <T extends View> T findView(int resId) {
-        return ViewUtil.findView(rootView, resId);
-    }
-
-    public <T extends View> T findView(View view, int resId) {
-        return ViewUtil.findView(view, resId);
-    }
-    // --------------------------------------------------
-
-    /**
-     * 是否需要使用 通用的header
-     */
-    protected boolean isNeedHead() {
-        return true;
-    }
-
-    /**
-     * hearer 操作类
-     *
-     * @return HeadFace
-     */
-    public HeadFace getHeadWidget() {
-        return headFace;
-    }
-
-    // --------------------------------------------------
-
-    /**
-     * 布局layout.xml
-     *
-     * @return int
-     */
-    protected abstract int getLayoutId();
 }

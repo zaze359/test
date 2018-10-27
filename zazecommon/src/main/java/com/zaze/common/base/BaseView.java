@@ -2,7 +2,6 @@ package com.zaze.common.base;
 
 import android.content.Context;
 import android.content.Intent;
-import android.view.View;
 
 
 /**
@@ -12,33 +11,6 @@ import android.view.View;
  * @version 2017/10/19 - 上午11:13 1.0
  */
 public interface BaseView {
-
-    /**
-     * 显示Progress
-     */
-    void showProgress();
-
-    /**
-     * 显示Progress
-     *
-     * @param msg 信息
-     */
-    void showProgress(String msg);
-
-    /**
-     * 显示Progress
-     *
-     * @param msg             信息
-     * @param onClickListener 点击效果
-     */
-    void showProgress(String msg, View.OnClickListener onClickListener);
-
-    /**
-     * 隐藏Progress
-     */
-    void hideProgress();
-    // --------------------------------------------------
-    // --------------------------------------------------
 
     /**
      * 提示toast

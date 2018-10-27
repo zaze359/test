@@ -31,13 +31,8 @@ public class TempFragment extends BaseFragment {
     TextView tempTv;
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.temp_fragment;
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        View rootView = inflater.inflate(R.layout.temp_fragment, container, false);
         ButterKnife.bind(this, rootView);
         tempTv.setText(getArguments().getString("title"));
         return rootView;

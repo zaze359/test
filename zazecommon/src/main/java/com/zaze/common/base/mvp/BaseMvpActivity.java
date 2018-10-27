@@ -33,21 +33,6 @@ public abstract class BaseMvpActivity<V extends BaseView, P extends BasePresente
     protected abstract P getPresenter();
 
     @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         presenter.detachView();

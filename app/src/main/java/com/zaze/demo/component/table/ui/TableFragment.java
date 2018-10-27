@@ -37,11 +37,6 @@ public class TableFragment extends BaseFragment implements ToolView {
     private TableAdapter adapter;
     private TablePresenter presenter;
 
-    @Override
-    protected boolean isNeedHead() {
-        return false;
-    }
-
     public static TableFragment newInstance(String title) {
         Bundle args = new Bundle();
         args.putString("TITLE", title);
@@ -51,13 +46,8 @@ public class TableFragment extends BaseFragment implements ToolView {
     }
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.table_fragment;
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        View rootView = inflater.inflate(R.layout.table_fragment, container, false);
         ButterKnife.bind(this, rootView);
         presenter = new TablePresenterImpl(this);
         tableRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

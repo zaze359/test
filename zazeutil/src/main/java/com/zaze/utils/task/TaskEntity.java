@@ -9,8 +9,6 @@ package com.zaze.utils.task;
 public abstract class TaskEntity implements Executor<TaskEntity> {
     private String taskId;
     private String jsonData;
-    private long loopTime;
-    private long executeTime;
 
     public TaskEntity() {
     }
@@ -25,24 +23,6 @@ public abstract class TaskEntity implements Executor<TaskEntity> {
 
     public void setTaskId(String taskId) {
         this.taskId = taskId;
-    }
-
-    public long getLoopTime() {
-        return loopTime;
-    }
-
-    public TaskEntity setLoopTime(long loopTime) {
-        this.loopTime = loopTime;
-        return this;
-    }
-
-    public long getExecuteTime() {
-        return executeTime;
-    }
-
-    public TaskEntity setExecuteTime(long executeTime) {
-        this.executeTime = executeTime;
-        return this;
     }
 
     public String getJsonData() {

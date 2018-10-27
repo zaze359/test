@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.marshalchen.ultimaterecyclerview.UltimateViewAdapter;
+import com.zaze.common.adapter.OnItemClickListener;
 import com.zaze.common.adapter.ResourceAdapter;
 import com.zaze.common.util.ViewUtil;
 import com.zaze.utils.ZOnClickHelper;
@@ -210,23 +211,6 @@ public abstract class BaseUltimateRecyclerAdapter<V, VH extends RecyclerView.Vie
     @Override
     public Bitmap getBitmap(int resId) {
         return BitmapFactory.decodeResource(context.getResources(), resId);
-    }
-
-    /**
-     * Description :
-     *
-     * @author : ZAZE
-     * @version : 2016-12-12 - 00:46
-     */
-    public interface OnItemClickListener<V> {
-        /**
-         * 点击item回调
-         *
-         * @param view     view
-         * @param value    value
-         * @param position position
-         */
-        void onItemClick(View view, V value, int position);
     }
 
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/drawer_github_menu_item"
+        android:icon="@mipmap/ic_github_circle_white_24dp"
+        android:title="@string/github_link" />
+</menu>

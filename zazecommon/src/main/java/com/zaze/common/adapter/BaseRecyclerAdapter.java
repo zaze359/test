@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 
 import com.zaze.common.util.ViewUtil;
 
@@ -27,7 +26,6 @@ import java.util.List;
 public abstract class BaseRecyclerAdapter<V, H extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<H> implements ResourceAdapter {
     private Context context;
     private final List<V> dataList = new ArrayList<>();
-    private AdapterView.OnItemClickListener onItemClickListener;
 
     public BaseRecyclerAdapter(Context context, Collection<V> data) {
         this.context = context;

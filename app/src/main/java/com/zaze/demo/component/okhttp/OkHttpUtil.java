@@ -1,12 +1,13 @@
-package com.xh.common.util;
-
+package com.zaze.demo.component.okhttp;
 
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
 
 import com.zaze.utils.ThreadManager;
 import com.zaze.utils.ZCallback;
 import com.zaze.utils.FileUtil;
 import com.zaze.utils.log.ZLog;
+import com.zaze.utils.log.ZTag;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -53,32 +54,45 @@ public class OkHttpUtil {
         enqueue(request, new Callback() {
 
             @Override
-            public void onFailure(final Call call, final IOException e) {
-                ThreadManager.getInstance().runInUIThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ZLog.i("okhttp : ", e.toString());
-                        if (callback != null) {
+            public void onFailure(@NonNull final Call call, final IOException e) {
+                if (callback != null) {
+                    ThreadManager.getInstance().runInUIThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ZLog.d(ZTag.TAG_HTTP, "onResponse onFailure: " + e.toString());
                             callback.onError(-1, e.toString());
                             callback.onCompleted();
                         }
-                    }
-                });
+                    });
+                }
             }
 
             @Override
-            public void onResponse(final Call call, final Response response) throws IOException {
-                ThreadManager.getInstance().runInUIThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ResponseBody body = response.body();
-                        ZLog.i("okhttp : ", "" + body);
-                        if (callback != null) {
-                            callback.onNext(body == null ? "" : body.toString());
+            public void onResponse(@NonNull final Call call, @NonNull final Response response) throws IOException {
+                if (callback != null) {
+                    ThreadManager.getInstance().runInUIThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ResponseBody body = response.body();
+                            String bodyStr = "";
+                            if (body != null) {
+                                try {
+                                    bodyStr = body.string();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                ZLog.d(ZTag.TAG_HTTP, "onResponse body: " + bodyStr);
+                            }
+                            ZLog.d(ZTag.TAG_HTTP, "onResponse message: " + response.message());
+                            if (response.isSuccessful()) {
+                                callback.onNext(bodyStr);
+                            } else {
+                                callback.onError(response.code(), bodyStr + "  " + response.message());
+                            }
                             callback.onCompleted();
                         }
-                    }
-                });
+                    });
+                }
             }
         });
     }
@@ -102,7 +116,7 @@ public class OkHttpUtil {
                 ResponseBody responseBody = response.body();
                 if (responseBody != null) {
                     File file = new File(destPath);
-                    FileUtil.INSTANCE.createFileNotExists(destPath);
+                    FileUtil.createFileNotExists(destPath);
                     InputStream is = null;
                     FileOutputStream fos = null;
                     byte[] buf = new byte[2048];

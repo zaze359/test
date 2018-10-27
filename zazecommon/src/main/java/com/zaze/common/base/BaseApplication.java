@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.res.Configuration;
 
 import com.zaze.utils.ZDisplayUtil;
-import com.zaze.utils.ZSharedPrefUtil;
 import com.zaze.utils.cache.MemoryCacheManager;
 
 
@@ -29,7 +28,6 @@ public abstract class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        ZSharedPrefUtil.initSharedPreferences(this);
         ZDisplayUtil.init(this);
     }
 

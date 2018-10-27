@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.zaze.common.base.BaseFragment;
 import com.zaze.demo.R;
@@ -60,16 +62,6 @@ public class ClientFragment extends BaseFragment {
     }
 
     @Override
-    protected boolean isNeedHead() {
-        return false;
-    }
-
-    @Override
-    protected int getLayoutId() {
-        return R.layout.client_fragment;
-    }
-
-    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         clientSocket = new UDPSocketClient(8004, new BaseSocketClient.BaseSocketFace() {
@@ -101,24 +93,25 @@ public class ClientFragment extends BaseFragment {
         clientSocket = null;
     }
 
+    @Nullable
     @Override
-    protected void init(View view) {
-        super.init(view);
-        clientMessageRecyclerView = findView(R.id.client_message_recycler_view);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.client_fragment, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        clientMessageRecyclerView = (RecyclerView) view.findViewById(R.id.client_message_recycler_view);
         AlarmService.runAlarm = true;
         super.onViewCreated(view, savedInstanceState);
-        ZOnClickHelper.setOnClickListener(findView(R.id.client_join_bt), new View.OnClickListener() {
+        ZOnClickHelper.setOnClickListener(view.findViewById(R.id.client_join_bt), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clientSocket.receive();
                 getContext().startService(new Intent(getContext(), AlarmService.class));
             }
         });
-        ZOnClickHelper.setOnClickListener(findView(R.id.client_send_broadcast_bt),
+        ZOnClickHelper.setOnClickListener(view.findViewById(R.id.client_send_broadcast_bt),
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

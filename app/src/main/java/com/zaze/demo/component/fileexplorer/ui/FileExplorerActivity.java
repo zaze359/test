@@ -2,15 +2,14 @@ package com.zaze.demo.component.fileexplorer.ui;
 
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
-import com.zaze.demo.third.UltimateRecyclerViewHelper;
 import com.zaze.common.base.BaseActivity;
-import com.zaze.common.widget.head.ZOrientation;
 import com.zaze.demo.R;
 import com.zaze.demo.component.fileexplorer.FileEvent;
 import com.zaze.demo.component.fileexplorer.adapter.FileAdapter;
@@ -18,6 +17,7 @@ import com.zaze.demo.component.fileexplorer.adapter.FileEntity;
 import com.zaze.demo.component.fileexplorer.presenter.FileExplorerPresenter;
 import com.zaze.demo.component.fileexplorer.presenter.impl.FileExplorerPresenterImpl;
 import com.zaze.demo.component.fileexplorer.view.FileExplorerView;
+import com.zaze.demo.third.UltimateRecyclerViewHelper;
 import com.zaze.utils.ZOnClickHelper;
 
 import org.greenrobot.eventbus.EventBus;
@@ -29,6 +29,10 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
+
+import static com.zaze.demo.util.AppCompatActivityExtKt.setupActionBar;
 
 /**
  * Description :
@@ -52,9 +56,15 @@ public class FileExplorerActivity extends BaseActivity implements FileExplorerVi
         setContentView(R.layout.file_explorer_activity);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
-        getHeadWidget()
-                .setText("File Explorer", ZOrientation.CENTER)
-                .setBackClickListener(this);
+        setupActionBar(this, R.id.file_explorer_toolbar, new Function1<ActionBar, Unit>() {
+            @Override
+            public Unit invoke(ActionBar actionBar) {
+                actionBar.setTitle("文件管理");
+                actionBar.setHomeButtonEnabled(true);
+                actionBar.setDisplayHomeAsUpEnabled(true);
+                return null;
+            }
+        });
         presenter = new FileExplorerPresenterImpl(this);
         presenter.loadFileList();
         ZOnClickHelper.setOnClickListener(fileExplorerReturnTv, new View.OnClickListener() {

@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.zaze.common.base.BaseActivity;
 import com.zaze.demo.R;
+import com.zaze.demo.component.okhttp.OkHttpUtil;
 import com.zaze.demo.component.okhttp.presenter.OkHttpPresenter;
 import com.zaze.demo.component.okhttp.presenter.impl.OkHttpPresenterImpl;
 import com.zaze.demo.component.okhttp.view.OkHttpView;
@@ -61,7 +62,7 @@ public class OkHttpActivity extends BaseActivity implements OkHttpView {
                 .post(body)
                 .build();
 
-        com.xh.common.util.OkHttpUtil.enqueue(request, new Callback() {
+        OkHttpUtil.enqueue(request, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 ZLog.i("okhttp", e.toString());

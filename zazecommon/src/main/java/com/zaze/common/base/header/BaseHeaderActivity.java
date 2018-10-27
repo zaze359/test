@@ -1,19 +1,20 @@
-package com.zaze.common.base;
+package com.zaze.common.base.header;
 
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
 
+import com.zaze.common.base.BaseActivity;
+import com.zaze.common.base.BaseView;
 import com.zaze.common.util.ActivityUtil;
 import com.zaze.common.util.ViewUtil;
+import com.zaze.common.widget.head.BaseHeadView;
+import com.zaze.common.widget.head.HeadFace;
+import com.zaze.common.widget.head.HeadWidget;
 import com.zaze.utils.ZTipUtil;
-import com.zaze.utils.log.ZLog;
-import com.zaze.utils.log.ZTag;
 
 
 /**
@@ -22,86 +23,18 @@ import com.zaze.utils.log.ZTag;
  * @author : zaze
  * @version : 2017-02-06 22:59 2.0
  */
-public abstract class BaseActivity extends AppCompatActivity implements BaseView {
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        ZLog.v(ZTag.TAG_DEBUG, "onCreate : " + this.getClass().getName());
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        ZLog.v(ZTag.TAG_DEBUG, "onNewIntent : " + this.getClass().getName());
-        super.onNewIntent(intent);
-    }
-
-    @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        ZLog.v(ZTag.TAG_DEBUG, "onPostCreate : " + this.getClass().getName());
-        super.onPostCreate(savedInstanceState);
-    }
-
-    @Override
-    protected void onRestart() {
-        ZLog.v(ZTag.TAG_DEBUG, "onRestart : " + this.getClass().getName());
-        super.onRestart();
-    }
-
-    @Override
-    protected void onStart() {
-        ZLog.v(ZTag.TAG_DEBUG, "onStart : " + this.getClass().getName());
-        super.onStart();
-    }
-
-    @Override
-    protected void onResume() {
-        ZLog.v(ZTag.TAG_DEBUG, "onResume : " + this.getClass().getName());
-        super.onResume();
-    }
-
-    @Override
-    protected void onResumeFragments() {
-        ZLog.v(ZTag.TAG_DEBUG, "onResumeFragments : " + this.getClass().getName());
-        super.onResumeFragments();
-    }
-
-    @Override
-    protected void onPause() {
-        ZLog.v(ZTag.TAG_DEBUG, "onPause : " + this.getClass().getName());
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        ZLog.v(ZTag.TAG_DEBUG, "onStop : " + this.getClass().getName());
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        ZLog.v(ZTag.TAG_DEBUG, "onDestroy : " + this.getClass().getName());
-        super.onDestroy();
-    }
-
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        ZLog.v(ZTag.TAG_DEBUG, "onSaveInstanceState : " + this.getClass().getName());
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        ZLog.v(ZTag.TAG_DEBUG, "onSaveInstanceState : " + this.getClass().getName());
-        super.onRestoreInstanceState(savedInstanceState);
-    }
+public abstract class BaseHeaderActivity extends BaseActivity implements BaseView {
+    private BaseHeadView headFace;
 
     // --------------------------------------------------
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
-        super.setContentView(layoutResID);
+        if (isNeedHead()) {
+            initToolBar(layoutResID);
+        } else {
+            super.setContentView(layoutResID);
+        }
 //        onWindowFocusChanged(true);
 //        StatusBarHelper.hideStatusBar(this);
 //        if (Build.VERSION.SDK_INT >= 21) {
@@ -110,6 +43,11 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
 //        StatusBarHelper.statusBarLightMode(this);
     }
 
+    private void initToolBar(int layoutResID) {
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        headFace = new HeadWidget(this, layoutResID);
+        super.setContentView(headFace.getContainerView());
+    }
 //
 //    @Override
 //    public void onWindowFocusChanged(boolean hasFocus) {
@@ -126,7 +64,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
 //                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 //        }
 //    }
-
 
     @Override
     public void showToast(int msg) {
@@ -196,6 +133,13 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
      */
     protected boolean isNeedHead() {
         return true;
+    }
+
+    /**
+     * @return 返回hearer 操作类
+     */
+    public HeadFace getHeadWidget() {
+        return headFace;
     }
 
 }

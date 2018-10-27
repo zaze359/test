@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">zZz</string>
+    <string name="app_name">Gbc Demo</string>
+    <string name="github_link">Github Link</string>
 </resources>

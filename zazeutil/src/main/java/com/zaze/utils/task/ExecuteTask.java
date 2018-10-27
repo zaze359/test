@@ -13,8 +13,6 @@ public class ExecuteTask extends TaskEntity {
         if (entity != null) {
             setTaskId(entity.getTaskId());
             setJsonData(entity.getJsonData());
-            setExecuteTime(entity.getExecuteTime());
-            setLoopTime(entity.getLoopTime());
             executor = entity;
         }
     }

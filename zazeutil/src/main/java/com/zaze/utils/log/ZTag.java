@@ -9,6 +9,7 @@ package com.zaze.utils.log;
  */
 public interface ZTag {
     String TAG_BASE = "[ZZ]";
+    String TAG_HTTP = "Http" + TAG_BASE;
     String TAG_ERROR = "Error" + TAG_BASE;
     String TAG_FILE = "File" + TAG_BASE;
     String TAG_DEBUG = "Debug" + TAG_BASE;

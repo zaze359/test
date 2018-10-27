@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.*
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -15,11 +16,12 @@ import com.zaze.common.base.BaseFragment
 import com.zaze.common.permission.PermissionCode
 import com.zaze.common.permission.PermissionUtil
 import com.zaze.common.widget.IntervalButtonWidget
-import com.zaze.common.widget.head.ZOrientation
 import com.zaze.demo.component.table.ui.TableFragment
 import com.zaze.demo.debug.KotlinDebug
 import com.zaze.demo.debug.MessengerService
 import com.zaze.demo.debug.TestDebug
+import com.zaze.demo.util.setImmersion
+import com.zaze.demo.util.setupActionBar
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import kotlinx.android.synthetic.main.activity_main.*
@@ -54,18 +56,20 @@ class MainActivity : BaseActivity() {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             sendMessenger = Messenger(service)
         }
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        headWidget.setText("zZz", ZOrientation.CENTER)
+        setImmersion()
+        setupActionBar(R.id.main_toolbar) {
+            setTitle(R.string.app_name)
+        }
         // --------------------------------------------------
         intervalButton = IntervalButtonWidget(main_test_2_button, "测试2")
-        main_test_2_button.setOnClickListener({
+        main_test_2_button.setOnClickListener {
             intervalButton?.start()
-        })
+        }
         main_test_button.text = "测试"
         // --------------------------------------------------
         fragmentList.clear()
@@ -86,6 +90,19 @@ class MainActivity : BaseActivity() {
             // --------------------------------------------------
         }
         setupPermission()
+
+        main_left_nav.run {
+            setNavigationItemSelectedListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.drawer_github_menu_item -> {
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        intent.data = Uri.parse("https://github.com/zaze359/test.git")
+                        startActivity(intent)
+                    }
+                }
+                true
+            }
+        }
         bindService(Intent(this, MessengerService::class.java), serviceConnection, Context.BIND_AUTO_CREATE)
 //        val obj = DeviceStatus()
 //        weakReference = WeakReference(obj)

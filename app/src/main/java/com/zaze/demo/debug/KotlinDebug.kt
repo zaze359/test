@@ -41,19 +41,17 @@ object KotlinDebug {
 //        ZLog.i(ZTag.TAG_DEBUG, "${ZDeviceUtil.getSdFreeSpace() < 5L shl 30}")
 //        ZLog.i(ZTag.TAG_DEBUG, "${ZDeviceUtil.getSdFreeSpace() < 10L shl 30}")
 //        ZLog.i(ZTag.TAG_DEBUG, "${ZDateUtil.getWeek(Date())}")
-
         ZLog.i(ZTag.TAG_DEBUG, "currentTimeMillis : ${System.currentTimeMillis()}")
         ZLog.i(ZTag.TAG_DEBUG, "currentThreadTimeMillis: ${SystemClock.currentThreadTimeMillis()}")
         ZLog.i(ZTag.TAG_DEBUG, "elapsedRealtime : ${SystemClock.elapsedRealtime()}")
         // --------------------------------------------------
 //        AppUtil.startApplicationSimple(MyApplication.getInstance(), "com.xuehai.response_launcher_teacher")
-
 //        val intent = getTargetActivityIntent(activity, "com.xh.open.WakeupActivity")
 //        val intent = getTargetActivityIntent(activity, "com.xh.open.agent.AgentActivity")
 //        intent?.let {
 //            activity.startActivity(intent)
 //        }
-        getNetType(activity)
+//        getNetType(activity)
     }
 
     @JvmStatic

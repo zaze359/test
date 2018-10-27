@@ -2,6 +2,11 @@ package com.zaze.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.text.TextUtils;
+
+import com.zaze.utils.log.ZLog;
+import com.zaze.utils.log.ZTag;
 
 /**
  * Description :
@@ -11,27 +16,30 @@ import android.content.SharedPreferences;
  */
 public class ZSharedPrefUtil {
 
-    private static String spName = "sp_zaze";
+    private static volatile ZSharedPrefUtil sInstance;
 
-    public static void setSpName(String spName) {
-        ZSharedPrefUtil.spName = spName;
+    private SharedPreferences sharedPreferences;
+
+    public static ZSharedPrefUtil getInstance(Context context) {
+        return getInstance(context, null);
     }
 
-    private static volatile SharedPreferences sharedPreferences;
-
-    public static void initSharedPreferences(Context context) {
-        if (sharedPreferences == null) {
+    public static ZSharedPrefUtil getInstance(final Context context, final String spName) {
+        if (sInstance == null) {
             synchronized (ZSharedPrefUtil.class) {
-                sharedPreferences = context.getSharedPreferences(spName, Context.MODE_PRIVATE);
+                sInstance = new ZSharedPrefUtil(context, spName);
             }
         }
+        return sInstance;
     }
 
-    private static void initSharedPreferences(Context context, String sharePrefName) {
-        spName = sharePrefName;
-        initSharedPreferences(context);
+    private ZSharedPrefUtil(Context context, String spName) {
+        if (TextUtils.isEmpty(spName)) {
+            sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        } else {
+            sharedPreferences = context.getApplicationContext().getSharedPreferences(spName, Context.MODE_PRIVATE);
+        }
     }
-
 
     /**
      * 异步
@@ -40,9 +48,10 @@ public class ZSharedPrefUtil {
      * @param value value
      * @param <T>   t
      */
-    public static <T> void apply(String key, T value) {
+    public <T> void apply(String key, T value) {
         if (sharedPreferences != null) {
-            put(key, value, sharedPreferences.edit()).apply();
+            final SharedPreferences.Editor editor = sharedPreferences.edit();
+            put(key, value, editor).apply();
         }
     }
 
@@ -54,21 +63,21 @@ public class ZSharedPrefUtil {
      * @param <T>   t
      * @return boolean
      */
-    public static <T> boolean commit(String key, T value) {
+    public <T> boolean commit(String key, T value) {
         if (sharedPreferences != null) {
             return put(key, value, sharedPreferences.edit()).commit();
         }
         return false;
     }
 
-    public static boolean contains(String key) {
+    public boolean contains(String key) {
         if (sharedPreferences != null) {
             return sharedPreferences.contains(key);
         }
         return false;
     }
 
-    private static <T> SharedPreferences.Editor put(String key, T value, SharedPreferences.Editor editor) {
+    private <T> SharedPreferences.Editor put(final String key, final T value, final SharedPreferences.Editor editor) {
         if (value instanceof String) {
             editor.putString(key, (String) value);
         } else if (value instanceof Integer) {
@@ -86,7 +95,7 @@ public class ZSharedPrefUtil {
 
     // --------------------------------------------------
 
-    public static <T> T get(String key, T defaultValue) {
+    public <T> T get(String key, T defaultValue) {
         if (sharedPreferences != null) {
             if (defaultValue instanceof String) {
                 return (T) sharedPreferences.getString(key, (String) defaultValue);
@@ -98,6 +107,8 @@ public class ZSharedPrefUtil {
                 return (T) Float.valueOf(sharedPreferences.getFloat(key, (Float) defaultValue));
             } else if (defaultValue instanceof Long) {
                 return (T) Long.valueOf(sharedPreferences.getLong(key, (Long) defaultValue));
+            } else {
+                ZLog.w(ZTag.TAG_ERROR, "not support type");
             }
         }
         return defaultValue;
