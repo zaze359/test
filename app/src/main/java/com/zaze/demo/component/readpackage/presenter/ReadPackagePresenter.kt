@@ -1,5 +1,6 @@
 package com.zaze.demo.component.readpackage.presenter
 
+import com.zaze.demo.debug.AppShortcut
 import com.zaze.demo.model.entity.PackageEntity
 
 /**
@@ -23,7 +24,7 @@ interface ReadPackagePresenter {
 
     fun filterApp(matchStr: String)
 
-    fun extract(dataList: List<PackageEntity>?)
+    fun extract(dataList: List<AppShortcut>?)
 
 
 }

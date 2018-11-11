@@ -2,7 +2,6 @@ package com.zaze.demo.component.fileexplorer.ui;
 
 
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -76,11 +75,6 @@ public class FileExplorerActivity extends BaseActivity implements FileExplorerVi
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        return true;
     }
 
     @Override

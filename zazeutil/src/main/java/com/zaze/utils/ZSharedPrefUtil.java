@@ -16,21 +16,14 @@ import com.zaze.utils.log.ZTag;
  */
 public class ZSharedPrefUtil {
 
-    private static volatile ZSharedPrefUtil sInstance;
-
     private SharedPreferences sharedPreferences;
 
-    public static ZSharedPrefUtil getInstance(Context context) {
-        return getInstance(context, null);
+    public static ZSharedPrefUtil newInstance(Context context) {
+        return newInstance(context, null);
     }
 
-    public static ZSharedPrefUtil getInstance(final Context context, final String spName) {
-        if (sInstance == null) {
-            synchronized (ZSharedPrefUtil.class) {
-                sInstance = new ZSharedPrefUtil(context, spName);
-            }
-        }
-        return sInstance;
+    public static ZSharedPrefUtil newInstance(final Context context, final String spName) {
+        return new ZSharedPrefUtil(context, spName);
     }
 
     private ZSharedPrefUtil(Context context, String spName) {

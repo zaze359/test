@@ -2,7 +2,7 @@ package com.zaze.demo.component.readpackage.view;
 
 
 import com.zaze.common.base.BaseView;
-import com.zaze.demo.model.entity.PackageEntity;
+import com.zaze.demo.debug.AppShortcut;
 
 import java.util.List;
 
@@ -15,6 +15,6 @@ import java.util.List;
 public interface ReadPackageView extends BaseView {
 
 
-    void showPackageList(List<PackageEntity> list);
+    void showPackageList(List<AppShortcut> list);
 
 }

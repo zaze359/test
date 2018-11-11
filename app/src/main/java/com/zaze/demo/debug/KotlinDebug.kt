@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.SystemClock
+import com.zaze.utils.AppUtil
 import com.zaze.utils.FileUtil
 import com.zaze.utils.ZDisplayUtil
 import com.zaze.utils.ZStringUtil
@@ -52,6 +53,17 @@ object KotlinDebug {
 //            activity.startActivity(intent)
 //        }
 //        getNetType(activity)
+        //
+//        val packageName = "com.xuehai.response_launcher_teacher"
+//        val packageName = "com.xuehai.launcher"
+        val action = ""
+        if (!AppUtil.isAppRunning(activity, action)) {
+            val intent = Intent(action)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
+            activity.startActivity(intent)
+        } else {
+            ZLog.i(ZTag.TAG_DEBUG, "$action 已启动")
+        }
     }
 
     @JvmStatic

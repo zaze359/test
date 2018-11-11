@@ -33,32 +33,79 @@ public class ActivityUtil {
 
     // --------------------------------------------------
 
+    /**
+     * startActivity
+     *
+     * @param fragment fragment
+     * @param target   target
+     */
     public static void startActivity(Fragment fragment, Class<?> target) {
         fragment.startActivityForResult(getIntent(fragment.getActivity(), target, null), 1);
     }
 
+    /**
+     * startActivity
+     *
+     * @param fragment fragment
+     * @param target   target
+     * @param intent   intent
+     */
     public static void startActivity(Fragment fragment, Class<?> target, Intent intent) {
         fragment.startActivityForResult(getIntent(fragment.getActivity(), target, intent), 1);
     }
 
     // --------------------------------------------------
 
+    /**
+     * startActivity
+     *
+     * @param context context
+     * @param intent  intent
+     */
     public static void startActivity(Context context, Intent intent) {
         startActivity(context, null, intent);
     }
 
+    /**
+     * startActivity
+     *
+     * @param context context
+     * @param target  target
+     */
     public static void startActivity(Context context, Class<?> target) {
         startActivity(context, target, false);
     }
 
+    /**
+     * startActivity
+     *
+     * @param context context
+     * @param target  target
+     * @param intent  intent
+     */
     public static void startActivity(Context context, Class<?> target, Intent intent) {
         startActivity(context, target, intent, false);
     }
 
+    /**
+     * startActivity
+     *
+     * @param context  context
+     * @param target   target
+     * @param isFinish isFinish
+     */
     public static void startActivity(Context context, Class<?> target, boolean isFinish) {
         startActivity(context, target, null, isFinish);
     }
 
+    /**
+     * startActivity
+     *
+     * @param context  context
+     * @param target   target
+     * @param intent   intent
+     * @param isFinish isFinish
+     */
     public static void startActivity(Context context, Class<?> target, Intent intent, boolean isFinish) {
         context.startActivity(getIntent(context, target, intent));
         if (isFinish && context instanceof Activity) {
@@ -125,6 +172,16 @@ public class ActivityUtil {
         startActivityForAnim(activity, target, optionsCompat);
     }
 
+    /**
+     * makeThumbnailScaleUpAnimation
+     *
+     * @param activity  activity
+     * @param target    target
+     * @param source    source
+     * @param thumbnail thumbnail
+     * @param startX    startX
+     * @param startY    startY
+     */
     public static void makeThumbnailScaleUpAnimation(Activity activity, Class<?> target, View source,
                                                      Bitmap thumbnail, int startX, int startY) {
         ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeThumbnailScaleUpAnimation(source, thumbnail, startX, startY);
@@ -148,6 +205,7 @@ public class ActivityUtil {
      * @param activity      activity
      * @param target        target
      * @param optionsCompat optionsCompat
+     * @param bundle        bundle
      */
     public static void startActivityForAnim(Activity activity, Class<?> target, @NonNull ActivityOptionsCompat optionsCompat, Bundle bundle) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -165,18 +223,49 @@ public class ActivityUtil {
     // start activity for result
     // --------------------------------------------------
 
+    /**
+     * startActivityForResult
+     *
+     * @param context context
+     * @param target  target
+     * @param code    code
+     */
     public static void startActivityForResult(Context context, Class<?> target, int code) {
         startActivityForResult(context, target, null, code, false);
     }
 
+    /**
+     * startActivityForResult
+     *
+     * @param context context
+     * @param intent  intent
+     * @param code    code
+     */
     public static void startActivityForResult(Context context, Intent intent, int code) {
         startActivityForResult(context, null, intent, code, false);
     }
 
+    /**
+     * startActivityForResult
+     *
+     * @param context context
+     * @param target  target
+     * @param intent  intent
+     * @param code    code
+     */
     public static void startActivityForResult(Context context, Class<?> target, Intent intent, int code) {
         startActivityForResult(context, target, intent, code, false);
     }
 
+    /**
+     * startActivityForResult
+     *
+     * @param context  context
+     * @param target   target
+     * @param intent   intent
+     * @param code     code
+     * @param isFinish isFinish
+     */
     public static void startActivityForResult(Context context, Class<?> target, Intent intent, int code, boolean isFinish) {
         if (context instanceof Activity) {
             Activity activity = (Activity) context;
@@ -187,18 +276,49 @@ public class ActivityUtil {
         }
     }
 
+    /**
+     * startActivityForResult
+     *
+     * @param fragment fragment
+     * @param target   target
+     * @param code     code
+     */
     public static void startActivityForResult(Fragment fragment, Class<?> target, int code) {
         startActivityForResult(fragment, target, null, code, false);
     }
 
+    /**
+     * startActivityForResult
+     *
+     * @param fragment fragment
+     * @param intent   intent
+     * @param code     code
+     */
     public static void startActivityForResult(Fragment fragment, Intent intent, int code) {
         startActivityForResult(fragment, null, intent, code, false);
     }
 
+    /**
+     * startActivityForResult
+     *
+     * @param fragment fragment
+     * @param target   target
+     * @param intent   intent
+     * @param code     code
+     */
     public static void startActivityForResult(Fragment fragment, Class<?> target, Intent intent, int code) {
         startActivityForResult(fragment, target, intent, code, false);
     }
 
+    /**
+     * startActivityForResult
+     *
+     * @param fragment fragment
+     * @param target   target
+     * @param intent   intent
+     * @param code     code
+     * @param isFinish isFinish
+     */
     public static void startActivityForResult(Fragment fragment, Class<?> target, Intent intent, int code, boolean isFinish) {
         fragment.startActivityForResult(getIntent(fragment.getActivity(), target, intent), code);
         if (isFinish) {
@@ -209,12 +329,23 @@ public class ActivityUtil {
     // --------------------------------------------------
     // --------------------------------------------------
 
+    /**
+     * finish
+     *
+     * @param context context
+     */
     public static void finish(Context context) {
         if (context instanceof Activity) {
             finish((Activity) context);
         }
     }
 
+    /**
+     * finish
+     *
+     * @param context context
+     * @param code    code
+     */
     public static void finish(Context context, int code) {
         if (context instanceof Activity) {
             Activity activity = (Activity) context;
@@ -223,6 +354,13 @@ public class ActivityUtil {
         }
     }
 
+    /**
+     * finish
+     *
+     * @param context context
+     * @param data    data
+     * @param code    code
+     */
     public static void finish(Context context, Intent data, int code) {
         if (context instanceof Activity) {
             Activity activity = (Activity) context;
@@ -231,6 +369,11 @@ public class ActivityUtil {
         }
     }
 
+    /**
+     * finish
+     *
+     * @param activity activity
+     */
     private static void finish(Activity activity) {
         if (activity != null && !activity.isFinishing()) {
             activity.finish();
@@ -259,6 +402,13 @@ public class ActivityUtil {
 //        }
 //    }
 
+    /**
+     * startApplicationSimple
+     *
+     * @param context     context
+     * @param packageName packageName
+     * @param bundle      bundle
+     */
     public static void startApplicationSimple(Context context, String packageName, Bundle bundle) {
         if (!AppUtil.isInstalled(context, packageName)) {
             ZTipUtil.toast(context, packageName + " 未安装!");
@@ -279,6 +429,8 @@ public class ActivityUtil {
     // --------------------------------------------------
 
     /**
+     * 获取intent
+     *
      * @param context context
      * @param target  target
      * @param intent  intent

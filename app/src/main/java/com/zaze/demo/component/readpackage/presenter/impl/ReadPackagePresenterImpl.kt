@@ -7,7 +7,8 @@ import com.zaze.demo.R
 import com.zaze.demo.app.MyApplication
 import com.zaze.demo.component.readpackage.presenter.ReadPackagePresenter
 import com.zaze.demo.component.readpackage.view.ReadPackageView
-import com.zaze.demo.model.entity.PackageEntity
+import com.zaze.demo.debug.AppShortcut
+import com.zaze.demo.debug.ApplicationManager
 import com.zaze.utils.AppUtil
 import com.zaze.utils.FileUtil
 import com.zaze.utils.ZStringUtil
@@ -38,7 +39,7 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : BaseMvpPresenter<ReadPac
 //        getUnSystemApp()
 //        getSystemApp()
 //        getAssignInstallApp()
-        val showList = ArrayList<PackageEntity>()
+        val showList = ArrayList<AppShortcut>()
         packageList.mapTo(showList) {
             initEntity(it)
         }
@@ -105,7 +106,7 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : BaseMvpPresenter<ReadPac
     }
 
     // --------------------------------------------------
-    override fun extract(dataList: List<PackageEntity>?) {
+    override fun extract(dataList: List<AppShortcut>?) {
         if (dataList != null) {
             val packageEntityList = dataList
             val builder = StringBuilder()
@@ -113,45 +114,39 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : BaseMvpPresenter<ReadPac
                 if (builder.isNotEmpty()) {
                     builder.append("\n")
                 }
-                builder.append("<item>${entity.packageName}</item><!--${entity.appName}-->")
+                builder.append("<item>${entity.packageName}</item><!--${entity.name}-->")
             }
             FileUtil.writeToFile(extractFile, builder.toString())
         }
     }
 
     override fun filterApp(matchStr: String) {
-        Observable.fromCallable({
+        Observable.fromCallable {
             packageList
-        }).subscribeOn(Schedulers.io())
-                .map({ v ->
-                    val list = ArrayList<PackageEntity>()
+        }.subscribeOn(Schedulers.io())
+                .map { v ->
+                    val list = ArrayList<AppShortcut>()
                     v.filter {
                         it.contains(ZStringUtil.parseString(matchStr).toLowerCase())
                     }.mapTo(list) {
                         initEntity(it)
                     }
-                })
+                }
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ v ->
+                .subscribe { v ->
                     view.showPackageList(v)
-                })
+                }
     }
 
     // --------------------------------------------------
-    private fun initEntity(packageName: String): PackageEntity {
-        val packageEntity = PackageEntity()
-        val application = AppUtil.getApplicationInfo(MyApplication.getInstance(), packageName)
-        packageEntity.packageName = packageName
-        if (application != null) {
-            packageEntity.sourceDir = application.sourceDir
-            packageEntity.appName = AppUtil.getAppName(MyApplication.getInstance(), packageName)
-            packageEntity.versionName = AppUtil.getAppVersionName(MyApplication.getInstance(), packageName)
-            packageEntity.versionCode = AppUtil.getAppVersionCode(MyApplication.getInstance(), packageName)
-            FileUtil.writeToFile(existsFile, "<item>$packageName</item><!--${packageEntity.appName}-->\n", true)
+    private fun initEntity(packageName: String): AppShortcut {
+        val appShortcut = ApplicationManager.getAppShortcut(packageName)
+        if (appShortcut != null) {
+            FileUtil.writeToFile(existsFile, "<item>$packageName</item><!--${appShortcut.name}-->\n", true)
         } else {
             FileUtil.writeToFile(unExistsFile, "<item>$packageName</item>\n", true)
         }
-        FileUtil.writeToFile(allFile, "<item>$packageName</item><!--${packageEntity.appName}-->\n", true)
-        return packageEntity
+        FileUtil.writeToFile(allFile, "<item>$packageName</item><!--${appShortcut.name}-->\n", true)
+        return appShortcut
     }
 }

@@ -90,7 +90,7 @@ object FileUtil {
     @JvmStatic
     fun rename(filePath: String, newFileName: String): Boolean {
         val file = File(filePath)
-        if(file.exists()) {
+        if (file.exists()) {
             return renameFile(filePath, file.parentFile.absolutePath + File.separator + newFileName)
         }
         return false

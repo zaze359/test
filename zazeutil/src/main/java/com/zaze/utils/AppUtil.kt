@@ -125,9 +125,9 @@ object AppUtil {
      */
     @JvmStatic
     @JvmOverloads
-    fun getApplicationInfo(context: Context, packageName: String? = null): ApplicationInfo? {
+    fun getApplicationInfo(context: Context, packageName: String? = null, flag: Int = 0): ApplicationInfo? {
         return try {
-            context.packageManager.getApplicationInfo(packageName ?: context.packageName, 0)
+            context.packageManager.getApplicationInfo(packageName ?: context.packageName, flag)
         } catch (e: PackageManager.NameNotFoundException) {
             ZLog.e(ZTag.TAG_ABOUT_APP, "没有找到应用信息 : $packageName")
             null
@@ -144,9 +144,9 @@ object AppUtil {
      */
     @JvmStatic
     @JvmOverloads
-    fun getPackageInfo(context: Context, packageName: String? = null): PackageInfo? {
+    fun getPackageInfo(context: Context, packageName: String? = null, flag: Int = 0): PackageInfo? {
         return try {
-            context.packageManager.getPackageInfo(packageName ?: context.packageName, 0)
+            context.packageManager.getPackageInfo(packageName ?: context.packageName, flag)
         } catch (e: PackageManager.NameNotFoundException) {
             ZLog.e(ZTag.TAG_DEBUG, "PackageManager.NameNotFoundException : $packageName")
             null
@@ -392,13 +392,13 @@ object AppUtil {
 
     @JvmStatic
     fun getAppPid(packageName: String): Int {
-        ZLog.i(ZTag.TAG_DEBUG, "getAppPid : " + packageName)
+        ZLog.i(ZTag.TAG_DEBUG, "getAppPid : $packageName")
         if (ZCommand.isCommandExists("grep")) {
-            val result = ZCommand.execCmdForRes("ps | grep " + packageName)
+            val result = ZCommand.execCmdForRes("ps | grep $packageName")
             if (ZCommand.isSuccess(result) && result.successList.size > 0) {
                 val message = result.successList[0]
-                ZLog.i(ZTag.TAG_DEBUG, "getAppPid : " + message)
-                val fields = message.split("\\s+".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
+                ZLog.i(ZTag.TAG_DEBUG, "getAppPid : $message")
+                val fields = message.split("\\s+".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                 if (fields.size > 1) {
                     return ZStringUtil.parseInt(fields[1])
                 }

@@ -59,7 +59,7 @@ object ZDeviceUtil {
                 if (TextUtils.isEmpty(id)) {
                     id = getAndroidId(context)
                     if ("9774d56d682e549c" == id) {
-                        val sharedPrefUtil = ZSharedPrefUtil.getInstance(context)
+                        val sharedPrefUtil = ZSharedPrefUtil.newInstance(context)
                         id = sharedPrefUtil.get(key, "")
                         if (TextUtils.isEmpty(id)) {
                             id = UUID.randomUUID().toString()

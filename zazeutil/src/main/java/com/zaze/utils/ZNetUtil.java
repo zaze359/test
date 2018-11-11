@@ -106,24 +106,26 @@ public class ZNetUtil {
     }
 
     public static String getNetwork(Context context) {
-        ConnectivityManager connectivityManager = getConnectivityManager(context);
-        NetworkInfo mobileInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-        NetworkInfo wifiInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        NetworkInfo activeInfo = connectivityManager.getActiveNetworkInfo();
+        NetworkInfo activeInfo = getConnectivityManager(context).getActiveNetworkInfo();
         if (activeInfo == null) {
             ZLog.e(ZTag.TAG_DEBUG, "无网络连接");
             return "";
         } else {
-            if (wifiInfo != null && mobileInfo != null) {
-                if (!wifiInfo.isConnected() && mobileInfo.isConnected()) {
-                    ZLog.i(ZTag.TAG_DEBUG, "当前使用数据流量");
-                    return MOBILE;
-                } else {
+            String wifi = null;
+            switch (activeInfo.getType()) {
+                case ConnectivityManager.TYPE_WIFI:
                     ZLog.i(ZTag.TAG_DEBUG, "当前连接wifi");
-                    return WIFI;
-                }
+                    wifi = WIFI;
+                    break;
+                case ConnectivityManager.TYPE_MOBILE:
+                    ZLog.i(ZTag.TAG_DEBUG, "当前使用数据流量");
+                    wifi = MOBILE;
+                    break;
+            }
+            if (activeInfo.isAvailable()) {
+                return wifi;
             } else {
-                return "unKnow";
+                return "";
             }
         }
     }

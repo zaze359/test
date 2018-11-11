@@ -12,6 +12,7 @@ import com.zaze.demo.component.readpackage.adapter.ReadPackageAdapter
 import com.zaze.demo.component.readpackage.presenter.ReadPackagePresenter
 import com.zaze.demo.component.readpackage.presenter.impl.ReadPackagePresenterImpl
 import com.zaze.demo.component.readpackage.view.ReadPackageView
+import com.zaze.demo.debug.AppShortcut
 import com.zaze.demo.model.entity.PackageEntity
 import com.zaze.utils.ZOnClickHelper
 import kotlinx.android.synthetic.main.read_package_activity.*
@@ -49,10 +50,9 @@ class ReadPackageActivity : BaseActivity(), ReadPackageView {
         })
     }
 
-    override fun showPackageList(list: List<PackageEntity>) {
-
-        val showList = ArrayList<PackageEntity>()
-        list.filter { !TextUtils.isEmpty(it.sourceDir) }.mapTo(showList) { it }
+    override fun showPackageList(list: List<AppShortcut>) {
+        val showList = ArrayList<AppShortcut>()
+        list.asSequence().filter { !TextUtils.isEmpty(it.sourceDir) }.mapTo(showList) { it }
         if (adapter == null) {
             adapter = ReadPackageAdapter(this, showList)
             package_recycle_view!!.layoutManager = LinearLayoutManager(this)

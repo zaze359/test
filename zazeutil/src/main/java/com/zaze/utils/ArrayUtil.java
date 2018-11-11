@@ -10,12 +10,26 @@ import java.util.Arrays;
  */
 public class ArrayUtil {
 
+    /**
+     * 合并
+     * @param first
+     * @param second
+     * @param <T>
+     * @return
+     */
     public static <T> T[] concat(T[] first, T[] second) {
         T[] result = Arrays.copyOf(first, first.length + second.length);
         System.arraycopy(second, 0, result, first.length, second.length);
         return result;
     }
 
+    /**
+     * 合并
+     * @param first
+     * @param rest
+     * @param <T>
+     * @return
+     */
     public static <T> T[] concatAll(T[] first, T[]... rest) {
         int totalLength = first.length;
         for (T[] array : rest) {

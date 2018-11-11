@@ -157,7 +157,8 @@ class MainActivity : BaseActivity() {
     private fun setupPermission() {
         PermissionUtil.checkAndRequestUserPermission(this, arrayOf(
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.INTERNET
+                Manifest.permission.INTERNET,
+                Manifest.permission.READ_PHONE_STATE
         ), 1)
     }
 

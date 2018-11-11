@@ -12,7 +12,7 @@ import java.security.NoSuchAlgorithmException;
  * @author : ZAZE
  * @version : 2017-06-20 - 13:25
  */
-public class ZEncryptionUtil {
+public class EncryptionUtil {
 
     // --------------------------------------------------
     public static String getMD5(File file) {

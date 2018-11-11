@@ -4,8 +4,11 @@ package com.zaze.demo.debug;
 import android.annotation.TargetApi;
 import android.app.usage.NetworkStatsManager;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.os.Build;
 
+import com.zaze.demo.app.MyApplication;
+import com.zaze.utils.AppUtil;
 import com.zaze.utils.ZReflectUtil;
 
 import java.util.ArrayList;
@@ -42,12 +45,11 @@ public class AnalyzeTrafficCompatVM extends AnalyzeTrafficCompat {
      */
     @Override
     protected List<NetTrafficStats> getNewestNetworkTraffic() {
-
-        List<AppShortcut> allAppShortcutList = ApplicationManager.getInstalledAppShortcuts();
+        List<ApplicationInfo> allAppList = AppUtil.getInstalledApplications(MyApplication.getInstance(), 0);
         List<NetTrafficStats> networkStatList = new ArrayList<>();
         Set<Integer> set = new HashSet<>();
-        for (AppShortcut appShortcut : allAppShortcutList) {
-            int uid = appShortcut.getUid();
+        for (ApplicationInfo applicationInfo : allAppList) {
+            int uid = applicationInfo.uid;
             if (!set.contains(uid)) {
                 set.add(uid);
                 long rxBytes = 0;
@@ -63,7 +65,7 @@ public class AnalyzeTrafficCompatVM extends AnalyzeTrafficCompat {
                     netTrafficStats.setUid(uid);
                     netTrafficStats.setRxBytes(rxBytes);
                     netTrafficStats.setTxBytes(txBytes);
-                    netTrafficStats.setAppShortcut(appShortcut);
+                    netTrafficStats.setAppShortcut(ApplicationManager.getAppShortcut(applicationInfo.packageName));
                     networkStatList.add(netTrafficStats);
                 }
             }
