@@ -7,8 +7,9 @@
         <item>com.xuehai.xuehailauncher_tea</item>
         <item>com.xuehai.launcher</item>
         <item>com.xuehai.response_launcher_teacher</item>
-        <item>com.xuehai.assist</item>
+        <item>com.xh.assist</item>
         <item>com.zhitongyun.wifimanager</item>
+        <item>com.xh.ime</item>
         <item>com.zaze.demo</item>
     </string-array>
 
@@ -51,7 +52,6 @@
         <item>android.ext.shared</item><!--Android 共享库-->
         <item>android</item><!--Android 系统-->
         <item>com.android.backupconfirm</item><!--com.android.backupconfirm-->
-        <item>com.android.captiveportallogin</item><!--CaptivePortalLogin-->
         <item>com.android.certinstaller</item><!--证书安装程序-->
         <item>com.android.clipboardsaveservice</item><!--TestService-->
         <item>com.android.defcontainer</item><!--软件包权限帮助程序-->
@@ -102,13 +102,12 @@
         <item>com.google.android.syncadapters.calendar</item><!--Google 日历同步-->
         <item>com.google.android.syncadapters.contacts</item><!--Google 通讯录同步-->
         <item>com.google.android.webview</item><!-- googleWebView -->
-        <item>com.android.webview</item><!--Android System WebView-->
-
         <item>com.android.browser.provider</item>
         <item>com.android.Preconfig</item>
     </string-array>
 
     <string-array name="android_un_keep_app">
+        <item>com.android.captiveportallogin</item><!--CaptivePortalLogin-->
         <item>com.android.bluetooth</item><!--蓝牙共享-->
         <item>com.android.bluetoothmidiservice</item><!--蓝牙 MIDI 服务-->
         <item>com.android.browser</item><!--互联网-->
@@ -124,19 +123,7 @@
         <item>com.android.providers.contacts</item><!--联系人存储-->
         <item>com.android.settings</item><!--设定-->
         <item>com.android.soundrecorder</item><!--录音机-->
-        <item>com.android.music</item><!--音乐-->
-        <item>android.rk.RockVideoPlayer</item><!--视频播放器-->
-        <item>com.android.camera2</item><!--相机-->
-
         <item>com.android.calligraphicpractice</item>
-    </string-array>
-
-    <!-- ~~~~~~~~~~~~~~~~~~~仅Root~~~~~~~~~~~~~~~~~~~~~~~~  -->
-    <string-array name="root_keep_app"></string-array>
-    <string-array name="root_un_keep_app"></string-array>
-    <!-- ~~~~~~~~~~~~~~~~~~~三星~~~~~~~~~~~~~~~~~~~~~~~~  -->
-    <string-array name="samsung_special_app">
-        <item>com.samsung.android.packageinstaller</item><!--应用安装管理-->
     </string-array>
     <string-array name="samsung_keep_app">
         <item>com.baidu.map.location</item><!--网络位置-->
@@ -300,7 +287,6 @@
         <item>com.wssnps</item><!--备份和恢复管理器-->
         <item>com.wssyncmldm</item><!--软件更新-->
         <item>org.simalliance.openmobileapi.service</item><!--SmartcardService-->
-
         <item>com.diotek.diodict3.hc.samsung.chn</item>
         <item>com.sec.android.servicecentre</item>
         <item>com.same</item>
@@ -309,6 +295,7 @@
     </string-array>
 
     <string-array name="samsung_un_keep_app">
+        <item>com.android.calendar</item><!--日历-->
         <item>com.samsung.android.app.galaxyfinder</item><!--S 搜索-->
         <item>com.samsung.android.app.pinboard</item><!--剪贴库-->
         <item>com.samsung.android.app.withtv</item><!--withTV-->
@@ -344,14 +331,15 @@
         <item>com.sec.android.mimage.photoretouching</item><!--图片编辑器-->
         <item>com.sec.android.provider.snote</item><!--S Note-->
         <item>com.sec.android.providers.chinaholiday</item><!--中国假期存储-->
-        <item>com.sec.android.sidesync30</item><!--S 窗口共享-->
+        <item>com.sec.android.sidesync30</item><!--S 窗口共享 同屏-->
         <item>com.sec.android.widgetapp.at.hero.cmaweather</item><!--天气-->
         <item>com.sec.android.widgetapp.samsungapps</item><!--三星应用商店小组件-->
         <item>com.sec.chaton</item><!--ChatON-->
         <item>com.sec.factory.camera</item><!--照相机测试-->
         <item>com.sec.msc.learninghub</item><!--学习圈-->
         <item>com.sec.pcw</item><!--Samsung Link-->
-
+        <item>com.samsung.clipboardsaveservice</item><!--ClipboardSaveService-->
+        <item>com.samsung.android.clipboarduiservice</item><!--ClipboardUIService-->
         <item>com.sec.android.app.mediashub</item>
         <item>com.sec.android.daemonapp.ap.sinaweather</item>
         <item>com.sec.android.daemonapp.ap.sinanews</item>
@@ -397,40 +385,34 @@
         <item>com.huawei.mmiautotest</item><!--MMIAutoTest-->
         <item>com.huawei.mmifunction</item><!--手机功能测试-->
         <item>com.huawei.mmitest</item><!--MMI测试-->
+        <item>com.huawei.himovie.overseas</item><!--华为视频-->
+        <item>com.huawei.HwMultiScreenShot</item><!--滚动截屏-->
+        <item>com.huawei.android.FloatTasks</item><!--悬浮导航-->
+        <item>com.huawei.android.totemweatherwidget</item><!--天气小工具-->
+        <item>com.huawei.contentsensor</item><!--取词-->
+        <item>com.huawei.android.totemweatherapp</item><!--天气-->
     </string-array>
     <!-- ~~~~~~~~~~~~~~~~~~~联想~~~~~~~~~~~~~~~~~~~~~~~~  -->
     <string-array name="lenovo_keep_app">
+        <item>com.google.android.inputmethod.pinyin</item><!--谷歌拼音输入法-->
         <item>com.lenovo.launcher.provider</item><!--LenovoLauncherProvider-->
+        <item>com.android.settings</item>
         <item>com.lenovo.launcher</item><!--联想桌面-->
     </string-array>
     <string-array name="lenovo_un_keep_app">
+        <item>com.codeaurora.fmradio</item><!--收音机-->
+        <item>com.android.calculator2</item><!--计算器-->
         <item>org.codeaurora.gallery</item><!--图库-->
         <item>org.codeaurora.snapcam</item><!--相机-->
+        <!--<item>com.lenovo.lsf</item>-->
     </string-array>
     <!-- ~~~~~~~~~~~~~~~~~~~测试~~~~~~~~~~~~~~~~~~~~~~~~  -->
     <string-array name="test_app">
-        <item>com.samsung.android.sm.devicesecurity</item><!--设备安全-->
-        <item>com.samsung.android.game.gamehome</item><!--游戏中心-->
-        <item>com.sec.android.easyMover.Agent</item><!--S 换机助手-->
-        <item>com.sec.android.app.kidshome</item><!--儿童模式-->
-        <item>com.samsung.android.app.scrollcapture</item><!--智能截屏-->
-        <item>com.samsung.android.onlinevideo</item><!--三星视频-->
-        <item>com.sec.musicstudio</item><!--玩音乐-->
-        <item>com.samsung.android.opencalendar</item><!--订阅日历-->
-        <item>com.samsung.android.scloud</item><!--三星云-->
-        <item>com.samsung.android.calendar</item><!--日历-->
-        <item>com.samsung.android.app.notes</item><!--三星笔记-->
-        <item>com.samsung.android.game.gametools</item><!--游戏工具-->
-        <item>com.sec.android.yellowpage</item><!--黄页-->
-        <item>com.sec.android.app.clockpackage</item><!--时钟-->
-        <item>com.samsung.android.sm_cn</item><!--智能管理器-->
-        <item>com.samsung.app.newtrim</item><!--视频剪辑器-->
-        <item>com.samsung.android.weather</item><!--天气预报-->
-        <item>com.sec.android.daemonapp</item><!--天气-->
-        <item>com.samsung.android.incallui</item><!--电话-->
-        <item>com.samsung.android.service.airviewdictionary</item><!--翻译-->
-        <item>com.samsung.android.contacts</item><!--联系人-->
-        <item>com.samsung.hongbaoassistant</item><!--红包助手-->
-        <item>com.ckl.tools</item><!--CKLTools-->
+        <!--<item>com.huawei.himovie.overseas</item>&lt;!&ndash;华为视频&ndash;&gt;-->
+        <!--<item>com.huawei.HwMultiScreenShot</item>&lt;!&ndash;滚动截屏&ndash;&gt;-->
+        <!--<item>com.huawei.android.FloatTasks</item>&lt;!&ndash;悬浮导航&ndash;&gt;-->
+        <!--<item>com.huawei.android.totemweatherwidget</item>&lt;!&ndash;天气小工具&ndash;&gt;-->
+        <!--<item>com.huawei.contentsensor</item>&lt;!&ndash;取词&ndash;&gt;-->
+        <!--<item>com.huawei.android.totemweatherapp</item>&lt;!&ndash;天气&ndash;&gt;-->
     </string-array>
 </resources>

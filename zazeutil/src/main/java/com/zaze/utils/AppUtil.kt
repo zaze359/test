@@ -438,7 +438,7 @@ object AppUtil {
     @JvmStatic
     fun getAppMemorySize(context: Context, packageName: String): Long {
         val runningAppProcessInfoList = AppUtil.getAppProcess(context, packageName)
-        var memorySize: Long = 0L
+        var memorySize = 0L
         runningAppProcessInfoList
                 .asSequence()
                 .mapNotNull { getProcessMemoryInfo(context, intArrayOf(it.pid)) }

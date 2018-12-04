@@ -17,13 +17,13 @@ import com.zaze.utils.log.ZTag
  */
 class WifiReceiver : BroadcastReceiver() {
     companion object {
-        private val callbackList = emptyList<WifiCallBack>()
+        private val callbackList = ArrayList<WifiCallBack>()
         fun register(callback: WifiCallBack) {
-            callbackList.plus(callback)
+            callbackList.add(callback)
         }
 
         fun unRegister(callback: WifiCallBack) {
-            callbackList.minus(callback)
+            callbackList.remove(callback)
         }
     }
 

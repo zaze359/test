@@ -7,9 +7,9 @@ import android.text.TextUtils;
 import com.zaze.demo.app.MyApplication;
 import com.zaze.demo.model.DeviceModel;
 import com.zaze.demo.model.entity.DeviceStatus;
+import com.zaze.utils.FileUtil;
 import com.zaze.utils.ZCommand;
 import com.zaze.utils.ZDeviceUtil;
-import com.zaze.utils.FileUtil;
 import com.zaze.utils.ZNetUtil;
 import com.zaze.utils.ZStringUtil;
 import com.zaze.utils.date.ZDateUtil;
@@ -19,7 +19,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Description :
@@ -29,8 +28,8 @@ import java.util.List;
  */
 public class DeviceModelImpl implements DeviceModel {
     @Override
-    public List<DeviceStatus> getDeviceInfo() {
-        List<DeviceStatus> list = new ArrayList<>();
+    public ArrayList<DeviceStatus> getDeviceInfo() {
+        ArrayList<DeviceStatus> list = new ArrayList<>();
         DeviceStatus deviceStatus;
         // --------------------------------------------------
         deviceStatus = new DeviceStatus();

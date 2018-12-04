@@ -96,7 +96,8 @@ public class ZConfigHelper {
      * @return String value
      */
     public String getProperty(String key) {
-        return ZPropertiesUtil.getProperty(filePath, key);
+        Properties properties = load();
+        return properties.getProperty(key);
     }
 
     /**

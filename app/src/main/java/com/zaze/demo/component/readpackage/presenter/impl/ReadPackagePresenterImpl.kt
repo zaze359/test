@@ -35,10 +35,10 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : BaseMvpPresenter<ReadPac
     // --------------------------------------------------
     override fun getAppList() {
 //        getAllApkFile("/sdcard/")
-        getAllInstallApp()
+//        getAllInstallApp()
 //        getUnSystemApp()
 //        getSystemApp()
-//        getAssignInstallApp()
+        getAssignInstallApp()
         val showList = ArrayList<AppShortcut>()
         packageList.mapTo(showList) {
             initEntity(it)
@@ -73,24 +73,23 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : BaseMvpPresenter<ReadPac
     override fun getAssignInstallApp() {
         reset()
         val filterSet = HashSet<String>()
-        filterSet.addAll(view.getStringArray(R.array.xuehai_keep_app).toList())
-        filterSet.addAll(view.getStringArray(R.array.un_keep_app).toList())
-        filterSet.addAll(view.getStringArray(R.array.android_keep_app).toList())
-        filterSet.addAll(view.getStringArray(R.array.android_un_keep_app).toList())
+//        filterSet.addAll(view.getStringArray(R.array.xuehai_keep_app).toList())
+//        filterSet.addAll(view.getStringArray(R.array.un_keep_app).toList())
+//        filterSet.addAll(view.getStringArray(R.array.android_keep_app).toList())
+//        filterSet.addAll(view.getStringArray(R.array.android_un_keep_app).toList())
 //        filterSet.addAll(view.getStringArray(R.array.samsung_keep_app).toList())
 //        filterSet.addAll(view.getStringArray(R.array.samsung_un_keep_app).toList())
-//        filterSet.addAll(view.getStringArray(R.array.samsung_special_app).toList())
 //        filterSet.addAll(view.getStringArray(R.array.huawei_keep_app).toList())
 //        filterSet.addAll(view.getStringArray(R.array.huawei_un_keep_app).toList())
 //        filterSet.addAll(view.getStringArray(R.array.lenovo_keep_app).toList())
 //        filterSet.addAll(view.getStringArray(R.array.lenovo_un_keep_app).toList())
         // --------------------------------------------------
-//        filterSet.addAll(view.getStringArray(R.array.test_app).toList())
+        filterSet.addAll(view.getStringArray(R.array.test_app).toList())
         // --------------------------------------------------
 //        filterSet.mapTo(packageList) { it }
         // --------------------------------------------------
-//        getAllInstallApp()
-        getSystemApp()
+        getAllInstallApp()
+//        getSystemApp()
 //        getUnSystemApp()
         packageList.removeAll(filterSet)
 
@@ -108,9 +107,9 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : BaseMvpPresenter<ReadPac
     // --------------------------------------------------
     override fun extract(dataList: List<AppShortcut>?) {
         if (dataList != null) {
-            val packageEntityList = dataList
+            FileUtil.deleteFile(extractFile)
             val builder = StringBuilder()
-            for (entity in packageEntityList) {
+            for (entity in dataList) {
                 if (builder.isNotEmpty()) {
                     builder.append("\n")
                 }

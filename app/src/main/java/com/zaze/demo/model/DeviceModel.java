@@ -2,7 +2,7 @@ package com.zaze.demo.model;
 
 import com.zaze.demo.model.entity.DeviceStatus;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Description :
@@ -17,5 +17,5 @@ public interface DeviceModel {
      *
      * @return List<DeviceStatus>
      */
-    List<DeviceStatus> getDeviceInfo();
+    ArrayList<DeviceStatus> getDeviceInfo();
 }

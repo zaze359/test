@@ -16,7 +16,6 @@
             android:layout_height="wrap_content"
             tools:text="mac 地址" />
 
-
         <TextView
             android:id="@+id/device_screen"
             android:layout_width="match_parent"
@@ -32,11 +31,26 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/device_calculate_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="计算dpi" />
+
+            <TextView
+                android:id="@+id/device_dpi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_4" />
 
             <EditText
+                android:id="@+id/device_input"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:hint="英寸"
+                android:inputType="" />
         </LinearLayout>
 
     </LinearLayout>
