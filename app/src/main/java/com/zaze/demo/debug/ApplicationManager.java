@@ -18,7 +18,7 @@ import com.zaze.utils.JsonUtil;
 import com.zaze.utils.ThreadManager;
 import com.zaze.utils.ZStringUtil;
 import com.zaze.utils.cache.MemoryCacheManager;
-import com.zaze.utils.config.ZConfigHelper;
+import com.zaze.utils.config.ConfigHelper;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
@@ -42,12 +42,12 @@ public class ApplicationManager {
     /**
      * 记录最近的一个 uid, 仅用于获取uid时使用
      */
-    private static ZConfigHelper latelyUidFile = ZConfigHelper.newInstance(FileUtil.getSDCardRoot() + "/zaze/LatelyUid.stats");
+    private static ConfigHelper latelyUidFile = ConfigHelper.newInstance(FileUtil.getSDCardRoot() + "/zaze/LatelyUid.stats");
 
     /**
      * 记录最近一个versionCode
      */
-    private static ZConfigHelper latelyVersionFile = ZConfigHelper.newInstance(FileUtil.getSDCardRoot() + "/zaze/LatelyVersion.stats");
+    private static ConfigHelper latelyVersionFile = ConfigHelper.newInstance(FileUtil.getSDCardRoot() + "/zaze/LatelyVersion.stats");
 
     /**
      * 默认logo缓存

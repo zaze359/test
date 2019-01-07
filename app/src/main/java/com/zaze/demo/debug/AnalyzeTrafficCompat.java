@@ -11,7 +11,7 @@ import com.zaze.utils.FileUtil;
 import com.zaze.utils.JsonUtil;
 import com.zaze.utils.ZStringUtil;
 import com.zaze.utils.cache.MemoryCacheManager;
-import com.zaze.utils.config.ZConfigHelper;
+import com.zaze.utils.config.ConfigHelper;
 import com.zaze.utils.date.ZDateUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
@@ -40,7 +40,7 @@ public abstract class AnalyzeTrafficCompat extends AnalyzeUtil {
     private static AnalyzeTrafficCompat compat;
     private static boolean isExecute = false;
 
-    private ZConfigHelper latelyTrafficStatsFile = ZConfigHelper.newInstance(
+    private ConfigHelper latelyTrafficStatsFile = ConfigHelper.newInstance(
             FileUtil.getSDCardRoot() + "/xuehai/keep/stats/LatelyNetworkTraffic.stats");
 
     /**
@@ -48,8 +48,8 @@ public abstract class AnalyzeTrafficCompat extends AnalyzeUtil {
      *
      * @return 日统计文件
      */
-    private ZConfigHelper getDayTrafficStatsFile() {
-        return ZConfigHelper.newInstance(ZStringUtil.format("%s/xuehai/keep/stats/DayNetworkTraffic_%s.stats",
+    private ConfigHelper getDayTrafficStatsFile() {
+        return ConfigHelper.newInstance(ZStringUtil.format("%s/xuehai/keep/stats/DayNetworkTraffic_%s.stats",
                 FileUtil.getSDCardRoot(), ZDateUtil.getDayEnd(System.currentTimeMillis())));
     }
 
@@ -161,7 +161,7 @@ public abstract class AnalyzeTrafficCompat extends AnalyzeUtil {
         synchronized (INSTANCE_LOCK) {
             ZLog.i(ZTag.TAG_DEBUG, "检查数据并进行合并归档");
             long bootTime = getBootTime();
-            ZConfigHelper dayTrafficStatsFile = this.getDayTrafficStatsFile();
+            ConfigHelper dayTrafficStatsFile = this.getDayTrafficStatsFile();
             Collection<NetTrafficStats> dayTrafficStatsList = JsonUtil.parseJsonToList(dayTrafficStatsFile.getProperty(KEY_TRAFFIC_LIST),
                     new TypeToken<List<NetTrafficStats>>() {
                     }.getType());

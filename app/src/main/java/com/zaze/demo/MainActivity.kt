@@ -20,10 +20,12 @@ import com.zaze.common.permission.PermissionUtil
 import com.zaze.common.widget.IntervalButtonWidget
 import com.zaze.demo.component.table.ui.TableFragment
 import com.zaze.demo.debug.KotlinDebug
+import com.zaze.demo.debug.LogDirListener
 import com.zaze.demo.debug.MessengerService
 import com.zaze.demo.debug.TestDebug
 import com.zaze.demo.util.setImmersion
 import com.zaze.demo.util.setupActionBar
+import com.zaze.utils.FileUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import kotlinx.android.synthetic.main.activity_main.*
@@ -43,7 +45,7 @@ class MainActivity : BaseActivity() {
     private val fragmentList = ArrayList<BaseFragment>()
 
     private var intervalButton: IntervalButtonWidget? = null
-
+    private val dirListener = LogDirListener(FileUtil.getSDCardRoot() + "/xuehai")
 
     private val messenger = Messenger(object : Handler() {
         override fun handleMessage(msg: Message?) {
@@ -73,6 +75,7 @@ class MainActivity : BaseActivity() {
             setDisplayHomeAsUpEnabled(true)
             setHomeButtonEnabled(true)
         }
+        dirListener.startWatching()
         setupPermission()
         bindService(Intent(this, MessengerService::class.java), serviceConnection, Context.BIND_AUTO_CREATE)
         // --------------------------------------------------
@@ -120,10 +123,6 @@ class MainActivity : BaseActivity() {
 //        weakReference = WeakReference(obj)
     }
 
-    fun aa() {
-
-    }
-
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return item?.run {
             return when (itemId) {
@@ -146,6 +145,7 @@ class MainActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        dirListener.stopWatching()
         unbindService(serviceConnection)
         intervalButton?.stop()
     }

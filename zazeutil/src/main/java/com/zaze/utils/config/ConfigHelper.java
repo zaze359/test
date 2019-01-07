@@ -15,7 +15,7 @@ import java.util.Properties;
  * @author : zaze
  * @version : 1.0
  */
-public class ZConfigHelper {
+public class ConfigHelper {
     /**
      * 最大 10MB
      */
@@ -25,19 +25,19 @@ public class ZConfigHelper {
     private int saveMode;
 
 
-    public static ZConfigHelper newInstance(File file) {
+    public static ConfigHelper newInstance(File file) {
         return newInstance(file.getAbsolutePath());
     }
 
-    public static ZConfigHelper newInstance(String filePath) {
+    public static ConfigHelper newInstance(String filePath) {
         return newInstance(filePath, Context.MODE_PRIVATE);
     }
 
-    public static ZConfigHelper newInstance(String filePath, int saveMode) {
-        return new ZConfigHelper(filePath, saveMode);
+    public static ConfigHelper newInstance(String filePath, int saveMode) {
+        return new ConfigHelper(filePath, saveMode);
     }
 
-    private ZConfigHelper(String filePath, int saveMode) {
+    private ConfigHelper(String filePath, int saveMode) {
         this.filePath = filePath;
         this.saveMode = saveMode;
     }
@@ -57,7 +57,7 @@ public class ZConfigHelper {
         }
         Properties properties = load();
         properties.setProperty(key, value);
-        ZPropertiesUtil.store(filePath, properties);
+        PropertiesUtil.store(filePath, properties);
     }
 
     /**
@@ -71,7 +71,7 @@ public class ZConfigHelper {
         }
         Properties properties = load();
         properties.putAll(map);
-        ZPropertiesUtil.store(filePath, properties);
+        PropertiesUtil.store(filePath, properties);
     }
     // --------------------------------------------------
 
@@ -85,7 +85,7 @@ public class ZConfigHelper {
         }
         Properties properties = load();
         properties.remove(key);
-        ZPropertiesUtil.store(filePath, properties);
+        PropertiesUtil.store(filePath, properties);
     }
 
     // --------------------------------------------------
@@ -111,9 +111,10 @@ public class ZConfigHelper {
             FileUtil.reCreateFile(filePath);
             isNew = true;
         }
-        Properties properties = ZPropertiesUtil.load(this.filePath);
+        Properties properties = PropertiesUtil.load(this.filePath);
         if (isNew) {
-            properties.setProperty(ZPropertiesUtil.CREATE_TIME_KEY, String.valueOf(System.currentTimeMillis()));
+            properties.setProperty(PropertiesUtil.CREATE_TIME_KEY, String.valueOf(System.currentTimeMillis()));
+            PropertiesUtil.store(filePath, properties);
         }
         return properties;
     }

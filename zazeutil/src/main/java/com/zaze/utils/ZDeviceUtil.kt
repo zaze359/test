@@ -139,8 +139,8 @@ object ZDeviceUtil {
         return Runtime.getRuntime().totalMemory()
     }
 
-// --------------------------------------------------
-// --------------------------------------------------
+    // --------------------------------------------------
+    // --------------------------------------------------
 
     @JvmStatic
     fun getDeviceMemory(context: Context): ActivityManager.MemoryInfo {

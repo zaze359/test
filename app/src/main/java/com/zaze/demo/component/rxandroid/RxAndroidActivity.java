@@ -28,6 +28,7 @@ import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
+import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -49,6 +50,7 @@ public class RxAndroidActivity extends BaseActivity {
     TextView rxAndroidTestTv;
 
     private boolean isRunning;
+    private Scheduler scheduler = Schedulers.io();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,9 +74,9 @@ public class RxAndroidActivity extends BaseActivity {
         if (!isRunning) {
             isRunning = true;
 //            test1();
-//        test2();
+            test2();
 //        test3();
-            test6();
+//            test6();
 //        test7();
         }
     }
@@ -129,12 +131,12 @@ public class RxAndroidActivity extends BaseActivity {
         Observable<String> observable = Observable.fromCallable(new Callable<String>() {
             @Override
             public String call() throws Exception {
-                Thread.sleep(3000L);
+                Thread.sleep(1000L);
                 return "RxAndroid Observable.fromCallable";
             }
         });
         observable
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(scheduler)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doFinally(new Action() {
                     @Override
@@ -244,7 +246,7 @@ public class RxAndroidActivity extends BaseActivity {
                 e.onComplete();
             }
         }, BackpressureStrategy.BUFFER)
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(scheduler)
                 .flatMap(new Function<List<String>, Publisher<String>>() {
                     @Override
                     public Publisher<String> apply(List<String> strings) throws Exception {

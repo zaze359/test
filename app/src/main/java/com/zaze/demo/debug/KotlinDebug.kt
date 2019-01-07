@@ -5,10 +5,10 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.SystemClock
-import com.zaze.utils.AppUtil
 import com.zaze.utils.FileUtil
 import com.zaze.utils.ZDisplayUtil
 import com.zaze.utils.ZStringUtil
+import com.zaze.utils.config.ConfigHelper
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import java.io.File
@@ -29,22 +29,23 @@ object KotlinDebug {
         // --------------------------------------------------
         result += (System.currentTimeMillis() - SystemClock.elapsedRealtime())
         // --------------------------------------------------
-//        val file = File("/sdcard/test.ini")
-//        val config = ZConfigHelper.newInstance(file)
-//        val map = HashMap<String, String>()
-//        for (i in 0..100000) {
-//            map.put("${System.currentTimeMillis()}" + i, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-//        }
-//        config.setProperty(map)
+        val file = File("/sdcard/test.ini")
+        val config = ConfigHelper.newInstance(file)
+        val map = HashMap<String, String>()
+        for (i in 0..1) {
+            map["${System.currentTimeMillis()}" + i] = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+        config.setProperty(map)
         // --------------------------------------------------
 //        createDeveloperToken()
         // --------------------------------------------------
 //        ZLog.i(ZTag.TAG_DEBUG, "${ZDeviceUtil.getSdFreeSpace() < 5L shl 30}")
 //        ZLog.i(ZTag.TAG_DEBUG, "${ZDeviceUtil.getSdFreeSpace() < 10L shl 30}")
 //        ZLog.i(ZTag.TAG_DEBUG, "${ZDateUtil.getWeek(Date())}")
-        ZLog.i(ZTag.TAG_DEBUG, "currentTimeMillis : ${System.currentTimeMillis()}")
-        ZLog.i(ZTag.TAG_DEBUG, "currentThreadTimeMillis: ${SystemClock.currentThreadTimeMillis()}")
-        ZLog.i(ZTag.TAG_DEBUG, "elapsedRealtime : ${SystemClock.elapsedRealtime()}")
+        // --------------------------------------------------
+//        ZLog.i(ZTag.TAG_DEBUG, "currentTimeMillis : ${System.currentTimeMillis()}")
+//        ZLog.i(ZTag.TAG_DEBUG, "currentThreadTimeMillis: ${SystemClock.currentThreadTimeMillis()}")
+//        ZLog.i(ZTag.TAG_DEBUG, "elapsedRealtime : ${SystemClock.elapsedRealtime()}")
         // --------------------------------------------------
 //        AppUtil.startApplicationSimple(MyApplication.getInstance(), "com.xuehai.response_launcher_teacher")
 //        val intent = getTargetActivityIntent(activity, "com.xh.open.WakeupActivity")
@@ -56,14 +57,15 @@ object KotlinDebug {
         //
 //        val packageName = "com.xuehai.response_launcher_teacher"
 //        val packageName = "com.xuehai.launcher"
-        val action = ""
-        if (!AppUtil.isAppRunning(activity, action)) {
-            val intent = Intent(action)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
-            activity.startActivity(intent)
-        } else {
-            ZLog.i(ZTag.TAG_DEBUG, "$action 已启动")
-        }
+        // --------------------------------------------------
+//        val action = ""
+//        if (!AppUtil.isAppRunning(activity, action)) {
+//            val intent = Intent(action)
+//            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
+//            activity.startActivity(intent)
+//        } else {
+//            ZLog.i(ZTag.TAG_DEBUG, "$action 已启动")
+//        }
     }
 
     @JvmStatic

@@ -31,7 +31,7 @@ public class SortUtil {
                 try {
                     String leftValue = lhs.getClass().getMethod(method).invoke(lhs, new Object[]{}).toString();
                     String rightValue = rhs.getClass().getMethod(method).invoke(rhs, new Object[]{}).toString();
-                    if (sort != null && SortUtil.DESC.equalsIgnoreCase(sort)) {
+                    if (SortUtil.DESC.equalsIgnoreCase(sort)) {
                         //若第二个大于第一个, 返回 > 0, 交换位置
                         flag = rightValue.compareTo(leftValue);
                     } else {

@@ -83,6 +83,11 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         super.onDestroy();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        ZLog.v(ZTag.TAG_DEBUG, "onActivityResult : " + this.getClass().getName());
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

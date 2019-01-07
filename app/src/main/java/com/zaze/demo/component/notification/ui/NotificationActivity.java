@@ -2,6 +2,7 @@ package com.zaze.demo.component.notification.ui;
 
 
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,8 +12,14 @@ import com.zaze.common.base.BaseActivity;
 import com.zaze.demo.R;
 import com.zaze.demo.component.notification.presenter.NotificationPresenter;
 import com.zaze.demo.component.notification.presenter.impl.NotificationPresenterImpl;
+import com.zaze.demo.component.notification.receiver.Bean;
+import com.zaze.demo.component.notification.receiver.TestBroadcastReceiver;
 import com.zaze.demo.component.notification.service.NotificationService;
 import com.zaze.demo.component.notification.view.NotificationView;
+import com.zaze.utils.log.ZLog;
+import com.zaze.utils.log.ZTag;
+
+import java.util.Random;
 
 import androidx.core.app.NotificationCompat;
 
@@ -56,14 +63,23 @@ public class NotificationActivity extends BaseActivity implements NotificationVi
     private void notification() {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setSmallIcon(R.mipmap.ic_launcher);
-        builder.setContentTitle("title");
-        builder.setContentText("content");
-        builder.setAutoCancel(true);
+        builder.setContentTitle("title")
+                .setContentText("content")
+                .setAutoCancel(true)
+                .setDefaults(~NotificationCompat.DEFAULT_SOUND ^ NotificationCompat.DEFAULT_VIBRATE)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setOngoing(true);
         // 设置通知主题的意图
 //        Intent resultIntent = new Intent(this, TaskActivity.class);
 //        PendingIntent resultPendingIntent = PendingIntent.getActivity(
 //                this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//        builder.setContentIntent(resultPendingIntent);
+        Intent intentCancel = new Intent(TestBroadcastReceiver.ACTION);
+        Bean bean = new Bean();
+        bean.setId(new Random().nextInt(1000) + 1L);
+        ZLog.v(ZTag.TAG_DEBUG, "zaze send bean : " + bean.getId());
+        intentCancel.putExtra(TestBroadcastReceiver.TEST, bean);
+        PendingIntent pendingIntentCancel = PendingIntent.getBroadcast(this, 1, intentCancel, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(pendingIntentCancel);
         NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(1, builder.build());
     }

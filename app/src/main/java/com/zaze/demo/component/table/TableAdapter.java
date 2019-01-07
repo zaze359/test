@@ -44,7 +44,7 @@ public class TableAdapter extends BaseRecyclerAdapter<TableEntity, TableAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityUtil.startActivity(activity, value.getTargetClass());
+                ActivityUtil.startActivityForResult(activity, value.getTargetClass(), 0);
             }
         });
     }

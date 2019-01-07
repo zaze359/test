@@ -2,16 +2,21 @@ package com.zaze.demo.debug;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.XmlResourceParser;
 import android.os.Environment;
 import android.provider.Settings;
 import android.util.Base64;
+import android.util.Log;
 
 import com.zaze.demo.model.entity.DeviceStatus;
 import com.zaze.utils.ThreadManager;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.sevenzip4j.SevenZipArchiveOutputStream;
 import org.sevenzip4j.archive.SevenZipEntry;
 import org.xmlpull.v1.XmlPullParser;
@@ -28,7 +33,6 @@ import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import java.util.TimeZone;
 import java.util.regex.Pattern;
 
 /**
@@ -90,9 +94,41 @@ public class TestDebug {
 //        for (WeakReference weakReference : reference3) {
 //            ZLog.i(ZTag.TAG_DEBUG, "reference3 : " + weakReference.get());
 //        }
-
+//        aaaaaa(context);
+        String a = null;
+        try {
+            JSONObject jsonObject = new JSONObject(a);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
+    static void aaaaaa(final Context context) {
+        for (int i = 0; i < 4; i++) {
+            new Thread() {
+                @Override
+                public void run() {
+                    int count = 0;
+                    List<PackageInfo> list = context.getPackageManager()
+                            .getInstalledPackages(0);
+                    for (PackageInfo info : list) {
+                        if (count >= 1000) {
+                            break;
+                        }
+                        try {
+                            PackageInfo pi = context.getPackageManager()
+                                    .getPackageInfo(info.packageName,
+                                            PackageManager.GET_ACTIVITIES);
+                            Log.e("test", "threadid:" + Thread.currentThread().getId()
+                                    + ",i:" + count++);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }.start();
+        }
+    }
 
     /**
      * Compress test

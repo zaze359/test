@@ -58,7 +58,6 @@ public class DeviceActivity extends BaseActivity implements DeviceContract.View 
                 ZDisplayUtil.getScreenHeightPixels(),
                 ZDisplayUtil.getScreenWidthDp(),
                 ZDisplayUtil.getScreenHeightDp())
-
         );
         findViewById(R.id.device_calculate_btn).setOnClickListener(new View.OnClickListener() {
             @Override

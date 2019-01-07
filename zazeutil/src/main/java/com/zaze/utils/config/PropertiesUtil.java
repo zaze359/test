@@ -16,7 +16,7 @@ import java.util.Properties;
  * @author : zaze
  * @version : 2015-11-02 - 16:07
  */
-public class ZPropertiesUtil {
+public class PropertiesUtil {
 
     public static final String CREATE_TIME_KEY = "create_time";
     private static final String VERSION_KEY = "version_key";
