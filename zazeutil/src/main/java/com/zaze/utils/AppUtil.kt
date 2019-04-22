@@ -1,8 +1,8 @@
 package com.zaze.utils
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.ActivityManager
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
@@ -485,34 +485,21 @@ object AppUtil {
     // --------------------------------------------------
     // --------------------------------------------------
 
-    @Deprecated("")
     @JvmStatic
     @JvmOverloads
-    fun startApplication(context: Context, packageName: String, bundle: Bundle? = null) {
-        val packageInfo = getPackageInfo(context, packageName)
-        if (packageInfo != null) {
-            if (null == context.packageManager.getLaunchIntentForPackage(packageName)) {
-                ZTipUtil.toast(context, "($packageName)不可直接打开!")
+    fun startApplication(context: Context, packageName: String, bundle: Bundle? = null, needToast: Boolean = true): Boolean {
+        context.packageManager.getLaunchIntentForPackage(packageName)?.let {
+            it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            it.addFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
+            context.startActivity(it, bundle)
+            return true
+        } ?: let {
+            if (needToast) {
+                getPackageInfo(context, packageName)?.let {
+                    ZTipUtil.toast(context, "($packageName)未安装!")
+                } ?: ZTipUtil.toast(context, "($packageName)不可直接打开!")
             }
-            // 启动应用程序对应的Activity
-            val apps = queryMainIntentActivities(context, packageName)
-            var resolveInfo: ResolveInfo? = null
-            try {
-                resolveInfo = apps.iterator().next()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-            if (resolveInfo != null) {
-                val className = resolveInfo.activityInfo.name
-                val intent = Intent(Intent.ACTION_MAIN)
-                intent.addCategory(Intent.CATEGORY_LAUNCHER)
-                val componentName = ComponentName(packageName, className)
-                intent.component = componentName
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                context.startActivity(intent, bundle)
-            }
-        } else {
-            ZTipUtil.toast(context, "($packageName)未安装!")
+            return false
         }
     }
 

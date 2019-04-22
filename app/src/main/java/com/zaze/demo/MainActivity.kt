@@ -16,6 +16,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.zaze.common.base.BaseActivity
 import com.zaze.common.base.BaseFragment
+import com.zaze.common.base.ext.setImmersion
+import com.zaze.common.base.ext.setupActionBar
 import com.zaze.common.permission.PermissionUtil
 import com.zaze.common.widget.IntervalButtonWidget
 import com.zaze.demo.component.table.ui.TableFragment
@@ -23,8 +25,6 @@ import com.zaze.demo.debug.KotlinDebug
 import com.zaze.demo.debug.LogDirListener
 import com.zaze.demo.debug.MessengerService
 import com.zaze.demo.debug.TestDebug
-import com.zaze.demo.util.setImmersion
-import com.zaze.demo.util.setupActionBar
 import com.zaze.utils.FileUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
@@ -150,7 +150,6 @@ class MainActivity : BaseActivity() {
         intervalButton?.stop()
     }
 
-
     /**
      * 申请权限
      */
@@ -158,7 +157,9 @@ class MainActivity : BaseActivity() {
         PermissionUtil.checkAndRequestUserPermission(this, arrayOf(
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.INTERNET,
-                Manifest.permission.READ_PHONE_STATE
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.PACKAGE_USAGE_STATS
         ), 1)
     }
 

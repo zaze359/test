@@ -5,6 +5,8 @@ import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.PaintDrawable
+import android.media.ThumbnailUtils
+import android.view.View
 import java.io.ByteArrayOutputStream
 
 /**
@@ -140,6 +142,7 @@ object BmpUtil {
             BitmapDrawable(res, bitmap)
         }
     }
+
 // --------------------------------------------------
     /**
      * [drawable] drawable
@@ -164,5 +167,30 @@ object BmpUtil {
         return bitmap2Drawable(res, bytes2Bitmap(bytes))
     }
 
+    fun getViewBitmap(width: Int, height: Int, view: View?): Bitmap? {
+        var bitmap: Bitmap? = null
+        if (view != null) {
+            val enable = view.isDrawingCacheEnabled
+            if (!enable) {
+                view.isDrawingCacheEnabled = true
+            }
+            try {
+                if (null != view.drawingCache) {
+                    bitmap = ThumbnailUtils.extractThumbnail(view.drawingCache, width, height)
+                }
+            } catch (e: OutOfMemoryError) {
+                e.printStackTrace()
+            } finally {
+                if (!enable) {
+                    view.isDrawingCacheEnabled = false
+                    view.destroyDrawingCache()
+                }
+            }
+        }
+        if (bitmap == null) {
+            bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+        }
+        return bitmap
+    }
 
 }

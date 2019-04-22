@@ -1,6 +1,7 @@
 package com.zaze.demo.model.impl;
 
 
+import com.zaze.demo.component.animation.VectorActivity;
 import com.zaze.demo.component.animation.ui.AnimationActivity;
 import com.zaze.demo.component.animation.ui.AnimationActivity1;
 import com.zaze.demo.component.animation.ui.SharedElementActivity;
@@ -27,11 +28,11 @@ import com.zaze.demo.component.task.ui.TaskActivity;
 import com.zaze.demo.component.time.TimeActivity;
 import com.zaze.demo.component.toolbar.ToolBarDemoActivity;
 import com.zaze.demo.component.webview.ui.WebViewActivity;
+import com.zaze.demo.component.network.NetworkStatsActivity;
 import com.zaze.demo.component.wifi.ui.WifiActivity;
 import com.zaze.demo.model.EntityModel;
 import com.zaze.demo.model.entity.AnimationEntity;
 import com.zaze.demo.model.entity.TableEntity;
-import com.zaze.demo.component.animation.VectorActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,7 @@ public class EntityModelImpl implements EntityModel {
     public List<TableEntity> getTableList() {
         List<TableEntity> list = new ArrayList<>();
         int i = 0;
-//        list.add(new TableEntity("流量监控", NetworkStatsActivity.class, ++i));
+        list.add(new TableEntity("流量监控", NetworkStatsActivity.class, ++i));
         list.add(new TableEntity("字体变换", FontActivity.class, ++i));
         list.add(new TableEntity("自定义View", CustomViewActivity.class, ++i));
         list.add(new TableEntity("消息通知栏", NotificationActivity.class, ++i));

@@ -59,7 +59,6 @@ public class AddImageLayout extends ViewGroup {
         addView(new View(getContext()));
     }
 
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int width = MeasureSpec.getSize(widthMeasureSpec);

@@ -13,7 +13,6 @@ import com.zaze.demo.component.readpackage.presenter.ReadPackagePresenter
 import com.zaze.demo.component.readpackage.presenter.impl.ReadPackagePresenterImpl
 import com.zaze.demo.component.readpackage.view.ReadPackageView
 import com.zaze.demo.debug.AppShortcut
-import com.zaze.demo.model.entity.PackageEntity
 import com.zaze.utils.ZOnClickHelper
 import kotlinx.android.synthetic.main.read_package_activity.*
 
@@ -60,6 +59,5 @@ class ReadPackageActivity : BaseActivity(), ReadPackageView {
         } else {
             adapter!!.setDataList(showList)
         }
-
     }
 }

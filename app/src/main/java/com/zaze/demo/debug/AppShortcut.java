@@ -3,6 +3,7 @@ package com.zaze.demo.debug;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
+import android.content.pm.SigningInfo;
 import android.os.Build;
 
 import com.zaze.utils.AppUtil;
@@ -86,6 +87,12 @@ public class AppShortcut {
         return signingInfo;
     }
 
+    public void setSigningInfo(SigningInfo signingInfo) {
+        if (signingInfo != null) {
+            this.signingInfo = signingInfo.toString();
+        }
+    }
+
     public void setSigningInfo(String signingInfo) {
         this.signingInfo = signingInfo;
     }
@@ -100,7 +107,7 @@ public class AppShortcut {
         appShortcut.setFlags(applicationInfo.flags);
         appShortcut.setUid(applicationInfo.uid);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            appShortcut.setSigningInfo(packageInfo.signingInfo.toString());
+            appShortcut.setSigningInfo(packageInfo.signingInfo);
         } else {
             appShortcut.setSigningInfo(SignaturesUtil.getMd5(packageInfo.signatures));
         }

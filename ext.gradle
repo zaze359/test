@@ -1,0 +1,19 @@
+ext {
+    butterKnife = "9.0.0-SNAPSHOT"
+    compileSdkVersion = 28
+    buildToolsVersion = '28.0.3'
+    minSdkVersion = 16
+    targetSdkVersion = 28
+    supportLibraryVersion = '1.0.0'
+
+    archLifecycleVersionx = '2.0.0'
+
+
+    runnerVersion = '1.1.0'
+    rulesVersion = '1.0.1'
+    espressoVersion = '3.1.0-alpha3'
+
+    junitVersion = '4.12'
+    versionCode = 1
+    versionName = "1.0"
+}

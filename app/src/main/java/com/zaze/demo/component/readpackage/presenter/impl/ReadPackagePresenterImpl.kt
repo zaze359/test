@@ -34,10 +34,6 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : BaseMvpPresenter<ReadPac
     val packageList = HashSet<String>()
     // --------------------------------------------------
     override fun getAppList() {
-//        getAllApkFile("/sdcard/")
-//        getAllInstallApp()
-//        getUnSystemApp()
-//        getSystemApp()
         getAssignInstallApp()
         val showList = ArrayList<AppShortcut>()
         packageList.mapTo(showList) {
@@ -72,26 +68,29 @@ class ReadPackagePresenterImpl(view: ReadPackageView) : BaseMvpPresenter<ReadPac
 
     override fun getAssignInstallApp() {
         reset()
+        // --------------------------------------------------
+//        getAllApkFile("/sdcard/")
+        getAllInstallApp()
+//        getSystemApp()
+//        getUnSystemApp()
+        // --------------------------------------------------
         val filterSet = HashSet<String>()
-//        filterSet.addAll(view.getStringArray(R.array.xuehai_keep_app).toList())
-//        filterSet.addAll(view.getStringArray(R.array.un_keep_app).toList())
-//        filterSet.addAll(view.getStringArray(R.array.android_keep_app).toList())
-//        filterSet.addAll(view.getStringArray(R.array.android_un_keep_app).toList())
-//        filterSet.addAll(view.getStringArray(R.array.samsung_keep_app).toList())
-//        filterSet.addAll(view.getStringArray(R.array.samsung_un_keep_app).toList())
-//        filterSet.addAll(view.getStringArray(R.array.huawei_keep_app).toList())
-//        filterSet.addAll(view.getStringArray(R.array.huawei_un_keep_app).toList())
-//        filterSet.addAll(view.getStringArray(R.array.lenovo_keep_app).toList())
-//        filterSet.addAll(view.getStringArray(R.array.lenovo_un_keep_app).toList())
+        filterSet.addAll(view.getStringArray(R.array.xuehai_keep_app).toList())
+        filterSet.addAll(view.getStringArray(R.array.un_keep_app).toList())
+        filterSet.addAll(view.getStringArray(R.array.android_keep_app).toList())
+        filterSet.addAll(view.getStringArray(R.array.android_un_keep_app).toList())
+        filterSet.addAll(view.getStringArray(R.array.samsung_keep_app).toList())
+        filterSet.addAll(view.getStringArray(R.array.samsung_un_keep_app).toList())
+        filterSet.addAll(view.getStringArray(R.array.huawei_keep_app).toList())
+        filterSet.addAll(view.getStringArray(R.array.huawei_un_keep_app).toList())
+        filterSet.addAll(view.getStringArray(R.array.lenovo_keep_app).toList())
+        filterSet.addAll(view.getStringArray(R.array.lenovo_un_keep_app).toList())
         // --------------------------------------------------
         filterSet.addAll(view.getStringArray(R.array.test_app).toList())
         // --------------------------------------------------
 //        filterSet.mapTo(packageList) { it }
         // --------------------------------------------------
-        getAllInstallApp()
-//        getSystemApp()
-//        getUnSystemApp()
-        packageList.removeAll(filterSet)
+//        packageList.removeAll(filterSet)
 
     }
 

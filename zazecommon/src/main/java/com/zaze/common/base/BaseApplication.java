@@ -5,6 +5,8 @@ import android.content.res.Configuration;
 
 import com.zaze.utils.ZDisplayUtil;
 import com.zaze.utils.cache.MemoryCacheManager;
+import com.zaze.utils.log.ZLog;
+import com.zaze.utils.log.ZLogLevel;
 
 
 /**
@@ -29,6 +31,7 @@ public abstract class BaseApplication extends Application {
         super.onCreate();
         instance = this;
         ZDisplayUtil.init(this);
+        ZLog.setLogLevel(ZLogLevel.DEBUG);
     }
 
     @Override

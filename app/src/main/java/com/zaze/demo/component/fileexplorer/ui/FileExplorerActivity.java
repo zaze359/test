@@ -28,7 +28,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
-import static com.zaze.demo.util.AppCompatActivityExtKt.setupActionBar;
+import static com.zaze.common.base.ext.AppCompatActivityExtKt.setupActionBar;
+
 
 /**
  * Description :
@@ -49,7 +50,6 @@ public class FileExplorerActivity extends BaseActivity implements FileExplorerVi
         setContentView(R.layout.file_explorer_activity);
         fileExplorerRecycler = findViewById(R.id.file_explorer_recycler);
         fileExplorerReturnTv = findViewById(R.id.file_explorer_return_tv);
-
 
         EventBus.getDefault().register(this);
         setupActionBar(this, R.id.file_explorer_toolbar, new Function1<ActionBar, Unit>() {

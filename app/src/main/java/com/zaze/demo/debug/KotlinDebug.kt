@@ -1,17 +1,22 @@
 package com.zaze.demo.debug
 
+import android.Manifest
 import android.app.Activity
+import android.app.AppOpsManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.ConnectivityManager
-import android.os.SystemClock
+import android.os.Build
+import android.provider.Settings
+import android.view.inputmethod.InputMethodManager
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.zaze.utils.FileUtil
 import com.zaze.utils.ZDisplayUtil
 import com.zaze.utils.ZStringUtil
-import com.zaze.utils.config.ConfigHelper
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
-import java.io.File
 
 
 /**
@@ -27,15 +32,15 @@ object KotlinDebug {
 //        showLog("createDimensByDensity", { createDimensByDensity(ZDisplayUtil.getScreenDensity()) })
 //        showLog("createDimensBySW", { createDimensBySW(768, ZDisplayUtil.getScreenWidthDp().toInt()) })
         // --------------------------------------------------
-        result += (System.currentTimeMillis() - SystemClock.elapsedRealtime())
-        // --------------------------------------------------
-        val file = File("/sdcard/test.ini")
-        val config = ConfigHelper.newInstance(file)
-        val map = HashMap<String, String>()
-        for (i in 0..1) {
-            map["${System.currentTimeMillis()}" + i] = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-        }
-        config.setProperty(map)
+//        result += (System.currentTimeMillis() - SystemClock.elapsedRealtime())
+//        // --------------------------------------------------
+//        val file = File("/sdcard/test.ini")
+//        val config = ConfigHelper.newInstance(file)
+//        val map = HashMap<String, String>()
+//        for (i in 0..1) {
+//            map["${System.currentTimeMillis()}" + i] = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+//        }
+//        config.setProperty(map)
         // --------------------------------------------------
 //        createDeveloperToken()
         // --------------------------------------------------
@@ -64,8 +69,60 @@ object KotlinDebug {
 //            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
 //            activity.startActivity(intent)
 //        } else {
-//            ZLog.i(ZTag.TAG_DEBUG, "$action 已启动")
+//            ZLog.i(ZTag.TAG_DEBUG,action 已启动")
 //        }
+        // --------------------------------------------------
+
+
+//        if (hasPermissionToReadNetworkStats(activity)) {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                val networkStatsManager = activity.getSystemService(NETWORK_STATS_SERVICE) as NetworkStatsManager
+//                // 获取到目前为止设备的Wi-Fi流量统计
+//                val bucket = networkStatsManager.querySummaryForDevice(ConnectivityManager.TYPE_WIFI, "", 0, System.currentTimeMillis())
+//                Log.i("Info", "Total: " + (bucket.rxBytes + bucket.txBytes))
+//            }
+//        }
+    }
+
+    fun getDefaultInputMethod(context: Context): String {
+        try {
+            val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val list = imm.inputMethodList
+            if (list != null && !list.isEmpty()) {
+                list.forEach { inputMethod ->
+                    if (inputMethod.id.contains("com.xh.ime")) {
+                        return inputMethod.id
+                    }
+                }
+//                return list[0].id
+                return ""
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return ""
+    }
+
+
+    fun hasPermissionToReadNetworkStats(activity: Activity): Boolean {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return true
+        }
+        val permissionCheck = ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_PHONE_STATE)
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.READ_PHONE_STATE), 1)
+        } else {
+        }
+
+        val appOps = activity.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
+        val mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
+                android.os.Process.myUid(), activity.packageName)
+        if (mode == AppOpsManager.MODE_ALLOWED) {
+            return true
+        }
+        // 打开“有权查看使用情况的应用”页面
+        activity.startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))
+        return false
     }
 
     @JvmStatic
@@ -95,18 +152,6 @@ object KotlinDebug {
             }
         }
         ZLog.e(ZTag.TAG_DEBUG, "获取不到网络状态")
-//
-//        if (activeInfo == null) {
-//            ZLog.e(ZTag.TAG_DEBUG, "无网络连接")
-//        } else {
-//            if (wifiInfo != null && wifiInfo.isConnected) {
-//                ZLog.i(ZTag.TAG_DEBUG, "当前连接wifi")
-//            } else if (mobileInfo != null && mobileInfo.isConnected) {
-//                ZLog.i(ZTag.TAG_DEBUG, "当前使用数据流量")
-//            } else {
-//                ZLog.e(ZTag.TAG_DEBUG, "有网但是获取不到网络状态")
-//            }
-//        }
     }
 
 
@@ -203,19 +248,5 @@ object KotlinDebug {
 //        AppUtil.clearDataInfo(MyApplication.getInstance(), MyApplication.getInstance().packageName)
 //        return "" + FileUtil.deleteFile("/data/data/" + MyApplication.getInstance().packageName)
         return ""
-    }
-
-    // --------------------------------------------------
-    fun searchFile(): String {
-        val fileSet = FileUtil.searchFileAndDir(File("/sdcard/"), "com.xuehai.response_launcher_teacher");
-        val builder = StringBuilder()
-        for (file in fileSet) {
-            builder.append(file.absolutePath + "\n")
-        }
-        return builder.toString()
-    }
-
-    // --------------------------------------------------
-    fun adb() {
     }
 }

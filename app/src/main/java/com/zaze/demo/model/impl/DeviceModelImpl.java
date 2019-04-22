@@ -12,13 +12,14 @@ import com.zaze.utils.ZCommand;
 import com.zaze.utils.ZDeviceUtil;
 import com.zaze.utils.ZNetUtil;
 import com.zaze.utils.ZStringUtil;
-import com.zaze.utils.date.ZDateUtil;
+import com.zaze.utils.date.DateUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.TimeZone;
 
 /**
  * Description :
@@ -98,7 +99,7 @@ public class DeviceModelImpl implements DeviceModel {
         // --------------------------------------------------
         deviceStatus = new DeviceStatus();
         deviceStatus.setTag("TIME");
-        deviceStatus.setContent(ZDateUtil.timeMillisToString(Build.TIME, "yyyy-MM-dd HH:mm:ss"));
+        deviceStatus.setContent(DateUtil.timeMillisToString(Build.TIME, "yyyy-MM-dd HH:mm:ss", TimeZone.getDefault()));
         list.add(deviceStatus);
         // --------------------------------------------------
         deviceStatus = new DeviceStatus();

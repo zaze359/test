@@ -1,14 +1,17 @@
 package com.zaze.demo.component.readpackage.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.zaze.common.adapter.BaseRecyclerAdapter
 import com.zaze.common.base.BaseApplication
+import com.zaze.common.util.ActivityUtil
 import com.zaze.demo.R
 import com.zaze.demo.debug.AppShortcut
 import com.zaze.demo.debug.InvariantDeviceProfile
@@ -70,6 +73,18 @@ class ReadPackageAdapter(context: Context, data: Collection<AppShortcut>) : Base
             drawable = getDrawable(R.mipmap.ic_launcher)
         }
         holder.itemAppIv.setImageBitmap(BmpUtil.drawable2Bitmap(drawable, iconSize))
+        holder.itemView.setOnClickListener {
+            if (!AppUtil.startApplication(context, packageName, null, false)) {
+                // TODO 测试代码
+                val intent = Intent(Intent.ACTION_MAIN, Uri.parse("$packageName://main"))
+                intent.setPackage(packageName)
+                val resolveInfos = context.packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
+                if (resolveInfos != null && !resolveInfos.isEmpty()) {
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
+                    ActivityUtil.startActivity(context, intent)
+                }
+            }
+        }
     }
 
     inner class PackageHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

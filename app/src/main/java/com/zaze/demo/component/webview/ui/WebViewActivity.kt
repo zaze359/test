@@ -21,6 +21,8 @@ import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import kotlinx.android.synthetic.main.web_view_activity.*
 
+
+
 /**
  * Description :
  * @author : zaze
@@ -40,6 +42,7 @@ open class WebViewActivity : BaseActivity(), WebViewView {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
         }
+        web_view.addJavascriptInterface(InJavaScriptLocalObj(), "local_obj")
         web_view.webViewClient = object : WebViewClient() {
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
@@ -49,6 +52,8 @@ open class WebViewActivity : BaseActivity(), WebViewView {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 ZLog.i(ZTag.TAG_DEBUG, "onPageFinished ：${System.currentTimeMillis()}")
+                view?.loadUrl("javascript:window.local_obj.showSource('<head>'+"
+                        + "document.getElementsByTagName('html')[0].innerHTML+'</head>');");
             }
 
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
@@ -79,7 +84,16 @@ open class WebViewActivity : BaseActivity(), WebViewView {
             }
         }
 //        web_view.loadUrl("http://www.baidu.com")
-        web_view.loadUrl("file:///android_asset/ppt/5281a115ce50f8fd676e56b295aee5e4/index.html")
+//        web_view.loadUrl("file:///android_asset/ppt/5281a115ce50f8fd676e56b295aee5e4/index.html")
+//        web_view.loadUrl("http://help.xh.com/faq/CA106002/index.html#/")
+        web_view.loadUrl("https://help.yunzuoye.net/faq/CA101010/index.html#/updates/188")
     }
+
+    internal inner class InJavaScriptLocalObj {
+        fun showSource(html: String) {
+            ZLog.i(ZTag.TAG_DEBUG, "====>html=$html")
+        }
+    }
+
 
 }

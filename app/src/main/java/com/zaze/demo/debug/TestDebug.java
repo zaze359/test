@@ -1,12 +1,10 @@
 package com.zaze.demo.debug;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.XmlResourceParser;
 import android.os.Environment;
-import android.provider.Settings;
 import android.util.Base64;
 import android.util.Log;
 
@@ -15,8 +13,6 @@ import com.zaze.utils.ThreadManager;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.sevenzip4j.SevenZipArchiveOutputStream;
 import org.sevenzip4j.archive.SevenZipEntry;
 import org.xmlpull.v1.XmlPullParser;
@@ -95,12 +91,6 @@ public class TestDebug {
 //            ZLog.i(ZTag.TAG_DEBUG, "reference3 : " + weakReference.get());
 //        }
 //        aaaaaa(context);
-        String a = null;
-        try {
-            JSONObject jsonObject = new JSONObject(a);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     static void aaaaaa(final Context context) {
@@ -219,13 +209,6 @@ public class TestDebug {
         return b;
     }
 
-
-    public static boolean hasPermissionToReadNetworkStats(Context context) {
-        // 打开“有权查看使用情况的应用”页面
-        Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
-        context.startActivity(intent);
-        return false;
-    }
 
 
     public static void beginDocument(XmlResourceParser parser) throws XmlPullParserException, IOException {

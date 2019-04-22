@@ -4,33 +4,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <CheckBox
-            android:id="@+id/time_zone_cb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="GMT 格林尼治" />
-
-        <EditText
-            android:id="@+id/time_input_edt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number" />
-    </LinearLayout>
-
-
-    <TextView
-        android:id="@+id/time_out_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <Button
-        android:id="@+id/time_execute_btn"
+        android:id="@+id/timeExecuteBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="执行" />
+
+    <TextView
+        android:id="@+id/timeOutTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

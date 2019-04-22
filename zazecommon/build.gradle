@@ -1,6 +1,13 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
 apply plugin: 'com.github.dcendents.android-maven'
-group='com.github.zaze359'
+
+
+
+group = 'com.github.zaze359'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -31,6 +38,10 @@ dependencies {
 
     compileOnly "androidx.recyclerview:recyclerview:$rootProject.supportLibraryVersion"
     compileOnly "androidx.appcompat:appcompat:$rootProject.supportLibraryVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    api "androidx.lifecycle:lifecycle-extensions:$archLifecycleVersionx"
+    kapt "androidx.lifecycle:lifecycle-compiler:$archLifecycleVersionx"
 
 //    compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
 //    compile "com.android.support:support-v13:$rootProject.supportLibraryVersion"
