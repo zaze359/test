@@ -21,10 +21,10 @@ public class PackageReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         final String action = intent.getAction();
-        if (intent.getData() != null) {
+        if (action != null) {
             final String packageName = intent.getData().getSchemeSpecificPart();
-//        XHLog.i(LcTag.TAG_DEBUG, "PackageReceiver : %s（%s）", action, packageName);
-//        XHLog.i(LcTag.TAG_DEBUG, "PackageReceiver : %s", intent.getDataString());
+            ZLog.i(ZTag.TAG_DEBUG, "PackageReceiver : %s（%s）", action, packageName);
+            ZLog.i(ZTag.TAG_DEBUG, "PackageReceiver : %s", intent.getDataString());
             if (!MyApplication.getInstance().getPackageName().equals(packageName)) {
                 ThreadManager.getInstance().runInSingleThread(new Runnable() {
                     @Override
@@ -44,14 +44,14 @@ public class PackageReceiver extends BroadcastReceiver {
 
     // --------------------------------------------------
     private void afterAppAdded(String packageName) {
-        ZLog.i(ZTag.TAG_DEBUG, "添加应用 : " + packageName);
+        ZLog.i(ZTag.TAG_DEBUG, "PackageReceiver 添加应用 : " + packageName);
     }
 
     private void afterAppReplaced(String packageName) {
-        ZLog.i(ZTag.TAG_DEBUG, "替换应用 : " + packageName);
+        ZLog.i(ZTag.TAG_DEBUG, "PackageReceiver 替换应用 : " + packageName);
     }
 
     private void afterAppRemoved(String packageName) {
-        ZLog.i(ZTag.TAG_DEBUG, "卸载成功" + packageName);
+        ZLog.i(ZTag.TAG_DEBUG, "PackageReceiver 卸载成功" + packageName);
     }
 }

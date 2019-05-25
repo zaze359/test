@@ -6,10 +6,9 @@ import android.content.pm.PackageInfo;
 import android.content.pm.SigningInfo;
 import android.os.Build;
 
-import com.zaze.utils.AppUtil;
-import com.zaze.utils.SignaturesUtil;
+import androidx.annotation.NonNull;
 
-import org.jetbrains.annotations.NotNull;
+import com.zaze.utils.SignaturesUtil;
 
 /**
  * Description : 应用快捷信息(汇总最新的 Applicaiton 和 packageInfo)
@@ -26,6 +25,7 @@ public class AppShortcut {
     private int uid;
     private int flags;
     private String signingInfo;
+    private boolean isInstalled = true;
 
     public String getName() {
         return name;
@@ -93,23 +93,38 @@ public class AppShortcut {
         }
     }
 
+    public boolean isInstalled() {
+        return isInstalled;
+    }
+
+    public void setInstalled(boolean installed) {
+        isInstalled = installed;
+    }
+
     public void setSigningInfo(String signingInfo) {
         this.signingInfo = signingInfo;
     }
 
-    public static AppShortcut transform(Context context, @NotNull ApplicationInfo applicationInfo, @NotNull PackageInfo packageInfo) {
+    public static @NonNull
+    AppShortcut transform(Context context, @NonNull PackageInfo packageInfo) {
         AppShortcut appShortcut = new AppShortcut();
+        appShortcut.setPackageName(packageInfo.packageName);
         appShortcut.setVersionCode(packageInfo.versionCode);
         appShortcut.setVersionName(packageInfo.versionName);
-        appShortcut.setPackageName(applicationInfo.packageName);
-        appShortcut.setName(AppUtil.getAppName(context.getApplicationContext(), applicationInfo.packageName, ""));
-        appShortcut.setSourceDir(applicationInfo.sourceDir);
-        appShortcut.setFlags(applicationInfo.flags);
-        appShortcut.setUid(applicationInfo.uid);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             appShortcut.setSigningInfo(packageInfo.signingInfo);
         } else {
             appShortcut.setSigningInfo(SignaturesUtil.getMd5(packageInfo.signatures));
+        }
+        ApplicationInfo applicationInfo = packageInfo.applicationInfo;
+        if (applicationInfo != null) {
+            appShortcut.setName(context.getPackageManager().getApplicationLabel(applicationInfo).toString());
+            appShortcut.setInstalled(true);
+            appShortcut.setSourceDir(applicationInfo.sourceDir);
+            appShortcut.setFlags(applicationInfo.flags);
+            appShortcut.setUid(applicationInfo.uid);
+        } else {
+            appShortcut.setInstalled(false);
         }
         return appShortcut;
     }

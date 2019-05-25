@@ -1,7 +1,11 @@
 package com.zaze.common.base;
 
+import android.app.ActivityManager;
 import android.app.Application;
+import android.content.Context;
 import android.content.res.Configuration;
+import android.os.Process;
+import android.text.TextUtils;
 
 import com.zaze.utils.ZDisplayUtil;
 import com.zaze.utils.cache.MemoryCacheManager;
@@ -55,4 +59,24 @@ public abstract class BaseApplication extends Application {
     public boolean isPortrait() {
         return this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
     }
+
+
+    /**
+     * 是否是主进程
+     *
+     * @return boolean
+     */
+    protected boolean isMainProcess() {
+        String processName = null;
+        ActivityManager manager = (ActivityManager) getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
+        if (manager != null) {
+            for (ActivityManager.RunningAppProcessInfo process : manager.getRunningAppProcesses()) {
+                if (process.pid == Process.myPid()) {
+                    processName = process.processName;
+                }
+            }
+        }
+        return TextUtils.equals(getPackageName(), processName);
+    }
+
 }

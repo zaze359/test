@@ -1,5 +1,6 @@
 package com.zaze.utils
 
+import android.content.Context
 import android.os.Build
 import android.os.Environment
 import android.os.StatFs
@@ -254,6 +255,13 @@ object FileUtil {
 
     // --------------------------------------------------
 
+    @JvmStatic
+    fun copyAssetsFileToSdcard(context: Context, assetsFile: String, outPath: String) {
+        ZLog.i(ZTag.TAG_DEBUG, "copyAssetsFileToSdcard $outPath")
+        reCreateFile(outPath)
+        writeToFile(outPath, context.assets.open(assetsFile), false)
+    }
+    // --------------------------------------------------
     /**
      * 将数据写入文件
      * [filePath]
@@ -359,6 +367,7 @@ object FileUtil {
         return result
     }
 
+
     @JvmStatic
     fun readByBytes(inputStream: InputStream): StringBuffer {
         readLock(lock)
@@ -435,17 +444,29 @@ object FileUtil {
         return searchedFileList
     }
 
+
     /**
-     * [dir] 目标目录下查询文件
+     * [dirPath] 目标目录下查询文件
      * [suffix] suffix
      * [isDeep] 是否深度查询
      */
     @JvmStatic
     @JvmOverloads
-    fun searchFileBySuffix(dir: File, suffix: String, isDeep: Boolean = false): ArrayList<File> {
+    fun searchFileBySuffix(dirPath: String, suffix: String, isDeep: Boolean = false): ArrayList<File> {
+        return searchFileBySuffix(File(dirPath), suffix, isDeep)
+    }
+
+    /**
+     * [dirFile] 目标目录下查询文件
+     * [suffix] suffix
+     * [isDeep] 是否深度查询
+     */
+    @JvmStatic
+    @JvmOverloads
+    fun searchFileBySuffix(dirFile: File, suffix: String, isDeep: Boolean = false): ArrayList<File> {
         val searchedFileList = ArrayList<File>()
-        if (dir.exists() && dir.isDirectory) {
-            val childFileList = dir.listFiles()
+        if (dirFile.exists() && dirFile.isDirectory) {
+            val childFileList = dirFile.listFiles()
             for (childFile in childFileList) {
                 ZLog.i(ZTag.TAG_FILE, "fileName : ${childFile.name}")
                 if (childFile.isFile && childFile.name.endsWith(".$suffix", true)) {

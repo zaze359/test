@@ -4,18 +4,16 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
+import androidx.annotation.NonNull;
+
 import com.zaze.demo.app.MyApplication;
 import com.zaze.utils.log.LogcatUtil;
-import com.zaze.utils.log.ZLog;
-import com.zaze.utils.log.ZTag;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
-import androidx.annotation.NonNull;
 
 /**
  * Description :
@@ -61,23 +59,13 @@ public class LogcatService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (intent != null) {
-            final String action = intent.getAction();
-            ZLog.i(ZTag.TAG_DEBUG, action);
-            if ("com.xuehai.logcat.service.start".equals(action)) {
-                if (!LogcatUtil.isRunning()) {
-                    looperExecutor.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            LogcatUtil.startCatchLog(MyApplication.getInstance());
-                        }
-                    });
+        if (!LogcatUtil.isRunning()) {
+            looperExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    LogcatUtil.startCatchLog(MyApplication.getInstance());
                 }
-            } else if ("com.xuehai.logcat.service.stop".equals(action)) {
-                LogcatUtil.stopCatchLog();
-            }
-
-
+            });
         }
         return super.onStartCommand(intent, flags, startId);
     }

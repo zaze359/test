@@ -52,14 +52,14 @@ class FileExplorerPresenterImpl(view: FileExplorerView) : BaseMvpPresenter<FileE
         if (fileEvent != null) {
             val absPath = fileEvent.absPath
             val file = File(absPath)
-            if (file.isDirectory) {
-                ZLog.i(ZTag.TAG_DEBUG, "打开文件夹 : $absPath")
-                curFile = file
-                loadFileList()
-            } else if (file.isFile) {
-                ZLog.i(ZTag.TAG_DEBUG, "打开文件 : $absPath")
-            } else {
-                ZLog.e(ZTag.TAG_DEBUG, "ERROR : $absPath")
+            when {
+                file.isDirectory -> {
+                    ZLog.i(ZTag.TAG_DEBUG, "打开文件夹 : $absPath")
+                    curFile = file
+                    loadFileList()
+                }
+                file.isFile -> ZLog.i(ZTag.TAG_DEBUG, "打开文件 : $absPath")
+                else -> ZLog.e(ZTag.TAG_DEBUG, "ERROR : $absPath 不是文件也不是文件夹")
             }
         }
     }

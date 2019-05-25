@@ -1,6 +1,7 @@
 package com.zaze.common.base
 
 import android.app.Application
+import androidx.annotation.ArrayRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -84,5 +85,12 @@ abstract class AbsAndroidViewModel(application: Application) : AndroidViewModel(
      */
     fun getString(@StringRes stringRes: Int): String {
         return getApplication<Application>().getString(stringRes)
+    }
+
+    /**
+     * StringRes资源转换String
+     */
+    fun getStringArray(@ArrayRes arrayRes: Int): Array<String> {
+        return getApplication<Application>().resources.getStringArray(arrayRes)
     }
 }

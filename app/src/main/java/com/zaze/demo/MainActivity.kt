@@ -21,10 +21,7 @@ import com.zaze.common.base.ext.setupActionBar
 import com.zaze.common.permission.PermissionUtil
 import com.zaze.common.widget.IntervalButtonWidget
 import com.zaze.demo.component.table.ui.TableFragment
-import com.zaze.demo.debug.KotlinDebug
-import com.zaze.demo.debug.LogDirListener
-import com.zaze.demo.debug.MessengerService
-import com.zaze.demo.debug.TestDebug
+import com.zaze.demo.debug.*
 import com.zaze.utils.FileUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
@@ -87,6 +84,7 @@ class MainActivity : BaseActivity() {
         main_test_button.setOnClickListener {
             KotlinDebug.test(this)
             TestDebug.test(this)
+            startService(Intent(this, LogcatService::class.java))
             val msg = Message.obtain()
             msg.replyTo = messenger
             sendMessenger?.send(msg)

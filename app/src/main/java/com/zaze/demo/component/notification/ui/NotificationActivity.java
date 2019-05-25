@@ -1,12 +1,15 @@
 package com.zaze.demo.component.notification.ui;
 
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.core.app.NotificationCompat;
 
 import com.zaze.common.base.BaseActivity;
 import com.zaze.demo.R;
@@ -20,8 +23,6 @@ import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
 import java.util.Random;
-
-import androidx.core.app.NotificationCompat;
 
 
 /**
@@ -62,13 +63,12 @@ public class NotificationActivity extends BaseActivity implements NotificationVi
 
     private void notification() {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.setSmallIcon(R.mipmap.ic_launcher);
-        builder.setContentTitle("title")
+        builder.setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("title")
                 .setContentText("content")
                 .setAutoCancel(true)
-                .setDefaults(~NotificationCompat.DEFAULT_SOUND ^ NotificationCompat.DEFAULT_VIBRATE)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setOngoing(true);
+                .setChannelId(this.getPackageName());
+//                .setOngoing(true)
         // 设置通知主题的意图
 //        Intent resultIntent = new Intent(this, TaskActivity.class);
 //        PendingIntent resultPendingIntent = PendingIntent.getActivity(
@@ -81,6 +81,15 @@ public class NotificationActivity extends BaseActivity implements NotificationVi
         PendingIntent pendingIntentCancel = PendingIntent.getBroadcast(this, 1, intentCancel, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(pendingIntentCancel);
         NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                    this.getPackageName(),
+                    "会话类型",//这块Android9.0分类的比较完整，你创建多个这样的东西，你可以在设置里边显示那个或者第几个
+                    NotificationManager.IMPORTANCE_DEFAULT
+
+            );
+            mNotificationManager.createNotificationChannel(channel);
+        }
         mNotificationManager.notify(1, builder.build());
     }
 

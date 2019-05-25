@@ -38,7 +38,7 @@ public class LogcatUtil {
      * @return boolean
      */
     public static boolean startCatchLog(Context context) {
-        return startCatchLog(ZStringUtil.format("%s/catch#%s#.log", FileUtil.getSDCardRoot() + "/xuehai/log", context.getPackageName()));
+        return startCatchLog(ZStringUtil.format("%s/catch#%s#.log", FileUtil.getSDCardRoot() + "/zaze/log", context.getPackageName()));
     }
 
     /**
@@ -48,7 +48,7 @@ public class LogcatUtil {
      * @return boolean
      */
     public static boolean startCatchLog(String savePath) {
-        return startCatchLog(savePath, 512L << 10);
+        return startCatchLog(savePath, 10L << 20);
     }
 
     /**
@@ -59,7 +59,8 @@ public class LogcatUtil {
      * @return maxSize
      */
     public static boolean startCatchLog(String savePath, long maxSize) {
-        return startCatchLog("logcat -v time process |grep " + android.os.Process.myPid(), savePath, maxSize);
+//        return startCatchLog("logcat -v time process |grep " + android.os.Process.myPid(), savePath, maxSize);
+        return startCatchLog("logcat -v time", savePath, maxSize);
     }
 
 

@@ -2,16 +2,17 @@ package com.zaze.common.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.DrawableRes;
 
 import com.zaze.common.R;
 import com.zaze.utils.ZDisplayUtil;
 
 import java.util.ArrayList;
-
-import androidx.annotation.DrawableRes;
 
 /**
  * Description :
@@ -120,6 +121,11 @@ public class AddImageLayout extends ViewGroup {
         }
     }
 
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+    }
 
     public void addImageRes(@DrawableRes int resId) {
         if (hasVacancy()) {

@@ -69,7 +69,7 @@ object ZDeviceUtil {
                 }
             }
         }
-        return id!!
+        return id
     }
 
 // --------------------------------------------------

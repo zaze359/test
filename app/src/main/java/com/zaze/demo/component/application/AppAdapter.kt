@@ -1,4 +1,4 @@
-package com.zaze.demo.component.readpackage.adapter
+package com.zaze.demo.component.application
 
 import android.content.Context
 import android.content.Intent
@@ -26,7 +26,7 @@ import com.zaze.utils.ZStringUtil
  * *
  * @version : 2017-04-17 - 17:21
  */
-class ReadPackageAdapter(context: Context, data: Collection<AppShortcut>) : BaseRecyclerAdapter<AppShortcut, ReadPackageAdapter.PackageHolder>(context, data) {
+class AppAdapter(context: Context, data: Collection<AppShortcut>) : BaseRecyclerAdapter<AppShortcut, AppAdapter.PackageHolder>(context, data) {
 
     private val iconDpi: Int
 

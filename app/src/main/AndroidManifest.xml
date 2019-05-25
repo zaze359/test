@@ -5,6 +5,7 @@
 
     <!-- <permission android:name="com.zaze.demo.receiver.RECEIVER" /> -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
@@ -37,13 +38,15 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppTheme.NoActionBar"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -76,15 +79,15 @@
 
 
         <!-- 安装卸载 start -->
-        <receiver android:name=".receiver.PackageReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_ADDED" />
-                <action android:name="android.intent.action.PACKAGE_REPLACED" />
-                <action android:name="android.intent.action.PACKAGE_REMOVED" />
-                <!-- <action android:name="android.intent.action.PACKAGE_DATA_CLEARED" /> -->
-                <data android:scheme="package" />
-            </intent-filter>
-        </receiver>
+        <!--<receiver android:name=".receiver.PackageReceiver">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.PACKAGE_ADDED" />-->
+        <!--<action android:name="android.intent.action.PACKAGE_REPLACED" />-->
+        <!--<action android:name="android.intent.action.PACKAGE_REMOVED" />-->
+        <!--&lt;!&ndash; <action android:name="android.intent.action.PACKAGE_DATA_CLEARED" /> &ndash;&gt;-->
+        <!--<data android:scheme="package" />-->
+        <!--</intent-filter>-->
+        <!--</receiver>-->
         <!-- 安装卸载 end -->
         <!-- 测试接收推送 start -->
         <service android:name=".component.notification.service.NotificationService" />
@@ -131,7 +134,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".component.readpackage.ui.ReadPackageActivity"
+            android:name=".component.application.AppActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

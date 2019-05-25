@@ -1,7 +1,6 @@
 package com.zaze.utils
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
@@ -355,7 +354,6 @@ object AppUtil {
         context.startActivity(uninstallIntent)
     }
 
-
     /**
      * 静默安装
      * [filePath] 文件绝对路径
@@ -363,12 +361,12 @@ object AppUtil {
     @JvmStatic
     fun installApkSilent(filePath: String): Boolean {
         ZLog.i(ZTag.TAG_ABOUT_APP, "开始静默安装 %s", filePath)
-        if (ZCommand.isSuccess(ZCommand.execRootCmdForRes("pm install -r " + filePath))) {
+        return if (ZCommand.isSuccess(ZCommand.execRootCmdForRes("pm install -r " + filePath))) {
             ZLog.i(ZTag.TAG_ABOUT_APP, "静默安装成功!")
-            return true
+            true
         } else {
             ZLog.i(ZTag.TAG_ABOUT_APP, "静默安装失败!")
-            return false
+            false
         }
     }
 

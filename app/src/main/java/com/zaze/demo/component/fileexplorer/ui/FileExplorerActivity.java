@@ -5,6 +5,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.zaze.common.base.BaseActivity;
 import com.zaze.demo.R;
 import com.zaze.demo.component.fileexplorer.FileEvent;
@@ -13,7 +17,10 @@ import com.zaze.demo.component.fileexplorer.adapter.FileEntity;
 import com.zaze.demo.component.fileexplorer.presenter.FileExplorerPresenter;
 import com.zaze.demo.component.fileexplorer.presenter.impl.FileExplorerPresenterImpl;
 import com.zaze.demo.component.fileexplorer.view.FileExplorerView;
+import com.zaze.utils.FileUtil;
 import com.zaze.utils.ZOnClickHelper;
+import com.zaze.utils.log.ZLog;
+import com.zaze.utils.log.ZTag;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -22,9 +29,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
@@ -69,6 +73,9 @@ public class FileExplorerActivity extends BaseActivity implements FileExplorerVi
                 presenter.backToParent();
             }
         });
+        if (!FileUtil.isSdcardEnable()) {
+            ZLog.e(ZTag.TAG_DEBUG, "sdcard 不可用");
+        }
     }
 
     @Override

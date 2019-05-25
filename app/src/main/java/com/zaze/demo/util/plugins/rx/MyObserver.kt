@@ -1,4 +1,4 @@
-package com.zaze.common.plugins.rx
+package com.zaze.demo.util.plugins.rx
 
 import io.reactivex.Observer
 import io.reactivex.disposables.CompositeDisposable

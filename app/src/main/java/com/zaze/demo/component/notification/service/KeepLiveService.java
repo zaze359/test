@@ -6,10 +6,10 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
-import com.zaze.demo.R;
-import com.zaze.demo.component.readpackage.ui.ReadPackageActivity;
-
 import androidx.core.app.NotificationCompat;
+
+import com.zaze.demo.R;
+import com.zaze.demo.component.application.AppActivity;
 
 /**
  * Description :
@@ -33,7 +33,7 @@ public class KeepLiveService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, ReadPackageActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+                new Intent(this, AppActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(contentIntent);
         //设置小图标
         builder.setSmallIcon(R.mipmap.ic_launcher);

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ~~~~~~~~~~~~~~~~~~~华为~~~~~~~~~~~~~~~~~~~~~~~~  -->
+    <string-array name="huawei_keep_app">
+        <item>com.huawei.android.launcher</item><!--华为桌面-->
+        <item>com.nuance.swype.emui</item><!--华为 Swype 输入法-->
+        <item>com.baidu.input_huawei</item><!--百度华为输入法-->
+        <item>com.huawei.mmifunction</item><!--手机功能测试-->
+        <item>com.huawei.powergenie</item><!--省电精灵-->
+        <!--<item>com.huawei.vassistant</item>&lt;!&ndash;语音助手&ndash;&gt;-->
+        <!--<item>com.huawei.systemmanager</item>&lt;!&ndash;平板管家&ndash;&gt;-->
+        <!--<item>com.huawei.hidisk</item>&lt;!&ndash;文件管理&ndash;&gt;-->
+        <!--<item>com.huawei.android.thememanager</item>&lt;!&ndash;主题&ndash;&gt;-->
+        <!--<item>com.huawei.appmarket</item>&lt;!&ndash; 华为应用市场 &ndash;&gt;-->
+    </string-array>
+    <string-array name="huawei_un_keep_app">
+        <!--<item>com.huawei.android.hwpay</item>&lt;!&ndash;华为支付&ndash;&gt;-->
+        <item>com.huawei.android.karaokeeffect</item><!--K 歌特效-->
+        <item>com.huawei.android.totemweather</item><!--天气-->
+        <item>com.huawei.gamebox</item><!--华为游戏中心-->
+        <item>com.huawei.hwstylusscreenshot</item><!--截屏-->
+        <item>com.huawei.camera</item><!--相机-->
+        <item>com.huawei.hwvplayer</item><!--视频-->
+        <item>com.huawei.kidsmode.kidspaint</item><!--儿童绘画-->
+        <item>com.huawei.kidsmode</item><!--儿童乐园-->
+        <item>com.visionobjects.calculator_huawei</item><!--计算器-->
+        <item>com.example.android.notepad</item><!--备忘录-->
+        <item>com.huawei.magnifier</item><!--放大镜-->
+        <item>com.android.deskclock</item><!--时钟-->
+    </string-array>
+</resources>

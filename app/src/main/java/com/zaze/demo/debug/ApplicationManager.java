@@ -9,6 +9,8 @@ import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.LruCache;
 
+import androidx.core.content.res.ResourcesCompat;
+
 import com.zaze.common.base.BaseApplication;
 import com.zaze.demo.R;
 import com.zaze.utils.AppUtil;
@@ -25,8 +27,6 @@ import com.zaze.utils.log.ZTag;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.ref.SoftReference;
-
-import androidx.core.content.res.ResourcesCompat;
 
 /**
  * Description : 对应用信息进行管理
@@ -164,15 +164,33 @@ public class ApplicationManager {
      * @param packageName packageName
      * @return AppShortcut
      */
-    public static AppShortcut getAppShortcut(String packageName) {
-        if (TextUtils.isEmpty(packageName)) {
-            return null;
-        }
+    public static AppShortcut getAppShortcut(@NotNull String packageName) {
         AppShortcut appShortcut = getShortcutFromCache(packageName);
         if (appShortcut == null) {
             appShortcut = initAppShortcut(packageName);
         }
         return appShortcut;
+    }
+
+    /**
+     * 根据包名获取应用信息
+     * 优先读取内存缓存
+     * 其次系统中读取
+     *
+     * @param apkFilePath apkFilePath
+     * @return AppShortcut
+     */
+    public static AppShortcut getAppShortcutFormApk(@NotNull String apkFilePath) {
+        PackageInfo packageInfo = AppUtil.getPackageArchiveInfo(BaseApplication.getInstance(), apkFilePath);
+        if (packageInfo != null) {
+            packageInfo.applicationInfo.sourceDir = apkFilePath;
+            packageInfo.applicationInfo.publicSourceDir = apkFilePath;
+            AppShortcut appShortcut = AppShortcut.transform(BaseApplication.getInstance(), packageInfo);
+            appShortcut.setSourceDir(apkFilePath);
+            return appShortcut;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -193,13 +211,12 @@ public class ApplicationManager {
      * @return AppShortcut
      */
     private static AppShortcut initAppShortcut(@NotNull final String packageName) {
-        ApplicationInfo applicationInfo = AppUtil.getApplicationInfo(BaseApplication.getInstance(), packageName);
         PackageInfo packageInfo = AppUtil.getPackageInfo(BaseApplication.getInstance(), packageName, 64);
         AppShortcut appShortcut = null;
         int versionCode = 1;
-        if (applicationInfo != null && packageInfo != null) {
+        if (packageInfo != null) {
             versionCode = packageInfo.versionCode;
-            appShortcut = AppShortcut.transform(BaseApplication.getInstance(), applicationInfo, packageInfo);
+            appShortcut = AppShortcut.transform(BaseApplication.getInstance(), packageInfo);
         }
         if (appShortcut != null) {
             saveShortcutToCache(packageName, appShortcut);
@@ -212,6 +229,11 @@ public class ApplicationManager {
                     }
                 });
             }
+        }
+        if (appShortcut == null) {
+            appShortcut = new AppShortcut();
+            appShortcut.setPackageName(packageName);
+            appShortcut.setInstalled(false);
         }
         return appShortcut;
 
