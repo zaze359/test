@@ -35,7 +35,7 @@ class AppViewModel(application: Application) : AbsAndroidViewModel(application) 
         val allFile = "$baseDir/all.xml"
     }
 
-    val packageSet = HashSet<String>()
+    val packageSet = HashMap<String, AppShortcut>()
     val appData = MutableLiveData<List<AppShortcut>>()
     // --------------------------------------------------
     fun loadAppList() {
@@ -49,8 +49,8 @@ class AppViewModel(application: Application) : AbsAndroidViewModel(application) 
 //        FileUtil.deleteFile(extractFile)
 //        FileUtil.deleteFile(allFile)
             // --------------------------------------------------
-//        loadAllInstallApp(allAppList, packageSet)
-            loadSystemApp(allAppList, packageSet)
+        loadAllInstallApp(allAppList, packageSet)
+//            loadSystemApp(allAppList, packageSet)
 //        loadUnSystemApp(allAppList, packageSet)
             // --------------------------------------------------
             packageSet.remove(BaseApplication.getInstance().packageName)
@@ -71,40 +71,36 @@ class AppViewModel(application: Application) : AbsAndroidViewModel(application) 
             // 添加规则--------------------------------------------------
 //        filterSet.mapTo(packageList) { it }
             // 移除规则--------------------------------------------------
-            packageSet.removeAll(filterSet)
-            show(packageSet)
+            filterSet.forEach {
+                packageSet.remove(it)
+            }
+            show(packageSet.values)
         })
     }
 
-    private fun show(set: Set<String>) {
-        val showList = ArrayList<AppShortcut>()
-        set.forEach {
-            initEntity(ApplicationManager.getAppShortcut(it))?.let {
-                showList.add(it)
-            }
-        }
-        appData.postValue(showList.filter {
+    private fun show(apps: MutableCollection<AppShortcut>) {
+        appData.postValue(apps.filter {
             !TextUtils.isEmpty(it.sourceDir)
         })
     }
 
-    private fun loadAllInstallApp(appList: List<ApplicationInfo>, packageSet: HashSet<String>) {
+    private fun loadAllInstallApp(appList: List<ApplicationInfo>, packageSet: HashMap<String, AppShortcut>) {
         appList.forEach {
-            packageSet.add(it.packageName)
+            packageSet[it.packageName] = ApplicationManager.getAppShortcut(it.packageName)
         }
     }
 
-    private fun loadSystemApp(appList: List<ApplicationInfo>, packageSet: HashSet<String>) {
+    private fun loadSystemApp(appList: List<ApplicationInfo>, packageSet: HashMap<String, AppShortcut>) {
         appList.filter { it.flags and ApplicationInfo.FLAG_SYSTEM > 0 }
                 .forEach {
-                    packageSet.add(it.packageName)
+                    packageSet[it.packageName] = ApplicationManager.getAppShortcut(it.packageName)
                 }
     }
 
-    private fun loadUnSystemApp(appList: List<ApplicationInfo>, packageSet: HashSet<String>) {
+    private fun loadUnSystemApp(appList: List<ApplicationInfo>, packageSet: HashMap<String, AppShortcut>) {
         appList.filter { it.flags and ApplicationInfo.FLAG_SYSTEM <= 0 }
                 .forEach {
-                    packageSet.add(it.packageName)
+                    packageSet[it.packageName] = ApplicationManager.getAppShortcut(it.packageName)
                 }
     }
 
@@ -137,21 +133,21 @@ class AppViewModel(application: Application) : AbsAndroidViewModel(application) 
     }
 
     fun filterApp(matchStr: String) {
-        Observable.create<HashSet<String>> { e ->
-            e.onNext(packageSet)
+        Observable.create<MutableCollection<AppShortcut>> { e ->
+            e.onNext(packageSet.values)
             e.onComplete()
         }.subscribeOn(ThreadPlugins.ioScheduler())
                 .flatMap {
                     ObservableFromIterable(it)
                 }.filter {
-                    it.contains(matchStr, true)
+                    it.packageName.contains(matchStr, true) || it.name.contains(matchStr, true)
                 }.toList()
                 .toObservable()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : MyObserver<List<String>>(compositeDisposable) {
-                    override fun onNext(result: List<String>) {
+                .subscribe(object : MyObserver<MutableCollection<AppShortcut>>(compositeDisposable) {
+                    override fun onNext(result: MutableCollection<AppShortcut>) {
                         super.onNext(result)
-                        show(result.toHashSet())
+                        show(result)
                     }
 
                     override fun onError(e: Throwable) {
