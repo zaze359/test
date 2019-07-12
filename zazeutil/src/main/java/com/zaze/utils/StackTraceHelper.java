@@ -1,6 +1,5 @@
 package com.zaze.utils;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -42,19 +41,13 @@ public class StackTraceHelper {
     public static String getErrorMsg(Throwable e) {
         if (e != null) {
             StringWriter stringWriter = new StringWriter();
-            PrintWriter printWriter = new PrintWriter(stringWriter, true);
+            PrintWriter printWriter = new PrintWriter(stringWriter, false);
             try {
                 e.printStackTrace(printWriter);
                 printWriter.flush();
-                stringWriter.flush();
                 return stringWriter.toString();
             } finally {
                 printWriter.close();
-                try {
-                    stringWriter.close();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
             }
         } else {
             return "";

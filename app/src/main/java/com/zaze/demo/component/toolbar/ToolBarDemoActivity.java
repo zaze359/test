@@ -1,14 +1,18 @@
 package com.zaze.demo.component.toolbar;
 
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
 
 import com.zaze.common.base.BaseActivity;
 import com.zaze.demo.R;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.viewpager.widget.ViewPager;
 
 /**
  * Description :
@@ -41,6 +45,12 @@ public class ToolBarDemoActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         initTab();
+        toolBarDemoBtn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                function1();
+            }
+        });
     }
 
     @Override
@@ -75,12 +85,17 @@ public class ToolBarDemoActivity extends BaseActivity {
 //        actionBar.hide();
     }
 
-    public void function1() {   // 隐藏状态栏
-//        View decorView = getWindow().getDecorView();
-//        int option = View.SYSTEM_UI_FLAG_FULLSCREEN;
-//        decorView.setSystemUiVisibility(option);
-//        ActionBar actionBar = getSupportActionBar();
-//        actionBar.hide();
+    public void function1() {
+        View decorView = getWindow().getDecorView();
+        int option = View.SYSTEM_UI_FLAG_FULLSCREEN; // 下拉就显示 并且不会自动恢复
+//        int option = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        decorView.setSystemUiVisibility(option);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setNavigationBarColor(Color.TRANSPARENT);
+        }
     }
 
     public void function2() {   // 透明

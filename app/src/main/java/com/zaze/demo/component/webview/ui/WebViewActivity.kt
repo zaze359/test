@@ -8,10 +8,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
-import android.webkit.WebChromeClient
-import android.webkit.WebSettings
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.webkit.*
 import com.zaze.common.base.BaseActivity
 import com.zaze.demo.R
 import com.zaze.demo.component.webview.presenter.WebViewPresenter
@@ -22,7 +19,6 @@ import com.zaze.utils.log.ZTag
 import kotlinx.android.synthetic.main.web_view_activity.*
 
 
-
 /**
  * Description :
  * @author : zaze
@@ -31,7 +27,7 @@ import kotlinx.android.synthetic.main.web_view_activity.*
 open class WebViewActivity : BaseActivity(), WebViewView {
     var presenter: WebViewPresenter? = null
 
-    @SuppressLint("SetJavaScriptEnabled")
+    @SuppressLint("SetJavaScriptEnabled", "JavascriptInterface")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.web_view_activity)
@@ -42,7 +38,7 @@ open class WebViewActivity : BaseActivity(), WebViewView {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
         }
-        web_view.addJavascriptInterface(InJavaScriptLocalObj(), "local_obj")
+        web_view.addJavascriptInterface(JSInterface(), "jsInterface")
         web_view.webViewClient = object : WebViewClient() {
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
@@ -74,6 +70,7 @@ open class WebViewActivity : BaseActivity(), WebViewView {
                         override fun onAnimationEnd(animation: Animation) {
                             web_progress_bar.visibility = View.INVISIBLE
                         }
+
                         override fun onAnimationRepeat(animation: Animation) {}
                     })
                     web_progress_bar.startAnimation(animation)
@@ -82,14 +79,16 @@ open class WebViewActivity : BaseActivity(), WebViewView {
                 }
             }
         }
+        web_view.loadUrl("file:///android_asset/test.html")
 //        web_view.loadUrl("http://www.baidu.com")
-        web_view.loadUrl("http://debugtbs.qq.com")
-//        web_view.loadUrl("file:///android_asset/ppt/5281a115ce50f8fd676e56b295aee5e4/index.html")
+//        web_view.loadUrl("http://debugtbs.qq.com")
 //        web_view.loadUrl("http://help.xh.com/faq/CA106002/index.html#/")
 //        web_view.loadUrl("https://help.yunzuoye.net/faq/CA101010/index.html#/updates/188")
     }
 
-    internal inner class InJavaScriptLocalObj {
+    internal inner class JSInterface {
+
+        @JavascriptInterface
         fun showSource(html: String) {
             ZLog.i(ZTag.TAG_DEBUG, "====>html=$html")
         }

@@ -361,7 +361,7 @@ object AppUtil {
     @JvmStatic
     fun installApkSilent(filePath: String): Boolean {
         ZLog.i(ZTag.TAG_ABOUT_APP, "开始静默安装 %s", filePath)
-        return if (ZCommand.isSuccess(ZCommand.execRootCmdForRes("pm install -r " + filePath))) {
+        return if (ZCommand.isSuccess(ZCommand.execRootCmdForRes("pm install -r $filePath"))) {
             ZLog.i(ZTag.TAG_ABOUT_APP, "静默安装成功!")
             true
         } else {
@@ -377,7 +377,7 @@ object AppUtil {
     @JvmStatic
     fun unInstallApkSilent(packageName: String): Boolean {
         ZLog.i(ZTag.TAG_ABOUT_APP, "开始静默卸载 %s", packageName)
-        if (ZCommand.isSuccess(ZCommand.execRootCmdForRes("pm uninstall " + packageName))) {
+        if (ZCommand.isSuccess(ZCommand.execRootCmdForRes("pm uninstall $packageName"))) {
             ZLog.i(ZTag.TAG_ABOUT_APP, "静默卸载成功!")
             return true
         } else {
@@ -471,9 +471,9 @@ object AppUtil {
     @JvmStatic
     fun clearAppData(context: Context, packageName: String) {
         if (ZCommand.isRoot()) {
-            ZCommand.execRootCmd("pm clear " + packageName)
+            ZCommand.execRootCmd("pm clear $packageName")
         } else {
-            FileUtil.deleteFile("/data/data/" + packageName)
+            FileUtil.deleteFile("${context.filesDir.path}/data/$packageName")
             killAppProcess(context, packageName)
         }
     }

@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.zaze.common.base.BaseActivity;
 import com.zaze.demo.R;
 import com.zaze.utils.log.ZLog;
@@ -17,7 +19,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-import androidx.annotation.Nullable;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableEmitter;
@@ -36,6 +37,7 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 
@@ -51,6 +53,21 @@ public class RxAndroidActivity extends BaseActivity {
 
     private boolean isRunning;
     private Scheduler scheduler = Schedulers.io();
+    private int count = 0;
+
+    Observable<String> observable1 = Observable.just(
+            "RxAndroid Test Observable.just A",
+            "RxAndroid Test Observable.just B",
+            "RxAndroid Test Observable.just C"
+    );
+    Observable<String> observable2 = Observable.fromCallable(new Callable<String>() {
+        @Override
+        public String call() throws Exception {
+            Thread.sleep(1000L);
+            return "RxAndroid Observable.fromCallable";
+        }
+    });
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,14 +88,58 @@ public class RxAndroidActivity extends BaseActivity {
     }
 
     private void test() {
-        if (!isRunning) {
-            isRunning = true;
-//            test1();
-            test2();
-//        test3();
-//            test6();
-//        test7();
-        }
+        count = 0;
+        Observable.fromArray(true, false, true).filter(new Predicate<Boolean>() {
+            @Override
+            public boolean test(Boolean aBoolean) throws Exception {
+                return aBoolean;
+            }
+        }).map(new Function<Boolean, String>() {
+            @Override
+            public String apply(Boolean aBoolean) throws Exception {
+                count++;
+                ZLog.i(ZTag.TAG_DEBUG, "count : " + count);
+                return String.valueOf(count);
+            }
+        }).concatMap(new Function<String, ObservableSource<String>>() {
+            @Override
+            public ObservableSource<String> apply(String s) throws Exception {
+                if (true) {
+                    return observable1;
+                } else {
+                    return observable2;
+                }
+            }
+        }).subscribe(new Observer<String>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(String s) {
+                builder.append(s).append("\n");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+                updateTestText(builder.toString());
+            }
+        });
+
+//        if (!isRunning) {
+//            isRunning = true;
+////            test1();
+//            test2();
+////        test3();
+////            test6();
+////        test7();
+//        }
     }
 
     StringBuilder builder = new StringBuilder();
@@ -87,13 +148,7 @@ public class RxAndroidActivity extends BaseActivity {
      *
      */
     private void test1() {
-        Observable<String> observable = Observable.just(
-                "RxAndroid Test Observable.just A",
-                "RxAndroid Test Observable.just B",
-                "RxAndroid Test Observable.just C"
-
-        );
-        observable.doFinally(new Action() {
+        observable1.doFinally(new Action() {
             @Override
             public void run() throws Exception {
                 isRunning = false;
@@ -128,14 +183,7 @@ public class RxAndroidActivity extends BaseActivity {
      * observeOn()让我们在合适的线程中接收Observable发送的数据，在这里是UI主线程
      */
     public void test2() {
-        Observable<String> observable = Observable.fromCallable(new Callable<String>() {
-            @Override
-            public String call() throws Exception {
-                Thread.sleep(1000L);
-                return "RxAndroid Observable.fromCallable";
-            }
-        });
-        observable
+        observable2
                 .subscribeOn(scheduler)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doFinally(new Action() {

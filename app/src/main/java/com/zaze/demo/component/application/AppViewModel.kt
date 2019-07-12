@@ -49,7 +49,7 @@ class AppViewModel(application: Application) : AbsAndroidViewModel(application) 
 //        FileUtil.deleteFile(extractFile)
 //        FileUtil.deleteFile(allFile)
             // --------------------------------------------------
-        loadAllInstallApp(allAppList, packageSet)
+            loadAllInstallApp(allAppList, packageSet)
 //            loadSystemApp(allAppList, packageSet)
 //        loadUnSystemApp(allAppList, packageSet)
             // --------------------------------------------------
@@ -71,9 +71,9 @@ class AppViewModel(application: Application) : AbsAndroidViewModel(application) 
             // 添加规则--------------------------------------------------
 //        filterSet.mapTo(packageList) { it }
             // 移除规则--------------------------------------------------
-            filterSet.forEach {
-                packageSet.remove(it)
-            }
+//            filterSet.forEach {
+//                packageSet.remove(it)
+//            }
             show(packageSet.values)
         })
     }

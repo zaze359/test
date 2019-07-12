@@ -210,7 +210,6 @@ public class TestDebug {
     }
 
 
-
     public static void beginDocument(XmlResourceParser parser) throws XmlPullParserException, IOException {
         ZLog.i(ZTag.TAG_DEBUG, "" + parser.getEventType());
         ZLog.i(ZTag.TAG_DEBUG, "" + parser.getName());

@@ -146,8 +146,10 @@ public class ZNetUtil {
                 return "02:00:00:00:00:02";
             }
             byte[] addr = networkInterface.getHardwareAddress();
-            for (byte b : addr) {
-                buf.append(String.format("%02X:", b));
+            if(addr != null) {
+                for (byte b : addr) {
+                    buf.append(String.format("%02X:", b));
+                }
             }
             if (buf.length() > 0) {
                 buf.deleteCharAt(buf.length() - 1);

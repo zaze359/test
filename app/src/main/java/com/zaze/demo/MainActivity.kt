@@ -20,8 +20,10 @@ import com.zaze.common.base.ext.setImmersion
 import com.zaze.common.base.ext.setupActionBar
 import com.zaze.common.permission.PermissionUtil
 import com.zaze.common.widget.IntervalButtonWidget
+import com.zaze.demo.app.MyApplication
 import com.zaze.demo.component.table.ui.TableFragment
 import com.zaze.demo.debug.*
+import com.zaze.demo.debug.wifi.WifiCompat
 import com.zaze.utils.FileUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
@@ -80,8 +82,17 @@ class MainActivity : BaseActivity() {
         main_test_2_button.setOnClickListener {
             intervalButton?.start()
         }
-        main_test_button.text = "测试"
         main_test_button.setOnClickListener {
+            WifiCompat.listenerByConn()
+            WifiCompat.listenerByJob(MyApplication.getInstance())
+            //            ThreadPlugins.runInIoThread(Runnable {
+//                if (main_test_button.text == Thread.currentThread().name) {
+////                    main_test_button.text = "测试"
+//                } else {
+////                    main_test_button.text = Thread.currentThread().name
+//                }
+//                main_test_button.invalidate()
+//            })
             KotlinDebug.test(this)
             TestDebug.test(this)
             startService(Intent(this, LogcatService::class.java))
@@ -154,6 +165,7 @@ class MainActivity : BaseActivity() {
     private fun setupPermission() {
         PermissionUtil.checkAndRequestUserPermission(this, arrayOf(
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.CHANGE_NETWORK_STATE,
                 Manifest.permission.INTERNET,
                 Manifest.permission.READ_PHONE_STATE,
                 Manifest.permission.ACCESS_FINE_LOCATION,

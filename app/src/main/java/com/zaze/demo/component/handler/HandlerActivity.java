@@ -8,12 +8,12 @@ import android.os.MessageQueue;
 import android.view.Menu;
 import android.view.View;
 
+import androidx.annotation.Nullable;
+
 import com.zaze.common.base.BaseActivity;
 import com.zaze.demo.R;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
-
-import androidx.annotation.Nullable;
 
 /**
  * Description :
@@ -26,7 +26,7 @@ public class HandlerActivity extends BaseActivity {
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            ZLog.d(ZTag.TAG_DEBUG, "天黑请闭眼");
+            ZLog.d(ZTag.TAG_DEBUG, "大道无情");
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {

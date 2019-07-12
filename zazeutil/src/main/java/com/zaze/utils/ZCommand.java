@@ -28,7 +28,7 @@ public class ZCommand {
     private static Boolean isRoot = null;
     private static final Object object = new Object();
 
-    private static boolean showLog = false;
+    private static boolean showLog = true;
 
     public static void setShowLog(boolean showLog) {
         ZCommand.showLog = showLog;

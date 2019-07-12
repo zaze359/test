@@ -52,19 +52,19 @@ public class ZLog {
         ZLog.needStack = needStack;
     }
 
-    public static String getTag(StackTraceElement ste) {
-        if (needStack) {
-            String clazzName = ste.getClassName();
-            clazzName = clazzName.substring(clazzName.lastIndexOf(".") + 1);
-            return String.format(Locale.getDefault(),
-                    "%s.%s(L:%d)", clazzName, ste.getMethodName(), ste.getLineNumber());
-        } else {
-            return "";
-        }
+    private static String getTag(StackTraceElement ste) {
+        String clazzName = ste.getClassName();
+        clazzName = clazzName.substring(clazzName.lastIndexOf(".") + 1);
+        return String.format(Locale.getDefault(),
+                "%s.%s(L:%d)", clazzName, ste.getMethodName(), ste.getLineNumber());
     }
 
     private static String getStackTrace(String format, Object... args) {
-        return ZStringUtil.format("[" + getTag(StackTraceHelper.getStackTraceElement(5)) + "] : " + format, args);
+        if (needStack) {
+            return ZStringUtil.format("[" + getTag(StackTraceHelper.getStackTraceElement(5)) + "] : " + format, args);
+        } else {
+            return ZStringUtil.format(format, args);
+        }
     }
 
     // ----------- V -----------
