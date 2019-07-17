@@ -10,7 +10,7 @@ import com.zaze.utils.task.TaskAsyncMulti
  * @version : 2018-10-22 - 21:09
  */
 object TaskPlugins {
-    private val downloadAppTask = Task.create<Any>("launcher_download_apk").executeOnAsyncMulti()
+    private val downloadAppTask = Task.create<Any>("download_apk").executeOnAsyncMulti()
     private val assistTask = Task.create<Any>("request_assist_task").executeOnAsyncAuto()
 
     // --------------------------------------------------

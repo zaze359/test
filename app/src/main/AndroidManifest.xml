@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.zaze.demo">
 
+    <uses-permission android:name="android.permission.READ_LOGS" />
+
+
     <!-- <permission android:name="com.zaze.demo.receiver.RECEIVER" /> -->
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <!-- 这个权限用于进行网络定位 -->
@@ -19,7 +22,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_SETTINGS" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
@@ -33,8 +35,8 @@
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-
 
     <application
         android:name=".app.MyApplication"
@@ -82,18 +84,6 @@
         </receiver>
         <!-- wifi end -->
 
-
-        <!-- 安装卸载 start -->
-        <!--<receiver android:name=".receiver.PackageReceiver">-->
-        <!--<intent-filter>-->
-        <!--<action android:name="android.intent.action.PACKAGE_ADDED" />-->
-        <!--<action android:name="android.intent.action.PACKAGE_REPLACED" />-->
-        <!--<action android:name="android.intent.action.PACKAGE_REMOVED" />-->
-        <!--&lt;!&ndash; <action android:name="android.intent.action.PACKAGE_DATA_CLEARED" /> &ndash;&gt;-->
-        <!--<data android:scheme="package" />-->
-        <!--</intent-filter>-->
-        <!--</receiver>-->
-        <!-- 安装卸载 end -->
         <!-- 测试接收推送 start -->
         <service android:name=".component.notification.service.NotificationService" />
         <!-- 测试接收推送 end -->

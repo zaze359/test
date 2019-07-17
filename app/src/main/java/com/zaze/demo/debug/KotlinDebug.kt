@@ -82,6 +82,8 @@ object KotlinDebug {
 //                Log.i("Info", "Total: " + (bucket.rxBytes + bucket.txBytes))
 //            }
 //        }
+//        val a: AppShortcut? = null
+//        a!!.flags
     }
 
     fun getDefaultInputMethod(context: Context): String {

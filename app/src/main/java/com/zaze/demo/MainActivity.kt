@@ -38,7 +38,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
 
-
     private lateinit var drawerToggle: ActionBarDrawerToggle
 
     private val fragmentList = ArrayList<BaseFragment>()

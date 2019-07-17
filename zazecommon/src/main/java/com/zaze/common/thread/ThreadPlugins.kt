@@ -1,9 +1,9 @@
-package com.zaze.demo.util.plugins
+package com.zaze.common.thread
 
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Looper
-import com.zaze.demo.util.thread.DefaultFactory
+import com.zaze.utils.thread.DefaultFactory
 import io.reactivex.Scheduler
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.LinkedBlockingQueue
@@ -55,7 +55,7 @@ object ThreadPlugins {
 
     // --------------------------------------------------
     /**
-     * 处理下载的回调操作, 防止下载线程堵塞
+     * 处理下载的回调操作
      */
     private val downloadExecutor by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
         ThreadPoolExecutor(1, 1, 1L, TimeUnit.MINUTES, LinkedBlockingQueue(), DefaultFactory("download"))
@@ -80,7 +80,7 @@ object ThreadPlugins {
      */
     @JvmStatic
     @Volatile
-    private var workThread = HandlerThread("launcher_work_thread").apply { start() }
+    private var workThread = HandlerThread("work_thread").apply { start() }
 
     /**
      * 自定义Handler

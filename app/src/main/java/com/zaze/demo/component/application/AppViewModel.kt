@@ -8,11 +8,11 @@ import androidx.lifecycle.MutableLiveData
 import com.zaze.common.base.AbsAndroidViewModel
 import com.zaze.common.base.BaseApplication
 import com.zaze.common.base.ext.get
+import com.zaze.common.thread.ThreadPlugins
 import com.zaze.demo.R
 import com.zaze.demo.app.MyApplication
 import com.zaze.demo.debug.AppShortcut
 import com.zaze.demo.debug.ApplicationManager
-import com.zaze.demo.util.plugins.ThreadPlugins
 import com.zaze.demo.util.plugins.rx.MyObserver
 import com.zaze.utils.AppUtil
 import com.zaze.utils.FileUtil

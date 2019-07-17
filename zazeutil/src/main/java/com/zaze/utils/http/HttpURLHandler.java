@@ -1,4 +1,4 @@
-package com.zaze.demo.util;
+package com.zaze.utils.http;
 
 import android.os.Build;
 import android.util.Log;

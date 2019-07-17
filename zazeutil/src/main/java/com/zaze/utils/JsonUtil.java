@@ -11,6 +11,7 @@ import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 /**
@@ -166,5 +167,23 @@ public class JsonUtil {
             gsonBuilder = new GsonBuilder();
         }
         return gsonBuilder.create();
+    }
+
+
+    /**
+     * mapToJson
+     *
+     * @return JSONObject
+     */
+    public static JSONObject mapToJson(Map<String, Object> map) {
+        JSONObject jsonHeadLines = new JSONObject();
+        try {
+            for (String key : map.keySet()) {
+                jsonHeadLines.put(key, map.get(key));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonHeadLines;
     }
 }

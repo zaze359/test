@@ -12,11 +12,12 @@ import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.os.Build;
 
+import com.tencent.bugly.crashreport.CrashReport;
 import com.zaze.common.base.BaseApplication;
 import com.zaze.demo.component.network.compat.AnalyzeTrafficCompat;
-import com.zaze.demo.receiver.PackageReceiver;
 import com.zaze.demo.debug.wifi.WifiCompat;
 import com.zaze.demo.debug.wifi.WifiJob;
+import com.zaze.demo.receiver.PackageReceiver;
 import com.zaze.utils.cache.MemoryCacheManager;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
@@ -49,6 +50,7 @@ public class MyApplication extends BaseApplication {
 //        FileUtil.setShowLog(true);
         MemoryCacheManager.setCacheLog(true);
         AnalyzeTrafficCompat.setNeedLog(true);
+        CrashReport.initCrashReport(getApplicationContext(), "ecf90d7662", true);
         //
 //        FontUtil.setDefaultFontFormSystem("DEFAULT", "Roboto-Light.ttf");
         //
