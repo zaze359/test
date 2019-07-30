@@ -50,7 +50,7 @@ abstract class AbsAndroidViewModel(application: Application) : AndroidViewModel(
     /**
      * 显示进度
      */
-    fun showProgress(string: String) {
+    fun showProgress(string: String?) {
         progress.set(string)
     }
 

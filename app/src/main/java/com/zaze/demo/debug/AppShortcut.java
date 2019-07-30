@@ -25,7 +25,8 @@ public class AppShortcut {
     private int uid;
     private int flags;
     private String signingInfo;
-    private boolean isInstalled = true;
+    private boolean isInstalled = false;
+    private boolean copyEnable = true;
 
     public String getName() {
         return name;
@@ -103,6 +104,14 @@ public class AppShortcut {
 
     public void setSigningInfo(String signingInfo) {
         this.signingInfo = signingInfo;
+    }
+
+    public boolean isCopyEnable() {
+        return copyEnable;
+    }
+
+    public void setCopyEnable(boolean copyEnable) {
+        this.copyEnable = copyEnable;
     }
 
     public static @NonNull

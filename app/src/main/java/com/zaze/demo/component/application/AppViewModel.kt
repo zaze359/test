@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import com.zaze.common.base.AbsAndroidViewModel
 import com.zaze.common.base.BaseApplication
 import com.zaze.common.base.ext.get
+import com.zaze.common.base.ext.set
 import com.zaze.common.thread.ThreadPlugins
 import com.zaze.demo.R
 import com.zaze.demo.app.MyApplication
@@ -39,43 +40,52 @@ class AppViewModel(application: Application) : AbsAndroidViewModel(application) 
     val appData = MutableLiveData<List<AppShortcut>>()
     // --------------------------------------------------
     fun loadAppList() {
-        ThreadPlugins.runInIoThread(Runnable {
-            // --------------------------------------------------
-            packageSet.clear()
-            val allAppList = AppUtil.getInstalledApplications(MyApplication.getInstance())
-            // --------------------------------------------------
-            FileUtil.deleteFile(baseDir)
+        if (!isLoading()) {
+            dataLoading.set(true)
+            showProgress("load apps")
+            Observable.fromCallable {
+                // --------------------------------------------------
+                packageSet.clear()
+                val allAppList = AppUtil.getInstalledApplications(MyApplication.getInstance())
+                // --------------------------------------------------
+                FileUtil.deleteFile(baseDir)
 //        FileUtil.deleteFile(unExistsFile)
 //        FileUtil.deleteFile(extractFile)
 //        FileUtil.deleteFile(allFile)
-            // --------------------------------------------------
-            loadAllInstallApp(allAppList, packageSet)
+                // --------------------------------------------------
+                loadAllInstallApp(allAppList, packageSet)
 //            loadSystemApp(allAppList, packageSet)
 //        loadUnSystemApp(allAppList, packageSet)
-            // --------------------------------------------------
-            packageSet.remove(BaseApplication.getInstance().packageName)
-            // --------------------------------------------------
-            val filterSet = HashSet<String>()
-            filterSet.addAll(getStringArray(R.array.xuehai_keep_app).toList())
-            filterSet.addAll(getStringArray(R.array.un_keep_app).toList())
-            filterSet.addAll(getStringArray(R.array.android_keep_app).toList())
-            filterSet.addAll(getStringArray(R.array.android_un_keep_app).toList())
-            filterSet.addAll(getStringArray(R.array.samsung_keep_app).toList())
-            filterSet.addAll(getStringArray(R.array.samsung_un_keep_app).toList())
-            filterSet.addAll(getStringArray(R.array.huawei_keep_app).toList())
-            filterSet.addAll(getStringArray(R.array.huawei_un_keep_app).toList())
-            filterSet.addAll(getStringArray(R.array.lenovo_keep_app).toList())
-            filterSet.addAll(getStringArray(R.array.lenovo_un_keep_app).toList())
-            // --------------------------------------------------
-            filterSet.addAll(getStringArray(R.array.test_app).toList())
-            // 添加规则--------------------------------------------------
+                // --------------------------------------------------
+                packageSet.remove(BaseApplication.getInstance().packageName)
+                // --------------------------------------------------
+                val filterSet = HashSet<String>()
+                filterSet.addAll(getStringArray(R.array.xuehai_keep_app).toList())
+                filterSet.addAll(getStringArray(R.array.un_keep_app).toList())
+                filterSet.addAll(getStringArray(R.array.android_keep_app).toList())
+                filterSet.addAll(getStringArray(R.array.android_un_keep_app).toList())
+                filterSet.addAll(getStringArray(R.array.samsung_keep_app).toList())
+                filterSet.addAll(getStringArray(R.array.samsung_un_keep_app).toList())
+                filterSet.addAll(getStringArray(R.array.huawei_keep_app).toList())
+                filterSet.addAll(getStringArray(R.array.huawei_un_keep_app).toList())
+                filterSet.addAll(getStringArray(R.array.lenovo_keep_app).toList())
+                filterSet.addAll(getStringArray(R.array.lenovo_un_keep_app).toList())
+                // --------------------------------------------------
+                filterSet.addAll(getStringArray(R.array.test_app).toList())
+                // 添加规则--------------------------------------------------
 //        filterSet.mapTo(packageList) { it }
-            // 移除规则--------------------------------------------------
+                // 移除规则--------------------------------------------------
 //            filterSet.forEach {
 //                packageSet.remove(it)
 //            }
-            show(packageSet.values)
-        })
+                show(packageSet.values)
+            }.subscribeOn(ThreadPlugins.ioScheduler())
+                    .doFinally {
+                        dataLoading.set(false)
+                        hideProgress()
+                    }
+                    .subscribe(MyObserver(compositeDisposable))
+        }
     }
 
     private fun show(apps: MutableCollection<AppShortcut>) {
@@ -105,30 +115,56 @@ class AppViewModel(application: Application) : AbsAndroidViewModel(application) 
     }
 
     fun loadSdcardApk() {
-        val showList = ArrayList<AppShortcut>()
-        FileUtil.searchFileBySuffix(apkDir, "apk", true).forEach { file ->
-            initEntity(ApplicationManager.getAppShortcutFormApk(file.absolutePath))?.let {
-                showList.add(it)
-            }
+        if (!isLoading()) {
+            showProgress("加载apk")
+            dataLoading.set(true)
+            Observable.fromCallable {
+                val showList = ArrayList<AppShortcut>()
+                FileUtil.searchFileBySuffix(apkDir, "apk", true).forEach { file ->
+                    initEntity(ApplicationManager.getAppShortcutFormApk(file.absolutePath))?.let {
+                        showList.add(it)
+                    }
+                }
+                showList
+            }.subscribeOn(ThreadPlugins.ioScheduler())
+                    .map { showList ->
+                        appData.postValue(showList.filter {
+                            !TextUtils.isEmpty(it.sourceDir)
+                        })
+
+                    }
+                    .doFinally {
+                        dataLoading
+                        hideProgress()
+                    }
+                    .subscribe(MyObserver(compositeDisposable))
         }
-        appData.postValue(showList.filter {
-            !TextUtils.isEmpty(it.sourceDir)
-        })
     }
 
     // --------------------------------------------------
     fun extractApp() {
-        val dataList = appData.get()
-        if (dataList != null) {
-            FileUtil.deleteFile(extractFile)
-            val builder = StringBuilder()
-            for (entity in dataList) {
-                if (builder.isNotEmpty()) {
-                    builder.append("\n")
+        if (!isLoading()) {
+            dataLoading.set(true)
+            showProgress("正在提前数据....")
+            Observable.fromCallable {
+                val dataList = appData.get()
+                if (dataList != null) {
+                    FileUtil.deleteFile(extractFile)
+                    val builder = StringBuilder()
+                    for (entity in dataList) {
+                        if (builder.isNotEmpty()) {
+                            builder.append("\n")
+                        }
+                        builder.append("<item>${entity.packageName}</item><!--${entity.name}-->")
+                    }
+                    FileUtil.writeToFile(extractFile, builder.toString())
                 }
-                builder.append("<item>${entity.packageName}</item><!--${entity.name}-->")
-            }
-            FileUtil.writeToFile(extractFile, builder.toString())
+            }.subscribeOn(ThreadPlugins.ioScheduler())
+                    .doFinally {
+                        dataLoading.set(false)
+                        hideProgress()
+                    }
+                    .subscribe(MyObserver(compositeDisposable))
         }
     }
 

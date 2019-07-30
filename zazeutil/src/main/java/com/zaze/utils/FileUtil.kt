@@ -85,6 +85,15 @@ object FileUtil {
     }
     // --------------------------------------------------
     /**
+     * [from] 从此文件拷贝
+     * [to] 拷贝到此文件
+     */
+    @JvmStatic
+    fun copy(from: File, to: File) {
+        FileUtil.writeToFile(to.absolutePath, from.inputStream())
+    }
+
+    /**
      * [filePath] 文件路径
      * [newFileName] 新文件名
      */
@@ -302,9 +311,7 @@ object FileUtil {
         } finally {
             try {
                 inputStream.close()
-                if (output != null) {
-                    output.close()
-                }
+                output?.close()
             } catch (e: IOException) {
                 e.printStackTrace()
             }

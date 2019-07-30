@@ -14,14 +14,14 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import com.zaze.common.base.AbsFragment
 import com.zaze.common.base.BaseActivity
-import com.zaze.common.base.BaseFragment
 import com.zaze.common.base.ext.setImmersion
 import com.zaze.common.base.ext.setupActionBar
 import com.zaze.common.permission.PermissionUtil
 import com.zaze.common.widget.IntervalButtonWidget
 import com.zaze.demo.app.MyApplication
-import com.zaze.demo.component.table.ui.TableFragment
+import com.zaze.demo.component.table.TableFragment
 import com.zaze.demo.debug.*
 import com.zaze.demo.debug.wifi.WifiCompat
 import com.zaze.utils.FileUtil
@@ -40,7 +40,7 @@ class MainActivity : BaseActivity() {
 
     private lateinit var drawerToggle: ActionBarDrawerToggle
 
-    private val fragmentList = ArrayList<BaseFragment>()
+    private val fragmentList = ArrayList<AbsFragment>()
 
     private var intervalButton: IntervalButtonWidget? = null
     private val dirListener = LogDirListener(FileUtil.getSDCardRoot() + "/xuehai")
@@ -181,8 +181,8 @@ class MainActivity : BaseActivity() {
     }
 
     // --------------------------------------------------
-    inner class MyPagerAdapter(fm: FragmentManager, list: ArrayList<BaseFragment>?) : FragmentPagerAdapter(fm) {
-        private val fragmentList = ArrayList<BaseFragment>()
+    inner class MyPagerAdapter(fm: FragmentManager, list: ArrayList<AbsFragment>?) : FragmentPagerAdapter(fm) {
+        private val fragmentList = ArrayList<AbsFragment>()
 
         init {
             fragmentList.clear()

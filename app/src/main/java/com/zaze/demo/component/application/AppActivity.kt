@@ -36,6 +36,10 @@ class AppActivity : AbsActivity() {
                     appRecycleView.adapter = adapter
                 }
             })
+            progress.observe(this@AppActivity, Observer {
+                progress(it)
+            })
+
         }
         ZOnClickHelper.setOnClickListener(appExtractBtn) {
             viewModel.extractApp()

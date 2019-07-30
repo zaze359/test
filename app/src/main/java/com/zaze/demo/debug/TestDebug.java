@@ -3,12 +3,14 @@ package com.zaze.demo.debug;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.content.res.XmlResourceParser;
 import android.os.Environment;
 import android.util.Base64;
 import android.util.Log;
 
 import com.zaze.demo.model.entity.DeviceStatus;
+import com.zaze.utils.FileUtil;
 import com.zaze.utils.ThreadManager;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
@@ -24,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.Collections;
@@ -92,6 +95,42 @@ public class TestDebug {
 //        }
 //        aaaaaa(context);
     }
+
+    /**
+     * @param apkPath
+     * @return 得到对应插件的Resource对象
+     */
+    public static void getPluginResources(Context context, String apkPath, String assetFileName) {
+        try {
+            AssetManager assetManager = AssetManager.class.newInstance();
+            //反射调用方法addAssetPath(String path)
+            Method addAssetPath = assetManager.getClass().getMethod("addAssetPath", String.class);
+            //将未安装的Apk文件的添加进AssetManager中,第二个参数是apk的路径
+            addAssetPath.invoke(assetManager, apkPath);
+            FileUtil.writeToFile("/sdcard/aa.clear", assetManager.open(assetFileName));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+//    /**
+//     * @param apkPath
+//     * @return 得到对应插件的Resource对象
+//     */
+//    private Resources getPluginResources(Context context, String apkPath) {
+//        try {
+//            AssetManager assetManager = AssetManager.class.newInstance();
+//            //反射调用方法addAssetPath(String path)
+//            Method addAssetPath = assetManager.getClass().getMethod("addAssetPath", String.class);
+//            //将未安装的Apk文件的添加进AssetManager中,第二个参数是apk的路径
+//            addAssetPath.invoke(assetManager, apkPath);
+//            Resources superRes = context.getResources();
+//            Resources mResources = new Resources(assetManager, superRes.getDisplayMetrics(), superRes.getConfiguration());
+//            return mResources;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
 
     static void aaaaaa(final Context context) {
         for (int i = 0; i < 4; i++) {

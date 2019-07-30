@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xuehai.launcher.common.widget.WidthFitSquareLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/vertical_loading_img"
+        android:layout_width="60dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="6dp"
+        android:contentDescription="@null" />
+
+    <TextView
+        android:id="@+id/vertical_loading_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:textColor="#999999"
+        android:textSize="18sp"
+        tools:text="作业包比较大请稍后再试" />
+
+</com.xuehai.launcher.common.widget.WidthFitSquareLayout>
+
+

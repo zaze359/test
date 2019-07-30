@@ -50,13 +50,13 @@ public class EntityModelImpl implements EntityModel {
     public List<TableEntity> getTableList() {
         List<TableEntity> list = new ArrayList<>();
         int i = 0;
+        list.add(new TableEntity("应用查询", AppActivity.class, ++i));
         list.add(new TableEntity("WebView", WebViewActivity.class, ++i));
         list.add(new TableEntity("流量监控", NetworkStatsActivity.class, ++i));
         list.add(new TableEntity("截屏", CaptureActivity.class, ++i));
         list.add(new TableEntity("字体变换", FontActivity.class, ++i));
         list.add(new TableEntity("自定义View", CustomViewActivity.class, ++i));
         list.add(new TableEntity("消息通知栏", NotificationActivity.class, ++i));
-        list.add(new TableEntity("应用查询", AppActivity.class, ++i));
         list.add(new TableEntity("任务机制", TaskActivity.class, ++i));
         list.add(new TableEntity("缓存机制", CacheActivity.class, ++i));
         list.add(new TableEntity("动画效果", AnimationActivity.class, ++i));

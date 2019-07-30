@@ -187,6 +187,7 @@ public class ApplicationManager {
             packageInfo.applicationInfo.publicSourceDir = apkFilePath;
             AppShortcut appShortcut = AppShortcut.transform(BaseApplication.getInstance(), packageInfo);
             appShortcut.setSourceDir(apkFilePath);
+            appShortcut.setCopyEnable(false);
             return appShortcut;
         } else {
             return null;
