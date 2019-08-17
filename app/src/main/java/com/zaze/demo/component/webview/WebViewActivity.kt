@@ -1,19 +1,18 @@
-package com.zaze.demo.component.webview.ui
+package com.zaze.demo.component.webview
 
 
 import android.annotation.SuppressLint
-import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
-import android.webkit.*
+import android.webkit.JavascriptInterface
+import android.webkit.WebChromeClient
+import android.webkit.WebSettings
+import android.webkit.WebView
 import com.zaze.common.base.BaseActivity
 import com.zaze.demo.R
-import com.zaze.demo.component.webview.presenter.WebViewPresenter
-import com.zaze.demo.component.webview.presenter.impl.WebViewPresenterImpl
-import com.zaze.demo.component.webview.view.WebViewView
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import kotlinx.android.synthetic.main.web_view_activity.*
@@ -24,14 +23,12 @@ import kotlinx.android.synthetic.main.web_view_activity.*
  * @author : zaze
  * @version : 2017-08-16 05:48 1.0
  */
-open class WebViewActivity : BaseActivity(), WebViewView {
-    var presenter: WebViewPresenter? = null
+open class WebViewActivity : BaseActivity() {
 
     @SuppressLint("SetJavaScriptEnabled", "JavascriptInterface")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.web_view_activity)
-        presenter = WebViewPresenterImpl(this)
         val settings = web_view.settings
         settings.javaScriptEnabled = true
         settings.domStorageEnabled = true
@@ -39,24 +36,7 @@ open class WebViewActivity : BaseActivity(), WebViewView {
             settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
         }
         web_view.addJavascriptInterface(JSInterface(), "jsInterface")
-        web_view.webViewClient = object : WebViewClient() {
-            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-                super.onPageStarted(view, url, favicon)
-                ZLog.i(ZTag.TAG_DEBUG, "onPageStarted ：$url")
-            }
-
-            override fun onPageFinished(view: WebView?, url: String?) {
-                super.onPageFinished(view, url)
-                ZLog.i(ZTag.TAG_DEBUG, "onPageFinished ：$url")
-//                view?.loadUrl("javascript:window.local_obj.showSource('<head>'+"
-//                        + "document.getElementsByTagName('html')[0].innerHTML+'</head>');");
-            }
-
-            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                ZLog.i(ZTag.TAG_DEBUG, "发生跳转 ：$url")
-                return super.shouldOverrideUrlLoading(view, url)
-            }
-        }
+        web_view.webViewClient = MyWebViewClient()
         web_view.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView, newProgress: Int) {
                 web_progress_bar.progress = newProgress
@@ -79,8 +59,8 @@ open class WebViewActivity : BaseActivity(), WebViewView {
                 }
             }
         }
-        web_view.loadUrl("file:///android_asset/test.html")
-//        web_view.loadUrl("http://www.baidu.com")
+//        web_view.loadUrl("file:///android_asset/test.html")
+        web_view.loadUrl("https://www.baidu.com")
 //        web_view.loadUrl("http://debugtbs.qq.com")
 //        web_view.loadUrl("http://help.xh.com/faq/CA106002/index.html#/")
 //        web_view.loadUrl("https://help.yunzuoye.net/faq/CA101010/index.html#/updates/188")
@@ -93,6 +73,4 @@ open class WebViewActivity : BaseActivity(), WebViewView {
             ZLog.i(ZTag.TAG_DEBUG, "====>html=$html")
         }
     }
-
-
 }

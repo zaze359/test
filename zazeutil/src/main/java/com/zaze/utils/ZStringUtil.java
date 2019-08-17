@@ -24,7 +24,6 @@ public class ZStringUtil {
         try {
             return String.format(Locale.getDefault(), format, args);
         } catch (Exception e) {
-            e.printStackTrace();
             return format;
         }
     }

@@ -4,7 +4,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.view.Window;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -24,9 +24,7 @@ public class ToolBarDemoActivity extends BaseActivity {
 
     Toolbar toolBarDemoBar;
     ViewPager toolBarDemoViewpager;
-    Button toolBarDemoBtn1;
-    Button toolBarDemoBtn2;
-    Button toolBarDemoBtn3;
+    private int defaultOption;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,23 +32,88 @@ public class ToolBarDemoActivity extends BaseActivity {
         setContentView(R.layout.tool_bar_activity);
         toolBarDemoBar = findViewById(R.id.tool_bar_demo_bar);
         toolBarDemoViewpager = findViewById(R.id.tool_bar_demo_viewpager);
-        toolBarDemoBtn1 = findViewById(R.id.tool_bar_demo_btn_1);
-        toolBarDemoBtn2 = findViewById(R.id.tool_bar_demo_btn_2);
-        toolBarDemoBtn3 = findViewById(R.id.tool_bar_demo_btn_3);
+        defaultOption = getWindow().getDecorView().getSystemUiVisibility();
 
-        //
+        findViewById(R.id.tool_bar_demo_btn_0).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //         <item name="android:windowFullscreen">true</item>
+                //        <item name="android:windowNoTitle">true</item>
+                //        <item name="windowActionBar">false</item>
+                Window window = getWindow();
+//                window.addFlags(~Window.FEATURE_NO_TITLE);
+                View decorView = window.getDecorView();
+//                int option = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+//                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+//                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+//                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+////                    option |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+//                }
+                decorView.setSystemUiVisibility(defaultOption);
+//                ActionBar actionBar = getSupportActionBar();
+//                actionBar.show();
+            }
+        });
+        findViewById(R.id.tool_bar_demo_btn_1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Window window = getWindow();
+                window.addFlags(Window.FEATURE_NO_TITLE);
+                View decorView = window.getDecorView();
+                int option = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    option |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+                }
+                decorView.setSystemUiVisibility(option);
+                ActionBar actionBar = getSupportActionBar();
+                actionBar.hide();
+            }
+        });
+        findViewById(R.id.tool_bar_demo_btn_2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Window window = getWindow();
+                window.addFlags(Window.FEATURE_NO_TITLE);
+                View decorView = window.getDecorView();
+                int option = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    option |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+                }
+                decorView.setSystemUiVisibility(option);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    window.setStatusBarColor(Color.TRANSPARENT);
+                    window.setNavigationBarColor(Color.TRANSPARENT);
+                }
+                ActionBar actionBar = getSupportActionBar();
+                actionBar.hide();
+            }
+        });
+        findViewById(R.id.tool_bar_demo_btn_3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        findViewById(R.id.tool_bar_demo_btn_4).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         toolBarDemoBar.setTitle("ToolBarDemo");
         toolBarDemoBar.setSubtitle("SubTitle");
         setSupportActionBar(toolBarDemoBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         initTab();
-        toolBarDemoBtn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                function1();
-            }
-        });
     }
 
     @Override

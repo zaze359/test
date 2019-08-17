@@ -39,11 +39,12 @@ class AppActivity : AbsActivity() {
             progress.observe(this@AppActivity, Observer {
                 progress(it)
             })
-
         }
+
         ZOnClickHelper.setOnClickListener(appExtractBtn) {
             viewModel.extractApp()
         }
+
         appResolvingApkCb.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 viewModel.loadSdcardApk()

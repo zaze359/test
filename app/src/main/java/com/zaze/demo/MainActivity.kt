@@ -162,14 +162,16 @@ class MainActivity : BaseActivity() {
      * 申请权限
      */
     private fun setupPermission() {
-        PermissionUtil.checkAndRequestUserPermission(this, arrayOf(
+        val array = arrayOf(
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.CHANGE_NETWORK_STATE,
                 Manifest.permission.INTERNET,
                 Manifest.permission.READ_PHONE_STATE,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.PACKAGE_USAGE_STATS
-        ), 1)
+                Manifest.permission.ACCESS_FINE_LOCATION)
+        PermissionUtil.checkAndRequestUserPermission(this, array, 1)
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            PermissionUtil.checkAndRequestUserPermission(this, Manifest.permission.PACKAGE_USAGE_STATS, 2)
+//        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {

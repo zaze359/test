@@ -29,7 +29,7 @@ import com.zaze.demo.component.system.ui.SystemActivity;
 import com.zaze.demo.component.task.ui.TaskActivity;
 import com.zaze.demo.component.time.TimeActivity;
 import com.zaze.demo.component.toolbar.ToolBarDemoActivity;
-import com.zaze.demo.component.webview.ui.WebViewActivity;
+import com.zaze.demo.component.webview.WebViewActivity;
 import com.zaze.demo.component.wifi.ui.WifiActivity;
 import com.zaze.demo.debug.CaptureActivity;
 import com.zaze.demo.model.EntityModel;

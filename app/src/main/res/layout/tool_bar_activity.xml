@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray_light"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
@@ -15,7 +16,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/tool_bar_demo_btn_0"
@@ -33,13 +34,19 @@
             android:id="@+id/tool_bar_demo_btn_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="透明状态栏" />
+            android:text="沉浸式" />
 
         <Button
             android:id="@+id/tool_bar_demo_btn_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="改变状态栏色值" />
+
+        <Button
+            android:id="@+id/tool_bar_demo_btn_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="沉浸式" />
 
         <!--<Button-->
         <!--android:id="@+id/tool_bar_demo_btn_4"-->

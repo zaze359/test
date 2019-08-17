@@ -134,7 +134,7 @@ class AppViewModel(application: Application) : AbsAndroidViewModel(application) 
 
                     }
                     .doFinally {
-                        dataLoading
+                        dataLoading.set(false)
                         hideProgress()
                     }
                     .subscribe(MyObserver(compositeDisposable))

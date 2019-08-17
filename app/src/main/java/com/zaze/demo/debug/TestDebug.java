@@ -10,6 +10,7 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.zaze.demo.model.entity.DeviceStatus;
+import com.zaze.utils.AppUtil;
 import com.zaze.utils.FileUtil;
 import com.zaze.utils.ThreadManager;
 import com.zaze.utils.log.ZLog;
@@ -53,6 +54,18 @@ public class TestDebug {
     private static List<WeakReference<DeviceStatus>> reference3 = null;
 
     public static void test(Context context) {
+//        DisplayMetrics displayMetrics = new DisplayMetrics();
+//        WindowManager windowMgr = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+//            windowMgr.getDefaultDisplay().getRealMetrics(displayMetrics);
+//        }
+//        ZLog.i(ZTag.TAG_DEBUG, "displayMetrics : " + displayMetrics);
+
+//        StorageLoader.query();
+
+        AppUtil.isAppRunning(context, "com.xh.arespunc");
+
+
         // --------------------------------------------------
 //        Toast.makeText(context, "sss", Toast.LENGTH_SHORT).show();
 //        FileUtil.writeToFile("/sdcard/a.txt", "adsfasdfasdfasdfd");

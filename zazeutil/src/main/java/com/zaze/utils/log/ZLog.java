@@ -16,7 +16,7 @@ import java.util.Locale;
  */
 public class ZLog {
     private static ZLogFace logFace;
-    private static boolean needStack = true;
+    private static boolean needStack = false;
     // --------------------------------------------------
     private static boolean E = true;
     private static boolean W = true;

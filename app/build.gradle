@@ -20,7 +20,14 @@ android {
         javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
         vectorDrawables.useSupportLibrary = true
     }
-
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'armeabi','x86', 'armeabi-v7a','x86_64'
+            universalApk true
+        }
+    }
     testOptions {
         execution 'ANDROID_TEST_ORCHESTRATOR'
     }

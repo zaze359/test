@@ -2,7 +2,6 @@ package com.zaze.demo.component.application
 
 import android.content.Context
 import android.content.pm.PackageManager
-import android.content.res.AssetManager
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
@@ -15,10 +14,7 @@ import com.zaze.demo.debug.AppShortcut
 import com.zaze.demo.debug.InvariantDeviceProfile
 import com.zaze.utils.AppUtil
 import com.zaze.utils.BmpUtil
-import com.zaze.utils.FileUtil
 import com.zaze.utils.ZStringUtil
-import com.zaze.utils.log.ZLog
-import com.zaze.utils.log.ZTag
 
 /**
  * Description :
@@ -75,26 +71,29 @@ class AppAdapter(context: Context, data: Collection<AppShortcut>) : BaseRecycler
         }
         holder.itemAppIv.setImageBitmap(BmpUtil.drawable2Bitmap(drawable, iconSize))
         holder.itemView.setOnClickListener {
-            //            if (value.isCopyEnable) {
+            AppUtil.startApplication(context, packageName)
+//            if (value.isCopyEnable) {
 //                FileUtil.copy(File(value.sourceDir), File("/sdcard/zaze/apk/${value.name}(${value.packageName}).apk"))
+//            } else {
+//                try {
+//                    val assetManager = AssetManager::class.java.newInstance()
+//                    //反射调用方法addAssetPath(String path)
+//                    val addAssetPath = assetManager.javaClass.getMethod("addAssetPath", String::class.java)
+//                    //将未安装的Apk文件的添加进AssetManager中,第二个参数是apk的路径
+//                    addAssetPath.invoke(assetManager, value.sourceDir)
+//                    assetManager.list("")?.forEach {
+//                        ZLog.i(ZTag.TAG_DEBUG, it)
+//                    }
+//                    try {
+//                        FileUtil.writeToFile("/sdcard/aa.clear", assetManager.open(".clear"))
+//                    } catch (e: Exception) {
+//                        e.printStackTrace()
+//                    }
+//                } catch (e: Exception) {
+//                    e.printStackTrace()
+//                }
 //            }
-            try {
-                val assetManager = AssetManager::class.java.newInstance()
-                //反射调用方法addAssetPath(String path)
-                val addAssetPath = assetManager.javaClass.getMethod("addAssetPath", String::class.java)
-                //将未安装的Apk文件的添加进AssetManager中,第二个参数是apk的路径
-                addAssetPath.invoke(assetManager, value.sourceDir)
-                assetManager.list("")?.forEach {
-                    ZLog.i(ZTag.TAG_DEBUG, it)
-                }
-                try {
-                    FileUtil.writeToFile("/sdcard/aa.clear", assetManager.open(".clear"))
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+
         }
     }
 
