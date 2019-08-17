@@ -1,0 +1,147 @@
+package com.zaze.demo.component.bitmap;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.SeekBar;
+
+import androidx.appcompat.app.ActionBar;
+
+import com.zaze.common.base.AbsActivity;
+import com.zaze.common.base.ext.AppCompatActivityExtKt;
+import com.zaze.demo.R;
+
+import org.jetbrains.annotations.Nullable;
+
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
+
+/**
+ * Description :
+ *
+ * @author : ZAZE
+ * @version : 2019-06-09 - 1:54
+ */
+public class BitmapActivity extends AbsActivity {
+
+    private float r = 1F;
+    private float g = 1F;
+    private float b = 1F;
+    private float a = 1F;
+    private Paint paint;
+    private Canvas canvas;
+    private Bitmap originBmp;
+    private Bitmap processBmp;
+
+
+    private ImageView processImageView;
+
+    @Override
+    public void init(@Nullable Bundle savedInstanceState) {
+        setContentView(R.layout.bitmap_act);
+        AppCompatActivityExtKt.setupActionBar(this, R.id.bitmapToolbar, new Function1<ActionBar, Unit>() {
+            @Override
+            public Unit invoke(ActionBar actionBar) {
+                actionBar.setTitle("Bitmap");
+                return Unit.INSTANCE;
+            }
+        });
+        processImageView = findViewById(R.id.processImageView);
+        originBmp = BitmapFactory.decodeResource(getResources(), R.mipmap.jljt);
+        processBmp = Bitmap.createBitmap(originBmp.getWidth(), originBmp.getHeight(), originBmp.getConfig());
+
+        ((SeekBar) findViewById(R.id.rSeekBar)).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                r = progress / 128f;
+                refresh();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        ((SeekBar) findViewById(R.id.gSeekBar)).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                g = progress / 128f;
+                refresh();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        ((SeekBar) findViewById(R.id.bSeekBar)).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                b = progress / 128f;
+                refresh();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        ((SeekBar) findViewById(R.id.aSeekBar)).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                a = progress / 128f;
+                refresh();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+    }
+
+    private void refresh() {
+        if (paint == null) {
+            paint = new Paint();
+        }
+        if (canvas == null) {
+            canvas = new Canvas(processBmp);
+        }
+        ColorMatrix colorMatrix = new ColorMatrix();
+        colorMatrix.set(new float[]{
+                r, 0, 0, 0, 0,
+                0, g, 0, 0, 0,
+                0, 0, b, 0, 0,
+                0, 0, 0, a, 0,
+        });
+        paint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
+        canvas.drawBitmap(originBmp, new Matrix(), paint);
+        processImageView.setImageBitmap(processBmp);
+    }
+}

@@ -6,6 +6,7 @@ package com.zaze.common.base;
  * @author zaze
  * @version 2017/10/19 - 上午11:22 1.0
  */
+@Deprecated
 public interface BasePresenter<V extends BaseView> {
 
     V getView();

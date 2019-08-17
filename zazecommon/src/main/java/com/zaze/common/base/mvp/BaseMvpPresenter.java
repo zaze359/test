@@ -9,6 +9,7 @@ import com.zaze.common.base.BaseView;
  * @author zaze
  * @version 2017/10/19 - 上午11:22 1.0
  */
+@Deprecated
 public abstract class BaseMvpPresenter<V extends BaseView> implements BasePresenter<V> {
     private V view;
 

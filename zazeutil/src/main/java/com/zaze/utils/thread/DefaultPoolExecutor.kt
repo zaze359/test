@@ -12,10 +12,11 @@ import java.util.concurrent.*
 class DefaultPoolExecutor : ThreadPoolExecutor {
 
     companion object {
-        private val CPU_COUNT = Runtime.getRuntime().availableProcessors()
-        private val INIT_THREAD_COUNT = CPU_COUNT + 1
-        private val MAX_THREAD_COUNT = INIT_THREAD_COUNT
+        private const val INIT_THREAD_COUNT = 1
         private const val SURPLUS_THREAD_LIFE = 30L
+        private val CPU_COUNT = Runtime.getRuntime().availableProcessors()
+        private val MAX_THREAD_COUNT = CPU_COUNT + 1
+
 
         private var INSTANCE: DefaultPoolExecutor? = null
 
@@ -25,7 +26,7 @@ class DefaultPoolExecutor : ThreadPoolExecutor {
                     MAX_THREAD_COUNT,
                     SURPLUS_THREAD_LIFE,
                     TimeUnit.SECONDS,
-                    ArrayBlockingQueue(64),
+                    ArrayBlockingQueue(2),
                     DefaultFactory()
             ).also {
                 INSTANCE = it
@@ -35,6 +36,7 @@ class DefaultPoolExecutor : ThreadPoolExecutor {
 
     private constructor(corePoolSize: Int, maximumPoolSize: Int, keepAliveTime: Long, unit: TimeUnit, workQueue: BlockingQueue<Runnable>, threadFactory: ThreadFactory)
             : super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, RejectedExecutionHandler { r, executor ->
-        Log.e("", "Task rejected, too many task!")
+        Log.e("DefaultPoolExecutor", "Task rejected, too many task!")
+        throw RejectedExecutionException("Task $r rejected from $executor")
     })
 }

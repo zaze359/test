@@ -33,6 +33,7 @@ allprojects {
         maven {
             url "https://dl.bintray.com/zaze359/maven"
         }
+        maven { url 'https://jitpack.io' }
         maven {
             url 'https://maven.google.com/'
             name 'Google'

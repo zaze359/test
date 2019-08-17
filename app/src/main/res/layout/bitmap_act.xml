@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/bitmapToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/head_height"
+        android:background="@color/head_background"
+        tools:subtitle="测试小标题"
+        tools:title="测试标题"
+        tools:titleTextColor="@color/white" />
+
+    <ImageView
+        android:id="@+id/processImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@mipmap/jljt" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="R:" />
+
+            <SeekBar
+                android:id="@+id/rSeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:max="255"
+                android:progress="128" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="G:" />
+
+            <SeekBar
+                android:id="@+id/gSeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:max="255"
+                android:progress="128" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="B:" />
+
+            <SeekBar
+                android:id="@+id/bSeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:max="255"
+                android:progress="128" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="A:" />
+
+            <SeekBar
+                android:id="@+id/aSeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:max="255"
+                android:progress="128" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

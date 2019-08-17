@@ -26,6 +26,7 @@ import androidx.fragment.app.Fragment;
  * @author : zaze
  * @version : 2015-09-22 - 19:38
  */
+@Deprecated
 public abstract class BaseFragment extends Fragment implements BaseView {
 
     @Override

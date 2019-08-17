@@ -89,5 +89,3 @@ fun AppCompatActivity.setImmersion(isFullScreen: Boolean = false, color: Int = R
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
     }
 }
-
-

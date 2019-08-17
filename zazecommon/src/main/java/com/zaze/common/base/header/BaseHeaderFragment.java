@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
  * @author : zaze
  * @version : 2015-09-22 - 19:38
  */
+@Deprecated
 public abstract class BaseHeaderFragment extends BaseFragment implements BaseView {
     private BaseHeadView headFace;
     private View rootView;

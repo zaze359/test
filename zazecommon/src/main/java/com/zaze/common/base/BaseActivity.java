@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
  * @author : zaze
  * @version : 2017-02-06 22:59 2.0
  */
+@Deprecated
 public abstract class BaseActivity extends AppCompatActivity implements BaseView {
 
     @Override

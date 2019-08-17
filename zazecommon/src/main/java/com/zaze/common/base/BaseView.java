@@ -10,6 +10,7 @@ import android.content.Intent;
  * @author zaze
  * @version 2017/10/19 - 上午11:13 1.0
  */
+@Deprecated
 public interface BaseView {
 
     /**

@@ -22,6 +22,7 @@ import androidx.annotation.LayoutRes;
  * @author : zaze
  * @version : 2017-02-06 22:59 2.0
  */
+@Deprecated
 public abstract class BaseHeaderActivity extends BaseActivity implements BaseView {
     private BaseHeadView headFace;
 
