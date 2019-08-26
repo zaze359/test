@@ -5,9 +5,8 @@
 ## 使用说明
 
 ### Maven
-maven { url "https://dl.bintray.com/zaze359/maven" }
+// maven { url "https://dl.bintray.com/zaze359/maven" }
 
 ### Gradle
 
-> compile 'com.zaze:zazeutil:1.3.0'
-> compile 'com.zaze:zazecommon:1.3.0@aar'
+> implementation 'com.github.zaze359.test:zazeutil:1.0.2'
