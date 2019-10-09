@@ -1,16 +1,16 @@
 package com.zaze.demo.debug;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.content.res.XmlResourceParser;
+import android.net.Uri;
 import android.os.Environment;
 import android.util.Base64;
 import android.util.Log;
 
-import com.zaze.demo.model.entity.DeviceStatus;
-import com.zaze.utils.AppUtil;
 import com.zaze.utils.FileUtil;
 import com.zaze.utils.ThreadManager;
 import com.zaze.utils.log.ZLog;
@@ -26,14 +26,21 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.regex.Pattern;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okio.BufferedSink;
+import okio.Okio;
+import okio.Sink;
 
 /**
  * Description :
@@ -48,11 +55,6 @@ public class TestDebug {
     private static final Pattern sTrimPattern =
             Pattern.compile("^[\\s|\\p{javaSpaceChar}]*(.*)[\\s|\\p{javaSpaceChar}]*$");
 
-    private static DeviceStatus deviceStatus = new DeviceStatus();
-    private static WeakReference<List<DeviceStatus>> reference1 = new WeakReference<>(Collections.singletonList(deviceStatus));
-    private static WeakReference<DeviceStatus> reference2 = new WeakReference<>(deviceStatus);
-    private static List<WeakReference<DeviceStatus>> reference3 = null;
-
     public static void test(Context context) {
 //        DisplayMetrics displayMetrics = new DisplayMetrics();
 //        WindowManager windowMgr = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -63,8 +65,23 @@ public class TestDebug {
 
 //        StorageLoader.query();
 
-        AppUtil.isAppRunning(context, "com.xh.arespunc");
+//        AppUtil.isAppRunning(context, "com.xh.arespunc");
 
+//        final File systemDir = new File(Environment.getDataDirectory(), "system");
+//        ZLog.i(ZTag.TAG_DEBUG, "systemDir : " + systemDir.getAbsolutePath());
+
+//
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+//            AppOpsManager appOpsManager = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
+//            try {
+//                Method method = AppOpsManager.class.getDeclaredMethod("setMode", String.class,int.class,String.class,int.class);
+//                method.invoke(appOpsManager,"OP_POST_NOTIFICATION", 0,"", AppOpsManager.MODE_ALLOWED);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+
+//               mPolicyFile = new AtomicFile(new File(systemDir, "notification_policy.xml"));
 
         // --------------------------------------------------
 //        Toast.makeText(context, "sss", Toast.LENGTH_SHORT).show();
@@ -106,7 +123,91 @@ public class TestDebug {
 //        for (WeakReference weakReference : reference3) {
 //            ZLog.i(ZTag.TAG_DEBUG, "reference3 : " + weakReference.get());
 //        }
+//        JSONArray allArray = new JSONArray();
+//        HashSet<String> apkSet = new HashSet<>();
+//        File fileDir = new File("/sdcard/zaze/all/");
+//        if (fileDir.exists() && fileDir.isDirectory()) {
+//            for (File file : fileDir.listFiles()) {
+//                StringBuffer buffer = FileUtil.readFromFile(file.getAbsolutePath());
+//                try {
+//                    JSONArray jsonArray = new JSONArray(buffer.toString());
+//                    for (int i = 0; i < jsonArray.length(); i++) {
+//                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+//                        String packageName = jsonObject.optString("packageName", "");
+//                        if (!apkSet.contains(packageName) && !TextUtils.isEmpty(packageName)) {
+//                            apkSet.add(packageName);
+//                            allArray.put(jsonObject);
+//                        }
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//        FileUtil.writeToFile("/sdcard/zaze/all/all.json", allArray.toString(), false);
+
+        new Thread() {
+            public void run() {
+                download("http://xhfs5.oss-cn-hangzhou.aliyuncs.com/CA102001/92d2b6a05b9a4df097749c2e68e68181.png", "/sdcard/aa.png");
+            }
+        }.start();
 //        aaaaaa(context);
+    }
+
+
+    private static final OkHttpClient client = new OkHttpClient();
+
+    //下载
+    private static void download(final String url, final String savePath) {
+        final long startTime = System.currentTimeMillis();
+        Log.i("DownloadUtil", "startTime=" + startTime);
+        Log.d("DownloadUtil", "download: url = " + url + " savePath = " + savePath);
+        Request request = new Request.Builder().url(url).build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                // 下载失败
+                e.printStackTrace();
+                Log.i("DownloadUtil", "download failed e = " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Sink sink = null;
+                BufferedSink bufferedSink = null;
+                try {
+//                    String mSDCardPath = Environment.getExternalStorageDirectory().getAbsolutePath();//SD卡路径
+                    //String appPath= getApplicationContext().getFilesDir().getAbsolutePath();//此APP的files路径
+                    File dest = new File(savePath);
+                    sink = Okio.sink(dest);
+                    bufferedSink = Okio.buffer(sink);
+                    bufferedSink.writeAll(response.body().source());
+
+                    bufferedSink.close();
+                    Log.i("DownloadUtil", "download success");
+                    Log.i("DownloadUtil", "totalTime=" + (System.currentTimeMillis() - startTime));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.i("DownloadUtil", "download failed e = " + e);
+                } finally {
+                    if (bufferedSink != null) {
+                        bufferedSink.close();
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * 默认浏览器下载
+     *
+     * @param context
+     * @param url
+     */
+    public static void downFromBrowser(Context context, String url) {
+        Uri uri = Uri.parse(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        context.startActivity(intent);
     }
 
     /**

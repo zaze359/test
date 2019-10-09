@@ -20,6 +20,8 @@ import com.zaze.utils.FileUtil
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.internal.operators.observable.ObservableFromIterable
+import org.json.JSONArray
+import org.json.JSONObject
 
 /**
  * Description :
@@ -30,10 +32,13 @@ class AppViewModel(application: Application) : AbsAndroidViewModel(application) 
     companion object {
         val apkDir = "${FileUtil.getSDCardRoot()}/zaze/apk"
         val baseDir = "${FileUtil.getSDCardRoot()}/zaze/${Build.MODEL}"
+        //
         val existsFile = "$baseDir/exists.xml"
         val unExistsFile = "$baseDir/unExists.xml"
-        val extractFile = "$baseDir/extract.xml"
         val allFile = "$baseDir/all.xml"
+        //
+        val extractFile = "$baseDir/extract.xml"
+        val jsonExtractFile = "$baseDir/jsonExtract.xml"
     }
 
     val packageSet = HashMap<String, AppShortcut>()
@@ -49,35 +54,35 @@ class AppViewModel(application: Application) : AbsAndroidViewModel(application) 
                 val allAppList = AppUtil.getInstalledApplications(MyApplication.getInstance())
                 // --------------------------------------------------
                 FileUtil.deleteFile(baseDir)
-//        FileUtil.deleteFile(unExistsFile)
-//        FileUtil.deleteFile(extractFile)
-//        FileUtil.deleteFile(allFile)
+//                FileUtil.deleteFile(unExistsFile)
+//                FileUtil.deleteFile(extractFile)
+//                FileUtil.deleteFile(allFile)
                 // --------------------------------------------------
-                loadAllInstallApp(allAppList, packageSet)
-//            loadSystemApp(allAppList, packageSet)
-//        loadUnSystemApp(allAppList, packageSet)
+//                loadAllInstallApp(allAppList, packageSet)
+//                loadSystemApp(allAppList, packageSet)
+                loadUnSystemApp(allAppList, packageSet)
                 // --------------------------------------------------
                 packageSet.remove(BaseApplication.getInstance().packageName)
                 // --------------------------------------------------
                 val filterSet = HashSet<String>()
-                filterSet.addAll(getStringArray(R.array.xuehai_keep_app).toList())
-                filterSet.addAll(getStringArray(R.array.un_keep_app).toList())
-                filterSet.addAll(getStringArray(R.array.android_keep_app).toList())
-                filterSet.addAll(getStringArray(R.array.android_un_keep_app).toList())
-                filterSet.addAll(getStringArray(R.array.samsung_keep_app).toList())
-                filterSet.addAll(getStringArray(R.array.samsung_un_keep_app).toList())
-                filterSet.addAll(getStringArray(R.array.huawei_keep_app).toList())
-                filterSet.addAll(getStringArray(R.array.huawei_un_keep_app).toList())
-                filterSet.addAll(getStringArray(R.array.lenovo_keep_app).toList())
-                filterSet.addAll(getStringArray(R.array.lenovo_un_keep_app).toList())
+//                filterSet.addAll(getStringArray(R.array.xuehai_keep_app).toList())
+//                filterSet.addAll(getStringArray(R.array.un_keep_app).toList())
+//                filterSet.addAll(getStringArray(R.array.android_keep_app).toList())
+//                filterSet.addAll(getStringArray(R.array.android_un_keep_app).toList())
+//                filterSet.addAll(getStringArray(R.array.samsung_keep_app).toList())
+//                filterSet.addAll(getStringArray(R.array.samsung_un_keep_app).toList())
+//                filterSet.addAll(getStringArray(R.array.huawei_keep_app).toList())
+//                filterSet.addAll(getStringArray(R.array.huawei_un_keep_app).toList())
+//                filterSet.addAll(getStringArray(R.array.lenovo_keep_app).toList())
+//                filterSet.addAll(getStringArray(R.array.lenovo_un_keep_app).toList())
                 // --------------------------------------------------
                 filterSet.addAll(getStringArray(R.array.test_app).toList())
                 // 添加规则--------------------------------------------------
-//        filterSet.mapTo(packageList) { it }
+//                filterSet.mapTo(packageList) { it }
                 // 移除规则--------------------------------------------------
-//            filterSet.forEach {
-//                packageSet.remove(it)
-//            }
+                filterSet.forEach {
+                    packageSet.remove(it)
+                }
                 show(packageSet.values)
             }.subscribeOn(ThreadPlugins.ioScheduler())
                     .doFinally {
@@ -150,14 +155,22 @@ class AppViewModel(application: Application) : AbsAndroidViewModel(application) 
                 val dataList = appData.get()
                 if (dataList != null) {
                     FileUtil.deleteFile(extractFile)
+                    FileUtil.deleteFile(jsonExtractFile)
                     val builder = StringBuilder()
+                    val jsonArray = JSONArray()
                     for (entity in dataList) {
                         if (builder.isNotEmpty()) {
                             builder.append("\n")
                         }
                         builder.append("<item>${entity.packageName}</item><!--${entity.name}-->")
+                        //
+                        val jsonObj = JSONObject()
+                        jsonObj.put("name", entity.name)
+                        jsonObj.put("packageName", entity.packageName)
+                        jsonArray.put(jsonObj)
                     }
                     FileUtil.writeToFile(extractFile, builder.toString())
+                    FileUtil.writeToFile(jsonExtractFile, jsonArray.toString())
                 }
             }.subscribeOn(ThreadPlugins.ioScheduler())
                     .doFinally {

@@ -66,6 +66,9 @@ public class MyApplication extends BaseApplication {
                     public void onPrimaryClipChanged() {
                         if (mClipboardManager.hasPrimaryClip()) {
                             ClipData clipData = mClipboardManager.getPrimaryClip();
+                            if(clipData == null) {
+                                return;
+                            }
                             int count = clipData.getItemCount();
                             if (count > 0) {
                                 ClipData.Item item = clipData.getItemAt(0);

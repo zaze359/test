@@ -63,7 +63,6 @@
         <item>com.android.defcontainer</item><!--软件包权限帮助程序-->
         <item>com.android.dreams.basic</item><!--基本互动屏保-->
         <item>com.android.dreams.phototable</item><!--照片屏幕保护程序-->
-        <item>com.android.externalstorage</item><!--外部存储设备-->
         <item>com.android.facelock</item><!--人脸解锁-->
         <item>com.android.htmlviewer</item><!--HTML 查看程序-->
         <item>com.android.inputdevices</item><!--输入设备-->
@@ -83,11 +82,9 @@
         <item>com.android.providers.drm</item><!--受 DRM 保护的内容的存储-->
         <item>com.android.providers.media</item><!--媒体存储-->
         <item>com.android.providers.security</item><!--安全存储-->
-        <item>com.android.providers.settings</item><!--设置存储-->
         <item>com.android.providers.userdictionary</item><!--用户字典-->
         <item>com.android.proxyhandler</item><!--ProxyHandler-->
         <item>com.android.settings.mt</item><!--手机追踪-->
-        <item>com.android.sharedstoragebackup</item><!--com.android.sharedstoragebackup-->
         <item>com.android.shell</item><!--Shell-->
         <item>com.android.stk</item><!--SIM 工具包-->
         <item>com.android.systemui</item><!--系统界面-->
@@ -132,39 +129,285 @@
     </string-array>
     <!-- ~~~~~~~~~~~~~~~~~~~测试~~~~~~~~~~~~~~~~~~~~~~~~  -->
     <string-array name="test_app">
-        <item>com.diotek.sec.lookup.dictionary</item><!--字典-->
-        <item>com.sec.android.daemonapp</item><!--天气-->
-        <item>com.sec.android.easyMover.Agent</item><!--S换机助手下载-->
-        <item>com.samsung.android.scloud</item><!--三星云-->
-        <item>com.sec.app.screenrecorder</item><!--录制屏幕-->
-        <item>com.samsung.android.homemode</item><!--每日看板-->
-        <item>com.samsung.android.app.reminder</item><!--提醒-->
-        <item>com.qiyi.video.samsung</item><!--三星视频-->
-        <item>com.sec.android.app.music</item><!--Samsung Music-->
-        <item>com.samsung.hongbaoassistant</item><!--红包助手-->
-        <item>com.samsung.android.mtpshareapp</item><!--分享至电脑-->
-        <item>com.samsung.app.newtrim</item><!--视频剪辑器-->
-        <item>com.google.android.syncadapters.contacts</item><!--Google通讯录同步-->
-        <item>com.microsoft.office.officehubrow</item><!--Office Mobile-->
-        <item>com.samsung.android.email.provider</item><!--电子邮件-->
-        <item>com.samsung.android.net.wifi.wifiguider</item><!--WLAN 小提示-->
-        <item>com.google.android.syncadapters.calendar</item><!--Google 日历同步-->
-
-
-        <item>com.samsung.android.incallui</item><!--通话-->
-        <item>com.samsung.android.calendar</item><!--日历-->
-        <item>com.samsung.android.contacts</item><!--联系人-->
-        <item>com.samsung.android.app.smartcapture</item><!--三星截屏-->
-        <item>com.samsung.android.providers.contacts</item><!--联系人存储-->
-        <item>com.samsung.android.sm_cn</item><!--智能管理器-->
-        <item>com.sec.android.mimage.gear360editor</item><!--360° 照片编辑器-->
-        <item>com.samsung.android.app.spage</item><!--Bixby 主页-->
-        <item>com.sec.android.app.clockpackage</item><!--时钟-->
-        <item>com.samsung.storyservice</item><!--相册故事-->
+        <item>com.sec.esdk.elm</item><!--ELM Agent-->
+        <item>com.samsung.android.sm.devicesecurity</item><!--com.samsung.android.sm.devicesecurity-->
+        <item>com.monotype.android.font.miao</item><!--Miao-->
+        <item>com.sec.NetworkPowerSaving</item><!--NetworkPowerSaving-->
+        <item>com.microsoft.office.powerpoint</item><!--PowerPoint-->
+        <item>com.sec.android.app.soundalive</item><!--SoundAlive-->
+        <item>com.sec.android.app.chromecustomizations</item><!--com.sec.android.app.chromecustomizations-->
+        <item>com.android.providers.userdictionary</item><!--用户字典-->
+        <item>com.dsi.ant.server</item><!--ANT+ HAL 服务-->
+        <item>com.samsung.android.app.FileShareClient</item><!--WLAN直连-->
+        <item>com.samsung.android.communicationservice</item><!--信息服务-->
+        <item>com.sec.android.widgetapp.samsungapps</item><!--三星应用商店小组件-->
+        <item>com.android.dreams.phototable</item><!--照片屏幕保护程序-->
+        <item>com.sec.enterprise.knox.cloudmdm.smdms</item><!--新注册-->
+        <item>com.samsung.android.securitylogagent</item><!--SecurityLogAgent-->
+        <item>com.bst.spamcall</item><!--BstSpamCallService-->
+        <item>com.samsung.android.app.scrollcapture</item><!--截屏-->
+        <item>com.sec.android.app.sbrowser</item><!--互联网-->
+        <item>com.samsung.knox.appsupdateagent</item><!--KnoxAppsUpdateAgent-->
+        <item>com.sec.android.RilServiceModeApp</item><!--Service mode RIL-->
+        <item>com.android.managedprovisioning</item><!--com.android.managedprovisioning-->
+        <item>com.sec.android.emergencylauncher</item><!--启动器-->
+        <item>com.samsung.android.app.assistantmenu</item><!--助理菜单-->
+        <item>com.sec.di.SmartSelfShot</item><!--Interval shot-->
+        <item>com.sec.android.app.snsimagecache</item><!--SnsImageCache-->
+        <item>com.monotype.android.font.kaiti</item><!--Kaiti-->
+        <item>com.samsung.cmh</item><!--CMHProvider-->
+        <item>com.android.wallpaper.livepicker</item><!--Live Wallpaper Picker-->
+        <item>com.android.inputdevices</item><!--输入设备-->
+        <item>com.sec.knox.switcher</item><!--KNOX-->
+        <item>com.sec.android.app.SmartClipService</item><!--智能多截图-->
+        <item>com.samsung.android.beaconmanager</item><!--BeaconManager-->
+        <item>com.android.bluetooth</item><!--蓝牙分享-->
+        <item>com.sec.allsharecastplayer</item><!--Screen Mirroring-->
+        <item>com.dsi.ant.service.socket</item><!--ANT Radio Service-->
+        <item>com.sec.enterprise.mdm.services.simpin</item><!--Enterprise Sim Pin Service-->
+        <item>com.cleanmaster.sdk</item><!--SmartManager Clean SDK-->
+        <item>com.sec.android.app.servicemodeapp</item><!--Service mode-->
+        <item>com.android.printspooler</item><!--打印处理服务-->
+        <item>com.android.onetimeinitializer</item><!--One Time Init-->
+        <item>com.sec.android.easyonehand</item><!--EasyOneHand-->
+        <item>com.sec.android.app.mt</item><!--手机追踪-->
+        <item>com.samsung.android.MtpApplication</item><!--MTP应用程序-->
+        <item>com.android.contacts</item><!--联系人-->
+        <item>com.samsung.android.providers.context</item><!--Context Service-->
+        <item>com.android.vpndialogs</item><!--VpnDialogs-->
+        <item>com.mci.smagazine</item><!--三星阅读-->
+        <item>com.samsung.aasaservice</item><!--AASAservice-->
+        <item>com.sec.phone</item><!--com.sec.phone-->
+        <item>com.sec.hearingadjust</item><!--Adapt Sound-->
+        <item>com.android.server.telecom</item><!--电话-->
+        <item>com.sina.weibo</item><!--微博-->
+        <item>com.sec.bcservice</item><!--com.sec.bcservice-->
+        <item>com.monotype.android.font.shaonv</item><!--ShaoNv-->
+        <item>com.android.defcontainer</item><!--软件包权限帮助程序-->
+        <item>com.samsung.android.easysetup</item><!--EasySetup-->
+        <item>com.sec.android.provider.emergencymode</item><!--EmergencyProvider-->
+        <item>com.microsoft.office.word</item><!--Word-->
+        <item>com.sec.android.Kies</item><!--Kies Application BnR-->
+        <item>com.android.systemui</item><!--系统界面-->
+        <item>com.qualcomm.qti.auth.sampleauthenticatorservice</item><!--SampleAuthenticatorService-->
+        <item>com.android.providers.calendar</item><!--日历存储-->
+        <item>com.android.mms</item><!--信息-->
+        <item>com.android.providers.downloads</item><!--下载管理器-->
+        <item>com.sec.android.app.factorykeystring</item><!--DeviceKeystring-->
+        <item>com.samsung.android.app.colorblind</item><!--颜色调整-->
+        <item>com.samsung.android.video</item><!--视频-->
+        <item>com.sec.app.RilErrorNotifier</item><!--错误-->
+        <item>com.samsung.android.scloud.backup</item><!--备份和还原-->
+        <item>com.microsoft.office.onenote</item><!--OneNote-->
+        <item>com.android.htmlviewer</item><!--HTML 查看器-->
+        <item>com.android.location.fused</item><!--一体化位置信息-->
+        <item>com.samsung.android.scloud</item><!--个人数据管理-->
+        <item>com.android.providers.contacts</item><!--联系人存储-->
+        <item>com.android.bluetoothmidiservice</item><!--Bluetooth MIDI Service-->
+        <item>com.sec.android.AutoPreconfig</item><!--AutoPreconfig-->
+        <item>com.samsung.android.smartface</item><!--SmartFaceService-->
+        <item>com.sec.automation</item><!--TetheringAutomation-->
+        <item>com.sec.android.mimage.photoretouching</item><!--图片编辑器-->
+        <item>com.sec.android.splitsound</item><!--SplitSoundService-->
+        <item>com.sec.android.sidesync30</item><!--S 窗口共享-->
+        <item>com.samsung.android.intelligenceservice2</item><!--IntelligenceService2-->
+        <item>com.samsung.android.app.FileShareServer</item><!--WLAN 直连分享-->
+        <item>com.samsung.android.fmm</item><!--Remote Controls-->
+        <item>com.samsung.android.app.soundpicker</item><!--声音挑选程序-->
+        <item>com.sec.android.app.bluetoothtest</item><!--BluetoothTest-->
+        <item>com.sec.usbsettings</item><!--USBSettings-->
+        <item>com.android.incallui</item><!--电话-->
+        <item>com.samsung.android.provider.shootingmodeprovider</item><!--ShootingModeProvider-->
+        <item>com.sec.android.app.wlantest</item><!--WlanTest-->
+        <item>com.android.captiveportallogin</item><!--CaptivePortalLogin-->
+        <item>com.android.statementservice</item><!--Intent Filter Verification Service-->
+        <item>com.gd.mobicore.pa</item><!--RootPA-->
+        <item>com.sec.android.app.utk</item><!--UIM 卡应用-->
+        <item>com.samsung.android.personalpage.service</item><!--私密模式-->
+        <item>com.sec.android.emergencymode.service</item><!--EmergencyManagerService-->
+        <item>com.dsi.ant.plugins.antplus</item><!--ANT+ Plugins Service-->
+        <item>com.wsomacp</item><!--OMACP-->
+        <item>com.samsung.faceservice</item><!--com.samsung.faceservice-->
+        <item>com.samsung.hs20provider</item><!--com.samsung.hs20provider-->
+        <item>com.android.pacprocessor</item><!--PacProcessor-->
+        <item>com.samsung.android.app.talkback</item><!--语音助手-->
+        <item>com.samsung.android.qconnect</item><!--快速连接-->
+        <item>com.sec.app.samsungprintservice</item><!--Samsung 打印服务插件-->
         <item>com.samsung.android.service.aircommand</item><!--浮窗指令-->
-        <item>com.samsung.android.app.social</item><!--新鲜事-->
+        <item>com.sec.android.preloadinstaller</item><!--Application installer-->
+        <item>com.sec.android.app.billing</item><!--Samsung Checkout system-->
+        <item>com.diotek.sec.lookup.dictionary</item><!--字典-->
+        <item>com.sec.android.app.launcher</item><!--TouchWiz 主屏幕-->
+        <item>com.sec.android.providers.security</item><!--安全存储-->
+        <item>com.sec.android.app.clockpackage</item><!--时钟-->
+        <item>com.sec.android.app.hwmoduletest</item><!--HwModuleTest-->
+        <item>com.sec.spen.flashannotatesvc</item><!--截屏编写-->
+        <item>com.sec.android.Preconfig</item><!--Preconfig-->
+        <item>com.android.stk</item><!--SIM 工具包-->
+        <item>com.samsung.android.app.pinboard</item><!--剪贴库-->
+        <item>com.samsung.android.packageinstaller</item><!--软件包安装程序-->
+        <item>com.sec.android.diagmonagent</item><!--DiagMonAgent-->
+        <item>com.sec.android.provider.badge</item><!--BadgeProvider-->
+        <item>com.samsung.android.sconnect</item><!--QCVersionBridge-->
+        <item>com.samsung.android.sm</item><!--智能管理器-->
+        <item>com.sec.android.ofviewer</item><!--选择性对焦-->
+        <item>com.samsung.ucs.ucspinpad</item><!--UcsPinpad-->
+        <item>com.qualcomm.qti.auth.securesampleauthservice</item><!--SecureSampleAuthService-->
+        <item>com.qapp.secprotect</item><!--安全防护-->
+        <item>com.samsung.ucs.agent.boot</item><!--bootagent-->
+        <item>com.samsung.android.mdm</item><!--MDMApp-->
+        <item>com.sec.android.gallery3d</item><!--相册-->
+        <item>com.android.calendar</item><!--S 日历-->
+        <item>com.sec.smartcard.manager</item><!--SmartcardManager-->
+        <item>com.android.backupconfirm</item><!--com.android.backupconfirm-->
+        <item>com.wssyncmldm</item><!--软件更新-->
+        <item>com.samsung.android.universalswitch</item><!--通用开关-->
+        <item>com.qti.backupagent</item><!--Backup Agent-->
+        <item>com.android.externalstorage</item><!--外部存储设备-->
+        <item>com.android.calllogbackup</item><!--Call Log Backup/Restore-->
+        <item>com.sec.factory.camera</item><!--照相机测试-->
+        <item>com.samsung.android.SettingsReceiver</item><!--Settings Receiver-->
+        <item>com.sec.android.providers.tasks</item><!--Tasks provider-->
+        <item>com.sec.android.app.samsungapps</item><!--应用商店-->
+        <item>com.sec.android.app.DataCreate</item><!--Automation Test-->
+        <item>com.android.shell</item><!--Shell-->
+        <item>com.android.proxyhandler</item><!--ProxyHandler-->
+        <item>com.samsung.klmsagent</item><!--KLMS Agent-->
+        <item>com.sec.android.sidesync.source</item><!--SideSyncSource-->
+        <item>com.sec.android.app.ringtoneBR</item><!--ringtonebackup-->
+        <item>com.sec.android.providers.chinaholiday</item><!--中国假期存储-->
+        <item>com.sgmc.phonenumberlocatorservice</item><!--号码归属地-->
+        <item>com.microsoft.office.excel</item><!--Excel-->
+        <item>com.sec.android.app.wfdbroker</item><!--com.sec.android.app.wfdbroker-->
+        <item>com.osp.app.signin</item><!--三星帐户-->
+        <item>com.sec.android.app.sysscope</item><!--SysScope-->
+        <item>com.android.keychain</item><!--密钥链-->
+        <item>com.samsung.SMT</item><!--三星文字转语音引擎-->
+        <item>com.qualcomm.timeservice</item><!--com.qualcomm.timeservice-->
+        <item>com.samsung.android.app.withtv</item><!--withTV-->
+        <item>com.samsung.android.weather</item><!--天气预报-->
+        <item>com.sec.android.app.personalization</item><!--Perso-->
+        <item>com.sec.android.app.parser</item><!--Factory Mode-->
+        <item>com.android.dreams.basic</item><!--基本互动屏保-->
+        <item>com.samsung.android.app.galaxyfinder</item><!--S 搜索-->
+        <item>com.android.browser.provider</item><!--com.android.browser.provider-->
+        <item>com.sec.factory</item><!--DeviceTest-->
+        <item>com.sec.android.app.minimode.res</item><!--com.sec.android.app.minimode.res-->
+        <item>com.sec.enterprise.knox.attestation</item><!--com.sec.enterprise.knox.attestation-->
+        <item>com.sec.knox.foldercontainer</item><!--KnoxFolderContainer-->
+        <item>com.tencent.update</item><!--QQupdate-->
+        <item>com.sec.android.app.myfiles</item><!--我的文件-->
+        <item>com.android.carrierconfig</item><!--com.android.carrierconfig-->
+        <item>com.sec.spen.flashannotate</item><!--截屏编写-->
+        <item>com.samsung.multidevicecloud</item><!--三星云-->
+        <item>com.samsung.android.tzdata.update_M</item><!--TzDataBundleUpdater_M-->
+        <item>com.samsung.android.allshare.service.mediashare</item><!--Nearby Service-->
+        <item>com.policydm</item><!--安全政策更新-->
+        <item>com.sec.app.TransmitPowerService</item><!--com.sec.app.TransmitPowerService-->
+        <item>com.sec.android.widgetapp.digitalclock</item><!--数字时钟-->
+        <item>com.sec.android.provider.logsprovider</item><!--LogsProvider-->
+        <item>com.android.phone</item><!--电话-->
+        <item>android</item><!--Android 系统-->
+        <item>com.android.certinstaller</item><!--证书安装程序-->
+        <item>com.android.providers.telephony</item><!--拨号器存储-->
+        <item>com.google.android.webview</item><!--Android System WebView-->
+        <item>com.sec.android.app.wallpaperchooser</item><!--WallpaperPicker-->
+        <item>com.sec.knox.knoxsetupwizardclient</item><!--KNOX SetupWizardClient-->
+        <item>com.sec.android.wallpapercropper2</item><!--壁纸-->
+        <item>com.samsung.android.email.provider</item><!--电子邮件-->
+        <item>com.samsung.location</item><!--SLLibrary-->
+        <item>com.samsung.clipboardsaveservice</item><!--ClipboardSaveService-->
+        <item>com.samsung.android.clipboarduiservice</item><!--ClipboardUIService-->
+        <item>com.samsung.knox.rcp.components</item><!--RCPComponents-->
+        <item>com.sec.android.widgetapp.dualclockdigital</item><!--双时钟-->
+        <item>com.samsung.safetyinformation</item><!--安全信息-->
+        <item>com.samsung.android.writingbuddyservice</item><!--随笔输入-->
+        <item>com.samsung.android.snote</item><!--S Note-->
+        <item>com.sec.android.app.popupcalculator</item><!--计算器-->
+        <item>com.tencent.engine</item><!--QQengine-->
+        <item>com.sec.android.widgetapp.webmanual</item><!--用户手册-->
+        <item>com.sec.android.soagent</item><!--系统更新-->
+        <item>com.android.documentsui</item><!--文档-->
+        <item>com.sec.android.app.popupuireceiver</item><!--PopupuiReceiver-->
+        <item>com.sec.android.app.camera</item><!--相机-->
+        <item>com.android.settings</item><!--设置-->
+        <item>com.android.sharedstoragebackup</item><!--com.android.sharedstoragebackup-->
+        <item>org.simalliance.openmobileapi.service</item><!--SmartcardService-->
+        <item>com.android.wallpapercropper</item><!--com.android.wallpapercropper-->
+        <item>com.samsung.android.allshare.service.fileshare</item><!--AllShare FileShare Service-->
+        <item>com.samsung.sec.android.application.csc</item><!--CSC-->
+        <item>com.sec.android.daemonapp</item><!--天气-->
+        <item>com.samsung.android.keyguardwallpaperupdator</item><!--Keyguard Wallpaper Updator-->
+        <item>com.sec.spp.push</item><!--Samsung Push Service-->
+        <item>com.sec.android.app.SamsungContentsAgent</item><!--Samsung Content Agent-->
+        <item>com.samsung.dcmservice</item><!--com.samsung.dcmservice-->
+        <item>com.android.providers.settings</item><!--设置存储-->
+        <item>com.samsung.storyservice</item><!--com.samsung.storyservice-->
+        <item>com.sec.android.app.SecSetupWizard</item><!--三星安装向导-->
+        <item>com.sec.enterprise.mdm.vpn</item><!--Enterprise VPN Services-->
+        <item>com.samsung.android.sm.provider</item><!--Smart Manager Provider-->
+        <item>com.wssnps</item><!--备份和恢复管理器-->
+        <item>com.sec.android.app.music</item><!--音乐-->
+        <item>com.sec.android.inputmethod</item><!--三星键盘-->
+        <item>com.samsung.android.bbc.bbcagent</item><!--BBCAgent-->
+        <item>com.qualcomm.atfwd</item><!--com.qualcomm.atfwd-->
+        <item>com.sec.location.nsflp2</item><!--三星定位SDK-->
+        <item>com.sec.android.app.sns3</item><!--Samsung Galaxy-->
+        <item>com.baidu.map.location</item><!--网络位置-->
+        <item>com.samsung.android.app.accesscontrol</item><!--互动控制-->
+        <item>com.samsung.android.asksmanager</item><!--设备保护管理器-->
+        <item>com.visionobjects.resourcemanager</item><!--Handwriting DB Updater-->
+        <item>com.android.mms.service</item><!--MmsService-->
+        <item>com.sec.modem.settings</item><!--SilentLogging-->
+        <item>com.android.providers.media</item><!--媒体存储器-->
+        <item>com.qualcomm.qcom_qmi</item><!--com.qualcomm.qcom_qmi-->
+        <item>flipboard.boxer.app</item><!--简报-->
+        <item>com.samsung.android.app.samsungcloud.enabler</item><!--SamsungCloudEnabler-->
+        <item>com.samsung.android.intelligenceservice</item><!--Intelligence Service-->
+        <item>com.baidu.searchbox_samsung</item><!--手机百度-->
+        <item>com.xh.arespunc</item><!--响应-->
+        <item>com.xh.abrustu</item><!--学海题舟-->
+        <item>com.xh.aoscstu</item><!--百分·云教育(学生端)-->
+        <item>com.xh.areadunc</item><!--悦读-->
+        <item>com.xh.aqckunc</item><!--题目校对-->
+        <item>com.xh.alsstu</item><!--智通云听说-->
+        <item>com.xh.ascstu</item><!--联云课-->
+        <item>com.xh.aartunc</item><!--美文与写作-->
+        <item>com.zhitongyun.wifimanager</item><!--网络连接-->
+        <item>com.xh.acldtch</item><!--云作业教师端3.0-->
+        <item>com.xh.feedback</item><!--反馈-->
+        <item>com.xh.smartclassstu</item><!--云课堂4.0-->
+        <item>com.xuehai.cwpplayer</item><!--播放器-->
+        <item>com.xh.ime</item><!--学海输入法-->
+        <item>cn.mdict</item><!--词典-->
+        <item>com.xuehai.response_launcher_teacher</item><!--智通云-->
+        <item>uilib.canvas.com.socketclient</item><!--学生端(通道)-->
+        <item>com.xh.acldstu</item><!--云作业学生端3.0-->
+        <item>com.xh.aklestu</item><!--智通课堂3.0-->
 
+
+        <item>com.kugou.android</item><!--酷狗音乐-->
+        <item>cmccwm.mobilemusic</item><!--咪咕音乐-->
+        <item>com.ophone.reader.ui</item><!--咪咕阅读-->
+        <item>com.ss.android.article.video</item><!--西瓜视频-->
+        <item>tv.danmaku.bili</item><!--哔哩哔哩-->
+        <item>com.UCMobile</item><!--UC浏览器-->
+        <item>com.cmcc.cmvideo</item><!--咪咕视频-->
+        <item>com.tencent.qqmusic</item><!--QQ音乐-->
+        <item>com.baidu.tieba</item><!--百度贴吧-->
+        <item>com.ss.android.ugc.aweme</item><!--抖音短视频-->
+        <item>com.ss.android.ugc.live</item><!--火山小视频-->
+        <item>com.netease.cloudmusic</item><!--网易云音乐-->
+        <item>com.ss.android.article.lite</item><!--今日头条极速版-->
+        <item>com.tencent.tmgp.sgame</item><!--王者荣耀-->
+        <item>cn.kuwo.player</item><!--酷我音乐-->
+        <item>com.tencent.mtt</item><!--QQ浏览器-->
+        <item>com.qiyi.video</item><!--爱奇艺-->
+        <item>com.tencent.qqlive</item><!--腾讯视频-->
+        <item>com.ss.android.article.news</item><!--今日头条-->
+        <item>fm.xiami.main</item><!--虾米音乐-->
+        <item>com.baidu.netdisk</item><!--百度网盘-->
+        <item>com.smile.gifmaker</item><!--快手-->
     </string-array>
-
 
 </resources>

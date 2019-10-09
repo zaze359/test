@@ -59,8 +59,11 @@ open class WebViewActivity : BaseActivity() {
                 }
             }
         }
+        WebViewConsole.consoleDoc(web_view)
 //        web_view.loadUrl("file:///android_asset/test.html")
-        web_view.loadUrl("https://www.baidu.com")
+//        web_view.loadUrl("https://www.baidu.com")
+//        web_view.loadUrl("https://xuehaifile.oss-cn-hangzhou.aliyuncs.com/CA106002/public/about.html")
+        web_view.loadUrl("http://172.22.0.122:5500/about.html")
 //        web_view.loadUrl("http://debugtbs.qq.com")
 //        web_view.loadUrl("http://help.xh.com/faq/CA106002/index.html#/")
 //        web_view.loadUrl("https://help.yunzuoye.net/faq/CA101010/index.html#/updates/188")

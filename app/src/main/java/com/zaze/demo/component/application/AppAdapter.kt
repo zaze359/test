@@ -14,7 +14,9 @@ import com.zaze.demo.debug.AppShortcut
 import com.zaze.demo.debug.InvariantDeviceProfile
 import com.zaze.utils.AppUtil
 import com.zaze.utils.BmpUtil
+import com.zaze.utils.FileUtil
 import com.zaze.utils.ZStringUtil
+import java.io.File
 
 /**
  * Description :
@@ -44,6 +46,7 @@ class AppAdapter(context: Context, data: Collection<AppShortcut>) : BaseRecycler
     override fun onBindView(holder: PackageHolder, value: AppShortcut, position: Int) {
         val packageName = ZStringUtil.parseString(value.packageName)
         // --------------------------------------------------
+        holder.itemAppNumTv.text = "${position + 1}"
         holder.itemAppNameTv.text = "应用名 : ${value.name}"
         holder.itemAppVersionCodeTv.text = "版本号 ：${value.versionCode}"
         holder.itemAppVersionNameTv.text = "版本名 ：${value.versionName}"
@@ -71,10 +74,11 @@ class AppAdapter(context: Context, data: Collection<AppShortcut>) : BaseRecycler
         }
         holder.itemAppIv.setImageBitmap(BmpUtil.drawable2Bitmap(drawable, iconSize))
         holder.itemView.setOnClickListener {
-            AppUtil.startApplication(context, packageName)
-//            if (value.isCopyEnable) {
-//                FileUtil.copy(File(value.sourceDir), File("/sdcard/zaze/apk/${value.name}(${value.packageName}).apk"))
-//            } else {
+            //            AppUtil.startApplication(context, packageName)
+            if (value.isCopyEnable) {
+                FileUtil.copy(File(value.sourceDir), File("/sdcard/zaze/apk/${value.name}(${value.packageName}).apk"))
+            }
+//            else {
 //                try {
 //                    val assetManager = AssetManager::class.java.newInstance()
 //                    //反射调用方法addAssetPath(String path)
@@ -98,6 +102,7 @@ class AppAdapter(context: Context, data: Collection<AppShortcut>) : BaseRecycler
     }
 
     inner class PackageHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var itemAppNumTv: TextView = itemView.findViewById(R.id.item_app_num_tv) as TextView
         var itemAppIv: ImageView = itemView.findViewById(R.id.item_app_iv) as ImageView
         var itemAppNameTv: TextView = itemView.findViewById(R.id.item_app_name_tv) as TextView
         var itemAppPackageTv: TextView = itemView.findViewById(R.id.item_app_package_tv) as TextView

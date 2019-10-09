@@ -126,10 +126,14 @@ class MainActivity : BaseActivity() {
         fragmentList.add(TableFragment.newInstance("1"))
         // --------------------------------------------------
         main_viewpager.adapter = MyPagerAdapter(supportFragmentManager, fragmentList)
-
+        main_viewpager.setOnHoverListener { v, event ->
+            ZLog.i(ZTag.TAG_DEBUG, "main_viewpager on hover")
+            true
+        }
 //        val obj = DeviceStatus()
 //        weakReference = WeakReference(obj)
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return item?.run {
