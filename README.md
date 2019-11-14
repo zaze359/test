@@ -9,4 +9,3 @@
 
 ### Gradle
 
-> implementation 'com.github.zaze359.test:zazeutil:1.0.2'

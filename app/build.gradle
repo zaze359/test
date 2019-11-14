@@ -123,7 +123,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.2'
 
 
-    implementation project(':zazeutil')
-    implementation project(':zazecommon')
+    implementation project(':util')
+    implementation project(':common')
     implementation project(':animations')
 }
