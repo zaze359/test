@@ -3,11 +3,12 @@ package com.zaze.common.thread
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Looper
-import android.util.Log
 import com.zaze.utils.thread.DefaultFactory
 import io.reactivex.Scheduler
 import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.*
+import java.util.concurrent.LinkedBlockingQueue
+import java.util.concurrent.ThreadPoolExecutor
+import java.util.concurrent.TimeUnit
 
 /**
  * Description :
@@ -23,20 +24,6 @@ object ThreadPlugins {
      */
     private val CPU_COUNT = Runtime.getRuntime().availableProcessors()
 
-    /**
-     * 测试用
-     *
-     */
-    private val testExecutor by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
-        object : ThreadPoolExecutor(1, 2, 1L, TimeUnit.MINUTES, LinkedBlockingQueue(10000), DefaultFactory("test"),
-                RejectedExecutionHandler { r, executor ->
-                    Log.e("TestPoolExecutor", "Task rejected, too many task!")
-                    throw RejectedExecutionException("Task $r rejected from $executor")
-                }) {
-        }
-    }
-
-    // --------------------------------------------------
     /**
      * 网络请求线程池
      */
@@ -76,13 +63,6 @@ object ThreadPlugins {
     }
 
     /**
-     * 安装线程
-     */
-    private val installExecutor by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
-        ThreadPoolExecutor(1, 1, 1L, TimeUnit.MINUTES, LinkedBlockingQueue(), DefaultFactory("install"))
-    }
-
-    /**
      * ui thread
      */
     private val uiHandler = Handler(Looper.getMainLooper())
@@ -105,7 +85,14 @@ object ThreadPlugins {
 
     // --------------------------------------------------
     // --------------------------------------------------
-
+    /**
+     * 在下载线程执行
+     * [runnable] runnable
+     */
+    @JvmStatic
+    fun runInRequestThread(runnable: Runnable) {
+        requestExecutor.execute(runnable)
+    }
     /**
      * 获取用于 RxJava 的 网络请求调度器
      * @return 用于 RxJava 的 网络请求调度器
@@ -116,25 +103,6 @@ object ThreadPlugins {
     }
 
     // --------------------------------------------------
-
-    /**
-     * 在测试线程执行
-     * [runnable] runnable
-     */
-    @JvmStatic
-    fun runInTestThread(runnable: Runnable) {
-        testExecutor.execute(runnable)
-    }
-
-    /**
-     * 在安装线程执行
-     * [runnable] runnable
-     */
-    @JvmStatic
-    fun runInInstallThread(runnable: Runnable) {
-        installExecutor.execute(runnable)
-    }
-
     /**
      * 在下载线程执行
      * [runnable] runnable

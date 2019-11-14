@@ -1,7 +1,7 @@
 package com.zaze.common.http
 
 import com.zaze.utils.JsonUtil
-import com.zaze.utils.ZHttpUtil
+import com.zaze.utils.HttpUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import org.json.JSONException
@@ -101,7 +101,7 @@ class LRequest private constructor(builder: Builder) {
          */
         @JvmOverloads
         fun url(url: String, map: Map<String, String>? = null): Builder {
-            this.url = ZHttpUtil.buildGetRequest(url, map)
+            this.url = HttpUtil.buildGetRequest(url, map)
             return this
         }
 

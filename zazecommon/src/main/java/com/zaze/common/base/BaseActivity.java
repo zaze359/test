@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.zaze.common.util.ActivityUtil;
-import com.zaze.utils.ZTipUtil;
+import com.zaze.utils.ToastUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
@@ -135,12 +135,12 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
 
     @Override
     public void showToast(int msg) {
-        ZTipUtil.toast(this, getString(msg));
+        ToastUtil.toast(this, getString(msg));
     }
 
     @Override
     public void showToast(String msg) {
-        ZTipUtil.toast(this, msg);
+        ToastUtil.toast(this, msg);
     }
 
     @Override

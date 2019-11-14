@@ -5,7 +5,7 @@ import android.content.res.Configuration;
 import android.os.SystemClock;
 
 import com.zaze.utils.DescriptionUtil;
-import com.zaze.utils.ZDeviceUtil;
+import com.zaze.utils.DeviceUtil;
 import com.zaze.utils.ZStringUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
@@ -65,7 +65,7 @@ class MemoryCache implements CacheFace, MemoryListener {
     }
 
     private MemoryCache() {
-        CACHE_SIZE_MAX = (long) (ZDeviceUtil.getRuntimeMaxMemory() * 0.3);
+        CACHE_SIZE_MAX = (long) (DeviceUtil.getRuntimeMaxMemory() * 0.3);
         PASSIVE_RELEASE = (long) (CACHE_SIZE_MAX * 0.4);
     }
 

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import androidx.annotation.DrawableRes;
 
 import com.zaze.common.R;
-import com.zaze.utils.ZDisplayUtil;
+import com.zaze.utils.DisplayUtil;
 
 import java.util.ArrayList;
 
@@ -24,8 +24,8 @@ public class AddImageLayout extends ViewGroup {
     private static int LINE_IMAGE_COUNT = 4;
     private static int MAX_IMAGE_LINE = 2;
 
-    private int hSpace = (int) ZDisplayUtil.pxFromDp(12);
-    private int vSpace = (int) ZDisplayUtil.pxFromDp(12);
+    private int hSpace = (int) DisplayUtil.pxFromDp(12);
+    private int vSpace = (int) DisplayUtil.pxFromDp(12);
 
     private int childWidth;
     private int childHeight;

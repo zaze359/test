@@ -2,6 +2,8 @@ package com.zaze.utils;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Description :
@@ -12,18 +14,38 @@ import java.io.StringWriter;
  */
 public class StackTraceHelper {
 
+    private static final Set<String> STACK_CALLERS = new HashSet<>();
+
+    static {
+        registerStackCaller(StackTraceHelper.class.getName());
+    }
+
+    public static void registerStackCaller(String logCaller) {
+        STACK_CALLERS.add(logCaller);
+    }
+
     /**
      * @return 直接调用方法的堆栈信息
      */
     public static StackTraceElement getCurrentStackTraceElement() {
-        return getStackTraceElement(3);
+        return getStackTraceElement(1);
     }
 
     /**
      * @return 间接调用的堆栈信息
      */
     public static StackTraceElement getCallerStackTraceElement() {
-        return getStackTraceElement(4);
+        StackTraceElement stes[] = new Throwable().getStackTrace();
+        int position = 0;
+        for (StackTraceElement ste : stes) {
+            if (STACK_CALLERS.contains(ste.getClassName())) {
+                position++;
+            }
+        }
+        if (position >= stes.length) {
+            position = stes.length - 1;
+        }
+        return stes[position];
     }
 
     /**
@@ -31,7 +53,7 @@ public class StackTraceHelper {
      * @return 堆栈信息
      */
     public static StackTraceElement getStackTraceElement(int position) {
-        return Thread.currentThread().getStackTrace()[position];
+        return new Throwable().getStackTrace()[position];
     }
 
     /**

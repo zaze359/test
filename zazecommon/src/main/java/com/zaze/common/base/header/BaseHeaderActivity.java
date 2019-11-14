@@ -11,7 +11,7 @@ import com.zaze.common.util.ActivityUtil;
 import com.zaze.common.widget.head.BaseHeadView;
 import com.zaze.common.widget.head.HeadFace;
 import com.zaze.common.widget.head.HeadWidget;
-import com.zaze.utils.ZTipUtil;
+import com.zaze.utils.ToastUtil;
 
 import androidx.annotation.LayoutRes;
 
@@ -67,12 +67,12 @@ public abstract class BaseHeaderActivity extends BaseActivity implements BaseVie
 
     @Override
     public void showToast(int msg) {
-        ZTipUtil.toast(this, getString(msg));
+        ToastUtil.toast(this, getString(msg));
     }
 
     @Override
     public void showToast(String msg) {
-        ZTipUtil.toast(this, msg);
+        ToastUtil.toast(this, msg);
     }
 
     @Override

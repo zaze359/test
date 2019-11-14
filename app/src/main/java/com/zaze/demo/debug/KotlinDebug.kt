@@ -13,7 +13,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.zaze.utils.FileUtil
-import com.zaze.utils.ZDisplayUtil
+import com.zaze.utils.DisplayUtil
 import com.zaze.utils.ZStringUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
@@ -223,8 +223,8 @@ object KotlinDebug {
         } while (sp <= 100)
         swBuilder.append("</resources>")
         baseBuilder.append("</resources>")
-        FileUtil.writeToFile("${FileUtil.getSDCardRoot()}/zazen/values-${ZDisplayUtil.getDensityDpiName()}-sw${screenSw}dp/dimens.xml", swBuilder.toString())
-        FileUtil.writeToFile("${FileUtil.getSDCardRoot()}/zazen/values-${ZDisplayUtil.getDensityDpiName()}-sw${baseSw}dp/dimens.xml", baseBuilder.toString())
+        FileUtil.writeToFile("${FileUtil.getSDCardRoot()}/zazen/values-${DisplayUtil.getDensityDpiName()}-sw${screenSw}dp/dimens.xml", swBuilder.toString())
+        FileUtil.writeToFile("${FileUtil.getSDCardRoot()}/zazen/values-${DisplayUtil.getDensityDpiName()}-sw${baseSw}dp/dimens.xml", baseBuilder.toString())
         return swBuilder.toString()
     }
 

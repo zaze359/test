@@ -12,7 +12,7 @@ import java.util.Map;
  * @author : ZAZE
  * @version : 2017-03-09 - 14:15
  */
-public class ZHttpUtil {
+public class HttpUtil {
     public static final String URL = "url";
 
     /**
@@ -35,7 +35,11 @@ public class ZHttpUtil {
             paramBuilder.append("=");
             paramBuilder.append(URLEncoder.encode(ZStringUtil.parseString(map.get(key))));
         }
-        return ZStringUtil.format("%s?%s", url, paramBuilder.toString());
+        if (url.contains("?")) {
+            return ZStringUtil.format("%s&%s", url, paramBuilder.toString());
+        } else {
+            return ZStringUtil.format("%s?%s", url, paramBuilder.toString());
+        }
     }
 
     /**

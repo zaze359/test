@@ -9,7 +9,7 @@ import com.zaze.common.R
 import com.zaze.common.base.ext.setImmersion
 import com.zaze.common.widget.loading.LoadingDialog
 import com.zaze.common.widget.loading.LoadingView
-import com.zaze.utils.ZTipUtil
+import com.zaze.utils.ToastUtil
 
 /**
  * Description :
@@ -66,7 +66,7 @@ abstract class AbsActivity : AppCompatActivity() {
     }
 
     fun showToast(content: String?) {
-        ZTipUtil.toast(this, content)
+        ToastUtil.toast(this, content)
     }
     // --------------------------------------------------
 

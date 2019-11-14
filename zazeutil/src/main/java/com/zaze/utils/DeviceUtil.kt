@@ -19,7 +19,7 @@ import java.util.*
  * *
  * @version : 2017-08-01 - 13:43
  */
-object ZDeviceUtil {
+object DeviceUtil {
     // --------------------------------------------------
     // --------------------------------------------------
     /**
@@ -59,7 +59,7 @@ object ZDeviceUtil {
                 if (TextUtils.isEmpty(id)) {
                     id = getAndroidId(context)
                     if ("9774d56d682e549c" == id) {
-                        val sharedPrefUtil = ZSharedPrefUtil.newInstance(context)
+                        val sharedPrefUtil = SharedPrefUtil.newInstance(context)
                         id = sharedPrefUtil.get(key, "")
                         if (TextUtils.isEmpty(id)) {
                             id = UUID.randomUUID().toString()

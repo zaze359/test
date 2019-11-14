@@ -56,6 +56,7 @@ public class TestDebug {
             Pattern.compile("^[\\s|\\p{javaSpaceChar}]*(.*)[\\s|\\p{javaSpaceChar}]*$");
 
     public static void test(Context context) {
+
 //        DisplayMetrics displayMetrics = new DisplayMetrics();
 //        WindowManager windowMgr = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
@@ -109,20 +110,6 @@ public class TestDebug {
 //        ZLog.i(ZTag.TAG_DEBUG, "" + encrypt("abc"));
         // --------------------------------------------------
         // --------------------------------------------------
-//        if (reference3 == null) {
-//            reference3 = new ArrayList<>();
-//            reference3.add(new WeakReference<>(deviceStatus));
-//            reference3.add(new WeakReference<>(new DeviceStatus()));
-//            reference3.add(new WeakReference<>(new DeviceStatus()));
-//            reference3.add(new WeakReference<>(new DeviceStatus()));
-//            reference3.add(new WeakReference<>(new DeviceStatus()));
-//            reference3.add(new WeakReference<>(new DeviceStatus()));
-//        }
-//        ZLog.i(ZTag.TAG_DEBUG, "reference1 : " + reference1.get());
-//        ZLog.i(ZTag.TAG_DEBUG, "reference2 : " + reference2.get());
-//        for (WeakReference weakReference : reference3) {
-//            ZLog.i(ZTag.TAG_DEBUG, "reference3 : " + weakReference.get());
-//        }
 //        JSONArray allArray = new JSONArray();
 //        HashSet<String> apkSet = new HashSet<>();
 //        File fileDir = new File("/sdcard/zaze/all/");
@@ -145,13 +132,39 @@ public class TestDebug {
 //            }
 //        }
 //        FileUtil.writeToFile("/sdcard/zaze/all/all.json", allArray.toString(), false);
-
-        new Thread() {
-            public void run() {
-                download("http://xhfs5.oss-cn-hangzhou.aliyuncs.com/CA102001/92d2b6a05b9a4df097749c2e68e68181.png", "/sdcard/aa.png");
-            }
-        }.start();
 //        aaaaaa(context);
+//        final String dir = "/sdcard/zaze/test/bbb/cccc/";
+//        FileUtil.createDirNotExists(dir);
+//        for (int i = 0; i < 1; i++) {
+//            final int index = i;
+//            ThreadPlugins.runInIoThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    for (int j = 0; j < 10000; j++) {
+//                        String fileName = dir + index + "_" + j + "_aaaaaaaaaaaaaaaa.txt";
+//                        if (FileUtil.exists(fileName)) {
+//                            ZLog.d(ZTag.TAG_DEBUG, fileName);
+//                            continue;
+//                        }
+//                        ZLog.i(ZTag.TAG_DEBUG, fileName);
+//                        if (FileUtil.reCreateFile(fileName)) {
+//                            StringBuilder builder = new StringBuilder();
+//                            for (int k = 0; k < 100; k++) {
+//                                builder.append("阿当时发生的和空间发挥空间浑善达克减肥" + k);
+//                            }
+//                            FileUtil.writeToFile(fileName, builder.toString());
+//                        } else {
+//                            ZLog.i(ZTag.TAG_DEBUG, "size new : " + new File(dir).list().length);
+//                            ZLog.i(ZTag.TAG_DEBUG, "size old : " + new File("/sdcard/test").list().length);
+//                            ZLog.i(ZTag.TAG_DEBUG, "size all : " + (new File(dir).list().length + new File("/sdcard/test").list().length));
+//                            ZLog.i(ZTag.TAG_DEBUG, "size all file : " + new File("/sdcard/").list().length);
+//                            return;
+//                        }
+//                    }
+//                }
+//            });
+//        }
+
     }
 
 

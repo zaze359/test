@@ -36,7 +36,7 @@ public class MyWebViewClient extends WebViewClient {
         super.onPageFinished(view, url);
         ZLog.i(TAG, "onPageFinished : " + url);
 //        WebViewConsole.consoleDoc(view);
-        WebViewConsole.removeAllImage(view);
+//        WebViewConsole.removeAllImage(view);
 //        view.loadUrl("file:///android_asset/filterAd.js");
 //        try {
 //            String js = FileUtil.readByBytes(view.getContext().getAssets().open("filterAd.js")).toString();

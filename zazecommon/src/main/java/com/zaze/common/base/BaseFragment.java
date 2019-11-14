@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.zaze.common.util.ActivityUtil;
-import com.zaze.utils.ZTipUtil;
+import com.zaze.utils.ToastUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
@@ -125,12 +125,12 @@ public abstract class BaseFragment extends Fragment implements BaseView {
     // --------------------------------------------------
     @Override
     public void showToast(int msg) {
-        ZTipUtil.toast(getContext(), getString(msg));
+        ToastUtil.toast(getContext(), getString(msg));
     }
 
     @Override
     public void showToast(String msg) {
-        ZTipUtil.toast(getContext(), msg);
+        ToastUtil.toast(getContext(), msg);
     }
 
     @Override

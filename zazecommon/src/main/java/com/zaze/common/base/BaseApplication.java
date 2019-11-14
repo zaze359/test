@@ -7,7 +7,7 @@ import android.content.res.Configuration;
 import android.os.Process;
 import android.text.TextUtils;
 
-import com.zaze.utils.ZDisplayUtil;
+import com.zaze.utils.DisplayUtil;
 import com.zaze.utils.cache.MemoryCacheManager;
 import com.zaze.utils.log.ZLog;
 
@@ -33,8 +33,8 @@ public abstract class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        ZDisplayUtil.init(this);
-        ZLog.setNeedStack(false);
+        DisplayUtil.init(this);
+        ZLog.setNeedStack(true);
 //        ZLog.setLogLevel(ZLogLevel.DEBUG);
     }
 
@@ -53,7 +53,7 @@ public abstract class BaseApplication extends Application {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        ZDisplayUtil.init(this);
+        DisplayUtil.init(this);
     }
 
     public boolean isPortrait() {

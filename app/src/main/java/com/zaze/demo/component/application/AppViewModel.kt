@@ -10,7 +10,6 @@ import com.zaze.common.base.BaseApplication
 import com.zaze.common.base.ext.get
 import com.zaze.common.base.ext.set
 import com.zaze.common.thread.ThreadPlugins
-import com.zaze.demo.R
 import com.zaze.demo.app.MyApplication
 import com.zaze.demo.debug.AppShortcut
 import com.zaze.demo.debug.ApplicationManager
@@ -58,9 +57,9 @@ class AppViewModel(application: Application) : AbsAndroidViewModel(application) 
 //                FileUtil.deleteFile(extractFile)
 //                FileUtil.deleteFile(allFile)
                 // --------------------------------------------------
-//                loadAllInstallApp(allAppList, packageSet)
+                loadAllInstallApp(allAppList, packageSet)
 //                loadSystemApp(allAppList, packageSet)
-                loadUnSystemApp(allAppList, packageSet)
+//                loadUnSystemApp(allAppList, packageSet)
                 // --------------------------------------------------
                 packageSet.remove(BaseApplication.getInstance().packageName)
                 // --------------------------------------------------
@@ -76,7 +75,7 @@ class AppViewModel(application: Application) : AbsAndroidViewModel(application) 
 //                filterSet.addAll(getStringArray(R.array.lenovo_keep_app).toList())
 //                filterSet.addAll(getStringArray(R.array.lenovo_un_keep_app).toList())
                 // --------------------------------------------------
-                filterSet.addAll(getStringArray(R.array.test_app).toList())
+//                filterSet.addAll(getStringArray(R.array.test_app).toList())
                 // 添加规则--------------------------------------------------
 //                filterSet.mapTo(packageList) { it }
                 // 移除规则--------------------------------------------------

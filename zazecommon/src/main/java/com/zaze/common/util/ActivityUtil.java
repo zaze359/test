@@ -16,7 +16,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.zaze.utils.AppUtil;
-import com.zaze.utils.ZTipUtil;
+import com.zaze.utils.ToastUtil;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityOptionsCompat;
@@ -411,12 +411,12 @@ public class ActivityUtil {
      */
     public static void startApplicationSimple(Context context, String packageName, Bundle bundle) {
         if (!AppUtil.isInstalled(context, packageName)) {
-            ZTipUtil.toast(context, packageName + " 未安装!");
+            ToastUtil.toast(context, packageName + " 未安装!");
             return;
         }
         Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
         if (intent == null) {
-            ZTipUtil.toast(context, packageName + " 不可打开!");
+            ToastUtil.toast(context, packageName + " 不可打开!");
         } else {
             if (bundle != null) {
                 intent.putExtras(bundle);

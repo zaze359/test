@@ -24,7 +24,6 @@ public class ZCommand {
     public static final String COMMAND_EXIT = "exit\n";
     public static final String COMMAND_LINE_END = "\n";
 
-    private static int SUCCESS = 0;
     private static Boolean isRoot = null;
     private static final Object object = new Object();
 
@@ -68,7 +67,7 @@ public class ZCommand {
                     outputStream.writeBytes("exit\n");
                     outputStream.flush();
                     int exitValue = process.waitFor();
-                    if (exitValue == SUCCESS) {
+                    if (isSuccess(exitValue)) {
                         if (showLog) {
                             ZLog.i(ZTag.TAG_CMD, "设备已Root");
                         }
@@ -248,18 +247,22 @@ public class ZCommand {
                 resultList
         );
     }
-    // --------------------------------------------------
 
+    // --------------------------------------------------
     public static boolean isSuccess(int result) {
-        return result == SUCCESS;
+        return result == CommandResult.SUCCESS;
     }
 
+    @Deprecated
     public static boolean isSuccess(CommandResult commandResult) {
-        return isSuccess(commandResult.code);
+        return commandResult.isSuccess();
     }
 
     // --------------------------------------------------
     public static class CommandResult {
+        private static int SUCCESS = 0;
+
+
         public int code;
         public String successMsg = "";
         public List<String> successList;
@@ -281,6 +284,10 @@ public class ZCommand {
             }
             this.successMsg = builder.toString();
             this.errorMsg = errorMsg;
+        }
+
+        public boolean isSuccess() {
+            return code == SUCCESS;
         }
 
         @Override

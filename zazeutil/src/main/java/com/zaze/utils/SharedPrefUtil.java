@@ -14,19 +14,19 @@ import com.zaze.utils.log.ZTag;
  * @author : ZAZE
  * @version : 2017-03-08 - 16:02
  */
-public class ZSharedPrefUtil {
+public class SharedPrefUtil {
 
     private SharedPreferences sharedPreferences;
 
-    public static ZSharedPrefUtil newInstance(Context context) {
+    public static SharedPrefUtil newInstance(Context context) {
         return newInstance(context, null);
     }
 
-    public static ZSharedPrefUtil newInstance(final Context context, final String spName) {
-        return new ZSharedPrefUtil(context, spName);
+    public static SharedPrefUtil newInstance(final Context context, final String spName) {
+        return new SharedPrefUtil(context, spName);
     }
 
-    private ZSharedPrefUtil(Context context, String spName) {
+    private SharedPrefUtil(Context context, String spName) {
         if (TextUtils.isEmpty(spName)) {
             sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         } else {

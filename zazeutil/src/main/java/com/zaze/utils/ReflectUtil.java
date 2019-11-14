@@ -13,7 +13,7 @@ import java.lang.reflect.Method;
  * @author : ZAZE
  * @version : 2017-07-27 - 16:44`
  */
-public class ZReflectUtil {
+public class ReflectUtil {
     public static boolean showLog = false;
 
     /**

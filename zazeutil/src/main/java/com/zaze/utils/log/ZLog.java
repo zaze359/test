@@ -6,8 +6,6 @@ import android.util.Log;
 import com.zaze.utils.StackTraceHelper;
 import com.zaze.utils.ZStringUtil;
 
-import java.util.Locale;
-
 /**
  * Desc :
  *
@@ -23,6 +21,10 @@ public class ZLog {
     private static boolean I = true;
     private static boolean D = true;
     private static boolean V = true;
+
+    static {
+        registerLogCaller(ZLog.class.getName());
+    }
 
     public static void setLogLevel(@ZLogLevel int level) {
         E = false;
@@ -48,20 +50,21 @@ public class ZLog {
         }
     }
 
+    public static void registerLogCaller(String logCaller) {
+        StackTraceHelper.registerStackCaller(logCaller);
+    }
+
     public static void setNeedStack(boolean needStack) {
         ZLog.needStack = needStack;
     }
 
     private static String getTag(StackTraceElement ste) {
-        String clazzName = ste.getClassName();
-        clazzName = clazzName.substring(clazzName.lastIndexOf(".") + 1);
-        return String.format(Locale.getDefault(),
-                "%s.%s(L:%d)", clazzName, ste.getMethodName(), ste.getLineNumber());
+        return ZStringUtil.format("(%s:%d)[%s]", ste.getFileName(), ste.getLineNumber(), ste.getMethodName());
     }
 
     private static String getStackTrace(String format, Object... args) {
         if (needStack) {
-            return ZStringUtil.format("[" + getTag(StackTraceHelper.getStackTraceElement(5)) + "] : " + format, args);
+            return ZStringUtil.format("[" + getTag(StackTraceHelper.getCallerStackTraceElement()) + "] : " + format, args);
         } else {
             return ZStringUtil.format(format, args);
         }

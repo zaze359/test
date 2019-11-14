@@ -14,7 +14,7 @@ import com.zaze.demo.component.wifi.contract.WifiContract;
 import com.zaze.demo.receiver.WifiReceiver;
 import com.zaze.utils.ThreadManager;
 import com.zaze.utils.AppUtil;
-import com.zaze.utils.ZNetUtil;
+import com.zaze.utils.NetUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
@@ -83,7 +83,7 @@ public class WifiPresenter extends BaseMvpPresenter<WifiContract.View> implement
 
     public WifiPresenter(WifiContract.View view) {
         super(view);
-        wifiManager = ZNetUtil.getWifiManager(view.getContext());
+        wifiManager = NetUtil.getWifiManager(view.getContext());
     }
 
     @Override

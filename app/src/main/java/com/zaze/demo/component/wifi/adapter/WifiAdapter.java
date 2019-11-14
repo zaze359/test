@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.zaze.common.adapter.BaseRecyclerAdapter;
 import com.zaze.demo.R;
-import com.zaze.utils.ZNetUtil;
+import com.zaze.utils.NetUtil;
 import com.zaze.utils.ZOnClickHelper;
 
 import java.util.Collection;
@@ -46,8 +46,8 @@ public class WifiAdapter extends BaseRecyclerAdapter<ScanResult, WifiAdapter.Wif
 
     @Override
     protected void setDataList(Collection<ScanResult> data, boolean isNotify) {
-        networkInfo = ZNetUtil.getWifiInfo(getContext());
-        connInfo = ZNetUtil.getConnectionInfo(getContext());
+        networkInfo = NetUtil.getWifiInfo(getContext());
+        connInfo = NetUtil.getConnectionInfo(getContext());
         super.setDataList(data, isNotify);
     }
 
@@ -61,7 +61,7 @@ public class WifiAdapter extends BaseRecyclerAdapter<ScanResult, WifiAdapter.Wif
             }
         }
         if (TextUtils.isEmpty(desc)) {
-            desc = ZNetUtil.formatWifiDesc(value);
+            desc = NetUtil.formatWifiDesc(value);
             if (desc.isEmpty()) {
                 desc = "未受保护的网络";
             } else {
@@ -84,7 +84,7 @@ public class WifiAdapter extends BaseRecyclerAdapter<ScanResult, WifiAdapter.Wif
     }
 
     private boolean isConnect(ScanResult scanResult) {
-        return connInfo != null && ZNetUtil.isSSIDEquals(connInfo.getSSID(), scanResult.SSID);
+        return connInfo != null && NetUtil.isSSIDEquals(connInfo.getSSID(), scanResult.SSID);
     }
 
 

@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
  * @author : zaze
  * @version : 2015年6月9日 上午10:12:28
  */
+@Deprecated
 public class ThreadManager {
     private static boolean needLog = false;
     /**

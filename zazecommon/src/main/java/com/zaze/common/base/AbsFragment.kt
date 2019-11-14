@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import com.zaze.common.R
 import com.zaze.common.widget.loading.LoadingDialog
 import com.zaze.common.widget.loading.LoadingView
-import com.zaze.utils.ZTipUtil
+import com.zaze.utils.ToastUtil
 
 /**
  * Description :
@@ -38,7 +38,7 @@ abstract class AbsFragment : Fragment() {
     }
 
     fun showToast(content: String?) {
-        ZTipUtil.toast(context, content)
+        ToastUtil.toast(context, content)
     }
 
     // --------------------------------------------------

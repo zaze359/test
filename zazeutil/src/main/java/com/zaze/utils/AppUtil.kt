@@ -494,8 +494,8 @@ object AppUtil {
         } ?: let {
             if (needToast) {
                 getPackageInfo(context, packageName)?.let {
-                    ZTipUtil.toast(context, "($packageName)未安装!")
-                } ?: ZTipUtil.toast(context, "($packageName)不可直接打开!")
+                    ToastUtil.toast(context, "($packageName)未安装!")
+                } ?: ToastUtil.toast(context, "($packageName)不可直接打开!")
             }
             return false
         }

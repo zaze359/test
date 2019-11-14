@@ -11,7 +11,7 @@ import com.zaze.utils.log.ZTag;
  * Description : from in.srain.cube.util
  * date : 2016-03-28 - 15:44
  */
-public class ZDisplayUtil {
+public class DisplayUtil {
 
     private static int screenWidthPixels;
     private static int screenHeightPixels;
@@ -70,7 +70,7 @@ public class ZDisplayUtil {
     /**
      * @param dp dp
      * @return px
-     * @deprecated {@link ZDisplayUtil#pxFromDp(float dp)}
+     * @deprecated {@link DisplayUtil#pxFromDp(float dp)}
      */
     @Deprecated
     public static float dp2px(float dp) {

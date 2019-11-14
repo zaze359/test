@@ -29,7 +29,7 @@ import java.util.List;
  * @version : 2017-06-20 - 13:42
  */
 @SuppressLint("MissingPermission")
-public class ZNetUtil {
+public class NetUtil {
 
     //    其中wifiInfo有以下的方法：
 //    wifiinfo.getLinkSpeed()；获取连接速度，可以让用户获知这一信息。
