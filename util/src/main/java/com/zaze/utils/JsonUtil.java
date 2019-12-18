@@ -4,9 +4,11 @@ package com.zaze.utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Collection;
@@ -65,6 +67,34 @@ public class JsonUtil {
                 return null;
             }
         }
+    }
+
+    /**
+     * 解析json列表字符串（去除了内部空对象）
+     *
+     * @param json json
+     * @param <T>  T
+     * @return List
+     */
+    public static <T> List<T> parseJsonToList(String json, final Class<T> clazz) {
+        return parseJsonToList(json, new ParameterizedType() {
+            @NotNull
+            @Override
+            public Type[] getActualTypeArguments() {
+                return new Class[]{clazz};
+            }
+
+            @NotNull
+            @Override
+            public Type getRawType() {
+                return List.class;
+            }
+
+            @Override
+            public Type getOwnerType() {
+                return null;
+            }
+        });
     }
 
     /**
@@ -162,7 +192,7 @@ public class JsonUtil {
         return toJsonArray(Arrays.asList(arrays));
     }
 
-    private static Gson create() {
+    public static Gson create() {
         if (gsonBuilder == null) {
             gsonBuilder = new GsonBuilder();
         }

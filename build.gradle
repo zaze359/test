@@ -1,15 +1,17 @@
 buildscript {
-    ext.kotlin_version = '1.3.21'
+    ext.kotlin_version = '1.3.50'
     ext.gradlePluginVersion = '3.3.2'
 
     repositories {
-        google()
-        jcenter()
+        maven{url 'https://maven.aliyun.com/repository/jcenter'}
+
         mavenCentral()
         maven {
             url 'https://maven.google.com/'
             name 'Google'
         }
+        google()
+        jcenter()
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$gradlePluginVersion"
@@ -23,10 +25,10 @@ buildscript {
 
 allprojects {
     repositories {
-        google()
-        jcenter()
+        maven{url 'https://maven.aliyun.com/repository/jcenter'}
+
         mavenCentral()
-//        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+//        maven { url "https://oss.sonatypTe.org/content/repositories/snapshots" }
         maven {
             url 'file:///Users/zaze/Documents/maven/localrepo/'
         }
@@ -38,6 +40,9 @@ allprojects {
             url 'https://maven.google.com/'
             name 'Google'
         }
+
+        google()
+        jcenter()
     }
 }
 

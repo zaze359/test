@@ -1,10 +1,9 @@
 package com.zaze.demo.debug;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
-import android.content.pm.SigningInfo;
-import android.os.Build;
 
 import androidx.annotation.NonNull;
 
@@ -84,22 +83,16 @@ public class AppShortcut {
         this.flags = flags;
     }
 
-    public String getSigningInfo() {
-        return signingInfo;
-    }
-
-    public void setSigningInfo(SigningInfo signingInfo) {
-        if (signingInfo != null) {
-            this.signingInfo = signingInfo.toString();
-        }
-    }
-
     public boolean isInstalled() {
         return isInstalled;
     }
 
     public void setInstalled(boolean installed) {
         isInstalled = installed;
+    }
+
+    public String getSigningInfo() {
+        return signingInfo;
     }
 
     public void setSigningInfo(String signingInfo) {
@@ -115,16 +108,17 @@ public class AppShortcut {
     }
 
     public static @NonNull
-    AppShortcut transform(Context context, @NonNull PackageInfo packageInfo) {
+    AppShortcut transform(Context context, final @NonNull PackageInfo packageInfo) {
         AppShortcut appShortcut = new AppShortcut();
         appShortcut.setPackageName(packageInfo.packageName);
         appShortcut.setVersionCode(packageInfo.versionCode);
         appShortcut.setVersionName(packageInfo.versionName);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            appShortcut.setSigningInfo(packageInfo.signingInfo);
-        } else {
-            appShortcut.setSigningInfo(SignaturesUtil.getMd5(packageInfo.signatures));
-        }
+        appShortcut.setSigningInfo(SignaturesUtil.getSignatures(new ContextWrapper(context) {
+            @Override
+            public String getPackageName() {
+                return packageInfo.packageName;
+            }
+        }, "MD5"));
         ApplicationInfo applicationInfo = packageInfo.applicationInfo;
         if (applicationInfo != null) {
             appShortcut.setName(context.getPackageManager().getApplicationLabel(applicationInfo).toString());

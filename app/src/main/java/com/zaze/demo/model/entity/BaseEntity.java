@@ -1,12 +1,10 @@
 package com.zaze.demo.model.entity;
 
 
-import com.zaze.demo.BR;
-
-import java.io.Serializable;
-
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
+
+import java.io.Serializable;
 
 /**
  * Description :
@@ -44,7 +42,6 @@ public class BaseEntity extends BaseObservable implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-        notifyPropertyChanged(BR.name);
     }
 
     public Class getTargetClass() {

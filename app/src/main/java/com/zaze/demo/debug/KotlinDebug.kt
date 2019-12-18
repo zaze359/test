@@ -9,12 +9,11 @@ import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.os.Build
 import android.provider.Settings
+import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.zaze.utils.FileUtil
-import com.zaze.utils.DisplayUtil
-import com.zaze.utils.ZStringUtil
+import com.zaze.utils.*
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 
@@ -26,54 +25,8 @@ import com.zaze.utils.log.ZTag
  */
 object KotlinDebug {
 
-    fun test(activity: Activity) {
+    fun test(context: Activity) {
         var result = ""
-//        return showLog("print", { print() })
-//        showLog("createDimensByDensity", { createDimensByDensity(ZDisplayUtil.getScreenDensity()) })
-//        showLog("createDimensBySW", { createDimensBySW(768, ZDisplayUtil.getScreenWidthDp().toInt()) })
-        // --------------------------------------------------
-//        result += (System.currentTimeMillis() - SystemClock.elapsedRealtime())
-//        // --------------------------------------------------
-//        val file = File("/sdcard/test.ini")
-//        val config = ConfigHelper.newInstance(file)
-//        val map = HashMap<String, String>()
-//        for (i in 0..1) {
-//            map["${System.currentTimeMillis()}" + i] = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-//        }
-//        config.setProperty(map)
-        // --------------------------------------------------
-//        createDeveloperToken()
-        // --------------------------------------------------
-//        ZLog.i(ZTag.TAG_DEBUG, "${ZDeviceUtil.getSdFreeSpace() < 5L shl 30}")
-//        ZLog.i(ZTag.TAG_DEBUG, "${ZDeviceUtil.getSdFreeSpace() < 10L shl 30}")
-//        ZLog.i(ZTag.TAG_DEBUG, "${ZDateUtil.getWeek(Date())}")
-        // --------------------------------------------------
-//        ZLog.i(ZTag.TAG_DEBUG, "currentTimeMillis : ${System.currentTimeMillis()}")
-//        ZLog.i(ZTag.TAG_DEBUG, "currentThreadTimeMillis: ${SystemClock.currentThreadTimeMillis()}")
-//        ZLog.i(ZTag.TAG_DEBUG, "elapsedRealtime : ${SystemClock.elapsedRealtime()}")
-        // --------------------------------------------------
-//        AppUtil.startApplicationSimple(MyApplication.getInstance(), "com.xuehai.response_launcher_teacher")
-//        val intent = getTargetActivityIntent(activity, "com.xh.open.WakeupActivity")
-//        val intent = getTargetActivityIntent(activity, "com.xh.open.agent.AgentActivity")
-//        intent?.let {
-//            activity.startActivity(intent)
-//        }
-//        getNetType(activity)
-        //
-//        val packageName = "com.xuehai.response_launcher_teacher"
-//        val packageName = "com.xuehai.launcher"
-        // --------------------------------------------------
-//        val action = ""
-//        if (!AppUtil.isAppRunning(activity, action)) {
-//            val intent = Intent(action)
-//            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
-//            activity.startActivity(intent)
-//        } else {
-//            ZLog.i(ZTag.TAG_DEBUG,action 已启动")
-//        }
-        // --------------------------------------------------
-
-
 //        if (hasPermissionToReadNetworkStats(activity)) {
 //            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 //                val networkStatsManager = activity.getSystemService(NETWORK_STATS_SERVICE) as NetworkStatsManager
@@ -82,8 +35,41 @@ object KotlinDebug {
 //                Log.i("Info", "Total: " + (bucket.rxBytes + bucket.txBytes))
 //            }
 //        }
-//        val a: AppShortcut? = null
-//        a!!.flags
+        //
+//        WifiCompat.listenerByConn()
+//        WifiCompat.listenerByJob(MyApplication.getInstance())
+        // --------------------------------------------------
+//        ThreadPlugins.runInWorkThread(Runnable {
+//            DeviceChecker(activity).checkSafely()
+//        }, 0)
+
+        Log.i("test", "getSignatures = " + SignaturesUtil.getSignatures(context, "MD5")!!)
+        AppUtil.getActivityManager(context).runningAppProcesses.forEach {
+            Log.i("test", "runningAppProcesses = ${it.processName}")
+        }
+        AppUtil.getActivityManager(context).getRunningTasks(3).forEach {
+            Log.i("test", "runningAppProcesses = ${it.topActivity.packageName}")
+        }
+
+    }
+
+
+    fun getMoney() {
+        var RMB = 30273
+        val interestRate = 0.0242 / 365
+        val splitCount = 12
+        val totalTime = splitCount * 30
+        var gotMoney = 0.0
+        for (i in 0..totalTime) {
+            if (i % 30 == 0) {
+                RMB -= RMB / splitCount
+            }
+            if (RMB <= 0) {
+                break
+            }
+            gotMoney += RMB * interestRate
+        }
+        Log.i("gotMoney", "gotMoney: $gotMoney")
     }
 
     fun getDefaultInputMethod(context: Context): String {

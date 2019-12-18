@@ -413,12 +413,14 @@ public class RxAndroidActivity extends BaseActivity {
                 ZLog.i(ZTag.TAG_DEBUG, "doFinally");
                 updateTestText("doFinally");
             }
-        }).doFinally(new Action() {
-            @Override
-            public void run() throws Exception {
-                isRunning = false;
-            }
-        }).subscribe(new MaybeObserver<String>() {
+        })
+                .observeOn(AndroidSchedulers.mainThread())
+                .doFinally(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        isRunning = false;
+                    }
+                }).subscribe(new MaybeObserver<String>() {
             @Override
             public void onSubscribe(Disposable d) {
 

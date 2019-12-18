@@ -206,7 +206,6 @@ public class ZCommand {
                 // donnot use os.writeBytes(commmand), avoid chinese charset error
                 outputStream.write(command.getBytes());
                 outputStream.writeBytes(COMMAND_LINE_END);
-                outputStream.flush();
             }
             outputStream.writeBytes(COMMAND_EXIT);
             outputStream.flush();
@@ -226,7 +225,9 @@ public class ZCommand {
             }
             process.destroy();
         } catch (Exception e) {
-            e.printStackTrace();
+            if (showLog) {
+                ZLog.e(ZTag.TAG_CMD, "execCommand error", e);
+            }
         } finally {
             try {
                 if (outputStream != null) {
@@ -239,7 +240,7 @@ public class ZCommand {
                     errorReader.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                // ignore
             }
         }
         return new CommandResult(result,

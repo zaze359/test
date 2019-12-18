@@ -64,7 +64,7 @@ public class MyApplication extends BaseApplication {
                     public void onPrimaryClipChanged() {
                         if (mClipboardManager.hasPrimaryClip()) {
                             ClipData clipData = mClipboardManager.getPrimaryClip();
-                            if(clipData == null) {
+                            if (clipData == null) {
                                 return;
                             }
                             int count = clipData.getItemCount();
@@ -125,7 +125,7 @@ public class MyApplication extends BaseApplication {
 
                     }
                 };
-                WifiCompat.listenerByConn();
+                WifiCompat.listenerByBroadcast(this);
 //                startService(new Intent(this, WifiJob.class));
 //                WifiCompat.listenerByJob(this);
             }

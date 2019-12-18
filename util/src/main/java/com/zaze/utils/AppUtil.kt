@@ -3,6 +3,7 @@ package com.zaze.utils
 import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
@@ -39,12 +40,7 @@ object AppUtil {
     @JvmStatic
     @JvmOverloads
     fun getAppVersionName(context: Context, packageName: String? = null): String {
-        val packageInfo = getPackageInfo(context, packageName ?: context.packageName)
-        return if (packageInfo != null) {
-            packageInfo.versionName ?: ""
-        } else {
-            ""
-        }
+        return getPackageInfo(context, packageName ?: context.packageName)?.versionName ?: ""
     }
 
     /**
@@ -55,8 +51,7 @@ object AppUtil {
     @JvmStatic
     @JvmOverloads
     fun getAppVersionCode(context: Context, packageName: String? = null): Int {
-        val packageInfo = getPackageInfo(context, packageName ?: context.packageName)
-        return packageInfo?.versionCode ?: 0
+        return getPackageInfo(context, packageName ?: context.packageName)?.versionCode ?: 0
     }
 
     /**
@@ -86,9 +81,7 @@ object AppUtil {
     @JvmOverloads
     fun getAppIcon(context: Context, packageName: String? = null): Drawable? {
         return try {
-            val pManager = context.packageManager
-            val packageInfo = pManager.getPackageInfo(packageName ?: context.packageName, 0)
-            pManager.getApplicationIcon(packageInfo.applicationInfo)
+            context.packageManager.getApplicationIcon(packageName ?: context.packageName)
         } catch (e: PackageManager.NameNotFoundException) {
             ZLog.e(ZTag.TAG_DEBUG, e.message)
             null
@@ -133,6 +126,20 @@ object AppUtil {
         }
     }
     // --------------------------------------------------
+    /**
+     * Description : 获取对应包名的PackageInfo
+     * [context] context
+     * @author zaze
+     * @version 2017/5/31 - 下午3:46 1.0
+     */
+    fun getPackageInfo(context: Context, flag: Int = 0): PackageInfo? {
+        return try {
+            context.packageManager.getPackageInfo(context.packageName, flag)
+        } catch (e: PackageManager.NameNotFoundException) {
+            ZLog.e(ZTag.TAG_DEBUG, "PackageManager.NameNotFoundException : ${context.packageName}")
+            null
+        }
+    }
 
     /**
      * Description : 获取对应包名的PackageInfo
@@ -142,14 +149,13 @@ object AppUtil {
      * @version 2017/5/31 - 下午3:46 1.0
      */
     @JvmStatic
-    @JvmOverloads
+    @Deprecated(" use getPackageInfo with ContextWrapper")
     fun getPackageInfo(context: Context, packageName: String? = null, flag: Int = 0): PackageInfo? {
-        return try {
-            context.packageManager.getPackageInfo(packageName ?: context.packageName, flag)
-        } catch (e: PackageManager.NameNotFoundException) {
-            ZLog.e(ZTag.TAG_DEBUG, "PackageManager.NameNotFoundException : $packageName")
-            null
-        }
+        return getPackageInfo(object : ContextWrapper(context) {
+            override fun getPackageName(): String? {
+                return packageName
+            }
+        }, flag)
     }
 
     /**
@@ -178,7 +184,7 @@ object AppUtil {
                     val res = pm.getResourcesForApplication(packageName)
                     return Pair.create(packageName, res)
                 } catch (e: PackageManager.NameNotFoundException) {
-                    ZLog.w(ZTag.TAG_DEBUG, "Failed to find resources for " + packageName)
+                    ZLog.w(ZTag.TAG_DEBUG, "Failed to find resources for $packageName")
                 }
             }
         }
@@ -503,8 +509,8 @@ object AppUtil {
 
     // --------------------------------------------------
     // --------------------------------------------------
-
-    private fun getActivityManager(context: Context): ActivityManager {
+    @JvmStatic
+    fun getActivityManager(context: Context): ActivityManager {
         if (activityManager == null) {
             activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         }

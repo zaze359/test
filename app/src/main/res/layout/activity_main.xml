@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/dp_4"
-                android:text="test2" />
+                android:text="倒计时button" />
 
             <ImageView
                 android:id="@+id/main_test_iv"

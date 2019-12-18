@@ -1,9 +1,11 @@
 package com.zaze.utils
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.content.Context
 import android.content.Context.ACTIVITY_SERVICE
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Environment
 import android.provider.Settings
@@ -51,7 +53,12 @@ object DeviceUtil {
     @JvmStatic
     fun getUUID(context: Context): String {
         val key = "getUUID"
-        var id = Build.SERIAL
+        var id = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+                && context.checkSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+            Build.getSerial()
+        } else {
+            Build.SERIAL
+        }
         if (TextUtils.isEmpty(id)) {
             id = getSimSerialNumber(context)
             if (TextUtils.isEmpty(id)) {

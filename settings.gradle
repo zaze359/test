@@ -1,1 +1,1 @@
-include ':app', ':library', ':localrepo', ':animations', ':util', ':common'
+include ':app', ':localrepo', ':animations', ':util', ':common'

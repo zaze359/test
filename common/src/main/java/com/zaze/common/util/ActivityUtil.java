@@ -15,13 +15,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
-import com.zaze.utils.AppUtil;
-import com.zaze.utils.ToastUtil;
-
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
+
+import com.zaze.utils.AppUtil;
+import com.zaze.utils.ToastUtil;
 
 /**
  * Description :

@@ -3,7 +3,6 @@ package com.zaze.demo.debug;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.content.res.XmlResourceParser;
 import android.net.Uri;
@@ -13,6 +12,7 @@ import android.util.Log;
 
 import com.zaze.utils.FileUtil;
 import com.zaze.utils.ThreadManager;
+import com.zaze.utils.ZCommand;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
@@ -50,138 +50,44 @@ import okio.Sink;
  */
 public class TestDebug {
 
+    private static final String TAG = "TestDebug";
     private static byte[] bytes;
 
     private static final Pattern sTrimPattern =
             Pattern.compile("^[\\s|\\p{javaSpaceChar}]*(.*)[\\s|\\p{javaSpaceChar}]*$");
 
-    public static void test(Context context) {
-
-//        DisplayMetrics displayMetrics = new DisplayMetrics();
-//        WindowManager windowMgr = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-//            windowMgr.getDefaultDisplay().getRealMetrics(displayMetrics);
-//        }
-//        ZLog.i(ZTag.TAG_DEBUG, "displayMetrics : " + displayMetrics);
-
-//        StorageLoader.query();
-
-//        AppUtil.isAppRunning(context, "com.xh.arespunc");
-
-//        final File systemDir = new File(Environment.getDataDirectory(), "system");
-//        ZLog.i(ZTag.TAG_DEBUG, "systemDir : " + systemDir.getAbsolutePath());
-
-//
-//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-//            AppOpsManager appOpsManager = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
-//            try {
-//                Method method = AppOpsManager.class.getDeclaredMethod("setMode", String.class,int.class,String.class,int.class);
-//                method.invoke(appOpsManager,"OP_POST_NOTIFICATION", 0,"", AppOpsManager.MODE_ALLOWED);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-
-//               mPolicyFile = new AtomicFile(new File(systemDir, "notification_policy.xml"));
-
-        // --------------------------------------------------
-//        Toast.makeText(context, "sss", Toast.LENGTH_SHORT).show();
-//        FileUtil.writeToFile("/sdcard/a.txt", "adsfasdfasdfasdfd");
-//        FileUtil.rename("/sdcard/a.txt", "b.txt");
-//        FileUtil.move("/sdcard/b.txt", "/sdcard/b/b.txt");
-//        FileUtil.writeToFile("/sdcard/b/ba.txt", "ccccc#######!@#lkajsd;flkj;sdjhfl12ou1o2kjlhklsdhjfksd");
-//        build7Zip("/sdcard/b");
-        // --------------------------------------------------
-//        try {
-//            Intent intent = new Intent("com.xh.launcher.wake.up");
-//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-//            context.startActivity(intent);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        Network[] networkArray = new Network[0];
-//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-//            networkArray = ZNetUtil.getConnectivityManager(context).getAllNetworks();
-//        }
-//        for (Network network : networkArray) {
-//            ZLog.i(ZTag.TAG_DEBUG, "" + network.toString());
-//        }
-        // --------------------------------------------------
-//        ZLog.i(ZTag.TAG_DEBUG, "" + encrypt("abc"));
-        // --------------------------------------------------
-        // --------------------------------------------------
-//        JSONArray allArray = new JSONArray();
-//        HashSet<String> apkSet = new HashSet<>();
-//        File fileDir = new File("/sdcard/zaze/all/");
-//        if (fileDir.exists() && fileDir.isDirectory()) {
-//            for (File file : fileDir.listFiles()) {
-//                StringBuffer buffer = FileUtil.readFromFile(file.getAbsolutePath());
-//                try {
-//                    JSONArray jsonArray = new JSONArray(buffer.toString());
-//                    for (int i = 0; i < jsonArray.length(); i++) {
-//                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-//                        String packageName = jsonObject.optString("packageName", "");
-//                        if (!apkSet.contains(packageName) && !TextUtils.isEmpty(packageName)) {
-//                            apkSet.add(packageName);
-//                            allArray.put(jsonObject);
-//                        }
+    public static void test(final Context context) {
+//        ThreadPlugins.runInIoThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                for (int i = 0; i < 1000; i++) {
+//                    List<ApplicationInfo> list = AppUtil.getInstalledApplications(context, 0);
+//                    for (ApplicationInfo app : list) {
+//                        Log.i(TAG, "getInstalledApplication : " + app.packageName);
 //                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
 //                }
 //            }
-//        }
-//        FileUtil.writeToFile("/sdcard/zaze/all/all.json", allArray.toString(), false);
+//        });
+//        new A<B>().a("{\"a\" : \"abc\"}");
 //        aaaaaa(context);
-//        final String dir = "/sdcard/zaze/test/bbb/cccc/";
-//        FileUtil.createDirNotExists(dir);
-//        for (int i = 0; i < 1; i++) {
-//            final int index = i;
-//            ThreadPlugins.runInIoThread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    for (int j = 0; j < 10000; j++) {
-//                        String fileName = dir + index + "_" + j + "_aaaaaaaaaaaaaaaa.txt";
-//                        if (FileUtil.exists(fileName)) {
-//                            ZLog.d(ZTag.TAG_DEBUG, fileName);
-//                            continue;
-//                        }
-//                        ZLog.i(ZTag.TAG_DEBUG, fileName);
-//                        if (FileUtil.reCreateFile(fileName)) {
-//                            StringBuilder builder = new StringBuilder();
-//                            for (int k = 0; k < 100; k++) {
-//                                builder.append("阿当时发生的和空间发挥空间浑善达克减肥" + k);
-//                            }
-//                            FileUtil.writeToFile(fileName, builder.toString());
-//                        } else {
-//                            ZLog.i(ZTag.TAG_DEBUG, "size new : " + new File(dir).list().length);
-//                            ZLog.i(ZTag.TAG_DEBUG, "size old : " + new File("/sdcard/test").list().length);
-//                            ZLog.i(ZTag.TAG_DEBUG, "size all : " + (new File(dir).list().length + new File("/sdcard/test").list().length));
-//                            ZLog.i(ZTag.TAG_DEBUG, "size all file : " + new File("/sdcard/").list().length);
-//                            return;
-//                        }
-//                    }
-//                }
-//            });
-//        }
-
+        ZCommand.CommandResult result = ZCommand.execCmdForRes("dumpsys activity activities");
+        Log.i(TAG, "CommandResult = " + result.successMsg);
     }
-
 
     private static final OkHttpClient client = new OkHttpClient();
 
     //下载
     private static void download(final String url, final String savePath) {
         final long startTime = System.currentTimeMillis();
-        Log.i("DownloadUtil", "startTime=" + startTime);
-        Log.d("DownloadUtil", "download: url = " + url + " savePath = " + savePath);
+        Log.i(TAG, "startTime=" + startTime);
+        Log.d(TAG, "download: url = " + url + " savePath = " + savePath);
         Request request = new Request.Builder().url(url).build();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 // 下载失败
                 e.printStackTrace();
-                Log.i("DownloadUtil", "download failed e = " + e);
+                Log.i(TAG, "download failed e = " + e);
             }
 
             @Override
@@ -197,11 +103,11 @@ public class TestDebug {
                     bufferedSink.writeAll(response.body().source());
 
                     bufferedSink.close();
-                    Log.i("DownloadUtil", "download success");
-                    Log.i("DownloadUtil", "totalTime=" + (System.currentTimeMillis() - startTime));
+                    Log.i(TAG, "download success");
+                    Log.i(TAG, "totalTime=" + (System.currentTimeMillis() - startTime));
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Log.i("DownloadUtil", "download failed e = " + e);
+                    Log.i(TAG, "download failed e = " + e);
                 } finally {
                     if (bufferedSink != null) {
                         bufferedSink.close();
@@ -267,20 +173,18 @@ public class TestDebug {
                     int count = 0;
                     List<PackageInfo> list = context.getPackageManager()
                             .getInstalledPackages(0);
-                    for (PackageInfo info : list) {
-                        if (count >= 1000) {
-                            break;
-                        }
-                        try {
-                            PackageInfo pi = context.getPackageManager()
-                                    .getPackageInfo(info.packageName,
-                                            PackageManager.GET_ACTIVITIES);
-                            Log.e("test", "threadid:" + Thread.currentThread().getId()
-                                    + ",i:" + count++);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
+//                    for (PackageInfo info : list) {
+//                        if (count >= 1000) {
+//                            break;
+//                        }
+//                        try {
+//                            PackageInfo pi = context.getPackageManager()
+//                                    .getPackageInfo(info.packageName,
+//                                            PackageManager.GET_ACTIVITIES);
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
                 }
             }.start();
         }
@@ -290,6 +194,7 @@ public class TestDebug {
      * Compress test
      */
     static void build7Zip(final String dir) {
+
         ThreadManager.getInstance().runInMultiThread(new Runnable() {
             @Override
             public void run() {
