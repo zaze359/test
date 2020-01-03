@@ -12,7 +12,7 @@ import android.util.Log;
 
 import com.zaze.utils.FileUtil;
 import com.zaze.utils.ThreadManager;
-import com.zaze.utils.ZCommand;
+import com.zaze.utils.date.DateUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
@@ -29,8 +29,10 @@ import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.TimeZone;
 import java.util.regex.Pattern;
 
 import okhttp3.Call;
@@ -70,8 +72,14 @@ public class TestDebug {
 //        });
 //        new A<B>().a("{\"a\" : \"abc\"}");
 //        aaaaaa(context);
-        ZCommand.CommandResult result = ZCommand.execCmdForRes("dumpsys activity activities");
-        Log.i(TAG, "CommandResult = " + result.successMsg);
+//        ZCommand.CommandResult result = ZCommand.execCmdForRes("dumpsys activity activities");
+//        Log.i(TAG, "CommandResult = " + result.successMsg);
+        Date date = DateUtil.stringToDate("0000-00-01", "yyyy-MM-dd", TimeZone.getDefault());
+        Random random = new Random(8);
+        Log.i(TAG, "date = " + date);
+        for (int i = 0; i < 10; i++) {
+            Log.i(TAG, "Random = " + random.nextInt(8));
+        }
     }
 
     private static final OkHttpClient client = new OkHttpClient();

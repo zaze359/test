@@ -13,7 +13,9 @@ import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.zaze.utils.*
+import com.zaze.utils.DisplayUtil
+import com.zaze.utils.FileUtil
+import com.zaze.utils.ZStringUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 
@@ -43,13 +45,21 @@ object KotlinDebug {
 //            DeviceChecker(activity).checkSafely()
 //        }, 0)
 
-        Log.i("test", "getSignatures = " + SignaturesUtil.getSignatures(context, "MD5")!!)
-        AppUtil.getActivityManager(context).runningAppProcesses.forEach {
-            Log.i("test", "runningAppProcesses = ${it.processName}")
+        arrayListOf<String>("1", "2", "3").forEach {
+            if (it == "1") {
+                Log.i("test", "itititit : $it")
+                return@forEach
+            }
+            Log.i("test", it)
         }
-        AppUtil.getActivityManager(context).getRunningTasks(3).forEach {
-            Log.i("test", "runningAppProcesses = ${it.topActivity.packageName}")
-        }
+
+//        Log.i("test", "getSignatures = " + SignaturesUtil.getSignatures(context, "MD5")!!)
+//        AppUtil.getActivityManager(context).runningAppProcesses.forEach {
+//            Log.i("test", "runningAppProcesses = ${it.processName}")
+//        }
+//        AppUtil.getActivityManager(context).getRunningTasks(3).forEach {
+//            Log.i("test", "runningAppProcesses = ${it.topActivity.packageName}")
+//        }
 
     }
 
