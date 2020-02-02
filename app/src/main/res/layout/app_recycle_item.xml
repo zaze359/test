@@ -12,6 +12,13 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
+        <TextView
+            android:id="@+id/item_app_num_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_4"
+            tools:text="ads" />
+
         <ImageView
             android:id="@+id/item_app_iv"
             android:layout_width="@dimen/dp_72"

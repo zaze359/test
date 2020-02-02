@@ -7,6 +7,8 @@
         <item>com.baidu.input_huawei</item><!--百度华为输入法-->
         <item>com.huawei.mmifunction</item><!--手机功能测试-->
         <item>com.huawei.powergenie</item><!--省电精灵-->
+        <item>com.huawei.android.hwouc</item><!--系统更新-->
+        <item>com.huawei.systemserver</item><!--系统服务-->
         <!--<item>com.huawei.vassistant</item>&lt;!&ndash;语音助手&ndash;&gt;-->
         <!--<item>com.huawei.systemmanager</item>&lt;!&ndash;平板管家&ndash;&gt;-->
         <!--<item>com.huawei.hidisk</item>&lt;!&ndash;文件管理&ndash;&gt;-->
@@ -14,9 +16,8 @@
         <!--<item>com.huawei.appmarket</item>&lt;!&ndash; 华为应用市场 &ndash;&gt;-->
     </string-array>
     <string-array name="huawei_un_keep_app">
-        <!--<item>com.huawei.android.hwpay</item>&lt;!&ndash;华为支付&ndash;&gt;-->
+        <item>com.huawei.hiview</item><!-- 与安全模式相关-->
         <item>com.huawei.android.karaokeeffect</item><!--K 歌特效-->
-        <item>com.huawei.android.totemweather</item><!--天气-->
         <item>com.huawei.gamebox</item><!--华为游戏中心-->
         <item>com.huawei.hwstylusscreenshot</item><!--截屏-->
         <item>com.huawei.camera</item><!--相机-->
@@ -27,5 +28,10 @@
         <item>com.example.android.notepad</item><!--备忘录-->
         <item>com.huawei.magnifier</item><!--放大镜-->
         <item>com.android.deskclock</item><!--时钟-->
+        <item>com.huawei.HwMultiScreenShot</item><!--滚动截屏-->
+        <item>com.huawei.screenrecorder</item><!--屏幕录制-->
+        <item>com.huawei.himovie.overseas</item><!--华为视频-->
+        <item>com.huawei.android.totemweather</item><!--天气-->
+        <item>com.huawei.android.totemweatherapp</item><!--天气-->
     </string-array>
 </resources>

@@ -11,7 +11,7 @@ import com.zaze.demo.component.device.adapter.DeviceAdapter;
 import com.zaze.demo.component.device.contract.DeviceContract;
 import com.zaze.demo.component.device.presenter.DevicePresenter;
 import com.zaze.demo.model.entity.DeviceStatus;
-import com.zaze.utils.ZDisplayUtil;
+import com.zaze.utils.DisplayUtil;
 import com.zaze.utils.ZStringUtil;
 
 import org.jetbrains.annotations.NotNull;
@@ -54,10 +54,10 @@ public class DeviceActivity extends BaseActivity implements DeviceContract.View 
         deviceDpi = findViewById(R.id.device_dpi);
         deviceScreen.setText(ZStringUtil.format(
                 "屏幕分辨率 : %dx%d(%1.0fx%1.0f)",
-                ZDisplayUtil.getScreenWidthPixels(),
-                ZDisplayUtil.getScreenHeightPixels(),
-                ZDisplayUtil.getScreenWidthDp(),
-                ZDisplayUtil.getScreenHeightDp())
+                DisplayUtil.getScreenWidthPixels(),
+                DisplayUtil.getScreenHeightPixels(),
+                DisplayUtil.getScreenWidthDp(),
+                DisplayUtil.getScreenHeightDp())
         );
         findViewById(R.id.device_calculate_btn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +65,7 @@ public class DeviceActivity extends BaseActivity implements DeviceContract.View 
                 presenter.calculate(deviceInput.getText().toString());
             }
         });
-        deviceDensity.setText(ZStringUtil.format("屏幕密度 : %s(%d)(%s)", ZDisplayUtil.getDensityDpiName(), ZDisplayUtil.getScreenDensityDpi(), ZDisplayUtil.getScreenDensity()));
+        deviceDensity.setText(ZStringUtil.format("屏幕密度 : %s(%d)(%s)", DisplayUtil.getDensityDpiName(), DisplayUtil.getScreenDensityDpi(), DisplayUtil.getScreenDensity()));
         presenter = new DevicePresenter(this);
         presenter.getDeviceInfo();
     }

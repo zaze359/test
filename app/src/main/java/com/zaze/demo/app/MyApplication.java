@@ -4,7 +4,6 @@ package com.zaze.demo.app;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.LinkProperties;
@@ -16,7 +15,6 @@ import com.tencent.bugly.crashreport.CrashReport;
 import com.zaze.common.base.BaseApplication;
 import com.zaze.demo.component.network.compat.AnalyzeTrafficCompat;
 import com.zaze.demo.debug.wifi.WifiCompat;
-import com.zaze.demo.debug.wifi.WifiJob;
 import com.zaze.demo.receiver.PackageReceiver;
 import com.zaze.utils.cache.MemoryCacheManager;
 import com.zaze.utils.log.ZLog;
@@ -66,6 +64,9 @@ public class MyApplication extends BaseApplication {
                     public void onPrimaryClipChanged() {
                         if (mClipboardManager.hasPrimaryClip()) {
                             ClipData clipData = mClipboardManager.getPrimaryClip();
+                            if (clipData == null) {
+                                return;
+                            }
                             int count = clipData.getItemCount();
                             if (count > 0) {
                                 ClipData.Item item = clipData.getItemAt(0);
@@ -124,9 +125,9 @@ public class MyApplication extends BaseApplication {
 
                     }
                 };
-                WifiCompat.listenerByConn();
-                startService(new Intent(this, WifiJob.class));
-                WifiCompat.listenerByJob(this);
+                WifiCompat.listenerByBroadcast(this);
+//                startService(new Intent(this, WifiJob.class));
+//                WifiCompat.listenerByJob(this);
             }
         }
     }

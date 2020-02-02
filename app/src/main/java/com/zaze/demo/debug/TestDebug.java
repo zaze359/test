@@ -1,18 +1,18 @@
 package com.zaze.demo.debug;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.content.res.XmlResourceParser;
+import android.net.Uri;
 import android.os.Environment;
 import android.util.Base64;
 import android.util.Log;
 
-import com.zaze.demo.model.entity.DeviceStatus;
-import com.zaze.utils.AppUtil;
 import com.zaze.utils.FileUtil;
 import com.zaze.utils.ThreadManager;
+import com.zaze.utils.date.DateUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
@@ -26,14 +26,23 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
-import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.TimeZone;
 import java.util.regex.Pattern;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okio.BufferedSink;
+import okio.Okio;
+import okio.Sink;
 
 /**
  * Description :
@@ -43,70 +52,89 @@ import java.util.regex.Pattern;
  */
 public class TestDebug {
 
+    private static final String TAG = "TestDebug";
     private static byte[] bytes;
 
     private static final Pattern sTrimPattern =
             Pattern.compile("^[\\s|\\p{javaSpaceChar}]*(.*)[\\s|\\p{javaSpaceChar}]*$");
 
-    private static DeviceStatus deviceStatus = new DeviceStatus();
-    private static WeakReference<List<DeviceStatus>> reference1 = new WeakReference<>(Collections.singletonList(deviceStatus));
-    private static WeakReference<DeviceStatus> reference2 = new WeakReference<>(deviceStatus);
-    private static List<WeakReference<DeviceStatus>> reference3 = null;
-
-    public static void test(Context context) {
-//        DisplayMetrics displayMetrics = new DisplayMetrics();
-//        WindowManager windowMgr = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-//            windowMgr.getDefaultDisplay().getRealMetrics(displayMetrics);
-//        }
-//        ZLog.i(ZTag.TAG_DEBUG, "displayMetrics : " + displayMetrics);
-
-//        StorageLoader.query();
-
-        AppUtil.isAppRunning(context, "com.xh.arespunc");
-
-
-        // --------------------------------------------------
-//        Toast.makeText(context, "sss", Toast.LENGTH_SHORT).show();
-//        FileUtil.writeToFile("/sdcard/a.txt", "adsfasdfasdfasdfd");
-//        FileUtil.rename("/sdcard/a.txt", "b.txt");
-//        FileUtil.move("/sdcard/b.txt", "/sdcard/b/b.txt");
-//        FileUtil.writeToFile("/sdcard/b/ba.txt", "ccccc#######!@#lkajsd;flkj;sdjhfl12ou1o2kjlhklsdhjfksd");
-//        build7Zip("/sdcard/b");
-        // --------------------------------------------------
-//        try {
-//            Intent intent = new Intent("com.xh.launcher.wake.up");
-//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-//            context.startActivity(intent);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        Network[] networkArray = new Network[0];
-//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-//            networkArray = ZNetUtil.getConnectivityManager(context).getAllNetworks();
-//        }
-//        for (Network network : networkArray) {
-//            ZLog.i(ZTag.TAG_DEBUG, "" + network.toString());
-//        }
-        // --------------------------------------------------
-//        ZLog.i(ZTag.TAG_DEBUG, "" + encrypt("abc"));
-        // --------------------------------------------------
-        // --------------------------------------------------
-//        if (reference3 == null) {
-//            reference3 = new ArrayList<>();
-//            reference3.add(new WeakReference<>(deviceStatus));
-//            reference3.add(new WeakReference<>(new DeviceStatus()));
-//            reference3.add(new WeakReference<>(new DeviceStatus()));
-//            reference3.add(new WeakReference<>(new DeviceStatus()));
-//            reference3.add(new WeakReference<>(new DeviceStatus()));
-//            reference3.add(new WeakReference<>(new DeviceStatus()));
-//        }
-//        ZLog.i(ZTag.TAG_DEBUG, "reference1 : " + reference1.get());
-//        ZLog.i(ZTag.TAG_DEBUG, "reference2 : " + reference2.get());
-//        for (WeakReference weakReference : reference3) {
-//            ZLog.i(ZTag.TAG_DEBUG, "reference3 : " + weakReference.get());
-//        }
+    public static void test(final Context context) {
+//        ThreadPlugins.runInIoThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                for (int i = 0; i < 1000; i++) {
+//                    List<ApplicationInfo> list = AppUtil.getInstalledApplications(context, 0);
+//                    for (ApplicationInfo app : list) {
+//                        Log.i(TAG, "getInstalledApplication : " + app.packageName);
+//                    }
+//                }
+//            }
+//        });
+//        new A<B>().a("{\"a\" : \"abc\"}");
 //        aaaaaa(context);
+//        ZCommand.CommandResult result = ZCommand.execCmdForRes("dumpsys activity activities");
+//        Log.i(TAG, "CommandResult = " + result.successMsg);
+        Date date = DateUtil.stringToDate("0000-00-01", "yyyy-MM-dd", TimeZone.getDefault());
+        Random random = new Random(8);
+        Log.i(TAG, "date = " + date);
+        for (int i = 0; i < 10; i++) {
+            Log.i(TAG, "Random = " + random.nextInt(8));
+        }
+    }
+
+    private static final OkHttpClient client = new OkHttpClient();
+
+    //下载
+    private static void download(final String url, final String savePath) {
+        final long startTime = System.currentTimeMillis();
+        Log.i(TAG, "startTime=" + startTime);
+        Log.d(TAG, "download: url = " + url + " savePath = " + savePath);
+        Request request = new Request.Builder().url(url).build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                // 下载失败
+                e.printStackTrace();
+                Log.i(TAG, "download failed e = " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Sink sink = null;
+                BufferedSink bufferedSink = null;
+                try {
+//                    String mSDCardPath = Environment.getExternalStorageDirectory().getAbsolutePath();//SD卡路径
+                    //String appPath= getApplicationContext().getFilesDir().getAbsolutePath();//此APP的files路径
+                    File dest = new File(savePath);
+                    sink = Okio.sink(dest);
+                    bufferedSink = Okio.buffer(sink);
+                    bufferedSink.writeAll(response.body().source());
+
+                    bufferedSink.close();
+                    Log.i(TAG, "download success");
+                    Log.i(TAG, "totalTime=" + (System.currentTimeMillis() - startTime));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.i(TAG, "download failed e = " + e);
+                } finally {
+                    if (bufferedSink != null) {
+                        bufferedSink.close();
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * 默认浏览器下载
+     *
+     * @param context
+     * @param url
+     */
+    public static void downFromBrowser(Context context, String url) {
+        Uri uri = Uri.parse(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        context.startActivity(intent);
     }
 
     /**
@@ -153,20 +181,18 @@ public class TestDebug {
                     int count = 0;
                     List<PackageInfo> list = context.getPackageManager()
                             .getInstalledPackages(0);
-                    for (PackageInfo info : list) {
-                        if (count >= 1000) {
-                            break;
-                        }
-                        try {
-                            PackageInfo pi = context.getPackageManager()
-                                    .getPackageInfo(info.packageName,
-                                            PackageManager.GET_ACTIVITIES);
-                            Log.e("test", "threadid:" + Thread.currentThread().getId()
-                                    + ",i:" + count++);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
+//                    for (PackageInfo info : list) {
+//                        if (count >= 1000) {
+//                            break;
+//                        }
+//                        try {
+//                            PackageInfo pi = context.getPackageManager()
+//                                    .getPackageInfo(info.packageName,
+//                                            PackageManager.GET_ACTIVITIES);
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
                 }
             }.start();
         }
@@ -176,6 +202,7 @@ public class TestDebug {
      * Compress test
      */
     static void build7Zip(final String dir) {
+
         ThreadManager.getInstance().runInMultiThread(new Runnable() {
             @Override
             public void run() {

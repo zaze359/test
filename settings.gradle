@@ -1,1 +1,1 @@
-include ':app', ':library', ':localrepo', ':animations', ':zazeutil', ':zazecommon'
+include ':app', ':localrepo', ':animations', ':util', ':common'

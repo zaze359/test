@@ -4,6 +4,7 @@
     package="com.zaze.demo">
 
     <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.DUMP" />
 
     <!-- <permission android:name="com.zaze.demo.receiver.RECEIVER" /> -->
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
@@ -42,7 +43,7 @@
 
     <application
         android:name=".app.MyApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
@@ -77,14 +78,6 @@
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
-
-        <!-- wifi start -->
-        <receiver android:name=".receiver.WifiReceiver">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
-        <!-- wifi end -->
 
         <!-- 测试接收推送 start -->
         <service android:name=".component.notification.service.NotificationService" />

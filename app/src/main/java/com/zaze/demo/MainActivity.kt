@@ -8,6 +8,7 @@ import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.*
+import android.view.KeyEvent
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
@@ -20,11 +21,13 @@ import com.zaze.common.base.ext.setImmersion
 import com.zaze.common.base.ext.setupActionBar
 import com.zaze.common.permission.PermissionUtil
 import com.zaze.common.widget.IntervalButtonWidget
-import com.zaze.demo.app.MyApplication
 import com.zaze.demo.component.table.TableFragment
-import com.zaze.demo.debug.*
-import com.zaze.demo.debug.wifi.WifiCompat
+import com.zaze.demo.debug.KotlinDebug
+import com.zaze.demo.debug.LogDirListener
+import com.zaze.demo.debug.MessengerService
+import com.zaze.demo.debug.TestDebug
 import com.zaze.utils.FileUtil
+import com.zaze.utils.ToastUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import kotlinx.android.synthetic.main.activity_main.*
@@ -82,25 +85,13 @@ class MainActivity : BaseActivity() {
             intervalButton?.start()
         }
         main_test_button.setOnClickListener {
-            WifiCompat.listenerByConn()
-            WifiCompat.listenerByJob(MyApplication.getInstance())
-            //            ThreadPlugins.runInIoThread(Runnable {
-//                if (main_test_button.text == Thread.currentThread().name) {
-////                    main_test_button.text = "测试"
-//                } else {
-////                    main_test_button.text = Thread.currentThread().name
-//                }
-//                main_test_button.invalidate()
-//            })
-            KotlinDebug.test(this)
-            TestDebug.test(this)
-            startService(Intent(this, LogcatService::class.java))
             val msg = Message.obtain()
             msg.replyTo = messenger
             sendMessenger?.send(msg)
-            // --------------------------------------------------
-//            TestJni.newInstance().stringFromJNI()
-            // --------------------------------------------------
+            //
+            KotlinDebug.test(this)
+            TestDebug.test(this)
+//            startService(Intent(this, LogcatService::class.java))
         }
         // ------------------------------------------------------
         drawerToggle = ActionBarDrawerToggle(this, main_drawer_layout, R.string.app_name, R.string.app_name).apply {
@@ -126,10 +117,14 @@ class MainActivity : BaseActivity() {
         fragmentList.add(TableFragment.newInstance("1"))
         // --------------------------------------------------
         main_viewpager.adapter = MyPagerAdapter(supportFragmentManager, fragmentList)
-
+        main_viewpager.setOnHoverListener { v, event ->
+            ZLog.i(ZTag.TAG_DEBUG, "main_viewpager on hover")
+            true
+        }
 //        val obj = DeviceStatus()
 //        weakReference = WeakReference(obj)
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return item?.run {
@@ -141,6 +136,20 @@ class MainActivity : BaseActivity() {
                 else -> super.onOptionsItemSelected(item)
             }
         } ?: return super.onOptionsItemSelected(item)
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        when (keyCode) {
+            KeyEvent.KEYCODE_PAGE_DOWN -> {
+                ToastUtil.toast(this, "onKeyDown >> 向下翻页键 :$keyCode")
+            }
+            KeyEvent.KEYCODE_PAGE_UP -> {
+                ToastUtil.toast(this, "onKeyDown >> 向上翻页键 :$keyCode")
+            }
+            else -> {
+            }
+        }
+        return super.onKeyDown(keyCode, event)
     }
 
     override fun onBackPressed() {

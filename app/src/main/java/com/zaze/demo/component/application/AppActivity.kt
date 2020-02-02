@@ -28,6 +28,7 @@ class AppActivity : AbsActivity() {
         setContentView(R.layout.app_act)
         viewModel = obtainViewModel(AppViewModel::class.java).apply {
             appData.observe(this@AppActivity, Observer { appList ->
+                appCountTv.text = "${appList.size}"
                 adapter?.let {
                     it.setDataList(appList)
                 } ?: let {

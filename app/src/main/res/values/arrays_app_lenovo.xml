@@ -11,6 +11,9 @@
         <item>com.android.calculator2</item><!--计算器-->
         <item>org.codeaurora.gallery</item><!--图库-->
         <item>org.codeaurora.snapcam</item><!--相机-->
+        <item>com.android.externalstorage</item><!--外部存储设备-->
+        <item>com.android.sharedstoragebackup</item><!--com.android.sharedstoragebackup-->
+        <!--<item>com.android.providers.settings</item>-->
         <!--<item>com.lenovo.lsf</item>-->
     </string-array>
 </resources>

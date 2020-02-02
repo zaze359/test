@@ -24,7 +24,6 @@
         <item>com.qualcomm.qti.services.secureui</item><!--Secure UI Service-->
         <item>com.qualcomm.timeservice</item><!--com.qualcomm.timeservice-->
         <item>com.samsung.aasaservice</item><!--AASAservice-->
-        <item>com.samsung.android.allshare.service.fileshare</item><!--WLAN直连-->
         <item>com.samsung.android.allshare.service.mediashare</item><!--Nearby Service-->
         <item>com.samsung.android.app.accesscontrol</item><!--互动控制-->
         <item>com.samsung.android.app.colorblind</item><!--颜色调整-->
@@ -87,10 +86,8 @@
         <item>com.sec.android.app.SecSetupWizard</item><!--三星安装向导-->
         <item>com.sec.android.app.selftestmode</item><!--Self Test Mode-->
         <item>com.sec.android.app.servicemodeapp</item><!--Service mode-->
-        <item>com.sec.android.app.SmartClipService</item><!--智能多截图-->
         <item>com.sec.android.app.sns3</item><!--Samsung Galaxy-->
         <item>com.sec.android.app.snsimagecache</item><!--SnsImageCache-->
-        <item>com.sec.android.app.soundalive</item><!--SoundAlive-->
         <item>com.sec.android.app.SuggestionService</item><!--com.sec.android.app.SuggestionService-->
         <item>com.sec.android.app.surfsetprop</item><!--SurfSetProp-->
         <item>com.sec.android.app.sysscope</item><!--SysScope-->
@@ -226,5 +223,43 @@
         <item>com.autonavi.xmgd.navigator.keyboard</item>
         <item>com.sec.android.widgetapp.at.hero.sinaweather</item>
         <item>com.sec.android.widgetapp.at.sinastock.stockclock</item>
+        <item>com.sec.android.app.soundalive</item><!--SoundAlive-->
+        <item>com.sec.android.app.SmartClipService</item><!--智能多截图-->
+        <item>com.diotek.sec.lookup.dictionary</item><!--字典-->
+        <item>com.sec.android.daemonapp</item><!--天气-->
+        <item>com.sec.android.easyMover.Agent</item><!--S换机助手下载-->
+        <item>com.samsung.android.scloud</item><!--三星云-->
+        <item>com.sec.app.screenrecorder</item><!--录制屏幕-->
+        <item>com.samsung.android.homemode</item><!--每日看板-->
+        <item>com.samsung.android.app.reminder</item><!--提醒-->
+        <item>com.qiyi.video.samsung</item><!--三星视频-->
+        <item>com.sec.android.app.music</item><!--Samsung Music-->
+        <item>com.samsung.hongbaoassistant</item><!--红包助手-->
+        <item>com.samsung.android.mtpshareapp</item><!--分享至电脑-->
+        <item>com.samsung.app.newtrim</item><!--视频剪辑器-->
+        <item>com.google.android.syncadapters.contacts</item><!--Google通讯录同步-->
+        <item>com.microsoft.office.officehubrow</item><!--Office Mobile-->
+        <item>com.samsung.android.email.provider</item><!--电子邮件-->
+        <item>com.samsung.android.net.wifi.wifiguider</item><!--WLAN 小提示-->
+        <item>com.google.android.syncadapters.calendar</item><!--Google 日历同步-->
+        <item>com.samsung.android.incallui</item><!--通话-->
+        <item>com.samsung.android.calendar</item><!--日历-->
+        <item>com.samsung.android.contacts</item><!--联系人-->
+        <item>com.samsung.android.app.smartcapture</item><!--三星截屏-->
+        <item>com.samsung.android.providers.contacts</item><!--联系人存储-->
+        <item>com.samsung.android.sm_cn</item><!--智能管理器-->
+        <item>com.sec.android.mimage.gear360editor</item><!--360° 照片编辑器-->
+        <item>com.samsung.android.app.spage</item><!--Bixby 主页-->
+        <item>com.sec.android.app.clockpackage</item><!--时钟-->
+        <item>com.samsung.storyservice</item><!--相册故事-->
+        <item>com.samsung.android.service.aircommand</item><!--浮窗指令-->
+        <item>com.samsung.android.app.social</item><!--新鲜事-->
+        <item>com.samsung.knox.securefolder</item><!--安全文件夹-->
+        <item>com.samsung.android.smartmirroring</item><!--Smart View-->
+        <item>com.samsung.android.app.notes</item><!--三星笔记-->
+        <item>com.samsung.android.allshare.service.fileshare</item><!--WLAN直连-->
+        <item>com.samsung.android.service.livedrawing</item><!--动态信息-->
+        <item>com.samsung.android.provider.stickerprovider</item><!--StickerProvider-->
+        <item>com.samsung.android.stickercenter</item><!--StickerCenter-->
     </string-array>
 </resources>

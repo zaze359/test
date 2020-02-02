@@ -4,8 +4,8 @@ import com.zaze.common.base.mvp.BaseMvpPresenter;
 import com.zaze.demo.component.device.contract.DeviceContract;
 import com.zaze.demo.model.DeviceModel;
 import com.zaze.demo.model.ModelFactory;
-import com.zaze.utils.ZDisplayUtil;
-import com.zaze.utils.ZNetUtil;
+import com.zaze.utils.DisplayUtil;
+import com.zaze.utils.NetUtil;
 
 /**
  * Description :
@@ -24,7 +24,7 @@ public class DevicePresenter extends BaseMvpPresenter<DeviceContract.View> imple
     @Override
     public void getDeviceInfo() {
         getView().showDeviceInfo(deviceModel.getDeviceInfo());
-        String macAddress = ZNetUtil.getWLANMacAddress();
+        String macAddress = NetUtil.getWLANMacAddress();
         getView().showMacAddress("WLAN MAC地址 : " + macAddress);
     }
 
@@ -33,7 +33,7 @@ public class DevicePresenter extends BaseMvpPresenter<DeviceContract.View> imple
         try {
             float inchNum = Float.parseFloat(inch);
             if (inchNum > 0) {
-                getView().showDpi("" + Math.sqrt(Math.pow(ZDisplayUtil.getScreenWidthPixels(), 2) + Math.pow(ZDisplayUtil.getScreenHeightPixels(), 2)) / inchNum);
+                getView().showDpi("" + Math.sqrt(Math.pow(DisplayUtil.getScreenWidthPixels(), 2) + Math.pow(DisplayUtil.getScreenHeightPixels(), 2)) / inchNum);
             }
         } catch (Exception e) {
             e.printStackTrace();
