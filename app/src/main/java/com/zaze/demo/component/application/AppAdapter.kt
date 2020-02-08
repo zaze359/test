@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -12,10 +13,7 @@ import com.zaze.common.base.BaseApplication
 import com.zaze.demo.R
 import com.zaze.demo.debug.AppShortcut
 import com.zaze.demo.debug.InvariantDeviceProfile
-import com.zaze.utils.AppUtil
-import com.zaze.utils.BmpUtil
-import com.zaze.utils.FileUtil
-import com.zaze.utils.ZStringUtil
+import com.zaze.utils.*
 import java.io.File
 
 /**
@@ -46,7 +44,14 @@ class AppAdapter(context: Context, data: Collection<AppShortcut>) : BaseRecycler
     override fun onBindView(holder: PackageHolder, value: AppShortcut, position: Int) {
         val packageName = ZStringUtil.parseString(value.packageName)
         // --------------------------------------------------
-        holder.itemAppNumTv.text = "${position + 1}"
+        holder.itemAppNumBtn.text = "${position + 1} : 复制应用"
+        holder.itemAppNumBtn.setOnClickListener {
+            val path = "/sdcard/zaze/apk/${value.name}(${value.packageName}).apk"
+            if (value.isCopyEnable) {
+                FileUtil.copy(File(value.sourceDir), File(path))
+            }
+            ToastUtil.toast(context, "成功复制到 $path")
+        }
         holder.itemAppNameTv.text = "应用名 : ${value.name}"
         holder.itemAppVersionCodeTv.text = "版本号 ：${value.versionCode}"
         holder.itemAppVersionNameTv.text = "版本名 ：${value.versionName}"
@@ -72,12 +77,10 @@ class AppAdapter(context: Context, data: Collection<AppShortcut>) : BaseRecycler
         if (drawable == null) {
             drawable = getDrawable(R.mipmap.ic_launcher)
         }
+//        Settings.ACTION_WIFI_SETTINGS
         holder.itemAppIv.setImageBitmap(BmpUtil.drawable2Bitmap(drawable, iconSize))
         holder.itemView.setOnClickListener {
-            //            AppUtil.startApplication(context, packageName)
-            if (value.isCopyEnable) {
-                FileUtil.copy(File(value.sourceDir), File("/sdcard/zaze/apk/${value.name}(${value.packageName}).apk"))
-            }
+            AppUtil.startApplication(context, packageName)
 //            else {
 //                try {
 //                    val assetManager = AssetManager::class.java.newInstance()
@@ -102,14 +105,14 @@ class AppAdapter(context: Context, data: Collection<AppShortcut>) : BaseRecycler
     }
 
     inner class PackageHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var itemAppNumTv: TextView = itemView.findViewById(R.id.item_app_num_tv) as TextView
-        var itemAppIv: ImageView = itemView.findViewById(R.id.item_app_iv) as ImageView
-        var itemAppNameTv: TextView = itemView.findViewById(R.id.item_app_name_tv) as TextView
-        var itemAppPackageTv: TextView = itemView.findViewById(R.id.item_app_package_tv) as TextView
-        var itemAppVersionCodeTv: TextView = itemView.findViewById(R.id.item_app_version_code_tv) as TextView
-        var itemAppVersionNameTv: TextView = itemView.findViewById(R.id.item_app_version_name_tv) as TextView
-        var itemAppDirTv: TextView = itemView.findViewById(R.id.item_app_dir_tv) as TextView
-        var itemAppSignTv: TextView = itemView.findViewById(R.id.item_app_sign_tv) as TextView
+        var itemAppNumBtn: Button = itemView.findViewById(R.id.item_app_num_btn)
+        var itemAppIv: ImageView = itemView.findViewById(R.id.item_app_iv)
+        var itemAppNameTv: TextView = itemView.findViewById(R.id.item_app_name_tv)
+        var itemAppPackageTv: TextView = itemView.findViewById(R.id.item_app_package_tv)
+        var itemAppVersionCodeTv: TextView = itemView.findViewById(R.id.item_app_version_code_tv)
+        var itemAppVersionNameTv: TextView = itemView.findViewById(R.id.item_app_version_name_tv)
+        var itemAppDirTv: TextView = itemView.findViewById(R.id.item_app_dir_tv)
+        var itemAppSignTv: TextView = itemView.findViewById(R.id.item_app_sign_tv)
 
     }
 }
