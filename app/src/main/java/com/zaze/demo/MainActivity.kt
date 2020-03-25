@@ -20,12 +20,10 @@ import com.zaze.common.base.BaseActivity
 import com.zaze.common.base.ext.setImmersion
 import com.zaze.common.base.ext.setupActionBar
 import com.zaze.common.permission.PermissionUtil
+import com.zaze.common.thread.ThreadPlugins
 import com.zaze.common.widget.IntervalButtonWidget
 import com.zaze.demo.component.table.TableFragment
-import com.zaze.demo.debug.KotlinDebug
-import com.zaze.demo.debug.LogDirListener
-import com.zaze.demo.debug.MessengerService
-import com.zaze.demo.debug.TestDebug
+import com.zaze.demo.debug.*
 import com.zaze.utils.FileUtil
 import com.zaze.utils.ToastUtil
 import com.zaze.utils.log.ZLog
@@ -38,7 +36,6 @@ import kotlinx.android.synthetic.main.activity_main.*
  * @author : ZAZE
  * @version : 2017-05-19 - 01:41
  */
-
 class MainActivity : BaseActivity() {
 
     private lateinit var drawerToggle: ActionBarDrawerToggle
@@ -91,7 +88,9 @@ class MainActivity : BaseActivity() {
             //
             KotlinDebug.test(this)
             TestDebug.test(this)
-//            startService(Intent(this, LogcatService::class.java))
+            ThreadPlugins.runInUIThread(Runnable {
+                startService(Intent(this, LogcatService::class.java))
+            }, 10_000L)
         }
         // ------------------------------------------------------
         drawerToggle = ActionBarDrawerToggle(this, main_drawer_layout, R.string.app_name, R.string.app_name).apply {

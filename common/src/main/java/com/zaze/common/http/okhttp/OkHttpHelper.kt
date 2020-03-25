@@ -1,8 +1,8 @@
 package com.zaze.common.http.okhttp
 
-import com.zaze.common.http.LRequest
-import com.zaze.common.http.LRequestBody
-import com.zaze.common.http.LResponse
+import com.zaze.common.http.ZRequest
+import com.zaze.common.http.ZRequestBody
+import com.zaze.common.http.ZResponse
 import okhttp3.MediaType
 import okhttp3.Request
 import okhttp3.RequestBody
@@ -14,13 +14,13 @@ import java.io.IOException
  * @author : ZAZE
  * @version : 2019-07-12 - 16:29
  */
-object OkHttpHelper {
+internal object OkHttpHelper {
 
     /**
      * 构建okHttp Request Body
      */
     @JvmStatic
-    private fun buildRequestBody(requestBody: LRequestBody?): RequestBody? {
+    private fun buildRequestBody(requestBody: ZRequestBody?): RequestBody? {
         return requestBody?.let {
             RequestBody.create(MediaType.parse(it.mediaType.mediaType), it.content)
         }
@@ -33,7 +33,7 @@ object OkHttpHelper {
      * @return Request
      */
     @JvmStatic
-    fun buildRequest(request: LRequest): Request {
+    fun buildRequest(request: ZRequest): Request {
         val builder = Request.Builder()
         builder.url(request.url)
                 .method(
@@ -53,7 +53,7 @@ object OkHttpHelper {
      * @return 变更后的LResponse
      */
     @JvmStatic
-    fun copyResponse(from: Response, to: LResponse): LResponse {
+    fun copyResponse(from: Response, to: ZResponse): ZResponse {
         to.code = from.code()
         //
         val body = from.body()

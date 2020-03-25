@@ -28,6 +28,30 @@ import com.zaze.utils.log.ZTag
 object KotlinDebug {
 
     fun test(context: Activity) {
+//        val a: Int? = 1
+//        a?.let {
+//            if (it == 1) {
+//                true
+//            } else if (it == 2) {
+//                true
+//            } else {
+//                false
+//            }.let { state ->
+//                Log.w("Debug", "a1111 $state")
+//            }
+//        }
+//
+//        a?.let {
+//            if (it == 1) {
+//                true
+//            } else {
+//                false
+//            }.let { state ->
+//                Log.w("Debug", "a2222 $state")
+//            }
+//        }
+
+
         var result = ""
 //        if (hasPermissionToReadNetworkStats(activity)) {
 //            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -45,13 +69,13 @@ object KotlinDebug {
 //            DeviceChecker(activity).checkSafely()
 //        }, 0)
 
-        arrayListOf<String>("1", "2", "3").forEach {
-            if (it == "1") {
-                Log.i("test", "itititit : $it")
-                return@forEach
-            }
-            Log.i("test", it)
-        }
+//        arrayListOf<String>("1", "2", "3").forEach {
+//            if (it == "1") {
+//                Log.i("test", "itititit : $it")
+//                return@forEach
+//            }
+//            Log.i("test", it)
+//        }
 
 //        Log.i("test", "getSignatures = " + SignaturesUtil.getSignatures(context, "MD5")!!)
 //        AppUtil.getActivityManager(context).runningAppProcesses.forEach {

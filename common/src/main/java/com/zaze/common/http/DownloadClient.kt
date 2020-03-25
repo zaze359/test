@@ -6,5 +6,5 @@ package com.zaze.common.http
  * @version : 2019-07-12 - 15:40
  */
 interface DownloadClient {
-    fun download(request: LRequest, callback: DownloadCallback?)
+    fun download(request: ZRequest, callback: DownloadCallback?)
 }

@@ -7,6 +7,6 @@ package com.zaze.common.http
  */
 interface RequestClient {
 
-    fun request(request: LRequest): LResponse
+    fun request(request: ZRequest): ZResponse
 
 }

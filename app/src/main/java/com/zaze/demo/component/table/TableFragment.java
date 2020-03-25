@@ -26,6 +26,7 @@ import java.util.List;
  * @version : 2016-08-03 - 10:36
  */
 public class TableFragment extends AbsFragment {
+
     private SwipeRefreshLayout tableRefreshLayout;
     private RecyclerView tableRecyclerView;
     private TableAdapter adapter;

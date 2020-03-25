@@ -11,9 +11,9 @@ import org.json.JSONObject;
  * @author : ZAZE
  * @version : 2018-10-26 - 12:35
  */
-public abstract class LRequestBody {
+public abstract class ZRequestBody {
 
-    private LRequestBody() {
+    private ZRequestBody() {
     }
 
     /**
@@ -40,8 +40,8 @@ public abstract class LRequestBody {
      * @param content   content
      * @return LRequestBody
      */
-    public static LRequestBody create(@NonNull final LMediaType mediaType, final Object content) {
-        return new LRequestBody() {
+    public static ZRequestBody create(@NonNull final LMediaType mediaType, final Object content) {
+        return new ZRequestBody() {
             @Override
             public @NonNull
             String getContent() {
@@ -70,7 +70,7 @@ public abstract class LRequestBody {
      * @param content content
      * @return LRequestBody
      */
-    public static LRequestBody create(Object content) {
+    public static ZRequestBody create(Object content) {
         return create(new LMediaType(), content);
     }
 

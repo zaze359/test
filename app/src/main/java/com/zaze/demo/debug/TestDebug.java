@@ -3,6 +3,7 @@ package com.zaze.demo.debug;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.content.res.XmlResourceParser;
 import android.net.Uri;
@@ -12,7 +13,6 @@ import android.util.Log;
 
 import com.zaze.utils.FileUtil;
 import com.zaze.utils.ThreadManager;
-import com.zaze.utils.date.DateUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
@@ -29,10 +29,8 @@ import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
-import java.util.TimeZone;
 import java.util.regex.Pattern;
 
 import okhttp3.Call;
@@ -71,15 +69,22 @@ public class TestDebug {
 //            }
 //        });
 //        new A<B>().a("{\"a\" : \"abc\"}");
-//        aaaaaa(context);
+        aaaaaa(context);
 //        ZCommand.CommandResult result = ZCommand.execCmdForRes("dumpsys activity activities");
 //        Log.i(TAG, "CommandResult = " + result.successMsg);
-        Date date = DateUtil.stringToDate("0000-00-01", "yyyy-MM-dd", TimeZone.getDefault());
-        Random random = new Random(8);
-        Log.i(TAG, "date = " + date);
-        for (int i = 0; i < 10; i++) {
-            Log.i(TAG, "Random = " + random.nextInt(8));
-        }
+
+//        Date date = DateUtil.stringToDate("0000-00-01", "yyyy-MM-dd", TimeZone.getDefault());
+//        Random random = new Random(8);
+//        Log.i(TAG, "date = " + date);
+//        for (int i = 0; i < 10; i++) {
+//            Log.i(TAG, "Random = " + random.nextInt(8));
+//        }
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                new OkHttpRequestClient().request(new ZRequest.Builder().url("https://kyfw.12306.cn/otn/").build());
+//            }
+//        }).start();
     }
 
     private static final OkHttpClient client = new OkHttpClient();
@@ -87,6 +92,7 @@ public class TestDebug {
     //下载
     private static void download(final String url, final String savePath) {
         final long startTime = System.currentTimeMillis();
+
         Log.i(TAG, "startTime=" + startTime);
         Log.d(TAG, "download: url = " + url + " savePath = " + savePath);
         Request request = new Request.Builder().url(url).build();
@@ -181,18 +187,19 @@ public class TestDebug {
                     int count = 0;
                     List<PackageInfo> list = context.getPackageManager()
                             .getInstalledPackages(0);
-//                    for (PackageInfo info : list) {
-//                        if (count >= 1000) {
-//                            break;
-//                        }
-//                        try {
-//                            PackageInfo pi = context.getPackageManager()
-//                                    .getPackageInfo(info.packageName,
-//                                            PackageManager.GET_ACTIVITIES);
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
+                    for (PackageInfo info : list) {
+                        if (count >= 1000) {
+                            break;
+                        }
+                        count++;
+                        try {
+                            PackageInfo pi = context.getPackageManager()
+                                    .getPackageInfo(info.packageName,
+                                            PackageManager.GET_ACTIVITIES);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }.start();
         }
