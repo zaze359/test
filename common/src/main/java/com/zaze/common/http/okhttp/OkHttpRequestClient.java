@@ -1,15 +1,15 @@
 package com.zaze.common.http.okhttp;
 
-import com.zaze.common.http.LRequest;
-import com.zaze.common.http.LResponse;
 import com.zaze.common.http.RequestClient;
-import com.zaze.common.http.okhttp.OkHttpHelper;
+import com.zaze.common.http.ZRequest;
+import com.zaze.common.http.ZResponse;
 
-import okhttp3.OkHttpClient;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
 
 /**
  * Description :
@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 public class OkHttpRequestClient implements RequestClient {
     private static OkHttpClient client;
 
-    private static OkHttpClient getRequestClient(@NotNull LRequest request) {
+    private static OkHttpClient getRequestClient(@NotNull ZRequest request) {
         if (client == null) {
             OkHttpClient.Builder builder = new OkHttpClient.Builder()
                     .connectTimeout(10, TimeUnit.SECONDS)
@@ -48,8 +48,8 @@ public class OkHttpRequestClient implements RequestClient {
 
     @NotNull
     @Override
-    public LResponse request(@NotNull LRequest request) {
-        LResponse response = new LResponse(request);
+    public ZResponse request(@NotNull ZRequest request) {
+        ZResponse response = new ZResponse(request);
         try {
             return OkHttpHelper.copyResponse(getRequestClient(request).newCall(OkHttpHelper.buildRequest(request)).execute(), response);
         } catch (IOException e) {

@@ -5,7 +5,6 @@ import android.os.SystemClock;
 import androidx.annotation.NonNull;
 
 import com.zaze.utils.FileUtil;
-import com.zaze.utils.ThreadManager;
 import com.zaze.utils.ZCallback;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
@@ -30,6 +29,7 @@ import okhttp3.ResponseBody;
  * @author : ZAZE
  * @version : 2017-06-15 - 13:49
  */
+@Deprecated
 public class OkHttpUtil {
     private static OkHttpClient mOkHttpClient = new OkHttpClient();
 
@@ -57,42 +57,32 @@ public class OkHttpUtil {
             @Override
             public void onFailure(@NonNull final Call call, final IOException e) {
                 if (callback != null) {
-                    ThreadManager.getInstance().runInUIThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            ZLog.d(ZTag.TAG_HTTP, "onResponse onFailure: " + e.toString());
-                            callback.onError(-1, e.toString());
-                            callback.onCompleted();
-                        }
-                    });
+                    ZLog.d(ZTag.TAG_HTTP, "onResponse onFailure: " + e.toString());
+                    callback.onError(-1, e.toString());
+                    callback.onCompleted();
                 }
             }
 
             @Override
             public void onResponse(@NonNull final Call call, @NonNull final Response response) throws IOException {
                 if (callback != null) {
-                    ThreadManager.getInstance().runInUIThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            ResponseBody body = response.body();
-                            String bodyStr = "";
-                            if (body != null) {
-                                try {
-                                    bodyStr = body.string();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                ZLog.d(ZTag.TAG_HTTP, "onResponse body: " + bodyStr);
-                            }
-                            ZLog.d(ZTag.TAG_HTTP, "onResponse message: " + response.message());
-                            if (response.isSuccessful()) {
-                                callback.onNext(bodyStr);
-                            } else {
-                                callback.onError(response.code(), bodyStr + "  " + response.message());
-                            }
-                            callback.onCompleted();
+                    ResponseBody body = response.body();
+                    String bodyStr = "";
+                    if (body != null) {
+                        try {
+                            bodyStr = body.string();
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
-                    });
+                        ZLog.d(ZTag.TAG_HTTP, "onResponse body: " + bodyStr);
+                    }
+                    ZLog.d(ZTag.TAG_HTTP, "onResponse message: " + response.message());
+                    if (response.isSuccessful()) {
+                        callback.onNext(bodyStr);
+                    } else {
+                        callback.onError(response.code(), bodyStr + "  " + response.message());
+                    }
+                    callback.onCompleted();
                 }
             }
         });

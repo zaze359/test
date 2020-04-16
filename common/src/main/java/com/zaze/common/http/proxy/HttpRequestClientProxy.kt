@@ -1,9 +1,9 @@
 package com.zaze.common.http.proxy
 
 import com.zaze.common.base.BaseApplication
-import com.zaze.common.http.LRequest
-import com.zaze.common.http.LResponse
 import com.zaze.common.http.RequestClient
+import com.zaze.common.http.ZRequest
+import com.zaze.common.http.ZResponse
 import com.zaze.common.widget.CustomToast
 import com.zaze.utils.NetUtil
 
@@ -14,11 +14,11 @@ import com.zaze.utils.NetUtil
  */
 class HttpRequestClientProxy(private val client: RequestClient) : RequestClient {
 
-    override fun request(request: LRequest): LResponse {
+    override fun request(request: ZRequest): ZResponse {
         request.log()
-        val response: LResponse
+        val response: ZResponse
         if (!NetUtil.isAvailable(BaseApplication.getInstance())) {
-            response = LResponse(request).also {
+            response = ZResponse(request).also {
                 it.code = -1
                 it.message = "当前处于离线状态, 请连接可以网络"
             }

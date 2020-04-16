@@ -22,7 +22,6 @@ abstract class AbsFragment : Fragment() {
         }
     }
 
-
     /**
      * 构建loadingView
      * @return LoadingView

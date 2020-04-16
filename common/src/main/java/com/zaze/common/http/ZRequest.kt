@@ -1,7 +1,7 @@
 package com.zaze.common.http
 
-import com.zaze.utils.JsonUtil
 import com.zaze.utils.HttpUtil
+import com.zaze.utils.JsonUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import org.json.JSONException
@@ -12,7 +12,7 @@ import org.json.JSONException
  * @author : ZAZE
  * @version : 2018-10-26 - 12:35
  */
-class LRequest private constructor(builder: Builder) {
+class ZRequest private constructor(builder: Builder) {
     val url = builder.url
     val method = builder.method
     val headers = builder.headers
@@ -66,7 +66,7 @@ class LRequest private constructor(builder: Builder) {
                 map["Authorization"] = ""
             }
         }
-        internal var requestBody: LRequestBody? = null
+        internal var requestBody: ZRequestBody? = null
         internal var connectTimeout = 0
         internal var readTimeout = 0
         internal var writeTimeout = 0
@@ -139,7 +139,7 @@ class LRequest private constructor(builder: Builder) {
          * @param requestBody requestBody
          * @return Builder
          */
-        fun requestBody(requestBody: LRequestBody): Builder {
+        fun requestBody(requestBody: ZRequestBody): Builder {
             this.requestBody = requestBody
             return this
         }
@@ -209,8 +209,8 @@ class LRequest private constructor(builder: Builder) {
          *
          * @return LRequest
          */
-        fun build(): LRequest {
-            return LRequest(this)
+        fun build(): ZRequest {
+            return ZRequest(this)
         }
     }
 }

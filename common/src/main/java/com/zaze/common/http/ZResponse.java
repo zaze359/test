@@ -15,18 +15,18 @@ import java.util.Map;
  * @author : ZAZE
  * @version : 2018-12-21 - 00:37
  */
-public class LResponse {
-    private LRequest request;
+public class ZResponse {
+    private ZRequest request;
     private int code;
     private String responseBody;
     private Map<String, Object> headers;
     private String message;
 
-    public LResponse(LRequest request) {
+    public ZResponse(ZRequest request) {
         this.request = request;
     }
 
-    public LRequest getRequest() {
+    public ZRequest getRequest() {
         return request;
     }
 
@@ -46,7 +46,7 @@ public class LResponse {
         this.responseBody = responseBody;
     }
 
-    public void setRequest(LRequest request) {
+    public void setRequest(ZRequest request) {
         this.request = request;
     }
 
@@ -110,7 +110,7 @@ public class LResponse {
      * @param throwable throwable
      * @return 变更后的LResponse
      */
-    public LResponse copyFrom(@NotNull Throwable throwable) {
+    public ZResponse copyFrom(@NotNull Throwable throwable) {
         setCode(-1);
         setResponseBody(throwable.getMessage());
         return this;

@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.zaze.common.http.DownloadCallback;
 import com.zaze.common.http.DownloadClient;
-import com.zaze.common.http.LRequest;
+import com.zaze.common.http.ZRequest;
 import com.zaze.utils.FileUtil;
 
 import java.io.File;
@@ -42,7 +42,7 @@ public class OkHttpDownloadClient implements DownloadClient {
     // --------------------------------------------------
 
     @Override
-    public void download(@NonNull LRequest request, final DownloadCallback callback) {
+    public void download(@NonNull ZRequest request, final DownloadCallback callback) {
         final String destPath = request.getSavePath();
         getDownloadClient().newCall(OkHttpHelper.buildRequest(request)).enqueue(new Callback() {
 

@@ -3,7 +3,7 @@ package com.zaze.common.http.proxy
 import android.text.TextUtils
 import com.zaze.common.http.DownloadCallback
 import com.zaze.common.http.DownloadClient
-import com.zaze.common.http.LRequest
+import com.zaze.common.http.ZRequest
 import com.zaze.common.widget.CustomToast
 import com.zaze.utils.EncryptionUtil
 import com.zaze.utils.FileUtil
@@ -49,7 +49,7 @@ class HttpDownloadClientProxy(private val client: DownloadClient) : DownloadClie
     }
 
 
-    override fun download(request: LRequest, callback: DownloadCallback?) {
+    override fun download(request: ZRequest, callback: DownloadCallback?) {
         val url = request.url
         val savePath = request.savePath
         val md5 = request.md5

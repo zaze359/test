@@ -8,6 +8,8 @@ import androidx.annotation.NonNull;
 
 import com.zaze.demo.app.MyApplication;
 import com.zaze.utils.log.LogcatUtil;
+import com.zaze.utils.log.ZLog;
+import com.zaze.utils.log.ZTag;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -59,6 +61,7 @@ public class LogcatService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        ZLog.i(ZTag.TAG_DEBUG, "LogcatService onCreate");
         if (!LogcatUtil.isRunning()) {
             looperExecutor.execute(new Runnable() {
                 @Override

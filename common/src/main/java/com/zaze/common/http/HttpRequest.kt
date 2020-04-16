@@ -15,7 +15,7 @@ import io.reactivex.Observable
 class HttpRequest private constructor(
     client: RequestClient,
     downloadClient: DownloadClient,
-    private val request: LRequest
+    private val request: ZRequest
 ) {
     private val requestClient = HttpRequestClientProxy(client)
     private val downloadClient = HttpDownloadClientProxy(downloadClient)
@@ -25,7 +25,7 @@ class HttpRequest private constructor(
          * 构建默认Http请求方式
          */
         @JvmStatic
-        fun newCall(request: LRequest): HttpRequest {
+        fun newCall(request: ZRequest): HttpRequest {
             return newOkHttpCall(request)
         }
 
@@ -33,19 +33,19 @@ class HttpRequest private constructor(
          * 构建okHttp请求方式
          */
         @JvmStatic
-        fun newOkHttpCall(request: LRequest): HttpRequest {
+        fun newOkHttpCall(request: ZRequest): HttpRequest {
             return HttpRequest(OkHttpRequestClient(), OkHttpDownloadClient(), request)
         }
     }
 
-    fun request(): LResponse {
+    fun request(): ZResponse {
         return requestClient.request(request)
     }
 
     /**
      * Rx方式请求
      */
-    fun requestByRx(): Observable<LResponse> {
+    fun requestByRx(): Observable<ZResponse> {
         return Observable.fromCallable { request() }.subscribeOn(ThreadPlugins.requestScheduler())
             .observeOn(ThreadPlugins.ioScheduler())
     }
