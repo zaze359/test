@@ -37,10 +37,10 @@
                 android:id="@+id/device_calculate_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="计算dpi" />
+                android:text="计算物理尺寸" />
 
             <TextView
-                android:id="@+id/device_dpi"
+                android:id="@+id/device_inch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/dp_4" />
@@ -49,7 +49,7 @@
                 android:id="@+id/device_input"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="英寸"
+                android:hint="dpi"
                 android:inputType="" />
         </LinearLayout>
 

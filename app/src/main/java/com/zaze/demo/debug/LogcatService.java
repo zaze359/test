@@ -48,9 +48,11 @@ public class LogcatService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        stopSelf();
         if (looperExecutor != null) {
             looperExecutor.shutdownNow();
         }
+        ZLog.i(ZTag.TAG_DEBUG, "service onDestroy");
     }
 
     @Override

@@ -1,15 +1,22 @@
 package com.zaze.common.base;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
+import android.content.ComponentCallbacks;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.os.Bundle;
 import android.os.Process;
 import android.text.TextUtils;
 
+import com.zaze.common.thread.ThreadPlugins;
 import com.zaze.utils.DisplayUtil;
 import com.zaze.utils.cache.MemoryCacheManager;
 import com.zaze.utils.log.ZLog;
+import com.zaze.utils.log.ZTag;
 
 
 /**
@@ -20,6 +27,7 @@ import com.zaze.utils.log.ZLog;
  */
 public abstract class BaseApplication extends Application {
     private static BaseApplication instance;
+    private int aliveActivityCount = 0;
 
     public static BaseApplication getInstance() {
         if (instance == null) {
@@ -29,13 +37,64 @@ public abstract class BaseApplication extends Application {
         }
     }
 
+    private void initDisplay() {
+        DisplayUtil.init(this, -1);
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        ZLog.i(ZTag.TAG_DEBUG, "initDisplay");
+        initDisplay();
+
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
-        DisplayUtil.init(this);
         ZLog.setNeedStack(true);
-//        ZLog.setLogLevel(ZLogLevel.DEBUG);
+        this.registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+            @Override
+            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+                aliveActivityCount ++;
+                ZLog.i(ZTag.TAG_DEBUG, "onActivityCreated aliveActivityCount: " + aliveActivityCount);
+            }
+
+            @Override
+            public void onActivityStarted(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityResumed(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityPaused(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityStopped(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+            }
+
+            @Override
+            public void onActivityDestroyed(Activity activity) {
+                aliveActivityCount --;
+                if(aliveActivityCount == 0) {
+                    // 此时没有活着的activity
+                }
+                ZLog.i(ZTag.TAG_DEBUG, "onActivityDestroyed aliveActivityCount: " + aliveActivityCount);
+            }
+        });
     }
 
     @Override
@@ -53,13 +112,18 @@ public abstract class BaseApplication extends Application {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        DisplayUtil.init(this);
+        initDisplay();
+    }
+
+    @Override
+    public Resources getResources() {
+//        ZLog.i(ZTag.TAG_DEBUG, "getResources");
+        return DisplayUtil.replaceResource(super.getResources());
     }
 
     public boolean isPortrait() {
         return this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
     }
-
 
     /**
      * 是否是主进程

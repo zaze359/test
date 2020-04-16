@@ -62,10 +62,7 @@ object BmpUtil {
                         // Ensure the bitmap has a density.
                         val bitmap = drawable.bitmap
                         if (bitmap.density == Bitmap.DENSITY_NONE) {
-                            val displayMetrics = DisplayUtil.getMetrics()
-                            if (displayMetrics != null) {
-                                drawable.setTargetDensity(displayMetrics)
-                            }
+                            drawable.setTargetDensity(DisplayUtil.getMetrics())
                         }
                     }
                 }
@@ -110,10 +107,7 @@ object BmpUtil {
                 if (drawable is BitmapDrawable) {
                     val bitmap = drawable.bitmap
                     if (bitmap.density == Bitmap.DENSITY_NONE) {
-                        val displayMetrics = DisplayUtil.getMetrics()
-                        if (displayMetrics != null) {
-                            drawable.setTargetDensity(displayMetrics)
-                        }
+                        drawable.setTargetDensity(DisplayUtil.getMetrics())
                     }
                 }
                 val config = if (drawable.opacity != PixelFormat.OPAQUE) {

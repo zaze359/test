@@ -16,18 +16,13 @@ import java.util.*
 
 /**
  * Description :
-
  * @author : ZAZE
- * *
  * @version : 2017-08-01 - 13:43
  */
+@SuppressLint("HardwareIds")
 object DeviceUtil {
-    // --------------------------------------------------
-    // --------------------------------------------------
     /**
-     * Description : 设备第一次启动时产生和存储的64bit的一个数，当设备被wipe后该数重置
-     * @author zaze
-     * @version 2017/8/1 - 下午1:52 1.0
+     * 设备第一次启动时产生和存储的64bit的一个数，当设备被wipe后该数重置
      */
     @JvmStatic
     fun getAndroidId(context: Context): String {
@@ -37,13 +32,18 @@ object DeviceUtil {
     @SuppressLint("MissingPermission")
     @JvmStatic
     fun getDeviceId(context: Context): String? {
-        return (context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager).deviceId
+        return getTelephonyManager(context).deviceId
     }
 
     @SuppressLint("MissingPermission")
     @JvmStatic
     fun getSimSerialNumber(context: Context): String? {
-        return (context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager).simSerialNumber
+        return getTelephonyManager(context).simSerialNumber
+    }
+
+    @JvmStatic
+    fun getTelephonyManager(context: Context): TelephonyManager {
+        return context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
     }
 
     /**

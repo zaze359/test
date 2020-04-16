@@ -44,14 +44,20 @@ class AppAdapter(context: Context, data: Collection<AppShortcut>) : BaseRecycler
     override fun onBindView(holder: PackageHolder, value: AppShortcut, position: Int) {
         val packageName = ZStringUtil.parseString(value.packageName)
         // --------------------------------------------------
-        holder.itemAppNumBtn.text = "${position + 1} : 复制应用"
-        holder.itemAppNumBtn.setOnClickListener {
-            val path = "/sdcard/zaze/apk/${value.name}(${value.packageName}).apk"
-            if (value.isCopyEnable) {
-                FileUtil.copy(File(value.sourceDir), File(path))
+        holder.itemAppNumTv.text = "${position + 1}"
+        if(value.isCopyEnable) {
+            holder.itemAppExportBtn.visibility = View.VISIBLE
+            holder.itemAppExportBtn.setOnClickListener {
+                val path = "/sdcard/zaze/apk/${value.name}(${value.packageName}).apk"
+                if (value.isCopyEnable) {
+                    FileUtil.copy(File(value.sourceDir), File(path))
+                }
+                ToastUtil.toast(context, "成功复制到 $path")
             }
-            ToastUtil.toast(context, "成功复制到 $path")
+        } else {
+            holder.itemAppExportBtn.visibility = View.GONE
         }
+
         holder.itemAppNameTv.text = "应用名 : ${value.name}"
         holder.itemAppVersionCodeTv.text = "版本号 ：${value.versionCode}"
         holder.itemAppVersionNameTv.text = "版本名 ：${value.versionName}"
@@ -105,7 +111,8 @@ class AppAdapter(context: Context, data: Collection<AppShortcut>) : BaseRecycler
     }
 
     inner class PackageHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var itemAppNumBtn: Button = itemView.findViewById(R.id.item_app_num_btn)
+        var itemAppNumTv: TextView = itemView.findViewById(R.id.item_app_num_tv)
+        var itemAppExportBtn: Button = itemView.findViewById(R.id.item_app_export_btn)
         var itemAppIv: ImageView = itemView.findViewById(R.id.item_app_iv)
         var itemAppNameTv: TextView = itemView.findViewById(R.id.item_app_name_tv)
         var itemAppPackageTv: TextView = itemView.findViewById(R.id.item_app_package_tv)

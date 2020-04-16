@@ -1,5 +1,7 @@
 package com.zaze.common.base
 
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Bundle
 import androidx.annotation.ArrayRes
 import androidx.annotation.DimenRes
@@ -100,6 +102,14 @@ abstract class AbsActivity : AppCompatActivity() {
      */
     fun getStringArray(@ArrayRes resId: Int): Array<String> {
         return this.resources.getStringArray(resId)
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+    }
+
+    override fun getResources(): Resources {
+        return BaseApplication.getInstance().resources
     }
 }
 

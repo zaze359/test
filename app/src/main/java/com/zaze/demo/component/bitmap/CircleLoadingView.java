@@ -117,6 +117,7 @@ public class CircleLoadingView extends View {
     public void setImageBitmap(Bitmap bm) {
         this.mOriginBitmap = bm;
         initRect();
+        postInvalidate();
     }
 
     /**

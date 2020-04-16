@@ -28,10 +28,8 @@ class AppActivity : AbsActivity() {
         setContentView(R.layout.app_act)
         viewModel = obtainViewModel(AppViewModel::class.java).apply {
             appData.observe(this@AppActivity, Observer { appList ->
-                appCountTv.text = "${appList.size}"
-                adapter?.let {
-                    it.setDataList(appList)
-                } ?: let {
+                appCountTv.text = "查询到 ${appList.size}个应用"
+                adapter?.setDataList(appList) ?: let {
                     adapter = AppAdapter(this@AppActivity, appList)
                     appRecycleView.layoutManager = LinearLayoutManager(this@AppActivity)
                     appRecycleView.adapter = adapter

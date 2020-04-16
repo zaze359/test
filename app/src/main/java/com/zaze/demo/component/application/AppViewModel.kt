@@ -28,6 +28,8 @@ import org.json.JSONObject
  * @version : 2019-05-20 - 13:04
  */
 class AppViewModel(application: Application) : AbsAndroidViewModel(application) {
+    private var matchStr = ""
+
     companion object {
         val apkDir = "${FileUtil.getSDCardRoot()}/zaze/apk"
         val baseDir = "${FileUtil.getSDCardRoot()}/zaze/${Build.MODEL}"
@@ -43,6 +45,70 @@ class AppViewModel(application: Application) : AbsAndroidViewModel(application) 
     val packageSet = HashMap<String, AppShortcut>()
     val appData = MutableLiveData<List<AppShortcut>>()
     // --------------------------------------------------
+    private fun loadAllInstallApp(appList: List<ApplicationInfo>, packageSet: HashMap<String, AppShortcut>) {
+        appList.forEach {
+            packageSet[it.packageName] = ApplicationManager.getAppShortcut(it.packageName)
+        }
+    }
+
+    private fun loadSystemApp(appList: List<ApplicationInfo>, packageSet: HashMap<String, AppShortcut>) {
+        appList.filter { it.flags and ApplicationInfo.FLAG_SYSTEM > 0 }
+                .forEach {
+                    packageSet[it.packageName] = ApplicationManager.getAppShortcut(it.packageName)
+                }
+    }
+
+    private fun loadUnSystemApp(appList: List<ApplicationInfo>, packageSet: HashMap<String, AppShortcut>) {
+        appList.filter { it.flags and ApplicationInfo.FLAG_SYSTEM <= 0 }
+                .forEach {
+                    packageSet[it.packageName] = ApplicationManager.getAppShortcut(it.packageName)
+                }
+    }
+
+
+    // --------------------------------------------------
+    fun extractApp() {
+        if (!isLoading()) {
+            dataLoading.set(true)
+            showProgress("正在提前数据....")
+            Observable.fromCallable {
+                val dataList = appData.get()
+                if (dataList != null) {
+                    FileUtil.deleteFile(extractFile)
+                    FileUtil.deleteFile(jsonExtractFile)
+                    val builder = StringBuilder()
+                    val jsonArray = JSONArray()
+                    for (entity in dataList) {
+                        if (builder.isNotEmpty()) {
+                            builder.append("\n")
+                        }
+                        builder.append("<item>${entity.packageName}</item><!--${entity.name}-->")
+                        //
+                        val jsonObj = JSONObject()
+                        jsonObj.put("name", entity.name)
+                        jsonObj.put("packageName", entity.packageName)
+                        jsonArray.put(jsonObj)
+                    }
+                    FileUtil.writeToFile(extractFile, builder.toString())
+                    FileUtil.writeToFile(jsonExtractFile, jsonArray.toString())
+                }
+            }.subscribeOn(ThreadPlugins.ioScheduler())
+                    .doFinally {
+                        dataLoading.set(false)
+                        hideProgress()
+                    }
+                    .subscribe(MyObserver(compositeDisposable))
+        }
+    }
+
+    // ------------------------------------------------------
+
+    private fun show(apps: MutableCollection<AppShortcut>) {
+        appData.postValue(apps.filter {
+            !TextUtils.isEmpty(it.sourceDir)
+        })
+    }
+
     fun loadAppList() {
         if (!isLoading()) {
             dataLoading.set(true)
@@ -82,40 +148,14 @@ class AppViewModel(application: Application) : AbsAndroidViewModel(application) 
                 filterSet.forEach {
                     packageSet.remove(it)
                 }
-                show(packageSet.values)
             }.subscribeOn(ThreadPlugins.ioScheduler())
                     .doFinally {
+                        matchApp(packageSet.values)
                         dataLoading.set(false)
                         hideProgress()
                     }
                     .subscribe(MyObserver(compositeDisposable))
         }
-    }
-
-    private fun show(apps: MutableCollection<AppShortcut>) {
-        appData.postValue(apps.filter {
-            !TextUtils.isEmpty(it.sourceDir)
-        })
-    }
-
-    private fun loadAllInstallApp(appList: List<ApplicationInfo>, packageSet: HashMap<String, AppShortcut>) {
-        appList.forEach {
-            packageSet[it.packageName] = ApplicationManager.getAppShortcut(it.packageName)
-        }
-    }
-
-    private fun loadSystemApp(appList: List<ApplicationInfo>, packageSet: HashMap<String, AppShortcut>) {
-        appList.filter { it.flags and ApplicationInfo.FLAG_SYSTEM > 0 }
-                .forEach {
-                    packageSet[it.packageName] = ApplicationManager.getAppShortcut(it.packageName)
-                }
-    }
-
-    private fun loadUnSystemApp(appList: List<ApplicationInfo>, packageSet: HashMap<String, AppShortcut>) {
-        appList.filter { it.flags and ApplicationInfo.FLAG_SYSTEM <= 0 }
-                .forEach {
-                    packageSet[it.packageName] = ApplicationManager.getAppShortcut(it.packageName)
-                }
     }
 
     fun loadSdcardApk() {
@@ -126,52 +166,15 @@ class AppViewModel(application: Application) : AbsAndroidViewModel(application) 
                 val showList = ArrayList<AppShortcut>()
                 FileUtil.searchFileBySuffix(apkDir, "apk", true).forEach { file ->
                     initEntity(ApplicationManager.getAppShortcutFormApk(file.absolutePath))?.let {
+                        it.isCopyEnable = false
                         showList.add(it)
                     }
                 }
                 showList
             }.subscribeOn(ThreadPlugins.ioScheduler())
-                    .map { showList ->
-                        appData.postValue(showList.filter {
-                            !TextUtils.isEmpty(it.sourceDir)
-                        })
-
+                    .map {
+                        matchApp(it)
                     }
-                    .doFinally {
-                        dataLoading.set(false)
-                        hideProgress()
-                    }
-                    .subscribe(MyObserver(compositeDisposable))
-        }
-    }
-
-    // --------------------------------------------------
-    fun extractApp() {
-        if (!isLoading()) {
-            dataLoading.set(true)
-            showProgress("正在提前数据....")
-            Observable.fromCallable {
-                val dataList = appData.get()
-                if (dataList != null) {
-                    FileUtil.deleteFile(extractFile)
-                    FileUtil.deleteFile(jsonExtractFile)
-                    val builder = StringBuilder()
-                    val jsonArray = JSONArray()
-                    for (entity in dataList) {
-                        if (builder.isNotEmpty()) {
-                            builder.append("\n")
-                        }
-                        builder.append("<item>${entity.packageName}</item><!--${entity.name}-->")
-                        //
-                        val jsonObj = JSONObject()
-                        jsonObj.put("name", entity.name)
-                        jsonObj.put("packageName", entity.packageName)
-                        jsonArray.put(jsonObj)
-                    }
-                    FileUtil.writeToFile(extractFile, builder.toString())
-                    FileUtil.writeToFile(jsonExtractFile, jsonArray.toString())
-                }
-            }.subscribeOn(ThreadPlugins.ioScheduler())
                     .doFinally {
                         dataLoading.set(false)
                         hideProgress()
@@ -181,8 +184,13 @@ class AppViewModel(application: Application) : AbsAndroidViewModel(application) 
     }
 
     fun filterApp(matchStr: String) {
+        this.matchStr = matchStr
+        matchApp(packageSet.values)
+    }
+
+    private fun matchApp(appList : MutableCollection<AppShortcut>) {
         Observable.create<MutableCollection<AppShortcut>> { e ->
-            e.onNext(packageSet.values)
+            e.onNext(appList)
             e.onComplete()
         }.subscribeOn(ThreadPlugins.ioScheduler())
                 .flatMap {

@@ -12,4 +12,22 @@
         app:hSpace="@dimen/dp_20"
         app:vSpace="@dimen/dp_20" />
 
+    <com.zaze.demo.component.customview.TouchViewFirst
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.zaze.demo.component.customview.TouchViewSecond
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.zaze.demo.component.customview.TouchViewThird
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" />
+        </com.zaze.demo.component.customview.TouchViewSecond>
+
+    </com.zaze.demo.component.customview.TouchViewFirst>
+
 </LinearLayout>

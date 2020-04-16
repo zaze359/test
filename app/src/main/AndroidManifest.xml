@@ -84,12 +84,9 @@
         <!-- 测试接收推送 end -->
         <!--  -->
         <service android:name=".component.socket.AlarmService" />
-        <service android:name=".debug.LogcatService">
-            <intent-filter>
-                <action android:name="com.xuehai.logcat.service.start" />
-                <action android:name="com.xuehai.logcat.service.stop" />
-            </intent-filter>
-        </service>
+        <service android:name=".debug.LogcatService"
+            android:process=":logcat"
+            />
         <service
             android:name=".debug.MessengerService"
             android:process=":messenger" />
@@ -121,7 +118,7 @@
             android:name=".component.toolbar.ToolBarDemoActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".component.device.ui.DeviceActivity"
+            android:name=".component.device.DeviceActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".component.gps.ui.GpsActivity" />
         <activity
@@ -200,7 +197,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".component.customview.ui.CustomViewActivity"
+            android:name=".component.customview.CustomViewActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".component.network.NetworkStatsActivity"

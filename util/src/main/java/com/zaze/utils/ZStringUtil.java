@@ -22,6 +22,9 @@ public class ZStringUtil {
      */
     public static String format(String format, Object... args) {
         try {
+            if(args == null) {
+                return format;
+            }
             return String.format(Locale.getDefault(), format, args);
         } catch (Exception e) {
             return format;

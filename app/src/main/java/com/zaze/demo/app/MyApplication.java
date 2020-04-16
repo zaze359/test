@@ -4,6 +4,7 @@ package com.zaze.demo.app;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.LinkProperties;
@@ -13,7 +14,9 @@ import android.os.Build;
 
 import com.tencent.bugly.crashreport.CrashReport;
 import com.zaze.common.base.BaseApplication;
+import com.zaze.common.thread.ThreadPlugins;
 import com.zaze.demo.component.network.compat.AnalyzeTrafficCompat;
+import com.zaze.demo.debug.LogcatService;
 import com.zaze.demo.debug.wifi.WifiCompat;
 import com.zaze.demo.receiver.PackageReceiver;
 import com.zaze.utils.cache.MemoryCacheManager;
@@ -46,9 +49,19 @@ public class MyApplication extends BaseApplication {
     public void onCreate() {
         super.onCreate();
 //        FileUtil.setShowLog(true);
+        ThreadPlugins.runInUIThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    startService(new Intent(getInstance(), LogcatService.class));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 10_000L);
         MemoryCacheManager.setCacheLog(true);
         AnalyzeTrafficCompat.setNeedLog(true);
-        CrashReport.initCrashReport(getApplicationContext(), "ecf90d7662", true);
+//        CrashReport.initCrashReport(getApplicationContext(), "ecf90d7662", true);
         //
 //        FontUtil.setDefaultFontFormSystem("DEFAULT", "Roboto-Light.ttf");
         //
