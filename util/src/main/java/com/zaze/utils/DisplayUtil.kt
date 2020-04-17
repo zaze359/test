@@ -50,7 +50,21 @@ object DisplayUtil {
 
     @JvmStatic
     fun getMetrics(): DisplayMetrics {
-        return matchedDisplayProfile?.metrics ?: displayProfile.metrics
+        return getDisplayProfile().metrics
+    }
+
+    @JvmStatic
+    fun getScreenWidthDp(): Float {
+        return getDisplayProfile().widthDp
+    }
+
+    @JvmStatic
+    fun getScreenHeightDp(): Float {
+        return getDisplayProfile().heightDp
+    }
+
+    fun getDisplayProfile(): DisplayProfile {
+        return matchedDisplayProfile ?: displayProfile
     }
 
     // --------------------------------------------------
