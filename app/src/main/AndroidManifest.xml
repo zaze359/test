@@ -70,7 +70,7 @@
             android:name=".component.notification.receiver.TestBroadcastReceiver"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.xh.message.testappid" />
+                <action android:name="android.intent.action.message.testappid" />
             </intent-filter>
         </receiver>
         <receiver

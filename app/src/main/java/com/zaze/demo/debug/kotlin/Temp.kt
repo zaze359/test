@@ -111,13 +111,7 @@ object Temp {
             val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             val list = imm.inputMethodList
             if (list != null && !list.isEmpty()) {
-                list.forEach { inputMethod ->
-                    if (inputMethod.id.contains("com.xh.ime")) {
-                        return inputMethod.id
-                    }
-                }
-//                return list[0].id
-                return ""
+                return list[0].id
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -180,11 +174,11 @@ object Temp {
     @JvmStatic
     fun getTargetActivityIntent(activity: Activity, className: String): Intent? {
         val intent = Intent()
-        intent.setClassName("com.xuehai.launcher", className)
+        intent.setClassName("com.aaa", className)
         if (isActivityExist(activity, intent)) {
             return intent
         }
-        intent.setClassName("com.xuehai.response_launcher_teacher", className)
+        intent.setClassName("com.aaaa", className)
         if (isActivityExist(activity, intent)) {
             return intent
         }

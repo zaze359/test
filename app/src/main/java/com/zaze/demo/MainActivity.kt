@@ -46,7 +46,7 @@ class MainActivity : AbsActivity() {
     private val fragmentList = ArrayList<AbsFragment>()
 
     private var intervalButton: IntervalButtonWidget? = null
-    private val dirListener = LogDirListener(FileUtil.getSDCardRoot() + "/xuehai")
+    private val dirListener = LogDirListener(FileUtil.getSDCardRoot() + "/zaze")
 
     private val messenger = Messenger(object : Handler() {
         override fun handleMessage(msg: Message?) {

@@ -65,7 +65,7 @@ public class MyApplication extends BaseApplication {
         //
 //        CrashReport.initCrashReport(getApplicationContext(), "900013682", false);
 //        receiver = new TestBroadcastReceiver();
-//        IntentFilter intentFilter = new IntentFilter("android.intent.action.xh.message.testappid");
+//        IntentFilter intentFilter = new IntentFilter("android.intent.action.message.testappid");
 //        registerReceiver(receiver, intentFilter);
         if (isMainProcess()) {
             mClipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);

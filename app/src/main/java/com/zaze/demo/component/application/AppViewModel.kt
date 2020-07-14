@@ -130,16 +130,7 @@ class AppViewModel(application: Application) : AbsAndroidViewModel(application) 
                 packageSet.remove(BaseApplication.getInstance().packageName)
                 // --------------------------------------------------
                 val filterSet = HashSet<String>()
-//                filterSet.addAll(getStringArray(R.array.xuehai_keep_app).toList())
 //                filterSet.addAll(getStringArray(R.array.un_keep_app).toList())
-//                filterSet.addAll(getStringArray(R.array.android_keep_app).toList())
-//                filterSet.addAll(getStringArray(R.array.android_un_keep_app).toList())
-//                filterSet.addAll(getStringArray(R.array.samsung_keep_app).toList())
-//                filterSet.addAll(getStringArray(R.array.samsung_un_keep_app).toList())
-//                filterSet.addAll(getStringArray(R.array.huawei_keep_app).toList())
-//                filterSet.addAll(getStringArray(R.array.huawei_un_keep_app).toList())
-//                filterSet.addAll(getStringArray(R.array.lenovo_keep_app).toList())
-//                filterSet.addAll(getStringArray(R.array.lenovo_un_keep_app).toList())
                 // --------------------------------------------------
 //                filterSet.addAll(getStringArray(R.array.test_app).toList())
                 // 添加规则--------------------------------------------------

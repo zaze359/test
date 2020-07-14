@@ -16,7 +16,7 @@ import com.zaze.utils.log.ZTag;
  */
 public class TestBroadcastReceiver extends BroadcastReceiver {
 
-    public static final String ACTION = "android.intent.action.xh.message.testappid";
+    public static final String ACTION = "android.intent.action.message.testappid";
     public static final String TEST = "test";
     public static final String ID = "id";
 

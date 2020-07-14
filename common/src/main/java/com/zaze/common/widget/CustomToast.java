@@ -5,14 +5,6 @@ import android.widget.Toast;
 import com.zaze.common.base.BaseApplication;
 import com.zaze.common.thread.ThreadPlugins;
 
-
-/**
- * Desc: 自定义Toast
- * Company: XueHai
- * Copyright: Copyright (c) 2016
- *
- * @author JiLin
- */
 public class CustomToast {
 
     /**

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xuehai.launcher.common.widget.WidthFitSquareLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -24,6 +24,6 @@
         android:textSize="18sp"
         tools:text="作业包比较大请稍后再试" />
 
-</com.xuehai.launcher.common.widget.WidthFitSquareLayout>
+</LinearLayout>
 
 
