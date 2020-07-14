@@ -66,14 +66,13 @@ public class WifiCompat {
      * Android 5以上使用connectivityManager.requestNetwork 设置监听
      * 以下使用动态注册广播监听
      */
-    public static void listenerByConn() {
+    public static void listenerByConn(ConnectivityManager.NetworkCallback networkCallback) {
         Application context = MyApplication.getInstance();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             if (connectivityManager != null &&
                     ContextCompat.checkSelfPermission(context, Manifest.permission.CHANGE_NETWORK_STATE) == PackageManager.PERMISSION_GRANTED) {
                 // 保证获取权限
-                ConnectivityManager.NetworkCallback networkCallback = MyApplication.getInstance().networkCallback;
                 if (networkCallback != null) {
                     connectivityManager.requestNetwork(new NetworkRequest.Builder().build(), networkCallback);
                 }

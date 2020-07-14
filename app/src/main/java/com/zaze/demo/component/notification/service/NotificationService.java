@@ -30,7 +30,7 @@ public class NotificationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "aaa");
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                 new Intent(this, AppActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -40,13 +40,12 @@ public class NotificationService extends Service {
                 .setContentText("通知内容")
                 .setTicker("Test Ticker")
                 .setAutoCancel(true)
+//                .setOngoing(true)
                 .setDefaults(~NotificationCompat.DEFAULT_SOUND ^ NotificationCompat.DEFAULT_VIBRATE)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setOngoing(true);
+                .setPriority(NotificationCompat.PRIORITY_HIGH);
         Notification notification = builder.build();
         startForeground(2, notification);
         // --------------------------------------------------
-//        notification(intent);
         return super.onStartCommand(intent, flags, startId);
     }
 

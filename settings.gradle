@@ -1,1 +1,2 @@
 include ':app', ':localrepo', ':animations', ':util', ':common'
+include ':nativelib'

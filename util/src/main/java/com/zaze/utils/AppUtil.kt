@@ -329,6 +329,7 @@ object AppUtil {
      * @version 2017/5/31 - 下午2:54 1.0
      */
     @JvmStatic
+    @Deprecated("")
     fun install(context: Context, filePath: String) {
         val file = File(filePath)
         if (file.exists()) {

@@ -47,7 +47,7 @@ public class TableFragment extends AbsFragment {
         tableRecyclerView = rootView.findViewById(R.id.table_recycler_view);
 
         tableViewModel = ViewModelFactoryKt.obtainViewModel(this, TableViewModel.class);
-        tableViewModel.getData().observe(this, new Observer<List<TableEntity>>() {
+        tableViewModel.getData().observe(getViewLifecycleOwner(), new Observer<List<TableEntity>>() {
             @Override
             public void onChanged(List<TableEntity> tableEntities) {
                 showAppList(tableEntities);

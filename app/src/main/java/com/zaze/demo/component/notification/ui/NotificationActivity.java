@@ -90,7 +90,9 @@ public class NotificationActivity extends BaseActivity implements NotificationVi
                     .setContentTitle("title")
                     .setContentText("content")
                     .setAutoCancel(true)
-                    .setChannelId(context.getPackageName());
+                    .setDefaults(~NotificationCompat.DEFAULT_SOUND ^ NotificationCompat.DEFAULT_VIBRATE)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setOngoing(true);
 //                .setOngoing(true)
             // 设置通知主题的意图
 //            Intent resultIntent = new Intent(this, TaskActivity.class);

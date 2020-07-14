@@ -1,6 +1,7 @@
 package com.zaze.utils.log;
 
 import android.content.Context;
+import android.os.SystemClock;
 import android.text.TextUtils;
 
 import com.zaze.utils.FileUtil;
@@ -37,18 +38,8 @@ public class LogcatUtil {
      *
      * @return boolean
      */
-    public static boolean startCatchLog(Context context) {
-        return startCatchLog(ZStringUtil.format("%s/catch#%s#.log", FileUtil.getSDCardRoot() + "/zaze/log", context.getPackageName()));
-    }
-
-    /**
-     * logcat *:E
-     *
-     * @param savePath savePath
-     * @return boolean
-     */
-    public static boolean startCatchLog(String savePath) {
-        return startCatchLog(savePath, 10L << 20);
+    public static void startCatchLog(Context context) {
+        startCatchLog(ZStringUtil.format("%s/catch#%s#.log", FileUtil.getSDCardRoot() + "/zaze/log", context.getPackageName()), 10L << 20);
     }
 
     /**
@@ -58,9 +49,9 @@ public class LogcatUtil {
      * @param maxSize  maxSize
      * @return maxSize
      */
-    public static boolean startCatchLog(String savePath, long maxSize) {
+    public static void startCatchLog(String savePath, long maxSize) {
 //        return startCatchLog("logcat -v time process |grep " + android.os.Process.myPid(), savePath, maxSize);
-        return startCatchLog("logcat -v time", savePath, maxSize);
+        startCatchLog("logcat -v time", savePath, maxSize);
     }
 
 
@@ -70,15 +61,15 @@ public class LogcatUtil {
      * @param savePath savePath
      * @return boolean
      */
-    public static boolean startCatchLog(String command, String savePath, long maxSize) {
+    public static void startCatchLog(String command, String savePath, long maxSize) {
         ZLog.i(ZTag.TAG_CMD, "command : " + command);
         if (isRunning) {
-            return true;
+            return;
         }
         isRunning = true;
         int result = -1;
         if (TextUtils.isEmpty(command)) {
-            return false;
+            return;
         }
         Process process = null;
         BufferedReader successReader = null;
@@ -92,7 +83,8 @@ public class LogcatUtil {
             String line;
             while (isRunning) {
                 if ((line = successReader.readLine()) != null) {
-                    FileUtil.writeToFile(savePath, line + "\n", maxSize);
+                    isRunning = FileUtil.writeToFile(savePath, line + "\n", maxSize);
+                    SystemClock.sleep(300L);
                 }
             }
             isRunning = false;
@@ -110,6 +102,5 @@ public class LogcatUtil {
                 e.printStackTrace();
             }
         }
-        return ZCommand.isSuccess(result);
     }
 }

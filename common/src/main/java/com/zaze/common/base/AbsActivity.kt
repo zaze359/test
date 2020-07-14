@@ -1,8 +1,9 @@
 package com.zaze.common.base
 
-import android.content.res.Configuration
+import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
+import android.os.PersistableBundle
 import androidx.annotation.ArrayRes
 import androidx.annotation.DimenRes
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +13,7 @@ import com.zaze.common.base.ext.setImmersion
 import com.zaze.common.widget.loading.LoadingDialog
 import com.zaze.common.widget.loading.LoadingView
 import com.zaze.utils.ToastUtil
+import com.zaze.utils.log.ZLog
 
 /**
  * Description :
@@ -20,12 +22,23 @@ import com.zaze.utils.ToastUtil
  * @version : 2018-11-30 - 15:48
  */
 abstract class AbsActivity : AppCompatActivity() {
+
+    companion object {
+        private const val showLifeCycle = true
+        private const val TAG = "LifeCycle"
+    }
+
+    val activityName = "${this.javaClass.simpleName}@${Integer.toHexString(this.hashCode())}"
+
     private val loadingDialog by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
         LoadingDialog(this, createLoadingView())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (showLifeCycle) {
+            ZLog.i(TAG, "$activityName onCreate")
+        }
         init(savedInstanceState)
         setImmersion(isFullScreen(), getStatusBarColor())
     }
@@ -34,7 +47,63 @@ abstract class AbsActivity : AppCompatActivity() {
      * onCreate(savedInstanceState)中的初始化
      * [savedInstanceState] savedInstanceState
      */
-    abstract fun init(savedInstanceState: Bundle?)
+    open fun init(savedInstanceState: Bundle?) {}
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        if (showLifeCycle)
+            ZLog.i(TAG, "$activityName onNewIntent")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (showLifeCycle)
+            ZLog.i(TAG, "$activityName onStart")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        if (showLifeCycle)
+            ZLog.i(TAG, "$activityName onRestart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (showLifeCycle)
+            ZLog.i(TAG, "$activityName onResume")
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
+        super.onSaveInstanceState(outState, outPersistentState)
+        if (showLifeCycle)
+            ZLog.i(TAG, "$activityName onSaveInstanceState")
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        if (showLifeCycle)
+            ZLog.i(TAG, "$activityName onRestoreInstanceState")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (showLifeCycle)
+            ZLog.i(TAG, "$activityName onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (showLifeCycle)
+            ZLog.i(TAG, "$activityName onStop")
+    }
+
+
+    override fun onDestroy() {
+        loadingDialog.dismiss()
+        super.onDestroy()
+        if (showLifeCycle)
+            ZLog.i(TAG, "$activityName onDestroy")
+    }
     // --------------------------------------------------
     /**
      * 构建loadingView
@@ -83,12 +152,6 @@ abstract class AbsActivity : AppCompatActivity() {
             loadingDialog.setText(message).show()
         }
     }
-
-    override fun onDestroy() {
-        loadingDialog.dismiss()
-        super.onDestroy()
-    }
-
     // --------------------------------------------------
     /**
      * 读取dimen 转 px
@@ -104,12 +167,9 @@ abstract class AbsActivity : AppCompatActivity() {
         return this.resources.getStringArray(resId)
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration?) {
-        super.onConfigurationChanged(newConfig)
-    }
-
     override fun getResources(): Resources {
         return BaseApplication.getInstance().resources
     }
+
 }
 

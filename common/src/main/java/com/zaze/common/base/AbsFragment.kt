@@ -1,5 +1,9 @@
 package com.zaze.common.base
 
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.ArrayRes
 import androidx.annotation.DimenRes
 import androidx.core.content.ContextCompat
@@ -8,6 +12,7 @@ import com.zaze.common.R
 import com.zaze.common.widget.loading.LoadingDialog
 import com.zaze.common.widget.loading.LoadingView
 import com.zaze.utils.ToastUtil
+import com.zaze.utils.log.ZLog
 
 /**
  * Description :
@@ -16,10 +21,37 @@ import com.zaze.utils.ToastUtil
  */
 abstract class AbsFragment : Fragment() {
 
+    companion object {
+        private const val showLifeCycle = true
+        private const val TAG = "LifeCycle"
+    }
+    val fragmentName = "${this.javaClass.simpleName}@${Integer.toHexString(this.hashCode())}"
+
+
     private val loadingDialog: LoadingDialog? by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
         context?.let {
             LoadingDialog(it, createLoadingView())
         }
+    }
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (showLifeCycle)
+            ZLog.i(TAG, "$fragmentName onCreate")
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onDestroy() {
+        loadingDialog?.dismiss()
+        super.onDestroy()
     }
 
     /**
@@ -31,6 +63,7 @@ abstract class AbsFragment : Fragment() {
             this.setTextColor(ContextCompat.getColor(context, R.color.white))
         }
     }
+    // --------------------------------------------------
 
     fun showToast(resId: Int) {
         showToast(getString(resId))
@@ -68,10 +101,5 @@ abstract class AbsFragment : Fragment() {
         } else {
             loadingDialog?.setText(message)?.show()
         }
-    }
-
-    override fun onDestroy() {
-        loadingDialog?.dismiss()
-        super.onDestroy()
     }
 }

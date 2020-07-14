@@ -90,7 +90,7 @@ object FileUtil {
      */
     @JvmStatic
     fun copy(from: File, to: File) {
-        FileUtil.writeToFile(to.absolutePath, from.inputStream())
+        writeToFile(to, from.inputStream())
     }
 
     /**
@@ -135,10 +135,19 @@ object FileUtil {
      */
     @JvmStatic
     fun createFileNotExists(filePath: String): Boolean {
-        val file = File(filePath)
+        return createFileNotExists(File(filePath))
+    }
+
+    /**
+     * 创建文件
+     * [filePath] filePath
+     * @return
+     */
+    @JvmStatic
+    fun createFileNotExists(file: File): Boolean {
         var result = false
         if (!file.exists()) {
-            if (createParentDir(filePath)) {
+            if (createParentDir(file)) {
                 result = try {
                     file.createNewFile()
                 } catch (e: Exception) {
@@ -149,11 +158,12 @@ object FileUtil {
             result = true
         }
         if (showLog) {
-            ZLog.v(ZTag.TAG_FILE, "createFileNotExists filePath : " + filePath)
-            ZLog.v(ZTag.TAG_FILE, "createFileNotExists code : " + result)
+            ZLog.v(ZTag.TAG_FILE, "createFileNotExists filePath : ${file.absolutePath}")
+            ZLog.v(ZTag.TAG_FILE, "createFileNotExists code : $result")
         }
         return result
     }
+    // --------------------------------------------------
 
     /**
      * 创建目录
@@ -176,7 +186,16 @@ object FileUtil {
      */
     @JvmStatic
     fun createParentDir(savePath: String): Boolean {
-        val parentFile = File(savePath).parentFile
+        return createParentDir(File(savePath))
+    }
+
+    /**
+     * 创建指定文件的父目录
+     * [savePath] 绝对路径
+     */
+    @JvmStatic
+    fun createParentDir(file: File): Boolean {
+        val parentFile = file.parentFile
         return if (parentFile.exists()) {
             true
         } else {
@@ -268,7 +287,7 @@ object FileUtil {
     fun copyAssetsFileToSdcard(context: Context, assetsFile: String, outPath: String) {
         ZLog.i(ZTag.TAG_DEBUG, "copyAssetsFileToSdcard $outPath")
         reCreateFile(outPath)
-        writeToFile(outPath, context.assets.open(assetsFile), false)
+        writeToFile(File(outPath), context.assets.open(assetsFile), false)
     }
     // --------------------------------------------------
     /**
@@ -279,8 +298,20 @@ object FileUtil {
      */
     @JvmStatic
     @JvmOverloads
-    fun writeToFile(filePath: String, dataStr: String, append: Boolean = false): File? {
-        return writeToFile(filePath, ByteArrayInputStream(dataStr.toByteArray()), append)
+    fun writeToFile(filePath: String, dataStr: String, append: Boolean = false): Boolean {
+        return writeToFile(File(filePath), dataStr, append)
+    }
+
+    /**
+     * 将数据写入文件
+     * [filePath]
+     * [dataStr]
+     * @return
+     */
+    @JvmStatic
+    @JvmOverloads
+    fun writeToFile(file: File, dataStr: String, append: Boolean = false): Boolean {
+        return writeToFile(file, ByteArrayInputStream(dataStr.toByteArray()), append)
     }
 
     /**
@@ -292,12 +323,12 @@ object FileUtil {
      */
     @JvmStatic
     @JvmOverloads
-    fun writeToFile(filePath: String, inputStream: InputStream, append: Boolean = false): File? {
+    fun writeToFile(file: File, inputStream: InputStream, append: Boolean = false): Boolean {
         writeLock(lock)
-        val file = File(filePath)
+        var result = true
         var output: OutputStream? = null
         try {
-            createFileNotExists(filePath)
+            createFileNotExists(file)
             output = FileOutputStream(file, append)
             val buffer = ByteArray(4 * 1024)
             var temp = inputStream.read(buffer)
@@ -308,6 +339,7 @@ object FileUtil {
             output.flush()
         } catch (e: IOException) {
             e.printStackTrace()
+            result = false
         } finally {
             try {
                 inputStream.close()
@@ -318,7 +350,7 @@ object FileUtil {
 
         }
         writeUnlock(lock)
-        return file
+        return result
     }
 
     /**
@@ -340,18 +372,18 @@ object FileUtil {
      */
     @JvmStatic
     fun writeToFile(filePath: String, inputStream: InputStream, maxSize: Long): Boolean {
+        val file = File(filePath)
         if (maxSize > 0) {
-            val file = File(filePath)
             if (!file.exists()) {
                 createFileNotExists(filePath)
             } else if (file.length() > maxSize) {
                 val tempFile = "$filePath.1"
                 reCreateFile(tempFile)
-                writeToFile(tempFile, FileInputStream(filePath), true)
+                writeToFile(file, FileInputStream(filePath), true)
                 deleteFile(filePath)
             }
         }
-        writeToFile(filePath, inputStream, true)
+        writeToFile(file, inputStream, true)
         return true
     }
     // --------------------------------------------------
@@ -475,7 +507,7 @@ object FileUtil {
         if (dirFile.exists() && dirFile.isDirectory) {
             val childFileList = dirFile.listFiles()
             for (childFile in childFileList) {
-                ZLog.i(ZTag.TAG_FILE, "fileName : ${childFile.name}")
+//                ZLog.i(ZTag.TAG_FILE, "fileName : ${childFile.name}")
                 if (childFile.isFile && childFile.name.endsWith(".$suffix", true)) {
                     searchedFileList.add(childFile)
                 }

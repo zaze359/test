@@ -216,4 +216,24 @@ public class JsonUtil {
         }
         return jsonHeadLines;
     }
+
+    public static <T> List<T> parseJsonToListByClass(String json, final Class<T> clazz) {
+        return JsonUtil.parseJsonToList(json, new ParameterizedType() {
+
+            @Override
+            public Type[] getActualTypeArguments() {
+                return new Type[]{clazz};
+            }
+
+            @Override
+            public Type getRawType() {
+                return List.class;
+            }
+
+            @Override
+            public Type getOwnerType() {
+                return null;
+            }
+        });
+    }
 }

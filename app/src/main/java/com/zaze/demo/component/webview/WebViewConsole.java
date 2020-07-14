@@ -16,7 +16,7 @@ public class WebViewConsole {
 
     public static void removeAllImage(WebView webView) {
 //        jsInterface.showSource("" + imgs[i]);
-        jsConsole(webView, "JavaScript:function printDocument(){var imgs= document.querySelectorAll('img');for(var i = 0; i < imgs.length; ++i) {imgs[i].src='https://admin.yunzuoye.net/frontend/img/logo.png';}}printDocument();");
+        jsConsole(webView, "JavaScript:function printDocument(){var imgs= document.querySelectorAll('img');for(var i = 0; i < imgs.length; ++i) {imgs[i].src='https://xxxxx/img/logo.png';}}printDocument();");
     }
 
 

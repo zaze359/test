@@ -1,15 +1,18 @@
 package com.zaze.demo.debug;
 
+import android.app.admin.DevicePolicyManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.AssetManager;
 import android.content.res.XmlResourceParser;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.util.Base64;
 import android.util.Log;
+
+import androidx.core.content.FileProvider;
 
 import com.zaze.utils.FileUtil;
 import com.zaze.utils.ThreadManager;
@@ -28,6 +31,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
+import java.nio.channels.FileLock;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Random;
@@ -56,6 +60,8 @@ public class TestDebug {
     private static final Pattern sTrimPattern =
             Pattern.compile("^[\\s|\\p{javaSpaceChar}]*(.*)[\\s|\\p{javaSpaceChar}]*$");
 
+    private static FileLock fileLock;
+
     public static void test(final Context context) {
 //        ThreadPlugins.runInIoThread(new Runnable() {
 //            @Override
@@ -69,7 +75,7 @@ public class TestDebug {
 //            }
 //        });
 //        new A<B>().a("{\"a\" : \"abc\"}");
-        aaaaaa(context);
+//        aaaaaa(context);
 //        ZCommand.CommandResult result = ZCommand.execCmdForRes("dumpsys activity activities");
 //        Log.i(TAG, "CommandResult = " + result.successMsg);
 
@@ -77,7 +83,7 @@ public class TestDebug {
 //        Random random = new Random(8);
 //        Log.i(TAG, "date = " + date);
 //        for (int i = 0; i < 10; i++) {
-//            Log.i(TAG, "Random = " + random.nextInt(8));
+//            Log.i(TAG, "Random = " + random.ne······xtInt(8));
 //        }
 //        new Thread(new Runnable() {
 //            @Override
@@ -85,7 +91,69 @@ public class TestDebug {
 //                new OkHttpRequestClient().request(new ZRequest.Builder().url("https://kyfw.12306.cn/otn/").build());
 //            }
 //        }).start();
+//        AppUtil.install(context, Environment.getExternalStorageDirectory().getAbsolutePath() + "/aa.apk");
+
+//        install(context, "com.zaze.demo.fileProvider", new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/aa.apk"))
+
+//        ZLog.i(ZTag.TAG, "getIpAddress : " + NetUtil.getIpAddress(context));
+//        ZLog.i(ZTag.TAG, "getGateway : " + NetUtil.getGateway(context));
+
+//        new D().createB().print();
+
+        Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+        List<ResolveInfo> list = context.getPackageManager().queryIntentActivities(intent, 0);
+        if (list == null || list.isEmpty()) {
+            return;
+        }
+        for (ResolveInfo resolveInfo : list) {
+            ZLog.i(ZTag.TAG, "DoShellCmd : " + resolveInfo.activityInfo.packageName);
+        }
+
     }
+
+    public static int DoShellCmd(String cmd) {
+        Log.i(ZTag.TAG, "DoShellCmd : " + cmd);
+        Process p = null;
+        String[] shell_command = {
+                "/system/bin/sh", "-c", cmd
+        };
+
+        try {
+            Log.i(ZTag.TAG, "exec command");
+            p = Runtime.getRuntime().exec(shell_command);
+            p.waitFor();
+            Log.i(ZTag.TAG, "exec done");
+        } catch (IOException exception) {
+            Log.e(ZTag.TAG, "DoShellCmd - IOException", exception);
+            return -1;
+        } catch (SecurityException exception) {
+            Log.e(ZTag.TAG, "DoShellCmd - SecurityException", exception);
+            return -1;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            return -1;
+        }
+
+        Log.i(ZTag.TAG, "DoShellCmd done: " + cmd);
+        return 1;
+    }
+
+
+    private static void install(Context context, String authorities, File apkFile) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        Uri uri;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            uri = FileProvider.getUriForFile(context, authorities, apkFile);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        } else {
+            uri = Uri.fromFile(apkFile);
+        }
+        intent.setDataAndType(uri, "application/vnd.android.package-archive");
+        context.startActivity(intent);
+    }
+
 
     private static final OkHttpClient client = new OkHttpClient();
 
@@ -154,7 +222,7 @@ public class TestDebug {
             Method addAssetPath = assetManager.getClass().getMethod("addAssetPath", String.class);
             //将未安装的Apk文件的添加进AssetManager中,第二个参数是apk的路径
             addAssetPath.invoke(assetManager, apkPath);
-            FileUtil.writeToFile("/sdcard/aa.clear", assetManager.open(assetFileName));
+            FileUtil.writeToFile(new File("/sdcard/aa.clear"), assetManager.open(assetFileName));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -179,31 +247,31 @@ public class TestDebug {
 //        return null;
 //    }
 
-    static void aaaaaa(final Context context) {
-        for (int i = 0; i < 4; i++) {
-            new Thread() {
-                @Override
-                public void run() {
-                    int count = 0;
-                    List<PackageInfo> list = context.getPackageManager()
-                            .getInstalledPackages(0);
-                    for (PackageInfo info : list) {
-                        if (count >= 1000) {
-                            break;
-                        }
-                        count++;
-                        try {
-                            PackageInfo pi = context.getPackageManager()
-                                    .getPackageInfo(info.packageName,
-                                            PackageManager.GET_ACTIVITIES);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }.start();
-        }
-    }
+//    static void aaaaaa(final Context context) {
+//        for (int i = 0; i < 4; i++) {
+//            new Thread() {
+//                @Override
+//                public void run() {
+//                    int count = 0;
+//                    List<PackageInfo> list = context.getPackageManager()
+//                            .getInstalledPackages(0);
+//                    for (PackageInfo info : list) {
+//                        if (count >= 1000) {
+//                            break;
+//                        }
+//                        count++;
+//                        try {
+//                            PackageInfo pi = context.getPackageManager()
+//                                    .getPackageInfo(info.packageName,
+//                                            PackageManager.GET_ACTIVITIES);
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//            }.start();
+//        }
+//    }
 
     /**
      * Compress test
@@ -342,6 +410,4 @@ public class TestDebug {
         }
         return value;
     }
-
-
 }

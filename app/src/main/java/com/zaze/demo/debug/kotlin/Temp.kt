@@ -25,7 +25,7 @@ import com.zaze.utils.log.ZTag
  * @author : ZAZE
  * @version : 2017-06-07 - 14:53
  */
-object KotlinDebug {
+object Temp {
 
     fun test(context: Activity) {
 //        val a: Int? = 1

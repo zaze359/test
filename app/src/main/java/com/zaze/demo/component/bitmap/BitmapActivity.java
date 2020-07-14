@@ -17,7 +17,6 @@ import androidx.appcompat.app.ActionBar;
 import com.zaze.common.base.AbsActivity;
 import com.zaze.common.base.ext.AppCompatActivityExtKt;
 import com.zaze.demo.R;
-import com.zaze.utils.compat.OptionalCompat;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -47,7 +46,7 @@ public class BitmapActivity extends AbsActivity {
     @Override
     public void init(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.bitmap_act);
-        AppCompatActivityExtKt.setupActionBar(this, R.id.bitmapToolbar, new Function1<ActionBar, Unit>() {
+        AppCompatActivityExtKt.setupActionBar(this, findViewById(R.id.bitmapToolbar), new Function1<ActionBar, Unit>() {
             @Override
             public Unit invoke(ActionBar actionBar) {
                 actionBar.setTitle("Bitmap");

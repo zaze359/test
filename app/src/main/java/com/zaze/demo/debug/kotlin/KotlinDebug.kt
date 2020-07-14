@@ -1,23 +1,18 @@
 package com.zaze.demo.debug.kotlin
 
-import android.Manifest
 import android.app.Activity
-import android.app.AppOpsManager
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
-import android.net.ConnectivityManager
-import android.os.Build
-import android.provider.Settings
 import android.util.Log
-import android.view.inputmethod.InputMethodManager
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import com.zaze.utils.DisplayUtil
+import com.zaze.demo.debug.TestDebug
 import com.zaze.utils.FileUtil
-import com.zaze.utils.ZStringUtil
+import com.zaze.utils.ZCommand
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
+import java.io.File
 
 
 /**
@@ -27,7 +22,40 @@ import com.zaze.utils.log.ZTag
  */
 object KotlinDebug {
 
+    var thread = Thread()
     fun test(context: Activity) {
+        thread.interrupt()
+        thread = Thread {
+            ZLog.i(ZTag.TAG, "execCmdForRes start")
+            val bugReport = "/sdcard/bugreport.log"
+            FileUtil.createFileNotExists(bugReport)
+            try {
+                TestDebug.DoShellCmd("bugreport > $bugReport  2>&1")
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            ZLog.i(ZTag.TAG, "execCmdForRes end")
+        }
+        thread.start()
+    }
+
+    fun getDefaultLauncher(context: Context) {
+        val activities = ArrayList<ComponentName>()
+        context.packageManager.getPreferredActivities(arrayListOf(IntentFilter(Intent.ACTION_MAIN).apply {
+            addCategory(Intent.CATEGORY_HOME)
+        }), activities, null)
+        for (componentName in activities) {
+            Log.i("getPreferredActivities", "componentName : $componentName")
+        }
+        val defaultLauncher = context.packageManager.resolveActivity(Intent(Intent.ACTION_MAIN).apply {
+            addCategory(Intent.CATEGORY_HOME)
+        }, PackageManager.MATCH_DEFAULT_ONLY)
+
+        Log.i("defaultLauncher", "defaultLauncher : ${defaultLauncher?.activityInfo?.packageName}")
+
+    }
+
+    fun a() {
         // 原生字符串支持
         val aStr = String().plus(""" a \n b""")
         val bStr = String().plus(""" a \n b""")
@@ -46,4 +74,5 @@ object KotlinDebug {
         Vararg.debug()
         Infix.debug()
     }
+
 }

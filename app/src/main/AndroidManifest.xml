@@ -40,6 +40,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+
 
     <application
         android:name=".app.MyApplication"
@@ -84,9 +88,9 @@
         <!-- 测试接收推送 end -->
         <!--  -->
         <service android:name=".component.socket.AlarmService" />
-        <service android:name=".debug.LogcatService"
-            android:process=":logcat"
-            />
+        <service
+            android:name=".debug.LogcatService"
+            android:process=":logcat" />
         <service
             android:name=".debug.MessengerService"
             android:process=":messenger" />
@@ -130,7 +134,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".component.fileexplorer.ui.FileExplorerActivity"
+            android:name=".component.file.explorer.FileExplorerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -216,13 +220,28 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".component.read.ui.LightReadingActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".component.bitmap.BitmapActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <service
+            android:name=".debug.KeepLiveService"
+            android:process=":live">
+            <intent-filter>
+                <action android:name="com.zaze.demo.KeepLiveService" />
+            </intent-filter>
+        </service>
+
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.zaze.demo.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
     </application>
 
 </manifest>

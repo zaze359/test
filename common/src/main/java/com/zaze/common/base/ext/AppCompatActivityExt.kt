@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.os.Build
 import android.view.View
 import android.view.WindowManager
-import androidx.annotation.IdRes
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -56,13 +55,13 @@ fun FragmentManager.transactAllowingStateLoss(action: FragmentTransaction.() -> 
 }
 
 // --------------------------------------------------
-
-fun AppCompatActivity.setupActionBar(@IdRes toolbarId: Int, action: ActionBar.() -> Unit) {
-    setSupportActionBar(findViewById(toolbarId))
-    supportActionBar?.run {
-        action()
-    }
-}
+//
+//fun AppCompatActivity.setupActionBar(@IdRes toolbarId: Int, action: ActionBar.() -> Unit) {
+//    setSupportActionBar(findViewById(toolbarId))
+//    supportActionBar?.run {
+//        action()
+//    }
+//}
 
 fun AppCompatActivity.setupActionBar(toolbar: Toolbar, action: ActionBar.() -> Unit = {}) {
     setSupportActionBar(toolbar)

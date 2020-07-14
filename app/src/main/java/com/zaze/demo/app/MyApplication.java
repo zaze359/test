@@ -6,19 +6,17 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.ConnectivityManager;
-import android.net.LinkProperties;
-import android.net.Network;
-import android.net.NetworkCapabilities;
 import android.os.Build;
 
-import com.tencent.bugly.crashreport.CrashReport;
 import com.zaze.common.base.BaseApplication;
 import com.zaze.common.thread.ThreadPlugins;
 import com.zaze.demo.component.network.compat.AnalyzeTrafficCompat;
+import com.zaze.demo.debug.DefaultNetworkCallback;
 import com.zaze.demo.debug.LogcatService;
 import com.zaze.demo.debug.wifi.WifiCompat;
 import com.zaze.demo.receiver.PackageReceiver;
+import com.zaze.utils.NetUtil;
+import com.zaze.utils.ZCommand;
 import com.zaze.utils.cache.MemoryCacheManager;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
@@ -43,11 +41,11 @@ public class MyApplication extends BaseApplication {
     }
 
     private ClipboardManager mClipboardManager;
-    public ConnectivityManager.NetworkCallback networkCallback;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        ZCommand.setShowLog(true);
 //        FileUtil.setShowLog(true);
         ThreadPlugins.runInUIThread(new Runnable() {
             @Override
@@ -97,50 +95,9 @@ public class MyApplication extends BaseApplication {
             intentFilter.addDataScheme("package");
             registerReceiver(broadcastReceiver, intentFilter);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                networkCallback = new ConnectivityManager.NetworkCallback() {
-                    @Override
-                    public void onAvailable(Network network) {
-                        super.onAvailable(network);
-                        ZLog.i(ZTag.TAG_DEBUG, "onAvailable : " + network);
-                        // 通wifiReceiver一样处理
-                    }
-
-                    @Override
-                    public void onUnavailable() {
-                        super.onUnavailable();
-                        ZLog.e(ZTag.TAG_DEBUG, "onUnavailable ");
-                    }
-
-                    @Override
-                    public void onLinkPropertiesChanged(Network network, LinkProperties linkProperties) {
-                        super.onLinkPropertiesChanged(network, linkProperties);
-                        ZLog.i(ZTag.TAG_DEBUG, "onLinkPropertiesChanged : " + network);
-
-                    }
-
-                    @Override
-                    public void onLosing(Network network, int maxMsToLive) {
-                        super.onLosing(network, maxMsToLive);
-                        ZLog.i(ZTag.TAG_DEBUG, "onLosing : " + network + "   maxMsToLive : " + maxMsToLive);
-                    }
-
-                    @Override
-                    public void onLost(Network network) {
-                        super.onLost(network);
-                        ZLog.i(ZTag.TAG_DEBUG, "onLost : " + network);
-
-                    }
-
-                    @Override
-                    public void onCapabilitiesChanged(Network network, NetworkCapabilities networkCapabilities) {
-                        super.onCapabilitiesChanged(network, networkCapabilities);
-                        ZLog.i(ZTag.TAG_DEBUG, "onCapabilitiesChanged : " + network);
-
-                    }
-                };
+                WifiCompat.listenerByConn(new DefaultNetworkCallback(NetUtil.getConnectivityManager(this)));
+            } else {
                 WifiCompat.listenerByBroadcast(this);
-//                startService(new Intent(this, WifiJob.class));
-//                WifiCompat.listenerByJob(this);
             }
         }
     }

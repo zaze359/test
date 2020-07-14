@@ -8,19 +8,19 @@ package com.zaze.utils.log;
  * @version : 2017-03-24 - 00:56
  */
 public interface ZTag {
-    String TAG_BASE = "[ZZ]";
-    String TAG_HTTP = "Http" + TAG_BASE;
-    String TAG_ERROR = "Error" + TAG_BASE;
-    String TAG_FILE = "File" + TAG_BASE;
-    String TAG_DEBUG = "Debug" + TAG_BASE;
-    String TAG_CMD = "Cmd" + TAG_BASE;
-    String TAG_MEMORY = "Cache" + TAG_BASE;
-    String TAG_TASK = "Task" + TAG_BASE;
-    String TAG_ABOUT_APP = "App" + TAG_BASE;
-    String TAG_SYSTEM = "System" + TAG_BASE;
-    String TAG_PROVIDER = "Provider" + TAG_BASE;
-    String TAG_ANALYZE = "Analyze" + TAG_BASE;
-    String TAG_XML = "XML" + TAG_BASE;
-    String TAG_COMPRESS = "Compress" + TAG_BASE;
+    String TAG = "[ZZ]";
+    String TAG_HTTP = "Http" + TAG;
+    String TAG_ERROR = "Error" + TAG;
+    String TAG_FILE = "File" + TAG;
+    String TAG_DEBUG = "Debug" + TAG;
+    String TAG_CMD = "Cmd" + TAG;
+    String TAG_MEMORY = "Cache" + TAG;
+    String TAG_TASK = "Task" + TAG;
+    String TAG_ABOUT_APP = "App" + TAG;
+    String TAG_SYSTEM = "System" + TAG;
+    String TAG_PROVIDER = "Provider" + TAG;
+    String TAG_ANALYZE = "Analyze" + TAG;
+    String TAG_XML = "XML" + TAG;
+    String TAG_COMPRESS = "Compress" + TAG;
 
 }

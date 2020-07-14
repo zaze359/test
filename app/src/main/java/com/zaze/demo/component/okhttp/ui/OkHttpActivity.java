@@ -41,16 +41,9 @@ public class OkHttpActivity extends BaseActivity implements OkHttpView {
         findViewById(R.id.http_test_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                String url = "http://zt.yunzuoye.net:84/apps/overt/"
-                String json = "{\"M\":1,\"C\":\"1000\",\"S\":\"1\",\"sReceiverName\":\"aichenk\",\"sDevNumber\":\"112233\",\"sMacAddress\":\"DFS:DFSA\",\"iReceivePurpose\":0,\"sReceiverAccount\":\"aichenk\"}";
-//                post("http://zt.yunzuoye.net:84/apps/overt/main/register-tablet-receiver", JsonUtil.objToJson(entity));
-                post("http://common.yunzuoye.net/overt/main/register-tablet-receiver", json);
-//                post("http://192.168.5.29:8083/api/v1/platform/login", "{\"userName\":\"xhyz13\",\"password\":\"E10ADC3949BA59ABBE56E057F20F883E\"}");
             }
         });
     }
-
-
     //        public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     public static final MediaType FORM = MediaType.parse("application/x-www-form-urlencoded; charset=UTF-8");
 

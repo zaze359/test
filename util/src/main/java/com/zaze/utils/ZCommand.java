@@ -27,7 +27,7 @@ public class ZCommand {
     private static Boolean isRoot = null;
     private static final Object object = new Object();
 
-    private static boolean showLog = true;
+    private static boolean showLog = false;
 
     public static void setShowLog(boolean showLog) {
         ZCommand.showLog = showLog;
@@ -47,7 +47,7 @@ public class ZCommand {
     }
 
     public static boolean isCommandExists(String cmdName) {
-        return ZCommand.isSuccess(execCmdForRes("command -v " + cmdName));
+        return execCmdForRes("command -v " + cmdName).isSuccess();
     }
 
     /**
@@ -242,6 +242,10 @@ public class ZCommand {
             } catch (IOException e) {
                 // ignore
             }
+        }
+        if (showLog) {
+            ZLog.v(ZTag.TAG_CMD, "execCommand result: " + result);
+            ZLog.e(ZTag.TAG_CMD, "execCommand error: " + errorBuilder);
         }
         return new CommandResult(result,
                 errorBuilder == null ? null : errorBuilder.toString(),

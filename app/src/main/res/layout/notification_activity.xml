@@ -9,7 +9,6 @@
         android:id="@+id/notification_1_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:text="常驻通知" />
 
     <Button

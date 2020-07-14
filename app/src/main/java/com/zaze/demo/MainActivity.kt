@@ -15,15 +15,18 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import com.zaze.common.base.AbsActivity
 import com.zaze.common.base.AbsFragment
 import com.zaze.common.base.BaseActivity
 import com.zaze.common.base.ext.setImmersion
 import com.zaze.common.base.ext.setupActionBar
 import com.zaze.common.permission.PermissionUtil
-import com.zaze.common.thread.ThreadPlugins
 import com.zaze.common.widget.IntervalButtonWidget
 import com.zaze.demo.component.table.TableFragment
-import com.zaze.demo.debug.*
+import com.zaze.demo.debug.LogDirListener
+import com.zaze.demo.debug.MessengerService
+import com.zaze.demo.debug.TestDebug
+import com.zaze.demo.debug.kotlin.KotlinDebug
 import com.zaze.utils.FileUtil
 import com.zaze.utils.ToastUtil
 import com.zaze.utils.log.ZLog
@@ -36,7 +39,7 @@ import kotlinx.android.synthetic.main.activity_main.*
  * @author : ZAZE
  * @version : 2017-05-19 - 01:41
  */
-class MainActivity : BaseActivity() {
+class MainActivity : AbsActivity() {
 
     private lateinit var drawerToggle: ActionBarDrawerToggle
 
@@ -63,12 +66,12 @@ class MainActivity : BaseActivity() {
             sendMessenger = Messenger(service)
         }
     }
-
+    var wakeLock: PowerManager.WakeLock? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setImmersion()
-        setupActionBar(R.id.main_toolbar) {
+        setupActionBar(findViewById(R.id.main_toolbar)) {
             setTitle(R.string.app_name)
             setDisplayHomeAsUpEnabled(true)
             setHomeButtonEnabled(true)
@@ -88,9 +91,9 @@ class MainActivity : BaseActivity() {
             //
             KotlinDebug.test(this)
             TestDebug.test(this)
-            ThreadPlugins.runInUIThread(Runnable {
-                startService(Intent(this, LogcatService::class.java))
-            }, 10_000L)
+//            ThreadPlugins.runInUIThread(Runnable {
+//                startService(Intent(this, LogcatService::class.java))
+//            }, 10_000L)
         }
         // ------------------------------------------------------
         drawerToggle = ActionBarDrawerToggle(this, main_drawer_layout, R.string.app_name, R.string.app_name).apply {
@@ -122,6 +125,11 @@ class MainActivity : BaseActivity() {
         }
 //        val obj = DeviceStatus()
 //        weakReference = WeakReference(obj)
+
+
+        val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
+        wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyWakeLock")
+        wakeLock?.acquire()
     }
 
 
@@ -161,6 +169,7 @@ class MainActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        wakeLock?.release()
         dirListener.stopWatching()
         unbindService(serviceConnection)
         intervalButton?.stop()

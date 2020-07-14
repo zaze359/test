@@ -48,7 +48,7 @@ public class HttpDownloader {
      * @param filePath
      * @return File
      */
-    public static File downFile(String urlStr, String filePath) {
+    public static void downFile(String urlStr, String filePath) {
         InputStream inputStream = null;
         try {
             URL url = new URL(urlStr);
@@ -56,7 +56,7 @@ public class HttpDownloader {
             urlConn.connect();
             inputStream = urlConn.getInputStream();
             // TODO: 2017/8/26
-            return FileUtil.writeToFile(filePath, inputStream, true);
+            FileUtil.writeToFile(new File(filePath), inputStream, true);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -68,7 +68,6 @@ public class HttpDownloader {
                 e.printStackTrace();
             }
         }
-        return null;
     }
 
     /**

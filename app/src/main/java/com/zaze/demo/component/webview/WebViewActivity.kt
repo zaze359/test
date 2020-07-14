@@ -62,12 +62,6 @@ open class WebViewActivity : BaseActivity() {
 //        WebViewConsole.consoleDoc(web_view)
 //        web_view.loadUrl("file:///android_asset/test.html")
 //        web_view.loadUrl("https://www.baidu.com")
-//        web_view.loadUrl("https://xuehaifile.oss-cn-hangzhou.aliyuncs.com/CA106002/public/about.html")
-//        web_view.loadUrl("http://47.99.214.241/index.html#/video-list?userId=164902&classroomId=QEZGD6")
-        web_view.loadUrl("http://47.99.214.241/index.html#/player?src=http%3A%2F%2Fkt4-yuyin.oss-cn-hangzhou.aliyuncs.com%2F30f1b2d742bc206d1726e36b8cbd0776.mp4")
-//        web_view.loadUrl("http://debugtbs.qq.com")
-//        web_view.loadUrl("http://help.xh.com/faq/CA106002/index.html#/")
-//        web_view.loadUrl("https://help.yunzuoye.net/faq/CA101010/index.html#/updates/188")
     }
 
     internal inner class JSInterface {

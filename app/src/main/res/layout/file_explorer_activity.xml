@@ -4,22 +4,11 @@
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/file_explorer_toolbar"
+        android:id="@+id/fileExplorerToolbar"
         style="@style/Toolbar" />
 
-
-    <TextView
-        android:id="@+id/file_explorer_return_tv"
+    <FrameLayout
+        android:id="@+id/fileExplorerLayout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48"
-        android:background="@color/grey"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/dp_8"
-        android:text=".." />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/file_explorer_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
+        android:layout_height="match_parent"/>
 </LinearLayout>
