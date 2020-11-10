@@ -14,6 +14,8 @@ import com.zaze.demo.R
 import com.zaze.demo.debug.AppShortcut
 import com.zaze.demo.debug.InvariantDeviceProfile
 import com.zaze.utils.*
+import com.zaze.utils.log.ZLog
+import com.zaze.utils.log.ZTag
 import java.io.File
 
 /**
@@ -45,7 +47,7 @@ class AppAdapter(context: Context, data: Collection<AppShortcut>) : BaseRecycler
         val packageName = ZStringUtil.parseString(value.packageName)
         // --------------------------------------------------
         holder.itemAppNumTv.text = "${position + 1}"
-        if(value.isCopyEnable) {
+        if (value.isCopyEnable) {
             holder.itemAppExportBtn.visibility = View.VISIBLE
             holder.itemAppExportBtn.setOnClickListener {
                 val path = "/sdcard/zaze/apk/${value.name}(${value.packageName}).apk"
@@ -86,26 +88,12 @@ class AppAdapter(context: Context, data: Collection<AppShortcut>) : BaseRecycler
 //        Settings.ACTION_WIFI_SETTINGS
         holder.itemAppIv.setImageBitmap(BmpUtil.drawable2Bitmap(drawable, iconSize))
         holder.itemView.setOnClickListener {
-            AppUtil.startApplication(context, packageName)
-//            else {
-//                try {
-//                    val assetManager = AssetManager::class.java.newInstance()
-//                    //反射调用方法addAssetPath(String path)
-//                    val addAssetPath = assetManager.javaClass.getMethod("addAssetPath", String::class.java)
-//                    //将未安装的Apk文件的添加进AssetManager中,第二个参数是apk的路径
-//                    addAssetPath.invoke(assetManager, value.sourceDir)
-//                    assetManager.list("")?.forEach {
-//                        ZLog.i(ZTag.TAG_DEBUG, it)
-//                    }
-//                    try {
-//                        FileUtil.writeToFile("/sdcard/aa.clear", assetManager.open(".clear"))
-//                    } catch (e: Exception) {
-//                        e.printStackTrace()
-//                    }
-//                } catch (e: Exception) {
-//                    e.printStackTrace()
-//                }
-//            }
+            AppUtil.getAppMetaData(context, packageName)?.let { bundle ->
+                bundle.keySet().forEach {
+                    ZLog.i(ZTag.TAG, "$it >> ${bundle.get(it)}")
+                }
+            }
+//            AppUtil.startApplication(context, packageName)
 
         }
     }

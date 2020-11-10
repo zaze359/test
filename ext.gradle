@@ -1,5 +1,4 @@
 ext {
-    butterKnife = "9.0.0-SNAPSHOT"
     compileSdkVersion = 28
     buildToolsVersion = '28.0.3'
     minSdkVersion = 16

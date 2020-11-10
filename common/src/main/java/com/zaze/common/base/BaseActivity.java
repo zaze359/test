@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.zaze.common.util.ActivityUtil;
 import com.zaze.utils.ToastUtil;
 import com.zaze.utils.log.ZLog;
-import com.zaze.utils.log.ZTag;
 
 
 /**
@@ -23,75 +22,76 @@ import com.zaze.utils.log.ZTag;
  */
 @Deprecated
 public abstract class BaseActivity extends AppCompatActivity implements BaseView {
-    public static boolean showLifeCycle = false;
+    public static boolean showLifeCycle = true;
+    private static final String TAG = "LifeCycle";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         if (showLifeCycle)
-            ZLog.v(ZTag.TAG_DEBUG, "onCreate : " + this.getClass().getName());
+            ZLog.v(TAG, "onCreate : " + this.getClass().getName());
         super.onCreate(savedInstanceState);
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         if (showLifeCycle)
-            ZLog.v(ZTag.TAG_DEBUG, "onNewIntent : " + this.getClass().getName());
+            ZLog.v(TAG, "onNewIntent : " + this.getClass().getName());
         super.onNewIntent(intent);
     }
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         if (showLifeCycle)
-            ZLog.v(ZTag.TAG_DEBUG, "onPostCreate : " + this.getClass().getName());
+            ZLog.v(TAG, "onPostCreate : " + this.getClass().getName());
         super.onPostCreate(savedInstanceState);
     }
 
     @Override
     protected void onRestart() {
         if (showLifeCycle)
-            ZLog.v(ZTag.TAG_DEBUG, "onRestart : " + this.getClass().getName());
+            ZLog.v(TAG, "onRestart : " + this.getClass().getName());
         super.onRestart();
     }
 
     @Override
     protected void onStart() {
         if (showLifeCycle)
-            ZLog.v(ZTag.TAG_DEBUG, "onStart : " + this.getClass().getName());
+            ZLog.v(TAG, "onStart : " + this.getClass().getName());
         super.onStart();
     }
 
     @Override
     protected void onResume() {
         if (showLifeCycle)
-            ZLog.v(ZTag.TAG_DEBUG, "onResume : " + this.getClass().getName());
+            ZLog.v(TAG, "onResume : " + this.getClass().getName());
         super.onResume();
     }
 
     @Override
     protected void onResumeFragments() {
         if (showLifeCycle)
-            ZLog.v(ZTag.TAG_DEBUG, "onResumeFragments : " + this.getClass().getName());
+            ZLog.v(TAG, "onResumeFragments : " + this.getClass().getName());
         super.onResumeFragments();
     }
 
     @Override
     protected void onPause() {
         if (showLifeCycle)
-            ZLog.v(ZTag.TAG_DEBUG, "onPause : " + this.getClass().getName());
+            ZLog.v(TAG, "onPause : " + this.getClass().getName());
         super.onPause();
     }
 
     @Override
     protected void onStop() {
         if (showLifeCycle)
-            ZLog.v(ZTag.TAG_DEBUG, "onStop : " + this.getClass().getName());
+            ZLog.v(TAG, "onStop : " + this.getClass().getName());
         super.onStop();
     }
 
     @Override
     protected void onDestroy() {
         if (showLifeCycle)
-            ZLog.v(ZTag.TAG_DEBUG, "onDestroy : " + this.getClass().getName());
+            ZLog.v(TAG, "onDestroy : " + this.getClass().getName());
         super.onDestroy();
     }
 
@@ -99,20 +99,20 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (showLifeCycle)
-            ZLog.v(ZTag.TAG_DEBUG, "onActivityResult : " + this.getClass().getName());
+            ZLog.v(TAG, "onActivityResult : " + this.getClass().getName());
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         if (showLifeCycle)
-            ZLog.v(ZTag.TAG_DEBUG, "onSaveInstanceState : " + this.getClass().getName());
+            ZLog.v(TAG, "onSaveInstanceState : " + this.getClass().getName());
         super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         if (showLifeCycle)
-            ZLog.v(ZTag.TAG_DEBUG, "onSaveInstanceState : " + this.getClass().getName());
+            ZLog.v(TAG, "onSaveInstanceState : " + this.getClass().getName());
         super.onRestoreInstanceState(savedInstanceState);
     }
 

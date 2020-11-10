@@ -6,9 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.zaze.common.base.BaseFragment;
 import com.zaze.demo.R;
-import com.zaze.demo.component.notification.service.NotificationService;
 import com.zaze.demo.component.socket.AlarmService;
 import com.zaze.demo.component.socket.BaseSocketClient;
 import com.zaze.demo.component.socket.MessageType;
@@ -29,10 +32,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Description .
@@ -70,8 +69,8 @@ public class ClientFragment extends BaseFragment {
             public void onReceiver(SocketMessage socketMessage) {
                 super.onReceiver(socketMessage);
                 //
-                Intent serviceIntent = new Intent(getContext(), NotificationService.class);
-                getContext().startService(serviceIntent);
+//                Intent serviceIntent = new Intent(getContext(), NotificationService.class);
+//                getContext().startService(serviceIntent);
                 //
                 messageList.add(socketMessage);
                 ThreadManager.getInstance().runInUIThread(new Runnable() {

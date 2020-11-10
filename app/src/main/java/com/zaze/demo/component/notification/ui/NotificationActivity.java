@@ -1,16 +1,19 @@
 package com.zaze.demo.component.notification.ui;
 
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
-import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.zaze.common.base.BaseActivity;
 import com.zaze.demo.R;
@@ -18,7 +21,8 @@ import com.zaze.demo.component.notification.presenter.NotificationPresenter;
 import com.zaze.demo.component.notification.presenter.impl.NotificationPresenterImpl;
 import com.zaze.demo.component.notification.service.NotificationService;
 import com.zaze.demo.component.notification.view.NotificationView;
-import com.zaze.demo.hook.HookNotificationManager;
+import com.zaze.utils.AppUtil;
+import com.zaze.utils.BmpUtil;
 
 
 /**
@@ -38,7 +42,7 @@ public class NotificationActivity extends BaseActivity implements NotificationVi
         findViewById(R.id.notification_1_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startService(new Intent(NotificationActivity.this, NotificationService.class));
+//                startService(new Intent(NotificationActivity.this, NotificationService.class));
             }
         });
         findViewById(R.id.notification_2_btn).setOnClickListener(new View.OnClickListener() {
@@ -85,14 +89,29 @@ public class NotificationActivity extends BaseActivity implements NotificationVi
 //            Context context = (Context) proxyContext;
             //
 
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-            builder.setSmallIcon(17301651)
-                    .setContentTitle("title")
+            String channelId = "zaze";
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NotificationChannel notificationChannel = new NotificationChannel(channelId, channelId, NotificationManager.IMPORTANCE_LOW);
+                NotificationManagerCompat.from(context).createNotificationChannel(notificationChannel);
+            }
+            // --------------------------------------------------
+            Notification.Builder builder = new Notification.Builder(context);
+            Bitmap bitmap = BmpUtil.drawable2Bitmap(AppUtil.getAppIcon(context));
+            builder.setContentTitle("title")
                     .setContentText("content")
                     .setAutoCancel(true)
-                    .setDefaults(~NotificationCompat.DEFAULT_SOUND ^ NotificationCompat.DEFAULT_VIBRATE)
-                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setDefaults(~Notification.DEFAULT_SOUND ^ Notification.DEFAULT_VIBRATE)
+                    .setPriority(Notification.PRIORITY_HIGH)
                     .setOngoing(true);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                builder.setSmallIcon(Icon.createWithBitmap(bitmap));
+            } else {
+                builder.setSmallIcon(R.mipmap.ic_folder_black_48dp);
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                builder.setChannelId(channelId);
+            }
+
 //                .setOngoing(true)
             // 设置通知主题的意图
 //            Intent resultIntent = new Intent(this, TaskActivity.class);
@@ -106,17 +125,12 @@ public class NotificationActivity extends BaseActivity implements NotificationVi
 //            PendingIntent pendingIntentCancel = PendingIntent.getBroadcast(this, 1, intentCancel, PendingIntent.FLAG_UPDATE_CURRENT);
 //            builder.setContentIntent(pendingIntentCancel);
 //            NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            NotificationManager mNotificationManager = HookNotificationManager.hookNotificationManager(context);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                NotificationChannel channel = new NotificationChannel(
-                        context.getPackageName(),
-                        "会话类型",//这块Android9.0分类的比较完整，你创建多个这样的东西，你可以在设置里边显示那个或者第几个
-                        NotificationManager.IMPORTANCE_DEFAULT
-
-                );
-                mNotificationManager.createNotificationChannel(channel);
-            }
-            mNotificationManager.notify(123, builder.build());
+//            NotificationManager mNotificationManager = HookNotificationManager.hookNotificationManager(context);
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                NotificationChannel channel = new NotificationChannel(context.getPackageName(), "会话类型", NotificationManager.IMPORTANCE_DEFAULT);
+//                mNotificationManager.createNotificationChannel(channel);
+//            }
+            NotificationManagerCompat.from(context).notify(11, builder.build());
         } catch (Exception e) {
             e.printStackTrace();
         }

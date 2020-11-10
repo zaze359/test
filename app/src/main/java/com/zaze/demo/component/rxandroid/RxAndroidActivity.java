@@ -78,9 +78,11 @@ public class RxAndroidActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 test();
+//                test6();
             }
         });
-
+//        Intent intent = new Intent(this, AppActivity.class);
+//        startActivity(intent);
     }
 
     private void updateTestText(String text) {
@@ -99,18 +101,29 @@ public class RxAndroidActivity extends BaseActivity {
             public String apply(Boolean aBoolean) throws Exception {
                 count++;
                 ZLog.i(ZTag.TAG_DEBUG, "count : " + count);
+//                throw new NullPointerException();
                 return String.valueOf(count);
             }
-        }).concatMap(new Function<String, ObservableSource<String>>() {
-            @Override
-            public ObservableSource<String> apply(String s) throws Exception {
-                if (true) {
-                    return observable1;
-                } else {
-                    return observable2;
-                }
-            }
-        }).subscribe(new Observer<String>() {
+        })
+
+//                .onErrorReturn(new Function<Throwable, String>() {
+//                    @Override
+//                    public String apply(Throwable throwable) throws Exception {
+//                        ZLog.i(ZTag.TAG_DEBUG, "onErrorReturn count : " + count);
+//                        return String.valueOf(count);
+//                    }
+//                })
+
+                .concatMap(new Function<String, ObservableSource<String>>() {
+                    @Override
+                    public ObservableSource<String> apply(String s) throws Exception {
+                        if (true) {
+                            return observable1;
+                        } else {
+                            return observable2;
+                        }
+                    }
+                }).subscribe(new Observer<String>() {
             @Override
             public void onSubscribe(Disposable d) {
 
@@ -345,8 +358,16 @@ public class RxAndroidActivity extends BaseActivity {
                 .doFinally(new Action() {
                     @Override
                     public void run() throws Exception {
-                        ZLog.i(ZTag.TAG_DEBUG, "doFinally");
-                        updateTestText("doFinally");
+                        ZLog.i(ZTag.TAG_DEBUG, "doFinally1");
+                        updateTestText("doFinally1");
+                        isRunning = false;
+                    }
+                })
+                .doFinally(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        ZLog.i(ZTag.TAG_DEBUG, "doFinally2");
+                        updateTestText("doFinally2");
                         isRunning = false;
                     }
                 })

@@ -15,7 +15,7 @@ import com.zaze.utils.log.ZTag
  * @version : 2019-03-06 - 14:35
  */
 class CustomDialog(context: Context, val builder: Builder) {
-    private val dialog = Dialog(context, builder.style)
+    val dialog = Dialog(context, builder.style)
     private val message: String?
     private val positive: String?
     private val negative: String?

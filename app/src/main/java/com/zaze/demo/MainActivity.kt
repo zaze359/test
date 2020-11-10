@@ -17,18 +17,21 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.zaze.common.base.AbsActivity
 import com.zaze.common.base.AbsFragment
-import com.zaze.common.base.BaseActivity
 import com.zaze.common.base.ext.setImmersion
 import com.zaze.common.base.ext.setupActionBar
 import com.zaze.common.permission.PermissionUtil
+import com.zaze.common.thread.ThreadPlugins
 import com.zaze.common.widget.IntervalButtonWidget
 import com.zaze.demo.component.table.TableFragment
 import com.zaze.demo.debug.LogDirListener
 import com.zaze.demo.debug.MessengerService
 import com.zaze.demo.debug.TestDebug
 import com.zaze.demo.debug.kotlin.KotlinDebug
+import com.zaze.demo.debug.wake.NormalTask
+import com.zaze.demo.util.plugins.TaskPlugins
 import com.zaze.utils.FileUtil
 import com.zaze.utils.ToastUtil
+import com.zaze.utils.date.DateUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import kotlinx.android.synthetic.main.activity_main.*
@@ -44,14 +47,30 @@ class MainActivity : AbsActivity() {
     private lateinit var drawerToggle: ActionBarDrawerToggle
 
     private val fragmentList = ArrayList<AbsFragment>()
-
     private var intervalButton: IntervalButtonWidget? = null
-    private val dirListener = LogDirListener(FileUtil.getSDCardRoot() + "/zaze")
+    private val dirListener = LogDirListener(FileUtil.getSDCardRoot() + "/")
+    val write = Parcel.obtain().apply {
+        writeInt(2233)
+    }
+    val reply = Parcel.obtain()
+
+    private val wakeLockTask = NormalTask()
 
     private val messenger = Messenger(object : Handler() {
         override fun handleMessage(msg: Message?) {
             super.handleMessage(msg)
-            ZLog.i(ZTag.TAG_DEBUG, "handleMessage")
+            ZLog.i(ZTag.TAG_DEBUG, "receiver messenger reply message")
+            try {
+                val serviceManager = Class.forName("android.os.ServiceManager");
+                val method = serviceManager.getMethod("getService", String::class.java)
+                val testBinder = method.invoke(null, "testBinder") as Binder
+                ZLog.v(ZTag.TAG_DEBUG, "get testBinder success :$testBinder");
+                testBinder.transact(0, write, reply, 0)
+                val replayMessage = reply.readInt()
+                ZLog.v(ZTag.TAG_DEBUG, "receiver testBinder message :$replayMessage");
+            } catch (e: Exception) {
+                ZLog.e(ZTag.TAG_DEBUG, "get testBinder fail");
+            }
         }
     })
 
@@ -66,7 +85,7 @@ class MainActivity : AbsActivity() {
             sendMessenger = Messenger(service)
         }
     }
-    var wakeLock: PowerManager.WakeLock? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -85,22 +104,19 @@ class MainActivity : AbsActivity() {
             intervalButton?.start()
         }
         main_test_button.setOnClickListener {
-            val msg = Message.obtain()
-            msg.replyTo = messenger
-            sendMessenger?.send(msg)
-            //
-            KotlinDebug.test(this)
-            TestDebug.test(this)
-//            ThreadPlugins.runInUIThread(Runnable {
-//                startService(Intent(this, LogcatService::class.java))
-//            }, 10_000L)
+//            val msg = Message.obtain()
+//            msg.replyTo = messenger
+//            sendMessenger?.send(msg)
+//            //
+//            KotlinDebug.test(this)
+//            TestDebug.test(this)
+            Thread(wakeLockTask).start()
         }
         // ------------------------------------------------------
         drawerToggle = ActionBarDrawerToggle(this, main_drawer_layout, R.string.app_name, R.string.app_name).apply {
             syncState()
         }
         main_drawer_layout.addDrawerListener(drawerToggle)
-
         main_left_nav.run {
             setNavigationItemSelectedListener { menuItem ->
                 when (menuItem.itemId) {
@@ -123,13 +139,6 @@ class MainActivity : AbsActivity() {
             ZLog.i(ZTag.TAG_DEBUG, "main_viewpager on hover")
             true
         }
-//        val obj = DeviceStatus()
-//        weakReference = WeakReference(obj)
-
-
-        val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
-        wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyWakeLock")
-        wakeLock?.acquire()
     }
 
 
@@ -169,7 +178,6 @@ class MainActivity : AbsActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        wakeLock?.release()
         dirListener.stopWatching()
         unbindService(serviceConnection)
         intervalButton?.stop()

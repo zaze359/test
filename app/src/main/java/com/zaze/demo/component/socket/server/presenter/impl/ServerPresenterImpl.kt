@@ -1,19 +1,14 @@
 package com.zaze.demo.component.socket.server.presenter.impl
 
-import android.app.NotificationManager
-import android.content.Context
-import android.os.PowerManager
-import androidx.core.app.NotificationCompat
+import com.zaze.common.base.BaseApplication
 import com.zaze.common.base.mvp.BaseMvpPresenter
-import com.zaze.demo.R
-import com.zaze.demo.component.socket.BaseSocketClient
-import com.zaze.demo.component.socket.MessageType
-import com.zaze.demo.component.socket.SocketMessage
-import com.zaze.demo.component.socket.UDPSocketClient
+import com.zaze.demo.component.socket.*
 import com.zaze.demo.component.socket.server.presenter.ServerPresenter
 import com.zaze.demo.component.socket.server.view.ServerView
-import com.zaze.utils.JsonUtil
+import com.zaze.utils.NetUtil
 import com.zaze.utils.ThreadManager
+import com.zaze.utils.log.ZLog
+import com.zaze.utils.log.ZTag
 import org.json.JSONObject
 import java.net.InetSocketAddress
 import java.util.*
@@ -50,24 +45,36 @@ open class ServerPresenterImpl(view: ServerView) : BaseMvpPresenter<ServerView>(
     }
 
     private fun notification(socketMessage: SocketMessage?) {
-        val builder = NotificationCompat.Builder(view.context)
-        builder.setSmallIcon(R.mipmap.ic_launcher)
-        builder.setContentTitle("title")
-        builder.setContentText(JsonUtil.objToJson(socketMessage))
-        builder.setAutoCancel(true)
-        // 设置通知主题的意图
-        //        Intent resultIntent = new Intent(this, TaskActivity.class);
-        //        PendingIntent resultPendingIntent = PendingIntent.getActivity(
-        //                this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        //        builder.setContentIntent(resultPendingIntent);
-        val mNotificationManager = view.context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
-        mNotificationManager!!.notify(1, builder.build())
+//        val builder = NotificationCompat.Builder(view.context)
+//        builder.setSmallIcon(R.mipmap.ic_launcher)
+//        builder.setContentTitle("title")
+//        builder.setContentText(JsonUtil.objToJson(socketMessage))
+//        builder.setAutoCancel(true)
+//        // 设置通知主题的意图
+//        //        Intent resultIntent = new Intent(this, TaskActivity.class);
+//        //        PendingIntent resultPendingIntent = PendingIntent.getActivity(
+//        //                this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//        //        builder.setContentIntent(resultPendingIntent);
+//        val mNotificationManager = view.context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
+//        mNotificationManager!!.notify(1, builder.build())
     }
 
     override fun startServer() {
-        val pm = view.context.getSystemService(Context.POWER_SERVICE) as PowerManager?
+//        val pm = view.context.getSystemService(Context.POWER_SERVICE) as PowerManager?
 //        wakeLock = pm!!.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyWakeLock")
 //        wakeLock?.acquire()
+
+        view.showMessage(NetUtil.getIpAddress(BaseApplication.getInstance()))
+//        TcpSocketClient.getInstance().connect("", 8003, object : TcpSocketClient.SocketFace {
+//            override fun onEvent(id: Int, code: Int, description: String?) {
+//                ZLog.d(ZTag.TAG_DEBUG, "TcpSocketClient onEvent:")
+//            }
+//
+//            override fun onReceiver(id: Int, data: ByteArray?, dataLen: Int) {
+//                ZLog.d(ZTag.TAG_DEBUG, "TcpSocketClient  onReceiver:")
+//            }
+//
+//        })
         serverSocket.receive()
     }
 

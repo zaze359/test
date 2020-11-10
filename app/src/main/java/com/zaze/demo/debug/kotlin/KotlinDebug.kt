@@ -7,13 +7,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.util.Log
-import com.zaze.demo.debug.TestDebug
-import com.zaze.utils.FileUtil
-import com.zaze.utils.ZCommand
-import com.zaze.utils.log.ZLog
-import com.zaze.utils.log.ZTag
-import java.io.File
-
 
 /**
  * Description :
@@ -24,19 +17,6 @@ object KotlinDebug {
 
     var thread = Thread()
     fun test(context: Activity) {
-        thread.interrupt()
-        thread = Thread {
-            ZLog.i(ZTag.TAG, "execCmdForRes start")
-            val bugReport = "/sdcard/bugreport.log"
-            FileUtil.createFileNotExists(bugReport)
-            try {
-                TestDebug.DoShellCmd("bugreport > $bugReport  2>&1")
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-            ZLog.i(ZTag.TAG, "execCmdForRes end")
-        }
-        thread.start()
     }
 
     fun getDefaultLauncher(context: Context) {
@@ -52,7 +32,6 @@ object KotlinDebug {
         }, PackageManager.MATCH_DEFAULT_ONLY)
 
         Log.i("defaultLauncher", "defaultLauncher : ${defaultLauncher?.activityInfo?.packageName}")
-
     }
 
     fun a() {
@@ -70,9 +49,6 @@ object KotlinDebug {
         val bb = kData.copy()
         val (key, value) = kData
         println("$key;$value")
-        Lambda.debug()
-        Vararg.debug()
-        Infix.debug()
     }
 
 }

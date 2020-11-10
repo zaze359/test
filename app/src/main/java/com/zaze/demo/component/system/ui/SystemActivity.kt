@@ -18,12 +18,16 @@ import com.zaze.demo.component.system.view.SystemView
  */
 open class SystemActivity : BaseActivity(), SystemView {
     var presenter: SystemPresenter? = null;
+
     // 键盘管理器
     private var mKeyguardManager: KeyguardManager? = null
+
     // 电源管理器
     private var mPowerManager: PowerManager? = null
+
     // 键盘锁
     private var mKeyguardLock: KeyguardManager.KeyguardLock? = null
+
     // 唤醒锁
     private var mWakeLock: PowerManager.WakeLock? = null
 

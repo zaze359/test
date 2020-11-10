@@ -151,6 +151,9 @@ object AppUtil {
     @JvmStatic
     @Deprecated(" use getPackageInfo with ContextWrapper")
     fun getPackageInfo(context: Context, packageName: String? = null, flag: Int = 0): PackageInfo? {
+        if (packageName.isNullOrEmpty()) {
+            return null
+        }
         return getPackageInfo(object : ContextWrapper(context) {
             override fun getPackageName(): String? {
                 return packageName
@@ -398,17 +401,17 @@ object AppUtil {
     @JvmStatic
     fun getAppPid(packageName: String): Int {
         ZLog.i(ZTag.TAG_DEBUG, "getAppPid : $packageName")
-        if (ZCommand.isCommandExists("grep")) {
-            val result = ZCommand.execCmdForRes("ps | grep $packageName")
-            if (ZCommand.isSuccess(result) && result.successList.size > 0) {
-                val message = result.successList[0]
-                ZLog.i(ZTag.TAG_DEBUG, "getAppPid : $message")
-                val fields = message.split("\\s+".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-                if (fields.size > 1) {
-                    return ZStringUtil.parseInt(fields[1])
-                }
+//        if (ZCommand.isCommandExists("grep")) {
+        val result = ZCommand.execCmdForRes("ps -A |grep $packageName")
+        if (ZCommand.isSuccess(result) && result.successList.size > 0) {
+            val message = result.successList[0]
+            ZLog.i(ZTag.TAG_DEBUG, "getAppPid : $message")
+            val fields = message.split("\\s+".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            if (fields.size > 1) {
+                return ZStringUtil.parseInt(fields[1])
             }
         }
+//        }
         return 0
     }
 
@@ -518,4 +521,11 @@ object AppUtil {
         return activityManager!!
     }
 
+    fun getAppMetaData(context: Context, packageName: String): Bundle? {
+        try {
+            return context.packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA).metaData
+        } catch (e: Exception) {
+            return null
+        }
+    }
 }

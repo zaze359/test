@@ -1,9 +1,7 @@
 package com.zaze.demo.debug;
 
-import android.app.admin.DevicePolicyManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
 import android.content.res.AssetManager;
 import android.content.res.XmlResourceParser;
 import android.net.Uri;
@@ -33,7 +31,6 @@ import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileLock;
 import java.nio.charset.Charset;
-import java.util.List;
 import java.util.Random;
 import java.util.regex.Pattern;
 
@@ -62,80 +59,68 @@ public class TestDebug {
 
     private static FileLock fileLock;
 
+    public static final String TABLE_NAME = "favorites";
+    public static final String AUTHORITY = "com.android.launcher3.settings".intern();
+
+    /**
+     * The content:// style URL for this table
+     */
+    public static final Uri CONTENT_URI = Uri.parse("content://" +
+            AUTHORITY + "/" + TABLE_NAME);
+
     public static void test(final Context context) {
-//        ThreadPlugins.runInIoThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                for (int i = 0; i < 1000; i++) {
-//                    List<ApplicationInfo> list = AppUtil.getInstalledApplications(context, 0);
-//                    for (ApplicationInfo app : list) {
-//                        Log.i(TAG, "getInstalledApplication : " + app.packageName);
-//                    }
+//        String packageName = "com.yangcong345.onionschool";
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+//            UserManager mUserManager = (UserManager) context.getSystemService(Context.USER_SERVICE);
+//            List<UserHandle> users = mUserManager.getUserProfiles();
+//            for (UserHandle userHandle : users) {
+//                ZLog.i(ZTag.TAG, "users : " + userHandle.toString());
+//                LauncherApps mLauncherApps = (LauncherApps) context.getSystemService(Context.LAUNCHER_APPS_SERVICE);
+//                List<LauncherActivityInfo> list = mLauncherApps.getActivityList(null, userHandle);
+//                for (LauncherActivityInfo activityInfo : list) {
+//                    ZLog.i(ZTag.TAG, "activityInfo : " + userHandle.toString() + " >> " + activityInfo.getName());
 //                }
 //            }
-//        });
-//        new A<B>().a("{\"a\" : \"abc\"}");
-//        aaaaaa(context);
-//        ZCommand.CommandResult result = ZCommand.execCmdForRes("dumpsys activity activities");
-//        Log.i(TAG, "CommandResult = " + result.successMsg);
-
-//        Date date = DateUtil.stringToDate("0000-00-01", "yyyy-MM-dd", TimeZone.getDefault());
-//        Random random = new Random(8);
-//        Log.i(TAG, "date = " + date);
-//        for (int i = 0; i < 10; i++) {
-//            Log.i(TAG, "Random = " + random.ne······xtInt(8));
 //        }
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                new OkHttpRequestClient().request(new ZRequest.Builder().url("https://kyfw.12306.cn/otn/").build());
+//        try {
+//            Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, null, null, null, MediaStore.Images.Media.DEFAULT_SORT_ORDER);
+//            if (cursor != null) {
+//                ZLog.i(ZTag.TAG, "cursor getCount : " + cursor.getCount());
+//                while (cursor.moveToNext()) {
+//                    String DISPLAY_NAME = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DISPLAY_NAME));
+//                    String DATA = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATA));
+//                    ZLog.i(ZTag.TAG, "cursor DISPLAY_NAME : " + DISPLAY_NAME);
+//                    ZLog.i(ZTag.TAG, "cursor DATA: " + DATA);
+//                }
 //            }
-//        }).start();
-//        AppUtil.install(context, Environment.getExternalStorageDirectory().getAbsolutePath() + "/aa.apk");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
-//        install(context, "com.zaze.demo.fileProvider", new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/aa.apk"))
+//        Cursor cursor = context.getContentResolver().query(CONTENT_URI, null, null, null, null);
+//        if (cursor != null) {
+//            ZLog.i(ZTag.TAG, "cursor getCount : " + cursor.getCount());
+//            while (cursor.moveToNext()) {
+//                int itemType = cursor.getInt(cursor.getColumnIndexOrThrow("itemType"));
+//                ZLog.i(ZTag.TAG, "cursor itemType : " + itemType);
+//                ZLog.i(ZTag.TAG, "cursor : " + cursor);
+//            }
+//        }
 
-//        ZLog.i(ZTag.TAG, "getIpAddress : " + NetUtil.getIpAddress(context));
-//        ZLog.i(ZTag.TAG, "getGateway : " + NetUtil.getGateway(context));
 
-//        new D().createB().print();
+        String filePath = "sdcard/xuehai/log/statistics/2/realtime/string/crash/crash#com.xh.zhitongyuntch#2020-10-27_11:06:32#.log";
+        FileUtil.writeToFile(filePath, "aaaa");
 
-        Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
-        List<ResolveInfo> list = context.getPackageManager().queryIntentActivities(intent, 0);
-        if (list == null || list.isEmpty()) {
-            return;
-        }
-        for (ResolveInfo resolveInfo : list) {
-            ZLog.i(ZTag.TAG, "DoShellCmd : " + resolveInfo.activityInfo.packageName);
-        }
+        // --------------------------------------------------
+//        Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+//        List<ResolveInfo> list = context.getPackageManager().queryIntentActivities(intent, 0);
+//        if (list == null || list.isEmpty()) {
+//            return;
+//        }
+//        for (ResolveInfo resolveInfo : list) {
+//            ZLog.i(ZTag.TAG, "ACTION_ADD_DEVICE_ADMIN : " + resolveInfo.activityInfo.packageName);
+//        }
 
-    }
-
-    public static int DoShellCmd(String cmd) {
-        Log.i(ZTag.TAG, "DoShellCmd : " + cmd);
-        Process p = null;
-        String[] shell_command = {
-                "/system/bin/sh", "-c", cmd
-        };
-
-        try {
-            Log.i(ZTag.TAG, "exec command");
-            p = Runtime.getRuntime().exec(shell_command);
-            p.waitFor();
-            Log.i(ZTag.TAG, "exec done");
-        } catch (IOException exception) {
-            Log.e(ZTag.TAG, "DoShellCmd - IOException", exception);
-            return -1;
-        } catch (SecurityException exception) {
-            Log.e(ZTag.TAG, "DoShellCmd - SecurityException", exception);
-            return -1;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            return -1;
-        }
-
-        Log.i(ZTag.TAG, "DoShellCmd done: " + cmd);
-        return 1;
     }
 
 

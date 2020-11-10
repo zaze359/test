@@ -3,16 +3,13 @@ package com.zaze.common.base;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
-import android.content.ComponentCallbacks;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Process;
 import android.text.TextUtils;
 
-import com.zaze.common.thread.ThreadPlugins;
 import com.zaze.utils.DisplayUtil;
 import com.zaze.utils.cache.MemoryCacheManager;
 import com.zaze.utils.log.ZLog;
@@ -57,7 +54,7 @@ public abstract class BaseApplication extends Application {
         this.registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-                aliveActivityCount ++;
+                aliveActivityCount++;
                 ZLog.i(ZTag.TAG_DEBUG, "onActivityCreated aliveActivityCount: " + aliveActivityCount);
             }
 
@@ -88,8 +85,8 @@ public abstract class BaseApplication extends Application {
 
             @Override
             public void onActivityDestroyed(Activity activity) {
-                aliveActivityCount --;
-                if(aliveActivityCount == 0) {
+                aliveActivityCount--;
+                if (aliveActivityCount == 0) {
                     // 此时没有活着的activity
                 }
                 ZLog.i(ZTag.TAG_DEBUG, "onActivityDestroyed aliveActivityCount: " + aliveActivityCount);

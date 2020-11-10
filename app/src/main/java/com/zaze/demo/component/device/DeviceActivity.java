@@ -5,6 +5,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.zaze.common.base.AbsActivity;
 import com.zaze.common.base.ext.ViewModelFactoryKt;
 import com.zaze.demo.R;
@@ -16,11 +21,6 @@ import com.zaze.utils.ZStringUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-
-import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 
 /**

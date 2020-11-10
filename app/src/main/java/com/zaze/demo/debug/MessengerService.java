@@ -12,6 +12,8 @@ import android.os.RemoteException;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
+import java.lang.reflect.Method;
+
 /**
  * Description :
  *
@@ -26,11 +28,28 @@ public class MessengerService extends Service {
         handlerThread.start();
     }
 
+    private TestBinder testBinder = new TestBinder();
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+    }
+
     Messenger messenger = new Messenger(new Handler(handlerThread.getLooper()) {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             ZLog.i(ZTag.TAG_DEBUG, "handleMessage");
+            try {
+                Class<?> serviceManager = Class.forName("android.os.ServiceManager");
+                Method method = serviceManager.getMethod("addService", String.class, IBinder.class);
+                method.setAccessible(true);
+                method.invoke(null, "testBinder", testBinder);
+                ZLog.v(ZTag.TAG, "add testBinder to ServiceManager");
+            } catch (Exception e) {
+                ZLog.e(ZTag.TAG, "add testBinder to ServiceManager error");
+                e.printStackTrace();
+            }
             Message msgToClient = Message.obtain(msg);
             try {
                 msg.replyTo.send(msgToClient);

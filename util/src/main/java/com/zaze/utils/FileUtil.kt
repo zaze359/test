@@ -196,7 +196,7 @@ object FileUtil {
     @JvmStatic
     fun createParentDir(file: File): Boolean {
         val parentFile = file.parentFile
-        return if (parentFile.exists()) {
+        return if (parentFile != null && parentFile.exists()) {
             true
         } else {
             parentFile.mkdirs()

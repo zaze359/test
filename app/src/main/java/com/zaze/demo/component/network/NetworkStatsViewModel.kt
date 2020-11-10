@@ -29,7 +29,6 @@ class NetworkStatsViewModel(application: Application) : AbsAndroidViewModel(appl
         }.subscribe(MyObserver())
     }
 
-
 //    fun onRefresh() {
 //        Observable.fromCallable(Callable<Collection<Any>> { AnalyzeTrafficCompat.getInstance(getView().getContext()).getDayNetworkTraffic() }).subscribeOn(Schedulers.io())
 //                .observeOn(AndroidSchedulers.mainThread())

@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
  * @author : ZAZE
  * @version : 2017-11-27 - 15:07
  */
-class TcpSocketClient {
+public class TcpSocketClient {
     private SocketFace socketFace;
     private boolean isRunning;
     private ThreadPoolExecutor serverExecutor;

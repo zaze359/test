@@ -1,4 +1,4 @@
-package com.zaze.demo.component.socket.server.ui
+package com.zaze.demo.component.socket.server
 
 
 import android.os.Bundle
