@@ -12,6 +12,8 @@ import java.util.Collection;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Description :
  *
@@ -30,12 +32,12 @@ public class SocketAdapter extends BaseRecyclerAdapter<SocketMessage, SocketAdap
     }
 
     @Override
-    public SocketHolder createViewHolder(View convertView) {
+    public SocketHolder createViewHolder(@NotNull View convertView) {
         return new SocketHolder(convertView);
     }
 
     @Override
-    public void onBindView(SocketHolder holder, SocketMessage value, int position) {
+    public void onBindView(@NotNull SocketHolder holder, SocketMessage value, int position) {
 //        String message = "";
 //        try {
 //            message = value.getString("message");

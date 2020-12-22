@@ -22,37 +22,39 @@ class DefaultNetworkCallback(private val connectivityManager: ConnectivityManage
 
     override fun onAvailable(network: Network) {
         super.onAvailable(network)
-        ZLog.d(ZTag.TAG, "onAvailable network: ${connectivityManager.getNetworkInfo(network)})")
+        ZLog.d(ZTag.TAG_NET, "onAvailable network: ${connectivityManager.getNetworkInfo(network)})")
         NetworkManger.onAvailable(connectivityManager, network)
     }
 
     override fun onUnavailable() {
         super.onUnavailable()
-        ZLog.w(ZTag.TAG, "onUnavailable ")
+        ZLog.w(ZTag.TAG_NET, "onUnavailable ")
         NetworkManger.onUnavailable()
     }
 
     override fun onLinkPropertiesChanged(network: Network, linkProperties: LinkProperties) {
         super.onLinkPropertiesChanged(network, linkProperties)
-        ZLog.d(ZTag.TAG, "onLinkPropertiesChanged network: ${connectivityManager.getNetworkInfo(network)})")
-        ZLog.d(ZTag.TAG, "onLinkPropertiesChanged linkProperties: $linkProperties ")
+        ZLog.d(ZTag.TAG_NET, "onLinkPropertiesChanged network: ${connectivityManager.getNetworkInfo(network)})")
+//        ZLog.d(ZTag.TAG_NET, "onLinkPropertiesChanged linkProperties: $linkProperties ")
     }
 
     override fun onLosing(network: Network, maxMsToLive: Int) {
         super.onLosing(network, maxMsToLive)
-        ZLog.d(ZTag.TAG, "onLosing network: ${connectivityManager.getNetworkInfo(network)})   maxMsToLive : $maxMsToLive")
+//        ZLog.d(ZTag.TAG_NET, "onLosing network: ${connectivityManager.getNetworkInfo(network)})   maxMsToLive : $maxMsToLive")
+//        ZLog.d(ZTag.TAG_NET, "onLosing network: ${connectivityManager.activeNetworkInfo})")
     }
 
     override fun onLost(network: Network) {
         super.onLost(network)
-        ZLog.w(ZTag.TAG, "onLost network: ${connectivityManager.getNetworkInfo(network)})")
+        ZLog.w(ZTag.TAG_NET, "onLost network: ${connectivityManager.getNetworkInfo(network)})")
+        ZLog.d(ZTag.TAG_NET, "onLost network: ${connectivityManager.activeNetworkInfo})")
         NetworkManger.onLost()
     }
 
     override fun onCapabilitiesChanged(network: Network, networkCapabilities: NetworkCapabilities) {
         super.onCapabilitiesChanged(network, networkCapabilities)
-        ZLog.d(ZTag.TAG, "onCapabilitiesChanged network: ${connectivityManager.getNetworkInfo(network).isConnected}")
-        ZLog.d(ZTag.TAG, "onCapabilitiesChanged networkCapabilities: $networkCapabilities")
+        ZLog.d(ZTag.TAG_NET, "onCapabilitiesChanged network: ${connectivityManager.getNetworkInfo(network).isConnected}")
+//        ZLog.d(ZTag.TAG_NET, "onCapabilitiesChanged networkCapabilities: $networkCapabilities")
     }
 
 

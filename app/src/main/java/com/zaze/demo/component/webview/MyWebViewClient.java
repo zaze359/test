@@ -31,6 +31,7 @@ public class MyWebViewClient extends WebViewClient {
         ZLog.i(TAG, "onPageStarted : " + url);
     }
 
+
     @Override
     public void onPageFinished(WebView view, String url) {
         super.onPageFinished(view, url);

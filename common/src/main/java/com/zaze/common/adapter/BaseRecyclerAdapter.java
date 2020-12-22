@@ -8,13 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Description :
@@ -24,10 +25,10 @@ import androidx.recyclerview.widget.RecyclerView;
  * @version : 1.0
  */
 public abstract class BaseRecyclerAdapter<V, H extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<H> implements ResourceAdapter {
-    private Context context;
+    private final Context context;
     private final List<V> dataList = new ArrayList<>();
 
-    public BaseRecyclerAdapter(Context context, Collection<V> data) {
+    public BaseRecyclerAdapter(@NotNull Context context, Collection<V> data) {
         this.context = context;
         setDataList(data, false);
     }
@@ -46,6 +47,7 @@ public abstract class BaseRecyclerAdapter<V, H extends RecyclerView.ViewHolder> 
         }
     }
 
+    @NotNull
     @Override
     public H onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(getViewLayoutId(), parent, false);
@@ -53,8 +55,11 @@ public abstract class BaseRecyclerAdapter<V, H extends RecyclerView.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(H holder, int position) {
-        onBindView(holder, getItem(position), position);
+    public void onBindViewHolder(@NotNull H holder, int position) {
+        V v = getItem(position);
+        if(v != null) {
+            onBindView(holder, v, position);
+        }
     }
 
     @Override
@@ -98,7 +103,7 @@ public abstract class BaseRecyclerAdapter<V, H extends RecyclerView.ViewHolder> 
      * @param convertView convertView
      * @return H
      */
-    public abstract H createViewHolder(@NonNull View convertView);
+    public abstract H createViewHolder(@NotNull View convertView);
 
     /**
      * view赋值
@@ -107,7 +112,7 @@ public abstract class BaseRecyclerAdapter<V, H extends RecyclerView.ViewHolder> 
      * @param value    value
      * @param position position
      */
-    public abstract void onBindView(H holder, V value, int position);
+    public abstract void onBindView(@NotNull H holder, @NotNull V value, int position);
 
     // --------------------------------------------------
     @Override

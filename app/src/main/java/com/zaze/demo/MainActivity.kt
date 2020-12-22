@@ -8,6 +8,7 @@ import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.*
+import android.provider.Settings
 import android.view.KeyEvent
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -20,21 +21,18 @@ import com.zaze.common.base.AbsFragment
 import com.zaze.common.base.ext.setImmersion
 import com.zaze.common.base.ext.setupActionBar
 import com.zaze.common.permission.PermissionUtil
-import com.zaze.common.thread.ThreadPlugins
 import com.zaze.common.widget.IntervalButtonWidget
 import com.zaze.demo.component.table.TableFragment
 import com.zaze.demo.debug.LogDirListener
 import com.zaze.demo.debug.MessengerService
-import com.zaze.demo.debug.TestDebug
-import com.zaze.demo.debug.kotlin.KotlinDebug
-import com.zaze.demo.debug.wake.NormalTask
-import com.zaze.demo.util.plugins.TaskPlugins
 import com.zaze.utils.FileUtil
+import com.zaze.utils.NetUtil
 import com.zaze.utils.ToastUtil
-import com.zaze.utils.date.DateUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 /**
@@ -53,8 +51,6 @@ class MainActivity : AbsActivity() {
         writeInt(2233)
     }
     val reply = Parcel.obtain()
-
-    private val wakeLockTask = NormalTask()
 
     private val messenger = Messenger(object : Handler() {
         override fun handleMessage(msg: Message?) {
@@ -110,7 +106,21 @@ class MainActivity : AbsActivity() {
 //            //
 //            KotlinDebug.test(this)
 //            TestDebug.test(this)
-            Thread(wakeLockTask).start()
+//            val wakeLockTask = PowerLockTask(this@MainActivity)
+//            Thread(wakeLockTask).start()
+//            Thread(AlarmTask(this)).start()
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
+//                AppUtil.getInstalledApplications(this).forEach {
+//                    ZLog.i(ZTag.TAG, "${it.packageName} isIgnoringBatteryOptimizations: ${pm.isIgnoringBatteryOptimizations(it.packageName)}")
+//                }
+//            }
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                startActivity(Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).also {
+//                    it.data = Uri.parse("package:" + this.getPackageName())
+//                })
+//            }
+
         }
         // ------------------------------------------------------
         drawerToggle = ActionBarDrawerToggle(this, main_drawer_layout, R.string.app_name, R.string.app_name).apply {

@@ -23,4 +23,8 @@ public class WebViewConsole {
     public static void jsConsole(WebView webView, String js) {
         webView.loadUrl(js);
     }
+
+    public static void addDom(WebView webView) {
+        jsConsole(webView, "JavaScript:function addDom2(){var doms=document.createElement('div'); doms.innerText='TEST';document.body.appendChild(doms);} addDom2();");
+    }
 }

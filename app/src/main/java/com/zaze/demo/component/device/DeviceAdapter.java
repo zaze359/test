@@ -14,6 +14,8 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Description :
  *
@@ -32,12 +34,12 @@ class DeviceAdapter extends BaseRecyclerAdapter<DeviceStatus, DeviceAdapter.Devi
     }
 
     @Override
-    public DeviceHolder createViewHolder(View convertView) {
+    public DeviceHolder createViewHolder(@NotNull View convertView) {
         return new DeviceHolder(convertView);
     }
 
     @Override
-    public void onBindView(DeviceHolder deviceHolder, DeviceStatus deviceStatus, int i) {
+    public void onBindView(@NotNull DeviceHolder deviceHolder, DeviceStatus deviceStatus, int i) {
         deviceHolder.itemDeviceTagTv.setText(ZStringUtil.parseString(deviceStatus.getTag()));
         deviceHolder.itemDeviceContentTv.setText(ZStringUtil.parseString(deviceStatus.getContent()));
     }

@@ -14,6 +14,8 @@ import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Description :
  *
@@ -34,12 +36,12 @@ public class TableAdapter extends BaseRecyclerAdapter<TableEntity, TableAdapter.
     }
 
     @Override
-    public AppItemHolder createViewHolder(View convertView) {
+    public AppItemHolder createViewHolder(@NotNull View convertView) {
         return new AppItemHolder(convertView);
     }
 
     @Override
-    public void onBindView(AppItemHolder holder, final TableEntity value, int position) {
+    public void onBindView(@NotNull AppItemHolder holder, final TableEntity value, int position) {
         holder.itemToolName.setText(value.getName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

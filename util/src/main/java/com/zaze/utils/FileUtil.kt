@@ -396,8 +396,7 @@ object FileUtil {
         var result = StringBuffer()
         if (exists(filePath)) {
             try {
-//                result = readByBytes(FileInputStream(file))
-                result = readLine(FileReader(file))
+                result = readByBytes(FileInputStream(file))
             } catch (e: FileNotFoundException) {
                 e.printStackTrace()
             }
@@ -443,8 +442,8 @@ object FileUtil {
             bfReader = BufferedReader(reader)
             var line = bfReader.readLine()
             while (line != null) {
-                results.append("$line\n")
-                line = bfReader.readLine()
+                results.append(line)
+                line = "\n${bfReader.readLine()}"
             }
             bfReader.close()
         } catch (e: Exception) {

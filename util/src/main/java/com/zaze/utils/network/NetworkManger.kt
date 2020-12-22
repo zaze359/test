@@ -46,7 +46,7 @@ object NetworkManger {
 
     private fun networkChanged(networkType: NetworkType) {
         currentNetwork = networkType
-        ZLog.i(ZTag.TAG, "networkChanged: $networkType")
+        ZLog.i(ZTag.TAG_NET, "networkChanged: $networkType")
     }
 
     // --------------------------------------------------

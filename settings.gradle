@@ -1,3 +1,4 @@
+include ':accessibility'
 include ':share'
 include ':app', ':localrepo', ':animations', ':util', ':common'
 include ':nativelib'

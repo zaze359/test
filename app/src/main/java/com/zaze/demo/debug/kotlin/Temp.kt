@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.zaze.utils.AppUtil
 import com.zaze.utils.DisplayUtil
 import com.zaze.utils.FileUtil
 import com.zaze.utils.ZStringUtil
@@ -81,9 +82,9 @@ object Temp {
 //        AppUtil.getActivityManager(context).runningAppProcesses.forEach {
 //            Log.i("test", "runningAppProcesses = ${it.processName}")
 //        }
-//        AppUtil.getActivityManager(context).getRunningTasks(3).forEach {
-//            Log.i("test", "runningAppProcesses = ${it.topActivity.packageName}")
-//        }
+        AppUtil.getActivityManager(context).getRunningTasks(3).forEach {
+            Log.i("test", "runningAppProcesses = ${it.topActivity.packageName}")
+        }
 
     }
 

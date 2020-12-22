@@ -3,6 +3,12 @@ package com.zaze.demo.debug.wake
 import android.content.Context
 import android.os.PowerManager
 import android.os.PowerManager.WakeLock
+import com.zaze.demo.debug.HttpDownloader
+import com.zaze.utils.FileUtil
+import com.zaze.utils.log.ZLog
+import com.zaze.utils.log.ZTag
+import java.net.HttpURLConnection
+import java.net.URL
 
 /**
  * Description :
@@ -19,13 +25,14 @@ class PowerLockTask(context: Context) : NormalTask() {
         wakeLock?.acquire()
     }
 
-    override fun run() {
-        super.run()
+    override fun mode(): String {
+        return "PowerLock"
     }
 
     override fun release() {
         super.release()
         wakeLock?.release()
-
     }
+
+
 }

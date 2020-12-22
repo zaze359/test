@@ -1,8 +1,5 @@
 package com.zaze.demo.debug.kotlin
 
-import android.util.Log
-import com.tencent.bugly.proguard.aa
-
 /**
  * Description :
  *

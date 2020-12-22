@@ -18,6 +18,8 @@ import java.util.Collection;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Description :
  *
@@ -36,12 +38,12 @@ public class NetworkStatsAdapter extends BaseRecyclerAdapter<NetTrafficStats, Ne
     }
 
     @Override
-    public NetworkStatsHolder createViewHolder(View convertView) {
+    public NetworkStatsHolder createViewHolder(@NotNull View convertView) {
         return new NetworkStatsHolder(convertView);
     }
 
     @Override
-    public void onBindView(NetworkStatsHolder holder, NetTrafficStats value, int position) {
+    public void onBindView(@NotNull NetworkStatsHolder holder, NetTrafficStats value, int position) {
         AppShortcut appShortcut = value.getAppShortcut();
         Drawable drawable = null;
         if (appShortcut != null) {

@@ -7,22 +7,33 @@ import com.zaze.utils.log.ZTag
 
 /**
  * Description :
+ * 当连接上指定网络时: isAvailable = true,isConnected = true,
+ *  Doze模式下 isConnected = false
+ *  App Standby 模式下 切后台时 isConnected = false
  * @author : ZAZE
  * @version : 2019-11-07 - 14:30
- *
- * not connect, available:          显示连接已保存, 但标题栏没有, 即没有连接上
- * not connect, available:          选择不保存后
- * not connect, not available:      选择连接，在正在获取IP地址时
- * connect, available:              连接上后
- * connect, available:              显示连接已保存，标题栏也有已连接上的图标
  */
 class NetworkType(networkInfo: NetworkInfo? = null) {
-    val netType: Int
+    val type: Int
     var isAvailable: Boolean
     var isConnected: Boolean
 
+    companion object {
+        const val NULL = 0
+
+        /**
+         * WIFI
+         */
+        const val WIFI = 10
+
+        /**
+         *  数据流量
+         */
+        const val MOBILE = 20
+    }
+
     init {
-        netType = when (networkInfo) {
+        type = when (networkInfo) {
             null -> {
                 NULL
             }
@@ -42,55 +53,37 @@ class NetworkType(networkInfo: NetworkInfo? = null) {
                 }
             }
         }
-        ZLog.i(ZTag.TAG, "networkInfo: $networkInfo")
+        ZLog.i(ZTag.TAG_NET, "networkInfo: $networkInfo")
         isAvailable = networkInfo?.isAvailable ?: false
         isConnected = networkInfo?.isConnected ?: false
-
-    }
-
-    companion object {
-        const val NULL = 0
-
-        /**
-         * WIFI
-         */
-        const val WIFI = 10
-
-        /**
-         *  数据流量
-         */
-        const val MOBILE = 20
     }
 
     /**
      * 当前无网络
      */
     fun isNull(): Boolean {
-        return netType == NULL
+        return type == NULL
     }
 
     /**
      * 是可用的 WLAN
      */
     fun isWlanAvailable(): Boolean {
-        return netType == WIFI && isEnable()
+        return type == WIFI && isAvailable
     }
 
     /**
      * 是可用的 Mobile
      */
     fun isMobileAvailable(): Boolean {
-        return netType == MOBILE && isEnable()
+        return type == MOBILE && isAvailable
     }
 
-    /**
-     * 是否可用
-     */
     fun isEnable(): Boolean {
-        return isAvailable
+        return isAvailable && isConnected
     }
 
     override fun toString(): String {
-        return "NetworkType(netType=$netType, isAvailable=$isAvailable, isConnected=$isConnected)"
+        return "NetworkType(type=$type, isAvailable=$isAvailable, isConnected=$isConnected)"
     }
 }

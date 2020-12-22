@@ -37,7 +37,8 @@ dependencies {
 
     implementation "androidx.annotation:annotation:$supportLibraryVersion"
     implementation "androidx.recyclerview:recyclerview:$rootProject.supportLibraryVersion"
-    implementation "androidx.appcompat:appcompat:$rootProject.supportLibraryVersion"
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     api "androidx.lifecycle:lifecycle-extensions:$archLifecycleVersionx"

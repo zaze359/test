@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 
+import com.zaze.demo.debug.wake.AlarmTask;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
@@ -26,10 +27,11 @@ public class TestBroadcastReceiver extends BroadcastReceiver {
         try {
             if (TextUtils.equals(intent.getAction(), ACTION)) {
                 int id = intent.getIntExtra(ID, -1);
-                Bean bean = intent.getParcelableExtra(TEST);
+//                Bean bean = intent.getParcelableExtra(TEST);
                 ZLog.v(ZTag.TAG_DEBUG, "zaze onReceive id : " + id);
-                ZLog.v(ZTag.TAG_DEBUG, "zaze onReceive bean : " + bean.getId());
+//                ZLog.v(ZTag.TAG_DEBUG, "zaze onReceive bean : " + bean.getId());
 //                ZLog.v(ZTag.TAG_DEBUG, "zaze onReceive bean : " + bean);
+                new Thread(new AlarmTask(context)).start();
             }
         } catch (Throwable e) {
             e.printStackTrace();

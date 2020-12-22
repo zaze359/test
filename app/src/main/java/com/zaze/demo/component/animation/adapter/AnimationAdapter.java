@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.zaze.common.adapter.BaseRecyclerAdapter;
 import com.zaze.common.util.ActivityUtil;
 import com.zaze.demo.R;
@@ -13,11 +17,9 @@ import com.zaze.demo.component.animation.ui.SharedElementActivity;
 import com.zaze.demo.model.entity.AnimationEntity;
 import com.zaze.utils.ZStringUtil;
 
-import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.util.Pair;
-import androidx.recyclerview.widget.RecyclerView;
+import java.util.List;
 
 /**
  * Description :
@@ -37,12 +39,12 @@ public class AnimationAdapter extends BaseRecyclerAdapter<AnimationEntity, Anima
     }
 
     @Override
-    public AnimationHolder createViewHolder(View convertView) {
+    public AnimationHolder createViewHolder(@NotNull View convertView) {
         return new AnimationHolder(convertView);
     }
 
     @Override
-    public void onBindView(final AnimationHolder holder, final AnimationEntity value, final int position) {
+    public void onBindView(@NotNull final AnimationHolder holder, final AnimationEntity value, final int position) {
         holder.animationTitle.setText(ZStringUtil.parseString(value.getName()));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

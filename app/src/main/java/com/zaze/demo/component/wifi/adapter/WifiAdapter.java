@@ -18,6 +18,8 @@ import java.util.Collection;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Description :
  *
@@ -40,7 +42,7 @@ public class WifiAdapter extends BaseRecyclerAdapter<ScanResult, WifiAdapter.Wif
     }
 
     @Override
-    public WifiViewHolder createViewHolder(View convertView) {
+    public WifiViewHolder createViewHolder(@NotNull View convertView) {
         return new WifiViewHolder(convertView);
     }
 
@@ -52,7 +54,7 @@ public class WifiAdapter extends BaseRecyclerAdapter<ScanResult, WifiAdapter.Wif
     }
 
     @Override
-    public void onBindView(WifiViewHolder holder, final ScanResult value, int position) {
+    public void onBindView(@NotNull WifiViewHolder holder, final ScanResult value, int position) {
         String desc = null;
         if (networkInfo != null && networkInfo.getState() == NetworkInfo.State.CONNECTED) {
             if (isConnect(value)) {

@@ -10,6 +10,7 @@ package com.zaze.utils.log;
 public interface ZTag {
     String TAG = "[ZZ]";
     String TAG_HTTP = "Http" + TAG;
+    String TAG_NET = "Network" + TAG;
     String TAG_ERROR = "Error" + TAG;
     String TAG_FILE = "File" + TAG;
     String TAG_DEBUG = "Debug" + TAG;

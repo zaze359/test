@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="accessibility_service_description">accessibility_service_description</string>
+    <string name="accessibility_service_label">accessibility_service_label</string>
+
+</resources>

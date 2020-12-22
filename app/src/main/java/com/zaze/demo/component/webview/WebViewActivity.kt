@@ -16,6 +16,9 @@ import com.zaze.demo.R
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import kotlinx.android.synthetic.main.web_view_activity.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 
 /**
@@ -29,6 +32,7 @@ open class WebViewActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.web_view_activity)
+        EventBus.getDefault().register(this)
         val settings = web_view.settings
         settings.javaScriptEnabled = true
         settings.domStorageEnabled = true
@@ -36,7 +40,14 @@ open class WebViewActivity : BaseActivity() {
             settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
         }
         web_view.addJavascriptInterface(JSInterface(), "jsInterface")
-        web_view.webViewClient = MyWebViewClient()
+        web_view.webViewClient = object : MyWebViewClient() {
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                WebViewConsole.addDom(web_view)
+                WebViewConsole.consoleDoc(web_view)
+            }
+        }
+
         web_view.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView, newProgress: Int) {
                 web_progress_bar.progress = newProgress
@@ -54,14 +65,25 @@ open class WebViewActivity : BaseActivity() {
                         override fun onAnimationRepeat(animation: Animation) {}
                     })
                     web_progress_bar.startAnimation(animation)
+
                 } else {
                     web_progress_bar.visibility = View.VISIBLE
                 }
             }
         }
 //        WebViewConsole.consoleDoc(web_view)
-//        web_view.loadUrl("file:///android_asset/test.html")
+        ZLog.i(ZTag.TAG, "loadUrl ")
+        web_view.loadUrl("file:///android_asset/index.html")
+
 //        web_view.loadUrl("https://www.baidu.com")
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEvent(ss: WebViewEvent) {
+        ZLog.i(ZTag.TAG, "onEvent $ss")
+        WebViewConsole.jsConsole(web_view, "javascript:window.addDom()")
+//        WebViewConsole.addDom(web_view)
+        WebViewConsole.consoleDoc(web_view)
     }
 
     internal inner class JSInterface {

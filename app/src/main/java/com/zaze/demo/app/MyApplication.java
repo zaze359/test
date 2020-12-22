@@ -11,6 +11,8 @@ import android.os.Build;
 import com.zaze.common.base.BaseApplication;
 import com.zaze.common.thread.ThreadPlugins;
 import com.zaze.demo.component.network.compat.AnalyzeTrafficCompat;
+import com.zaze.demo.component.notification.receiver.TestBroadcastReceiver;
+import com.zaze.demo.component.system.ScreenLockReceiver;
 import com.zaze.demo.debug.DefaultNetworkCallback;
 import com.zaze.demo.debug.LogcatService;
 import com.zaze.demo.debug.wifi.WifiCompat;
@@ -86,6 +88,7 @@ public class MyApplication extends BaseApplication {
                     }
                 });
             }
+            ScreenLockReceiver.register(this);
             PackageReceiver broadcastReceiver = new PackageReceiver();
             IntentFilter intentFilter = new IntentFilter();
             intentFilter.addAction("android.intent.action.PACKAGE_ADDED");
@@ -98,6 +101,7 @@ public class MyApplication extends BaseApplication {
             } else {
                 WifiCompat.listenerByBroadcast(this);
             }
+            this.registerReceiver(new TestBroadcastReceiver(), new IntentFilter(TestBroadcastReceiver.ACTION));
         }
     }
 
