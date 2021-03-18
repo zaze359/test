@@ -34,6 +34,9 @@
     </style>
 
     <style name="BlackTheme" parent="CustomTheme">
+        <item name="imageTint">@color/black</item>
+        <item name="backgroundTint">@color/yellow</item>
+
         <item name="zMainBackground">@color/black</item>
         <item name="zMainTextColor">@color/white</item>
         <item name="zMainTextSize">@dimen/sp_18</item>

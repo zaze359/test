@@ -41,9 +41,10 @@ public class FontActivity extends BaseActivity implements FontView {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         fontTestTv.setTypeface(Typeface.createFromFile("/system/fonts/Roboto-Medium.ttf"));
+//        fontTestTv.setTypeface(Typeface.createFromFile("/sdcard/aa.otf"));
         fontRobotoRegularTv.setTypeface(Typeface.createFromFile("/system/fonts/Roboto-Regular.ttf"));
+//        fontRobotoRegularTv.setTypeface(Typeface.createFromFile("/sdcard/aa.otf"));
 //        fontTestTv.setTypeface(Typeface.createFromFile("/system/fonts/Roboto-Blod.ttf"));
         fontRobotoLightTv.setTypeface(Typeface.createFromFile("/system/fonts/Roboto-Light.ttf"));
     }

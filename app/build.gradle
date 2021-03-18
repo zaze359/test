@@ -141,5 +141,7 @@ dependencies {
     implementation project(':common')
     implementation project(':animations')
     implementation project(':share')
-//    implementation project(':accessibility')
+    implementation project(':accessibility')
+
+    api 'com.blankj:utilcodex:1.25.8'
 }

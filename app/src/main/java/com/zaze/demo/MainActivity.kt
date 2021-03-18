@@ -25,6 +25,8 @@ import com.zaze.common.widget.IntervalButtonWidget
 import com.zaze.demo.component.table.TableFragment
 import com.zaze.demo.debug.LogDirListener
 import com.zaze.demo.debug.MessengerService
+import com.zaze.demo.debug.TestDebug
+import com.zaze.demo.debug.kotlin.KotlinDebug
 import com.zaze.utils.FileUtil
 import com.zaze.utils.NetUtil
 import com.zaze.utils.ToastUtil
@@ -104,7 +106,7 @@ class MainActivity : AbsActivity() {
 //            msg.replyTo = messenger
 //            sendMessenger?.send(msg)
 //            //
-//            KotlinDebug.test(this)
+            KotlinDebug.test(this)
 //            TestDebug.test(this)
 //            val wakeLockTask = PowerLockTask(this@MainActivity)
 //            Thread(wakeLockTask).start()

@@ -36,8 +36,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/dp_4"
-                android:textSize="16sp"
-                android:text="导出apk" />
+                android:text="导出apk"
+                android:textSize="16sp" />
         </LinearLayout>
 
 
@@ -96,6 +96,14 @@
         android:padding="@dimen/dp_4"
         android:textSize="16sp"
         tools:text="/system/app/cacacd" />
+
+    <TextView
+        android:id="@+id/item_app_time_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_4"
+        android:textSize="16sp"
+        tools:text="2020-02-02/2020-03-03" />
 
     <include layout="@layout/layout_split_line" />
 

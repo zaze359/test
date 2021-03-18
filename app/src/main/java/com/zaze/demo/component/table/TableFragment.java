@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.lifecycle.Observer;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -73,7 +73,20 @@ public class TableFragment extends AbsFragment {
     public void showAppList(List<TableEntity> list) {
         if (adapter == null) {
             adapter = new TableAdapter(getActivity(), list);
-            tableRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            GridLayoutManager manager = new GridLayoutManager(getContext(), 4);
+            manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+
+                @Override
+                public int getSpanSize(int position) {
+                    if (position == 0) {
+                        return 2;
+                    } else if (position == 1) {
+                        return 1;
+                    }
+                    return 1;
+                }
+            });
+            tableRecyclerView.setLayoutManager(manager);
             tableRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
             tableRecyclerView.setAdapter(adapter);
         } else {

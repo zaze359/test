@@ -17,6 +17,7 @@ import androidx.appcompat.app.ActionBar;
 import com.zaze.common.base.AbsActivity;
 import com.zaze.common.base.ext.AppCompatActivityExtKt;
 import com.zaze.demo.R;
+import com.zaze.utils.BmpUtil;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -53,8 +54,11 @@ public class BitmapActivity extends AbsActivity {
                 return Unit.INSTANCE;
             }
         });
-        originBmp = BitmapFactory.decodeResource(getResources(), R.mipmap.jljt);
+//        originBmp = BitmapFactory.decodeResource(getResources(), R.mipmap.jljt);
+        originBmp = BmpUtil.toRoundBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.jljt));
         processBmp = Bitmap.createBitmap(originBmp.getWidth(), originBmp.getHeight(), originBmp.getConfig());
+
+
         processImageView = findViewById(R.id.processImageView);
         processImageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         processImageView.post(new Runnable() {

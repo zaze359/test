@@ -18,7 +18,32 @@
     <attr name="zItemTextSize" format="dimension" />
 
     <!--<declare-styleable name="AddImageLayout">-->
-        <!--<attr name="hSpace" format="dimension" />-->
-        <!--<attr name="vSpace" format="dimension" />-->
+    <!--<attr name="hSpace" format="dimension" />-->
+    <!--<attr name="vSpace" format="dimension" />-->
     <!--</declare-styleable>-->
+
+    <declare-styleable name="TintViewBackgroundHelper">
+        <attr name="backgroundTint" />
+    </declare-styleable>
+
+    <declare-styleable name="TintViewImageHelper">
+        <attr name="imageTint" />
+    </declare-styleable>
+
+    <declare-styleable name="TintViewTextHelper">
+        <attr name="mainTextColorTint" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="TintViewAppCardHelper">
+        <attr name="appCardBackgroundTint" format="reference" />
+        <!--        <attr name="appCardTextColorTint" format="color" />-->
+    </declare-styleable>
+
+    <!--    -->
+
+    <declare-styleable name="TintImageView">
+        <attr name="imageTint" format="color" />
+    </declare-styleable>
+
+
 </resources>

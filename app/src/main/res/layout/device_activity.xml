@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -28,30 +29,50 @@
             android:layout_height="wrap_content"
             tools:text="屏幕像素密度" />
 
-        <LinearLayout
+        <com.zaze.demo.theme.widgets.TintConstraintLayout
+            android:id="@+id/device_test_tint_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:background="@color/white">
+
 
             <Button
                 android:id="@+id/device_calculate_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="计算物理尺寸" />
+                android:text="计算物理尺寸"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/device_inch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/dp_4" />
+                android:padding="@dimen/dp_4"
+                app:layout_constraintBottom_toBottomOf="@id/device_calculate_btn"
+                app:layout_constraintLeft_toRightOf="@id/device_calculate_btn"
+                app:layout_constraintTop_toTopOf="@id/device_calculate_btn" />
 
             <EditText
                 android:id="@+id/device_input"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="dpi"
-                android:inputType="" />
-        </LinearLayout>
+                android:inputType=""
+                app:layout_constraintBottom_toBottomOf="@id/device_inch"
+                app:layout_constraintLeft_toRightOf="@id/device_inch"
+                app:layout_constraintTop_toTopOf="@id/device_inch" />
+
+            <com.zaze.demo.theme.widgets.TintImageView
+                android:id="@+id/device_test_tint_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_looks_1"
+                app:imageTint="@color/red"
+                app:layout_constraintBottom_toBottomOf="@id/device_input"
+                app:layout_constraintLeft_toRightOf="@id/device_input"
+                app:layout_constraintTop_toTopOf="@id/device_input" />
+        </com.zaze.demo.theme.widgets.TintConstraintLayout>
 
     </LinearLayout>
 

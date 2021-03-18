@@ -7,6 +7,7 @@ import android.content.res.XmlResourceParser;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.PowerManager;
 import android.util.Base64;
 import android.util.Log;
 
@@ -69,6 +70,7 @@ public class TestDebug {
             AUTHORITY + "/" + TABLE_NAME);
 
     public static void test(final Context context) {
+        PowerManager pManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
 //        String packageName = "com.yangcong345.onionschool";
 //        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
 //            UserManager mUserManager = (UserManager) context.getSystemService(Context.USER_SERVICE);
@@ -108,9 +110,8 @@ public class TestDebug {
 //        }
 
 
-        String filePath = "sdcard/xuehai/log/statistics/2/realtime/string/crash/crash#com.xh.zhitongyuntch#2020-10-27_11:06:32#.log";
-        FileUtil.writeToFile(filePath, "aaaa");
-
+//        String filePath = "sdcard/xuehai/log/statistics/2/realtime/string/crash/crash#com.xh.zhitongyuntch#2020-10-27_11:06:32#.log";
+//        FileUtil.writeToFile(filePath, "aaaa");
         // --------------------------------------------------
 //        Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
 //        List<ResolveInfo> list = context.getPackageManager().queryIntentActivities(intent, 0);

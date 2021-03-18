@@ -16,6 +16,7 @@ import com.zaze.demo.component.system.ScreenLockReceiver;
 import com.zaze.demo.debug.DefaultNetworkCallback;
 import com.zaze.demo.debug.LogcatService;
 import com.zaze.demo.debug.wifi.WifiCompat;
+import com.zaze.demo.receiver.BatteryReceiver;
 import com.zaze.demo.receiver.PackageReceiver;
 import com.zaze.utils.NetUtil;
 import com.zaze.utils.ZCommand;
@@ -102,6 +103,7 @@ public class MyApplication extends BaseApplication {
                 WifiCompat.listenerByBroadcast(this);
             }
             this.registerReceiver(new TestBroadcastReceiver(), new IntentFilter(TestBroadcastReceiver.ACTION));
+            BatteryReceiver.Companion.register(this);
         }
     }
 

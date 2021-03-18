@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 
 import com.zaze.utils.SignaturesUtil;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Description : 应用快捷信息(汇总最新的 Applicaiton 和 packageInfo)
  *
@@ -26,6 +28,8 @@ public class AppShortcut {
     private String signingInfo;
     private boolean isInstalled = false;
     private boolean copyEnable = true;
+    private long firstInstallTime = 0;
+    private long lastUpdateTime = 0;
 
     public String getName() {
         return name;
@@ -107,6 +111,22 @@ public class AppShortcut {
         this.copyEnable = copyEnable;
     }
 
+    public long getFirstInstallTime() {
+        return firstInstallTime;
+    }
+
+    public void setFirstInstallTime(long firstInstallTime) {
+        this.firstInstallTime = firstInstallTime;
+    }
+
+    public long getLastUpdateTime() {
+        return lastUpdateTime;
+    }
+
+    public void setLastUpdateTime(long lastUpdateTime) {
+        this.lastUpdateTime = lastUpdateTime;
+    }
+
     public static @NonNull
     AppShortcut transform(Context context, final @NonNull PackageInfo packageInfo) {
         AppShortcut appShortcut = new AppShortcut();
@@ -129,9 +149,12 @@ public class AppShortcut {
         } else {
             appShortcut.setInstalled(false);
         }
+        appShortcut.setFirstInstallTime(packageInfo.firstInstallTime);
+        appShortcut.setLastUpdateTime(packageInfo.lastUpdateTime);
         return appShortcut;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "AppShortcut{" +
@@ -142,6 +165,11 @@ public class AppShortcut {
                 ", sourceDir='" + sourceDir + '\'' +
                 ", uid=" + uid +
                 ", flags=" + flags +
+                ", signingInfo='" + signingInfo + '\'' +
+                ", isInstalled=" + isInstalled +
+                ", copyEnable=" + copyEnable +
+                ", firstInstallTime=" + firstInstallTime +
+                ", lastUpdateTime=" + lastUpdateTime +
                 '}';
     }
 }

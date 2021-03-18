@@ -1,5 +1,6 @@
 package com.zaze.demo.component.device;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -14,6 +15,9 @@ import com.zaze.common.base.AbsActivity;
 import com.zaze.common.base.ext.ViewModelFactoryKt;
 import com.zaze.demo.R;
 import com.zaze.demo.model.entity.DeviceStatus;
+import com.zaze.demo.theme.ThemeUtils;
+import com.zaze.demo.theme.widgets.TintConstraintLayout;
+import com.zaze.demo.theme.widgets.TintImageView;
 import com.zaze.utils.DisplayUtil;
 import com.zaze.utils.NetUtil;
 import com.zaze.utils.ZStringUtil;
@@ -42,6 +46,8 @@ public class DeviceActivity extends AbsActivity {
     private DeviceAdapter adapter;
     private DeviceViewModel viewModel;
 
+    private TintImageView device_test_tint_iv;
+    private TintConstraintLayout device_test_tint_layout;
 
     @Override
     public void init(@Nullable Bundle savedInstanceState) {
@@ -52,6 +58,8 @@ public class DeviceActivity extends AbsActivity {
         deviceMacAddress = findViewById(R.id.device_mac_address);
         deviceInput = findViewById(R.id.device_input);
         deviceInch = findViewById(R.id.device_inch);
+        device_test_tint_iv = findViewById(R.id.device_test_tint_iv);
+        device_test_tint_layout = findViewById(R.id.device_test_tint_layout);
         viewModel = ViewModelFactoryKt.obtainViewModel(this, DeviceViewModel.class);
         viewModel.deviceInfoList.observe(this, new Observer<ArrayList<DeviceStatus>>() {
             @Override
@@ -70,6 +78,8 @@ public class DeviceActivity extends AbsActivity {
         findViewById(R.id.device_calculate_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setTheme(R.style.BlackTheme);
+                device_test_tint_iv.setImageResource(R.mipmap.ic_looks_2);
                 viewModel.calculatePhysicalSize(0);
             }
         });
@@ -93,6 +103,14 @@ public class DeviceActivity extends AbsActivity {
             deviceRecyclerView.setAdapter(adapter);
         } else {
             adapter.setDataList(list);
+        }
+    }
+
+    @Override
+    public void setTheme(int resId) {
+        super.setTheme(resId);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            ThemeUtils.INSTANCE.refreshUI(this);
         }
     }
 }

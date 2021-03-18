@@ -14,6 +14,7 @@ import com.zaze.demo.R
 import com.zaze.demo.debug.AppShortcut
 import com.zaze.demo.debug.InvariantDeviceProfile
 import com.zaze.utils.*
+import com.zaze.utils.date.DateUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import java.io.File
@@ -66,6 +67,7 @@ class AppAdapter(context: Context, data: Collection<AppShortcut>) : BaseRecycler
         holder.itemAppPackageTv.text = "包名 : $packageName"
         holder.itemAppDirTv.text = "路径 : ${value.sourceDir}"
         holder.itemAppSignTv.text = "签名 : ${value.signingInfo}"
+        holder.itemAppTimeTv.text = "应用时间 : ${formatTime(value.firstInstallTime)}/${formatTime(value.lastUpdateTime)}"
         // --------------------------------------------------
         var drawable: Drawable? = null
         val application = AppUtil.getApplicationInfo(context, packageName)
@@ -94,8 +96,11 @@ class AppAdapter(context: Context, data: Collection<AppShortcut>) : BaseRecycler
                 }
             }
 //            AppUtil.startApplication(context, packageName)
-
         }
+    }
+
+    private fun formatTime(timeMillis: Long): String {
+        return DateUtil.timeMillisToString(timeMillis, "yyyy-MM-dd HH:mm:ss")
     }
 
     inner class PackageHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -108,6 +113,6 @@ class AppAdapter(context: Context, data: Collection<AppShortcut>) : BaseRecycler
         var itemAppVersionNameTv: TextView = itemView.findViewById(R.id.item_app_version_name_tv)
         var itemAppDirTv: TextView = itemView.findViewById(R.id.item_app_dir_tv)
         var itemAppSignTv: TextView = itemView.findViewById(R.id.item_app_sign_tv)
-
+        var itemAppTimeTv: TextView = itemView.findViewById(R.id.item_app_time_tv)
     }
 }

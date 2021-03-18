@@ -64,7 +64,7 @@ public class LogcatService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         ZLog.i(ZTag.TAG_DEBUG, "LogcatService onCreate");
-        if (!LogcatUtil.isRunning()) {
+        if (looperExecutor != null && !looperExecutor.isShutdown() && !LogcatUtil.isRunning()) {
             looperExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
