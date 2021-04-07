@@ -17,14 +17,19 @@ object SignaturesUtil {
 
     //    private val DEBUG = X500Principal("CN=Android Debug,O=Android,C=US")
     @JvmStatic
-    fun getSignatures(context: Context, algorithm: String): String? {
-        return getSignatures(context)?.let { signatures ->
-            val messageDigest = MessageDigest.getInstance(algorithm)
-            signatures.forEach {
-                messageDigest.update(it.toByteArray())
-            }
-            return EncryptionUtil.byteArrayToHex(messageDigest.digest())
+    fun getSignatures(context: Context, algorithm: String?): String? {
+        val signatures = getSignatures(context)
+        if (signatures.isNullOrEmpty()) {
+            return null
         }
+        if (algorithm.isNullOrEmpty()) {
+            return EncryptionUtil.byteArrayToHex(signatures[0].toByteArray())
+        }
+        val messageDigest = MessageDigest.getInstance(algorithm)
+        signatures.forEach {
+            messageDigest.update(it.toByteArray())
+        }
+        return EncryptionUtil.byteArrayToHex(messageDigest.digest())
 
     }
 

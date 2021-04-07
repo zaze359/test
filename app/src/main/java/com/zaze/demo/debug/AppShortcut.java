@@ -8,6 +8,8 @@ import android.content.pm.PackageInfo;
 import androidx.annotation.NonNull;
 
 import com.zaze.utils.SignaturesUtil;
+import com.zaze.utils.log.ZLog;
+import com.zaze.utils.log.ZTag;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -151,6 +153,7 @@ public class AppShortcut {
         }
         appShortcut.setFirstInstallTime(packageInfo.firstInstallTime);
         appShortcut.setLastUpdateTime(packageInfo.lastUpdateTime);
+        ZLog.i(ZTag.TAG, "appShortcut: " + appShortcut.toString());
         return appShortcut;
     }
 

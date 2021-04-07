@@ -26,6 +26,18 @@ object KotlinDebug {
     var thread = Thread()
     fun test(context: Activity) {
 
+
+//        val set = HashSet<Int>()
+//        for (i in 0..100) {
+//            val uid = getUserHandleForUid(context, i)
+//            if (uid >= 0) {
+//                set.add(uid)
+//            }
+//            Log.e("aaaa", "getUserHandleForUid : $uid")
+//        }
+    }
+
+    private fun testBattery(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val batteryManager = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
             Log.i("battery", "percent : ${batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)}%")
@@ -39,15 +51,6 @@ object KotlinDebug {
             Log.i("battery", "percent is $percentBattery%")
         }
         Log.i("battery", "currentTimeMillis: ${System.currentTimeMillis()}")
-
-//        val set = HashSet<Int>()
-//        for (i in 0..100) {
-//            val uid = getUserHandleForUid(context, i)
-//            if (uid >= 0) {
-//                set.add(uid)
-//            }
-//            Log.e("aaaa", "getUserHandleForUid : $uid")
-//        }
     }
 
     private fun getUserHandleForUid(context: Context, uid: Int): Int {

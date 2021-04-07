@@ -30,14 +30,6 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.google.code.gson:gson:2.8.2'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    //
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
-    testImplementation "junit:junit:$rootProject.junitVersion"
-
 }
 
 apply from: "bintray.gradle"
