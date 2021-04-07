@@ -1,4 +1,4 @@
-include ':accessibility'
-include ':share'
-include ':app', ':localrepo', ':animations', ':util', ':common'
-include ':nativelib'
+include ':module_accessibility'
+include ':module_share'
+include ':app', ':module_localrepo', ':module_animations', ':util', ':common'
+include ':module_nativelib'

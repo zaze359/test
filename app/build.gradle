@@ -120,9 +120,9 @@ dependencies {
 
 
     implementation project(':common')
-    implementation project(':animations')
-    implementation project(':share')
-    implementation project(':accessibility')
+    implementation project(':module_animations')
+    implementation project(':module_share')
+    implementation project(':module_accessibility')
 
     api 'com.blankj:utilcodex:1.25.8'
 }
