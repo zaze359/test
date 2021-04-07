@@ -4,6 +4,7 @@ import com.zaze.common.http.ZRequest
 import com.zaze.common.http.ZRequestBody
 import com.zaze.common.http.ZResponse
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.Request
 import okhttp3.RequestBody
 import okhttp3.Response
@@ -22,7 +23,7 @@ internal object OkHttpHelper {
     @JvmStatic
     private fun buildRequestBody(requestBody: ZRequestBody?): RequestBody? {
         return requestBody?.let {
-            RequestBody.create(MediaType.parse(it.mediaType.mediaType), it.content)
+            RequestBody.create(it.mediaType.mediaType.toMediaTypeOrNull(), it.content)
         }
     }
 
@@ -54,9 +55,9 @@ internal object OkHttpHelper {
      */
     @JvmStatic
     fun copyResponse(from: Response, to: ZResponse): ZResponse {
-        to.code = from.code()
+        to.code = from.code
         //
-        val body = from.body()
+        val body = from.body
         var bodyStr: String? = null
         if (body != null) {
             try {

@@ -40,5 +40,4 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    testImplementation "junit:junit:$rootProject.junitVersion"
 }

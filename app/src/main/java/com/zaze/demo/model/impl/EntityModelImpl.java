@@ -38,7 +38,6 @@ import com.zaze.demo.debug.SensorActivity;
 import com.zaze.demo.model.EntityModel;
 import com.zaze.demo.model.entity.AnimationEntity;
 import com.zaze.demo.model.entity.TableEntity;
-import com.zaze.demo.share.ShareActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +56,7 @@ public class EntityModelImpl implements EntityModel {
         int i = 0;
         list.add(new TableEntity("应用查询", AppActivity.class, ++i));
         list.add(new TableEntity("设备管理器", DeviceAdminActivity.class, ++i));
-        list.add(new TableEntity("分享", ShareActivity.class, ++i));
+//        list.add(new TableEntity("分享", ShareActivity.class, ++i));
         list.add(new TableEntity("设备信息", DeviceActivity.class, ++i));
         list.add(new TableEntity("系统设置", SystemActivity.class, ++i));
         list.add(new TableEntity("文件管理", FileExplorerActivity.class, ++i));
