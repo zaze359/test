@@ -1,3 +1,4 @@
+include ':module_usagestats'
 include ':module_accessibility'
 include ':module_share'
 include ':app', ':module_localrepo', ':module_animations', ':util', ':common'
