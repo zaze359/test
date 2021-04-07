@@ -1,4 +1,4 @@
-package com.zaze.demo.component.table;
+package com.zaze.demo;
 
 
 import android.app.Activity;
@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import com.zaze.common.adapter.BaseRecyclerAdapter;
 import com.zaze.common.util.ActivityUtil;
-import com.zaze.demo.R;
 import com.zaze.demo.model.entity.TableEntity;
 
 import java.util.List;
@@ -22,10 +21,10 @@ import org.jetbrains.annotations.NotNull;
  * @author : ZAZE
  * @version : 2016-08-15 - 17:06
  */
-public class TableAdapter extends BaseRecyclerAdapter<TableEntity, TableAdapter.AppItemHolder> {
+public class DemoAdapter extends BaseRecyclerAdapter<TableEntity, DemoAdapter.AppItemHolder> {
     private Activity activity;
 
-    public TableAdapter(Activity activity, List<TableEntity> data) {
+    public DemoAdapter(Activity activity, List<TableEntity> data) {
         super(activity, data);
         this.activity = activity;
     }

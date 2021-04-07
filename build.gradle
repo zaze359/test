@@ -46,7 +46,7 @@ allprojects {
     }
 }
 
-apply from: 'ext.gradle'
+apply from: 'versions.gradle'
 
 task clean(type: Delete) {
     delete rootProject.buildDir

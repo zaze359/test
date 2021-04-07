@@ -8,9 +8,9 @@ import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.*
-import android.provider.Settings
 import android.view.KeyEvent
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
@@ -22,18 +22,15 @@ import com.zaze.common.base.ext.setImmersion
 import com.zaze.common.base.ext.setupActionBar
 import com.zaze.common.permission.PermissionUtil
 import com.zaze.common.widget.IntervalButtonWidget
-import com.zaze.demo.component.table.TableFragment
 import com.zaze.demo.debug.LogDirListener
 import com.zaze.demo.debug.MessengerService
-import com.zaze.demo.debug.TestDebug
 import com.zaze.demo.debug.kotlin.KotlinDebug
+import com.zaze.demo.viewmodels.DemoViewModel
 import com.zaze.utils.FileUtil
-import com.zaze.utils.NetUtil
 import com.zaze.utils.ToastUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -43,9 +40,7 @@ import kotlin.collections.ArrayList
  * @version : 2017-05-19 - 01:41
  */
 class MainActivity : AbsActivity() {
-
     private lateinit var drawerToggle: ActionBarDrawerToggle
-
     private val fragmentList = ArrayList<AbsFragment>()
     private var intervalButton: IntervalButtonWidget? = null
     private val dirListener = LogDirListener(FileUtil.getSDCardRoot() + "/")
@@ -53,7 +48,6 @@ class MainActivity : AbsActivity() {
         writeInt(2233)
     }
     val reply = Parcel.obtain()
-
     private val messenger = Messenger(object : Handler() {
         override fun handleMessage(msg: Message?) {
             super.handleMessage(msg)
@@ -71,9 +65,7 @@ class MainActivity : AbsActivity() {
             }
         }
     })
-
     private var sendMessenger: Messenger? = null
-
     private val serviceConnection: ServiceConnection = object : ServiceConnection {
         override fun onServiceDisconnected(name: ComponentName?) {
             sendMessenger = null
@@ -83,6 +75,8 @@ class MainActivity : AbsActivity() {
             sendMessenger = Messenger(service)
         }
     }
+
+    //---
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -143,8 +137,8 @@ class MainActivity : AbsActivity() {
         }
         // ------------------------------------------------------
         fragmentList.clear()
-        fragmentList.add(TableFragment.newInstance("0"))
-        fragmentList.add(TableFragment.newInstance("1"))
+        fragmentList.add(DemoFragment.newInstance("0"))
+        fragmentList.add(DemoFragment.newInstance("1"))
         // --------------------------------------------------
         main_viewpager.adapter = MyPagerAdapter(supportFragmentManager, fragmentList)
         main_viewpager.setOnHoverListener { v, event ->

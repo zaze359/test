@@ -4,10 +4,27 @@ ext {
     minSdkVersion = 16
     targetSdkVersion = 28
     junitVersion = '4.13.2'
-
     versionCode = 1
     versionName = "1.0"
 }
+def build_versions = [:]
+ext.build_versions = build_versions
+
+def versions = [:]
+versions.lifecycle = "2.2.0"
+ext.versions = versions
+
+def deps = [:]
+ext.deps = [:]
+def lifecycle = [:]
+lifecycle.extensions = "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle"
+lifecycle.runtime = "androidx.lifecycle:lifecycle-runtime:$versions.lifecycle"
+lifecycle.java8 = "androidx.lifecycle:lifecycle-common-java8:$versions.lifecycle"
+lifecycle.compiler = "androidx.lifecycle:lifecycle-compiler:$versions.lifecycle"
+lifecycle.viewmodel_ktx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle"
+lifecycle.livedata_ktx = "androidx.lifecycle:lifecycle-livedata-ktx:$versions.lifecycle"
+deps.lifecycle = lifecycle
+ext.deps = deps
 
 subprojects {
     def isMainApp = project.name == 'app'
@@ -82,10 +99,11 @@ subprojects {
         implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
         implementation 'io.reactivex.rxjava2:rxjava:2.2.21'
         implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-//        implementation 'androidx.constraintlayout:constraintlayout-solver:2.0.4'
 
-        implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-        kapt "androidx.lifecycle:lifecycle-compiler:2.2.0"
+        implementation deps.lifecycle.runtime
+        implementation deps.lifecycle.extensions
+        implementation deps.lifecycle.viewmodel_ktx
+        implementation deps.lifecycle.livedata_ktx
     }
 }
 

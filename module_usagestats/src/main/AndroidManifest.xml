@@ -8,7 +8,6 @@
         tools:ignore="ProtectedPermissions" />
 
     <application android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
-        <!--        <activity android:name=".UsageStatesActivity" />-->
-
+        <activity android:name=".UsageStatesActivity" />
     </application>
 </manifest>
