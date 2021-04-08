@@ -11,7 +11,7 @@ import com.zaze.demo.component.application.AppActivity;
 import com.zaze.demo.component.bitmap.BitmapActivity;
 import com.zaze.demo.component.cache.ui.CacheActivity;
 import com.zaze.demo.component.coroutine.CoroutineActivity;
-import com.zaze.demo.component.customview.CustomViewActivity;
+import com.zaze.demo.customview.CustomViewActivity;
 import com.zaze.demo.component.device.DeviceActivity;
 import com.zaze.demo.component.file.explorer.FileExplorerActivity;
 import com.zaze.demo.component.font.ui.FontActivity;

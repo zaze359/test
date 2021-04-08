@@ -191,7 +191,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".component.customview.CustomViewActivity"
+            android:name="com.zaze.demo.customview.CustomViewActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".component.network.NetworkStatsActivity"
