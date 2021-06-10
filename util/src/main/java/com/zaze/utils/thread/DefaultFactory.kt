@@ -21,9 +21,10 @@ class DefaultFactory(val name: String? = "DefaultFactory") : ThreadFactory {
         if (thread.priority != Thread.NORM_PRIORITY) { //优先级为normal
             thread.priority = Thread.NORM_PRIORITY
         }
-        thread.uncaughtExceptionHandler = Thread.UncaughtExceptionHandler { th, ex ->
-            Log.i("ThreadFactory", "Appeared exception! Thread [" + th.name + "], because [" + ex.message + "]")
-        }
+//        thread.uncaughtExceptionHandler = Thread.UncaughtExceptionHandler { th, ex ->
+//            Log.i("ThreadFactory", "Appeared exception! Thread [" + th.name + "], because [" + ex.message + "]")
+//            throw ex
+//        }
         return thread
     }
 

@@ -10,6 +10,7 @@ import com.zaze.common.base.BaseApplication
 import com.zaze.common.base.ext.get
 import com.zaze.common.base.ext.set
 import com.zaze.common.thread.ThreadPlugins
+import com.zaze.demo.R
 import com.zaze.demo.app.MyApplication
 import com.zaze.demo.debug.AppShortcut
 import com.zaze.demo.debug.ApplicationManager
@@ -33,17 +34,21 @@ class AppViewModel(application: Application) : AbsAndroidViewModel(application) 
     companion object {
         val apkDir = "${FileUtil.getSDCardRoot()}/zaze/apk"
         val baseDir = "${FileUtil.getSDCardRoot()}/zaze/${Build.MODEL}"
+
         //
         val existsFile = "$baseDir/exists.xml"
         val unExistsFile = "$baseDir/unExists.xml"
         val allFile = "$baseDir/all.xml"
+
         //
+        val extractPkgsFile = "$baseDir/extract_pkgs.txt"
         val extractFile = "$baseDir/extract.xml"
         val jsonExtractFile = "$baseDir/jsonExtract.xml"
     }
 
     val packageSet = HashMap<String, AppShortcut>()
     val appData = MutableLiveData<List<AppShortcut>>()
+
     // --------------------------------------------------
     private fun loadAllInstallApp(appList: List<ApplicationInfo>, packageSet: HashMap<String, AppShortcut>) {
         appList.forEach {
@@ -74,22 +79,30 @@ class AppViewModel(application: Application) : AbsAndroidViewModel(application) 
             Observable.fromCallable {
                 val dataList = appData.get()
                 if (dataList != null) {
+                    FileUtil.deleteFile(extractPkgsFile)
                     FileUtil.deleteFile(extractFile)
                     FileUtil.deleteFile(jsonExtractFile)
-                    val builder = StringBuilder()
+                    val pkgBuilder = StringBuilder()
+                    val xmlBuilder = StringBuilder()
                     val jsonArray = JSONArray()
                     for (entity in dataList) {
-                        if (builder.isNotEmpty()) {
-                            builder.append("\n")
+                        if (pkgBuilder.isNotEmpty()) {
+                            pkgBuilder.append(",")
                         }
-                        builder.append("<item>${entity.packageName}</item><!--${entity.name}-->")
+                        pkgBuilder.append("${entity.packageName}")
+                        // --------------------------------------------------
+                        if (xmlBuilder.isNotEmpty()) {
+                            xmlBuilder.append("\n")
+                        }
+                        xmlBuilder.append("<item>${entity.packageName}</item><!--${entity.name}-->")
                         //
                         val jsonObj = JSONObject()
                         jsonObj.put("name", entity.name)
                         jsonObj.put("packageName", entity.packageName)
                         jsonArray.put(jsonObj)
                     }
-                    FileUtil.writeToFile(extractFile, builder.toString())
+                    FileUtil.writeToFile(extractPkgsFile, pkgBuilder.toString())
+                    FileUtil.writeToFile(extractFile, xmlBuilder.toString())
                     FileUtil.writeToFile(jsonExtractFile, jsonArray.toString())
                 }
             }.subscribeOn(ThreadPlugins.ioScheduler())
@@ -132,7 +145,7 @@ class AppViewModel(application: Application) : AbsAndroidViewModel(application) 
                 val filterSet = HashSet<String>()
 //                filterSet.addAll(getStringArray(R.array.un_keep_app).toList())
                 // --------------------------------------------------
-//                filterSet.addAll(getStringArray(R.array.test_app).toList())
+                filterSet.addAll(getStringArray(R.array.apps).toList())
                 // 添加规则--------------------------------------------------
 //                filterSet.mapTo(packageList) { it }
                 // 移除规则--------------------------------------------------
@@ -179,7 +192,7 @@ class AppViewModel(application: Application) : AbsAndroidViewModel(application) 
         matchApp(packageSet.values)
     }
 
-    private fun matchApp(appList : MutableCollection<AppShortcut>) {
+    private fun matchApp(appList: MutableCollection<AppShortcut>) {
         Observable.create<MutableCollection<AppShortcut>> { e ->
             e.onNext(appList)
             e.onComplete()

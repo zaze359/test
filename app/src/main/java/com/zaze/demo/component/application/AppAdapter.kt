@@ -21,9 +21,8 @@ import java.io.File
 
 /**
  * Description :
-
  * @author : ZAZE
- * *
+ *
  * @version : 2017-04-17 - 17:21
  */
 class AppAdapter(context: Context, data: Collection<AppShortcut>) : BaseRecyclerAdapter<AppShortcut, AppAdapter.PackageHolder>(context, data) {

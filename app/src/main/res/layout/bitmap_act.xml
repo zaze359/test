@@ -29,8 +29,19 @@
             android:id="@+id/processImageView"
             android:layout_width="@dimen/dp_248"
             android:layout_height="@dimen/dp_248"
-            android:layout_gravity="center"
-            android:background="@color/white" />
+            android:layout_gravity="center" />
+
+        <View
+            android:id="@+id/appCardProgressBg"
+            android:layout_width="@dimen/dp_248"
+            android:layout_height="@dimen/dp_248"
+            android:background="@drawable/app_card_load_bg"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/appCardLogoIv"
+            app:layout_constraintLeft_toLeftOf="@id/appCardLogoIv"
+            app:layout_constraintRight_toRightOf="@id/appCardLogoIv"
+            app:layout_constraintTop_toTopOf="@id/appCardLogoIv"
+            app:layout_constraintVertical_chainStyle="packed" />
     </androidx.cardview.widget.CardView>
 
     <LinearLayout

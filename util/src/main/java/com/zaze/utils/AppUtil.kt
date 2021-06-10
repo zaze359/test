@@ -39,8 +39,8 @@ object AppUtil {
      */
     @JvmStatic
     @JvmOverloads
-    fun getAppVersionName(context: Context, packageName: String? = null): String {
-        return getPackageInfo(context, packageName ?: context.packageName)?.versionName ?: ""
+    fun getAppVersionName(context: Context, packageName: String = context.packageName): String {
+        return getPackageInfo(context, packageName)?.versionName ?: ""
     }
 
     /**
@@ -50,8 +50,8 @@ object AppUtil {
      */
     @JvmStatic
     @JvmOverloads
-    fun getAppVersionCode(context: Context, packageName: String? = null): Int {
-        return getPackageInfo(context, packageName ?: context.packageName)?.versionCode ?: 0
+    fun getAppVersionCode(context: Context, packageName: String = context.packageName): Int {
+        return getPackageInfo(context, packageName)?.versionCode ?: 0
     }
 
     /**
@@ -63,7 +63,7 @@ object AppUtil {
      */
     @JvmStatic
     @JvmOverloads
-    fun getAppName(context: Context, packageName: String? = null, defaultName: String = "未知"): String {
+    fun getAppName(context: Context, packageName: String = context.packageName, defaultName: String = "未知"): String {
         val applicationInfo = getApplicationInfo(context, packageName)
         return if (applicationInfo == null) {
             defaultName
@@ -79,9 +79,9 @@ object AppUtil {
      */
     @JvmStatic
     @JvmOverloads
-    fun getAppIcon(context: Context, packageName: String? = null): Drawable? {
+    fun getAppIcon(context: Context, packageName: String = context.packageName): Drawable? {
         return try {
-            context.packageManager.getApplicationIcon(packageName ?: context.packageName)
+            context.packageManager.getApplicationIcon(packageName)
         } catch (e: PackageManager.NameNotFoundException) {
             ZLog.e(ZTag.TAG_DEBUG, e.message)
             null
@@ -117,9 +117,9 @@ object AppUtil {
      */
     @JvmStatic
     @JvmOverloads
-    fun getApplicationInfo(context: Context, packageName: String? = null, flag: Int = 0): ApplicationInfo? {
+    fun getApplicationInfo(context: Context, packageName: String = context.packageName, flag: Int = 0): ApplicationInfo? {
         return try {
-            context.packageManager.getApplicationInfo(packageName ?: context.packageName, flag)
+            context.packageManager.getApplicationInfo(packageName, flag)
         } catch (e: PackageManager.NameNotFoundException) {
             ZLog.e(ZTag.TAG_ABOUT_APP, "没有找到应用信息 : $packageName")
             null
@@ -355,11 +355,12 @@ object AppUtil {
      */
     @JvmStatic
     @JvmOverloads
-    fun unInstall(context: Context, packageName: String? = null) {
-        ZLog.i(ZTag.TAG_ABOUT_APP, "开始卸载 ${packageName ?: context.packageName}")
+    @Deprecated("")
+    fun unInstall(context: Context, packageName: String = context.packageName) {
+        ZLog.i(ZTag.TAG_ABOUT_APP, "开始卸载 $packageName")
         val uninstallIntent = Intent()
         uninstallIntent.action = Intent.ACTION_DELETE
-        uninstallIntent.data = Uri.parse("package:${packageName ?: context.packageName}")
+        uninstallIntent.data = Uri.parse("package:$packageName")
         uninstallIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         context.startActivity(uninstallIntent)
     }
@@ -470,7 +471,6 @@ object AppUtil {
         for (processInfo in processInfoList) {
             Process.killProcess(processInfo.pid)
         }
-
     }
 
     // --------------------------------------------------

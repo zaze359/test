@@ -7,7 +7,6 @@ import android.content.res.XmlResourceParser;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.os.PowerManager;
 import android.util.Base64;
 import android.util.Log;
 
@@ -70,7 +69,19 @@ public class TestDebug {
             AUTHORITY + "/" + TABLE_NAME);
 
     public static void test(final Context context) {
-        PowerManager pManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        ZLog.i(ZTag.TAG, "proxyHost: " + System.getProperty("http.proxyHost"));
+        ZLog.i(ZTag.TAG, "proxyPort: " + System.getProperty("http.proxyPort"));
+        ZLog.i(ZTag.TAG, "decode: " + new String(Base64.decode("aHR0cDovL3d3dy5iYWlkdS5jb20_b3A9Y2M=", Base64.URL_SAFE)));
+        ZLog.i(ZTag.TAG, "decode2: " + new String(Base64.decode("aHR0cDovL3d3dy5iYWlkdS5jb20_b3A9Y2M=", Base64.NO_WRAP)));
+
+//        AppUtil.unInstall(context);
+
+//        AppUtil.install(context, "/sdcard/a.apk");
+
+//        install(context, "com.zaze.demo.fileProvider", new File("/sdcard/a.apk"));
+
+
+//        PowerManager pManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
 //        String packageName = "com.yangcong345.onionschool";
 //        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
 //            UserManager mUserManager = (UserManager) context.getSystemService(Context.USER_SERVICE);
@@ -108,8 +119,8 @@ public class TestDebug {
 //                ZLog.i(ZTag.TAG, "cursor : " + cursor);
 //            }
 //        }
-
-
+//        ZLog.i(ZTag.TAG, "getAppPid : " + AppUtil.getAppPid("com.xh.arespunc"));
+//        ZLog.i(ZTag.TAG, "isAppRunning : " + AppUtil.isAppRunning(context, "com.xh.arespunc"));
 //        String filePath = "sdcard/xuehai/log/statistics/2/realtime/string/crash/crash#com.xh.zhitongyuntch#2020-10-27_11:06:32#.log";
 //        FileUtil.writeToFile(filePath, "aaaa");
         // --------------------------------------------------
@@ -121,9 +132,7 @@ public class TestDebug {
 //        for (ResolveInfo resolveInfo : list) {
 //            ZLog.i(ZTag.TAG, "ACTION_ADD_DEVICE_ADMIN : " + resolveInfo.activityInfo.packageName);
 //        }
-
     }
-
 
     private static void install(Context context, String authorities, File apkFile) {
         Intent intent = new Intent(Intent.ACTION_VIEW);

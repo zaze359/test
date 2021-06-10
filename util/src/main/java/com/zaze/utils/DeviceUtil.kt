@@ -31,7 +31,11 @@ object DeviceUtil {
     @SuppressLint("MissingPermission")
     @JvmStatic
     fun getDeviceId(context: Context): String? {
-        return getTelephonyManager(context).deviceId
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            getTelephonyManager(context).imei
+        } else {
+            getTelephonyManager(context).deviceId
+        }
     }
 
     @SuppressLint("MissingPermission")
@@ -58,7 +62,7 @@ object DeviceUtil {
         } else {
             Build.SERIAL
         }
-        if (TextUtils.isEmpty(id)) {
+        if (TextUtils.isEmpty(id) || TextUtils.equals("unknown", id)) {
             id = getSimSerialNumber(context)
             if (TextUtils.isEmpty(id)) {
                 id = getDeviceId(context)
@@ -66,7 +70,7 @@ object DeviceUtil {
                     id = getAndroidId(context)
                     if ("9774d56d682e549c" == id) {
                         val sharedPrefUtil = SharedPrefUtil.newInstance(context)
-                        id = sharedPrefUtil.get(key, "")
+                        id = sharedPrefUtil[key, ""]
                         if (TextUtils.isEmpty(id)) {
                             id = UUID.randomUUID().toString()
                             sharedPrefUtil.commit(key, id)

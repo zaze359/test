@@ -19,7 +19,6 @@ object NetworkManger {
      */
     var currentNetwork = NetworkType()
         private set
-        get
 
     /**
      * 更新网络状态

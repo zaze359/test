@@ -197,7 +197,6 @@ object BmpUtil {
         val sCanvas = Canvas(bm)
         sCanvas.drawARGB(0, 0, 0, 0)
         sCanvas.drawCircle(radius, radius, radius, paint)
-//        sCanvas.drawRect(0F, 0F, size, size, paint)
         // 圆画好之后将画笔重置一下
         paint.reset()
         // 设置图像合成模式，该模式为只在源图像和目标图像相交的地方绘制源图像

@@ -1,5 +1,5 @@
+include ':app', ':module_localrepo', ':module_animations', ':util', ':common'
+include ':module_nativelib'
 include ':module_usagestats'
 include ':module_accessibility'
 include ':module_share'
-include ':app', ':module_localrepo', ':module_animations', ':util', ':common'
-include ':module_nativelib'

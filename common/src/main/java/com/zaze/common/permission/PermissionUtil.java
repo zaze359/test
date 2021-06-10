@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -21,6 +22,7 @@ public class PermissionUtil {
     public static boolean checkUserPermission(Context context, String permission) {
         return ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED;
     }
+
     public static boolean checkUserPermission(Context context, String[] permissions) {
         Set<String> permissionSet = new HashSet<>();
         for (String permission : permissions) {
@@ -44,5 +46,9 @@ public class PermissionUtil {
         if (!checkUserPermission(activity, permissions)) {
             ActivityCompat.requestPermissions(activity, permissions, requestCode);
         }
+    }
+
+    public static boolean shouldShowRequestPermissionRationale(@NonNull Activity activity, @NonNull String permission) {
+        return ActivityCompat.shouldShowRequestPermissionRationale(activity, permission);
     }
 }

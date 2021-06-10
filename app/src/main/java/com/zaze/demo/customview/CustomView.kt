@@ -15,6 +15,10 @@ class CustomView : View {
     private val paint = Paint()
     val path = Path()
 
+    private val dstBmp = makeDst(200, 200)
+    private val srcBmp = makeSrc(200, 200)
+
+
     init {
         paint.color = Color.RED
         paint.style = Paint.Style.STROKE
@@ -39,8 +43,8 @@ class CustomView : View {
 //        canvas.drawPoint(10f, 210f, pointPaint)
 //        canvas.drawPoint(10f, 10f, pointPaint)
 
-        val rect = RectF(100f, 10f, 200f, 100f)
 
+        val rect = RectF(100f, 10f, 200f, 100f)
         path.reset()
         path.moveTo(0f, 0f)
         // 画弧线
@@ -73,6 +77,31 @@ class CustomView : View {
         paint.color = Color.GREEN
         canvas.drawRect(rect, paint)
 
+        path.reset()
+        val layerid = canvas.saveLayer(0F, 0F, width.toFloat(), height.toFloat(), null, Canvas.ALL_SAVE_FLAG)
+        canvas.drawBitmap(dstBmp, 0F, 0F, paint)
+        paint.setXfermode(PorterDuffXfermode(PorterDuff.Mode.SRC_IN))
+        canvas.drawBitmap(srcBmp, 100F, 100F, paint)
+        paint.setXfermode(null)
+        canvas.restoreToCount(layerid)
     }
 
+
+    private fun makeDst(w: Int, h: Int): Bitmap {
+        val bm = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
+        val c = Canvas(bm)
+        val p = Paint(Paint.ANTI_ALIAS_FLAG)
+        p.color = 0xFFFFCC44.toInt()
+        c.drawOval(RectF(0F, 0F, w.toFloat(), h.toFloat()), p)
+        return bm
+    }
+
+    private fun makeSrc(w: Int, h: Int): Bitmap {
+        val bm = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
+        val c = Canvas(bm)
+        val p = Paint(Paint.ANTI_ALIAS_FLAG)
+        p.color = 0xFF66AAFF.toInt()
+        c.drawRect(0F, 0F, w.toFloat(), h.toFloat(), p)
+        return bm
+    }
 }

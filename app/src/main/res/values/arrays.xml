@@ -25,4 +25,10 @@
         <item>@color/green</item>
     </integer-array>
 
+    <string-array name="apps">
+
+
+
+    </string-array>
+
 </resources>
