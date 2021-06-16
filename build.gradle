@@ -4,12 +4,10 @@ buildscript {
 
     repositories {
         maven{url 'https://maven.aliyun.com/repository/jcenter'}
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://jitpack.io' }
 
         mavenCentral()
-        maven {
-            url 'https://maven.google.com/'
-            name 'Google'
-        }
         google()
         jcenter()
     }
@@ -26,8 +24,8 @@ buildscript {
 allprojects {
     repositories {
         maven{url 'https://maven.aliyun.com/repository/jcenter'}
+        maven { url 'https://maven.aliyun.com/repository/google' }
 
-        mavenCentral()
 //        maven { url "https://oss.sonatypTe.org/content/repositories/snapshots" }
         maven {
             url 'file:///Users/zaze/Documents/maven/localrepo/'
@@ -36,11 +34,7 @@ allprojects {
             url "https://dl.bintray.com/zaze359/maven"
         }
         maven { url 'https://jitpack.io' }
-        maven {
-            url 'https://maven.google.com/'
-            name 'Google'
-        }
-
+        mavenCentral()
         google()
         jcenter()
     }

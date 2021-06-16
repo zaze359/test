@@ -46,7 +46,7 @@ class DemoFragment : AbsFragment() {
 
         adapter?.setDataList(list) ?: let {
             adapter = DemoAdapter(activity, list)
-            val manager = GridLayoutManager(context, 4)
+            val manager = GridLayoutManager(context, 2)
             manager.spanSizeLookup = object : SpanSizeLookup() {
                 override fun getSpanSize(position: Int): Int {
                     if (position == 0) {
