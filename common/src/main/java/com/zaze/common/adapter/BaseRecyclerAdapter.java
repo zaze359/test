@@ -8,14 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Description :
@@ -24,27 +23,12 @@ import java.util.List;
  * @author : zaze
  * @version : 1.0
  */
-public abstract class BaseRecyclerAdapter<V, H extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<H> implements ResourceAdapter {
+public abstract class BaseRecyclerAdapter<V, H extends RecyclerView.ViewHolder> extends DataRecyclerAdapter<V, H> implements ResourceAdapter {
     private final Context context;
-    private final List<V> dataList = new ArrayList<>();
 
-    public BaseRecyclerAdapter(@NotNull Context context, Collection<V> data) {
+    public BaseRecyclerAdapter(Context context, @Nullable Collection<? extends V> data) {
+        super(data);
         this.context = context;
-        setDataList(data, false);
-    }
-
-    public void setDataList(Collection<V> data) {
-        setDataList(data, true);
-    }
-
-    protected void setDataList(Collection<V> data, boolean isNotify) {
-        dataList.clear();
-        if (data != null && data.size() > 0) {
-            dataList.addAll(data);
-        }
-        if (isNotify) {
-            notifyDataSetChanged();
-        }
     }
 
     @NotNull
@@ -57,7 +41,7 @@ public abstract class BaseRecyclerAdapter<V, H extends RecyclerView.ViewHolder> 
     @Override
     public void onBindViewHolder(@NotNull H holder, int position) {
         V v = getItem(position);
-        if(v != null) {
+        if (v != null) {
             onBindView(holder, v, position);
         }
     }
@@ -67,26 +51,10 @@ public abstract class BaseRecyclerAdapter<V, H extends RecyclerView.ViewHolder> 
         return position;
     }
 
-    @Override
-    public int getItemCount() {
-        return dataList.size();
-    }
-
-    public V getItem(int position) {
-        if (position < 0 || position >= dataList.size()) {
-            return null;
-        } else {
-            return dataList.get(position);
-        }
-    }
-
     public Context getContext() {
         return context;
     }
 
-    public List<V> getDataList() {
-        return dataList;
-    }
 
     // --------------------------------------------------
 

@@ -9,16 +9,17 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.zaze.common.adapter.BaseRecyclerAdapter;
 import com.zaze.demo.R;
 import com.zaze.utils.NetUtil;
 import com.zaze.utils.ZOnClickHelper;
 
-import java.util.Collection;
-
-import androidx.recyclerview.widget.RecyclerView;
-
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Collection;
 
 /**
  * Description :
@@ -47,10 +48,10 @@ public class WifiAdapter extends BaseRecyclerAdapter<ScanResult, WifiAdapter.Wif
     }
 
     @Override
-    protected void setDataList(Collection<ScanResult> data, boolean isNotify) {
+    public void setDataList(@Nullable Collection<? extends ScanResult> list, boolean isNotify) {
         networkInfo = NetUtil.getWifiInfo(getContext());
         connInfo = NetUtil.getConnectionInfo(getContext());
-        super.setDataList(data, isNotify);
+        super.setDataList(list, isNotify);
     }
 
     @Override
