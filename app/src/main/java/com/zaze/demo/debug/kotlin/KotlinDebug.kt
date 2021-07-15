@@ -6,14 +6,15 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
-import android.os.BatteryManager
-import android.os.Build
-import android.os.UserHandle
-import android.os.UserManager
+import android.os.*
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
+import com.zaze.demo.debug.ApplicationManager
+import com.zaze.utils.FileUtil.getSDCardRoot
+import com.zaze.utils.config.ConfigHelper
 import com.zaze.utils.log.ZTag
-import net.contrapunctus.lzma.Version
+import java.io.File
 
 
 /**
@@ -25,8 +26,33 @@ object KotlinDebug {
 
     var thread = Thread()
     fun test(context: Activity) {
+//        val packageName = context.packageName
+//        val versionCode = 111L
+//        val latelyVersionFile =
+//            ConfigHelper.newInstance(getSDCardRoot() + "/zaze/LatelyVersion.stats")
+//        latelyVersionFile.setProperty("am_version_$packageName", versionCode.toString())
 
+        context.fileList()?.forEach {
+            Log.i("fileList", "file : $it")
+        }
+        Log.i("fileList", "file : ${context.filesDir.absolutePath}")
 
+        ContextCompat.getExternalCacheDirs(context).forEach {
+            Log.i(
+                "fileList",
+                "getExternalCacheDirs : ${it.absolutePath}"
+            )
+        }
+        ContextCompat.getExternalFilesDirs(context, null)[0].listFiles()?.forEach {
+            Log.i(
+                "fileList",
+                "getExternalFilesDirs : ${it.absolutePath}"
+            )
+        }
+        Log.i(
+            "fileList",
+            "getExternalFilesDirs : ${context.getExternalFilesDir(Environment.DIRECTORY_MUSIC)}"
+        )
 //        val set = HashSet<Int>()
 //        for (i in 0..100) {
 //            val uid = getUserHandleForUid(context, i)
@@ -40,15 +66,20 @@ object KotlinDebug {
     private fun testBattery(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val batteryManager = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
-            Log.i("battery", "percent : ${batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)}%")
+            Log.i(
+                "battery",
+                "percent : ${batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)}%"
+            )
         } else {
-            val batteryInfoIntent: Intent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
-            val level = batteryInfoIntent.getIntExtra("level", 0)
-            val batterySum = batteryInfoIntent.getIntExtra("scale", 100)
-            val percentBattery = 100 * level / batterySum
-            Log.i("battery", "level = $level")
-            Log.i("battery", "batterySum = $batterySum")
-            Log.i("battery", "percent is $percentBattery%")
+            context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+                ?.let { batteryInfoIntent ->
+                    val level = batteryInfoIntent.getIntExtra("level", 0)
+                    val batterySum = batteryInfoIntent.getIntExtra("scale", 100)
+                    val percentBattery = 100 * level / batterySum
+                    Log.i("battery", "level = $level")
+                    Log.i("battery", "batterySum = $batterySum")
+                    Log.i("battery", "percent is $percentBattery%")
+                }
         }
         Log.i("battery", "currentTimeMillis: ${System.currentTimeMillis()}")
     }
@@ -60,8 +91,8 @@ object KotlinDebug {
             } else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
                     return UserManager::class.java.getMethod(
-                            "getUserSerialNumber",
-                            Int::class.javaPrimitiveType
+                        "getUserSerialNumber",
+                        Int::class.javaPrimitiveType
                     ).invoke(getUserManager(context), uid) as Int
                 }
             }
@@ -84,9 +115,10 @@ object KotlinDebug {
         for (componentName in activities) {
             Log.i("getPreferredActivities", "componentName : $componentName")
         }
-        val defaultLauncher = context.packageManager.resolveActivity(Intent(Intent.ACTION_MAIN).apply {
-            addCategory(Intent.CATEGORY_HOME)
-        }, PackageManager.MATCH_DEFAULT_ONLY)
+        val defaultLauncher =
+            context.packageManager.resolveActivity(Intent(Intent.ACTION_MAIN).apply {
+                addCategory(Intent.CATEGORY_HOME)
+            }, PackageManager.MATCH_DEFAULT_ONLY)
 
         Log.i("defaultLauncher", "defaultLauncher : ${defaultLauncher?.activityInfo?.packageName}")
     }

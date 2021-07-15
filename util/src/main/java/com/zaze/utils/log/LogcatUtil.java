@@ -35,11 +35,20 @@ public class LogcatUtil {
 
     /**
      * logcat *:E
-     *
-     * @return boolean
      */
     public static void startCatchLog(Context context) {
-        startCatchLog(ZStringUtil.format("%s/catch#%s#.log", FileUtil.getSDCardRoot() + "/zaze/log", context.getPackageName()), 10L << 20);
+        try {
+            startCatchLog(
+                    ZStringUtil.format(
+                            "%s/catch#%s#.log",
+                            context.getExternalCacheDir().getAbsolutePath() + "/zaze/log",
+                            context.getPackageName()
+                    ), 10L << 20
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -47,7 +56,6 @@ public class LogcatUtil {
      *
      * @param savePath savePath
      * @param maxSize  maxSize
-     * @return maxSize
      */
     public static void startCatchLog(String savePath, long maxSize) {
 //        return startCatchLog("logcat -v time process |grep " + android.os.Process.myPid(), savePath, maxSize);

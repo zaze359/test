@@ -43,7 +43,7 @@ public class NetworkStatsAdapter extends BaseRecyclerAdapter<NetTrafficStats, Ne
     }
 
     @Override
-    public void onBindView(@NotNull NetworkStatsHolder holder, NetTrafficStats value, int position) {
+    public void onBindView(@NotNull NetworkStatsHolder holder, @NotNull NetTrafficStats value, int position) {
         AppShortcut appShortcut = value.getAppShortcut();
         Drawable drawable = null;
         if (appShortcut != null) {

@@ -43,8 +43,10 @@ public class BitmapActivity extends AbsActivity {
 
     private ShadowImageView processImageView;
 
+
     @Override
-    public void init(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.bitmap_act);
         AppCompatActivityExtKt.setupActionBar(this, findViewById(R.id.bitmapToolbar), new Function1<ActionBar, Unit>() {
             @Override

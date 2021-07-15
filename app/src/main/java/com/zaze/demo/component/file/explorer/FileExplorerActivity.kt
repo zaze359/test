@@ -31,6 +31,4 @@ class FileExplorerActivity : AbsActivity() {
         }
         replaceFragmentInActivity(FileListFragment(), R.id.fileExplorerLayout)
     }
-
-    override fun init(savedInstanceState: Bundle?) {}
 }

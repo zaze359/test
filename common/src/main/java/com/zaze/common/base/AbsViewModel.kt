@@ -2,7 +2,9 @@ package com.zaze.common.base
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.zaze.common.base.ext.SingleLiveEvent
 import com.zaze.common.base.ext.set
+import com.zaze.common.thread.ThreadPlugins
 import com.zaze.common.widget.CustomDialog
 import io.reactivex.disposables.CompositeDisposable
 
@@ -13,10 +15,6 @@ import io.reactivex.disposables.CompositeDisposable
  */
 open class AbsViewModel : ViewModel() {
     val compositeDisposable = CompositeDisposable()
-    /**
-     * 错误提示信息
-     */
-    val errorMessage = MutableLiveData<String>()
 
     /**
      * 拖拽刷新loading
@@ -27,35 +25,57 @@ open class AbsViewModel : ViewModel() {
      * 数据加载状态
      */
     val dataLoading = MutableLiveData<Boolean>()
+
+    // --------------------------------------------------
+    // obtain时已默认 observe
+    /**
+     * 提示信息
+     */
+    internal val _showMessage = SingleLiveEvent<String>()
+    protected val showMessage = _showMessage
+
     /**
      * 信息提示
      */
-    val progress = MutableLiveData<String>()
+    internal val _progress = SingleLiveEvent<String>()
+    protected val progress = _progress
 
     /**
      * 是否退出
      * finish()
      */
-    val finish = MutableLiveData<Void>()
+    internal val _finish = SingleLiveEvent<Void>()
+    protected val finish = _finish
 
     /**
      * 弹窗提示
      */
-    val tipDialog = MutableLiveData<CustomDialog.Builder>()
+    internal val _tipDialog = SingleLiveEvent<CustomDialog.Builder>()
+    protected val tipDialog = _tipDialog
 
-
+    // --------------------------------------------------
     /**
      * 显示进度
      */
-    fun showProgress(string: String?) {
+    fun showProgress(string: String = "") {
         progress.set(string)
     }
 
     /**
      * 隐藏进度
      */
-    fun hideProgress() {
-        progress.set(null)
+    fun hideProgress(delay: Long = 0) {
+        if (delay > 0) {
+            ThreadPlugins.runInUIThread(Runnable {
+                progress.value = null
+            }, delay)
+        } else {
+            progress.set(null)
+        }
+    }
+
+    fun toastMessage(message: String) {
+        showMessage.set(message)
     }
 
     /**

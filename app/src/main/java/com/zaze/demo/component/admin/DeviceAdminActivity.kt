@@ -7,8 +7,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zaze.common.base.AbsActivity
+import com.zaze.common.base.ext.myViewModels
 import com.zaze.demo.R
 import com.zaze.utils.log.ZLog
 import kotlinx.android.synthetic.main.device_admin_act.*
@@ -23,68 +25,25 @@ class DeviceAdminActivity : AbsActivity() {
         const val TAG = "DeviceAdminActivity"
     }
 
+    private val viewModel: DeviceAdminViewModel by myViewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.device_admin_act)
+        viewModel.itemsData.observe(this, Observer {
+            deviceAdminLayout.layoutManager = LinearLayoutManager(this)
+            deviceAdminLayout.adapter = DeviceAdminAdapter(this, it)
+        })
+        viewModel.activeAction.observe(this, Observer {
+            viewModel.addDeviceAdmin(this, 0)
+        })
         addDeviceAdminBtn.setOnClickListener {
-            addDeviceAdmin(this, 0)
+            viewModel.addDeviceAdmin(this, 0)
         }
         removeDeviceAdminBtn.setOnClickListener {
-            removeDeviceAdmin(this)
+            viewModel.removeDeviceAdmin()
         }
-
-        deviceAdminLayout.layoutManager = LinearLayoutManager(this)
-        deviceAdminLayout.adapter = DeviceAdminAdapter(this, createItems())
+        viewModel.loadItems()
     }
 
-
-    fun createItems(): List<AdminItem> {
-        val devicePolicyManager = getDevicePolicyManager(this)
-        val adminComponentName = getAdminComponentName(this)
-        val list = ArrayList<AdminItem>()
-        return list
-    }
-
-    fun removeDeviceAdmin(context: Context) {
-        try {
-            ZLog.i(TAG, "请求解锁设备管理器")
-            getDevicePolicyManager(context).removeActiveAdmin(getAdminComponentName(context))
-        } catch (e: Exception) {
-            ZLog.w(TAG, "解锁设备管理器 发生异常!", e)
-        }
-    }
-
-    fun addDeviceAdmin(context: Activity, requestCode: Int): Boolean {
-        try {
-            val intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)
-            intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, getAdminComponentName(context))
-            // 提示文本
-            intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "test txt")
-            context.startActivityForResult(intent, requestCode)
-            ZLog.i(TAG, "请求启动设备管理器...")
-        } catch (e: Exception) {
-            ZLog.w(TAG, "启动设备管理器 发生异常", e)
-            return false
-        }
-        return true
-    }
-
-    fun isAdminActive(context: Context): Boolean {
-        return try {
-            val isActive = getDevicePolicyManager(context).isAdminActive(getAdminComponentName(context))
-            ZLog.i(TAG, "设备管理器激活状态 $isActive  ${System.currentTimeMillis()}")
-            return isActive
-        } catch (e: Exception) {
-            ZLog.w(TAG, "获取设备管理器激活状态 发生异常", e)
-            true
-        }
-    }
-
-    private fun getAdminComponentName(context: Context): ComponentName {
-        return ComponentName(context, MyAdminReceiver::class.java)
-    }
-
-    private fun getDevicePolicyManager(context: Context): DevicePolicyManager {
-        return context.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
-    }
 }

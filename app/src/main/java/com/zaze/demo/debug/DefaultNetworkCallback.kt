@@ -53,7 +53,7 @@ class DefaultNetworkCallback(private val connectivityManager: ConnectivityManage
 
     override fun onCapabilitiesChanged(network: Network, networkCapabilities: NetworkCapabilities) {
         super.onCapabilitiesChanged(network, networkCapabilities)
-        ZLog.d(ZTag.TAG_NET, "onCapabilitiesChanged network: ${connectivityManager.getNetworkInfo(network).isConnected}")
+        ZLog.d(ZTag.TAG_NET, "onCapabilitiesChanged network: ${connectivityManager.getNetworkInfo(network)?.isConnected}")
 //        ZLog.d(ZTag.TAG_NET, "onCapabilitiesChanged networkCapabilities: $networkCapabilities")
     }
 

@@ -1,16 +1,13 @@
 package com.zaze.utils
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.content.Context
 import android.content.Context.ACTIVITY_SERVICE
-import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Environment
 import android.provider.Settings
 import android.telephony.TelephonyManager
-import android.text.TextUtils
 import java.util.*
 
 /**
@@ -31,17 +28,26 @@ object DeviceUtil {
     @SuppressLint("MissingPermission")
     @JvmStatic
     fun getDeviceId(context: Context): String? {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            getTelephonyManager(context).imei
-        } else {
-            getTelephonyManager(context).deviceId
+        return try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                getTelephonyManager(context).imei
+            } else {
+                getTelephonyManager(context).deviceId
+            }
+        } catch (e: SecurityException) {
+            null
         }
     }
 
     @SuppressLint("MissingPermission")
     @JvmStatic
     fun getSimSerialNumber(context: Context): String? {
-        return getTelephonyManager(context).simSerialNumber
+        return try {
+            getTelephonyManager(context).simSerialNumber
+        } catch (e: SecurityException) {
+            // ignore
+            null
+        }
     }
 
     @JvmStatic
@@ -56,30 +62,42 @@ object DeviceUtil {
     @JvmStatic
     fun getUUID(context: Context): String {
         val key = "getUUID"
-        var id = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
-                && context.checkSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
-            Build.getSerial()
-        } else {
-            Build.SERIAL
-        }
-        if (TextUtils.isEmpty(id) || TextUtils.equals("unknown", id)) {
+        var id = getSerial()
+        if (id.isNullOrEmpty() || id == "unknown") {
             id = getSimSerialNumber(context)
-            if (TextUtils.isEmpty(id)) {
-                id = getDeviceId(context)
-                if (TextUtils.isEmpty(id)) {
-                    id = getAndroidId(context)
-                    if ("9774d56d682e549c" == id) {
-                        val sharedPrefUtil = SharedPrefUtil.newInstance(context)
-                        id = sharedPrefUtil[key, ""]
-                        if (TextUtils.isEmpty(id)) {
-                            id = UUID.randomUUID().toString()
-                            sharedPrefUtil.commit(key, id)
-                        }
-                    }
-                }
-            }
+        } else return id
+        if (id.isNullOrEmpty()) {
+            id = getDeviceId(context)
+        } else return id
+        if (id.isNullOrEmpty()) {
+            id = getAndroidId(context)
+        } else return id
+        if (id.isNullOrEmpty() || "9774d56d682e549c" == id) {
+            id = SharedPrefUtil.newInstance(context)[key, ""]
+        } else return id
+        if (id.isNullOrEmpty()) {
+            id = UUID.randomUUID().toString()
+            SharedPrefUtil.newInstance(context).commit(key, id)
         }
         return id
+    }
+
+    /**
+     *
+     */
+    fun getSerial(): String? {
+        return try {
+            when {
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
+                    Build.getSerial()
+                }
+                else -> {
+                    Build.SERIAL
+                }
+            }
+        } catch (e: SecurityException) {
+            null
+        }
     }
 
 // --------------------------------------------------

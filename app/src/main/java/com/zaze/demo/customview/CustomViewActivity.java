@@ -9,8 +9,6 @@ import com.zaze.common.base.AbsActivity;
 import com.zaze.common.widget.AddImageLayout;
 import com.zaze.demo.R;
 
-import org.jetbrains.annotations.Nullable;
-
 
 /**
  * Description :
@@ -32,11 +30,6 @@ public class CustomViewActivity extends AbsActivity {
                 customAddImageLayout.addImageRes(R.mipmap.ic_folder_open_black_48dp);
             }
         });
-    }
-
-    @Override
-    public void init(@Nullable Bundle savedInstanceState) {
-
     }
 
     @Override

@@ -49,6 +49,7 @@
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true"
@@ -242,24 +243,25 @@
 
 
         <activity android:name=".component.admin.DeviceAdminActivity" />
-        <!-- 设备管理器权限，注册权限监听器 -->
-        <!--        <receiver-->
-        <!--            android:name=".component.admin.MyAdminReceiver"-->
-        <!--            android:permission="android.permission.BIND_DEVICE_ADMIN">-->
-        <!--            <meta-data-->
-        <!--                android:name="android.app.device_admin"-->
-        <!--                android:resource="@xml/device_admin" />-->
+        <!--         设备管理器权限，注册权限监听器 -->
+        <receiver
+            android:name=".component.admin.MyAdminReceiver"
+            android:permission="android.permission.BIND_DEVICE_ADMIN">
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/device_admin" />
 
-        <!--            <intent-filter>-->
-        <!--                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />-->
-        <!--            </intent-filter>-->
-        <!--        </receiver>-->
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+            </intent-filter>
+        </receiver>
 
 
         <receiver android:name=".receiver.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.ACTION_SHUTDOWN" />
+                <action android:name="android.intent.action.REBOOT" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>

@@ -23,8 +23,8 @@ class SensorActivity : AbsActivity(), SensorEventListener {
     var mPowerManager: PowerManager? = null
     var mWakeLock: PowerManager.WakeLock? = null
 
-    override fun init(savedInstanceState: Bundle?) {
-        super.init(savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         mSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_PROXIMITY)
         mPowerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
@@ -32,9 +32,7 @@ class SensorActivity : AbsActivity(), SensorEventListener {
             ZLog.i(ZTag.TAG_DEBUG, " has sensor: $it")
         }
         mWakeLock = mPowerManager?.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, "aaa")
-
     }
-
     override fun onResume() {
         super.onResume()
         //注册传感器,先判断有没有传感器

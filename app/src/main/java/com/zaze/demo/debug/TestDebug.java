@@ -71,8 +71,8 @@ public class TestDebug {
     public static void test(final Context context) {
         ZLog.i(ZTag.TAG, "proxyHost: " + System.getProperty("http.proxyHost"));
         ZLog.i(ZTag.TAG, "proxyPort: " + System.getProperty("http.proxyPort"));
-        ZLog.i(ZTag.TAG, "decode: " + new String(Base64.decode("aHR0cDovL3d3dy5iYWlkdS5jb20_b3A9Y2M=", Base64.URL_SAFE)));
-        ZLog.i(ZTag.TAG, "decode2: " + new String(Base64.decode("aHR0cDovL3d3dy5iYWlkdS5jb20_b3A9Y2M=", Base64.NO_WRAP)));
+//        ZLog.i(ZTag.TAG, "decode: " + new String(Base64.decode("aHR0cDovL3d3dy5iYWlkdS5jb20_b3A9Y2M=", Base64.URL_SAFE)));
+//        ZLog.i(ZTag.TAG, "decode2: " + new String(Base64.decode("aHR0cDovL3d3dy5iYWlkdS5jb20_b3A9Y2M=", Base64.NO_WRAP)));
 
 //        AppUtil.unInstall(context);
 

@@ -72,9 +72,10 @@ open class WebViewActivity : BaseActivity() {
             }
         }
 //        WebViewConsole.consoleDoc(web_view)
-        ZLog.i(ZTag.TAG, "loadUrl ")
-        web_view.loadUrl("file:///android_asset/index.html")
-
+        val url =
+            "https://yun.zjer.cn/oauth/oauthserver/index?client_id=1EF46747D70EEB19E349C25C668E44FD&response_type=code&state=1&redirect_uri=http://dkb.zjer.cn/index/index/loginAuth"
+        ZLog.i(ZTag.TAG, "loadUrl: $url")
+        web_view.loadUrl(url)
 //        web_view.loadUrl("https://www.baidu.com")
     }
 

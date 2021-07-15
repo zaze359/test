@@ -11,30 +11,11 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/device_mac_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="mac 地址" />
-
-        <TextView
-            android:id="@+id/device_screen"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="屏幕分辨率" />
-
-        <TextView
-            android:id="@+id/device_density"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="屏幕像素密度" />
-
         <com.zaze.demo.theme.widgets.TintConstraintLayout
             android:id="@+id/device_test_tint_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white">
-
 
             <Button
                 android:id="@+id/device_calculate_btn"
@@ -45,7 +26,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/device_inch"
+                android:id="@+id/deviceInchTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/dp_4"
@@ -59,9 +40,9 @@
                 android:layout_height="wrap_content"
                 android:hint="dpi"
                 android:inputType=""
-                app:layout_constraintBottom_toBottomOf="@id/device_inch"
-                app:layout_constraintLeft_toRightOf="@id/device_inch"
-                app:layout_constraintTop_toTopOf="@id/device_inch" />
+                app:layout_constraintBottom_toBottomOf="@id/deviceInchTv"
+                app:layout_constraintLeft_toRightOf="@id/deviceInchTv"
+                app:layout_constraintTop_toTopOf="@id/deviceInchTv" />
 
             <com.zaze.demo.theme.widgets.TintImageView
                 android:id="@+id/device_test_tint_iv"
@@ -77,7 +58,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/device_recycler_view"
+        android:id="@+id/deviceInfoRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

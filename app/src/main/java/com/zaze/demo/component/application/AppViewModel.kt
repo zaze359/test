@@ -3,13 +3,16 @@ package com.zaze.demo.component.application
 import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.os.Build
+import android.os.SystemClock
 import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.zaze.common.base.AbsAndroidViewModel
 import com.zaze.common.base.BaseApplication
 import com.zaze.common.base.ext.get
 import com.zaze.common.base.ext.set
 import com.zaze.common.thread.ThreadPlugins
+import com.zaze.common.util.TraceHelper
 import com.zaze.demo.R
 import com.zaze.demo.app.MyApplication
 import com.zaze.demo.debug.AppShortcut
@@ -17,9 +20,13 @@ import com.zaze.demo.debug.ApplicationManager
 import com.zaze.demo.util.plugins.rx.MyObserver
 import com.zaze.utils.AppUtil
 import com.zaze.utils.FileUtil
+import com.zaze.utils.StackTraceHelper
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.internal.operators.observable.ObservableFromIterable
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -30,44 +37,50 @@ import org.json.JSONObject
  */
 class AppViewModel(application: Application) : AbsAndroidViewModel(application) {
     private var matchStr = ""
+    val apkDir = "${application.getExternalFilesDir(null)}/zaze/apk"
+    val baseDir = "${application.getExternalFilesDir(null)}/zaze/${Build.MODEL}"
 
-    companion object {
-        val apkDir = "${FileUtil.getSDCardRoot()}/zaze/apk"
-        val baseDir = "${FileUtil.getSDCardRoot()}/zaze/${Build.MODEL}"
+    //
+    val existsFile = "$baseDir/exists.xml"
+    val unExistsFile = "$baseDir/unExists.xml"
+    val allFile = "$baseDir/all.xml"
 
-        //
-        val existsFile = "$baseDir/exists.xml"
-        val unExistsFile = "$baseDir/unExists.xml"
-        val allFile = "$baseDir/all.xml"
-
-        //
-        val extractPkgsFile = "$baseDir/extract_pkgs.txt"
-        val extractFile = "$baseDir/extract.xml"
-        val jsonExtractFile = "$baseDir/jsonExtract.xml"
-    }
+    //
+    val extractPkgsFile = "$baseDir/extract_pkgs.txt"
+    val extractFile = "$baseDir/extract.xml"
+    val jsonExtractFile = "$baseDir/jsonExtract.xml"
 
     val packageSet = HashMap<String, AppShortcut>()
     val appData = MutableLiveData<List<AppShortcut>>()
 
     // --------------------------------------------------
-    private fun loadAllInstallApp(appList: List<ApplicationInfo>, packageSet: HashMap<String, AppShortcut>) {
+    private fun loadAllInstallApp(
+        appList: List<ApplicationInfo>,
+        packageSet: HashMap<String, AppShortcut>
+    ) {
         appList.forEach {
             packageSet[it.packageName] = ApplicationManager.getAppShortcut(it.packageName)
         }
     }
 
-    private fun loadSystemApp(appList: List<ApplicationInfo>, packageSet: HashMap<String, AppShortcut>) {
+    private fun loadSystemApp(
+        appList: List<ApplicationInfo>,
+        packageSet: HashMap<String, AppShortcut>
+    ) {
         appList.filter { it.flags and ApplicationInfo.FLAG_SYSTEM > 0 }
-                .forEach {
-                    packageSet[it.packageName] = ApplicationManager.getAppShortcut(it.packageName)
-                }
+            .forEach {
+                packageSet[it.packageName] = ApplicationManager.getAppShortcut(it.packageName)
+            }
     }
 
-    private fun loadUnSystemApp(appList: List<ApplicationInfo>, packageSet: HashMap<String, AppShortcut>) {
+    private fun loadUnSystemApp(
+        appList: List<ApplicationInfo>,
+        packageSet: HashMap<String, AppShortcut>
+    ) {
         appList.filter { it.flags and ApplicationInfo.FLAG_SYSTEM <= 0 }
-                .forEach {
-                    packageSet[it.packageName] = ApplicationManager.getAppShortcut(it.packageName)
-                }
+            .forEach {
+                packageSet[it.packageName] = ApplicationManager.getAppShortcut(it.packageName)
+            }
     }
 
 
@@ -106,11 +119,11 @@ class AppViewModel(application: Application) : AbsAndroidViewModel(application) 
                     FileUtil.writeToFile(jsonExtractFile, jsonArray.toString())
                 }
             }.subscribeOn(ThreadPlugins.ioScheduler())
-                    .doFinally {
-                        dataLoading.set(false)
-                        hideProgress()
-                    }
-                    .subscribe(MyObserver(compositeDisposable))
+                .doFinally {
+                    dataLoading.set(false)
+                    hideProgress()
+                }
+                .subscribe(MyObserver(compositeDisposable))
         }
     }
 
@@ -123,19 +136,24 @@ class AppViewModel(application: Application) : AbsAndroidViewModel(application) 
     }
 
     fun loadAppList() {
-        if (!isLoading()) {
+        viewModelScope.launch {
+            if (isLoading()) {
+                return@launch
+            }
+            TraceHelper.beginSection("loadAppList")
             dataLoading.set(true)
             showProgress("load apps")
-            Observable.fromCallable {
-                // --------------------------------------------------
-                packageSet.clear()
-                val allAppList = AppUtil.getInstalledApplications(MyApplication.getInstance())
-                // --------------------------------------------------
+            // --------------------------------------------------
+            packageSet.clear()
+            // --------------------------------------------------
+            val asyncClearHistory = async(Dispatchers.IO) {
                 FileUtil.deleteFile(baseDir)
 //                FileUtil.deleteFile(unExistsFile)
 //                FileUtil.deleteFile(extractFile)
 //                FileUtil.deleteFile(allFile)
-                // --------------------------------------------------
+            }
+            val asyncGetInstalledApplications = async {
+                val allAppList = AppUtil.getInstalledApplications(getApplication())
                 loadAllInstallApp(allAppList, packageSet)
 //                loadSystemApp(allAppList, packageSet)
 //                loadUnSystemApp(allAppList, packageSet)
@@ -152,13 +170,13 @@ class AppViewModel(application: Application) : AbsAndroidViewModel(application) 
                 filterSet.forEach {
                     packageSet.remove(it)
                 }
-            }.subscribeOn(ThreadPlugins.ioScheduler())
-                    .doFinally {
-                        matchApp(packageSet.values)
-                        dataLoading.set(false)
-                        hideProgress()
-                    }
-                    .subscribe(MyObserver(compositeDisposable))
+                matchApp(packageSet.values)
+            }
+            asyncClearHistory.await()
+            asyncGetInstalledApplications.await()
+            dataLoading.set(false)
+            hideProgress()
+            TraceHelper.endSection("loadAppList")
         }
     }
 
@@ -176,14 +194,14 @@ class AppViewModel(application: Application) : AbsAndroidViewModel(application) 
                 }
                 showList
             }.subscribeOn(ThreadPlugins.ioScheduler())
-                    .map {
-                        matchApp(it)
-                    }
-                    .doFinally {
-                        dataLoading.set(false)
-                        hideProgress()
-                    }
-                    .subscribe(MyObserver(compositeDisposable))
+                .map {
+                    matchApp(it)
+                }
+                .doFinally {
+                    dataLoading.set(false)
+                    hideProgress()
+                }
+                .subscribe(MyObserver(compositeDisposable))
         }
     }
 
@@ -197,24 +215,27 @@ class AppViewModel(application: Application) : AbsAndroidViewModel(application) 
             e.onNext(appList)
             e.onComplete()
         }.subscribeOn(ThreadPlugins.ioScheduler())
-                .flatMap {
-                    ObservableFromIterable(it)
-                }.filter {
-                    it.packageName.contains(matchStr, true) || it.name.contains(matchStr, true)
-                }.toList()
-                .toObservable()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : MyObserver<MutableCollection<AppShortcut>>(compositeDisposable) {
-                    override fun onNext(result: MutableCollection<AppShortcut>) {
-                        super.onNext(result)
-                        show(result)
-                    }
+            .flatMap {
+                ObservableFromIterable(it)
+            }.filter {
+                matchStr.isEmpty() || it.packageName.contains(
+                    matchStr,
+                    true
+                ) || it.name.contains(matchStr, true)
+            }.toList()
+            .toObservable()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : MyObserver<MutableCollection<AppShortcut>>(compositeDisposable) {
+                override fun onNext(result: MutableCollection<AppShortcut>) {
+                    super.onNext(result)
+                    show(result)
+                }
 
-                    override fun onError(e: Throwable) {
-                        super.onError(e)
-                        show(HashSet())
-                    }
-                })
+                override fun onError(e: Throwable) {
+                    super.onError(e)
+                    show(HashSet())
+                }
+            })
     }
 
     // --------------------------------------------------
@@ -222,11 +243,19 @@ class AppViewModel(application: Application) : AbsAndroidViewModel(application) 
         return appShortcut?.also {
             val packageName = appShortcut.packageName
             if (appShortcut.isInstalled) {
-                FileUtil.writeToFile(existsFile, "<item>$packageName</item><!--${appShortcut.name}-->\n", true)
+                FileUtil.writeToFile(
+                    existsFile,
+                    "<item>$packageName</item><!--${appShortcut.name}-->\n",
+                    true
+                )
             } else {
                 FileUtil.writeToFile(unExistsFile, "<item>$packageName</item>\n", true)
             }
-            FileUtil.writeToFile(allFile, "<item>$packageName</item><!--${appShortcut.name}-->\n", true)
+            FileUtil.writeToFile(
+                allFile,
+                "<item>$packageName</item><!--${appShortcut.name}-->\n",
+                true
+            )
         }
     }
 }

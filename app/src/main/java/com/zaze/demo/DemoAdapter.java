@@ -5,15 +5,15 @@ import android.app.Activity;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.zaze.common.adapter.BaseRecyclerAdapter;
 import com.zaze.common.util.ActivityUtil;
 import com.zaze.demo.model.entity.TableEntity;
 
-import java.util.List;
-
-import androidx.recyclerview.widget.RecyclerView;
-
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 /**
  * Description :
@@ -40,7 +40,7 @@ public class DemoAdapter extends BaseRecyclerAdapter<TableEntity, DemoAdapter.Ap
     }
 
     @Override
-    public void onBindView(@NotNull AppItemHolder holder, final TableEntity value, int position) {
+    public void onBindView(@NotNull AppItemHolder holder, @NotNull final TableEntity value, int position) {
         holder.itemToolName.setText(value.getName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

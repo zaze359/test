@@ -1,6 +1,5 @@
 package com.zaze.utils.log;
 
-
 import android.util.Log;
 
 import com.zaze.utils.StackTraceHelper;
@@ -24,6 +23,7 @@ public class ZLog {
 
     static {
         registerLogCaller(ZLog.class.getName());
+        registerLogCaller(Log.class.getName());
     }
 
     public static void setLogLevel(@ZLogLevel int level) {
@@ -64,7 +64,7 @@ public class ZLog {
 
     private static String getStackTrace(String format, Object... args) {
         if (needStack) {
-            return ZStringUtil.format("[" + getTag(StackTraceHelper.getCallerStackTraceElement()) + "] : " + format, args);
+            return ZStringUtil.format("[" + getTag(StackTraceHelper.callerStackTraceElement()) + "] : " + format, args);
         } else {
             return ZStringUtil.format(format, args);
         }

@@ -7,7 +7,7 @@ import android.text.TextWatcher
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zaze.common.base.AbsActivity
-import com.zaze.common.base.ext.obtainViewModel
+import com.zaze.common.base.ext.myViewModels
 import com.zaze.demo.R
 import com.zaze.utils.ZOnClickHelper
 import kotlinx.android.synthetic.main.app_act.*
@@ -20,30 +20,25 @@ import kotlinx.android.synthetic.main.app_act.*
  * @version : 2017-04-17 05:15 1.0
  */
 class AppActivity : AbsActivity() {
-    private lateinit var viewModel: AppViewModel
+    private val viewModel: AppViewModel by myViewModels()
+
     private var adapter: AppAdapter? = null
 
-
-    override fun init(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.app_act)
-        viewModel = obtainViewModel(AppViewModel::class.java).apply {
-            appData.observe(this@AppActivity, Observer { appList ->
-                appCountTv.text = "查询到 ${appList.size}个应用"
-                adapter?.setDataList(appList) ?: let {
-                    adapter = AppAdapter(this@AppActivity, appList)
-                    appRecycleView.layoutManager = LinearLayoutManager(this@AppActivity)
-                    appRecycleView.adapter = adapter
-                }
-            })
-            progress.observe(this@AppActivity, Observer {
-                progress(it)
-            })
-        }
+        viewModel.appData.observe(this@AppActivity, Observer { appList ->
+            appCountTv.text = "查询到 ${appList.size}个应用"
+            adapter?.setDataList(appList) ?: let {
+                adapter = AppAdapter(this@AppActivity, appList)
+                appRecycleView.layoutManager = LinearLayoutManager(this@AppActivity)
+                appRecycleView.adapter = adapter
+            }
+        })
 
         ZOnClickHelper.setOnClickListener(appExtractBtn) {
             viewModel.extractApp()
         }
-
         appResolvingApkCb.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 viewModel.loadSdcardApk()
@@ -51,7 +46,6 @@ class AppActivity : AbsActivity() {
                 viewModel.loadAppList()
             }
         }
-
         appSearchEt.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
             }

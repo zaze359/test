@@ -63,7 +63,11 @@ object AppUtil {
      */
     @JvmStatic
     @JvmOverloads
-    fun getAppName(context: Context, packageName: String = context.packageName, defaultName: String = "未知"): String {
+    fun getAppName(
+        context: Context,
+        packageName: String = context.packageName,
+        defaultName: String = "未知"
+    ): String {
         val applicationInfo = getApplicationInfo(context, packageName)
         return if (applicationInfo == null) {
             defaultName
@@ -117,7 +121,11 @@ object AppUtil {
      */
     @JvmStatic
     @JvmOverloads
-    fun getApplicationInfo(context: Context, packageName: String = context.packageName, flag: Int = 0): ApplicationInfo? {
+    fun getApplicationInfo(
+        context: Context,
+        packageName: String = context.packageName,
+        flag: Int = 0
+    ): ApplicationInfo? {
         return try {
             context.packageManager.getApplicationInfo(packageName, flag)
         } catch (e: PackageManager.NameNotFoundException) {
@@ -170,7 +178,7 @@ object AppUtil {
      */
     @JvmStatic
     fun getPackageArchiveInfo(context: Context, fileName: String?): PackageInfo? {
-        if (TextUtils.isEmpty(fileName)) {
+        if (fileName.isNullOrEmpty()) {
             return null
         }
         return context.packageManager.getPackageArchiveInfo(fileName, 0)
@@ -203,7 +211,10 @@ object AppUtil {
         val mainIntent = Intent(Intent.ACTION_MAIN, null)
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER)
         mainIntent.`package` = packageName
-        return context.packageManager.queryIntentActivities(mainIntent, PackageManager.MATCH_DEFAULT_ONLY)
+        return context.packageManager.queryIntentActivities(
+            mainIntent,
+            PackageManager.MATCH_DEFAULT_ONLY
+        )
     }
 
     @JvmStatic
@@ -265,7 +276,8 @@ object AppUtil {
         val componentName = intent.component
         var packageName: String? = null
         if (componentName == null) {
-            val info = context.packageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY)
+            val info =
+                context.packageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY)
             if (info?.activityInfo != null) {
                 packageName = info.activityInfo.packageName
             }
@@ -407,7 +419,8 @@ object AppUtil {
         if (ZCommand.isSuccess(result) && result.successList.size > 0) {
             val message = result.successList[0]
             ZLog.i(ZTag.TAG_DEBUG, "getAppPid : $message")
-            val fields = message.split("\\s+".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            val fields =
+                message.split("\\s+".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
             if (fields.size > 1) {
                 return ZStringUtil.parseInt(fields[1])
             }
@@ -425,7 +438,10 @@ object AppUtil {
      */
     @Deprecated("未Root情况下, Android5.0以后只能获取到自己")
     @JvmStatic
-    fun getAppProcess(context: Context, packageName: String): ArrayList<ActivityManager.RunningAppProcessInfo> {
+    fun getAppProcess(
+        context: Context,
+        packageName: String
+    ): ArrayList<ActivityManager.RunningAppProcessInfo> {
         val activityManager = getActivityManager(context)
         val list = ArrayList<ActivityManager.RunningAppProcessInfo>()
         if (activityManager.runningAppProcesses != null) {
@@ -449,10 +465,10 @@ object AppUtil {
         val runningAppProcessInfoList = AppUtil.getAppProcess(context, packageName)
         var memorySize = 0L
         runningAppProcessInfoList
-                .asSequence()
-                .mapNotNull { getProcessMemoryInfo(context, intArrayOf(it.pid)) }
-                .filter { it.isNotEmpty() }
-                .forEach { memorySize = memorySize.plus(it[0].dalvikPrivateDirty) }
+            .asSequence()
+            .mapNotNull { getProcessMemoryInfo(context, intArrayOf(it.pid)) }
+            .filter { it.isNotEmpty() }
+            .forEach { memorySize = memorySize.plus(it[0].dalvikPrivateDirty) }
         return memorySize
     }
 
@@ -495,7 +511,12 @@ object AppUtil {
 
     @JvmStatic
     @JvmOverloads
-    fun startApplication(context: Context, packageName: String, bundle: Bundle? = null, needToast: Boolean = true): Boolean {
+    fun startApplication(
+        context: Context,
+        packageName: String,
+        bundle: Bundle? = null,
+        needToast: Boolean = true
+    ): Boolean {
         context.packageManager.getLaunchIntentForPackage(packageName)?.let {
             it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             it.addFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
@@ -523,7 +544,10 @@ object AppUtil {
 
     fun getAppMetaData(context: Context, packageName: String): Bundle? {
         try {
-            return context.packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA).metaData
+            return context.packageManager.getApplicationInfo(
+                packageName,
+                PackageManager.GET_META_DATA
+            ).metaData
         } catch (e: Exception) {
             return null
         }

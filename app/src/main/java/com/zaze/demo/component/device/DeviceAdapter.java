@@ -4,17 +4,17 @@ import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.zaze.common.adapter.BaseRecyclerAdapter;
 import com.zaze.demo.R;
 import com.zaze.demo.model.entity.DeviceStatus;
 import com.zaze.utils.ZStringUtil;
 
-import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 /**
  * Description :
@@ -30,7 +30,7 @@ class DeviceAdapter extends BaseRecyclerAdapter<DeviceStatus, DeviceAdapter.Devi
 
     @Override
     public int getViewLayoutId() {
-        return R.layout.list_item_device;
+        return R.layout.device_info_item;
     }
 
     @Override
@@ -39,7 +39,7 @@ class DeviceAdapter extends BaseRecyclerAdapter<DeviceStatus, DeviceAdapter.Devi
     }
 
     @Override
-    public void onBindView(@NotNull DeviceHolder deviceHolder, DeviceStatus deviceStatus, int i) {
+    public void onBindView(@NotNull DeviceHolder deviceHolder, @NotNull DeviceStatus deviceStatus, int i) {
         deviceHolder.itemDeviceTagTv.setText(ZStringUtil.parseString(deviceStatus.getTag()));
         deviceHolder.itemDeviceContentTv.setText(ZStringUtil.parseString(deviceStatus.getContent()));
     }
@@ -50,8 +50,8 @@ class DeviceAdapter extends BaseRecyclerAdapter<DeviceStatus, DeviceAdapter.Devi
 
         public DeviceHolder(@NonNull View itemView) {
             super(itemView);
-            itemDeviceTagTv = findView(itemView, R.id.item_device_tag_tv);
-            itemDeviceContentTv = findView(itemView, R.id.item_device_content_tv);
+            itemDeviceTagTv = findView(itemView, R.id.itemDeviceTagTv);
+            itemDeviceContentTv = findView(itemView, R.id.itemDeviceContentTv);
         }
     }
 }

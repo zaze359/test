@@ -22,9 +22,10 @@ import com.zaze.utils.log.ZLog
 abstract class AbsFragment : Fragment() {
 
     companion object {
-        private const val showLifeCycle = true
+        var showLifeCycle = false
         private const val TAG = "LifeCycle"
     }
+
     val fragmentName = "${this.javaClass.simpleName}@${Integer.toHexString(this.hashCode())}"
 
 
@@ -41,7 +42,11 @@ abstract class AbsFragment : Fragment() {
             ZLog.i(TAG, "$fragmentName onCreate")
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 

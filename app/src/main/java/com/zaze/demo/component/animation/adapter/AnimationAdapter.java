@@ -44,7 +44,7 @@ public class AnimationAdapter extends BaseRecyclerAdapter<AnimationEntity, Anima
     }
 
     @Override
-    public void onBindView(@NotNull final AnimationHolder holder, final AnimationEntity value, final int position) {
+    public void onBindView(@NotNull final AnimationHolder holder, @NotNull final AnimationEntity value, final int position) {
         holder.animationTitle.setText(ZStringUtil.parseString(value.getName()));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

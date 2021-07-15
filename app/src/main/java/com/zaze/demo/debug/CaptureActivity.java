@@ -40,7 +40,8 @@ public class CaptureActivity extends AbsActivity {
 
 
     @Override
-    public void init(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.ok_http_activity);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mMediaProjectionManager = (MediaProjectionManager) getSystemService("media_projection");
@@ -57,9 +58,9 @@ public class CaptureActivity extends AbsActivity {
         dialog.show();
     }
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, requestCode, data);
         int mWidth = 300;
         int mHeight = 300;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

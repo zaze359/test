@@ -28,7 +28,9 @@ class NetworkStatsActivity : AbsActivity() {
     private lateinit var viewModel: NetworkStatsViewModel
     private lateinit var databinding: NetworkStatsActBinding
 
-    override fun init(savedInstanceState: Bundle?) {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         databinding = DataBindingUtil.setContentView(this, R.layout.network_stats_act)
         databinding.lifecycleOwner = this
         databinding.viewModel = obtainViewModel(NetworkStatsViewModel::class.java).apply {

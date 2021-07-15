@@ -133,7 +133,6 @@ public class NetUtil {
     // --------------------------------------------------
 
     public static String getWLANMacAddress() {
-        /*获取mac地址有一点需要注意的就是android 6.0版本后，以下注释方法不再适用，不管任何手机都会返回"02:00:00:00:00:00"这个默认的mac地址，这是googel官方为了加强权限管理而禁用了getSYstemService(Context.WIFI_SERVICE)方法来获得mac地址。*/
         String macAddress;
         StringBuilder buf = new StringBuilder();
         NetworkInterface networkInterface = null;
@@ -146,7 +145,7 @@ public class NetUtil {
                 return "02:00:00:00:00:02";
             }
             byte[] addr = networkInterface.getHardwareAddress();
-            if(addr != null) {
+            if (addr != null) {
                 for (byte b : addr) {
                     buf.append(String.format("%02X:", b));
                 }

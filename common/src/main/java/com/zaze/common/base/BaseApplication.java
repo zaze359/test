@@ -114,8 +114,8 @@ public abstract class BaseApplication extends Application {
 
     @Override
     public Resources getResources() {
-//        ZLog.i(ZTag.TAG_DEBUG, "getResources");
-        return DisplayUtil.replaceResource(super.getResources());
+//        return DisplayUtil.replaceResource(super.getResources());
+        return super.getResources();
     }
 
     public boolean isPortrait() {

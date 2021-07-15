@@ -83,7 +83,7 @@ object Temp {
 //            Log.i("test", "runningAppProcesses = ${it.processName}")
 //        }
         AppUtil.getActivityManager(context).getRunningTasks(3).forEach {
-            Log.i("test", "runningAppProcesses = ${it.topActivity.packageName}")
+            Log.i("test", "runningAppProcesses = ${it.topActivity?.packageName}")
         }
 
     }

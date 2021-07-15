@@ -5,11 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
-import com.zaze.demo.component.webview.WebViewEvent;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
-
-import org.greenrobot.eventbus.EventBus;
 
 /**
  * Description :
@@ -33,7 +30,6 @@ public class ScreenLockReceiver extends BroadcastReceiver {
             ZLog.i(ZTag.TAG_DEBUG, "开屏");
         } else if (Intent.ACTION_SCREEN_OFF.equals(action)) { // 锁屏
             ZLog.i(ZTag.TAG_DEBUG, "锁屏");
-            EventBus.getDefault().post(new WebViewEvent());
         } else if (Intent.ACTION_USER_PRESENT.equals(action)) { // 解锁
             ZLog.i(ZTag.TAG_DEBUG, "解锁");
         }

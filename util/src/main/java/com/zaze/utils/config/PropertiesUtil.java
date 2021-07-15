@@ -2,10 +2,8 @@ package com.zaze.utils.config;
 
 import android.text.TextUtils;
 
-import com.zaze.utils.log.ZLog;
-import com.zaze.utils.log.ZTag;
-
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -35,14 +33,16 @@ public class PropertiesUtil {
             try {
                 inputStream = new FileInputStream(file);
                 properties.load(inputStream);
+            } catch (FileNotFoundException e) {
+                //
             } catch (Exception e) {
-                ZLog.e(ZTag.TAG_ERROR, e.toString());
+                e.printStackTrace();
             } finally {
                 if (inputStream != null) {
                     try {
                         inputStream.close();
                     } catch (Exception e) {
-                        ZLog.e(ZTag.TAG_ERROR, e.toString());
+                        e.printStackTrace();
                     }
                 }
             }
@@ -72,14 +72,16 @@ public class PropertiesUtil {
             outputStream = new FileOutputStream(file, false);
             properties.put(VERSION_KEY, VERSION_VALUE);
             properties.store(outputStream, "");
+        } catch (FileNotFoundException e) {
+            //
         } catch (Exception e) {
-            ZLog.e(ZTag.TAG_ERROR, e.toString());
+            e.printStackTrace();
         } finally {
             if (outputStream != null) {
                 try {
                     outputStream.close();
                 } catch (IOException e) {
-                    ZLog.e(ZTag.TAG_ERROR, e.toString());
+                    e.printStackTrace();
                 }
             }
         }

@@ -37,7 +37,7 @@ public class SocketAdapter extends BaseRecyclerAdapter<SocketMessage, SocketAdap
     }
 
     @Override
-    public void onBindView(@NotNull SocketHolder holder, SocketMessage value, int position) {
+    public void onBindView(@NotNull SocketHolder holder, @NotNull SocketMessage value, int position) {
 //        String message = "";
 //        try {
 //            message = value.getString("message");

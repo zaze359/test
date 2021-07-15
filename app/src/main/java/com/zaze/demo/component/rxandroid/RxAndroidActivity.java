@@ -1,16 +1,19 @@
 package com.zaze.demo.component.rxandroid;
 
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
 import com.zaze.common.base.BaseActivity;
+import com.zaze.common.thread.ThreadPlugins;
 import com.zaze.demo.R;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
+import org.jetbrains.annotations.NotNull;
 import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
@@ -32,6 +35,7 @@ import io.reactivex.Observer;
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.BiFunction;
@@ -67,6 +71,7 @@ public class RxAndroidActivity extends BaseActivity {
             return "RxAndroid Observable.fromCallable";
         }
     });
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
 
 
     @Override
@@ -77,8 +82,8 @@ public class RxAndroidActivity extends BaseActivity {
         findViewById(R.id.rx_android_test_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                test();
-//                test6();
+//                test();
+                test5();
             }
         });
 //        Intent intent = new Intent(this, AppActivity.class);
@@ -273,20 +278,56 @@ public class RxAndroidActivity extends BaseActivity {
      * map()
      */
     public void test5() {
-        Single.just(4).map(new Function<Integer, String>() {
+        Observable.fromCallable(new Callable<Integer>() {
+            @Override
+            public Integer call() throws Exception {
+                ThreadPlugins.runInWorkThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        compositeDisposable.dispose();
+                    }
+                }, 1000L);
+                SystemClock.sleep(3000L);
+                throw new NullPointerException("123");
+//                return 4;
+            }
+        }).subscribeOn(Schedulers.computation()).map(new Function<Integer, String>() {
             @Override
             public String apply(Integer integer) throws Exception {
                 return "map() : " + String.valueOf(integer);
             }
-        }).doFinally(new Action() {
+        }).map(new Function<String, String>() {
             @Override
-            public void run() throws Exception {
-                isRunning = false;
+            public String apply(@NotNull String s) throws Exception {
+                ZLog.i(ZTag.TAG, "s : " + s);
+                SystemClock.sleep(3000L);
+                ZLog.i(ZTag.TAG, "s2 : " + s);
+                throw new NullPointerException("123");
             }
-        }).subscribe(new Consumer<String>() {
+        }).doFinally(() -> isRunning = false).subscribe(new Observer<String>() {
+            private Disposable disposable;
+
             @Override
-            public void accept(String value) throws Exception {
-                updateTestText(value);
+            public void onSubscribe(@NotNull Disposable d) {
+                disposable = d;
+                compositeDisposable.add(d);
+            }
+
+            @Override
+            public void onNext(@NotNull String s) {
+                ZLog.i(ZTag.TAG, "onNext : " + s);
+                updateTestText(s);
+            }
+
+            @Override
+            public void onError(@NotNull Throwable e) {
+                e.printStackTrace();
+                compositeDisposable.remove(disposable);
+            }
+
+            @Override
+            public void onComplete() {
+                compositeDisposable.remove(disposable);
             }
         });
     }

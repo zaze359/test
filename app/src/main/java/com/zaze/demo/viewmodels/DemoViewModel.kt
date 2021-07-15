@@ -4,10 +4,13 @@ import androidx.lifecycle.*
 import com.zaze.common.base.AbsViewModel
 import com.zaze.demo.data.repository.DemoRepository
 import com.zaze.demo.model.entity.TableEntity
-import kotlinx.coroutines.Dispatchers
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DemoViewModel(private val demoRepository: DemoRepository) : AbsViewModel() {
+@HiltViewModel
+class DemoViewModel @Inject constructor(private val demoRepository: DemoRepository) :
+    AbsViewModel() {
 
     private val demoList = MutableLiveData<List<TableEntity>>()
     val demosData: LiveData<List<TableEntity>> = demoList
@@ -19,11 +22,11 @@ class DemoViewModel(private val demoRepository: DemoRepository) : AbsViewModel()
     }
 }
 
-object DemoViewModelFactory {
-    fun provideFactory(): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return DemoViewModel(DemoRepository(Dispatchers.IO)) as T
-        }
-    }
-}
+//object DemoViewModelFactory {
+//    fun provideFactory(): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+//        @Suppress("UNCHECKED_CAST")
+//        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+//            return DemoViewModel(DemoRepository(Dispatchers.IO)) as T
+//        }
+//    }
+//}

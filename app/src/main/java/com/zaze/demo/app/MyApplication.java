@@ -24,12 +24,15 @@ import com.zaze.utils.cache.MemoryCacheManager;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
+import dagger.hilt.android.HiltAndroidApp;
+
 /**
  * Description :
  *
  * @author : ZAZE
  * @version : 2016-11-06 - 20:4
  */
+@HiltAndroidApp
 public class MyApplication extends BaseApplication {
     //    BroadcastReceiver receiver;
 

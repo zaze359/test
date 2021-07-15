@@ -55,7 +55,7 @@ public class WifiAdapter extends BaseRecyclerAdapter<ScanResult, WifiAdapter.Wif
     }
 
     @Override
-    public void onBindView(@NotNull WifiViewHolder holder, final ScanResult value, int position) {
+    public void onBindView(@NotNull WifiViewHolder holder, @NotNull final ScanResult value, int position) {
         String desc = null;
         if (networkInfo != null && networkInfo.getState() == NetworkInfo.State.CONNECTED) {
             if (isConnect(value)) {

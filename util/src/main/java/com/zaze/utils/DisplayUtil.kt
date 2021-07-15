@@ -18,6 +18,7 @@ import com.zaze.utils.log.ZTag
 object DisplayUtil {
     private lateinit var displayProfile: DisplayProfile
     private var matchedDisplayProfile: DisplayProfile? = null
+
     // --------------------------------------------------
     // --------------------------------------------------
     @JvmStatic
@@ -26,7 +27,9 @@ object DisplayUtil {
         displayProfile = DisplayProfile(application.resources.displayMetrics)
         val metrics = DisplayMetrics()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            (application.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.getRealMetrics(metrics)
+            (application.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.getRealMetrics(
+                metrics
+            )
         } else {
             metrics.setTo(application.resources.displayMetrics)
         }
@@ -160,6 +163,10 @@ object DisplayUtil {
         fun updateRealMetrics(realMetrics: DisplayMetrics) {
             realWidthPixels = realMetrics.widthPixels
             realHeightPixels = realMetrics.heightPixels
+        }
+
+        fun getDensityDpiName(): String {
+            return DisplayUtil.getDensityDpiName(metrics)
         }
     }
 }

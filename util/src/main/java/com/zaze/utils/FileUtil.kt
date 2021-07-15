@@ -9,7 +9,6 @@ import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import java.io.*
 import java.util.*
-import java.util.concurrent.locks.ReadWriteLock
 import java.util.concurrent.locks.ReentrantReadWriteLock
 
 /**
@@ -21,37 +20,33 @@ object FileUtil {
     var showLog = false
     var needLock = true
     private val lock = ReentrantReadWriteLock()
-    private fun writeLock(lock: ReadWriteLock) {
+    private fun writeLock() {
         if (needLock) {
             lock.writeLock().lock()
         }
     }
 
-    private fun writeUnlock(lock: ReadWriteLock) {
+    private fun writeUnlock() {
         if (needLock) lock.writeLock().unlock()
     }
 
-    private fun readLock(lock: ReadWriteLock) {
+    private fun readLock() {
         if (needLock) {
             lock.readLock().lock()
         }
     }
 
-    private fun readUnlock(lock: ReadWriteLock) {
+    private fun readUnlock() {
         if (needLock) {
             lock.readLock().unlock()
         }
     }
+
     // --------------------------------------------------
     // --------------------------------------------------
-    /**
-     * Description : SD卡是否可用
-     * @author zaze
-     * @version 2017/7/13 - 上午10:08 1.0
-     */
     @JvmStatic
     fun isSdcardEnable(): Boolean {
-        return Environment.getExternalStorageState() == android.os.Environment.MEDIA_MOUNTED
+        return Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED
     }
 
     @JvmStatic
@@ -253,7 +248,7 @@ object FileUtil {
         }
         if (destFile.isDirectory) {
             val childFile = destFile.listFiles()
-            if (childFile != null && !childFile.isEmpty()) {
+            if (childFile != null && childFile.isNotEmpty()) {
                 for (file in childFile) {
                     deleteFile(file)
                 }
@@ -278,7 +273,7 @@ object FileUtil {
      */
     @JvmStatic
     fun deleteFileByCmd(filePath: String): Boolean {
-        return ZCommand.isSuccess(ZCommand.execCmdForRes("rm -r $filePath"))
+        return ZCommand.execCmdForRes("rm -r $filePath").isSuccess
     }
 
     // --------------------------------------------------
@@ -304,7 +299,7 @@ object FileUtil {
 
     /**
      * 将数据写入文件
-     * [filePath]
+     * [file]
      * [dataStr]
      * @return
      */
@@ -316,7 +311,7 @@ object FileUtil {
 
     /**
      * 将数据写入文件
-     * [filePath]
+     * [file] file
      * [inputStream]
      * [append] append
      * @return
@@ -324,7 +319,7 @@ object FileUtil {
     @JvmStatic
     @JvmOverloads
     fun writeToFile(file: File, inputStream: InputStream, append: Boolean = false): Boolean {
-        writeLock(lock)
+        writeLock()
         var result = true
         var output: OutputStream? = null
         try {
@@ -349,7 +344,7 @@ object FileUtil {
             }
 
         }
-        writeUnlock(lock)
+        writeUnlock()
         return result
     }
 
@@ -373,15 +368,14 @@ object FileUtil {
     @JvmStatic
     fun writeToFile(filePath: String, inputStream: InputStream, maxSize: Long): Boolean {
         val file = File(filePath)
-        if (maxSize > 0) {
-            if (!file.exists()) {
-                createFileNotExists(filePath)
-            } else if (file.length() > maxSize) {
-                val tempFile = "$filePath.1"
-                reCreateFile(tempFile)
-                writeToFile(file, FileInputStream(filePath), true)
-                deleteFile(filePath)
-            }
+        if (!file.exists()) {
+            createFileNotExists(filePath)
+        }
+        if (maxSize > 0 && file.length() > maxSize) {
+            val tempFile = "$filePath.1"
+            reCreateFile(tempFile)
+            writeToFile(file, FileInputStream(filePath), true)
+            deleteFile(filePath)
         }
         writeToFile(file, inputStream, true)
         return true
@@ -408,7 +402,7 @@ object FileUtil {
 
     @JvmStatic
     fun readByBytes(inputStream: InputStream): StringBuffer {
-        readLock(lock)
+        readLock()
         val results = StringBuffer()
         try {
 //            val bytes = ByteArray(8192)
@@ -429,13 +423,13 @@ object FileUtil {
                 e.printStackTrace()
             }
         }
-        readUnlock(lock)
+        readUnlock()
         return results
     }
 
     @JvmStatic
     fun readLine(reader: Reader): StringBuffer {
-        readLock(lock)
+        readLock()
         var bfReader: BufferedReader? = null
         val results = StringBuffer()
         try {
@@ -455,7 +449,7 @@ object FileUtil {
                 e.printStackTrace()
             }
         }
-        readUnlock(lock)
+        readUnlock()
         return results
     }
     // --------------------------------------------------
@@ -490,7 +484,11 @@ object FileUtil {
      */
     @JvmStatic
     @JvmOverloads
-    fun searchFileBySuffix(dirPath: String, suffix: String, isDeep: Boolean = false): ArrayList<File> {
+    fun searchFileBySuffix(
+        dirPath: String,
+        suffix: String,
+        isDeep: Boolean = false
+    ): ArrayList<File> {
         return searchFileBySuffix(File(dirPath), suffix, isDeep)
     }
 
@@ -501,10 +499,17 @@ object FileUtil {
      */
     @JvmStatic
     @JvmOverloads
-    fun searchFileBySuffix(dirFile: File, suffix: String, isDeep: Boolean = false): ArrayList<File> {
+    fun searchFileBySuffix(
+        dirFile: File,
+        suffix: String,
+        isDeep: Boolean = false
+    ): ArrayList<File> {
         val searchedFileList = ArrayList<File>()
         if (dirFile.exists() && dirFile.isDirectory) {
             val childFileList = dirFile.listFiles()
+            if (childFileList.isNullOrEmpty()) {
+                return searchedFileList
+            }
             for (childFile in childFileList) {
 //                ZLog.i(ZTag.TAG_FILE, "fileName : ${childFile.name}")
                 if (childFile.isFile && childFile.name.endsWith(".$suffix", true)) {
