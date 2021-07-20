@@ -25,7 +25,7 @@ import java.io.File
  *
  * @version : 2017-04-17 - 17:21
  */
-class AppAdapter(context: Context, data: Collection<AppShortcut>) : BaseRecyclerAdapter<AppShortcut, AppAdapter.PackageHolder>(context, data) {
+class AppListAdapter(context: Context, data: Collection<AppShortcut>) : BaseRecyclerAdapter<AppShortcut, AppListAdapter.PackageHolder>(context, data) {
 
     private val iconDpi: Int
 
@@ -40,7 +40,7 @@ class AppAdapter(context: Context, data: Collection<AppShortcut>) : BaseRecycler
     }
 
     override fun getViewLayoutId(): Int {
-        return R.layout.app_recycle_item
+        return R.layout.item_app_list
     }
 
     override fun onBindView(holder: PackageHolder, value: AppShortcut, position: Int) {

@@ -1,9 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
-apply plugin: 'com.github.dcendents.android-maven'
-
-group = 'com.github.zaze359'
+//apply plugin: 'com.github.dcendents.android-maven'
+//group = 'com.github.zaze359'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -28,6 +27,7 @@ android {
     }
 }
 
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation "junit:junit:$junitVersion"
@@ -36,8 +36,5 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
 }
 
-apply from: "bintray.gradle"
-
-repositories {
-    mavenCentral()
-}
+apply from: "../maven.gradle"
+//apply from: "../gradle-mvn-push.gradle"

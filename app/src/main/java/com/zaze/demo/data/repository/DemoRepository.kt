@@ -3,7 +3,7 @@ package com.zaze.demo.data.repository
 import com.zaze.demo.component.admin.DeviceAdminActivity
 import com.zaze.demo.component.animation.VectorActivity
 import com.zaze.demo.component.animation.ui.AnimationActivity
-import com.zaze.demo.component.application.AppActivity
+import com.zaze.demo.component.application.AppListActivity
 import com.zaze.demo.component.bitmap.BitmapActivity
 import com.zaze.demo.component.cache.ui.CacheActivity
 import com.zaze.demo.component.coroutine.CoroutineActivity
@@ -43,7 +43,7 @@ class DemoRepository(private val dispatcher: CoroutineDispatcher) {
     suspend fun loadDemos(): List<TableEntity> = withContext(dispatcher) {
         var i = 0
         ArrayList<TableEntity>().also { list ->
-            list.add(TableEntity("应用查询", AppActivity::class.java, ++i))
+            list.add(TableEntity("应用查询", AppListActivity::class.java, ++i))
             list.add(TableEntity("设备管理器", DeviceAdminActivity::class.java, ++i))
             list.add(TableEntity("应用使用数据", UsageStatesActivity::class.java, ++i))
 //        list.add(new TableEntity("分享", ShareActivity.class, ++i));

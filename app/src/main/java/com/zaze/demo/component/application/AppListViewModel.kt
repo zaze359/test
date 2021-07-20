@@ -35,7 +35,7 @@ import org.json.JSONObject
  * @author : ZAZE
  * @version : 2019-05-20 - 13:04
  */
-class AppViewModel(application: Application) : AbsAndroidViewModel(application) {
+class AppListViewModel(application: Application) : AbsAndroidViewModel(application) {
     private var matchStr = ""
     val apkDir = "${application.getExternalFilesDir(null)}/zaze/apk"
     val baseDir = "${application.getExternalFilesDir(null)}/zaze/${Build.MODEL}"

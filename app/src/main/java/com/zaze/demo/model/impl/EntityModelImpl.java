@@ -7,7 +7,7 @@ import com.zaze.demo.component.animation.ui.AnimationActivity;
 import com.zaze.demo.component.animation.ui.AnimationActivity1;
 import com.zaze.demo.component.animation.ui.SharedElementActivity;
 import com.zaze.demo.component.animation.ui.TransitionActivity;
-import com.zaze.demo.component.application.AppActivity;
+import com.zaze.demo.component.application.AppListActivity;
 import com.zaze.demo.component.bitmap.BitmapActivity;
 import com.zaze.demo.component.cache.ui.CacheActivity;
 import com.zaze.demo.component.coroutine.CoroutineActivity;
@@ -54,7 +54,7 @@ public class EntityModelImpl implements EntityModel {
     public List<TableEntity> getTableList() {
         List<TableEntity> list = new ArrayList<>();
         int i = 0;
-        list.add(new TableEntity("应用查询", AppActivity.class, ++i));
+        list.add(new TableEntity("应用查询", AppListActivity.class, ++i));
         list.add(new TableEntity("设备管理器", DeviceAdminActivity.class, ++i));
 //        list.add(new TableEntity("分享", ShareActivity.class, ++i));
         list.add(new TableEntity("设备信息", DeviceActivity.class, ++i));

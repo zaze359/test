@@ -9,7 +9,7 @@ import android.os.IBinder;
 import androidx.core.app.NotificationCompat;
 
 import com.zaze.demo.R;
-import com.zaze.demo.component.application.AppActivity;
+import com.zaze.demo.component.application.AppListActivity;
 
 /**
  * Description :
@@ -32,7 +32,7 @@ public class NotificationService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "aaa");
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, AppActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+                new Intent(this, AppListActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
 
         builder.setSmallIcon(R.mipmap.ic_launcher);
         builder.setContentTitle("通知标题")

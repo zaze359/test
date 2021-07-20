@@ -8,11 +8,11 @@ package com.zaze.utils;
  */
 public class DescriptionUtil {
 
-
     /**
      * 转换成字节单位
      *
      * @param byteLength 字节长度
+     * @return 格式化后输出
      */
     public static String toByteUnit(long byteLength) {
         long kb = byteLength >> 10;

@@ -3,10 +3,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-apply plugin: 'com.github.dcendents.android-maven'
-
-
-group = 'com.github.zaze359'
+//apply plugin: 'com.github.dcendents.android-maven'
+//group = 'com.github.zaze359'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -33,4 +31,5 @@ dependencies {
     compileOnly project(':util')
 }
 
-apply from: "bintray.gradle"
+apply from: "../maven.gradle"
+//apply from: "../gradle-mvn-push.gradle"

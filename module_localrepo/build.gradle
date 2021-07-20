@@ -28,5 +28,5 @@ dependencies {
 }
 
 // push 到 本地
-apply from: './maven_push_local.gradle'
+//apply from: './maven_push_local.gradle'
 

@@ -26,10 +26,6 @@ class DemoFragment : AbsFragment() {
 
     private val viewModel: DemoViewModel by viewModels()
 
-//    private val viewModel: DemoViewModel by viewModels {
-//        DemoViewModelFactory.provideFactory()
-//    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -51,7 +47,6 @@ class DemoFragment : AbsFragment() {
     }
 
     fun showAppList(list: List<TableEntity?>) {
-
         adapter?.setDataList(list) ?: let {
             adapter = DemoAdapter(activity, list)
             val manager = LinearLayoutManager(context)
