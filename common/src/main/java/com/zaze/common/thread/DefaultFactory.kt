@@ -1,4 +1,4 @@
-package com.zaze.utils.thread
+package com.zaze.common.thread
 
 import android.util.Log
 import java.util.concurrent.ThreadFactory
@@ -9,10 +9,8 @@ import java.util.concurrent.ThreadFactory
  * @author : ZAZE
  * @version : 2018-11-27 - 23:34
  */
-class DefaultFactory(val name: String? = "DefaultFactory") : ThreadFactory {
-    private var group: ThreadGroup = System.getSecurityManager()?.threadGroup
-            ?: Thread.currentThread().threadGroup
-
+class DefaultFactory(val name: String = "DefaultFactory") : ThreadFactory {
+    private val group = ThreadGroup(name)
     override fun newThread(r: Runnable?): Thread {
         val thread = Thread(group, r, name, 0)
         if (thread.isDaemon) {   //设为非后台线程
@@ -21,10 +19,13 @@ class DefaultFactory(val name: String? = "DefaultFactory") : ThreadFactory {
         if (thread.priority != Thread.NORM_PRIORITY) { //优先级为normal
             thread.priority = Thread.NORM_PRIORITY
         }
-//        thread.uncaughtExceptionHandler = Thread.UncaughtExceptionHandler { th, ex ->
-//            Log.i("ThreadFactory", "Appeared exception! Thread [" + th.name + "], because [" + ex.message + "]")
-//            throw ex
-//        }
+        thread.uncaughtExceptionHandler = Thread.UncaughtExceptionHandler { th, ex ->
+            Log.i(
+                "ThreadFactory",
+                "Appeared exception! Thread [" + th.name + "], because [" + ex.message + "]"
+            )
+            throw ex
+        }
         return thread
     }
 

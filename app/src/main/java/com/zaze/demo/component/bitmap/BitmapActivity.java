@@ -1,6 +1,7 @@
 package com.zaze.demo.component.bitmap;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorMatrix;
@@ -16,7 +17,6 @@ import androidx.appcompat.app.ActionBar;
 import com.zaze.common.base.AbsActivity;
 import com.zaze.common.base.ext.AppCompatActivityExtKt;
 import com.zaze.demo.R;
-import com.zaze.utils.BmpUtil;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -55,11 +55,11 @@ public class BitmapActivity extends AbsActivity {
                 return Unit.INSTANCE;
             }
         });
-//        originBmp = BitmapFactory.decodeResource(getResources(), R.mipmap.jljt);
-        Bitmap bm = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888);
-        Canvas sCanvas = new Canvas(bm);
-        sCanvas.drawColor(Color.parseColor("#FFFFFF"));
-        originBmp = BmpUtil.toRoundBitmap(bm);
+        originBmp = BitmapFactory.decodeResource(getResources(), R.mipmap.jljt);
+//        Bitmap bm = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888);
+//        Canvas sCanvas = new Canvas(bm);
+//        sCanvas.drawColor(Color.parseColor("#FFFFFF"));
+//        originBmp = BmpUtil.toRoundBitmap(bm);
         processBmp = Bitmap.createBitmap(originBmp.getWidth(), originBmp.getHeight(), originBmp.getConfig());
 
 

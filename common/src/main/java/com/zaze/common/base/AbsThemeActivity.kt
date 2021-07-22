@@ -11,6 +11,7 @@ import com.zaze.common.base.ext.setImmersionOnWindowFocusChanged
  * @version : 2021-07-15 - 15:27
  */
 abstract class AbsThemeActivity : AbsLogActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setImmersion(isFullScreen(), getStatusBarColor())

@@ -43,7 +43,6 @@ public abstract class BaseApplication extends Application {
         super.attachBaseContext(base);
         ZLog.i(ZTag.TAG_DEBUG, "initDisplay");
         initDisplay();
-
     }
 
     @Override

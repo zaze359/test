@@ -46,7 +46,8 @@ class HttpRequest private constructor(
      * Rx方式请求
      */
     fun requestByRx(): Observable<ZResponse> {
-        return Observable.fromCallable { request() }.subscribeOn(ThreadPlugins.requestScheduler())
+        return Observable.fromCallable { request() }
+            .subscribeOn(ThreadPlugins.requestExecutorStub.rxScheduler)
             .observeOn(ThreadPlugins.ioScheduler())
     }
 

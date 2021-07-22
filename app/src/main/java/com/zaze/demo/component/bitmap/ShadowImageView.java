@@ -2,6 +2,7 @@ package com.zaze.demo.component.bitmap;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -52,7 +53,7 @@ public class ShadowImageView extends View {
 
     public void setImageBitmap(Bitmap bitmap) {
         ZLog.i(ZTag.TAG_DEBUG, "setImageBitmap bmp: " + bitmap.getWidth() + "x" + bitmap.getHeight() + " >> " + width + "x" + height);
-        this.bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true);
+        this.bitmap = Bitmap.createScaledBitmap(bitmap, width - 100, height - 100, true);
         invalidate();
     }
 
@@ -79,7 +80,7 @@ public class ShadowImageView extends View {
 
 //        canvas.translate(-350f, 350f);
 
-//        paint.setMaskFilter(new BlurMaskFilter(10f, BlurMaskFilter.Blur.NORMAL));
+        paint.setMaskFilter(new BlurMaskFilter(10f, BlurMaskFilter.Blur.NORMAL));
 
 //        canvas.drawCircle(200f, 200f, 100f, paint);
 //
@@ -119,7 +120,7 @@ public class ShadowImageView extends View {
         ZLog.i(ZTag.TAG_DEBUG, "onDraw bmp: " + bitmap.getWidth() + "x" + bitmap.getHeight());
 //        canvas.drawBitmap(bmp, 50f, 50f, paint);
 //        paint.reset();
-        canvas.drawBitmap(bitmap, 0F, 0F, paint);
+        canvas.drawBitmap(bitmap, 50f, 50f, paint);
     }
 
     Rect getRect(Canvas canvas) {

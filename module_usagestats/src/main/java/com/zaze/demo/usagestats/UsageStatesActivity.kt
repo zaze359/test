@@ -24,7 +24,7 @@ class UsageStatesActivity : AppCompatActivity() {
             if (!AppUsageHelper.checkAppUsagePermission(this)) {
                 AppUsageHelper.requestAppUsagePermission(this)
             } else {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
                     ZLog.i(TAG, "packageName: ${AppUsageHelper.getTopActivityPackageName(this)}")
                     val time = System.currentTimeMillis()
                     val usageStatsManager = AppUsageHelper.getUsageStatsManager(this)

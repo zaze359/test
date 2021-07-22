@@ -38,6 +38,8 @@ abstract class AbsPermissionsActivity : AbsThemeActivity(), EasyPermissions.Perm
         super.setContentView(view)
         if (hasPermission()) {
             afterPermissionGranted()
+        } else {
+            beforePermissionGranted()
         }
     }
 
@@ -45,6 +47,8 @@ abstract class AbsPermissionsActivity : AbsThemeActivity(), EasyPermissions.Perm
         super.setContentView(layoutResID)
         if (hasPermission()) {
             afterPermissionGranted()
+        } else {
+            beforePermissionGranted()
         }
     }
 
@@ -52,6 +56,8 @@ abstract class AbsPermissionsActivity : AbsThemeActivity(), EasyPermissions.Perm
         super.setContentView(view, params)
         if (hasPermission()) {
             afterPermissionGranted()
+        } else {
+            beforePermissionGranted()
         }
     }
 
@@ -111,5 +117,9 @@ abstract class AbsPermissionsActivity : AbsThemeActivity(), EasyPermissions.Perm
 
     @AfterPermissionGranted(REQUEST_CODE_REQUEST_PERMISSIONS)
     open fun afterPermissionGranted() {
+    }
+
+    open fun beforePermissionGranted() {
+
     }
 }

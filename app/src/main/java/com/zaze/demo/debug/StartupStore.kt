@@ -1,7 +1,7 @@
 package com.zaze.demo.debug
 
 import android.util.Log
-import com.zaze.utils.thread.DefaultPoolExecutor
+import com.zaze.common.thread.DefaultPoolExecutor
 import java.util.*
 import java.util.concurrent.CountDownLatch
 import kotlin.collections.ArrayList

@@ -3,12 +3,9 @@ package com.zaze.common.thread
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Looper
-import com.zaze.utils.thread.DefaultFactory
 import io.reactivex.Scheduler
-import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.LinkedBlockingQueue
-import java.util.concurrent.ThreadPoolExecutor
-import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.Runnable
+import java.util.concurrent.*
 
 /**
  * Description :
@@ -18,50 +15,69 @@ import java.util.concurrent.TimeUnit
  * @version : 2018-12-19 - 21:04
  */
 object ThreadPlugins {
-
-    /**
-     * cup 数量
-     */
     private val CPU_COUNT = Runtime.getRuntime().availableProcessors()
 
-    /**
-     * 网络请求线程池
-     */
-    private val requestExecutor by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
-        ThreadPoolExecutor(1, Math.min(CPU_COUNT, 2), 1L, TimeUnit.MINUTES, LinkedBlockingQueue(), DefaultFactory("request"))
+    // --------------------------------------------------
+    val requestExecutorStub by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
+        ThreadExecutorStub(
+            ThreadPoolExecutor(
+                0,
+                CPU_COUNT * 2,
+                60L,
+                TimeUnit.SECONDS,
+                LinkedBlockingQueue(),
+                DefaultFactory("zRequest")
+            )
+        )
     }
-
+    // --------------------------------------------------
     /**
-     * 用于 RxJava 的 网络请求调度器
+     * 普通子线程池，用于一般子线程任务操作
+     * 耗时短
      */
-    private val requestScheduler by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
-        Schedulers.from(requestExecutor)
+    val multiExecutorStub by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
+        ThreadExecutorStub(
+            ThreadPoolExecutor(
+                0,
+                CPU_COUNT * 2,
+                60L,
+                TimeUnit.SECONDS,
+                LinkedBlockingQueue(),
+                DefaultFactory("zMulti")
+            )
+        )
+    }
+    // --------------------------------------------------
+    /**
+     * file操作线程
+     */
+    val fileExecutorStub by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
+        ThreadExecutorStub(
+            ThreadPoolExecutor(
+                1,
+                1,
+                60L,
+                TimeUnit.SECONDS,
+                LinkedBlockingQueue(),
+                DefaultFactory("zFile")
+            )
+        )
     }
 
     // --------------------------------------------------
-
-    /**
-     * io操作线程
-     */
-    private val ioExecutor by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
-        ThreadPoolExecutor(1, 1, 1L, TimeUnit.MINUTES, LinkedBlockingQueue(), DefaultFactory("io"))
+    val dbExecutorStub by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
+        ThreadExecutorStub(
+            ThreadPoolExecutor(
+                1,
+                1,
+                60L,
+                TimeUnit.SECONDS,
+                LinkedBlockingQueue(),
+                DefaultFactory("zIO")
+            )
+        )
     }
-
-    /**
-     * 用于 RxJava 的 io 调度器
-     */
-    private val ioScheduler by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
-        Schedulers.from(ioExecutor)
-    }
-
     // --------------------------------------------------
-    /**
-     * 处理下载的回调操作
-     */
-    private val downloadExecutor by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
-        ThreadPoolExecutor(1, 1, 1L, TimeUnit.MINUTES, LinkedBlockingQueue(), DefaultFactory("download"))
-    }
-
     /**
      * ui thread
      */
@@ -74,7 +90,7 @@ object ThreadPlugins {
      */
     @JvmStatic
     @Volatile
-    private var workThread = HandlerThread("work_thread").apply { start() }
+    private var workThread = HandlerThread("z_work_thread").apply { start() }
 
     /**
      * 自定义Handler
@@ -84,44 +100,13 @@ object ThreadPlugins {
     private var workHandler = Handler(workThread.looper)
 
     // --------------------------------------------------
-    // --------------------------------------------------
-    /**
-     * 在下载线程执行
-     * [runnable] runnable
-     */
-    @JvmStatic
-    fun runInRequestThread(runnable: Runnable) {
-        requestExecutor.execute(runnable)
-    }
-
-    /**
-     * 获取用于 RxJava 的 网络请求调度器
-     * @return 用于 RxJava 的 网络请求调度器
-     */
-    @JvmStatic
-    fun requestScheduler(): Scheduler {
-        return requestScheduler
-    }
-
-    // --------------------------------------------------
-    /**
-     * 在下载线程执行
-     * [runnable] runnable
-     */
-    @JvmStatic
-    fun runInDownloadThread(runnable: Runnable) {
-        downloadExecutor.execute(runnable)
-    }
-
-    // --------------------------------------------------
-
     /**
      * 在io线程执行
      * [runnable] runnable
      */
     @JvmStatic
     fun runInIoThread(runnable: Runnable) {
-        ioExecutor.execute(runnable)
+        dbExecutorStub.execute(runnable)
     }
 
     /**
@@ -130,7 +115,7 @@ object ThreadPlugins {
      */
     @JvmStatic
     fun ioScheduler(): Scheduler {
-        return ioScheduler
+        return dbExecutorStub.rxScheduler
     }
 
     // --------------------------------------------------
@@ -144,9 +129,7 @@ object ThreadPlugins {
         uiHandler.removeCallbacks(runnable)
         uiHandler.postDelayed(runnable, delay)
     }
-
     // --------------------------------------------------
-
     /**
      * 在自定义工作线程中移除消息
      */
@@ -171,5 +154,16 @@ object ThreadPlugins {
     fun runInWorkThread(runnable: Runnable, delay: Long = 0) {
         workHandler.removeCallbacks(runnable)
         workHandler.postDelayed(runnable, delay)
+    }
+
+    @JvmStatic
+    fun removeWorkCallbacks(runnable: Runnable) {
+        workHandler.removeCallbacks(runnable)
+    }
+
+    // --------------------------------------------------
+    @JvmStatic
+    fun isOnMainThread(): Boolean {
+        return Looper.getMainLooper().thread == Thread.currentThread()
     }
 }

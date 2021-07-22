@@ -89,14 +89,16 @@ class MainActivity : AbsActivity() {
         viewModel.fragmentListData.observe(this, Observer {
             mainViewpager.adapter = MyPagerAdapter(supportFragmentManager, it)
         })
-        // ------------------------------------------------------
+    }
+
+    override fun beforePermissionGranted() {
+        super.beforePermissionGranted()
         mainTestBtn.setOnClickListener {
             setupPermission()
         }
     }
 
     override fun afterPermissionGranted() {
-        // --------------------------------------------------
         mainTestBtn.setOnClickListener {
             viewModel.test(this)
         }

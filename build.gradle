@@ -14,6 +14,7 @@ buildscript {
     }
 
     repositories {
+        maven { url 'http://localhost:8081/repository/maven-public' }
         maven { url 'https://maven.aliyun.com/repository/public' }
         maven { url 'https://maven.aliyun.com/repository/jcenter' }
         maven { url 'https://maven.aliyun.com/repository/google' }
@@ -36,6 +37,7 @@ buildscript {
 
 allprojects {
     repositories {
+        maven { url 'http://localhost:8081/repository/maven-public' }
         maven { url 'https://maven.aliyun.com/repository/public' }
         maven { url 'https://maven.aliyun.com/repository/jcenter' }
         maven { url 'https://maven.aliyun.com/repository/google' }

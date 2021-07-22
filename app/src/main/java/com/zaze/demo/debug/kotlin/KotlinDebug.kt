@@ -14,6 +14,7 @@ import com.zaze.demo.debug.ApplicationManager
 import com.zaze.utils.FileUtil.getSDCardRoot
 import com.zaze.utils.config.ConfigHelper
 import com.zaze.utils.log.ZTag
+import org.json.JSONObject
 import java.io.File
 
 
@@ -53,6 +54,15 @@ object KotlinDebug {
             "fileList",
             "getExternalFilesDirs : ${context.getExternalFilesDir(Environment.DIRECTORY_MUSIC)}"
         )
+
+        val str = "{\"key\":null,\"version\":null}"
+        val json = JSONObject(str)
+
+        Log.i(
+            "JSONObject","${json.opt("key")}"
+        )
+
+
 //        val set = HashSet<Int>()
 //        for (i in 0..100) {
 //            val uid = getUserHandleForUid(context, i)
