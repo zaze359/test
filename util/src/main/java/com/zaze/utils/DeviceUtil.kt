@@ -119,8 +119,8 @@ object DeviceUtil {
     }
 // --------------------------------------------------
     /**
-     * Data (内置sd卡 时 同 {@link #getSDTotalSpace()})
-     * @return 获取机身总大小
+     * 获取内置存储的总空间大小
+     * @return 内置存储的总空间大小
      */
     @JvmStatic
     fun getDataTotalSpace(): Long {
@@ -128,8 +128,8 @@ object DeviceUtil {
     }
 
     /**
-     * Data
-     * @return 获取机身剩余
+     * 获取内部存储剩余空间
+     * @return 内部存储剩余空间
      */
     @JvmStatic
     fun getDataFreeSpace(): Long {

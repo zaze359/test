@@ -2,7 +2,7 @@ package com.zaze.demo.component.file.explorer
 
 import android.os.Bundle
 import com.zaze.common.base.AbsActivity
-import com.zaze.common.base.ext.replaceFragmentInActivity
+import com.zaze.common.base.ext.replaceFragment
 import com.zaze.common.base.ext.setupActionBar
 import com.zaze.demo.R
 import com.zaze.utils.FileUtil
@@ -29,6 +29,6 @@ class FileExplorerActivity : AbsActivity() {
             ZLog.e(ZTag.TAG_DEBUG, "sdcard 不可用")
             return
         }
-        replaceFragmentInActivity(FileListFragment(), R.id.fileExplorerLayout)
+        replaceFragment(R.id.fileExplorerLayout, FileListFragment())
     }
 }

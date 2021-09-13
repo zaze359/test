@@ -34,6 +34,6 @@ class TouchViewThird : LinearLayout {
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         Log.e("TouchViewThird", "onTouchEvent: ${event?.action}")
-        return true
+        return super.onTouchEvent(event)
     }
 }

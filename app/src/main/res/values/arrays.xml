@@ -26,9 +26,11 @@
     </integer-array>
 
     <string-array name="apps">
-
-
-
+        <item>com.android.fmradio</item><!--FM 电台-->
+        <item>com.lenovo.leos.appstore.pad</item><!--应用中心-->
+        <item>com.microsoft.office.onenote</item><!--OneNote-->
+        <item>com.microsoft.office.officehub</item><!--Microsoft Office-->
+        <item>com.lenovo.browser.hd</item><!--联想浏览器HD-->
     </string-array>
 
 </resources>

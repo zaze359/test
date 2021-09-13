@@ -93,7 +93,7 @@ public class ZipUtil {
                 if (zipEntry.isDirectory()) {
                     // get the folder name of the widget
                     szName = szName.substring(0, szName.length() - 1);
-                    FileUtil.createDirNotExists(outPathString + File.separator + szName);
+                    FileUtil.createDirNotExists(new File(outPathString + File.separator + szName));
                 } else {
                     String filePath = outPathString + File.separator + szName;
                     File file = new File(filePath);
@@ -126,7 +126,7 @@ public class ZipUtil {
      */
     public static void compressFile(String srcFilePath, String outFilePath) {
         ZLog.d(ZTag.TAG_COMPRESS, "zipFile : %s >> %s", srcFilePath, outFilePath);
-        FileUtil.createDirNotExists(new File(outFilePath).getParent());
+        FileUtil.createDirNotExists(new File(outFilePath).getParentFile());
         FileUtil.reCreateFile(outFilePath);
         ZipOutputStream outZip = null;
         try {

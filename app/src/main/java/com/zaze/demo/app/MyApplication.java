@@ -18,6 +18,8 @@ import com.zaze.demo.debug.LogcatService;
 import com.zaze.demo.debug.wifi.WifiCompat;
 import com.zaze.demo.receiver.BatteryReceiver;
 import com.zaze.demo.receiver.PackageReceiver;
+import com.zaze.utils.DeviceUtil;
+import com.zaze.utils.FileUtil;
 import com.zaze.utils.NetUtil;
 import com.zaze.utils.ZCommand;
 import com.zaze.utils.cache.MemoryCacheManager;
@@ -72,6 +74,10 @@ public class MyApplication extends BaseApplication {
 //        receiver = new TestBroadcastReceiver();
 //        IntentFilter intentFilter = new IntentFilter("android.intent.action.message.testappid");
 //        registerReceiver(receiver, intentFilter);
+
+        ZLog.registerLogCaller(FileUtil.class.getName());
+        ZLog.registerLogCaller(DeviceUtil.class.getName());
+
         if (isMainProcess()) {
             mClipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
             if (mClipboardManager != null) {

@@ -17,9 +17,19 @@ import androidx.annotation.RequiresApi
 class TouchViewSecond : LinearLayout {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    )
+
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes)
+    constructor(
+        context: Context,
+        attrs: AttributeSet?,
+        defStyleAttr: Int,
+        defStyleRes: Int
+    ) : super(context, attrs, defStyleAttr, defStyleRes)
 
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
@@ -29,15 +39,15 @@ class TouchViewSecond : LinearLayout {
 
     override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
         Log.d("TouchViewSecond", "onInterceptTouchEvent: ${ev?.action}")
-//        return super.onInterceptTouchEvent(ev)
-        return MotionEvent.ACTION_DOWN != ev?.action
 //        return true
+        return super.onInterceptTouchEvent(ev)
+//        return MotionEvent.ACTION_DOWN == ev?.action
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         Log.d("TouchViewSecond", "onTouchEvent: ${event?.action}")
-        return super.onTouchEvent(event)
-//        return true
+//        return super.onTouchEvent(event)
+        return true
     }
 
 //    fun aaa(event: MotionEvent?): Boolean {

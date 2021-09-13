@@ -67,13 +67,9 @@ afterEvaluate { project ->
                 repository(url: getReleaseRepositoryUrl(properties)) {
                     authentication(userName: getRepositoryUsername(properties), password: getRepositoryPassword(properties))
                 }
-//                snapshotRepository(url: getSnapshotRepositoryUrl(properties)) {
-//                    authentication(userName: getRepositoryUsername(properties), password: getRepositoryPassword(properties))
-//                }
-                snapshotRepository(url: "http://localhost:8081/repository/maven-snapshots/") {
-                    authentication(userName: "zaze", password: "123456")
+                snapshotRepository(url: getSnapshotRepositoryUrl(properties)) {
+                    authentication(userName: getRepositoryUsername(properties), password: getRepositoryPassword(properties))
                 }
-
                 pom.project {
                     name POM_NAME
                     packaging 'aar'

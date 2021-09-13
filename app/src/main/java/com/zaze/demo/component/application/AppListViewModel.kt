@@ -17,10 +17,13 @@ import com.zaze.demo.R
 import com.zaze.demo.app.MyApplication
 import com.zaze.demo.debug.AppShortcut
 import com.zaze.demo.debug.ApplicationManager
+import com.zaze.demo.util.isSystemApp
 import com.zaze.demo.util.plugins.rx.MyObserver
 import com.zaze.utils.AppUtil
 import com.zaze.utils.FileUtil
 import com.zaze.utils.StackTraceHelper
+import com.zaze.utils.log.ZLog
+import com.zaze.utils.log.ZTag
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.internal.operators.observable.ObservableFromIterable
@@ -52,37 +55,6 @@ class AppListViewModel(application: Application) : AbsAndroidViewModel(applicati
 
     val packageSet = HashMap<String, AppShortcut>()
     val appData = MutableLiveData<List<AppShortcut>>()
-
-    // --------------------------------------------------
-    private fun loadAllInstallApp(
-        appList: List<ApplicationInfo>,
-        packageSet: HashMap<String, AppShortcut>
-    ) {
-        appList.forEach {
-            packageSet[it.packageName] = ApplicationManager.getAppShortcut(it.packageName)
-        }
-    }
-
-    private fun loadSystemApp(
-        appList: List<ApplicationInfo>,
-        packageSet: HashMap<String, AppShortcut>
-    ) {
-        appList.filter { it.flags and ApplicationInfo.FLAG_SYSTEM > 0 }
-            .forEach {
-                packageSet[it.packageName] = ApplicationManager.getAppShortcut(it.packageName)
-            }
-    }
-
-    private fun loadUnSystemApp(
-        appList: List<ApplicationInfo>,
-        packageSet: HashMap<String, AppShortcut>
-    ) {
-        appList.filter { it.flags and ApplicationInfo.FLAG_SYSTEM <= 0 }
-            .forEach {
-                packageSet[it.packageName] = ApplicationManager.getAppShortcut(it.packageName)
-            }
-    }
-
 
     // --------------------------------------------------
     fun extractApp() {
@@ -136,7 +108,7 @@ class AppListViewModel(application: Application) : AbsAndroidViewModel(applicati
     }
 
     fun loadAppList() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             if (isLoading()) {
                 return@launch
             }
@@ -146,34 +118,33 @@ class AppListViewModel(application: Application) : AbsAndroidViewModel(applicati
             // --------------------------------------------------
             packageSet.clear()
             // --------------------------------------------------
-            val asyncClearHistory = async(Dispatchers.IO) {
-                FileUtil.deleteFile(baseDir)
+            FileUtil.deleteFile(baseDir)
 //                FileUtil.deleteFile(unExistsFile)
 //                FileUtil.deleteFile(extractFile)
 //                FileUtil.deleteFile(allFile)
-            }
-            val asyncGetInstalledApplications = async {
-                val allAppList = AppUtil.getInstalledApplications(getApplication())
-                loadAllInstallApp(allAppList, packageSet)
-//                loadSystemApp(allAppList, packageSet)
-//                loadUnSystemApp(allAppList, packageSet)
-                // --------------------------------------------------
-                packageSet.remove(BaseApplication.getInstance().packageName)
-                // --------------------------------------------------
-                val filterSet = HashSet<String>()
-//                filterSet.addAll(getStringArray(R.array.un_keep_app).toList())
-                // --------------------------------------------------
-                filterSet.addAll(getStringArray(R.array.apps).toList())
-                // 添加规则--------------------------------------------------
-//                filterSet.mapTo(packageList) { it }
-                // 移除规则--------------------------------------------------
-                filterSet.forEach {
-                    packageSet.remove(it)
+            AppUtil.getInstalledApplications(getApplication())
+                .asSequence()
+                .filter {
+                    ZLog.i(ZTag.TAG, "${it.packageName} isSystemApp: ${it.isSystemApp()}")
+                    it.isSystemApp()
                 }
-                matchApp(packageSet.values)
+                .forEach {
+                    packageSet[it.packageName] = ApplicationManager.getAppShortcut(it.packageName)
+                }
+
+            // --------------------------------------------------
+            packageSet.remove(BaseApplication.getInstance().packageName)
+            // --------------------------------------------------
+            val filterSet = HashSet<String>()
+            // --------------------------------------------------
+            filterSet.addAll(getStringArray(R.array.apps).toList())
+            // 添加规则--------------------------------------------------
+//          filterSet.mapTo(packageList) { it }
+            // 移除规则--------------------------------------------------
+            filterSet.forEach {
+                packageSet.remove(it)
             }
-            asyncClearHistory.await()
-            asyncGetInstalledApplications.await()
+            matchApp(packageSet.values)
             dataLoading.set(false)
             hideProgress()
             TraceHelper.endSection("loadAppList")

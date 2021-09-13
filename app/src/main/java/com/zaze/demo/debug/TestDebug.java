@@ -6,6 +6,7 @@ import android.content.res.AssetManager;
 import android.content.res.XmlResourceParser;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.util.Base64;
 import android.util.Log;
@@ -71,6 +72,15 @@ public class TestDebug {
     public static void test(final Context context) {
         ZLog.i(ZTag.TAG, "proxyHost: " + System.getProperty("http.proxyHost"));
         ZLog.i(ZTag.TAG, "proxyPort: " + System.getProperty("http.proxyPort"));
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("bool", false);
+//        AppUtil.startApplication(context, "com.zaze.apps", bundle);
+        Intent intent = context.getPackageManager().getLaunchIntentForPackage("com.zaze.apps");
+        if (intent != null) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            context.startActivity(intent, bundle);
+        }
 //        ZLog.i(ZTag.TAG, "decode: " + new String(Base64.decode("aHR0cDovL3d3dy5iYWlkdS5jb20_b3A9Y2M=", Base64.URL_SAFE)));
 //        ZLog.i(ZTag.TAG, "decode2: " + new String(Base64.decode("aHR0cDovL3d3dy5iYWlkdS5jb20_b3A9Y2M=", Base64.NO_WRAP)));
 

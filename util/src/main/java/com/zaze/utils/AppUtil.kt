@@ -123,9 +123,12 @@ object AppUtil {
     @JvmOverloads
     fun getApplicationInfo(
         context: Context,
-        packageName: String = context.packageName,
+        packageName: String? = context.packageName,
         flag: Int = 0
     ): ApplicationInfo? {
+        if (packageName.isNullOrEmpty()) {
+            return null
+        }
         return try {
             context.packageManager.getApplicationInfo(packageName, flag)
         } catch (e: PackageManager.NameNotFoundException) {

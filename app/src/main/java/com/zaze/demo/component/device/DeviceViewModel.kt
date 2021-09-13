@@ -5,11 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.zaze.common.base.AbsViewModel
 import com.zaze.demo.model.ModelFactory
 import com.zaze.demo.model.entity.DeviceStatus
-import com.zaze.utils.DisplayUtil.getMetrics
+import com.zaze.utils.DisplayUtil
 import com.zaze.utils.ZStringUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.*
 
 /**
@@ -27,10 +26,8 @@ class DeviceViewModel() : AbsViewModel() {
     val inchData = MutableLiveData<String>()
 
     fun loadDeviceInfo() {
-        viewModelScope.launch {
-            deviceInfoList.value = withContext(Dispatchers.IO) {
-                deviceModel.deviceInfo
-            }
+        viewModelScope.launch(Dispatchers.IO) {
+            deviceInfoList.postValue(deviceModel.deviceInfo)
         }
     }
 
@@ -41,13 +38,15 @@ class DeviceViewModel() : AbsViewModel() {
      */
     fun calculatePhysicalSize(iDpi: Int) {
         val dpi = if (iDpi < 1) {
-            getMetrics().densityDpi
+            DisplayUtil.getMetrics().densityDpi
         } else {
             iDpi
         }
+        val displayProfile = DisplayUtil.getDisplayProfile()
+//        displayProfile.realWidthPixels}x${displayProfile.realHeightPixels
         val inch = Math.sqrt(
-            Math.pow(getMetrics().widthPixels.toDouble(), 2.0) + Math.pow(
-                getMetrics().heightPixels.toDouble(), 2.0
+            Math.pow(displayProfile.realWidthPixels.toDouble(), 2.0) + Math.pow(
+                displayProfile.realHeightPixels.toDouble(), 2.0
             )
         ) / dpi
         inchData.value = ZStringUtil.format("%.2f寸", inch)
@@ -58,8 +57,8 @@ class DeviceViewModel() : AbsViewModel() {
             val inchNum = inch.toFloat()
             if (inchNum > 0) {
                 val dpi = Math.sqrt(
-                    Math.pow(getMetrics().widthPixels.toDouble(), 2.0) + Math.pow(
-                        getMetrics().heightPixels.toDouble(), 2.0
+                    Math.pow(DisplayUtil.getMetrics().widthPixels.toDouble(), 2.0) + Math.pow(
+                        DisplayUtil.getMetrics().heightPixels.toDouble(), 2.0
                     )
                 ) / inchNum
             }

@@ -3,11 +3,13 @@ package com.zaze.demo.viewmodels
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
+import android.os.Environment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.android.material.snackbar.Snackbar
 import com.zaze.common.base.AbsFragment
 import com.zaze.common.base.AbsViewModel
+import com.zaze.common.base.BaseApplication
 import com.zaze.demo.DemoFragment
 import com.zaze.demo.debug.LogDirListener
 import com.zaze.demo.debug.TestDebug
@@ -48,6 +50,16 @@ class MainViewModel : AbsViewModel() {
 //            msg.replyTo = messenger
 //            sendMessenger?.send(msg)
 //
+
+        val content = "aaaa"
+        FileUtil.writeToFile("/sdcard/Android/data/com.baidu.map.location/aaa.txt", content)
+        FileUtil.writeToFile("/sdcard/Android/data/${BaseApplication.getInstance().packageName}/aaa.txt", content)
+        FileUtil.writeToFile("/sdcard/Android/media/com.baidu.map.location/aaa.txt", content)
+        FileUtil.writeToFile("/sdcard/Android/media/${BaseApplication.getInstance().packageName}/aaa.txt", content)
+        FileUtil.writeToFile("${BaseApplication.getInstance().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)?.absolutePath}/aaa.txt", content)
+        FileUtil.writeToFile("${BaseApplication.getInstance().getExternalFilesDir(Environment.DIRECTORY_MUSIC)?.absolutePath}/aaa.txt", content)
+
+
         Snackbar.make(activity.window.decorView, "LENGTH_INDEFINITE", Snackbar.LENGTH_INDEFINITE)
             .setTextColor(Color.WHITE)
             .setAction("action") { }

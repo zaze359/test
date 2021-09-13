@@ -18,7 +18,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock
  */
 object FileUtil {
     var showLog = false
-    var needLock = true
+    var needLock = false
     private val lock = ReentrantReadWriteLock()
     private fun writeLock() {
         if (needLock) {
@@ -66,16 +66,25 @@ object FileUtil {
 
     @JvmStatic
     fun exists(filePath: String?): Boolean {
+        if (filePath.isNullOrEmpty()) {
+            return false
+        }
         return File(filePath).exists()
     }
 
     @JvmStatic
     fun isCanRead(filePath: String?): Boolean {
+        if (filePath.isNullOrEmpty()) {
+            return false
+        }
         return exists(filePath) && File(filePath).canRead()
     }
 
     @JvmStatic
     fun isCanWrite(filePath: String?): Boolean {
+        if (filePath.isNullOrEmpty()) {
+            return false
+        }
         return exists(filePath) && File(filePath).canWrite()
     }
     // --------------------------------------------------
@@ -165,8 +174,7 @@ object FileUtil {
      * [path] dir
      */
     @JvmStatic
-    fun createDirNotExists(path: String): Boolean {
-        val file = File(path)
+    fun createDirNotExists(file: File): Boolean {
         if (file.exists()) {
             return file.isDirectory
         } else {
@@ -205,10 +213,15 @@ object FileUtil {
      */
     @JvmStatic
     fun reCreateFile(filePath: String): Boolean {
-        if (exists(filePath)) {
-            deleteFile(filePath)
+        return reCreateFile(File(filePath))
+    }
+
+    @JvmStatic
+    fun reCreateFile(file: File): Boolean {
+        if (file.exists()) {
+            deleteFile(file)
         }
-        return createFileNotExists(filePath)
+        return createFileNotExists(file)
     }
 
     /**
@@ -217,12 +230,15 @@ object FileUtil {
      */
     @JvmStatic
     fun reCreateDir(filePath: String): Boolean {
-        if (exists(filePath)) {
-            deleteFile(filePath)
-        }
-        return createDirNotExists(filePath)
+        return reCreateDir(File(filePath))
     }
 
+    fun reCreateDir(file: File): Boolean {
+        if (file.exists()) {
+            deleteFile(file)
+        }
+        return createDirNotExists(file)
+    }
     // --------------------------------------------------
 
     /**
@@ -287,44 +303,44 @@ object FileUtil {
     // --------------------------------------------------
     /**
      * 将数据写入文件
-     * [filePath]
+     * [destFilePath]
      * [dataStr]
      * @return
      */
     @JvmStatic
     @JvmOverloads
-    fun writeToFile(filePath: String, dataStr: String, append: Boolean = false): Boolean {
-        return writeToFile(File(filePath), dataStr, append)
+    fun writeToFile(destFilePath: String, dataStr: String, append: Boolean = false): Boolean {
+        return writeToFile(File(destFilePath), dataStr, append)
     }
 
     /**
      * 将数据写入文件
-     * [file]
+     * [destFile]
      * [dataStr]
      * @return
      */
     @JvmStatic
     @JvmOverloads
-    fun writeToFile(file: File, dataStr: String, append: Boolean = false): Boolean {
-        return writeToFile(file, ByteArrayInputStream(dataStr.toByteArray()), append)
+    fun writeToFile(destFile: File, dataStr: String, append: Boolean = false): Boolean {
+        return writeToFile(destFile, ByteArrayInputStream(dataStr.toByteArray()), append)
     }
 
     /**
      * 将数据写入文件
-     * [file] file
-     * [inputStream]
-     * [append] append
+     * [destFile] 写入目标文件
+     * [inputStream] 读取的数据流
+     * [append] is append
      * @return
      */
     @JvmStatic
     @JvmOverloads
-    fun writeToFile(file: File, inputStream: InputStream, append: Boolean = false): Boolean {
+    fun writeToFile(destFile: File, inputStream: InputStream, append: Boolean = false): Boolean {
         writeLock()
         var result = true
         var output: OutputStream? = null
         try {
-            createFileNotExists(file)
-            output = FileOutputStream(file, append)
+            createFileNotExists(destFile)
+            output = FileOutputStream(destFile, append)
             val buffer = ByteArray(4 * 1024)
             var temp = inputStream.read(buffer)
             while (temp != -1) {
@@ -355,8 +371,8 @@ object FileUtil {
      * @return  Boolean
      */
     @JvmStatic
-    fun writeToFile(filePath: String, dataStr: String, maxSize: Long): Boolean {
-        return writeToFile(filePath, ByteArrayInputStream(dataStr.toByteArray()), maxSize)
+    fun writeToFile(file: File, dataStr: String, maxSize: Long): Boolean {
+        return writeToFile(file, ByteArrayInputStream(dataStr.toByteArray()), maxSize)
     }
 
     /**
@@ -366,16 +382,15 @@ object FileUtil {
      * @return  Boolean
      */
     @JvmStatic
-    fun writeToFile(filePath: String, inputStream: InputStream, maxSize: Long): Boolean {
-        val file = File(filePath)
-        if (!file.exists()) {
-            createFileNotExists(filePath)
-        }
+    fun writeToFile(file: File, inputStream: InputStream, maxSize: Long): Boolean {
+        createFileNotExists(file)
         if (maxSize > 0 && file.length() > maxSize) {
-            val tempFile = "$filePath.1"
+            // 备份文件到  xxx.1中
+            val tempFile = File("${file.absolutePath}.1")
             reCreateFile(tempFile)
-            writeToFile(file, FileInputStream(filePath), true)
-            deleteFile(filePath)
+            writeToFile(tempFile, FileInputStream(file), true)
+            //
+            deleteFile(file)
         }
         writeToFile(file, inputStream, true)
         return true
@@ -394,7 +409,6 @@ object FileUtil {
             } catch (e: FileNotFoundException) {
                 e.printStackTrace()
             }
-
         }
         return result
     }
@@ -406,8 +420,8 @@ object FileUtil {
         val results = StringBuffer()
         try {
 //            val bytes = ByteArray(8192)
-//            val bytes = ByteArray(4096)
-            val bytes = ByteArray(1024)
+            val bytes = ByteArray(4096)
+//            val bytes = ByteArray(1024)
             var byteLength = inputStream.read(bytes)
             while (byteLength != -1) {
                 results.append(String(bytes, 0, byteLength))
@@ -422,10 +436,32 @@ object FileUtil {
             } catch (e: IOException) {
                 e.printStackTrace()
             }
+            readUnlock()
         }
-        readUnlock()
         return results
     }
+
+    @JvmStatic
+    fun readBytes(inputStream: InputStream): ByteArray? {
+        readLock()
+        try {
+            val bytes = ByteArray(inputStream.available())
+            inputStream.read(bytes)
+            inputStream.close()
+            return bytes
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            try {
+                inputStream.close()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+            readUnlock()
+        }
+        return null
+    }
+
 
     @JvmStatic
     fun readLine(reader: Reader): StringBuffer {
@@ -448,8 +484,8 @@ object FileUtil {
             } catch (e: IOException) {
                 e.printStackTrace()
             }
+            readUnlock()
         }
-        readUnlock()
         return results
     }
     // --------------------------------------------------

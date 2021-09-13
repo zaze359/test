@@ -7,6 +7,7 @@ import com.zaze.common.base.BaseApplication
 import com.zaze.demo.app.MyApplication
 import com.zaze.demo.model.DeviceModel
 import com.zaze.demo.model.entity.DeviceStatus
+import com.zaze.demo.util.StorageLoader
 import com.zaze.utils.*
 import com.zaze.utils.FileUtil.writeToFile
 import com.zaze.utils.date.DateUtil
@@ -28,7 +29,7 @@ class DeviceModelImpl : DeviceModel {
             add(
                 DeviceStatus(
                     tag = "屏幕分辨率",
-                    content = "${displayProfile.realWidthPixels}x${displayProfile.realHeightPixels}"
+                    content = "${displayProfile.realWidthPixels}x${displayProfile.realHeightPixels}(${displayProfile.widthDp}x${displayProfile.heightDp})"
                 )
             )
             add(
@@ -222,18 +223,19 @@ class DeviceModelImpl : DeviceModel {
                             "可用内存: ${DescriptionUtil.toByteUnit(memoryInfo.availMem)}"
                 )
             )
+//            add(
+//                DeviceStatus(
+//                    tag = "SD卡存储空间",
+//                    content = "总空间: ${DescriptionUtil.toByteUnit(DeviceUtil.getSdTotalSpace())}\n" +
+//                            "剩余空间: ${DescriptionUtil.toByteUnit(DeviceUtil.getSdFreeSpace())}"
+//                )
+//            )
+            val storageInfo = StorageLoader.loadStorageStats(BaseApplication.getInstance())
             add(
                 DeviceStatus(
-                    tag = "SD卡存储空间",
-                    content = "总空间: ${DescriptionUtil.toByteUnit(DeviceUtil.getSdTotalSpace())}\n" +
-                            "剩余空间: ${DescriptionUtil.toByteUnit(DeviceUtil.getSdFreeSpace())}"
-                )
-            )
-            add(
-                DeviceStatus(
-                    tag = "SD卡存储空间",
-                    content = "总大小: ${DescriptionUtil.toByteUnit(DeviceUtil.getDataTotalSpace())}\n" +
-                            "剩余大小: ${DescriptionUtil.toByteUnit(DeviceUtil.getDataFreeSpace())}"
+                    tag = "存储空间",
+                    content = "总大小: ${DescriptionUtil.toByteUnit(storageInfo.totalBytes)}\n" +
+                            "剩余大小: ${DescriptionUtil.toByteUnit(storageInfo.freeBytes)}"
                 )
             )
         }

@@ -27,25 +27,31 @@ import pub.devrel.easypermissions.PermissionRequest
  * @author : ZAZE
  * @version : 2018-07-04 - 21:45
  */
-fun AppCompatActivity.replaceFragmentInActivity(fragment: Fragment, frameId: Int) {
+fun AppCompatActivity.replaceFragment(frameId: Int, fragment: Fragment, tag: String? = null) {
     supportFragmentManager.transact {
-        replace(frameId, fragment)
+        replace(frameId, fragment, tag)
     }
 }
 
-fun AppCompatActivity.addFragmentToActivity(fragment: Fragment, tag: String) {
+fun AppCompatActivity.addFragment(frameId: Int, fragment: Fragment, tag: String) {
     supportFragmentManager.transact {
-        add(fragment, tag)
+        add(frameId, fragment, tag)
     }
 }
 
-fun AppCompatActivity.showFragmentToActivity(fragment: Fragment) {
+fun AppCompatActivity.showFragment(fragment: Fragment?) {
+    if (fragment == null) {
+        return
+    }
     supportFragmentManager.transact {
         show(fragment)
     }
 }
 
-fun AppCompatActivity.FragmentToActivity(fragment: Fragment) {
+fun AppCompatActivity.hideFragment(fragment: Fragment?) {
+    if (fragment == null) {
+        return
+    }
     supportFragmentManager.transact {
         hide(fragment)
     }
@@ -64,14 +70,6 @@ fun FragmentManager.transactAllowingStateLoss(action: FragmentTransaction.() -> 
 }
 
 // --------------------------------------------------
-//
-//fun AppCompatActivity.setupActionBar(@IdRes toolbarId: Int, action: ActionBar.() -> Unit) {
-//    setSupportActionBar(findViewById(toolbarId))
-//    supportActionBar?.run {
-//        action()
-//    }
-//}
-
 fun AppCompatActivity.setupActionBar(toolbar: Toolbar, action: ActionBar.() -> Unit = {}) {
     setSupportActionBar(toolbar)
     supportActionBar?.run {

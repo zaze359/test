@@ -37,7 +37,7 @@ object DisplayUtil {
         if (baseWidthPixels > 0) {
             metrics.density = (metrics.widthPixels / baseWidthPixels).toFloat()
             metrics.scaledDensity = metrics.density
-            metrics.densityDpi = (160 * metrics.density).toInt()
+            metrics.densityDpi = (DisplayMetrics.DENSITY_DEFAULT * metrics.density).toInt()
             matchedDisplayProfile = DisplayProfile(metrics)
         }
         ZLog.i(ZTag.TAG_DEBUG, "displayProfile : $displayProfile")
@@ -111,7 +111,7 @@ object DisplayUtil {
     @JvmStatic
     @JvmOverloads
     fun dpiFromPx(px: Int, metrics: DisplayMetrics = getMetrics()): Float {
-        return px / metrics.densityDpi * 1.0f / DisplayMetrics.DENSITY_DEFAULT
+        return px / metrics.density
     }
 
     /**
@@ -166,7 +166,11 @@ object DisplayUtil {
         }
 
         fun getDensityDpiName(): String {
-            return DisplayUtil.getDensityDpiName(metrics)
+            return getDensityDpiName(metrics)
+        }
+
+        override fun toString(): String {
+            return "DisplayProfile(metrics=$metrics, widthPixels=$widthPixels, heightPixels=$heightPixels, widthDp=$widthDp, heightDp=$heightDp, density=$density, densityDpi=$densityDpi, realWidthPixels=$realWidthPixels, realHeightPixels=$realHeightPixels)"
         }
     }
 }

@@ -2,8 +2,6 @@ package com.zaze.demo.customview;
 
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MotionEvent;
 
 import com.zaze.common.base.AbsActivity;
 import com.zaze.common.widget.AddImageLayout;
@@ -31,10 +29,10 @@ public class CustomViewActivity extends AbsActivity {
             }
         });
     }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        Log.d("CustomViewActivity", "onTouchEvent: " + event.getAction());
-        return super.onTouchEvent(event);
-    }
+//
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        Log.d("CustomViewActivity", "onTouchEvent: " + event.getAction());
+//        return super.onTouchEvent(event);
+//    }
 }

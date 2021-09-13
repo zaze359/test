@@ -1,5 +1,7 @@
 package com.zaze.utils.log;
 
+import static com.zaze.utils.ZCommand.COMMAND_LINE_END;
+
 import android.content.Context;
 import android.os.SystemClock;
 import android.text.TextUtils;
@@ -10,10 +12,9 @@ import com.zaze.utils.ZStringUtil;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
-import static com.zaze.utils.ZCommand.COMMAND_LINE_END;
 
 /**
  * Description : Root情况下可以抓取其他应用的日志， 未Root时将只获得调用应用自身的Log
@@ -89,9 +90,10 @@ public class LogcatUtil {
             outputStream.writeBytes(COMMAND_LINE_END);
             outputStream.flush();
             String line;
+            File saveFile = new File(savePath);
             while (isRunning) {
                 if ((line = successReader.readLine()) != null) {
-                    isRunning = FileUtil.writeToFile(savePath, line + "\n", maxSize);
+                    isRunning = FileUtil.writeToFile(saveFile, line + "\n", maxSize);
                     SystemClock.sleep(300L);
                 }
             }

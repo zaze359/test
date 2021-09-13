@@ -26,7 +26,10 @@ object BmpUtil {
      * @return ByteArray
      */
     @JvmStatic
-    fun bitmap2Bytes(bitmap: Bitmap?, format: Bitmap.CompressFormat = Bitmap.CompressFormat.PNG): ByteArray? {
+    fun bitmap2Bytes(
+        bitmap: Bitmap?,
+        format: Bitmap.CompressFormat = Bitmap.CompressFormat.PNG
+    ): ByteArray? {
         if (bitmap == null) {
             return null
         }
@@ -112,8 +115,10 @@ object BmpUtil {
             } else {
                 Bitmap.Config.RGB_565
             }
-            val bitmap = Bitmap.createBitmap(Math.max(drawable.intrinsicWidth, 1),
-                    Math.max(drawable.intrinsicHeight, 1), config)
+            val bitmap = Bitmap.createBitmap(
+                Math.max(drawable.intrinsicWidth, 1),
+                Math.max(drawable.intrinsicHeight, 1), config
+            )
             val sCanvas = Canvas(bitmap)
             drawable.setBounds(0, 0, bitmap.width, bitmap.height)
             drawable.draw(sCanvas)

@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.zaze.common.adapter.BaseRecyclerAdapter;
 import com.zaze.demo.R;
 import com.zaze.demo.debug.AppShortcut;
@@ -14,11 +16,9 @@ import com.zaze.utils.AppUtil;
 import com.zaze.utils.DescriptionUtil;
 import com.zaze.utils.ZStringUtil;
 
-import java.util.Collection;
-
-import androidx.recyclerview.widget.RecyclerView;
-
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Collection;
 
 /**
  * Description :
@@ -57,8 +57,8 @@ public class NetworkStatsAdapter extends BaseRecyclerAdapter<NetTrafficStats, Ne
             holder.itemNetworkStatsAppIv.setImageResource(R.drawable.ic_launcher);
         }
         holder.itemNetworkStatsAppNameTv.setText(ZStringUtil.parseString(appShortcut.getName()));
-        holder.itemNetworkStatsReceiverTv.setText("接收: " + DescriptionUtil.toByteUnit(value.getRxBytes()));
-        holder.itemNetworkStatsSendTv.setText("发送: " + DescriptionUtil.toByteUnit(value.getTxBytes()));
+        holder.itemNetworkStatsReceiverTv.setText("接收: " + DescriptionUtil.toByteUnit(value.getRxBytes(), 1024));
+        holder.itemNetworkStatsSendTv.setText("发送: " + DescriptionUtil.toByteUnit(value.getTxBytes(), 1024));
     }
 
     class NetworkStatsHolder extends RecyclerView.ViewHolder {
