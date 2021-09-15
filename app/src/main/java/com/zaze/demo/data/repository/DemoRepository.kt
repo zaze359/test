@@ -6,7 +6,6 @@ import com.zaze.demo.component.animation.ui.AnimationActivity
 import com.zaze.demo.component.application.AppListActivity
 import com.zaze.demo.component.bitmap.BitmapActivity
 import com.zaze.demo.component.cache.ui.CacheActivity
-import com.zaze.demo.component.coroutine.CoroutineActivity
 import com.zaze.demo.customview.CustomViewActivity
 import com.zaze.demo.component.device.DeviceActivity
 import com.zaze.demo.component.file.explorer.FileExplorerActivity
@@ -51,7 +50,6 @@ class DemoRepository(private val dispatcher: CoroutineDispatcher) {
             list.add(TableEntity("设备信息", DeviceActivity::class.java, ++i))
             list.add(TableEntity("系统设置", SystemActivity::class.java, ++i))
             list.add(TableEntity("文件管理", FileExplorerActivity::class.java, ++i))
-            list.add(TableEntity("协程", CoroutineActivity::class.java, ++i))
             list.add(TableEntity("传感器", SensorActivity::class.java, ++i))
             list.add(TableEntity("WebView", WebViewActivity::class.java, ++i))
             list.add(TableEntity("Bitmap", BitmapActivity::class.java, ++i))

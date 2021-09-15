@@ -2,18 +2,19 @@ package com.zaze.demo.model.impl
 
 import android.net.wifi.WifiManager
 import android.os.Build
+import android.os.Environment
 import android.text.TextUtils
 import com.zaze.common.base.BaseApplication
 import com.zaze.demo.app.MyApplication
 import com.zaze.demo.model.DeviceModel
 import com.zaze.demo.model.entity.DeviceStatus
-import com.zaze.demo.util.StorageLoader
 import com.zaze.utils.*
 import com.zaze.utils.FileUtil.writeToFile
 import com.zaze.utils.date.DateUtil
+import com.zaze.utils.log.ZLog
+import com.zaze.utils.log.ZTag
 import org.json.JSONException
 import org.json.JSONObject
-import java.lang.reflect.Method
 import java.util.*
 
 /**
@@ -23,6 +24,7 @@ import java.util.*
  * @version : 2017-01-22 - 17:26
  */
 class DeviceModelImpl : DeviceModel {
+
     override fun getDeviceInfo(): ArrayList<DeviceStatus> {
         val list = ArrayList<DeviceStatus>().apply {
             val displayProfile = DisplayUtil.getDisplayProfile()
@@ -234,28 +236,39 @@ class DeviceModelImpl : DeviceModel {
             add(
                 DeviceStatus(
                     tag = "存储空间",
-                    content = "总大小: ${DescriptionUtil.toByteUnit(storageInfo.totalBytes)}\n" +
-                            "剩余大小: ${DescriptionUtil.toByteUnit(storageInfo.freeBytes)}"
+                    content = "总大小: ${storageInfo.showTotalBytes()}\n" +
+                            "剩余大小: ${storageInfo.showFreeBytes()}"
                 )
             )
         }
         // --------------------------------------------------
 
-
-        // --------------------------------------------------
-        val jsonObject = JSONObject()
-        try {
-            for (status in list) {
-                val name = status.name
-                if (!TextUtils.isEmpty(name)) {
-                    jsonObject.put(name, status.content)
-                }
-            }
-            jsonObject.put("mac", NetUtil.getWLANMacAddress())
-        } catch (e: JSONException) {
-            e.printStackTrace()
-        }
-        writeToFile("/sdcard/aaa.json", jsonObject.toString(), false)
+//
+//        // --------------------------------------------------
+//        val jsonObject = JSONObject()
+//        try {
+//            for (status in list) {
+//                val name = status.name
+//                if (!TextUtils.isEmpty(name)) {
+//                    jsonObject.put(name, status.content)
+//                }
+//            }
+//            jsonObject.put("mac", NetUtil.getWLANMacAddress())
+//        } catch (e: JSONException) {
+//            e.printStackTrace()
+//        }
+//
+//        StorageLoader.getStorageInfo(Environment.getRootDirectory())
+//            .log("Environment.getRootDirectory()")
+//        val context = MyApplication.getInstance()
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            writeToFile(
+//                "${context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)?.absolutePath}/aaa.json",
+//                jsonObject.toString(),
+//                false
+//            )
+//        }
 
 //        jsonObject.put("deviceId", XhApplication.getInstance().getDeviceId());
 //        jsonObject.put("model", Build.MODEL);
@@ -264,4 +277,6 @@ class DeviceModelImpl : DeviceModel {
 //        jsonObject.put("mac", NetworkUtil.getWLANMacAddress());
         return list
     }
+
+
 }

@@ -10,9 +10,11 @@ import android.os.*
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import com.zaze.demo.app.MyApplication
 import com.zaze.demo.debug.ApplicationManager
 import com.zaze.utils.FileUtil.getSDCardRoot
 import com.zaze.utils.config.ConfigHelper
+import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import org.json.JSONObject
 import java.io.File
@@ -61,7 +63,26 @@ object KotlinDebug {
         Log.i(
             "JSONObject","${json.opt("key")}"
         )
-
+        listOf(
+            "Environment.getRootDirectory():${Environment.getRootDirectory().absolutePath}",
+            "Environment.getDataDirectory():${Environment.getDataDirectory().absolutePath}",
+            "Environment.getDownloadCacheDirectory():${Environment.getDownloadCacheDirectory().absolutePath}",
+            "Environment.getExternalFilesDir():${context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)?.absolutePath}",
+        ).forEach {
+            ZLog.i(ZTag.TAG, "111 $it")
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            context.getExternalFilesDirs(null)?.forEach {
+                ZLog.i(ZTag.TAG, "222 ${it.absolutePath}")
+            }
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            listOf(
+                "Environment.getStorageDirectory():${Environment.getStorageDirectory().absolutePath}",
+            ).forEach {
+                ZLog.i(ZTag.TAG, "333 $it")
+            }
+        }
 
 //        val set = HashSet<Int>()
 //        for (i in 0..100) {

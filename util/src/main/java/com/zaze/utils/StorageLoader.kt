@@ -24,36 +24,97 @@ object StorageLoader {
     private const val TAG = "${ZTag.TAG}:StorageLoader"
 
     fun loadStorageStats(context: Context): StorageInfo {
-        return (invokeStorageStats(context) ?: getDataStorageInfo()).apply {
+        return queryStorageStats(context).roundStorageSize().apply {
             log()
         }
     }
+
+//    private fun testQuery1(context: Context) {
+//        val storageManager =
+//            (context.getSystemService(Context.STORAGE_SERVICE)) as StorageManager
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            val storageStatsManager =
+//                context.getSystemService(Context.STORAGE_STATS_SERVICE) as StorageStatsManager
+//
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+//                storageManager.recentStorageVolumes.forEach {
+//                    val uuid = getFsUUID(it.uuid)
+//                    val temp = StorageInfo(
+//                        storageStatsManager.getTotalBytes(uuid),
+//                        storageStatsManager.getFreeBytes(uuid)
+//                    )
+//                    temp.log("recentStorageVolumes")
+//                }
+//            }
+//            val uuid1 = getFsUUID(storageManager.primaryStorageVolume.uuid)
+//            StorageInfo(
+//                storageStatsManager.getTotalBytes(uuid1),
+//                storageStatsManager.getFreeBytes(uuid1)
+//            ).log("primaryStorageVolume")
+//            val storageInfo = StorageInfo()
+//            storageManager.storageVolumes.forEach {
+//                val uuid = getFsUUID(it.uuid)
+//                val temp = StorageInfo(
+//                    storageStatsManager.getTotalBytes(uuid),
+//                    storageStatsManager.getFreeBytes(uuid)
+//                )
+//                storageInfo.merge(temp)
+//            }
+//            storageInfo.log("storageVolumes")
+//        } else {
+//        }
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//            storageManager.storageVolumes.forEachIndexed { i, v ->
+//                ZLog.i(
+//                    ZTag.TAG,
+//                    "query1-$i: ${v.getDescription(context)}; isPrimary:${v.isPrimary}; isRemovable:${v.isRemovable}; isEmulated:${v.isEmulated}"
+//                )
+//                ZLog.i(ZTag.TAG, "query1-$i: uuid:${v.uuid};")
+//
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+//                    ZLog.i(ZTag.TAG, "query1-$i: ${v.mediaStoreVolumeName};")
+//                    ZLog.i(ZTag.TAG, "query1-$i: ${v.directory};")
+//                }
+//            }
+//        }
+//    }
 
     /**
      * 获取存储卡信息
      * @return 存储卡信息
      */
     @SuppressLint("DiscouragedPrivateApi")
-    private fun invokeStorageStats(context: Context): StorageInfo? {
+    private fun queryStorageStats(context: Context): StorageInfo {
         return try {
             val storageStats = when {
                 Build.VERSION.SDK_INT < Build.VERSION_CODES.M -> {
                     queryBeforeM(context)
                 }
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
+                    val storageManager =
+                        (context.getSystemService(Context.STORAGE_SERVICE)) as StorageManager
+                    val storageStatsManager =
+                        context.getSystemService(Context.STORAGE_STATS_SERVICE) as StorageStatsManager
+                    val uuid = getFsUUID(storageManager.primaryStorageVolume.uuid)
+                    StorageInfo(
+                        storageStatsManager.getTotalBytes(uuid),
+                        storageStatsManager.getFreeBytes(uuid)
+                    )
+                }
                 Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1 -> {
-                    queryAfterN1(context)
+                    queryAfterNMR1(context)
                 }
                 else -> {
-                    null
+                    getInnerStorageInfo()
                 }
             }
             storageStats
         } catch (e: Exception) {
             Log.w(TAG, "loadStorageStats", e)
-            null
+            getInnerStorageInfo()
         }
     }
-
 
     private fun queryBeforeM(context: Context): StorageInfo {
         Log.i(TAG, "queryBeforeM")
@@ -74,9 +135,8 @@ object StorageLoader {
         return storageInfo
     }
 
-
     @RequiresApi(Build.VERSION_CODES.N_MR1)
-    private fun queryAfterN1(context: Context): StorageInfo {
+    private fun queryAfterNMR1(context: Context): StorageInfo {
         val storageManager =
             StorageManagerHook(context.getSystemService(Context.STORAGE_SERVICE) as StorageManager)
         val volumeList = storageManager.getVolumes()
@@ -91,21 +151,7 @@ object StorageLoader {
             var freeSize = 0L
             when (volumeInfoHook.getType()) {
                 1 -> {
-                    when {
-                        Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
-                            val fsUuid = volumeInfoHook.getFsUuid()
-                            getStorageInfo(context, fsUuid).let {
-                                totalSize = it.totalBytes
-                                freeSize = it.freeBytes
-                            }
-                        }
-                        Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1 -> {
-                            //5.0 6.0 7.0没有
-                            totalSize = storageManager.getPrimaryStorageSize()
-                        }
-                        else -> {
-                        }
-                    }
+                    totalSize = storageManager.getPrimaryStorageSize()
                 }
                 0 -> {
                     //
@@ -137,8 +183,10 @@ object StorageLoader {
      * 获取内部存储信息
      * @return 内部存储信息
      */
-    private fun getDataStorageInfo(): StorageInfo {
-        return getStorageInfo(Environment.getDataDirectory())
+    private fun getInnerStorageInfo(): StorageInfo {
+        return getStorageInfo(Environment.getRootDirectory()).merge(
+            getStorageInfo(Environment.getDataDirectory())
+        )
     }
 
     /**
@@ -204,6 +252,7 @@ object StorageLoader {
 
         @RequiresApi(Build.VERSION_CODES.N_MR1)
         fun getPrimaryStorageSize(): Long {
+            storageManager.primaryStorageVolume
             return executeMethod(storageManager, "getPrimaryStorageSize") as Long? ?: 0L
         }
 
@@ -262,6 +311,26 @@ object StorageLoader {
 
     data class StorageInfo(var totalBytes: Long = 0, var freeBytes: Long = 0) {
 
+        companion object {
+            const val UNIT = 1000
+            fun roundStorageSize(size: Long): Long {
+                var roundSize: Long = 1
+                var pow: Long = 1
+                while (roundSize * pow < size) {
+                    roundSize = roundSize shl 1
+                    if (roundSize > 512) {
+                        roundSize = 1
+                        pow *= UNIT
+                    }
+                }
+                return roundSize * pow
+            }
+
+            fun showBytes(size: Long): String {
+                return DescriptionUtil.toByteUnit(size, UNIT)
+            }
+        }
+
         fun addTotalBytes(bytes: Long) {
             totalBytes += bytes
         }
@@ -270,15 +339,38 @@ object StorageLoader {
             freeBytes += bytes
         }
 
+        fun showTotalBytes(): String {
+            return showBytes(totalBytes)
+        }
+
+        fun showFreeBytes(): String {
+            return showBytes(freeBytes)
+        }
+
+        fun merge(storageInfo: StorageInfo): StorageInfo {
+            addTotalBytes(storageInfo.totalBytes)
+            addFreeBytes(storageInfo.freeBytes)
+            return this
+        }
+
+        /**
+         * 矫正磁盘显示大小
+         * copy from {@link android.os.FileUtils.roundStorageSize(long size)}
+         */
+        fun roundStorageSize(): StorageInfo {
+            totalBytes = Companion.roundStorageSize(totalBytes)
+            return this
+        }
 
         /**
          * log打印总大小和可用大小
          */
-        fun log() {
+        fun log(tag: String = ZTag.TAG_DEBUG) {
+            this.roundStorageSize()
             ZLog.v(
-                ZTag.TAG_DEBUG,
-                "totalSize:${DescriptionUtil.toByteUnit(totalBytes)}; freeSpace:${
-                    DescriptionUtil.toByteUnit(freeBytes)
+                tag,
+                "totalSize:${showTotalBytes()}; freeSpace:${
+                    showFreeBytes()
                 }"
             )
         }

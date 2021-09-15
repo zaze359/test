@@ -10,7 +10,6 @@ import com.zaze.demo.component.animation.ui.TransitionActivity;
 import com.zaze.demo.component.application.AppListActivity;
 import com.zaze.demo.component.bitmap.BitmapActivity;
 import com.zaze.demo.component.cache.ui.CacheActivity;
-import com.zaze.demo.component.coroutine.CoroutineActivity;
 import com.zaze.demo.customview.CustomViewActivity;
 import com.zaze.demo.component.device.DeviceActivity;
 import com.zaze.demo.component.file.explorer.FileExplorerActivity;
@@ -60,7 +59,6 @@ public class EntityModelImpl implements EntityModel {
         list.add(new TableEntity("设备信息", DeviceActivity.class, ++i));
         list.add(new TableEntity("系统设置", SystemActivity.class, ++i));
         list.add(new TableEntity("文件管理", FileExplorerActivity.class, ++i));
-        list.add(new TableEntity("协程", CoroutineActivity.class, ++i));
         list.add(new TableEntity("传感器", SensorActivity.class, ++i));
         list.add(new TableEntity("WebView", WebViewActivity.class, ++i));
         list.add(new TableEntity("Bitmap", BitmapActivity.class, ++i));
