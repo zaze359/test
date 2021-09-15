@@ -1,4 +1,4 @@
-package com.zaze.demo.util
+package com.zaze.utils
 
 import android.annotation.SuppressLint
 import android.app.usage.StorageStatsManager
@@ -9,16 +9,11 @@ import android.os.StatFs
 import android.os.storage.StorageManager
 import android.util.Log
 import androidx.annotation.RequiresApi
-import com.zaze.utils.DeviceUtil
-import com.zaze.utils.FileUtil
-import com.zaze.utils.ReflectUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import java.io.File
 import java.lang.Exception
-import java.lang.reflect.Method
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * Description : 加载磁盘相关数据
@@ -29,10 +24,9 @@ object StorageLoader {
     private const val TAG = "${ZTag.TAG}:StorageLoader"
 
     fun loadStorageStats(context: Context): StorageInfo {
-        return invokeStorageStats(context) ?: StorageInfo(
-            DeviceUtil.getDataTotalSpace(),
-            DeviceUtil.getDataFreeSpace()
-        )
+        return (invokeStorageStats(context) ?: getDataStorageInfo()).apply {
+            log()
+        }
     }
 
     /**
@@ -41,7 +35,7 @@ object StorageLoader {
      */
     @SuppressLint("DiscouragedPrivateApi")
     private fun invokeStorageStats(context: Context): StorageInfo? {
-        try {
+        return try {
             val storageStats = when {
                 Build.VERSION.SDK_INT < Build.VERSION_CODES.M -> {
                     queryBeforeM(context)
@@ -53,11 +47,10 @@ object StorageLoader {
                     null
                 }
             }
-            storageStats?.log()
-            return storageStats
+            storageStats
         } catch (e: Exception) {
             Log.w(TAG, "loadStorageStats", e)
-            return null
+            null
         }
     }
 
@@ -92,48 +85,48 @@ object StorageLoader {
         }
         val storageInfo = StorageInfo()
         volumeList.filterNotNull().forEach { volume ->
+            Log.i(TAG, "volume: $volume")
             val volumeInfoHook = VolumeInfoHook(volume)
+            var totalSize = 0L
+            var freeSize = 0L
             when (volumeInfoHook.getType()) {
                 1 -> {
                     when {
                         Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
                             val fsUuid = volumeInfoHook.getFsUuid()
-                            getStorageInfo(context, fsUuid)
+                            getStorageInfo(context, fsUuid).let {
+                                totalSize = it.totalBytes
+                                freeSize = it.freeBytes
+                            }
                         }
                         Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1 -> {
                             //5.0 6.0 7.0没有
-                            var totalSize = storageManager.getPrimaryStorageSize()
-//                            var systemSize = 0L
-                            val isMountedReadable = volumeInfoHook.isMountedReadable()
-                            if (isMountedReadable) {
-                                volumeInfoHook.getPath()?.let {
-                                    if (totalSize == 0L) {
-                                        totalSize = it.totalSpace
-                                    }
-                                    val freeSize = it.freeSpace
-                                    //                                var systemSize = totalSize - f.totalSpace
-                                    storageInfo.addFreeBytes(freeSize)
-                                }
-                            }
-                            storageInfo.addTotalBytes(totalSize)
+                            totalSize = storageManager.getPrimaryStorageSize()
                         }
                         else -> {
                         }
                     }
                 }
                 0 -> {
-                    val isMountedReadable = volumeInfoHook.isMountedReadable()
-                    if (isMountedReadable) {
-                        volumeInfoHook.getPath()?.let {
-                            storageInfo.addTotalBytes(it.totalSpace)
-                            storageInfo.addFreeBytes(it.freeSpace)
-                        }
-                    }
+                    //
                 }
                 else -> {
                     return@forEach
                 }
             }
+//            var systemSize = 0L
+            val isMountedReadable = volumeInfoHook.isMountedReadable()
+            if (isMountedReadable) {
+                volumeInfoHook.getPath()?.let {
+                    if (totalSize == 0L) {
+                        totalSize = it.totalSpace
+                    }
+                    freeSize = it.freeSpace
+//                    systemSize = totalSize - f.totalSpace
+                }
+            }
+            storageInfo.addFreeBytes(freeSize)
+            storageInfo.addTotalBytes(totalSize)
         }
         return storageInfo
     }
@@ -171,9 +164,9 @@ object StorageLoader {
      * 获取存储情况
      */
     fun getStorageInfo(file: File): StorageInfo {
-        ZLog.i(TAG, "getStorageInfo: ${file.path}")
         val stat = StatFs(file.path)
         val blockSize = FileUtil.getBlockSize(stat)
+        ZLog.i(TAG, "getStorageInfo: ${file.path}; blockSize: $blockSize")
         val totalSpace = FileUtil.getBlockCount(stat) * blockSize
         val freeSpace = FileUtil.getAvailableBlocks(stat) * blockSize
         return StorageInfo(totalBytes = totalSpace, freeBytes = freeSpace)
@@ -232,7 +225,7 @@ object StorageLoader {
          * 1: private 内置
          */
         fun getType(): Int {
-            return executeMethod(volume, "type") as Int? ?: -1
+            return getField(volume, "type") as Int? ?: -1
         }
 
         @RequiresApi(Build.VERSION_CODES.O)
@@ -249,13 +242,45 @@ object StorageLoader {
         }
     }
 
-    private fun executeMethod(self: Any, method: String, vararg args: Any?): Any? {
+    private fun getField(self: Any, field: String): Any? {
         return try {
-            return ReflectUtil.executeMethod(self, method, args)
+            return ReflectUtil.getField(self, field)
         } catch (e: Exception) {
             e.printStackTrace()
             false
         }
     }
 
+    private fun executeMethod(self: Any, method: String): Any? {
+        return try {
+            return ReflectUtil.executeMethod(self, method)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
+    }
+
+    data class StorageInfo(var totalBytes: Long = 0, var freeBytes: Long = 0) {
+
+        fun addTotalBytes(bytes: Long) {
+            totalBytes += bytes
+        }
+
+        fun addFreeBytes(bytes: Long) {
+            freeBytes += bytes
+        }
+
+
+        /**
+         * log打印总大小和可用大小
+         */
+        fun log() {
+            ZLog.v(
+                ZTag.TAG_DEBUG,
+                "totalSize:${DescriptionUtil.toByteUnit(totalBytes)}; freeSpace:${
+                    DescriptionUtil.toByteUnit(freeBytes)
+                }"
+            )
+        }
+    }
 }

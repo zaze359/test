@@ -18,6 +18,7 @@ public class ReflectUtil {
 
     /**
      * 反射执行方法
+     * 需要注意 null 也是参数
      */
     public static Object executeMethodByName(String classPath, String functionName, Object... args) throws Exception {
         if (TextUtils.isEmpty(classPath) || TextUtils.isEmpty(functionName)) {
@@ -25,6 +26,10 @@ public class ReflectUtil {
         }
         return execute(Class.forName(classPath), null, functionName, args);
 
+    }
+
+    public static Object getField(Object self, String field) throws Exception {
+        return self.getClass().getField(field).get(self);
     }
 
     /**
