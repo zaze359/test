@@ -30,19 +30,21 @@ class UsageStatesActivity : AppCompatActivity() {
         object : Thread() {
             override fun run() {
                 while (run) {
-                    if (!AppUsageHelper.checkAppUsagePermission(this@UsageStatesActivity)) {
-                        AppUsageHelper.requestAppUsagePermission(this@UsageStatesActivity)
-                    } else {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                            ZLog.i(
-                                TAG,
-                                "getTopActivityPackageName: ${
-                                    AppUsageHelper.getTopActivityPackageName(this@UsageStatesActivity)
-                                }"
-                            )
-                        }
-                    }
-                    SystemClock.sleep(1000L)
+//                    if (!AppUsageHelper.checkAppUsagePermission(this@UsageStatesActivity)) {
+//                        AppUsageHelper.requestAppUsagePermission(this@UsageStatesActivity)
+//                    } else {
+//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+//                            ZLog.i(
+//                                TAG,
+//                                "getTopActivityPackageName: ${
+//                                    AppUsageHelper.getTopActivityPackageName(this@UsageStatesActivity)
+//                                }"
+//                            )
+//                        }
+//                    }
+
+                    test()
+                    SystemClock.sleep(10_000L)
                 }
             }
         }
@@ -51,12 +53,17 @@ class UsageStatesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.usage_states_act)
-//        thread.start()
+        thread.start()
         usageStateBtn.setOnClickListener {
-            if (!AppUsageHelper.checkAppUsagePermission(this)) {
-                AppUsageHelper.requestAppUsagePermission(this)
-            } else {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+        }
+    }
+
+    private fun test() {
+        if (!AppUsageHelper.checkAppUsagePermission(this)) {
+            AppUsageHelper.requestAppUsagePermission(this)
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 //                    val time = System.currentTimeMillis()
 //                    val eventStatsList = AppUsageHelper.queryEventStats(
 //                        this,
@@ -88,13 +95,25 @@ class UsageStatesActivity : AppCompatActivity() {
 //                            )
 //                        }
 //                    }
-                    var totalTime = 0L
+                var totalTime = 0L
 //                    TraceHelper.beginSection("getDailyStats")
 //                    getDailyStats().forEach {
 //                        totalTime += it.totalTime
 //                    }
 //                    TraceHelper.endSection("getDailyStats")
-                    ZLog.i(ZTag.TAG, "queryEventStats: ${getDailyStats().joinToString()}")
+
+                TraceHelper.beginSection("getDailyStats")
+                val startTime = DateUtil.getDayStart(System.currentTimeMillis())
+                ZLog.i(
+                    ZTag.TAG,
+                    "queryEventStats: ${
+                        getDailyStats(
+                            startTime,
+                            startTime + DateUtil.DAY
+                        ).joinToString()
+                    }"
+                )
+                TraceHelper.endSection("getDailyStats")
 
 //                    val usageStatsManager = AppUsageHelper.getUsageStatsManager(this)
 //                    usageStatsManager?.queryUsageStats(
@@ -177,55 +196,39 @@ class UsageStatesActivity : AppCompatActivity() {
 //Log.d(TAG,"eventStats EventType" + eventStats.getEventType() + " , Count = " + eventStats.getCount()
 //                    + " , FirstTime = " + eventStats.getFirstTimeStamp() + " , LastTime = " + eventStats.getLastTimeStamp()
 //                    + " , LastEventTime = " + eventStats.getLastEventTime() + " , TotalTime = " + eventStats.getTotalTime())
-                }
             }
         }
     }
 
     //    @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getDailyStats(date: LocalDate = LocalDate.now()): List<Stat> {
+    fun getDailyStats(start: Long, end: Long): List<Stat> {
         // The timezones we'll need
 
-        ZLog.i(ZTag.TAG, "date: $date")
-        val utc = ZoneId.of("UTC")
-        val defaultZone = ZoneId.systemDefault()
+//        ZLog.i(ZTag.TAG, "date: $date")
+//        val utc = ZoneId.of("UTC")
+//        val defaultZone = ZoneId.systemDefault()
+//        // Set the starting and ending times to be midnight in UTC time
+//        val startDate = date.atStartOfDay(defaultZone).withZoneSameInstant(utc)
+//        val start = startDate.toInstant().toEpochMilli()
+//        val end = startDate.plusDays(1).toInstant().toEpochMilli()
 
-        // Set the starting and ending times to be midnight in UTC time
-        val startDate = date.atStartOfDay(defaultZone).withZoneSameInstant(utc)
-        val start = startDate.toInstant().toEpochMilli()
-        val end = startDate.plusDays(1).toInstant().toEpochMilli()
-
-        ZLog.i(ZTag.TAG, "${start - DateUtil.getDayStart(System.currentTimeMillis())}")
-        ZLog.i(ZTag.TAG, "${end - DateUtil.getDayEnd(System.currentTimeMillis())}")
+//        ZLog.i(ZTag.TAG, "abcd ${start - DateUtil.getDayStart(System.currentTimeMillis())}")
+//        ZLog.i(ZTag.TAG, "abcd ${end - DateUtil.getDayEnd(System.currentTimeMillis())}")
 
         // This will keep a map of all of the events per package name
         val sortedEvents = mutableMapOf<String, MutableList<UsageEvents.Event>>()
-
-        // Query the list of events that has happened within that time frame
         val usageStatsManager = AppUsageHelper.getUsageStatsManager(this) ?: return emptyList()
-        TraceHelper.beginSection("queryEvents")
         val systemEvents = usageStatsManager.queryEvents(start, end)
-        TraceHelper.endSection("queryEvents")
-        var i = 0;
         while (systemEvents.hasNextEvent()) {
-            i++
             val event = UsageEvents.Event()
             systemEvents.getNextEvent(event)
-
             // Get the list of events for the package name, create one if it doesn't exist
             val packageEvents = sortedEvents[event.packageName] ?: mutableListOf()
             packageEvents.add(event)
             sortedEvents[event.packageName] = packageEvents
         }
-        ZLog.i(ZTag.TAG, "systemEvents: $i")
-        // This will keep a list of our final stats
         val stats = mutableListOf<Stat>()
-
-        // Go through the events by package name
-//        val events = sortedEvents.get("com.zaze.demo")
-
-        TraceHelper.beginSection("sortedEvents")
         sortedEvents.forEach { packageName, events ->
             // Keep track of the current start and end times
             var startTime = 0L
@@ -233,54 +236,37 @@ class UsageStatesActivity : AppCompatActivity() {
             // Keep track of the total usage time for this app
             var totalTime = 0L
             // Keep track of the start times for this app
-            val startTimes = mutableListOf<ZonedDateTime>()
             var latestStartTime = start
-
-            var latestEventTime = 0L
+//            var latestEventTime = 0L
             events.forEach {
-                if (latestEventTime == 0L) {
-                    latestEventTime = it.timeStamp
-                }
-                ZLog.i(
-                    ZTag.TAG,
-                    "event: $packageName; ${
-                        DateUtil.timeMillisToString(
-                            it.timeStamp,
-                            "HH:mm:ss"
-                        )
-                    }; ${it.timeStamp - latestEventTime}; ${traceEvent(it.eventType)}"
-                )
-                latestEventTime = it.timeStamp
+//                if (latestEventTime == 0L) {
+//                    latestEventTime = it.timeStamp
+//                }
+//                ZLog.i(
+//                    ZTag.TAG,
+//                    "event: $packageName; ${
+//                        DateUtil.timeMillisToString(
+//                            it.timeStamp,
+//                            "HH:mm:ss"
+//                        )
+//                    }; ${it.timeStamp - latestEventTime}; ${traceEvent(it.eventType)}"
+//                )
                 if (it.eventType == UsageEvents.Event.MOVE_TO_FOREGROUND) {
-                    // App was moved to the foreground: set the start time
                     startTime = it.timeStamp
-                    // Add the start time within this timezone to the list
                     latestStartTime = startTime
                 } else if (it.eventType == UsageEvents.Event.MOVE_TO_BACKGROUND) {
-                    // App was moved to background: set the end time
                     endTime = it.timeStamp
                     latestStartTime = endTime
                 }
-
-                // If there's an end time with no start time, this might mean that
-                //  The app was started on the previous day, so take midnight
-                //  As the start time
                 if (startTime == 0L && endTime != 0L) {
                     startTime = latestStartTime
                 }
-                // If both start and end are defined, we have a session
                 if (startTime != 0L && endTime != 0L) {
-                    // Add the session time to the total time
                     totalTime += endTime - startTime
-                    ZLog.i(ZTag.TAG, "$packageName; totalTime: $totalTime")
-                    // Reset the start/end times to 0
                     startTime = 0L
                     endTime = 0L
                 }
             }
-            // If there is a start time without an end time, this might mean that
-            //  the app was used past midnight, so take (midnight - 1 second)
-            //  as the end time
             if (startTime != 0L && endTime == 0L) {
                 totalTime += System.currentTimeMillis() - 1000 - startTime
             }
@@ -289,7 +275,6 @@ class UsageStatesActivity : AppCompatActivity() {
             ZLog.i(ZTag.TAG, "stat: $stat")
             stats.add(stat)
         }
-        TraceHelper.endSection("sortedEvents")
         return stats
     }
 
@@ -298,11 +283,9 @@ class UsageStatesActivity : AppCompatActivity() {
         val totalTime: Long
     ) {
         override fun toString(): String {
-            return "packageName: $packageName; totalTime: ${totalTime / 1000}"
+            return "Stat--$packageName: ${totalTime / 1000};"
         }
-
     }
-
 
     private fun traceEvent(eventType: Int): String {
         return when (eventType) {
