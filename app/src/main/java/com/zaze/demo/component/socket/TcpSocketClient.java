@@ -3,6 +3,7 @@ package com.zaze.demo.component.socket;
 import android.os.SystemClock;
 import android.text.TextUtils;
 
+import com.zaze.utils.ZStringUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
@@ -86,7 +87,7 @@ public class TcpSocketClient {
      */
     public int connect(String host, int port, SocketFace socketFace) {
         this.socketFace = socketFace;
-        ZLog.d(ZTag.TAG_DEBUG, "socket 监听 %s:%s", host, port);
+        ZLog.d(ZTag.TAG_DEBUG, ZStringUtil.format("socket 监听 %s:%s", host, port));
         try {
             if (!TextUtils.isEmpty(host)) {
                 socket = new Socket();

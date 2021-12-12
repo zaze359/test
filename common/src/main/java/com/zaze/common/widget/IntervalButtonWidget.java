@@ -2,6 +2,8 @@ package com.zaze.common.widget;
 
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
+
 import com.zaze.utils.ZStringUtil;
 
 import java.util.concurrent.TimeUnit;
@@ -19,9 +21,9 @@ import io.reactivex.functions.Function;
  * @version : 2017-11-16 - 14:07
  */
 public class IntervalButtonWidget {
-    private Button button;
-    private String defaultText;
-    private Observable<Long> observable;
+    private final Button button;
+    private final String defaultText;
+    private final Observable<Long> observable;
     private Disposable disposable;
     private int loopTime = 10;
 
@@ -36,7 +38,7 @@ public class IntervalButtonWidget {
                 .take(loopTime)
                 .map(new Function<Long, Long>() {
                     @Override
-                    public Long apply(Long aLong) throws Exception {
+                    public Long apply(@NonNull Long aLong) throws Exception {
                         return loopTime - aLong;
                     }
                 }).observeOn(AndroidSchedulers.mainThread());
@@ -45,18 +47,18 @@ public class IntervalButtonWidget {
     public void start() {
         observable.subscribe(new Observer<Long>() {
             @Override
-            public void onSubscribe(Disposable d) {
+            public void onSubscribe(@NonNull Disposable d) {
                 disposable = d;
                 updateButton(defaultText, false);
             }
 
             @Override
-            public void onNext(Long aLong) {
+            public void onNext(@NonNull Long aLong) {
                 updateButton("" + aLong, false);
             }
 
             @Override
-            public void onError(Throwable e) {
+            public void onError(@NonNull Throwable e) {
                 updateButton(defaultText, true);
             }
 

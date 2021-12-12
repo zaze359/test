@@ -1,5 +1,6 @@
 package com.zaze.utils.task;
 
+import com.zaze.utils.ZStringUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 import com.zaze.utils.task.executor.AsyncTaskPool;
@@ -20,14 +21,14 @@ public class TaskAsync<T> extends TaskCreate<T> {
     @Override
     protected void executeActual() {
         if (needLog) {
-            ZLog.i(ZTag.TAG_TASK, "开始异步执行任务池(%s)内下一个任务！", poolTag);
+            ZLog.i(ZTag.TAG_TASK, ZStringUtil.format("开始异步执行任务池(%s)内下一个任务！", poolTag));
         }
         TaskPool taskPool = getOrCreatePool();
         if (taskPool instanceof AutoTaskPool) {
             executeTask(taskPool, false);
         } else {
             if (needLog) {
-                ZLog.i(ZTag.TAG_TASK, "转换为异步单任务执行模式(%s)", poolTag);
+                ZLog.i(ZTag.TAG_TASK, ZStringUtil.format("转换为异步单任务执行模式(%s)", poolTag));
             }
             executeTask(AsyncTaskPool.newInstance(taskPool), true);
         }

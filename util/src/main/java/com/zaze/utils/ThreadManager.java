@@ -75,7 +75,7 @@ public class ThreadManager {
                             thread.setDaemon(false);
                         }
                         if (needLog) {
-                            ZLog.i(ZTag.TAG_DEBUG, "run %s(%s)", thread.getName(), thread.getId());
+                            ZLog.i(ZTag.TAG_DEBUG, ZStringUtil.format("run %s(%s)", thread.getName(), thread.getId()));
                         }
                         return thread;
                     }
@@ -92,7 +92,7 @@ public class ThreadManager {
                             thread.setDaemon(false);
                         }
                         if (needLog) {
-                            ZLog.i(ZTag.TAG_DEBUG, "run %s(%s)", thread.getName(), thread.getId());
+                            ZLog.i(ZTag.TAG_DEBUG, ZStringUtil.format("run %s(%s)", thread.getName(), thread.getId()));
                         }
                         return thread;
                     }
@@ -110,7 +110,7 @@ public class ThreadManager {
                     thread.setDaemon(false);
                 }
                 if (needLog) {
-                    ZLog.i(ZTag.TAG_DEBUG, "run %s(%s)", thread.getName(), thread.getId());
+                    ZLog.i(ZTag.TAG_DEBUG, ZStringUtil.format("run %s(%s)", thread.getName(), thread.getId()));
                 }
                 return thread;
             }
@@ -126,7 +126,7 @@ public class ThreadManager {
                 thread.setPriority(Thread.MIN_PRIORITY);
                 thread.setDaemon(true);
                 if (needLog) {
-                    ZLog.i(ZTag.TAG_DEBUG, "run %s(%s)", thread.getName(), thread.getId());
+                    ZLog.i(ZTag.TAG_DEBUG, ZStringUtil.format("run %s(%s)", thread.getName(), thread.getId()));
                 }
                 return thread;
             }

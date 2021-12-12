@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.text.TextUtils;
 
 import com.zaze.demo.app.MyApplication;
-import com.zaze.utils.ThreadManager;
+import com.zaze.utils.ZStringUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
@@ -23,21 +23,16 @@ public class PackageReceiver extends BroadcastReceiver {
         final String action = intent.getAction();
         if (action != null) {
             final String packageName = intent.getData().getSchemeSpecificPart();
-            ZLog.i(ZTag.TAG_DEBUG, "PackageReceiver : %s（%s）", action, packageName);
-            ZLog.i(ZTag.TAG_DEBUG, "PackageReceiver : %s", intent.getDataString());
+            ZLog.i(ZTag.TAG_DEBUG, ZStringUtil.format("PackageReceiver : %s（%s）", action, packageName));
+            ZLog.i(ZTag.TAG_DEBUG, "PackageReceiver : " + intent.getDataString());
             if (!MyApplication.getInstance().getPackageName().equals(packageName)) {
-                ThreadManager.getInstance().runInSingleThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (TextUtils.equals(action, Intent.ACTION_PACKAGE_ADDED)) {
-                            afterAppAdded(packageName);
-                        } else if (TextUtils.equals(action, Intent.ACTION_PACKAGE_REPLACED)) {
-                            afterAppReplaced(packageName);
-                        } else if (TextUtils.equals(action, Intent.ACTION_PACKAGE_REMOVED)) {
-                            afterAppRemoved(packageName);
-                        }
-                    }
-                });
+                if (TextUtils.equals(action, Intent.ACTION_PACKAGE_ADDED)) {
+                    afterAppAdded(packageName);
+                } else if (TextUtils.equals(action, Intent.ACTION_PACKAGE_REPLACED)) {
+                    afterAppReplaced(packageName);
+                } else if (TextUtils.equals(action, Intent.ACTION_PACKAGE_REMOVED)) {
+                    afterAppRemoved(packageName);
+                }
             }
         }
     }

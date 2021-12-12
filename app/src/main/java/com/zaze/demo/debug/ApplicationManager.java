@@ -325,7 +325,7 @@ public class ApplicationManager {
                 name = appShortcut.getName();
             }
             if (TextUtils.isEmpty(name)) {
-                ZLog.e(ZTag.TAG_DEBUG, "未获取到应用名(%s), 使用默认(%s)", packageName, defaultName);
+                ZLog.e(ZTag.TAG_DEBUG, ZStringUtil.format("未获取到应用名(%s), 使用默认(%s)", packageName, defaultName));
                 name = defaultName;
             }
             MemoryCacheManager.saveCache(Key.getAppNameKey(packageName), name);

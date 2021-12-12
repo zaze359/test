@@ -107,7 +107,7 @@ class MemoryCache implements CacheFace, MemoryListener {
     @Override
     public void onTrimMemory(int level) {
         if (cacheLog) {
-            ZLog.d(ZTag.TAG_MEMORY, "onTrimMemory : %s, 释放超时和无效的内存", level);
+            ZLog.d(ZTag.TAG_MEMORY, ZStringUtil.format("onTrimMemory : %s, 释放超时和无效的内存", level));
         }
         long currTime = System.currentTimeMillis();
         Map<String, Cache> tempMap;
@@ -292,11 +292,11 @@ class MemoryCache implements CacheFace, MemoryListener {
             cacheMap.put(key, cache);
             memoryCacheSize += offset;
             if (cacheLog) {
-                ZLog.d(ZTag.TAG_MEMORY, "数据key : %s ", key);
-                ZLog.d(ZTag.TAG_MEMORY, "数据length : %s", DescriptionUtil.toByteUnit(cache.getBytes() == null ? 0 : cache.getBytes().length, 1024));
-                ZLog.d(ZTag.TAG_MEMORY, "被动释放临界点 : %s", DescriptionUtil.toByteUnit(PASSIVE_RELEASE, 1024));
-                ZLog.d(ZTag.TAG_MEMORY, "缓存空间最大容量 : %s", DescriptionUtil.toByteUnit(CACHE_SIZE_MAX, 1024));
-                ZLog.d(ZTag.TAG_MEMORY, "当前缓存空间已使用 : %s", DescriptionUtil.toByteUnit(memoryCacheSize, 1024));
+                ZLog.d(ZTag.TAG_MEMORY, "数据key: " + key);
+                ZLog.d(ZTag.TAG_MEMORY, "数据length: " + DescriptionUtil.toByteUnit(cache.getBytes() == null ? 0 : cache.getBytes().length, 1024));
+                ZLog.d(ZTag.TAG_MEMORY, "被动释放临界点: " + DescriptionUtil.toByteUnit(PASSIVE_RELEASE, 1024));
+                ZLog.d(ZTag.TAG_MEMORY, "缓存空间最大容量: " + DescriptionUtil.toByteUnit(CACHE_SIZE_MAX, 1024));
+                ZLog.d(ZTag.TAG_MEMORY, "当前缓存空间已使用: " + DescriptionUtil.toByteUnit(memoryCacheSize, 1024));
             }
         }
     }

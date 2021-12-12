@@ -1,16 +1,21 @@
-package com.zaze.demo.debug;
+package com.zaze.demo.debug.test;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.LauncherActivityInfo;
+import android.content.pm.LauncherApps;
 import android.content.res.AssetManager;
 import android.content.res.XmlResourceParser;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.UserHandle;
+import android.os.UserManager;
 import android.util.Base64;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
 
 import com.zaze.utils.FileUtil;
@@ -32,6 +37,7 @@ import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileLock;
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.Random;
 import java.util.regex.Pattern;
 
@@ -50,7 +56,7 @@ import okio.Sink;
  * @author : ZAZE
  * @version : 2017-09-29 - 15:31
  */
-public class TestDebug {
+public class TestByJava implements ITest {
 
     private static final String TAG = "TestDebug";
     private static byte[] bytes;
@@ -69,7 +75,9 @@ public class TestDebug {
     public static final Uri CONTENT_URI = Uri.parse("content://" +
             AUTHORITY + "/" + TABLE_NAME);
 
-    public static void test(final Context context) {
+
+    @Override
+    public void doTest(@NonNull Context context) {
         ZLog.i(ZTag.TAG, "proxyHost: " + System.getProperty("http.proxyHost"));
         ZLog.i(ZTag.TAG, "proxyPort: " + System.getProperty("http.proxyPort"));
         Bundle bundle = new Bundle();
@@ -93,18 +101,20 @@ public class TestDebug {
 
 //        PowerManager pManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
 //        String packageName = "com.yangcong345.onionschool";
-//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-//            UserManager mUserManager = (UserManager) context.getSystemService(Context.USER_SERVICE);
-//            List<UserHandle> users = mUserManager.getUserProfiles();
-//            for (UserHandle userHandle : users) {
-//                ZLog.i(ZTag.TAG, "users : " + userHandle.toString());
-//                LauncherApps mLauncherApps = (LauncherApps) context.getSystemService(Context.LAUNCHER_APPS_SERVICE);
-//                List<LauncherActivityInfo> list = mLauncherApps.getActivityList(null, userHandle);
-//                for (LauncherActivityInfo activityInfo : list) {
-//                    ZLog.i(ZTag.TAG, "activityInfo : " + userHandle.toString() + " >> " + activityInfo.getName());
-//                }
-//            }
-//        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            UserManager mUserManager = (UserManager) context.getSystemService(Context.USER_SERVICE);
+            List<UserHandle> users = mUserManager.getUserProfiles();
+            for (UserHandle userHandle : users) {
+                ZLog.i(ZTag.TAG, "users : " + userHandle.toString());
+                LauncherApps mLauncherApps = (LauncherApps) context.getSystemService(Context.LAUNCHER_APPS_SERVICE);
+                List<LauncherActivityInfo> list = mLauncherApps.getActivityList(null, userHandle);
+                for (LauncherActivityInfo activityInfo : list) {
+                    ZLog.i(ZTag.TAG, "activityInfo : " + userHandle.toString() + " >> " + activityInfo.getName());
+                }
+            }
+        }
+
+
 //        try {
 //            Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, null, null, null, MediaStore.Images.Media.DEFAULT_SORT_ORDER);
 //            if (cursor != null) {

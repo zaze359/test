@@ -3,6 +3,7 @@ package com.zaze.utils.log;
 import android.util.Log;
 
 import com.zaze.utils.StackTraceHelper;
+import com.zaze.utils.TraceHelper;
 import com.zaze.utils.ZStringUtil;
 
 /**
@@ -24,6 +25,7 @@ public class ZLog {
     static {
         registerLogCaller(ZLog.class.getName());
         registerLogCaller(Log.class.getName());
+        registerLogCaller(TraceHelper.class.getName());
     }
 
     public static void setLogLevel(@ZLogLevel int level) {
@@ -62,66 +64,86 @@ public class ZLog {
         return ZStringUtil.format("(%s:%d)[%s]", ste.getFileName(), ste.getLineNumber(), ste.getMethodName());
     }
 
-    private static String getStackTrace(String format, Object... args) {
+    private static String getStackTrace(String message) {
         if (needStack) {
-            return ZStringUtil.format("[" + getTag(StackTraceHelper.callerStackTraceElement()) + "] : " + format, args);
+            return "[" + getTag(StackTraceHelper.callerStackTraceElement()) + "]: " + message;
         } else {
-            return ZStringUtil.format(format, args);
+            return message;
         }
     }
 
     // ----------- V -----------
-    public static void v(String tag, String format, Object... args) {
+    public static void v(String tag, String message) {
         if (V) {
             if (logFace != null) {
-                logFace.v(tag, getStackTrace(format, args));
+                logFace.v(tag, getStackTrace(message));
             } else {
-                Log.v(tag, getStackTrace(format, args));
+                Log.v(tag, getStackTrace(message));
             }
         }
     }
 
     // ----------- D -----------
-    public static void d(String tag, String format, Object... args) {
+    public static void d(String tag, String message) {
         if (D) {
             if (logFace != null) {
-                logFace.d(tag, getStackTrace(format, args));
+                logFace.d(tag, getStackTrace(message));
             } else {
-                Log.d(tag, getStackTrace(format, args));
+                Log.d(tag, getStackTrace(message));
             }
         }
     }
 
     // ----------- I -----------
-    public static void i(String tag, String format, Object... args) {
+    public static void i(String tag, String message) {
         if (I) {
             if (logFace != null) {
-                logFace.i(tag, getStackTrace(format, args));
+                logFace.i(tag, getStackTrace(message));
             } else {
-                Log.i(tag, getStackTrace(format, args));
+                Log.i(tag, getStackTrace(message));
             }
         }
 
     }
 
     // ----------- W -----------
-    public static void w(String tag, String format, Object... args) {
+    public static void w(String tag, String message) {
         if (W) {
             if (logFace != null) {
-                logFace.w(tag, getStackTrace(format, args));
+                logFace.w(tag, getStackTrace(message));
             } else {
-                Log.w(tag, getStackTrace(format, args));
+                Log.w(tag, getStackTrace(message));
+            }
+        }
+    }
+
+    public static void w(String tag, String message, Throwable e) {
+        if (W) {
+            if (logFace != null) {
+                logFace.w(tag, getStackTrace(message), e);
+            } else {
+                Log.w(tag, getStackTrace(message), e);
             }
         }
     }
 
     // ----------- E -----------
-    public static void e(String tag, String format, Object... args) {
+    public static void e(String tag, String message) {
         if (E) {
             if (logFace != null) {
-                logFace.e(tag, getStackTrace(format, args));
+                logFace.e(tag, getStackTrace(message));
             } else {
-                Log.e(tag, getStackTrace(format, args));
+                Log.e(tag, getStackTrace(message));
+            }
+        }
+    }
+
+    public static void e(String tag, String message, Throwable e) {
+        if (E) {
+            if (logFace != null) {
+                logFace.e(tag, getStackTrace(message), e);
+            } else {
+                Log.e(tag, getStackTrace(message), e);
             }
         }
     }

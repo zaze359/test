@@ -101,6 +101,7 @@ object StorageLoader {
                         storageStatsManager.getTotalBytes(uuid),
                         storageStatsManager.getFreeBytes(uuid)
                     )
+//                    getInnerStorageInfo()
                 }
                 Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1 -> {
                     queryAfterNMR1(context)
@@ -252,7 +253,6 @@ object StorageLoader {
 
         @RequiresApi(Build.VERSION_CODES.N_MR1)
         fun getPrimaryStorageSize(): Long {
-            storageManager.primaryStorageVolume
             return executeMethod(storageManager, "getPrimaryStorageSize") as Long? ?: 0L
         }
 
@@ -310,9 +310,9 @@ object StorageLoader {
     }
 
     data class StorageInfo(var totalBytes: Long = 0, var freeBytes: Long = 0) {
-
         companion object {
-            const val UNIT = 1000
+            const val UNIT = 1024
+
             fun roundStorageSize(size: Long): Long {
                 var roundSize: Long = 1
                 var pow: Long = 1
@@ -366,7 +366,6 @@ object StorageLoader {
          * log打印总大小和可用大小
          */
         fun log(tag: String = ZTag.TAG_DEBUG) {
-            this.roundStorageSize()
             ZLog.v(
                 tag,
                 "totalSize:${showTotalBytes()}; freeSpace:${

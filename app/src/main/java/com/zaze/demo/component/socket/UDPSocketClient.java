@@ -3,10 +3,13 @@ package com.zaze.demo.component.socket;
 import android.net.wifi.WifiInfo;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+
 import com.zaze.demo.app.MyApplication;
 import com.zaze.utils.JsonUtil;
-import com.zaze.utils.ThreadManager;
 import com.zaze.utils.NetUtil;
+import com.zaze.utils.ThreadManager;
+import com.zaze.utils.ZStringUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
@@ -21,8 +24,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
-import androidx.annotation.NonNull;
 
 /**
  * Description :
@@ -58,7 +59,7 @@ public class UDPSocketClient extends BaseSocketClient {
 
     @Override
     public boolean receive() {
-        ZLog.d(ZTag.TAG_DEBUG, "socket 监听 %s:%s", getHost(), getPort());
+        ZLog.d(ZTag.TAG_DEBUG, ZStringUtil.format("socket 监听 %s:%s", getHost(), getPort()));
         if (!isRunning) {
             isRunning = true;
             serverExecutor.execute(new Runnable() {
@@ -120,7 +121,7 @@ public class UDPSocketClient extends BaseSocketClient {
                         byte[] data = json.getBytes();
                         WifiInfo wifiInfo = NetUtil.getConnectionInfo(MyApplication.getInstance());
                         if (wifiInfo != null) {
-                            ZLog.d(ZTag.TAG_DEBUG, "发送(%s:%s) : %s ", host, port, json);
+                            ZLog.d(ZTag.TAG_DEBUG, ZStringUtil.format("发送(%s:%s) : %s ", host, port, json));
                             DatagramPacket dataPacket = new DatagramPacket(data, data.length, new InetSocketAddress(host, port));
                             serverSocket.send(dataPacket);
                         } else {

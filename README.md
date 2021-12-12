@@ -2,9 +2,10 @@
 
 包含 学习用的测试demo、工具类库、组件库等
 
-
 ## gradle
 ```
-implementation 'com.github.zaze359.test:util:1.0.4'
-implementation 'com.github.zaze359.test:common:1.0.4'
+maven { url 'https://s01.oss.sonatype.org/content/groups/public' }
+```
+```
+implementation "io.github.zaze359:zaze-utils:1.0.1"
 ```

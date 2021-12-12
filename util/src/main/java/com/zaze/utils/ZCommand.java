@@ -6,6 +6,7 @@ import com.zaze.utils.log.ZTag;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.List;
  * @version : 1.0
  */
 public class ZCommand {
+    private static final String TAG = ZTag.TAG + "cmd";
     public static final String COMMAND_SU = "su";
     public static final String COMMAND_SH = "sh";
     public static final String COMMAND_EXIT = "exit\n";
@@ -32,6 +34,19 @@ public class ZCommand {
     public static void setShowLog(boolean showLog) {
         ZCommand.showLog = showLog;
     }
+
+    private static final String[] suPathname = {
+            "/data/local/su",
+            "/data/local/bin/su",
+            "/data/local/xbin/su",
+            "/system/xbin/su",
+            "/system/bin/su",
+            "/system/bin/.ext/su",
+            "/system/bin/failsafe/su",
+            "/system/sd/xbin/su",
+            "/system/usr/we-need-root/su",
+            "/sbin/su",
+            "/su/bin/su"};
     // --------------------------------------------------
 
     /**
@@ -59,36 +74,20 @@ public class ZCommand {
     public static boolean isRoot() {
         synchronized (object) {
             if (isRoot == null) {
-                Process process = null;
-                DataOutputStream outputStream = null;
-                try {
-                    process = Runtime.getRuntime().exec("su");
-                    outputStream = new DataOutputStream(process.getOutputStream());
-                    outputStream.writeBytes("exit\n");
-                    outputStream.flush();
-                    int exitValue = process.waitFor();
-                    if (isSuccess(exitValue)) {
-                        if (showLog) {
-                            ZLog.i(ZTag.TAG_CMD, "设备已Root");
-                        }
-                        isRoot = true;
-                    }
-                } catch (Exception e) {
-                    ZLog.e(ZTag.TAG_CMD, "设备未Root");
-                } finally {
-                    if (outputStream != null) {
-                        try {
-                            outputStream.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    if (process != null) {
-                        process.destroy();
-                    }
+                if (isCommandExists(COMMAND_SU)) {
+                    isRoot = true;
+                    return isRoot;
                 }
-                if (isRoot == null) {
-                    isRoot = false;
+                isRoot = false;
+                try {
+                    for (String path : suPathname) {
+                        File file = new File(path);
+                        if (file.exists()) {
+                            isRoot = true;
+                            break;
+                        }
+                    }
+                } catch (Exception ignored) {
                 }
             }
             return isRoot;
@@ -201,7 +200,7 @@ public class ZCommand {
                     continue;
                 }
                 if (showLog) {
-                    ZLog.i(ZTag.TAG_CMD, "command ： " + command + "\n");
+                    ZLog.i(TAG, "command ： " + command + "\n");
                 }
                 // donnot use os.writeBytes(commmand), avoid chinese charset error
                 outputStream.write(command.getBytes());
@@ -226,7 +225,7 @@ public class ZCommand {
             process.destroy();
         } catch (Exception e) {
             if (showLog) {
-                ZLog.e(ZTag.TAG_CMD, "execCommand error", e);
+                ZLog.e(TAG, "execCommand error", e);
             }
         } finally {
             try {
@@ -244,8 +243,8 @@ public class ZCommand {
             }
         }
         if (showLog) {
-            ZLog.v(ZTag.TAG_CMD, "execCommand result: " + result);
-            ZLog.e(ZTag.TAG_CMD, "execCommand error: " + errorBuilder);
+            ZLog.v(TAG, "execCommand result: " + result);
+            ZLog.e(TAG, "execCommand error: " + errorBuilder);
         }
         return new CommandResult(result,
                 errorBuilder == null ? null : errorBuilder.toString(),

@@ -20,6 +20,7 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 /**
@@ -131,35 +132,97 @@ public class NetUtil {
     }
 
     // --------------------------------------------------
-
     public static String getWLANMacAddress() {
-        String macAddress;
-        StringBuilder buf = new StringBuilder();
-        NetworkInterface networkInterface = null;
         try {
-            networkInterface = NetworkInterface.getByName("eth1");
+            NetworkInterface networkInterface = NetworkInterface.getByName("eth1");
             if (networkInterface == null) {
                 networkInterface = NetworkInterface.getByName("wlan0");
             }
+            return getMacAddress(networkInterface);
+        } catch (Exception var8) {
+            var8.printStackTrace();
+            return "02:00:00:00:00:02";
+        }
+    }
+
+    public static String getMacAddress(NetworkInterface networkInterface) {
+        StringBuilder buf = new StringBuilder();
+        try {
             if (networkInterface == null) {
-                return "02:00:00:00:00:02";
+                return null;
             }
             byte[] addr = networkInterface.getHardwareAddress();
-            if (addr != null) {
-                for (byte b : addr) {
-                    buf.append(String.format("%02X:", b));
-                }
+            for (byte b : addr) {
+                buf.append(String.format("%02X:", b));
             }
             if (buf.length() > 0) {
                 buf.deleteCharAt(buf.length() - 1);
             }
-            macAddress = buf.toString();
+            return buf.toString();
+        } catch (Exception var8) {
+            var8.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 根据IP地址获取MAC地址
+     *
+     * @return
+     */
+    public static String getLocalMacAddressFromIp() {
+        String strMacAddr = null;
+        try {
+            //获得IpD地址
+            InetAddress ip = getLocalInetAddress();
+            byte[] b = NetworkInterface.getByInetAddress(ip).getHardwareAddress();
+            StringBuffer buffer = new StringBuffer();
+            for (int i = 0; i < b.length; i++) {
+                if (i != 0) {
+                    buffer.append(':');
+                }
+                String str = Integer.toHexString(b[i] & 0xFF);
+                buffer.append(str.length() == 1 ? 0 + str : str);
+            }
+            strMacAddr = buffer.toString().toUpperCase();
+        } catch (Exception e) {
+        }
+        return strMacAddr;
+    }
+
+    /**
+     * 获取移动设备本地IP
+     *
+     * @return
+     */
+    private static InetAddress getLocalInetAddress() {
+        InetAddress ip = null;
+        try {
+            //列举
+            Enumeration<NetworkInterface> en_netInterface = NetworkInterface.getNetworkInterfaces();
+            while (en_netInterface.hasMoreElements()) {//是否还有元素
+                NetworkInterface ni = (NetworkInterface) en_netInterface.nextElement();//得到下一个元素
+                Enumeration<InetAddress> en_ip = ni.getInetAddresses();//得到一个ip地址的列举
+                while (en_ip.hasMoreElements()) {
+                    ip = en_ip.nextElement();
+                    if (!ip.isLoopbackAddress() && !ip.getHostAddress().contains(":")) {
+                        break;
+                    } else {
+                        ip = null;
+                    }
+                }
+                if (ip != null) {
+                    break;
+                }
+            }
         } catch (SocketException e) {
             e.printStackTrace();
-            return "02:00:00:00:00:02";
         }
-        return macAddress;
+        return ip;
     }
+
+
+    // --------------------------------------------------
 
     /**
      * @param context context

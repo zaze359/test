@@ -3,6 +3,7 @@ package com.zaze.utils.parser.xml;
 
 import android.text.TextUtils;
 
+import com.zaze.utils.ZStringUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
@@ -73,7 +74,7 @@ public class XmlParserHandler {
         @Override
         public void endElement(String uri, String localName, String qName) throws SAXException {
             super.endElement(uri, localName, qName);
-            ZLog.i(ZTag.TAG_XML, "qName : %s; value : %s", qName, value);
+            ZLog.i(ZTag.TAG_XML, ZStringUtil.format("qName : %s; value : %s", qName, value));
             parser.endElement(qName, value);
         }
 

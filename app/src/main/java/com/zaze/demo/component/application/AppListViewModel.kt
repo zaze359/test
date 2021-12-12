@@ -1,9 +1,7 @@
 package com.zaze.demo.component.application
 
 import android.app.Application
-import android.content.pm.ApplicationInfo
 import android.os.Build
-import android.os.SystemClock
 import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -12,23 +10,17 @@ import com.zaze.common.base.BaseApplication
 import com.zaze.common.base.ext.get
 import com.zaze.common.base.ext.set
 import com.zaze.common.thread.ThreadPlugins
-import com.zaze.common.util.TraceHelper
+import com.zaze.utils.TraceHelper
 import com.zaze.demo.R
-import com.zaze.demo.app.MyApplication
 import com.zaze.demo.debug.AppShortcut
 import com.zaze.demo.debug.ApplicationManager
-import com.zaze.demo.util.isSystemApp
 import com.zaze.demo.util.plugins.rx.MyObserver
 import com.zaze.utils.AppUtil
 import com.zaze.utils.FileUtil
-import com.zaze.utils.StackTraceHelper
-import com.zaze.utils.log.ZLog
-import com.zaze.utils.log.ZTag
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.internal.operators.observable.ObservableFromIterable
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONObject
@@ -124,10 +116,10 @@ class AppListViewModel(application: Application) : AbsAndroidViewModel(applicati
 //                FileUtil.deleteFile(allFile)
             AppUtil.getInstalledApplications(getApplication())
                 .asSequence()
-                .filter {
-                    ZLog.i(ZTag.TAG, "${it.packageName} isSystemApp: ${it.isSystemApp()}")
-                    it.isSystemApp()
-                }
+//                .filter {
+//                    ZLog.i(ZTag.TAG, "${it.packageName} isSystemApp: ${it.isSystemApp()}")
+//                    it.isSystemApp()
+//                }
                 .forEach {
                     packageSet[it.packageName] = ApplicationManager.getAppShortcut(it.packageName)
                 }

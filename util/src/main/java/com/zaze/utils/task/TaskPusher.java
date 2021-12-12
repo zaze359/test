@@ -2,6 +2,7 @@ package com.zaze.utils.task;
 
 import android.text.TextUtils;
 
+import com.zaze.utils.ZStringUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 import com.zaze.utils.task.executor.SyncTaskPool;
@@ -47,7 +48,7 @@ public abstract class TaskPusher<T> extends Task<T> {
      */
     protected void putPool(TaskPool executor) {
         if (needLog) {
-            ZLog.i(ZTag.TAG_TASK, "更新任务池(%s)", poolTag);
+            ZLog.i(ZTag.TAG_TASK, ZStringUtil.format("更新任务池(%s)", poolTag));
         }
         POOL_MAP.put(poolTag, executor);
     }
@@ -57,7 +58,7 @@ public abstract class TaskPusher<T> extends Task<T> {
      */
     protected void removePool() {
         if (needLog) {
-            ZLog.i(ZTag.TAG_TASK, "移除任务池(%s)!", poolTag);
+            ZLog.i(ZTag.TAG_TASK, ZStringUtil.format("移除任务池(%s)!", poolTag));
         }
         POOL_MAP.remove(poolTag);
     }
@@ -66,7 +67,7 @@ public abstract class TaskPusher<T> extends Task<T> {
         TaskPool taskPool = getPool(poolTag);
         if (taskPool == null) {
             if (needLog) {
-                ZLog.i(ZTag.TAG_TASK, "创建任务池(%s)", poolTag);
+                ZLog.i(ZTag.TAG_TASK, ZStringUtil.format("创建任务池(%s)", poolTag));
             }
             taskPool = new SyncTaskPool();
             putPool(taskPool);
@@ -80,12 +81,12 @@ public abstract class TaskPusher<T> extends Task<T> {
     public static TaskPool getPool(String poolTag) {
         if (hasPool(poolTag)) {
             if (needLog) {
-                ZLog.i(ZTag.TAG_TASK, "提取任务池(%s)", poolTag);
+                ZLog.i(ZTag.TAG_TASK, ZStringUtil.format("提取任务池(%s)", poolTag));
             }
             return POOL_MAP.get(poolTag);
         } else {
             if (needLog) {
-                ZLog.e(ZTag.TAG_TASK, "任务池(%s)不存在", poolTag);
+                ZLog.e(ZTag.TAG_TASK, ZStringUtil.format("任务池(%s)不存在", poolTag));
             }
             return null;
         }

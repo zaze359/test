@@ -343,11 +343,24 @@ object AppUtil {
      * [context] 上下文
      * [filePath] 文件绝对路径
      *
+     * val intent = Intent(Intent.ACTION_VIEW)
+     * intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+     * intent.addCategory(Intent.CATEGORY_DEFAULT)
+     * val uri: Uri
+     * if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+     * uri = FileProvider.getUriForFile(context, "${context.packageName}.fileProvider", file)
+     * intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+     * } else {
+     * uri = Uri.fromFile(file)
+     * }
+     * intent.setDataAndType(uri, "application/vnd.android.package-archive")
+     * context.startActivity(intent)
+     *
      * @author zaze
      * @version 2017/5/31 - 下午2:54 1.0
      */
     @JvmStatic
-    @Deprecated("")
+    @Deprecated("use FileProvider")
     fun install(context: Context, filePath: String) {
         val file = File(filePath)
         if (file.exists()) {
@@ -361,6 +374,22 @@ object AppUtil {
         }
     }
 
+//    fun install(context: Context, file: File) {
+//        val intent = Intent(Intent.ACTION_VIEW)
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//        intent.addCategory(Intent.CATEGORY_DEFAULT)
+//        val uri: Uri
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//            uri = FileProvider.getUriForFile(context, "${context.packageName}.fileProvider", file)
+//            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+//        } else {
+//            uri = Uri.fromFile(file)
+//        }
+//        intent.setDataAndType(uri, "application/vnd.android.package-archive")
+//        context.startActivity(intent)
+//    }
+
+
     /**
      * Description : 卸载应用
      * [context] 上下文
@@ -370,7 +399,6 @@ object AppUtil {
      */
     @JvmStatic
     @JvmOverloads
-    @Deprecated("")
     fun unInstall(context: Context, packageName: String = context.packageName) {
         ZLog.i(ZTag.TAG_ABOUT_APP, "开始卸载 $packageName")
         val uninstallIntent = Intent()
@@ -386,7 +414,7 @@ object AppUtil {
      */
     @JvmStatic
     fun installApkSilent(filePath: String): Boolean {
-        ZLog.i(ZTag.TAG_ABOUT_APP, "开始静默安装 %s", filePath)
+        ZLog.i(ZTag.TAG_ABOUT_APP, "开始静默安装 $filePath")
         return if (ZCommand.isSuccess(ZCommand.execRootCmdForRes("pm install -r $filePath"))) {
             ZLog.i(ZTag.TAG_ABOUT_APP, "静默安装成功!")
             true
@@ -402,13 +430,13 @@ object AppUtil {
      */
     @JvmStatic
     fun unInstallApkSilent(packageName: String): Boolean {
-        ZLog.i(ZTag.TAG_ABOUT_APP, "开始静默卸载 %s", packageName)
-        if (ZCommand.isSuccess(ZCommand.execRootCmdForRes("pm uninstall $packageName"))) {
+        ZLog.i(ZTag.TAG_ABOUT_APP, "开始静默卸载 $packageName")
+        return if (ZCommand.isSuccess(ZCommand.execRootCmdForRes("pm uninstall $packageName"))) {
             ZLog.i(ZTag.TAG_ABOUT_APP, "静默卸载成功!")
-            return true
+            true
         } else {
             ZLog.i(ZTag.TAG_ABOUT_APP, "静默卸载失败!")
-            return false
+            false
         }
     }
 
@@ -488,8 +516,11 @@ object AppUtil {
         getActivityManager(context).killBackgroundProcesses(packageName)
         val processInfoList = getAppProcess(context, packageName)
         for (processInfo in processInfoList) {
-            Process.killProcess(processInfo.pid)
+            if (processInfo.pid != Process.myPid()) {
+                Process.killProcess(processInfo.pid)
+            }
         }
+        Process.killProcess(Process.myPid())
     }
 
     // --------------------------------------------------
@@ -508,10 +539,7 @@ object AppUtil {
     }
 
     // --------------------------------------------------
-
     // --------------------------------------------------
-    // --------------------------------------------------
-
     @JvmStatic
     @JvmOverloads
     fun startApplication(
@@ -520,19 +548,23 @@ object AppUtil {
         bundle: Bundle? = null,
         needToast: Boolean = true
     ): Boolean {
-        context.packageManager.getLaunchIntentForPackage(packageName)?.let {
-            it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            it.addFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
-            context.startActivity(it, bundle)
-            return true
-        } ?: let {
+        if (!isInstalled(context, packageName)) {
             if (needToast) {
-                getPackageInfo(context, packageName)?.let {
-                    ToastUtil.toast(context, "($packageName)未安装!")
-                } ?: ToastUtil.toast(context, "($packageName)不可直接打开!")
+                ToastUtil.toast(context, "$packageName 未安装!")
             }
             return false
         }
+        val launchIntent = context.packageManager.getLaunchIntentForPackage(packageName)
+        if (launchIntent == null) {
+            if (needToast) {
+                ToastUtil.toast(context, "$packageName 不可打开!")
+            }
+            return false
+        }
+        launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        launchIntent.addFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
+        context.startActivity(launchIntent, bundle)
+        return true
     }
 
     // --------------------------------------------------
@@ -546,13 +578,13 @@ object AppUtil {
     }
 
     fun getAppMetaData(context: Context, packageName: String): Bundle? {
-        try {
-            return context.packageManager.getApplicationInfo(
+        return try {
+            context.packageManager.getApplicationInfo(
                 packageName,
                 PackageManager.GET_META_DATA
             ).metaData
         } catch (e: Exception) {
-            return null
+            null
         }
     }
 }

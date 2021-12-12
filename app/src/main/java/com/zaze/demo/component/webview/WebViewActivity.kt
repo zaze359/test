@@ -4,13 +4,11 @@ package com.zaze.demo.component.webview
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import android.os.Message
 import android.view.View
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
-import android.webkit.JavascriptInterface
-import android.webkit.WebChromeClient
-import android.webkit.WebSettings
-import android.webkit.WebView
+import android.webkit.*
 import com.zaze.common.base.BaseActivity
 import com.zaze.demo.R
 import com.zaze.utils.log.ZLog
@@ -41,9 +39,19 @@ open class WebViewActivity : BaseActivity() {
         }
         web_view.addJavascriptInterface(JSInterface(), "jsInterface")
         web_view.webViewClient = object : MyWebViewClient() {
+
+            override fun shouldOverrideUrlLoading(
+                view: WebView?,
+                request: WebResourceRequest?
+            ): Boolean {
+                ZLog.i(ZTag.TAG, "loadUrl: ${request?.url}")
+
+                return super.shouldOverrideUrlLoading(view, request)
+            }
+
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
-                WebViewConsole.addDom(web_view)
+//                WebViewConsole.addDom(web_view)
                 WebViewConsole.consoleDoc(web_view)
             }
         }
@@ -72,8 +80,7 @@ open class WebViewActivity : BaseActivity() {
             }
         }
 //        WebViewConsole.consoleDoc(web_view)
-        val url =
-            "https://yun.zjer.cn/oauth/oauthserver/index?client_id=1EF46747D70EEB19E349C25C668E44FD&response_type=code&state=1&redirect_uri=http://dkb.zjer.cn/index/index/loginAuth"
+        val url = "https://www.baidu.com"
         ZLog.i(ZTag.TAG, "loadUrl: $url")
         web_view.loadUrl(url)
 //        web_view.loadUrl("https://www.baidu.com")
@@ -82,9 +89,9 @@ open class WebViewActivity : BaseActivity() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(ss: WebViewEvent) {
         ZLog.i(ZTag.TAG, "onEvent $ss")
-        WebViewConsole.jsConsole(web_view, "javascript:window.addDom()")
+//        WebViewConsole.jsConsole(web_view, "javascript:window.addDom()")
 //        WebViewConsole.addDom(web_view)
-        WebViewConsole.consoleDoc(web_view)
+//        WebViewConsole.consoleDoc(web_view)
     }
 
     internal inner class JSInterface {

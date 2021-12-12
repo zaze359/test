@@ -1,6 +1,7 @@
 package com.zaze.demo.usagestats
 
 import android.app.AppOpsManager
+import android.app.usage.EventStats
 import android.app.usage.UsageStats
 import android.app.usage.UsageStatsManager
 import android.content.ActivityNotFoundException
@@ -17,6 +18,7 @@ object AppUsageHelper {
     private const val TAG = "AppUsageHelper"
     private const val PACKAGE_NAME_UNKNOWN = "unknown"
 
+    private var topPackageName = PACKAGE_NAME_UNKNOWN
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     fun getUsageStatsManager(context: Context): UsageStatsManager? {
@@ -30,8 +32,7 @@ object AppUsageHelper {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             return true
         }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             return isGrantedUsagePermission(context)
         }
         val time = System.currentTimeMillis()
@@ -43,7 +44,7 @@ object AppUsageHelper {
         ).isNullOrEmpty()
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
+    @RequiresApi(Build.VERSION_CODES.Q)
     fun isGrantedUsagePermission(context: Context): Boolean {
         val appOps = context.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
         try {
@@ -87,16 +88,16 @@ object AppUsageHelper {
         }
         val time = System.currentTimeMillis()
         val usageStatsList =
-            getUsageStatsList(context, UsageStatsManager.INTERVAL_DAILY, time - 1000 * 10, time)
+            getUsageStatsList(context, UsageStatsManager.INTERVAL_BEST, time - 1000 * 5, time)
         return if (usageStatsList.isNullOrEmpty()) {
-            PACKAGE_NAME_UNKNOWN
+            topPackageName
         } else {
-            usageStatsList.sortedByDescending {
+            topPackageName = usageStatsList.sortedByDescending {
                 it.lastTimeUsed
             }[0].packageName
+            topPackageName
         }
     }
-
 
     /**
      * INTERVAL_DAILY 天存储级别的数据
@@ -116,5 +117,20 @@ object AppUsageHelper {
             return usageStatsManager.queryUsageStats(intervalType, beginTime, endTime)
         }
         return null
+    }
+
+    fun queryEventStats(
+        context: Context,
+        intervalType: Int,
+        beginTime: Long,
+        endTime: Long
+    ): List<EventStats>? {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            val usageStatsManager = getUsageStatsManager(context) ?: return null
+            usageStatsManager.queryEventStats(intervalType, beginTime, endTime)
+        } else {
+            return null
+        }
+
     }
 }

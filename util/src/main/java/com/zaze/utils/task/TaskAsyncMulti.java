@@ -1,5 +1,6 @@
 package com.zaze.utils.task;
 
+import com.zaze.utils.ZStringUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 import com.zaze.utils.task.executor.MultiTaskPool;
@@ -19,7 +20,7 @@ public class TaskAsyncMulti<T> extends TaskCreate<T> {
     @Override
     protected void executeActual() {
         if (needLog) {
-            ZLog.i(ZTag.TAG_TASK, "开始批量执行任务池(%s)内任务！", poolTag);
+            ZLog.i(ZTag.TAG_TASK, ZStringUtil.format("开始批量执行任务池(%s)内任务！", poolTag));
         }
         executeTask(getOrCreatePool(), false);
     }
@@ -51,7 +52,7 @@ public class TaskAsyncMulti<T> extends TaskCreate<T> {
             replace = false;
         } else {
             if (needLog) {
-                ZLog.i(ZTag.TAG_TASK, "转换为异步多任务执行模式(%s)", poolTag);
+                ZLog.i(ZTag.TAG_TASK, ZStringUtil.format("转换为异步多任务执行模式(%s)", poolTag));
             }
             multiTaskExecutorService = MultiTaskPool.newInstance(taskPool);
             replace = true;

@@ -30,7 +30,7 @@ public class ZipUtil {
      * @throws Exception
      */
     public static List<File> getFileList(String zipFileString, boolean bContainFolder, boolean bContainFile) {
-        ZLog.d(ZTag.TAG_COMPRESS, "getFileList : %s ", zipFileString);
+        ZLog.d(ZTag.TAG_COMPRESS, "getFileList: " + zipFileString);
         List<File> fileList = null;
         try {
             fileList = new ArrayList<>();
@@ -83,7 +83,7 @@ public class ZipUtil {
      * @param outPathString 指定的路径DIR
      */
     public static void unCompressToFolder(String zipFileString, String outPathString) {
-        ZLog.d(ZTag.TAG_COMPRESS, "unZipToFolder : %s >> %s ", zipFileString, outPathString);
+        ZLog.d(ZTag.TAG_COMPRESS, ZStringUtil.format("unZipToFolder : %s >> %s ", zipFileString, outPathString));
         try {
             ZipInputStream inZip = new ZipInputStream(new FileInputStream(zipFileString));
             ZipEntry zipEntry;
@@ -125,7 +125,7 @@ public class ZipUtil {
      * @param outFilePath 指定压缩的目的和名字
      */
     public static void compressFile(String srcFilePath, String outFilePath) {
-        ZLog.d(ZTag.TAG_COMPRESS, "zipFile : %s >> %s", srcFilePath, outFilePath);
+        ZLog.d(ZTag.TAG_COMPRESS, ZStringUtil.format("zipFile : %s >> %s", srcFilePath, outFilePath));
         FileUtil.createDirNotExists(new File(outFilePath).getParentFile());
         FileUtil.reCreateFile(outFilePath);
         ZipOutputStream outZip = null;

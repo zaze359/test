@@ -1,5 +1,7 @@
 package com.zaze.utils;
 
+import static android.provider.Settings.System.SCREEN_OFF_TIMEOUT;
+
 import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -10,8 +12,6 @@ import android.provider.Settings;
 
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
-
-import static android.provider.Settings.System.SCREEN_OFF_TIMEOUT;
 
 /**
  * Description :
@@ -38,8 +38,12 @@ public class SystemSettings {
      * @param timeMillis timeMillis
      */
     public static void setScreenCloseTime(Context context, int timeMillis) {
-        ZLog.i(ZTag.TAG_SYSTEM, "设置屏幕关闭时间 : %s秒", timeMillis);
-        Settings.System.putInt(context.getContentResolver(), SCREEN_OFF_TIMEOUT, timeMillis);
+        ZLog.i(ZTag.TAG_SYSTEM, ZStringUtil.format("设置屏幕关闭时间 : %s秒", timeMillis));
+        try {
+            Settings.System.putInt(context.getContentResolver(), SCREEN_OFF_TIMEOUT, timeMillis);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 
     /**

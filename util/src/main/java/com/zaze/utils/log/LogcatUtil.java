@@ -71,7 +71,7 @@ public class LogcatUtil {
      * @return boolean
      */
     public static void startCatchLog(String command, String savePath, long maxSize) {
-        ZLog.i(ZTag.TAG_CMD, "command : " + command);
+        ZLog.i(ZTag.TAG_DEBUG, "command : " + command);
         if (isRunning) {
             return;
         }

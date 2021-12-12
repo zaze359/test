@@ -17,7 +17,11 @@ public interface ZLogFace {
 
     void w(String strTag, String strLog);
 
+    void w(String strTag, String strLog, Throwable e);
+
     void e(String strTag, String strLog);
+
+    void e(String strTag, String strLog, Throwable e);
 
     void writeLogToFile(String strTag, String strLog);
 

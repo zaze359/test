@@ -48,6 +48,12 @@ class DeviceModelImpl : DeviceModel {
             )
             add(
                 DeviceStatus(
+                    tag = "MAC地址",
+                    content = NetUtil.getLocalMacAddressFromIp()
+                )
+            )
+            add(
+                DeviceStatus(
                     tag = "Android版本",
                     name = "os",
                     content = Build.VERSION.RELEASE
@@ -235,7 +241,7 @@ class DeviceModelImpl : DeviceModel {
             val storageInfo = StorageLoader.loadStorageStats(BaseApplication.getInstance())
             add(
                 DeviceStatus(
-                    tag = "存储空间",
+                    tag = "存储空间(${StorageLoader.StorageInfo.UNIT})",
                     content = "总大小: ${storageInfo.showTotalBytes()}\n" +
                             "剩余大小: ${storageInfo.showFreeBytes()}"
                 )

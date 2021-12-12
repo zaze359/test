@@ -9,19 +9,18 @@ package com.zaze.utils.log;
  */
 public interface ZTag {
     String TAG = "[ZZ]";
-    String TAG_HTTP = "Http" + TAG;
-    String TAG_NET = "Network" + TAG;
-    String TAG_ERROR = "Error" + TAG;
-    String TAG_FILE = "File" + TAG;
-    String TAG_DEBUG = "Debug" + TAG;
-    String TAG_CMD = "Cmd" + TAG;
-    String TAG_MEMORY = "Cache" + TAG;
-    String TAG_TASK = "Task" + TAG;
-    String TAG_ABOUT_APP = "App" + TAG;
-    String TAG_SYSTEM = "System" + TAG;
-    String TAG_PROVIDER = "Provider" + TAG;
-    String TAG_ANALYZE = "Analyze" + TAG;
-    String TAG_XML = "XML" + TAG;
-    String TAG_COMPRESS = "Compress" + TAG;
+    String TAG_HTTP = TAG + "Http";
+    String TAG_NET = TAG + "Network";
+    String TAG_ERROR = TAG + "Error";
+    String TAG_FILE = TAG + "File";
+    String TAG_DEBUG = TAG + "Debug";
+    String TAG_MEMORY = TAG + "Cache";
+    String TAG_TASK = TAG + "Task";
+    String TAG_ABOUT_APP = TAG + "App";
+    String TAG_SYSTEM = TAG + "System";
+    String TAG_PROVIDER = TAG + "Provider";
+    String TAG_ANALYZE = TAG + "Analyze";
+    String TAG_XML = TAG + "XML";
+    String TAG_COMPRESS = TAG + "Compress";
 
 }

@@ -416,39 +416,41 @@ object FileUtil {
 
     @JvmStatic
     fun readByBytes(inputStream: InputStream): StringBuffer {
-        readLock()
-        val results = StringBuffer()
-        try {
-//            val bytes = ByteArray(8192)
-            val bytes = ByteArray(4096)
-//            val bytes = ByteArray(1024)
-            var byteLength = inputStream.read(bytes)
-            while (byteLength != -1) {
-                results.append(String(bytes, 0, byteLength))
-                byteLength = inputStream.read(bytes)
-            }
-            inputStream.close()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        } finally {
-            try {
-                inputStream.close()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-            readUnlock()
-        }
-        return results
+//        readLock()
+//        val results = StringBuffer()
+//        try {
+//            val bytes = ByteArray(4096)
+//            var byteLength = inputStream.read(bytes)
+//            while (byteLength != -1) {
+//                results.append(String(bytes, 0, byteLength))
+//                byteLength = inputStream.read(bytes)
+//            }
+//            inputStream.close()
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        } finally {
+//            try {
+//                inputStream.close()
+//            } catch (e: IOException) {
+//                e.printStackTrace()
+//            }
+//            readUnlock()
+//        }
+        return StringBuffer().append(readBytes(inputStream))
     }
 
     @JvmStatic
     fun readBytes(inputStream: InputStream): ByteArray? {
         readLock()
         try {
-            val bytes = ByteArray(inputStream.available())
-            inputStream.read(bytes)
+            val onceSize = 2048
+            val byteBuf = ByteBuf(onceSize)
+            var byteLength = 0
+            while (byteLength != -1) {
+                byteLength = byteBuf.readToBuffer(inputStream, onceSize)
+            }
             inputStream.close()
-            return bytes
+            return byteBuf.get()
         } catch (e: Exception) {
             e.printStackTrace()
         } finally {

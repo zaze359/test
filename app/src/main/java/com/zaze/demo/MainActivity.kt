@@ -22,7 +22,6 @@ import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
-import pub.devrel.easypermissions.AfterPermissionGranted
 
 
 /**
@@ -44,7 +43,6 @@ class MainActivity : AbsActivity() {
         return arrayOf(
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.CHANGE_NETWORK_STATE,
             Manifest.permission.INTERNET,
             Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.ACCESS_FINE_LOCATION

@@ -1,5 +1,6 @@
 package com.zaze.utils.task;
 
+import com.zaze.utils.ZStringUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 import com.zaze.utils.task.executor.AutoTaskPool;
@@ -19,14 +20,14 @@ public class TaskAsyncAuto<T> extends TaskCreate<T> {
     @Override
     protected void executeActual() {
         if (needLog) {
-            ZLog.i(ZTag.TAG_TASK, "开始异步自动依序执行任务池(%s)内所有任务！", poolTag);
+            ZLog.i(ZTag.TAG_TASK, ZStringUtil.format("开始异步自动依序执行任务池(%s)内所有任务！", poolTag));
         }
         TaskPool taskPool = getOrCreatePool();
         if (taskPool instanceof AutoTaskPool) {
             executeTask(taskPool, false);
         } else {
             if (needLog) {
-                ZLog.i(ZTag.TAG_TASK, "转换为异步自动依序执行模式(%s)", poolTag);
+                ZLog.i(ZTag.TAG_TASK, ZStringUtil.format("转换为异步自动依序执行模式(%s)", poolTag));
             }
             executeTask(AutoTaskPool.newInstance(taskPool), true);
         }
