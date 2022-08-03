@@ -2,22 +2,20 @@ package com.zaze.demo.debug.test;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.LauncherActivityInfo;
-import android.content.pm.LauncherApps;
+import android.content.pm.ResolveInfo;
 import android.content.res.AssetManager;
 import android.content.res.XmlResourceParser;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.UserHandle;
-import android.os.UserManager;
 import android.util.Base64;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
 
+import com.zaze.utils.AppUtil;
 import com.zaze.utils.FileUtil;
 import com.zaze.utils.ThreadManager;
 import com.zaze.utils.log.ZLog;
@@ -83,12 +81,12 @@ public class TestByJava implements ITest {
         Bundle bundle = new Bundle();
         bundle.putBoolean("bool", false);
 //        AppUtil.startApplication(context, "com.zaze.apps", bundle);
-        Intent intent = context.getPackageManager().getLaunchIntentForPackage("com.zaze.apps");
-        if (intent != null) {
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            context.startActivity(intent, bundle);
-        }
+//        Intent intent = context.getPackageManager().getLaunchIntentForPackage("com.zaze.apps");
+//        if (intent != null) {
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//            context.startActivity(intent, bundle);
+//        }
 //        ZLog.i(ZTag.TAG, "decode: " + new String(Base64.decode("aHR0cDovL3d3dy5iYWlkdS5jb20_b3A9Y2M=", Base64.URL_SAFE)));
 //        ZLog.i(ZTag.TAG, "decode2: " + new String(Base64.decode("aHR0cDovL3d3dy5iYWlkdS5jb20_b3A9Y2M=", Base64.NO_WRAP)));
 
@@ -101,18 +99,19 @@ public class TestByJava implements ITest {
 
 //        PowerManager pManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
 //        String packageName = "com.yangcong345.onionschool";
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            UserManager mUserManager = (UserManager) context.getSystemService(Context.USER_SERVICE);
-            List<UserHandle> users = mUserManager.getUserProfiles();
-            for (UserHandle userHandle : users) {
-                ZLog.i(ZTag.TAG, "users : " + userHandle.toString());
-                LauncherApps mLauncherApps = (LauncherApps) context.getSystemService(Context.LAUNCHER_APPS_SERVICE);
-                List<LauncherActivityInfo> list = mLauncherApps.getActivityList(null, userHandle);
-                for (LauncherActivityInfo activityInfo : list) {
-                    ZLog.i(ZTag.TAG, "activityInfo : " + userHandle.toString() + " >> " + activityInfo.getName());
-                }
-            }
-        }
+
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+//            UserManager mUserManager = (UserManager) context.getSystemService(Context.USER_SERVICE);
+//            List<UserHandle> users = mUserManager.getUserProfiles();
+//            for (UserHandle userHandle : users) {
+//                ZLog.i(ZTag.TAG, "users : " + userHandle.toString());
+//                LauncherApps mLauncherApps = (LauncherApps) context.getSystemService(Context.LAUNCHER_APPS_SERVICE);
+//                List<LauncherActivityInfo> list = mLauncherApps.getActivityList(null, userHandle);
+//                for (LauncherActivityInfo activityInfo : list) {
+//                    ZLog.i(ZTag.TAG, "activityInfo : " + userHandle.toString() + " >> " + activityInfo.getName());
+//                }
+//            }
+//        }
 
 
 //        try {
@@ -139,19 +138,18 @@ public class TestByJava implements ITest {
 //                ZLog.i(ZTag.TAG, "cursor : " + cursor);
 //            }
 //        }
-//        ZLog.i(ZTag.TAG, "getAppPid : " + AppUtil.getAppPid("com.xh.arespunc"));
-//        ZLog.i(ZTag.TAG, "isAppRunning : " + AppUtil.isAppRunning(context, "com.xh.arespunc"));
-//        String filePath = "sdcard/xuehai/log/statistics/2/realtime/string/crash/crash#com.xh.zhitongyuntch#2020-10-27_11:06:32#.log";
 //        FileUtil.writeToFile(filePath, "aaaa");
         // --------------------------------------------------
-//        Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
-//        List<ResolveInfo> list = context.getPackageManager().queryIntentActivities(intent, 0);
-//        if (list == null || list.isEmpty()) {
-//            return;
-//        }
-//        for (ResolveInfo resolveInfo : list) {
-//            ZLog.i(ZTag.TAG, "ACTION_ADD_DEVICE_ADMIN : " + resolveInfo.activityInfo.packageName);
-//        }
+//        Intent queryIntent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+        Intent queryIntent = new Intent("android.intent.action.SET_ALARM");
+        List<ResolveInfo> list = context.getPackageManager().queryIntentActivities(queryIntent, 0);
+        if (list == null || list.isEmpty()) {
+            return;
+        }
+        for (ResolveInfo resolveInfo : list) {
+            ZLog.i(ZTag.TAG, "queryIntent : " + resolveInfo.activityInfo.packageName);
+        }
+        AppUtil.startApplication(context, list.get(0).activityInfo.packageName);
     }
 
     private static void install(Context context, String authorities, File apkFile) {

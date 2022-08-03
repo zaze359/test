@@ -60,12 +60,12 @@ public class ByteBuf {
     /**
      * @param inputStream inputStream
      * @param needLength  需要读多长
-     * @return true byteBuffer已读取足够的数据, false数据不够
+     * @return 返回实际读了多少
      * @throws Exception Exception
      */
-    public boolean read(@NotNull InputStream inputStream, int needLength) throws Exception {
+    public int read(@NotNull InputStream inputStream, int needLength) throws Exception {
         if (needLength <= 0) {
-            return true;
+            return 0;
         }
         int readLength = readToBuffer(inputStream, needLength);
         // 测试代码
@@ -73,12 +73,12 @@ public class ByteBuf {
         if (readLength > 0) {
             dataLength += readLength;
         } else {
-            // 表示当前管道数据已读完
+            // 表示当前管道内数据已读完
         }
-        return readLength == needLength;
+        return readLength;
     }
 
-    public int readToBuffer(@NotNull InputStream inputStream, int needLength) throws Exception {
+    private int readToBuffer(@NotNull InputStream inputStream, int needLength) throws Exception {
         // 读取指定长度
         expand(needLength);
 //        return readAndRetry(inputStream, byteBuffer, dataLength, needLength);

@@ -1,13 +1,18 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'com.android.application'
+//apply plugin: 'kotlin-android'
+//apply plugin: 'kotlin-android-extensions'
 //apply plugin: 'kotlin-parcelize'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
+//apply plugin: 'kotlin-kapt'
+//apply plugin: 'dagger.hilt.android.plugin'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
     defaultConfig {
         applicationId "com.zaze.demo"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -17,9 +22,10 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: 'true'
         multiDexEnabled = true
-        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
+//        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
         vectorDrawables.useSupportLibrary = true
     }
+
 //    splits {
 //        abi {
 //            enable true
@@ -60,6 +66,10 @@ android {
         main {
             jniLibs.srcDirs = ['libs']
         }
+//        debug {
+//        }
+//        release {
+//        }
 //        main.java.srcDirs += 'src/main/kotlin'
     }
 
@@ -118,6 +128,25 @@ dependencies {
 
     androidTestImplementation "com.google.dagger:hilt-android-testing:$rootProject.hiltVersion"
     kaptAndroidTest "com.google.dagger:hilt-android-compiler:$rootProject.hiltVersion"
-
+    // region matrix
+    implementation group: "com.tencent.matrix", name: "matrix-android-lib", version: MATRIX_VERSION, changing: true
+//    implementation group: "com.tencent.matrix", name: "matrix-android-commons", version: MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-trace-canary", version: MATRIX_VERSION, changing: true
+//    implementation group: "com.tencent.matrix", name: "matrix-resource-canary-android", version: MATRIX_VERSION, changing: true
+//    implementation group: "com.tencent.matrix", name: "matrix-resource-canary-common", version: MATRIX_VERSION, changing: true
+    implementation group: "com.tencent.matrix", name: "matrix-io-canary", version: MATRIX_VERSION, changing: true
+//    implementation group: "com.tencent.matrix", name: "matrix-sqlite-lint-android-sdk", version: MATRIX_VERSION, changing: true
+//    implementation group: "com.tencent.matrix", name: "matrix-battery-canary", version: MATRIX_VERSION, changing: true
+//    implementation group: "com.tencent.matrix", name: "matrix-hooks", version: MATRIX_VERSION, changing: true
+    // endregion matrix
 //    api 'com.blankj:utilcodex:1.25.8'
+}
+apply from: 'test.gradle'
+apply plugin: 'com.tencent.matrix-plugin'
+matrix {
+    trace {
+        enable = true    //if you don't want to use trace canary, set false
+        baseMethodMapFile = "${project.buildDir}/matrix_output/Debug.methodmap"
+        blackListFile = "${project.projectDir}/matrixTrace/blackMethodList.txt"
+    }
 }

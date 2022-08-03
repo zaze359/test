@@ -51,10 +51,10 @@ class HttpDownloadClientProxy(private val client: DownloadClient) : DownloadClie
 
     override fun download(request: ZRequest, callback: DownloadCallback?) {
         val url = request.url
-        val savePath = request.savePath
+        val savePath = request.savePath ?: ""
         val md5 = request.md5
         ZLog.i(ZTag.TAG_DEBUG, "准备下载 url=$url; savePath=$savePath; md5=$md5")
-        if (HttpDownloadClientProxy.isTaskExists(url)) {
+        if (isTaskExists(url)) {
             ZLog.d(ZTag.TAG_DEBUG, "当前文件正在下载中: $url")
             callback?.onFailure("当前文件正在下载中", savePath)
             return
@@ -66,7 +66,7 @@ class HttpDownloadClientProxy(private val client: DownloadClient) : DownloadClie
             return
         }
         ZLog.i(ZTag.TAG_DEBUG, "开始下载 : $url")
-        HttpDownloadClientProxy.addDownloadTask(url)
+        addDownloadTask(url)
         client.download(request, object : DownloadCallback() {
             override fun onStart(total: Double) {
                 super.onStart(total)
@@ -80,7 +80,7 @@ class HttpDownloadClientProxy(private val client: DownloadClient) : DownloadClie
 
             override fun onSuccess(message: String?, savePath: String, speed: Double) {
                 super.onSuccess(message, savePath, speed)
-                HttpDownloadClientProxy.removeDownloadTask(url)
+                removeDownloadTask(url)
                 if (checkDownloadFile(savePath, md5)) {
                     ZLog.i(ZTag.TAG_DEBUG, "下载完成 url=$url; savePath=$savePath;")
                     callback?.onSuccess(message, savePath, speed)
@@ -93,7 +93,7 @@ class HttpDownloadClientProxy(private val client: DownloadClient) : DownloadClie
 
             override fun onFailure(errorMessage: String?, savePath: String) {
                 super.onFailure(errorMessage, savePath)
-                HttpDownloadClientProxy.removeDownloadTask(url)
+                removeDownloadTask(url)
                 ZLog.e(ZTag.TAG_DEBUG, "下载失败($errorMessage) url=$url; savePath=$savePath;")
                 callback?.onFailure(errorMessage, savePath)
             }

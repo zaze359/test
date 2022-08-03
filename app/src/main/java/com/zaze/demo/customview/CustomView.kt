@@ -10,7 +10,11 @@ class CustomView : View {
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
-    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    )
 
     private val paint = Paint()
     val path = Path()
@@ -28,7 +32,10 @@ class CustomView : View {
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 //        canvas.drawPoint(100f, 100f, pointPaint)
-//        canvas.drawCircle(100f, 100f, 90f, paint)
+
+//        canvas.drawCircle(100f, 100f, 10f, paint)
+
+
 //        //
 //        path.reset()
 //        path.moveTo(10f, 10f)
@@ -78,7 +85,8 @@ class CustomView : View {
         canvas.drawRect(rect, paint)
 
         path.reset()
-        val layerid = canvas.saveLayer(0F, 0F, width.toFloat(), height.toFloat(), null, Canvas.ALL_SAVE_FLAG)
+        val layerid =
+            canvas.saveLayer(0F, 0F, width.toFloat(), height.toFloat(), null, Canvas.ALL_SAVE_FLAG)
         canvas.drawBitmap(dstBmp, 0F, 0F, paint)
         paint.setXfermode(PorterDuffXfermode(PorterDuff.Mode.SRC_IN))
         canvas.drawBitmap(srcBmp, 100F, 100F, paint)

@@ -5,15 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.Window;
 
+import androidx.annotation.LayoutRes;
+
 import com.zaze.common.base.BaseActivity;
-import com.zaze.common.base.BaseView;
 import com.zaze.common.util.ActivityUtil;
 import com.zaze.common.widget.head.BaseHeadView;
 import com.zaze.common.widget.head.HeadFace;
 import com.zaze.common.widget.head.HeadWidget;
 import com.zaze.utils.ToastUtil;
-
-import androidx.annotation.LayoutRes;
 
 
 /**
@@ -23,7 +22,7 @@ import androidx.annotation.LayoutRes;
  * @version : 2017-02-06 22:59 2.0
  */
 @Deprecated
-public abstract class BaseHeaderActivity extends BaseActivity implements BaseView {
+public abstract class BaseHeaderActivity extends BaseActivity {
     private BaseHeadView headFace;
 
     // --------------------------------------------------

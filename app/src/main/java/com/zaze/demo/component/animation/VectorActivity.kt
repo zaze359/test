@@ -6,8 +6,9 @@ import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
+import androidx.databinding.DataBindingUtil
 import com.zaze.demo.R
-import kotlinx.android.synthetic.main.activity_vector.*
+import com.zaze.demo.databinding.ActivityVectorBinding
 
 
 class VectorActivity : AppCompatActivity() {
@@ -18,11 +19,19 @@ class VectorActivity : AppCompatActivity() {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_vector)
-        beginAnim = ResourcesCompat.getDrawable(resources, R.drawable.download_vector_start, theme) as AnimatedVectorDrawable
-        finishAnim = ResourcesCompat.getDrawable(resources, R.drawable.download_vector_finish, theme) as AnimatedVectorDrawable
+        val binding =
+            DataBindingUtil.setContentView<ActivityVectorBinding>(this, R.layout.activity_vector)
+        beginAnim = ResourcesCompat.getDrawable(
+            resources,
+            R.drawable.download_vector_start,
+            theme
+        ) as AnimatedVectorDrawable
+        finishAnim = ResourcesCompat.getDrawable(
+            resources,
+            R.drawable.download_vector_finish,
+            theme
+        ) as AnimatedVectorDrawable
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 //            beginAnim.registerAnimationCallback(object : Animatable2.AnimationCallback() {
 //                override fun onAnimationEnd(drawable: Drawable?) {
 //                    super.onAnimationEnd(drawable)
@@ -32,18 +41,17 @@ class VectorActivity : AppCompatActivity() {
 //                    }
 //                }
 //            })
-        }
-        vector_begin_btn.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !beginAnim.isRunning) {
-                vector_iv.setImageDrawable(beginAnim)
+        binding.vectorBeginBtn.setOnClickListener {
+            if (!beginAnim.isRunning) {
+                binding.vectorIv.setImageDrawable(beginAnim)
                 beginAnim.start()
             }
         }
 
-        vector_finish_btn.setOnClickListener {
+        binding.vectorFinishBtn.setOnClickListener {
             beginAnim.stop()
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !finishAnim.isRunning) {
-                vector_iv.setImageDrawable(finishAnim)
+            if (!finishAnim.isRunning) {
+                binding.vectorIv.setImageDrawable(finishAnim)
                 finishAnim.start()
             }
         }

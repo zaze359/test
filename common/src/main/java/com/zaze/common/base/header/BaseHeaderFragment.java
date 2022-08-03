@@ -6,13 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
+
 import com.zaze.common.base.BaseFragment;
-import com.zaze.common.base.BaseView;
 import com.zaze.common.widget.head.BaseHeadView;
 import com.zaze.common.widget.head.HeadFace;
 import com.zaze.common.widget.head.HeadWidget;
-
-import androidx.annotation.Nullable;
 
 
 /**
@@ -22,7 +21,7 @@ import androidx.annotation.Nullable;
  * @version : 2015-09-22 - 19:38
  */
 @Deprecated
-public abstract class BaseHeaderFragment extends BaseFragment implements BaseView {
+public abstract class BaseHeaderFragment extends BaseFragment {
     private BaseHeadView headFace;
     private View rootView;
 

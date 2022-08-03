@@ -12,12 +12,12 @@ import android.view.WindowManager
  * @version : 2021-02-22 - 15:35
  */
 object ScreenUtils {
-    // --------------------------------------------------
-    fun addLayoutFullScreen(window: Window, isAllFull: Boolean = false) {
-        window.decorView.systemUiVisibility =
-            window.decorView.systemUiVisibility or getLayoutFullScreenFlag(
-                isAllFull
-            )
+    
+    fun addLayoutFullScreen(window: Window, isAllFull: Boolean = false): Int {
+        val systemUiVisibility =
+            window.decorView.systemUiVisibility or getLayoutFullScreenFlag(isAllFull)
+        window.decorView.systemUiVisibility = systemUiVisibility
+        return systemUiVisibility
     }
 
     fun getLayoutFullScreenFlag(isAllFull: Boolean = false): Int {
@@ -44,5 +44,16 @@ object ScreenUtils {
         val outMetrics = DisplayMetrics()
         wm.defaultDisplay.getMetrics(outMetrics)
         return outMetrics.widthPixels
+    }
+
+    /**
+     * 是否在屏幕左侧
+     *
+     * @param mContext 上下文
+     * @param xPos     位置的x坐标值
+     * @return true：是。
+     */
+    fun isInLeft(mContext: Context, xPos: Int): Boolean {
+        return xPos < getScreenWidth(mContext) / 2
     }
 }

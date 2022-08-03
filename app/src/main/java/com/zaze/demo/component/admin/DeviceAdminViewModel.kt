@@ -24,10 +24,10 @@ class DeviceAdminViewModel : AbsViewModel() {
     var activeAction = SingleLiveEvent<Unit>()
 
     fun loadItems() {
-        if (!isAdminActive()) {
-            activeAction.set()
-            return
-        }
+//        if (!isAdminActive()) {
+//            activeAction.set()
+//            return
+//        }
         val devicePolicyManager = getDevicePolicyManager()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 //            devicePolicyManager.getWifiMacAddress(getAdminComponentName())
@@ -57,6 +57,9 @@ class DeviceAdminViewModel : AbsViewModel() {
     }
 
     fun addDeviceAdmin(context: Activity, requestCode: Int): Boolean {
+        if(isAdminActive()) {
+            return true
+        }
         try {
             val intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)
             intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, getAdminComponentName())

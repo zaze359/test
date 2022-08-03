@@ -1,14 +1,15 @@
 package com.zaze.demo.component.file.explorer
 
 import android.os.Bundle
+import androidx.databinding.DataBindingUtil
 import com.zaze.common.base.AbsActivity
 import com.zaze.common.base.ext.replaceFragment
 import com.zaze.common.base.ext.setupActionBar
 import com.zaze.demo.R
+import com.zaze.demo.databinding.FileExplorerActivityBinding
 import com.zaze.utils.FileUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
-import kotlinx.android.synthetic.main.file_explorer_activity.*
 
 /**
  * Description :
@@ -19,8 +20,11 @@ import kotlinx.android.synthetic.main.file_explorer_activity.*
 class FileExplorerActivity : AbsActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.file_explorer_activity)
-        setupActionBar(fileExplorerToolbar) {
+        val binding = DataBindingUtil.setContentView<FileExplorerActivityBinding>(
+            this,
+            R.layout.file_explorer_activity
+        )
+        setupActionBar(binding.fileExplorerToolbar) {
             setTitle("文件管理")
             setHomeButtonEnabled(true)
             setDisplayHomeAsUpEnabled(true)

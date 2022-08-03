@@ -117,7 +117,7 @@
                     android:maxLines="1"
                     android:textColor="@color/head_text_color"
                     android:textSize="20sp"
-                    tools:text="自练列表" />
+                    tools:text="1123123" />
             </FrameLayout>
 
             <ImageView

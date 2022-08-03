@@ -29,6 +29,8 @@ import com.zaze.utils.log.ZTag
 object Temp {
 
     fun test(context: Activity) {
+        var arr =  emptyList<Int>();
+        arr.sorted()
 //        val a: Int? = 1
 //        a?.let {
 //            if (it == 1) {
@@ -125,15 +127,22 @@ object Temp {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return true
         }
-        val permissionCheck = ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_PHONE_STATE)
+        val permissionCheck =
+            ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_PHONE_STATE)
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.READ_PHONE_STATE), 1)
+            ActivityCompat.requestPermissions(
+                activity,
+                arrayOf(Manifest.permission.READ_PHONE_STATE),
+                1
+            )
         } else {
         }
 
         val appOps = activity.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
-        val mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
-                android.os.Process.myUid(), activity.packageName)
+        val mode = appOps.checkOpNoThrow(
+            AppOpsManager.OPSTR_GET_USAGE_STATS,
+            android.os.Process.myUid(), activity.packageName
+        )
         if (mode == AppOpsManager.MODE_ALLOWED) {
             return true
         }
@@ -144,12 +153,13 @@ object Temp {
 
     @JvmStatic
     fun getNetType(context: Context) {
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val mobileInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
         val wifiInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
         val activeInfo = connectivityManager.activeNetworkInfo
-        //        XHLog.i(LcTag.TAG_DEBUG, "mobileInfo : $mobileInfo")
-//        XHLog.i(LcTag.TAG_DEBUG, "wifiInfo : $wifiInfo")
+        //        ZLog.i(LcTag.TAG_DEBUG, "mobileInfo : $mobileInfo")
+//        ZLog.i(LcTag.TAG_DEBUG, "wifiInfo : $wifiInfo")
 
         ZLog.i(ZTag.TAG_DEBUG, "activeInfo : $activeInfo")
         if (wifiInfo != null) {
@@ -203,7 +213,12 @@ object Temp {
         val dpBuilder = initBuilder(StringBuilder())
         do {
             if (dp <= 10 || dp % 2 == 0) {
-                dpBuilder.append(ZStringUtil.format("\t<dimen name=\"dp_$dp\">%1.1fdp</dimen>\n", dp * 1f / screenDensity))
+                dpBuilder.append(
+                    ZStringUtil.format(
+                        "\t<dimen name=\"dp_$dp\">%1.1fdp</dimen>\n",
+                        dp * 1f / screenDensity
+                    )
+                )
                 baseBuilder.append("\t<dimen name=\"dp_$dp\">${dp}dp</dimen>\n")
             }
             dp++
@@ -211,8 +226,14 @@ object Temp {
 
         dpBuilder.append("</resources>")
         baseBuilder.append("</resources>")
-        FileUtil.writeToFile("${FileUtil.getSDCardRoot()}/zaze/z_dimens/dimens.xml", dpBuilder.toString())
-        FileUtil.writeToFile("${FileUtil.getSDCardRoot()}/zaze/z_dimens/dimens_base.xml", baseBuilder.toString())
+        FileUtil.writeToFile(
+            "${FileUtil.getSDCardRoot()}/zaze/z_dimens/dimens.xml",
+            dpBuilder.toString()
+        )
+        FileUtil.writeToFile(
+            "${FileUtil.getSDCardRoot()}/zaze/z_dimens/dimens_base.xml",
+            baseBuilder.toString()
+        )
         return dpBuilder.toString()
     }
 
@@ -224,7 +245,12 @@ object Temp {
         do {
             if (dp <= 10 || dp % 2 == 0) {
                 baseBuilder.append("\t<dimen name=\"dp_$dp\">${dp}dp</dimen>\n")
-                swBuilder.append(ZStringUtil.format("\t<dimen name=\"dp_$dp\">%1.1fdp</dimen>\n", 1.0f * dp * screenSw / baseSw))
+                swBuilder.append(
+                    ZStringUtil.format(
+                        "\t<dimen name=\"dp_$dp\">%1.1fdp</dimen>\n",
+                        1.0f * dp * screenSw / baseSw
+                    )
+                )
             }
             dp++
         } while (dp <= 1024)
@@ -232,14 +258,25 @@ object Temp {
         do {
             if (sp <= 10 || sp % 2 == 0) {
                 baseBuilder.append("\t<dimen name=\"sp_$sp\">${sp}sp</dimen>\n")
-                swBuilder.append(ZStringUtil.format("\t<dimen name=\"sp_$sp\">%1.1fsp</dimen>\n", 1.0f * sp * screenSw / baseSw))
+                swBuilder.append(
+                    ZStringUtil.format(
+                        "\t<dimen name=\"sp_$sp\">%1.1fsp</dimen>\n",
+                        1.0f * sp * screenSw / baseSw
+                    )
+                )
             }
             sp++
         } while (sp <= 100)
         swBuilder.append("</resources>")
         baseBuilder.append("</resources>")
-        FileUtil.writeToFile("${FileUtil.getSDCardRoot()}/zazen/values-${DisplayUtil.getDensityDpiName()}-sw${screenSw}dp/dimens.xml", swBuilder.toString())
-        FileUtil.writeToFile("${FileUtil.getSDCardRoot()}/zazen/values-${DisplayUtil.getDensityDpiName()}-sw${baseSw}dp/dimens.xml", baseBuilder.toString())
+        FileUtil.writeToFile(
+            "${FileUtil.getSDCardRoot()}/zazen/values-${DisplayUtil.getDensityDpiName()}-sw${screenSw}dp/dimens.xml",
+            swBuilder.toString()
+        )
+        FileUtil.writeToFile(
+            "${FileUtil.getSDCardRoot()}/zazen/values-${DisplayUtil.getDensityDpiName()}-sw${baseSw}dp/dimens.xml",
+            baseBuilder.toString()
+        )
         return swBuilder.toString()
     }
 

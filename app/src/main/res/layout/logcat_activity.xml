@@ -1,17 +1,20 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<layout>
 
-    <Button
-        android:id="@+id/logcat_start_catch"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="start" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/logcat_stop_catch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="stop" />
-</LinearLayout>
+        <Button
+            android:id="@+id/logcat_start_catch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="start" />
+
+        <Button
+            android:id="@+id/logcat_stop_catch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="stop" />
+    </LinearLayout>
+</layout>

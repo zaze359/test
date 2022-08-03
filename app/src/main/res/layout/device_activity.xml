@@ -1,64 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <LinearLayout
+<layout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.zaze.demo.theme.widgets.TintConstraintLayout
-            android:id="@+id/device_test_tint_layout"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white">
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/device_calculate_btn"
-                android:layout_width="wrap_content"
+            <com.zaze.demo.theme.widgets.TintConstraintLayout
+                android:id="@+id/device_test_tint_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="计算物理尺寸"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:background="@color/white">
 
-            <TextView
-                android:id="@+id/deviceInchTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_4"
-                app:layout_constraintBottom_toBottomOf="@id/device_calculate_btn"
-                app:layout_constraintLeft_toRightOf="@id/device_calculate_btn"
-                app:layout_constraintTop_toTopOf="@id/device_calculate_btn" />
+                <Button
+                    android:id="@+id/device_calculate_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="计算物理尺寸"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/device_input"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="dpi"
-                android:inputType=""
-                app:layout_constraintBottom_toBottomOf="@id/deviceInchTv"
-                app:layout_constraintLeft_toRightOf="@id/deviceInchTv"
-                app:layout_constraintTop_toTopOf="@id/deviceInchTv" />
+                <TextView
+                    android:id="@+id/deviceInchTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dp_4"
+                    app:layout_constraintBottom_toBottomOf="@id/device_calculate_btn"
+                    app:layout_constraintLeft_toRightOf="@id/device_calculate_btn"
+                    app:layout_constraintTop_toTopOf="@id/device_calculate_btn" />
 
-            <com.zaze.demo.theme.widgets.TintImageView
-                android:id="@+id/device_test_tint_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_looks_1"
-                app:imageTint="@color/red"
-                app:layout_constraintBottom_toBottomOf="@id/device_input"
-                app:layout_constraintLeft_toRightOf="@id/device_input"
-                app:layout_constraintTop_toTopOf="@id/device_input" />
-        </com.zaze.demo.theme.widgets.TintConstraintLayout>
+                <EditText
+                    android:id="@+id/device_input"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="dpi"
+                    android:inputType=""
+                    app:layout_constraintBottom_toBottomOf="@id/deviceInchTv"
+                    app:layout_constraintLeft_toRightOf="@id/deviceInchTv"
+                    app:layout_constraintTop_toTopOf="@id/deviceInchTv" />
 
+                <com.zaze.demo.theme.widgets.TintImageView
+                    android:id="@+id/device_test_tint_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_looks_1"
+                    app:imageTint="@color/red"
+                    app:layout_constraintBottom_toBottomOf="@id/device_input"
+                    app:layout_constraintLeft_toRightOf="@id/device_input"
+                    app:layout_constraintTop_toTopOf="@id/device_input" />
+            </com.zaze.demo.theme.widgets.TintConstraintLayout>
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/deviceInfoRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/deviceInfoRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</LinearLayout>
+</layout>

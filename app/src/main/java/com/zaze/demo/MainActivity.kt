@@ -3,12 +3,14 @@ package com.zaze.demo
 import android.Manifest
 import android.content.Intent
 import android.net.Uri
-import android.os.*
+import android.os.Bundle
 import android.view.KeyEvent
 import android.view.MenuItem
+import android.view.Window
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
@@ -16,12 +18,12 @@ import androidx.lifecycle.Observer
 import com.zaze.common.base.AbsActivity
 import com.zaze.common.base.AbsFragment
 import com.zaze.common.base.ext.setupActionBar
+import com.zaze.demo.databinding.ActivityMainBinding
 import com.zaze.demo.viewmodels.MainViewModel
 import com.zaze.utils.ToastUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_main.*
 
 
 /**
@@ -34,6 +36,8 @@ class MainActivity : AbsActivity() {
     private lateinit var drawerToggle: ActionBarDrawerToggle
 
     private val viewModel: MainViewModel by viewModels()
+
+    private lateinit var binding: ActivityMainBinding
 
     override fun showLifeCycle(): Boolean {
         return true
@@ -51,7 +55,8 @@ class MainActivity : AbsActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         setupActionBar(findViewById(R.id.mainToolbar)) {
             setTitle(R.string.app_name)
             setDisplayHomeAsUpEnabled(true)
@@ -60,15 +65,15 @@ class MainActivity : AbsActivity() {
         // ------------------------------------------------------
         drawerToggle = ActionBarDrawerToggle(
             this,
-            mainDrawerLayout,
+            binding.mainDrawerLayout,
             R.string.app_name,
             R.string.app_name
         ).apply {
             syncState()
         }
-        mainDrawerLayout.addDrawerListener(drawerToggle)
+        binding.mainDrawerLayout.addDrawerListener(drawerToggle)
         // --------------------------------------------------
-        mainLeftNav.setNavigationItemSelectedListener { menuItem ->
+        binding.mainLeftNav.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.drawer_github_menu_item -> {
                     val intent = Intent(Intent.ACTION_VIEW)
@@ -79,25 +84,25 @@ class MainActivity : AbsActivity() {
             true
         }
         // --------------------------------------------------
-        mainViewpager.setOnHoverListener { _, _ ->
+        binding.mainViewpager.setOnHoverListener { _, _ ->
             ZLog.i(ZTag.TAG_DEBUG, "main_viewpager on hover")
             true
         }
         // --------------------------------------------------
         viewModel.fragmentListData.observe(this, Observer {
-            mainViewpager.adapter = MyPagerAdapter(supportFragmentManager, it)
+            binding.mainViewpager.adapter = MyPagerAdapter(supportFragmentManager, it)
         })
     }
 
     override fun beforePermissionGranted() {
         super.beforePermissionGranted()
-        mainTestBtn.setOnClickListener {
+        binding.mainTestBtn.setOnClickListener {
             setupPermission()
         }
     }
 
     override fun afterPermissionGranted() {
-        mainTestBtn.setOnClickListener {
+        binding.mainTestBtn.setOnClickListener {
             viewModel.test(this)
         }
         viewModel.loadFragments()
@@ -106,7 +111,7 @@ class MainActivity : AbsActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
-                mainDrawerLayout.openDrawer(GravityCompat.START)
+                binding.mainDrawerLayout.openDrawer(GravityCompat.START)
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -128,8 +133,8 @@ class MainActivity : AbsActivity() {
     }
 
     override fun onBackPressed() {
-        if (mainDrawerLayout.isDrawerOpen(mainLeftNav)) {
-            mainDrawerLayout.closeDrawer(mainLeftNav)
+        if (binding.mainDrawerLayout.isDrawerOpen(binding.mainLeftNav)) {
+            binding.mainDrawerLayout.closeDrawer(binding.mainLeftNav)
         } else {
             super.onBackPressed()
         }

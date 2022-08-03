@@ -2,18 +2,17 @@ package com.zaze.demo.component.webview
 
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
-import android.os.Message
 import android.view.View
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.webkit.*
+import androidx.databinding.DataBindingUtil
 import com.zaze.common.base.BaseActivity
 import com.zaze.demo.R
+import com.zaze.demo.databinding.WebViewActivityBinding
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
-import kotlinx.android.synthetic.main.web_view_activity.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -29,16 +28,15 @@ open class WebViewActivity : BaseActivity() {
     @SuppressLint("SetJavaScriptEnabled", "JavascriptInterface")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.web_view_activity)
+        val binding =
+            DataBindingUtil.setContentView<WebViewActivityBinding>(this, R.layout.web_view_activity)
         EventBus.getDefault().register(this)
-        val settings = web_view.settings
+        val settings = binding.webView.settings
         settings.javaScriptEnabled = true
         settings.domStorageEnabled = true
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
-        }
-        web_view.addJavascriptInterface(JSInterface(), "jsInterface")
-        web_view.webViewClient = object : MyWebViewClient() {
+        settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+        binding.webView.addJavascriptInterface(JSInterface(), "jsInterface")
+        binding.webView.webViewClient = object : MyWebViewClient() {
 
             override fun shouldOverrideUrlLoading(
                 view: WebView?,
@@ -51,47 +49,47 @@ open class WebViewActivity : BaseActivity() {
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
-//                WebViewConsole.addDom(web_view)
-                WebViewConsole.consoleDoc(web_view)
+//                WebViewConsole.addDom(binding.webView)
+                WebViewConsole.consoleDoc(binding.webView)
             }
         }
 
-        web_view.webChromeClient = object : WebChromeClient() {
+        binding.webView.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView, newProgress: Int) {
-                web_progress_bar.progress = newProgress
+                binding.webProgressBar.progress = newProgress
                 if (newProgress == 100) {
-                    web_progress_bar.visibility = View.INVISIBLE
+                    binding.webProgressBar.visibility = View.INVISIBLE
                     val animation = AlphaAnimation(1.0f, 0.0f)
                     animation.duration = 500
                     animation.setAnimationListener(object : Animation.AnimationListener {
                         override fun onAnimationStart(animation: Animation) {}
 
                         override fun onAnimationEnd(animation: Animation) {
-                            web_progress_bar.visibility = View.INVISIBLE
+                            binding.webProgressBar.visibility = View.INVISIBLE
                         }
 
                         override fun onAnimationRepeat(animation: Animation) {}
                     })
-                    web_progress_bar.startAnimation(animation)
+                    binding.webProgressBar.startAnimation(animation)
 
                 } else {
-                    web_progress_bar.visibility = View.VISIBLE
+                    binding.webProgressBar.visibility = View.VISIBLE
                 }
             }
         }
-//        WebViewConsole.consoleDoc(web_view)
+//        WebViewConsole.consoleDoc(binding.webView)
         val url = "https://www.baidu.com"
         ZLog.i(ZTag.TAG, "loadUrl: $url")
-        web_view.loadUrl(url)
-//        web_view.loadUrl("https://www.baidu.com")
+        binding.webView.loadUrl(url)
+//        binding.webView.loadUrl("https://www.baidu.com")
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(ss: WebViewEvent) {
         ZLog.i(ZTag.TAG, "onEvent $ss")
-//        WebViewConsole.jsConsole(web_view, "javascript:window.addDom()")
-//        WebViewConsole.addDom(web_view)
-//        WebViewConsole.consoleDoc(web_view)
+//        WebViewConsole.jsConsole(binding.webView, "javascript:window.addDom()")
+//        WebViewConsole.addDom(binding.webView)
+//        WebViewConsole.consoleDoc(binding.webView)
     }
 
     internal inner class JSInterface {

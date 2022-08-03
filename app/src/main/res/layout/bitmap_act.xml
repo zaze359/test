@@ -22,14 +22,24 @@
         android:layout_gravity="center_horizontal"
         android:layout_margin="@dimen/dp_24"
         android:layout_weight="1"
-        app:cardBackgroundColor="@color/gray_light">
+        app:cardBackgroundColor="@color/gray_light"
+        app:cardCornerRadius="30dp">
 
 
-        <com.zaze.demo.component.bitmap.ShadowImageView
+        <!--        <com.zaze.demo.component.bitmap.ShadowImageView-->
+        <!--            android:id="@+id/processImageView"-->
+        <!--            android:layout_width="@dimen/dp_248"-->
+        <!--            android:layout_height="@dimen/dp_248"-->
+        <!--            android:layout_gravity="center" />-->
+
+        <ImageView
             android:id="@+id/processImageView"
             android:layout_width="@dimen/dp_248"
             android:layout_height="@dimen/dp_248"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:background="@color/white"
+            android:scaleType="centerInside"
+            tools:src="@mipmap/jljt" />
 
         <View
             android:id="@+id/appCardProgressBg"

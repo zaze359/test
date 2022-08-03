@@ -1,11 +1,12 @@
 package com.zaze.common.http
 
 import com.zaze.common.http.okhttp.OkHttpDownloadClient
-import com.zaze.common.http.okhttp.OkHttpRequestClient
 import com.zaze.common.http.proxy.HttpDownloadClientProxy
-import com.zaze.common.http.proxy.HttpRequestClientProxy
 import com.zaze.common.thread.ThreadPlugins
 import io.reactivex.Observable
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flowOn
 
 /**
  * Description :
@@ -13,11 +14,9 @@ import io.reactivex.Observable
  * @version : 2019-07-12 - 10:47
  */
 class HttpRequest private constructor(
-    client: RequestClient,
     downloadClient: DownloadClient,
     private val request: ZRequest
 ) {
-    private val requestClient = HttpRequestClientProxy(client)
     private val downloadClient = HttpDownloadClientProxy(downloadClient)
 
     companion object {
@@ -34,16 +33,27 @@ class HttpRequest private constructor(
          */
         @JvmStatic
         fun newOkHttpCall(request: ZRequest): HttpRequest {
-            return HttpRequest(OkHttpRequestClient(), OkHttpDownloadClient(), request)
+            return HttpRequest(OkHttpDownloadClient(), request)
         }
     }
 
+    /**
+     * 同步请求
+     */
     fun request(): ZResponse {
-        return requestClient.request(request)
+        return ZRealCall(request).execute()
     }
 
     /**
-     * Rx方式请求
+     * Flow方式返回结果
+     */
+    fun requestByFlow(): Flow<ZResponse> {
+        return flowOf(request())
+            .flowOn(ThreadPlugins.requestExecutorStub.coroutineDispatcher)
+    }
+
+    /**
+     * Rx方式返回结果
      */
     fun requestByRx(): Observable<ZResponse> {
         return Observable.fromCallable { request() }

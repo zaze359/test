@@ -31,43 +31,6 @@ class CustomDialog(context: Context, val builder: Builder) {
     }
 
     private fun createView(context: Context, callback: CallBack?): View {
-//        val view: View
-//        val messageTxt: TextView
-//        val sureBtn: Button
-//        var cancelBtn: Button? = null
-//        if (negative != null) {
-//            view = View.inflate(context, R.layout.dialog_sure_cancle, null)
-//            messageTxt = view.findViewById(R.id.dialog_message)
-//            sureBtn = view.findViewById(R.id.dialog_sure_btn)
-//            cancelBtn = view.findViewById(R.id.dialog_cancel_btn)
-//        } else {
-//            view = View.inflate(context, R.layout.dialog_sure, null)
-//            messageTxt = view.findViewById(R.id.dialog_message)
-//            sureBtn = view.findViewById(R.id.dialog_sure_btn)
-//        }
-//        view.apply {
-//            message?.let {
-//                messageTxt.text = it
-//            }
-//            negative?.let {
-//                cancelBtn?.text = it
-//            }
-//            positive?.let {
-//                sureBtn.text = it
-//            }
-//            sureBtn.setOnClickListener {
-//                if (dialog.isShowing) {
-//                    dialog.dismiss()
-//                }
-//                callback?.onPositive()
-//            }
-//            cancelBtn?.setOnClickListener {
-//                if (dialog.isShowing) {
-//                    dialog.dismiss()
-//                }
-//                callback?.onNegative()
-//            }
-//        }
         return View.inflate(context, R.layout.layout_empty_view, null)
     }
 

@@ -330,7 +330,7 @@ public class ApplicationManager {
             }
             MemoryCacheManager.saveCache(Key.getAppNameKey(packageName), name);
         }
-//        XHLog.i(LcTag.TAG_DEBUG, "获取到应用名(%s) : (%s)", packageName, name);
+//        ZLog.i(LcTag.TAG_DEBUG, "获取到应用名(%s) : (%s)", packageName, name);
         return name;
     }
 

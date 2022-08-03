@@ -1,0 +1,15 @@
+def first(String input) {
+
+}
+
+def second(String input) {
+
+}
+
+def num(String input) {
+
+}
+
+tasks.whenTaskAdded { task ->
+//    println("task.name: ${task.name}")
+}

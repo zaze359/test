@@ -10,11 +10,11 @@ import android.view.View
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import java.io.ByteArrayOutputStream
+import kotlin.math.hypot
 
 
 /**
  * Description : 转换工具类
-
  * @author zaze
  * *
  * @version 2017/8/26 - 下午4:53 1.0
@@ -190,23 +190,79 @@ object BmpUtil {
     // --------------------------------------------------
 
     @JvmStatic
-    fun toRoundBitmap(bitmap: Bitmap?): Bitmap? {
+    fun toRoundRectBitmap(bitmap: Bitmap?, radius: Float): Bitmap? {
         if (bitmap == null) {
             return null
         }
-        val size = Math.min(bitmap.width, bitmap.height)
-        ZLog.i(ZTag.TAG_DEBUG, "bmp: ${bitmap.width}x${bitmap.height} >> ${size}x$size ")
-        val bm = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
+        ZLog.i(ZTag.TAG_DEBUG, "bmp: ${bitmap.width}x${bitmap.height}")
+        val bm = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
         val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-        val radius = size / 2F
         val sCanvas = Canvas(bm)
-        sCanvas.drawARGB(0, 0, 0, 0)
-        sCanvas.drawCircle(radius, radius, radius, paint)
+//        sCanvas.drawARGB(255, 0, 0, 0)
+//        sCanvas.drawCircle(radius, radius, radius, paint)
+//        sCanvas.drawRoundRect(
+//            RectF(0F, 0F, radius, radius),
+//            30f,
+//            30f,
+//            paint
+//        )
+        paint.color = Color.BLACK
+        sCanvas.drawRoundRect(
+            RectF(0F, 0F, bitmap.width * 1.0f, bitmap.height * 1.0f),
+            radius,
+            radius,
+            paint
+        )
         // 圆画好之后将画笔重置一下
         paint.reset()
         // 设置图像合成模式，该模式为只在源图像和目标图像相交的地方绘制源图像
         paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
         sCanvas.drawBitmap(bitmap, Matrix(), paint)
+        return bm
+    }
+
+    @JvmStatic
+    fun toRoundBitmap(bitmap: Bitmap?, inner: Boolean = false): Bitmap? {
+        if (bitmap == null) {
+            return null
+        }
+        return if (inner) {
+            innerRound(bitmap)
+        } else {
+            outRound(bitmap)
+        }
+    }
+
+    private fun outRound(bitmap: Bitmap): Bitmap {
+        val size = hypot(bitmap.width.toDouble(), bitmap.height.toDouble()).toInt()
+        val radius = size / 2F
+        // 前面同上，绘制图像分别需要bitmap，canvas，paint对象
+        val bm = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
+//        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+        ZLog.i(ZTag.TAG, "toRoundBitmap bm : ${bitmap.width}, ${bitmap.height} -> $size")
+        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+        paint.color = Color.TRANSPARENT
+        val canvas = Canvas(bm)
+        canvas.drawCircle(radius, radius, radius, paint)
+        paint.reset()
+        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+        canvas.drawBitmap(bitmap, (size - bitmap.width) / 2F, (size - bitmap.height) / 2F, null)
+        return bm
+    }
+
+    private fun innerRound(bitmap: Bitmap): Bitmap {
+        // 前面同上，绘制图像分别需要bitmap，canvas，paint对象
+        val bm = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
+        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+        val radius = bitmap.width / 2F
+        val cy = bitmap.height / 2F
+        val cx = bitmap.width / 2F
+        ZLog.i(ZTag.TAG, "toRoundBitmap bm : ${bm.width}, ${bm.height} ->${radius * 2} ")
+        val canvas = Canvas(bm)
+        canvas.drawCircle(cx, cy, radius, paint)
+        paint.reset()
+        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+        canvas.drawBitmap(bitmap, 0F, 0F, paint)
         return bm
     }
 }

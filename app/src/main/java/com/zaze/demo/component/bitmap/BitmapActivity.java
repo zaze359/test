@@ -10,6 +10,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 
 import androidx.appcompat.app.ActionBar;
@@ -17,6 +18,8 @@ import androidx.appcompat.app.ActionBar;
 import com.zaze.common.base.AbsActivity;
 import com.zaze.common.base.ext.AppCompatActivityExtKt;
 import com.zaze.demo.R;
+import com.zaze.utils.BmpUtil;
+import com.zaze.utils.DisplayUtil;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -41,7 +44,7 @@ public class BitmapActivity extends AbsActivity {
     private Bitmap processBmp;
 
 
-    private ShadowImageView processImageView;
+    private ImageView processImageView;
 
 
     @Override
@@ -59,9 +62,8 @@ public class BitmapActivity extends AbsActivity {
 //        Bitmap bm = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888);
 //        Canvas sCanvas = new Canvas(bm);
 //        sCanvas.drawColor(Color.parseColor("#FFFFFF"));
-//        originBmp = BmpUtil.toRoundBitmap(bm);
+        originBmp = BmpUtil.toRoundRectBitmap(originBmp, DisplayUtil.pxFromDp(30));
         processBmp = Bitmap.createBitmap(originBmp.getWidth(), originBmp.getHeight(), originBmp.getConfig());
-
 
         processImageView = findViewById(R.id.processImageView);
         processImageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);

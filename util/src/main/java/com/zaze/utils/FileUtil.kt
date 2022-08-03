@@ -8,6 +8,7 @@ import android.text.TextUtils
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import java.io.*
+import java.nio.charset.Charset
 import java.util.*
 import java.util.concurrent.locks.ReentrantReadWriteLock
 
@@ -400,12 +401,12 @@ object FileUtil {
      * @param filePath
      */
     @JvmStatic
-    fun readFromFile(filePath: String): StringBuffer {
+    fun readFromFile(filePath: String, charset: Charset = Charset.defaultCharset()): StringBuffer {
         val file = File(filePath)
         var result = StringBuffer()
         if (exists(filePath)) {
             try {
-                result = readByBytes(FileInputStream(file))
+                result = readByBytes(FileInputStream(file), charset)
             } catch (e: FileNotFoundException) {
                 e.printStackTrace()
             }
@@ -415,7 +416,7 @@ object FileUtil {
 
 
     @JvmStatic
-    fun readByBytes(inputStream: InputStream): StringBuffer {
+    fun readByBytes(inputStream: InputStream, charset: Charset = Charset.defaultCharset()): StringBuffer {
 //        readLock()
 //        val results = StringBuffer()
 //        try {
@@ -436,7 +437,9 @@ object FileUtil {
 //            }
 //            readUnlock()
 //        }
-        return StringBuffer().append(readBytes(inputStream))
+        return StringBuffer().append(readBytes(inputStream)?.let {
+            String(it, charset)
+        } ?: "")
     }
 
     @JvmStatic
@@ -447,7 +450,7 @@ object FileUtil {
             val byteBuf = ByteBuf(onceSize)
             var byteLength = 0
             while (byteLength != -1) {
-                byteLength = byteBuf.readToBuffer(inputStream, onceSize)
+                byteLength = byteBuf.read(inputStream, onceSize)
             }
             inputStream.close()
             return byteBuf.get()

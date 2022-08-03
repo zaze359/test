@@ -92,7 +92,7 @@ public class EntityModelImpl implements EntityModel {
         List<AnimationEntity> list = new ArrayList<>();
         list.add(new AnimationEntity("Scene Transition Animation(平移过渡)", TransitionActivity.class, AnimationEntity.Type.SCENE_TRANSITION));
         list.add(new AnimationEntity("Scale Up Animation(放大过渡)", AnimationActivity1.class, AnimationEntity.Type.SCALE_UP));
-        list.add(new AnimationEntity("Shared Element()", SharedElementActivity.class, AnimationEntity.Type.SCENE_TRANSITION));
+        list.add(new AnimationEntity("Shared Element()", SharedElementActivity.class, AnimationEntity.Type.SHARED_ELEMENT));
         list.add(new AnimationEntity("Scene Transition Animation(平移过渡)", AnimationActivity1.class, AnimationEntity.Type.SCENE_TRANSITION));
         list.add(new AnimationEntity("Scene Transition Animation(平移过渡)", AnimationActivity1.class, AnimationEntity.Type.SCENE_TRANSITION));
         list.add(new AnimationEntity("Scene Transition Animation(平移过渡)", AnimationActivity1.class, AnimationEntity.Type.SCENE_TRANSITION));

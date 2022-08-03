@@ -2,6 +2,7 @@ package com.zaze.demo.component.handler;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.os.MessageQueue;
@@ -23,16 +24,22 @@ import com.zaze.utils.log.ZTag;
  */
 public class HandlerActivity extends BaseActivity {
 
-    private Handler mHandler = new Handler() {
+    private static final HandlerThread mHandlerThread = new HandlerThread("my_handler_thread");
+
+    static {
+        mHandlerThread.start();
+    }
+
+    private final Handler mHandler = new Handler(mHandlerThread.getLooper()) {
         @Override
         public void handleMessage(Message msg) {
+            super.handleMessage(msg);
             ZLog.d(ZTag.TAG_DEBUG, "大道无情");
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            super.handleMessage(msg);
         }
     };
 
@@ -49,14 +56,6 @@ public class HandlerActivity extends BaseActivity {
                 ZLog.i(ZTag.TAG_DEBUG, "sendEmptyMessage end");
             }
         });
-        ZLog.i(ZTag.TAG_DEBUG, "test start");
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                ZLog.i(ZTag.TAG_DEBUG, "test run");
-            }
-        });
-        ZLog.i(ZTag.TAG_DEBUG, "test end");
     }
 
     @Override
@@ -73,7 +72,7 @@ public class HandlerActivity extends BaseActivity {
         return true;
     }
 
-    class IdleForever implements MessageQueue.IdleHandler {
+    private static class IdleForever implements MessageQueue.IdleHandler {
         /**
          * @return true : 保持此Idle一直在Handler中, 每次线程执行完后都会在这执行
          */
@@ -85,7 +84,7 @@ public class HandlerActivity extends BaseActivity {
 
     }
 
-    class IdleOnce implements MessageQueue.IdleHandler {
+    private static class IdleOnce implements MessageQueue.IdleHandler {
         /**
          * @return false : 执行一次后就从Handler线程中remove掉。
          */

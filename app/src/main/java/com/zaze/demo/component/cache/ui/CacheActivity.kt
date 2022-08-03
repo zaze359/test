@@ -2,12 +2,13 @@ package com.zaze.demo.component.cache.ui
 
 
 import android.os.Bundle
+import androidx.databinding.DataBindingUtil
 import com.zaze.common.base.BaseActivity
 import com.zaze.demo.R
 import com.zaze.demo.component.cache.presenter.CachePresenter
 import com.zaze.demo.component.cache.presenter.impl.CachePresenterImpl
 import com.zaze.demo.component.cache.view.CacheView
-import kotlinx.android.synthetic.main.cache_activity.*
+import com.zaze.demo.databinding.CacheActivityBinding
 
 /**
  * Description :
@@ -19,18 +20,19 @@ open class CacheActivity : BaseActivity(), CacheView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.cache_activity)
+        val binding =
+            DataBindingUtil.setContentView<CacheActivityBinding>(this, R.layout.cache_activity)
         presenter = CachePresenterImpl(this)
 
-        cache_save_btn.setOnClickListener {
+        binding.cacheSaveBtn.setOnClickListener {
             presenter?.saveDataToCache()
         }
 
-        cache_get_btn.setOnClickListener {
+        binding.cacheGetBtn.setOnClickListener {
             presenter?.getFromCache()
         }
 
-        cache_clean_btn.setOnClickListener {
+        binding.cacheCleanBtn.setOnClickListener {
             presenter?.cleanCache()
         }
     }

@@ -10,10 +10,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zaze.common.base.AbsFragment
-import com.zaze.demo.R
 import com.zaze.demo.component.file.explorer.adapter.FileAdapter
-import kotlinx.android.synthetic.main.file_list_frag.*
-import java.io.File
+import com.zaze.demo.databinding.FileListFragBinding
 
 /**
  * Description :
@@ -33,33 +31,31 @@ class FileListFragment : AbsFragment() {
     }
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.file_list_frag, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.fileListData.observe(viewLifecycleOwner, Observer {
-            showFileList(it)
-        })
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        val binding = FileListFragBinding.inflate(inflater, container)
+        viewModel.fileListData.observe(viewLifecycleOwner) { fileList ->
+            activity?.let { context ->
+                adapter?.setDataList(fileList) ?: let {
+                    adapter = FileAdapter(context, fileList).also {
+                        it.setViewMode(viewModel)
+                    }
+                    binding.fileListRecycler.layoutManager = LinearLayoutManager(context)
+                    binding.fileListRecycler.adapter = adapter
+                }
+            }
+        }
         viewModel.curFileData.observe(viewLifecycleOwner, Observer {
-            fileListBackTv.text = it.absolutePath
+            binding.fileListBackTv.text = it.absolutePath
         })
-        fileListBackTv.setOnClickListener {
+        binding.fileListBackTv.setOnClickListener {
             viewModel.back()
         }
         viewModel.init()
+        return binding.root
     }
 
-    fun showFileList(fileList: List<File>?) {
-        activity?.let { context ->
-            adapter?.setDataList(fileList) ?: let {
-                adapter = FileAdapter(context, fileList).also {
-                    it.setViewMode(viewModel)
-                }
-                fileListRecycler.setLayoutManager(LinearLayoutManager(context))
-                fileListRecycler.setAdapter(adapter)
-            }
-        }
-    }
 }

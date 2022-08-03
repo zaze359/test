@@ -276,10 +276,10 @@ class DeviceModelImpl : DeviceModel {
 //            )
 //        }
 
-//        jsonObject.put("deviceId", XhApplication.getInstance().getDeviceId());
+//        jsonObject.put("deviceId", BaseApplication.getInstance().getDeviceId());
 //        jsonObject.put("model", Build.MODEL);
 //        jsonObject.put("os", Build.VERSION.RELEASE);
-//        jsonObject.put("imei", ZStringUtil.parseString(ZDeviceUtil.getDeviceId(XhApplication.getInstance())));
+//        jsonObject.put("imei", ZStringUtil.parseString(ZDeviceUtil.getDeviceId(BaseApplication.getInstance())));
 //        jsonObject.put("mac", NetworkUtil.getWLANMacAddress());
         return list
     }

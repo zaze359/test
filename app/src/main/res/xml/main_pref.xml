@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:key="xh_launcher_pref_cn">
+    android:key="launcher_pref_cn">
     <PreferenceCategory android:title="test">
         <CheckBoxPreference
             android:key="key_sound"

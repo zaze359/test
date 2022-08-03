@@ -16,6 +16,7 @@ import com.zaze.demo.component.system.ScreenLockReceiver;
 import com.zaze.demo.debug.DefaultNetworkCallback;
 import com.zaze.demo.debug.LogcatService;
 import com.zaze.demo.debug.wifi.WifiCompat;
+import com.zaze.demo.matrix.MatrixHelper;
 import com.zaze.demo.receiver.BatteryReceiver;
 import com.zaze.demo.receiver.PackageReceiver;
 import com.zaze.utils.DeviceUtil;
@@ -52,8 +53,21 @@ public class MyApplication extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        initLog();
+        MatrixHelper.INSTANCE.initMatrix(this);
+        initCrash();
+        if (isMainProcess()) {
+            onMainProcess();
+        }
+    }
+
+    private void initLog() {
         ZCommand.setShowLog(true);
 //        FileUtil.setShowLog(true);
+        MemoryCacheManager.setCacheLog(true);
+        AnalyzeTrafficCompat.setNeedLog(true);
+        ZLog.registerLogCaller(FileUtil.class.getName());
+        ZLog.registerLogCaller(DeviceUtil.class.getName());
         ThreadPlugins.runInUIThread(new Runnable() {
             @Override
             public void run() {
@@ -64,8 +78,46 @@ public class MyApplication extends BaseApplication {
                 }
             }
         }, 10_000L);
-        MemoryCacheManager.setCacheLog(true);
-        AnalyzeTrafficCompat.setNeedLog(true);
+    }
+
+    private void onMainProcess() {
+        mClipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+        if (mClipboardManager != null) {
+            mClipboardManager.addPrimaryClipChangedListener(new ClipboardManager.OnPrimaryClipChangedListener() {
+                @Override
+                public void onPrimaryClipChanged() {
+                    if (mClipboardManager.hasPrimaryClip()) {
+                        ClipData clipData = mClipboardManager.getPrimaryClip();
+                        if (clipData == null) {
+                            return;
+                        }
+                        int count = clipData.getItemCount();
+                        if (count > 0) {
+                            ClipData.Item item = clipData.getItemAt(0);
+                            ZLog.i(ZTag.TAG_DEBUG, "clipData : " + item.getText());
+                        }
+                    }
+                }
+            });
+        }
+        ScreenLockReceiver.register(this);
+        PackageReceiver broadcastReceiver = new PackageReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("android.intent.action.PACKAGE_ADDED");
+        intentFilter.addAction("android.intent.action.PACKAGE_REPLACED");
+        intentFilter.addAction("android.intent.action.PACKAGE_REMOVED");
+        intentFilter.addDataScheme("package");
+        registerReceiver(broadcastReceiver, intentFilter);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            WifiCompat.listenerByConn(new DefaultNetworkCallback(NetUtil.getConnectivityManager(this)));
+        } else {
+            WifiCompat.listenerByBroadcast(this);
+        }
+        this.registerReceiver(new TestBroadcastReceiver(), new IntentFilter(TestBroadcastReceiver.ACTION));
+        BatteryReceiver.Companion.register(this);
+    }
+
+    private void initCrash() {
 //        CrashReport.initCrashReport(getApplicationContext(), "ecf90d7662", true);
         //
 //        FontUtil.setDefaultFontFormSystem("DEFAULT", "Roboto-Light.ttf");
@@ -74,46 +126,6 @@ public class MyApplication extends BaseApplication {
 //        receiver = new TestBroadcastReceiver();
 //        IntentFilter intentFilter = new IntentFilter("android.intent.action.message.testappid");
 //        registerReceiver(receiver, intentFilter);
-
-        ZLog.registerLogCaller(FileUtil.class.getName());
-        ZLog.registerLogCaller(DeviceUtil.class.getName());
-
-        if (isMainProcess()) {
-            mClipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-            if (mClipboardManager != null) {
-                mClipboardManager.addPrimaryClipChangedListener(new ClipboardManager.OnPrimaryClipChangedListener() {
-                    @Override
-                    public void onPrimaryClipChanged() {
-                        if (mClipboardManager.hasPrimaryClip()) {
-                            ClipData clipData = mClipboardManager.getPrimaryClip();
-                            if (clipData == null) {
-                                return;
-                            }
-                            int count = clipData.getItemCount();
-                            if (count > 0) {
-                                ClipData.Item item = clipData.getItemAt(0);
-                                ZLog.i(ZTag.TAG_DEBUG, "clipData : " + item.getText());
-                            }
-                        }
-                    }
-                });
-            }
-            ScreenLockReceiver.register(this);
-            PackageReceiver broadcastReceiver = new PackageReceiver();
-            IntentFilter intentFilter = new IntentFilter();
-            intentFilter.addAction("android.intent.action.PACKAGE_ADDED");
-            intentFilter.addAction("android.intent.action.PACKAGE_REPLACED");
-            intentFilter.addAction("android.intent.action.PACKAGE_REMOVED");
-            intentFilter.addDataScheme("package");
-            registerReceiver(broadcastReceiver, intentFilter);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                WifiCompat.listenerByConn(new DefaultNetworkCallback(NetUtil.getConnectivityManager(this)));
-            } else {
-                WifiCompat.listenerByBroadcast(this);
-            }
-            this.registerReceiver(new TestBroadcastReceiver(), new IntentFilter(TestBroadcastReceiver.ACTION));
-            BatteryReceiver.Companion.register(this);
-        }
     }
 
 }

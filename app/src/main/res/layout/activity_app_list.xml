@@ -1,45 +1,49 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<layout>
 
-    <EditText
-        android:id="@+id/appSearchEt"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48"
-        android:hint="搜索"
-        android:inputType="text" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/appSearchEt"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_48"
+            android:hint="搜索"
+            android:inputType="text" />
 
-        <Button
-            android:id="@+id/appExtractBtn"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/appExtractBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="提取数据" />
+
+            <TextView
+                android:id="@+id/appCountTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                tools:text="搜索到1111个应用" />
+
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/appResolvingApkCb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="提取数据" />
+            android:text="解析/sdcard/zaze/apk下apk" />
 
-        <TextView
-            android:id="@+id/appCountTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            tools:text="搜索到1111个应用" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/appRecycleView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 
-    <CheckBox
-        android:id="@+id/appResolvingApkCb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="解析/sdcard/zaze/apk下apk" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/appRecycleView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-</LinearLayout>
+</layout>

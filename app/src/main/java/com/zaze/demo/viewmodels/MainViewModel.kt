@@ -17,6 +17,7 @@ import com.zaze.demo.DemoFragment
 import com.zaze.demo.debug.LogDirListener
 import com.zaze.demo.debug.kotlin.KData
 import com.zaze.demo.debug.test.*
+import com.zaze.demo.usagestats.AppUsageTest
 import com.zaze.utils.DeviceUtil
 import com.zaze.utils.FileUtil
 import com.zaze.utils.cmd.CommandBox
@@ -47,17 +48,25 @@ class MainViewModel : AbsViewModel() {
         }
     }
 
+    private var appUsageTest: AppUsageTest? = null
+
     fun test(activity: Activity) {
+//        if (appUsageTest == null) {
+//            appUsageTest = AppUsageTest(activity).apply {
+//                run()
+//            }
+//        }
+
+
         listOf(
-//            TestByJava(),
+            TestByJava(),
 //            TestBattery(),
 //            TestFile(),
 //            TestUserHandle(),
-            TestCommand(),
+//            TestCommand(),
         ).forEach {
             it.doTest(activity)
         }
-
 
         //            val msg = Message.obtain()
 //            msg.replyTo = messenger

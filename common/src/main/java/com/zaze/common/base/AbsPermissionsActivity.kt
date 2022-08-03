@@ -1,11 +1,14 @@
 package com.zaze.common.base
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup
+import android.provider.Settings
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.lifecycleScope
 import com.zaze.common.util.PermissionHelper
+import com.zaze.common.widget.dialog.DialogFactory
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 
@@ -34,8 +37,7 @@ abstract class AbsPermissionsActivity : AbsThemeActivity() {
                     permissionGranted = result.value
                 }
                 // 权限被拒绝 && 不需要解释
-                if (!permanentlyDenied &&
-                    result.value == false && !ActivityCompat.shouldShowRequestPermissionRationale(
+                if (!permanentlyDenied && !result.value && !ActivityCompat.shouldShowRequestPermissionRationale(
                         this,
                         result.key
                     )
@@ -48,13 +50,10 @@ abstract class AbsPermissionsActivity : AbsThemeActivity() {
                     afterPermissionGranted()
                 }
                 permanentlyDenied -> {
-                    ZLog.i(
-                        ZTag.TAG,
-                        "onRequestPermissionsResult permanentlyDenied: $permanentlyDenied"
-                    )
-                    // 打开设置
-                    val intent = PermissionHelper.openSettingIntent(this)
-                    startSettingRequest.launch(intent)
+                    onSomePermanentlyDenied()
+                }
+                else -> {
+                    onPermissionDenied()
                 }
             }
         }
@@ -63,6 +62,8 @@ abstract class AbsPermissionsActivity : AbsThemeActivity() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (hasPermission()) {
                 afterPermissionGranted()
+            } else {
+                setupPermission()
             }
         }
 
@@ -70,95 +71,52 @@ abstract class AbsPermissionsActivity : AbsThemeActivity() {
         return arrayOf()
     }
 
-    override fun setContentView(view: View?) {
-        super.setContentView(view)
-        if (hasPermission()) {
-            afterPermissionGranted()
-        } else {
-            beforePermissionGranted()
-        }
-    }
-
-    override fun setContentView(layoutResID: Int) {
-        super.setContentView(layoutResID)
-        if (hasPermission()) {
-            afterPermissionGranted()
-        } else {
-            beforePermissionGranted()
-        }
-    }
-
-    override fun setContentView(view: View?, params: ViewGroup.LayoutParams?) {
-        super.setContentView(view, params)
-        if (hasPermission()) {
-            afterPermissionGranted()
-        } else {
-            beforePermissionGranted()
-        }
-    }
-
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         setupPermission()
     }
 
-    //    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (REQUEST_CODE_APP_SETTINGS == requestCode) {
-//            setupPermission()
-//        }
-//    }
-//
-//    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
-//        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-//            AppSettingsDialog.Builder(this)
-//                .setTitle("所需权限")
-//                .setRationale("如果没有相关权限，此应用可能无法正常工作。打开应用程序设置以修改应用程序权限")
-//                .setRequestCode(REQUEST_CODE_APP_SETTINGS)
-//                .setNegativeButton("取消")
-//                .setPositiveButton("确定")
-//                .build()
-//                .show()
-//        }
-//    }
-//
-//    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-//        ZLog.i(ZTag.TAG, "onPermissionsGranted :$perms")
-//    }
-//
-//    override fun onRequestPermissionsResult(
-//        requestCode: Int,
-//        permissions: Array<String>,
-//        grantResults: IntArray
-//    ) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//        ZLog.i(ZTag.TAG, "onRequestPermissionsResult: $grantResults")
-//        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
-//    }
-
-    fun hasPermission(): Boolean {
+    private fun hasPermission(): Boolean {
         return PermissionHelper.hasPermissions(this, permissions)
     }
 
     open fun setupPermission() {
-        if (!hasPermission()) {
-            permissionsRequest.launch(permissions)
-//            EasyPermissions.requestPermissions(
-//                PermissionRequest.Builder(this, REQUEST_CODE_REQUEST_PERMISSIONS, *permissions)
-////                .setRationale("123456")
-////                .setPositiveButtonText("确定")
-////                .setNegativeButtonText("取消")
-//                    .build()
-//            )
+        lifecycleScope.launchWhenResumed {
+            if (hasPermission()) {
+                afterPermissionGranted()
+            } else {
+                beforePermissionGranted()
+                permissionsRequest.launch(permissions)
+            }
         }
     }
 
-    //    @AfterPermissionGranted(REQUEST_CODE_REQUEST_PERMISSIONS)
     open fun afterPermissionGranted() {
-
+//        MyLog.i(LcTag.TAG, "afterPermissionGranted")
     }
 
     open fun beforePermissionGranted() {
+//        MyLog.i(LcTag.TAG, "beforePermissionGranted")
+    }
 
+    open fun onSomePermanentlyDenied() {
+        val builder = DialogFactory.Builder()
+            .message("如果没有「${PermissionHelper.getPermissionNames(permissions)}」相关权限，此应用可能无法正常工作。")
+            .negative("取消") {
+                finish()
+            }
+        builder.positive {
+            ZLog.i(ZTag.TAG, "openApplicationDetailsSetting")
+            // 打开设置
+            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).setData(
+                Uri.fromParts("package", packageName, null)
+            )
+            startSettingRequest.launch(intent)
+        }
+        builder.build().show(supportFragmentManager)
+    }
+
+    open fun onPermissionDenied() {
+        setupPermission()
     }
 }

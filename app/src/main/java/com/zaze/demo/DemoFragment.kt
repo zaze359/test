@@ -5,14 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zaze.common.base.AbsFragment
+import com.zaze.demo.databinding.TableFragmentBinding
 import com.zaze.demo.debug.DividerItemDecoration
-import com.zaze.demo.model.entity.TableEntity
 import com.zaze.demo.viewmodels.DemoViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.table_fragment.*
 
 /**
  * Description :
@@ -30,26 +28,12 @@ class DemoFragment : AbsFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.table_fragment, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.demosData.observe(
-            viewLifecycleOwner,
-            Observer { tableEntities -> showAppList(tableEntities) })
-        demoRefreshLayout.setOnRefreshListener { viewModel.refresh() }
-        demoRefreshLayout.post {
-            demoRefreshLayout.isRefreshing = true
-            viewModel.refresh()
-        }
-    }
-
-    fun showAppList(list: List<TableEntity?>) {
-        adapter?.setDataList(list) ?: let {
-            adapter = DemoAdapter(activity, list)
-            val manager = LinearLayoutManager(context)
+    ): View {
+        val binding = TableFragmentBinding.inflate(inflater, container, false)
+        viewModel.demosData.observe(viewLifecycleOwner) { list ->
+            adapter?.setDataList(list) ?: let {
+                adapter = DemoAdapter(activity, list)
+                val manager = LinearLayoutManager(context)
 //            manager.spanSizeLookup = object : SpanSizeLookup() {
 //                override fun getSpanSize(position: Int): Int {
 //                    if (position == 0) {
@@ -60,17 +44,25 @@ class DemoFragment : AbsFragment() {
 //                    return 1
 //                }
 //            }
-            demoRecyclerView.layoutManager = manager
-            demoRecyclerView.adapter = adapter
-            demoRecyclerView.addItemDecoration(
-                DividerItemDecoration(
-                    context,
-                    DividerItemDecoration.VERTICAL
+                binding.demoRecyclerView.layoutManager = manager
+                binding.demoRecyclerView.adapter = adapter
+                binding.demoRecyclerView.addItemDecoration(
+                    DividerItemDecoration(
+                        context,
+                        DividerItemDecoration.VERTICAL
+                    )
                 )
-            )
+            }
+            binding.demoRefreshLayout.isRefreshing = false
         }
-        demoRefreshLayout.isRefreshing = false
+        binding.demoRefreshLayout.setOnRefreshListener { viewModel.refresh() }
+        binding.demoRefreshLayout.post {
+            binding.demoRefreshLayout.isRefreshing = true
+            viewModel.refresh()
+        }
+        return binding.root
     }
+
 
     companion object {
         fun newInstance(title: String?): DemoFragment {

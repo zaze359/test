@@ -14,7 +14,6 @@ import com.zaze.common.base.ext.obtainViewModel
 import com.zaze.demo.R
 import com.zaze.demo.databinding.NetworkStatsActBinding
 import com.zaze.demo.debug.NetTrafficStats
-import kotlinx.android.synthetic.main.network_stats_act.*
 
 
 /**
@@ -40,15 +39,15 @@ class NetworkStatsActivity : AbsActivity() {
             this@NetworkStatsActivity.viewModel = this
         }
 
-        networkStatsBtn.setOnClickListener {
+        databinding.networkStatsBtn.setOnClickListener {
             hasPermissionToReadNetworkStats()
         }
 
-        networkStatsRefreshLayout.setOnRefreshListener {
+        databinding.networkStatsRefreshLayout.setOnRefreshListener {
             viewModel.load()
         }
         if (hasPermissionToReadNetworkStats()) {
-            networkStatsRefreshLayout.post {
+            databinding.networkStatsRefreshLayout.post {
                 viewModel.load()
             }
         }
@@ -59,8 +58,10 @@ class NetworkStatsActivity : AbsActivity() {
             return true
         }
         val appOps = getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
-        val mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
-                android.os.Process.myUid(), packageName)
+        val mode = appOps.checkOpNoThrow(
+            AppOpsManager.OPSTR_GET_USAGE_STATS,
+            android.os.Process.myUid(), packageName
+        )
         if (mode == AppOpsManager.MODE_ALLOWED) {
             return true
         }
@@ -73,8 +74,8 @@ class NetworkStatsActivity : AbsActivity() {
     private fun showNetworkStats(netTrafficStats: Collection<NetTrafficStats>?) {
         adapter?.setDataList(netTrafficStats) ?: let {
             adapter = NetworkStatsAdapter(this, netTrafficStats)
-            networkStatsRecycler.layoutManager = LinearLayoutManager(this)
-            networkStatsRecycler.adapter = adapter
+            databinding.networkStatsRecycler.layoutManager = LinearLayoutManager(this)
+            databinding.networkStatsRecycler.adapter = adapter
         }
     }
 

@@ -3,3 +3,5 @@ include ':module_nativelib'
 include ':module_usagestats'
 include ':module_accessibility'
 include ':module_share'
+
+rootProject.name='test'
