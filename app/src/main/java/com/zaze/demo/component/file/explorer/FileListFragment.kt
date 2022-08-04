@@ -30,13 +30,12 @@ class FileListFragment : AbsFragment() {
         }
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = FileListFragBinding.inflate(inflater, container)
+        val binding = FileListFragBinding.inflate(inflater, container, false)
         viewModel.fileListData.observe(viewLifecycleOwner) { fileList ->
             activity?.let { context ->
                 adapter?.setDataList(fileList) ?: let {

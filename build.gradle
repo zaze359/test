@@ -12,10 +12,10 @@ buildscript {
     }
 
     repositories {
-        maven {
-            allowInsecureProtocol = true
-            url 'http://localhost:8081/repository/maven-public'
-        }
+//        maven {
+//            allowInsecureProtocol = true
+//            url 'http://localhost:8081/repository/maven-public'
+//        }
         maven { url 'https://maven.aliyun.com/repository/public' }
         maven { url 'https://maven.aliyun.com/repository/jcenter' }
         maven { url 'https://maven.aliyun.com/repository/google' }
@@ -35,20 +35,20 @@ buildscript {
         // hilt
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion"
         // matrix
-        classpath ("com.tencent.matrix:matrix-gradle-plugin:${MATRIX_VERSION}") { changing = true }
+        classpath("com.tencent.matrix:matrix-gradle-plugin:${MATRIX_VERSION}") { changing = true }
     }
 }
 
 allprojects {
     repositories {
-        maven {
-            allowInsecureProtocol = true
-            url 'http://localhost:8081/repository/maven-public'
-        }
+//        maven {
+//            allowInsecureProtocol = true
+//            url 'http://localhost:8081/repository/maven-public'
+//        }
         maven { url 'https://maven.aliyun.com/repository/public' }
         maven { url 'https://maven.aliyun.com/repository/jcenter' }
         maven { url 'https://maven.aliyun.com/repository/google' }
-        maven { url "https://oss.sonatypTe.org/content/repositories/snapshots" }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
         maven { url 'https://jitpack.io' }
         mavenCentral()
         google()
@@ -67,3 +67,7 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
+tasks.withType(JavaCompile) {
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.encoding = "UTF-8"
+}

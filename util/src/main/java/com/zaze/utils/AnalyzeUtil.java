@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.nio.charset.Charset;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -53,8 +54,8 @@ public class AnalyzeUtil {
      * @return String[]
      */
     protected static String[] analyzeFileByLine(String filePath, String lineSplit) {
-        if (FileUtil.isCanRead(filePath)) {
-            return FileUtil.readFromFile(filePath).toString().split(lineSplit);
+        if (filePath != null && FileUtil.isCanRead(filePath)) {
+            return FileUtil.readFromFile(filePath, Charset.defaultCharset()).toString().split(lineSplit);
         } else {
             return null;
         }

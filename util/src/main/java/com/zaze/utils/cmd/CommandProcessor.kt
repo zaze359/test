@@ -1,11 +1,9 @@
 package com.zaze.utils.cmd
 
 import com.zaze.utils.ByteBuf
-import com.zaze.utils.FileUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import java.io.DataOutputStream
-import java.io.IOException
 import java.io.InputStream
 import java.lang.Exception
 

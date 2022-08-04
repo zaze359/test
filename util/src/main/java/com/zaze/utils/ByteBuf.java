@@ -78,7 +78,7 @@ public class ByteBuf {
         return readLength;
     }
 
-    private int readToBuffer(@NotNull InputStream inputStream, int needLength) throws Exception {
+    public int readToBuffer(@NotNull InputStream inputStream, int needLength) throws Exception {
         // 读取指定长度
         expand(needLength);
 //        return readAndRetry(inputStream, byteBuffer, dataLength, needLength);
