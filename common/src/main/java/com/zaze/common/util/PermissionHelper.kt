@@ -18,10 +18,13 @@ import androidx.core.content.ContextCompat
  * @version : 2021-09-22 - 14:27
  */
 object PermissionHelper {
-    private val permissionMap = HashMap<String, String>().apply {
-        this[Manifest.permission.WRITE_EXTERNAL_STORAGE] = "访问存储空间"
-        this[Manifest.permission.READ_PHONE_STATE] = "读取手机状态"
-        this[Manifest.permission.ACCESS_FINE_LOCATION] = "获取位置"
+    private val permissionMap by lazy {
+        mapOf(
+            Manifest.permission.READ_EXTERNAL_STORAGE to "访问存储空间",
+            Manifest.permission.WRITE_EXTERNAL_STORAGE to "访问存储空间",
+            Manifest.permission.READ_PHONE_STATE to "读取手机状态",
+            Manifest.permission.ACCESS_FINE_LOCATION to "获取位置",
+        )
     }
 
     fun getPermissionNames(permissions: Array<String>): String {
@@ -52,16 +55,23 @@ object PermissionHelper {
             return true
         }
         perms.forEach {
-            if (ContextCompat.checkSelfPermission(
-                    context,
-                    it
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
+            if (!checkSelfPermission(context, it)) {
                 return false
             }
         }
         return true
     }
+
+    fun checkSelfPermission(context: Context, permission: String): Boolean {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return true
+        }
+        return ContextCompat.checkSelfPermission(
+            context,
+            permission
+        ) != PackageManager.PERMISSION_GRANTED
+    }
+
 
     fun somePermissionPermanentlyDenied(
         activity: Activity,
@@ -87,6 +97,24 @@ object PermissionHelper {
     fun shouldShowRequestPermissionRationale(activity: Activity, permission: String): Boolean {
         return ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)
     }
+
+//
+//    fun createExternalStoragePermission(array: Array<String>): Array<String> {
+//        val list = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+//            mutableListOf(
+//                Manifest.permission.MANAGE_EXTERNAL_STORAGE,
+//                Manifest.permission.READ_EXTERNAL_STORAGE,
+//                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//            )
+//        } else {
+//            mutableListOf(
+//                Manifest.permission.READ_EXTERNAL_STORAGE,
+//                Manifest.permission.WRITE_EXTERNAL_STORAGE
+//            )
+//        }
+//        list.addAll(array)
+//        return list.toTypedArray()
+//    }
 
     fun openSettingIntent(activity: Activity): Intent {
         return Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).setData(

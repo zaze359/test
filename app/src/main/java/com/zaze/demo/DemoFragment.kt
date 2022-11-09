@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.zaze.common.base.AbsFragment
 import com.zaze.demo.databinding.TableFragmentBinding
 import com.zaze.demo.debug.DividerItemDecoration
-import com.zaze.demo.viewmodels.DemoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 /**

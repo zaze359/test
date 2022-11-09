@@ -24,7 +24,7 @@ class FileListFragment : AbsFragment() {
 
     private val viewModel: FileListViewModel by viewModels {
         object : ViewModelProvider.NewInstanceFactory() {
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return FileListViewModel() as T
             }
         }

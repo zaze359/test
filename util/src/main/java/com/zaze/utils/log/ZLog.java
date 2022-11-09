@@ -14,6 +14,7 @@ import com.zaze.utils.ZStringUtil;
  */
 public class ZLog {
     private static ZLogFace logFace;
+    private static boolean alwaysPrint = false;
     private static boolean needStack = false;
     // --------------------------------------------------
     private static boolean E = true;
@@ -27,6 +28,91 @@ public class ZLog {
         registerLogCaller(Log.class.getName());
         registerLogCaller(TraceHelper.class.getName());
     }
+
+    // ----------- V -----------
+    public static void v(String tag, String message) {
+        if (V) {
+            if (alwaysPrint || logFace == null) {
+                Log.v(tag, getStackTrace(message));
+            }
+            if (logFace != null) {
+                logFace.v(tag, getStackTrace(message));
+            }
+        }
+    }
+
+    // ----------- D -----------
+    public static void d(String tag, String message) {
+        if (D) {
+            if (alwaysPrint || logFace == null) {
+                Log.d(tag, getStackTrace(message));
+            }
+            if (logFace != null) {
+                logFace.d(tag, getStackTrace(message));
+            }
+        }
+    }
+
+    // ----------- I -----------
+    public static void i(String tag, String message) {
+        if (I) {
+            if (alwaysPrint || logFace == null) {
+                Log.i(tag, getStackTrace(message));
+            }
+            if (logFace != null) {
+                logFace.i(tag, getStackTrace(message));
+            }
+        }
+
+    }
+
+    // ----------- W -----------
+    public static void w(String tag, String message) {
+        if (W) {
+            if (alwaysPrint || logFace == null) {
+                Log.w(tag, getStackTrace(message));
+            }
+            if (logFace != null) {
+                logFace.w(tag, getStackTrace(message));
+            }
+        }
+    }
+
+    public static void w(String tag, String message, Throwable e) {
+        if (W) {
+            if (alwaysPrint || logFace == null) {
+                Log.w(tag, getStackTrace(message), e);
+            }
+            if (logFace != null) {
+                logFace.w(tag, getStackTrace(message), e);
+            }
+        }
+    }
+
+    // ----------- E -----------
+    public static void e(String tag, String message) {
+        if (E) {
+            if (alwaysPrint || logFace == null) {
+                Log.e(tag, getStackTrace(message));
+            }
+            if (logFace != null) {
+                logFace.e(tag, getStackTrace(message));
+            }
+        }
+    }
+
+    public static void e(String tag, String message, Throwable e) {
+        if (E) {
+            if (alwaysPrint || logFace == null) {
+                Log.e(tag, getStackTrace(message), e);
+            }
+            if (logFace != null) {
+                logFace.e(tag, getStackTrace(message), e);
+            }
+        }
+    }
+
+    // ---------------------------------------------------
 
     public static void setLogLevel(@ZLogLevel int level) {
         E = false;
@@ -52,6 +138,10 @@ public class ZLog {
         }
     }
 
+    // ---------------------------------------------------
+    // ---------------------------------------------------
+
+
     public static void registerLogCaller(String logCaller) {
         StackTraceHelper.registerStackCaller(logCaller);
     }
@@ -60,98 +150,27 @@ public class ZLog {
         ZLog.needStack = needStack;
     }
 
+    public static boolean isNeedStack() {
+        return ZLog.needStack;
+    }
+
     private static String getTag(StackTraceElement ste) {
         return ZStringUtil.format("(%s:%d)[%s]", ste.getFileName(), ste.getLineNumber(), ste.getMethodName());
     }
 
     private static String getStackTrace(String message) {
         if (needStack) {
-            return "[" + getTag(StackTraceHelper.callerStackTraceElement()) + "]: " + message;
+            return getTag(StackTraceHelper.callerStackTraceElement()) + ": " + message;
         } else {
             return message;
         }
     }
 
-    // ----------- V -----------
-    public static void v(String tag, String message) {
-        if (V) {
-            if (logFace != null) {
-                logFace.v(tag, getStackTrace(message));
-            } else {
-                Log.v(tag, getStackTrace(message));
-            }
-        }
-    }
-
-    // ----------- D -----------
-    public static void d(String tag, String message) {
-        if (D) {
-            if (logFace != null) {
-                logFace.d(tag, getStackTrace(message));
-            } else {
-                Log.d(tag, getStackTrace(message));
-            }
-        }
-    }
-
-    // ----------- I -----------
-    public static void i(String tag, String message) {
-        if (I) {
-            if (logFace != null) {
-                logFace.i(tag, getStackTrace(message));
-            } else {
-                Log.i(tag, getStackTrace(message));
-            }
-        }
-
-    }
-
-    // ----------- W -----------
-    public static void w(String tag, String message) {
-        if (W) {
-            if (logFace != null) {
-                logFace.w(tag, getStackTrace(message));
-            } else {
-                Log.w(tag, getStackTrace(message));
-            }
-        }
-    }
-
-    public static void w(String tag, String message, Throwable e) {
-        if (W) {
-            if (logFace != null) {
-                logFace.w(tag, getStackTrace(message), e);
-            } else {
-                Log.w(tag, getStackTrace(message), e);
-            }
-        }
-    }
-
-    // ----------- E -----------
-    public static void e(String tag, String message) {
-        if (E) {
-            if (logFace != null) {
-                logFace.e(tag, getStackTrace(message));
-            } else {
-                Log.e(tag, getStackTrace(message));
-            }
-        }
-    }
-
-    public static void e(String tag, String message, Throwable e) {
-        if (E) {
-            if (logFace != null) {
-                logFace.e(tag, getStackTrace(message), e);
-            } else {
-                Log.e(tag, getStackTrace(message), e);
-            }
-        }
-    }
-
-    // ---------------------------------------------------
-
     public static void setLogFace(ZLogFace face) {
         logFace = face;
+    }
+    public static ZLogFace getLogFace() {
+        return logFace;
     }
 
     public static void closeAllLog() {
@@ -168,5 +187,13 @@ public class ZLog {
         I = true;
         D = true;
         V = true;
+    }
+
+    public static void openAlwaysPrint() {
+        alwaysPrint = true;
+    }
+
+    public static void closeAlwaysPrint() {
+        alwaysPrint = true;
     }
 }

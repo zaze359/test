@@ -1,7 +1,7 @@
-include ':app', ':module_localrepo', ':module_animations', ':util', ':common'
+include ':app', ':module_animations', ':util', ':common'
+//include ':module_localrepo'
 include ':module_nativelib'
 include ':module_usagestats'
 include ':module_accessibility'
-include ':module_share'
 
 rootProject.name='test'

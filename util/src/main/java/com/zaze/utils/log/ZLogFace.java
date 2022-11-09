@@ -23,7 +23,7 @@ public interface ZLogFace {
 
     void e(String strTag, String strLog, Throwable e);
 
-    void writeLogToFile(String strTag, String strLog);
-
-    String getLogFromFile();
+//    void writeLogToFile(String strTag, String strLog);
+//
+//    String getLogFromFile();
 }

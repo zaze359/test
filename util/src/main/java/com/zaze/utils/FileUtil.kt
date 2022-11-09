@@ -416,14 +416,17 @@ object FileUtil {
 
 
     @JvmStatic
-    fun readByBytes(inputStream: InputStream, charset: Charset = Charset.defaultCharset()): StringBuffer {
+    fun readByBytes(
+        inputStream: InputStream,
+        charset: Charset = Charset.defaultCharset()
+    ): StringBuffer {
 //        readLock()
-//        val results = StringBuffer()
+//        val results = StringBuilder()
 //        try {
 //            val bytes = ByteArray(4096)
 //            var byteLength = inputStream.read(bytes)
 //            while (byteLength != -1) {
-//                results.append(String(bytes, 0, byteLength))
+//                results.append(String(bytes, 0, byteLength, charset))
 //                byteLength = inputStream.read(bytes)
 //            }
 //            inputStream.close()
@@ -446,7 +449,7 @@ object FileUtil {
     fun readBytes(inputStream: InputStream): ByteArray? {
         readLock()
         try {
-            val onceSize = 2048
+            val onceSize = 4096
             val byteBuf = ByteBuf(onceSize)
             var byteLength = 0
             while (byteLength != -1) {

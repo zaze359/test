@@ -19,7 +19,6 @@ import com.zaze.common.base.AbsActivity
 import com.zaze.common.base.AbsFragment
 import com.zaze.common.base.ext.setupActionBar
 import com.zaze.demo.databinding.ActivityMainBinding
-import com.zaze.demo.viewmodels.MainViewModel
 import com.zaze.utils.ToastUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
@@ -39,7 +38,7 @@ class MainActivity : AbsActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    override fun showLifeCycle(): Boolean {
+    override fun showLifecycle(): Boolean {
         return true
     }
 
@@ -51,6 +50,14 @@ class MainActivity : AbsActivity() {
             Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.ACCESS_FINE_LOCATION
         )
+//
+//        return PermissionHelper.createExternalStoragePermission(arrayOf(
+////            Manifest.permission.READ_EXTERNAL_STORAGE,
+////            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//            Manifest.permission.INTERNET,
+//            Manifest.permission.READ_PHONE_STATE,
+//            Manifest.permission.ACCESS_FINE_LOCATION
+//        ))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

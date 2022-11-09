@@ -54,7 +54,7 @@ public class MyApplication extends BaseApplication {
     public void onCreate() {
         super.onCreate();
         initLog();
-        MatrixHelper.INSTANCE.initMatrix(this);
+//        MatrixHelper.INSTANCE.initMatrix(this);
         initCrash();
         if (isMainProcess()) {
             onMainProcess();
@@ -66,6 +66,8 @@ public class MyApplication extends BaseApplication {
 //        FileUtil.setShowLog(true);
         MemoryCacheManager.setCacheLog(true);
         AnalyzeTrafficCompat.setNeedLog(true);
+        ZLog.openAllLog();
+        ZLog.openAlwaysPrint();
         ZLog.registerLogCaller(FileUtil.class.getName());
         ZLog.registerLogCaller(DeviceUtil.class.getName());
         ThreadPlugins.runInUIThread(new Runnable() {
@@ -118,6 +120,7 @@ public class MyApplication extends BaseApplication {
     }
 
     private void initCrash() {
+
 //        CrashReport.initCrashReport(getApplicationContext(), "ecf90d7662", true);
         //
 //        FontUtil.setDefaultFontFormSystem("DEFAULT", "Roboto-Light.ttf");

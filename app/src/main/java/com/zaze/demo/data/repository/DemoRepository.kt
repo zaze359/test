@@ -6,12 +6,13 @@ import com.zaze.demo.component.animation.ui.AnimationActivity
 import com.zaze.demo.component.application.AppListActivity
 import com.zaze.demo.component.bitmap.BitmapActivity
 import com.zaze.demo.component.cache.ui.CacheActivity
-import com.zaze.demo.customview.CustomViewActivity
+import com.zaze.demo.component.customview.CustomViewActivity
 import com.zaze.demo.component.device.DeviceActivity
 import com.zaze.demo.component.file.explorer.FileExplorerActivity
 import com.zaze.demo.component.font.ui.FontActivity
 import com.zaze.demo.component.gps.ui.GpsActivity
 import com.zaze.demo.component.handler.HandlerActivity
+import com.zaze.demo.component.lifecycle.LifecycleActivity
 import com.zaze.demo.component.logcat.ui.LogcatActivity
 import com.zaze.demo.component.network.NetworkStatsActivity
 import com.zaze.demo.component.notification.ui.NotificationActivity
@@ -27,7 +28,7 @@ import com.zaze.demo.component.task.ui.TaskActivity
 import com.zaze.demo.component.time.TimeActivity
 import com.zaze.demo.component.toolbar.ToolBarDemoActivity
 import com.zaze.demo.component.webview.WebViewActivity
-import com.zaze.demo.component.wifi.ui.WifiActivity
+import com.zaze.demo.component.wifi.WifiActivity
 import com.zaze.demo.debug.CaptureActivity
 import com.zaze.demo.debug.SensorActivity
 import com.zaze.demo.model.entity.TableEntity
@@ -43,6 +44,8 @@ class DemoRepository(private val dispatcher: CoroutineDispatcher) {
         var i = 0
         ArrayList<TableEntity>().also { list ->
             list.add(TableEntity("应用查询", AppListActivity::class.java, ++i))
+            list.add(TableEntity("自定义View", CustomViewActivity::class.java, ++i))
+            list.add(TableEntity("生命周期观测", LifecycleActivity::class.java, ++i))
             list.add(TableEntity("设备管理器", DeviceAdminActivity::class.java, ++i))
             list.add(TableEntity("应用使用数据", UsageStatesActivity::class.java, ++i))
 //        list.add(new TableEntity("分享", ShareActivity.class, ++i));
@@ -56,7 +59,6 @@ class DemoRepository(private val dispatcher: CoroutineDispatcher) {
             list.add(TableEntity("流量监控", NetworkStatsActivity::class.java, ++i))
             list.add(TableEntity("截屏", CaptureActivity::class.java, ++i))
             list.add(TableEntity("字体变换", FontActivity::class.java, ++i))
-            list.add(TableEntity("自定义View", CustomViewActivity::class.java, ++i))
             list.add(TableEntity("消息通知栏", NotificationActivity::class.java, ++i))
             list.add(TableEntity("任务机制", TaskActivity::class.java, ++i))
             list.add(TableEntity("缓存机制", CacheActivity::class.java, ++i))

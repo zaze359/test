@@ -2,14 +2,27 @@ def build_versions = [:]
 ext.build_versions = build_versions
 
 def versions = [:]
-versions.lifecycle = "2.2.0"
-versions.core_ktx = "1.3.2"
-versions.annotations = "1.1.0"
-versions.appcompat = "1.2.0-alpha02"
-versions.activity = '1.2.0'
-versions.fragment = "1.3.0"
-versions.recyclerview = "1.2.0-beta01"
-versions.constraint_layout = "2.0.4"
+versions.lifecycle = "2.5.1"
+versions.core_ktx = "1.9.0"
+versions.coroutines = "1.4.1"
+versions.annotations = "1.5.0"
+versions.appcompat = "1.5.1"
+versions.activity = '1.6.0'
+versions.fragment = "1.5.3"
+versions.recyclerview = "1.2.1"
+versions.constraint_layout = "2.1.4"
+versions.arch_core = "2.1.0"
+
+versions.atsl_core = "1.5.0-alpha02"
+versions.atsl_junit = "1.1.3"
+versions.atsl_rules = "1.2.0"
+versions.atsl_runner = "1.4.0"
+versions.espresso = "3.4.0"
+
+versions.truth = "1.1.3"
+versions.ext_truth = "1.5.0-rc01"
+versions.junit = "4.1.2"
+versions.robolectric = "4.9"
 
 ext.versions = versions
 
@@ -17,7 +30,12 @@ def deps = [:]
 ext.deps = [:]
 
 def lifecycle = [:]
-lifecycle.extensions = "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle"
+// lifecycle-extensions已废弃，截至2.2.0
+//lifecycle.extensions = "androidx.lifecycle:lifecycle-extensions:2.2.0"
+// optional - helpers for implementing LifecycleOwner in a Service
+lifecycle.service = "androidx.lifecycle:lifecycle-service:$versions.lifecycle"
+// optional - ProcessLifecycleOwner provides a lifecycle for the whole application process
+lifecycle.process = "androidx.lifecycle:lifecycle-process:$versions.lifecycle"
 lifecycle.runtime = "androidx.lifecycle:lifecycle-runtime:$versions.lifecycle"
 lifecycle.java8 = "androidx.lifecycle:lifecycle-common-java8:$versions.lifecycle"
 lifecycle.compiler = "androidx.lifecycle:lifecycle-compiler:$versions.lifecycle"
@@ -31,6 +49,19 @@ deps.recyclerview = "androidx.recyclerview:recyclerview:$versions.recyclerview"
 deps.annotations = "androidx.annotation:annotation:$versions.annotations"
 deps.constraint_layout = "androidx.constraintlayout:constraintlayout:$versions.constraint_layout"
 
+deps.truth = "com.google.truth:truth:$versions.truth"
+deps.ext_truth = "androidx.test.ext:truth:$versions.ext_truth"
+
+deps.junit = "junit:junit:$versions.junit"
+deps.robolectric = "org.robolectric:robolectric:$versions.robolectric"
+
+
+
+def coroutines = [:]
+coroutines.android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines"
+coroutines.test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$versions.coroutines"
+deps.coroutines = coroutines
+
 def activity = [:]
 activity.activity_ktx = "androidx.activity:activity-ktx:$versions.activity"
 deps.activity = activity
@@ -40,6 +71,29 @@ fragment.runtime = "androidx.fragment:fragment:${versions.fragment}"
 fragment.runtime_ktx = "androidx.fragment:fragment-ktx:${versions.fragment}"
 fragment.testing = "androidx.fragment:fragment-testing:${versions.fragment}"
 deps.fragment = fragment
+
+// 单元测试
+def atsl = [:]
+atsl.core = "androidx.test:core:$versions.atsl_core"
+atsl.core_ktx = "androidx.test:core-ktx:$versions.atsl_core"
+
+atsl.ext_junit = "androidx.test.ext:junit:$versions.atsl_junit"
+atsl.ext_junit_ktx = "androidx.test.ext:junit-ktx:$versions.atsl_junit"
+
+atsl.runner = "androidx.test:runner:$versions.atsl_runner"
+atsl.rules = "androidx.test:rules:$versions.atsl_rules"
+deps.atsl = atsl
+
+def espresso = [:]
+espresso.core = "androidx.test.espresso:espresso-core:$versions.espresso"
+espresso.contrib = "androidx.test.espresso:espresso-contrib:$versions.espresso"
+espresso.intents = "androidx.test.espresso:espresso-intents:$versions.espresso"
+espresso.remote = "androidx.test.espresso:espresso-remote:$versions.espresso"
+
+deps.espresso = espresso
+
+
+
 
 ext.deps = deps
 

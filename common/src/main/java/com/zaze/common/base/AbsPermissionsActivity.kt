@@ -7,6 +7,7 @@ import android.provider.Settings
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
+import com.zaze.common.util.PermissionHandler
 import com.zaze.common.util.PermissionHelper
 import com.zaze.common.widget.dialog.DialogFactory
 import com.zaze.utils.log.ZLog
@@ -19,43 +20,31 @@ import com.zaze.utils.log.ZTag
  */
 abstract class AbsPermissionsActivity : AbsThemeActivity() {
 
-    private val permissions by lazy {
-        getPermissionsToRequest()
+    val permissionHandler by lazy {
+        PermissionHandler(
+            activity = this,
+            permissions = getPermissionsToRequest(),
+            afterPermissionGranted = ::afterPermissionGranted,
+            onSomePermanentlyDenied = ::onSomePermanentlyDenied,
+            onPermissionDenied = ::onPermissionDenied
+        )
     }
+
+//    private val permissions by lazy {
+//        getPermissionsToRequest()
+//    }
+
+//    open fun needExternalStoragePermission(): Boolean{
+//        if(permissions.isEmpty()) {
+//            return false
+//        }
+//        val list = permissions.toList()
+//        if(permissions.isNotEmpty() permissions.contains()
+//    }
 
     private val permissionsRequest =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
-            var permissionGranted = true
-            // 是否有权限被永久拒绝，默认false
-            var permanentlyDenied = false
-            it.forEach { result ->
-                ZLog.i(
-                    ZTag.TAG,
-                    "onRequestPermissionsResult registerForActivityResult: ${result.key}: ${result.value}"
-                )
-                if (permissionGranted) {
-                    permissionGranted = result.value
-                }
-                // 权限被拒绝 && 不需要解释
-                if (!permanentlyDenied && !result.value && !ActivityCompat.shouldShowRequestPermissionRationale(
-                        this,
-                        result.key
-                    )
-                ) {
-                    permanentlyDenied = true
-                }
-            }
-            when {
-                permissionGranted -> {
-                    afterPermissionGranted()
-                }
-                permanentlyDenied -> {
-                    onSomePermanentlyDenied()
-                }
-                else -> {
-                    onPermissionDenied()
-                }
-            }
+            permissionHandler.onActivityResult(it)
         }
 
     private val startSettingRequest =
@@ -77,7 +66,7 @@ abstract class AbsPermissionsActivity : AbsThemeActivity() {
     }
 
     private fun hasPermission(): Boolean {
-        return PermissionHelper.hasPermissions(this, permissions)
+        return permissionHandler.hasPermissions()
     }
 
     open fun setupPermission() {
@@ -86,22 +75,31 @@ abstract class AbsPermissionsActivity : AbsThemeActivity() {
                 afterPermissionGranted()
             } else {
                 beforePermissionGranted()
-                permissionsRequest.launch(permissions)
+                permissionHandler.launch(permissionsRequest)
             }
         }
     }
 
+    /**
+     * 获取权限后
+     */
     open fun afterPermissionGranted() {
 //        MyLog.i(LcTag.TAG, "afterPermissionGranted")
     }
 
+    /**
+     * 获取权限前
+     */
     open fun beforePermissionGranted() {
 //        MyLog.i(LcTag.TAG, "beforePermissionGranted")
     }
 
+    /**
+     * 部分权限被拒绝
+     */
     open fun onSomePermanentlyDenied() {
         val builder = DialogFactory.Builder()
-            .message("如果没有「${PermissionHelper.getPermissionNames(permissions)}」相关权限，此应用可能无法正常工作。")
+            .message("如果没有「${permissionHandler.getDeniedPermissionNames()}」相关权限，此应用可能无法正常工作。")
             .negative("取消") {
                 finish()
             }

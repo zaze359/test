@@ -2,6 +2,7 @@ package com.zaze.demo;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -45,7 +46,10 @@ public class DemoAdapter extends BaseRecyclerAdapter<TableEntity, DemoAdapter.Ap
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityUtil.startActivityForResult(activity, value.getTargetClass(), 0);
+                Intent intent = new Intent(activity, value.getTargetClass());
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                ActivityUtil.startActivity(activity, intent);
+//                ActivityUtil.startActivityForResult(activity, intent, 0);
             }
         });
     }

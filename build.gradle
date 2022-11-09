@@ -1,14 +1,15 @@
 buildscript {
     ext {
-        compileSdkVersion = 31
+        compileSdkVersion = 33
         minSdkVersion = 21
-        targetSdkVersion = 28
+        targetSdkVersion = 33
         junitVersion = '4.13.2'
         versionCode = 1
         versionName = "1.0"
 
-        kotlin_version = '1.6.10'
-        hiltVersion = '2.38.1'
+        kotlin_version = '1.7.10'
+        hiltVersion = '2.44'
+//        hiltVersion = '2.43.2'
     }
 
     repositories {
@@ -25,7 +26,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.2'
+        classpath "com.android.tools.build:gradle:7.2.2"
 
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 //        classpath 'com.jakewharton:butterknife-gradle-plugin:9.0.0-rc1'
@@ -70,4 +71,6 @@ task clean(type: Delete) {
 tasks.withType(JavaCompile) {
     options.addStringOption('Xdoclint:none', '-quiet')
     options.encoding = "UTF-8"
+    // 启动增量编译：Gradle 4.10 版本之后默认使用
+    options.incremental = true
 }

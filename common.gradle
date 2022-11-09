@@ -27,6 +27,9 @@ subprojects {
             versionName rootProject.ext.versionName
 //            flavorDimensions "$rootProject.ext.versionCode"
             testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+            // 仅中文
+//            resConfigs "zh"
+
         }
         lintOptions {
             abortOnError false
@@ -47,26 +50,39 @@ subprojects {
         kotlinOptions {
             jvmTarget = "1.8"
         }
-
         composeOptions {
-            kotlinCompilerExtensionVersion '1.1.1'
+            kotlinCompilerExtensionVersion '1.3.0'
         }
     }
 
     dependencies {
-        testImplementation "junit:junit:$junitVersion"
-        androidTestImplementation 'androidx.test:runner:1.3.0'
-        androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-        androidTestImplementation 'androidx.test.espresso:espresso-intents:3.3.0'
-        androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+        testImplementation deps.junit
+//        testImplementation deps.ext_truth
+//        testImplementation deps.atsl.core
+//        testImplementation deps.atsl.ext_junit
+//        testImplementation deps.robolectric
+//        testImplementation deps.espresso.core
+//        testImplementation deps.espresso.intents
+
+
+
+        // Testing-only dependencies
+        androidTestImplementation  deps.atsl.runner
+        androidTestImplementation  deps.atsl.core
+        androidTestImplementation  deps.atsl.core_ktx
+        androidTestImplementation  deps.atsl.ext_junit
+        androidTestImplementation  deps.atsl.ext_junit_ktx
+        androidTestImplementation  deps.espresso.core
+//        androidTestImplementation  deps.espresso.intents
+//        androidTestImplementation  deps.espresso.contrib
 
 //        debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
 //        releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:2.7'
         implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-        implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
+        implementation deps.coroutines.android
 
         implementation 'com.google.code.gson:gson:2.8.6'
-        implementation 'com.google.android.material:material:1.2.1'
+        implementation 'com.google.android.material:material:1.6.1'
 
 //        implementation 'pub.devrel:easypermissions:3.0.0'
 
@@ -84,29 +100,31 @@ subprojects {
 //        implementation deps.activity.activity_ktx
         implementation deps.fragment.runtime_ktx
         implementation deps.lifecycle.runtime
-        implementation deps.lifecycle.extensions
+        implementation deps.lifecycle.service
+        implementation deps.lifecycle.process
+//        implementation deps.lifecycle.extensions
         implementation deps.lifecycle.viewmodel_ktx
         implementation deps.lifecycle.livedata_ktx
 
 
         // Integration with activities
-        implementation 'androidx.activity:activity-compose:1.4.0'
+        implementation 'androidx.activity:activity-compose:1.5.1'
         // Compose Material Design
-        implementation 'androidx.compose.material:material:1.1.1'
+        implementation 'androidx.compose.material:material:1.2.1'
         // Animations
-        implementation 'androidx.compose.animation:animation:1.1.1'
+        implementation 'androidx.compose.animation:animation:1.2.1'
         // Tooling support (Previews, etc.)
-        implementation 'androidx.compose.ui:ui-tooling:1.1.1'
+        implementation 'androidx.compose.ui:ui-tooling:1.2.1'
         // Integration with ViewModels
-        implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1'
+        implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$versions.lifecycle"
         // UI Tests
-        androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.1.1'
+        androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.2.1'
 
         // When using a MDC theme
-        implementation "com.google.android.material:compose-theme-adapter:1.1.1"
+        implementation "com.google.android.material:compose-theme-adapter:1.1.16"
 
         // When using a AppCompat theme
-        implementation "com.google.accompanist:accompanist-appcompat-theme:0.16.0"
+        implementation "com.google.accompanist:accompanist-appcompat-theme:0.25.1"
     }
 }
 

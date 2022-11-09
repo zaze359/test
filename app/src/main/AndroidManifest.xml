@@ -23,6 +23,12 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_SETTINGS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="29" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION" />
+<!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.REBOOT" />
@@ -38,7 +44,6 @@
 
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
@@ -47,17 +52,17 @@
 
     <application
         android:name=".app.MyApplication"
-        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true"
-        tools:replace="android:name, android:allowBackup, android:theme"
+        tools:replace="android:name, android:theme"
         tools:targetApi="m">
         <activity
             android:name=".MainActivity"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
@@ -184,7 +189,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".component.wifi.ui.WifiActivity"
+            android:name=".component.wifi.WifiActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -192,7 +197,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.zaze.demo.customview.CustomViewActivity"
+            android:name="com.zaze.demo.component.customview.CustomViewActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".component.network.NetworkStatsActivity"
@@ -219,8 +224,21 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
+<!--        <activity-->
+<!--            android:name=".component.share.ShareActivity"-->
+<!--            android:screenOrientation="fullSensor"-->
+<!--            android:theme="@style/AppTheme.NoActionBar" />-->
+
+        <activity
+            android:name=".component.lifecycle.LifecycleActivity"
+            android:screenOrientation="fullSensor"
+            android:launchMode="singleInstance"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+
         <service
             android:name=".debug.KeepLiveService"
+            android:exported="true"
             android:process=":live">
             <intent-filter>
                 <action android:name="com.zaze.demo.KeepLiveService" />
@@ -243,6 +261,7 @@
         <!--         设备管理器权限，注册权限监听器 -->
         <receiver
             android:name=".component.admin.MyAdminReceiver"
+            android:exported="true"
             android:permission="android.permission.BIND_DEVICE_ADMIN">
             <meta-data
                 android:name="android.app.device_admin"
@@ -254,7 +273,9 @@
         </receiver>
 
 
-        <receiver android:name=".receiver.BootReceiver">
+        <receiver
+            android:name=".receiver.BootReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.ACTION_SHUTDOWN" />
@@ -265,7 +286,9 @@
         </receiver>
 
 
-        <receiver android:name=".appwidgets.MyAppWidgetProvider">
+        <receiver
+            android:name=".appwidgets.MyAppWidgetProvider"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.zaze.demo.appwidget.action.REFRESH" />
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

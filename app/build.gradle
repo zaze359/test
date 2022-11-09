@@ -8,7 +8,8 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id 'dagger.hilt.android.plugin'
+    id 'com.google.dagger.hilt.android'
+//    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -19,12 +20,25 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArguments clearPackageData: 'true'
-        multiDexEnabled = true
+
+
+//        testInstrumentationRunnerArguments clearPackageData: 'true'
+//        multiDexEnabled = true
 //        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
         vectorDrawables.useSupportLibrary = true
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    testOptions {
+//        execution 'ANDROID_TEST_ORCHESTRATOR'
+        unitTests {
+            // 测试依赖于资源时开启，Android Studio 3.4 及更高版本默认提供编译版本的资源
+            includeAndroidResources = true
+//            unitTests.returnDefaultValues = true
+        }
+    }
+
 
 //    splits {
 //        abi {
@@ -34,9 +48,6 @@ android {
 //            universalApk true
 //        }
 //    }
-    testOptions {
-        execution 'ANDROID_TEST_ORCHESTRATOR'
-    }
 
     packagingOptions {
         exclude 'LICENSE.txt'
@@ -87,6 +98,11 @@ android {
             signingConfig signingConfigs.release
         }
     }
+
+    kapt {
+        correctErrorTypes true
+    }
+
     lintOptions {
         abortOnError false
     }
@@ -102,7 +118,6 @@ dependencies {
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.0'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.0'
-    testImplementation "junit:junit:$junitVersion"
 
     implementation 'androidx.multidex:multidex:2.0.1'
 
@@ -120,13 +135,14 @@ dependencies {
     implementation project(':util')
     implementation project(':common')
     implementation project(':module_animations')
-    implementation project(':module_share')
-    implementation project(':module_accessibility')
+//    implementation project(':module_accessibility')
     implementation project(':module_usagestats')
+    //
     implementation "com.google.dagger:hilt-android:$hiltVersion"
     kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
 
-    androidTestImplementation "com.google.dagger:hilt-android-testing:$rootProject.hiltVersion"
+//    androidTestImplementation "com.google.dagger:hilt-android-testing:$rootProject.hiltVersion"
+
     kaptAndroidTest "com.google.dagger:hilt-android-compiler:$rootProject.hiltVersion"
     // region matrix
     implementation group: "com.tencent.matrix", name: "matrix-android-lib", version: MATRIX_VERSION, changing: true
@@ -140,6 +156,9 @@ dependencies {
 //    implementation group: "com.tencent.matrix", name: "matrix-hooks", version: MATRIX_VERSION, changing: true
     // endregion matrix
 //    api 'com.blankj:utilcodex:1.25.8'
+
+    // wechat-sdk
+    //    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
 }
 apply from: 'test.gradle'
 apply plugin: 'com.tencent.matrix-plugin'

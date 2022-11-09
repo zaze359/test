@@ -66,10 +66,13 @@ fun FragmentManager.transactAllowingStateLoss(action: FragmentTransaction.() -> 
 }
 
 // --------------------------------------------------
-fun AppCompatActivity.setupActionBar(toolbar: Toolbar, action: ActionBar.() -> Unit = {}) {
-    setSupportActionBar(toolbar)
+fun AppCompatActivity.setupActionBar(
+    toolbar: Toolbar,
+    action: ActionBar.(toolbar: Toolbar) -> Unit = {}
+) {
+    this.setSupportActionBar(toolbar)
     supportActionBar?.run {
-        action()
+        action(toolbar)
     }
 }
 

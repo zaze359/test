@@ -13,28 +13,28 @@
         app:hSpace="@dimen/dp_20"
         app:vSpace="@dimen/dp_20" />
 
-    <com.zaze.demo.customview.TouchViewFirst
+    <com.zaze.demo.component.customview.TouchViewFirst
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_100"
         android:background="@color/red"
         android:orientation="vertical">
 
-        <com.zaze.demo.customview.TouchViewSecond
+        <com.zaze.demo.component.customview.TouchViewSecond
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/yellow"
             android:orientation="vertical">
 
-            <com.zaze.demo.customview.TouchViewThird
+            <com.zaze.demo.component.customview.TouchViewThird
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/blue"
                 android:orientation="vertical" />
-        </com.zaze.demo.customview.TouchViewSecond>
+        </com.zaze.demo.component.customview.TouchViewSecond>
 
-    </com.zaze.demo.customview.TouchViewFirst>
+    </com.zaze.demo.component.customview.TouchViewFirst>
 
-    <com.zaze.demo.customview.CustomView
+    <com.zaze.demo.component.customview.CustomView
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

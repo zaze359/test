@@ -8,14 +8,17 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.os.Build
+import android.os.Looper
 import android.provider.Settings
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.zaze.utils.AppUtil
 import com.zaze.utils.DisplayUtil
 import com.zaze.utils.FileUtil
+import com.zaze.utils.ReflectUtil
 import com.zaze.utils.ZStringUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
@@ -27,6 +30,19 @@ import com.zaze.utils.log.ZTag
  * @version : 2017-06-07 - 14:53
  */
 object Temp {
+
+    fun prepareLooper() {
+        Looper.prepare()
+        val looper = Looper.myLooper()
+        val mQueue = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Looper.getMainLooper().queue
+        } else {
+            ReflectUtil.executeMethod(Looper.getMainLooper(), "getQueue")
+        }
+        if(mQueue == null) return
+        ReflectUtil.setFieldValue(looper, "mQueue", mQueue)
+//        ReflectUtil.executeMethod(threadLocal, "set", looper)
+    }
 
     fun test(context: Activity) {
         var arr =  emptyList<Int>();

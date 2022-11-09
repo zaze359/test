@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 /**
@@ -24,7 +25,7 @@ public class ReflectUtil {
         if (TextUtils.isEmpty(classPath) || TextUtils.isEmpty(functionName)) {
             return null;
         }
-        return execute(Class.forName(classPath), null, functionName, args);
+        return executeMethod(Class.forName(classPath), null, functionName, args);
 
     }
 
@@ -39,10 +40,10 @@ public class ReflectUtil {
         if (self == null) {
             return null;
         }
-        return execute(self.getClass(), self, functionName, args);
+        return executeMethod(self.getClass(), self, functionName, args);
     }
 
-    private static Object execute(Class<?> clazz, Object receiver, String functionName, Object... args) throws Exception {
+    private static Object executeMethod(Class<?> clazz, Object receiver, String functionName, Object... args) throws Exception {
         if (showLog) {
             ZLog.d(ZTag.TAG_DEBUG, "functionName : " + functionName);
         }
@@ -65,28 +66,38 @@ public class ReflectUtil {
         return method.invoke(receiver, args);
     }
 
+    public static void setFieldValue(Object obj, String fieldName, Object value) throws Exception {
+        if (showLog) {
+            ZLog.d(ZTag.TAG_DEBUG, "setFieldValue fieldName: " + fieldName);
+        }
+        Class<?> clazz = obj.getClass();
+        Field field = clazz.getDeclaredField(fieldName);
+        field.setAccessible(true);
+        field.set(obj, value);
+    }
+
     /**
      * 处理8种基础类型的反射
      */
-    private static Class<?> dealPrimitive(Class<?> clazzs) {
-        if (Integer.class.equals(clazzs)) {
+    private static Class<?> dealPrimitive(Class<?> clazz) {
+        if (Integer.class.equals(clazz)) {
             return int.class;
-        } else if (Boolean.class.equals(clazzs)) {
+        } else if (Boolean.class.equals(clazz)) {
             return boolean.class;
-        } else if (Long.class.equals(clazzs)) {
+        } else if (Long.class.equals(clazz)) {
             return long.class;
-        } else if (Short.class.equals(clazzs)) {
+        } else if (Short.class.equals(clazz)) {
             return short.class;
-        } else if (Float.class.equals(clazzs)) {
+        } else if (Float.class.equals(clazz)) {
             return float.class;
-        } else if (Double.class.equals(clazzs)) {
+        } else if (Double.class.equals(clazz)) {
             return double.class;
-        } else if (Byte.class.equals(clazzs)) {
+        } else if (Byte.class.equals(clazz)) {
             return byte.class;
-        } else if (Character.class.equals(clazzs)) {
+        } else if (Character.class.equals(clazz)) {
             return char.class;
         } else {
-            return clazzs;
+            return clazz;
         }
     }
 
