@@ -5,10 +5,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
 import com.zaze.common.util.PermissionHandler
-import com.zaze.common.util.PermissionHelper
 import com.zaze.common.widget.dialog.DialogFactory
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag

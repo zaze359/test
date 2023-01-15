@@ -2,7 +2,8 @@ package com.zaze.utils;
 
 import android.text.TextUtils;
 
-import java.net.URLEncoder;
+import com.zaze.utils.ext.HttpExtKt;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,23 +24,7 @@ public class HttpUtil {
      * @return String
      */
     public static String buildGetRequest(String url, Map<String, String> map) {
-        if (map == null || map.isEmpty()) {
-            return url;
-        }
-        StringBuilder paramBuilder = new StringBuilder();
-        for (String key : map.keySet()) {
-            if (paramBuilder.length() != 0) {
-                paramBuilder.append("&");
-            }
-            paramBuilder.append(URLEncoder.encode(key));
-            paramBuilder.append("=");
-            paramBuilder.append(URLEncoder.encode(ZStringUtil.parseString(map.get(key))));
-        }
-        if (url.contains("?")) {
-            return ZStringUtil.format("%s&%s", url, paramBuilder.toString());
-        } else {
-            return ZStringUtil.format("%s?%s", url, paramBuilder.toString());
-        }
+        return HttpExtKt.buildGetRequest(url, map);
     }
 
     /**

@@ -1,0 +1,31 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/zhaozhen/Documents/GitResponses/test/module_share/src/main/AndroidManifest.xml:1:1-9:12
+INJECTED from /Users/zhaozhen/Documents/GitResponses/test/module_share/src/main/AndroidManifest.xml:1:1-9:12
+INJECTED from /Users/zhaozhen/Documents/GitResponses/test/module_share/src/main/AndroidManifest.xml:1:1-9:12
+	package
+		ADDED from /Users/zhaozhen/Documents/GitResponses/test/module_share/src/main/AndroidManifest.xml:2:5-34
+		INJECTED from /Users/zhaozhen/Documents/GitResponses/test/module_share/src/main/AndroidManifest.xml
+		INJECTED from /Users/zhaozhen/Documents/GitResponses/test/module_share/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/zhaozhen/Documents/GitResponses/test/module_share/src/main/AndroidManifest.xml:1:11-69
+application
+ADDED from /Users/zhaozhen/Documents/GitResponses/test/module_share/src/main/AndroidManifest.xml:4:5-8:19
+activity#com.zaze.demo.share.ShareActivity
+ADDED from /Users/zhaozhen/Documents/GitResponses/test/module_share/src/main/AndroidManifest.xml:6:9-51
+	android:name
+		ADDED from /Users/zhaozhen/Documents/GitResponses/test/module_share/src/main/AndroidManifest.xml:6:19-48
+uses-sdk
+INJECTED from /Users/zhaozhen/Documents/GitResponses/test/module_share/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/zhaozhen/Documents/GitResponses/test/module_share/src/main/AndroidManifest.xml
+INJECTED from /Users/zhaozhen/Documents/GitResponses/test/module_share/src/main/AndroidManifest.xml
+INJECTED from /Users/zhaozhen/Documents/GitResponses/test/module_share/src/main/AndroidManifest.xml
+INJECTED from /Users/zhaozhen/Documents/GitResponses/test/module_share/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /Users/zhaozhen/Documents/GitResponses/test/module_share/src/main/AndroidManifest.xml
+		ADDED from /Users/zhaozhen/Documents/GitResponses/test/module_share/src/main/AndroidManifest.xml
+		INJECTED from /Users/zhaozhen/Documents/GitResponses/test/module_share/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/zhaozhen/Documents/GitResponses/test/module_share/src/main/AndroidManifest.xml
+		ADDED from /Users/zhaozhen/Documents/GitResponses/test/module_share/src/main/AndroidManifest.xml
+		INJECTED from /Users/zhaozhen/Documents/GitResponses/test/module_share/src/main/AndroidManifest.xml

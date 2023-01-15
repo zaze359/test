@@ -26,6 +26,7 @@ object CommandBox {
     )
 
     fun isRoot(redo: Boolean = false): Boolean {
+
         return when {
             isRoot == null || redo -> {
                 if (searchCommand("su").isSuccess()) {

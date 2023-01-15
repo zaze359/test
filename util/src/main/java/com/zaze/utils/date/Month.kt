@@ -6,7 +6,6 @@ package com.zaze.utils.date
  * @version : 2017-06-21 - 15:31
  */
 enum class Month constructor(var cn: String, var en: String, var number: Int) {
-
     JANUARY("一月", "January", 1),
     FEBRUARY("二月", "February", 2),
     MARCH("三月", "March", 3),

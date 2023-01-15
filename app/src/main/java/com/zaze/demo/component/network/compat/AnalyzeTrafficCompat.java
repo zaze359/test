@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Build;
 import android.text.TextUtils;
 
-import com.google.gson.reflect.TypeToken;
 import com.zaze.demo.debug.AppShortcut;
 import com.zaze.demo.debug.ApplicationManager;
 import com.zaze.demo.debug.NetTrafficStats;
@@ -90,9 +89,7 @@ public abstract class AnalyzeTrafficCompat extends AnalyzeUtil {
                 archiveNetworkTraffic();
             }
             // --------------------------------------------------
-            List<NetTrafficStats> latelyTrafficStatsList = JsonUtil.parseJsonToList(latelyTrafficStatsFile.getProperty(KEY_TRAFFIC_LIST),
-                    new TypeToken<List<NetTrafficStats>>() {
-                    }.getType());
+            List<NetTrafficStats> latelyTrafficStatsList = JsonUtil.parseJsonToList(latelyTrafficStatsFile.getProperty(KEY_TRAFFIC_LIST), NetTrafficStats.class);
             HashMap<Integer, NetTrafficStats> latelyTrafficStatsMap = new HashMap<>();
             if (latelyTrafficStatsList != null && !latelyTrafficStatsList.isEmpty()) {
                 for (NetTrafficStats netTrafficStats : latelyTrafficStatsList) {
@@ -163,9 +160,7 @@ public abstract class AnalyzeTrafficCompat extends AnalyzeUtil {
             long bootTime = getBootTime();
             ZLog.i(ZTag.TAG_DEBUG, "读取当天流量统计文件到内存");
             ConfigHelper dayTrafficStatsFile = this.getDayTrafficStatsFile();
-            Collection<NetTrafficStats> dayTrafficStatsList = JsonUtil.parseJsonToList(dayTrafficStatsFile.getProperty(KEY_TRAFFIC_LIST),
-                    new TypeToken<List<NetTrafficStats>>() {
-                    }.getType());
+            Collection<NetTrafficStats> dayTrafficStatsList = JsonUtil.parseJsonToList(dayTrafficStatsFile.getProperty(KEY_TRAFFIC_LIST), NetTrafficStats.class);
             HashMap<String, NetTrafficStats> dayTrafficStatsMap = new HashMap<>();
             if (dayTrafficStatsList != null) {
                 for (NetTrafficStats netTrafficStats : dayTrafficStatsList) {
@@ -176,9 +171,7 @@ public abstract class AnalyzeTrafficCompat extends AnalyzeUtil {
                 }
             }
             // --------------------------------------------------
-            List<NetTrafficStats> latelyTrafficStatsList = JsonUtil.parseJsonToList(latelyTrafficStatsFile.getProperty(KEY_TRAFFIC_LIST),
-                    new TypeToken<List<NetTrafficStats>>() {
-                    }.getType());
+            List<NetTrafficStats> latelyTrafficStatsList = JsonUtil.parseJsonToList(latelyTrafficStatsFile.getProperty(KEY_TRAFFIC_LIST), NetTrafficStats.class);
             List<NetTrafficStats> updateTrafficStatsList = new ArrayList<>();
             if (latelyTrafficStatsList != null) {
                 ZLog.i(ZTag.TAG_DEBUG, "存在最近流量统计文件, 合并到当天流量统计 内存缓存 中");

@@ -21,6 +21,7 @@
     <!-- 访问网络，网络定位需要上网 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_SETTINGS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission
@@ -28,10 +29,12 @@
         android:maxSdkVersion="29" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION" />
-<!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+    <!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.REBOOT" />
+    <uses-permission
+        android:name="android.permission.REBOOT"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
@@ -44,35 +47,58 @@
 
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".app.MyApplication"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar"
+        android:theme="@style/Theme.MyApp"
         android:usesCleartextTraffic="true"
         tools:replace="android:name, android:theme"
         tools:targetApi="m">
+
+        <profileable
+            android:shell="true"
+            tools:targetApi="q" />
+
+        <!--        <activity-->
+        <!--            android:name=".MainActivity"-->
+        <!--            android:exported="true"-->
+        <!--            android:theme="@style/Theme.MyApp"-->
+        <!--            android:windowSoftInputMode="stateHidden">-->
+        <!--            <intent-filter>-->
+        <!--                <action android:name="android.intent.action.MAIN" />-->
+        <!--                <action android:name="android.intent.action.VIEW" />-->
+
+        <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+        <!--                <category android:name="android.intent.category.DEFAULT" />-->
+        <!--            </intent-filter>-->
+        <!--        </activity>-->
+
         <activity
-            android:name=".MainActivity"
+            android:name=".compose.ui.ComposeActivity"
+            android:theme="@style/Theme.MyApp"
             android:exported="true"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
 
         <!-- 测试接收推送 start -->
         <service android:name=".component.notification.service.NotificationService" />
@@ -102,7 +128,7 @@
         <activity
             android:name=".component.provider.ui.ProviderActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.MyApp" />
         <!-- contentProvider end -->
 
         <activity android:name=".component.animation.ui.AnimationActivity" />
@@ -113,7 +139,7 @@
         <activity android:name=".debug.CaptureActivity" />
         <activity
             android:name=".component.toolbar.ToolBarDemoActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.MyApp" />
 
         <activity
             android:name=".component.device.DeviceActivity"
@@ -124,116 +150,116 @@
         <activity
             android:name=".component.task.ui.TaskActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.MyApp" />
         <activity
             android:name=".component.application.AppListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.MyApp" />
         <activity
             android:name=".component.file.explorer.FileExplorerActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.MyApp" />
         <activity
             android:name=".component.preference.MyPreferenceActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.MyApp" />
         <activity
             android:name=".component.okhttp.ui.OkHttpActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.MyApp" />
         <activity
             android:name=".component.progress.ProgressActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.MyApp" />
         <activity
             android:name=".component.logcat.ui.LogcatActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.MyApp" />
         <activity
             android:name=".component.webview.WebViewActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.MyApp" />
         <activity
             android:name=".component.cache.ui.CacheActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.MyApp" />
         <!-- animation start -->
         <activity
             android:name=".component.animation.ui.AnimationActivity1"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.MyApp" />
         <activity
             android:name=".component.animation.ui.TransitionActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.MyApp" />
         <activity
             android:name=".component.animation.ui.SharedElementActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.MyApp" />
         <activity
             android:name=".component.animation.VectorActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.MyApp" />
         <!-- animation end -->
 
         <activity
             android:name=".component.system.ui.SystemActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.MyApp" />
         <activity
             android:name=".component.socket.client.ui.ClientActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.MyApp" />
         <activity
             android:name=".component.socket.server.ServerActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.MyApp" />
         <activity
             android:name=".component.wifi.WifiActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.MyApp" />
         <activity
             android:name=".component.notification.ui.NotificationActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.MyApp" />
         <activity
             android:name="com.zaze.demo.component.customview.CustomViewActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.MyApp" />
         <activity
             android:name=".component.network.NetworkStatsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.MyApp" />
         <activity
             android:name=".component.font.ui.FontActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.MyApp" />
         <activity
             android:name=".component.handler.HandlerActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.MyApp" />
         <activity
             android:name=".component.animation.ui.TweenedAnimActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.MyApp" />
         <activity
             android:name=".component.bitmap.BitmapActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.MyApp" />
         <activity
             android:name=".debug.SensorActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.MyApp" />
 
-<!--        <activity-->
-<!--            android:name=".component.share.ShareActivity"-->
-<!--            android:screenOrientation="fullSensor"-->
-<!--            android:theme="@style/AppTheme.NoActionBar" />-->
+        <!--        <activity-->
+        <!--            android:name=".component.share.ShareActivity"-->
+        <!--            android:screenOrientation="fullSensor"-->
+        <!--            android:theme="@style/Theme.MyApp" />-->
 
         <activity
             android:name=".component.lifecycle.LifecycleActivity"
-            android:screenOrientation="fullSensor"
             android:launchMode="singleInstance"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:screenOrientation="fullSensor"
+            android:theme="@style/Theme.MyApp" />
 
 
         <service

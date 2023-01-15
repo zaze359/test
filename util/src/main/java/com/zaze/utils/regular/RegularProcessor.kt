@@ -22,5 +22,5 @@ object RegularProcessor {
     fun matchIp(input: String): IpRegular {
         return IpRegular(input)
     }
-
 }
+

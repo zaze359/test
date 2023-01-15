@@ -27,7 +27,7 @@ abstract class AbsThemeActivity : AbsLogActivity() {
      * color res id
      */
     protected open fun getStatusBarColor(): Int {
-        return R.color.colorPrimary
+        return R.color.transparent
     }
 
     /**

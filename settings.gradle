@@ -1,7 +1,0 @@
-include ':app', ':module_animations', ':util', ':common'
-//include ':module_localrepo'
-include ':module_nativelib'
-include ':module_usagestats'
-include ':module_accessibility'
-
-rootProject.name='test'

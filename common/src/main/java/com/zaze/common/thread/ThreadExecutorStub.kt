@@ -4,7 +4,9 @@ import com.zaze.common.BuildConfig
 import com.zaze.utils.log.ZLog
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.ExecutorCoroutineDispatcher
+import kotlinx.coroutines.asCoroutineDispatcher
 import java.util.concurrent.Executor
+import java.util.concurrent.ExecutorService
 import java.util.concurrent.ThreadPoolExecutor
 import kotlin.coroutines.CoroutineContext
 
@@ -15,28 +17,22 @@ import kotlin.coroutines.CoroutineContext
  */
 class ThreadExecutorStub(val executorService: ThreadPoolExecutor) {
     /**
-     * 用于 RxJava 的 网络请求调度器
+     * 转换为 RxJava 的调度器
      */
     val rxScheduler by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
         Schedulers.from(executorService)
     }
 
+    /**
+     * 转换为协程的调度器
+     */
     val coroutineDispatcher by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
-        object : ExecutorCoroutineDispatcher() {
-            override val executor: Executor
-                get() = executorService
-
-            override fun close() {
-            }
-
-            override fun toString(): String = executorService.toString()
-
-            override fun dispatch(context: CoroutineContext, block: Runnable) {
-                executorService.execute(block)
-            }
-        }
+        executorService.asCoroutineDispatcher()
     }
 
+    /**
+     * 输出线程信息
+     */
     fun printThreadInfo(tag: String) {
         if (BuildConfig.DEBUG) {
             // only used by debug start

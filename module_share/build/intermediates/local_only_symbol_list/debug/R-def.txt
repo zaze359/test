@@ -1,0 +1,11 @@
+R_DEF: Internal format may change without notice
+local
+id shareFrameLayout
+id shareToolbar
+id shareWXRegBtn
+id shareWXSendTextBtn
+layout share_act
+layout share_wx_frag
+style MyButton
+style MyLineActionButton
+style MyToolbar

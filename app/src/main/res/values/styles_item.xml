@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="BaseItemStyle">
-        <item name="android:background">?attr/zItemBackground</item>
-        <item name="android:textColor">?attr/zItemTextColor</item>
-        <item name="android:textSize">?attr/zItemTextSize</item>
-        <item name="android:padding">@dimen/dp_4</item>
-    </style>
-</resources>

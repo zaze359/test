@@ -3,8 +3,8 @@ package com.zaze.demo.component.provider.sqlite;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
-import com.zaze.utils.ZStringUtil;
+import android.database.sqlite.SQLiteQueryBuilder;
+import android.net.Uri;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +68,16 @@ public abstract class BaseDao<T> {
         return t;
     }
 
+    public Cursor query(Uri uri, String[] projectionIn, String selection, String[] selectionArgs, String groupBy, String having, String sortOrder) {
+        SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
+        queryBuilder.setTables(getTableName());
+        return queryBuilder.query(
+                this.db, projectionIn, selection,
+                selectionArgs, groupBy, having, sortOrder
+        );
+    }
+
+
     protected List<T> rawQueryList(String sql, String[] selectionArgs) {
         List<T> list = new ArrayList<>();
         Cursor cursor = rawQuery(sql, selectionArgs);
@@ -104,23 +114,30 @@ public abstract class BaseDao<T> {
         return db.insert(getTableName(), null, values);
     }
 
+    public int update(ContentValues values, String where, String[] whereArgs) {
+        return db.update(getTableName(), values, where, whereArgs);
+    }
+
     public void update(T t) {
         execSQL(updateSql(t));
     }
 
     protected void delete(String where) {
-        execSQL(ZStringUtil.format("DELETE FROM %s %s", getTableName(), where));
+        execSQL(String.format("DELETE FROM %s %s", getTableName(), where));
     }
 
+    public void deleteAll() {
+        execSQL(String.format("DELETE FROM %s", getTableName()));
+    }
 
-    void deleteAll() {
-        execSQL(ZStringUtil.format("DELETE FROM %s", getTableName()));
+    public int delete(String whereClause, String[] whereArgs) {
+        return db.delete(getTableName(), whereClause, whereArgs);
     }
 
     public void dropTable() {
         db.execSQL("DROP TABLE IF EXISTS " + getTableName());
     }
-    // --------------
+    // --------------------------------------------------
 
     public void execSQL(String sql) {
         db.execSQL(sql);
@@ -130,8 +147,7 @@ public abstract class BaseDao<T> {
         return db.rawQuery(sql, selectionArgs);
     }
 
-
-    //
+    // --------------------------------------------------
     protected abstract String getTableName();
 
     public abstract void createTable();
@@ -144,21 +160,33 @@ public abstract class BaseDao<T> {
 
     protected abstract T dealCursor(Cursor cursor);
 
-
     // ----------------
-    protected String getString(Cursor cursor, String columnName) {
-        return cursor.getString(cursor.getColumnIndex(columnName));
+    public static String getString(Cursor cursor, String columnName) {
+        int index = cursor.getColumnIndex(columnName);
+        if (index < 0) {
+            return "";
+        }
+        return cursor.getString(index);
     }
 
-    protected long getLong(Cursor cursor, String columnName) {
-        return cursor.getLong(cursor.getColumnIndex(columnName));
+    public static long getLong(Cursor cursor, String columnName) {
+        int index = cursor.getColumnIndex(columnName);
+        if (index < 0) {
+            return -1L;
+        }
+        return cursor.getLong(index);
     }
 
-    protected int getInt(Cursor cursor, String columnName) {
-        return cursor.getInt(cursor.getColumnIndex(columnName));
+    public static int getInt(Cursor cursor, String columnName) {
+        int index = cursor.getColumnIndex(columnName);
+        if (index < 0) {
+            return -1;
+        }
+        return cursor.getInt(index);
     }
 
-//    protected void saveCache(String key, T t) {
+
+    //    protected void saveCache(String key, T t) {
 //        if (key != null && t != null) {
 //            cache.put(key, t);
 //        }

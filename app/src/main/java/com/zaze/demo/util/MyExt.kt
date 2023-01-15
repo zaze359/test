@@ -7,9 +7,12 @@ import android.content.pm.ApplicationInfo
  * @author : zaze
  * @version : 2021-07-27 - 09:24
  */
-fun ApplicationInfo.isSystemApp(): Boolean {
-    return this.flags and ApplicationInfo.FLAG_SYSTEM > 0
-}
+//fun ApplicationInfo.isSystemApp(): Boolean {
+//    return this.flags and ApplicationInfo.FLAG_SYSTEM > 0
+//}
+
+val ApplicationInfo.isSystemApp: Boolean
+    get() = this.flags and ApplicationInfo.FLAG_SYSTEM > 0
 
 /**
  * RecyclerView

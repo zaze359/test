@@ -23,7 +23,6 @@ class TouchViewSecond : LinearLayout {
         defStyleAttr
     )
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     constructor(
         context: Context,
         attrs: AttributeSet?,

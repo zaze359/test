@@ -1,14 +1,15 @@
 package com.zaze.demo
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.MenuItem
-import android.view.Window
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -43,6 +44,7 @@ class MainActivity : AbsActivity() {
     }
 
     override fun getPermissionsToRequest(): Array<String> {
+
         return arrayOf(
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -60,10 +62,17 @@ class MainActivity : AbsActivity() {
 //        ))
     }
 
+    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+    @ExperimentalMaterial3Api
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        WindowCompat.setDecorFitsSystemWindows(window, false)
+//        setContent {
+//            TestApp()
+//        }
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         setupActionBar(findViewById(R.id.mainToolbar)) {
             setTitle(R.string.app_name)
             setDisplayHomeAsUpEnabled(true)

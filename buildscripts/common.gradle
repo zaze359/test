@@ -1,0 +1,102 @@
+apply from: "$project.rootDir/buildscripts/versions.gradle"
+
+subprojects {
+    println("project.name:  ${project.name}")
+    if (project.name == 'util') {
+        return
+    }
+//    def isMainApp = (project.name == 'app')
+    if (project.name == 'app') {
+        apply plugin: 'com.android.application'
+    } else {
+        apply plugin: 'com.android.library'
+    }
+    apply plugin: 'kotlin-android'
+//    apply plugin: 'kotlin-android-extensions'
+    apply plugin: 'kotlin-kapt'
+
+    android {
+        compileSdkVersion Integer.valueOf(libs.versions.compileSdk.get())
+
+        defaultConfig {
+            minSdkVersion Integer.valueOf(libs.versions.minSdk.get())
+            targetSdkVersion rootProject.ext.targetSdkVersion
+            versionCode rootProject.ext.versionCode
+            versionName rootProject.ext.versionName
+//            flavorDimensions "$rootProject.ext.versionCode"
+            testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+            // 仅中文
+//            resConfigs "zh"
+
+        }
+        lintOptions {
+            abortOnError false
+        }
+
+        buildFeatures {
+            dataBinding true
+        }
+
+        // Set both the Java and Kotlin compilers to target Java 8.
+//        compileOptions {
+//            sourceCompatibility JavaVersion.VERSION_1_8
+//            targetCompatibility JavaVersion.VERSION_1_8
+//        }
+
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
+    }
+
+    dependencies {
+        testImplementation deps.junit
+//        testImplementation deps.ext_truth
+//        testImplementation deps.atsl.core
+//        testImplementation deps.atsl.ext_junit
+//        testImplementation deps.robolectric
+//        testImplementation deps.espresso.core
+//        testImplementation deps.espresso.intents
+
+
+        // Testing-only dependencies
+        androidTestImplementation deps.atsl.runner
+        androidTestImplementation deps.atsl.core
+        androidTestImplementation deps.atsl.core_ktx
+        androidTestImplementation deps.atsl.ext_junit
+        androidTestImplementation deps.atsl.ext_junit_ktx
+        androidTestImplementation deps.espresso.core
+//        androidTestImplementation  deps.espresso.intents
+//        androidTestImplementation  deps.espresso.contrib
+
+//        debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
+//        releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:2.7'
+        implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+        implementation deps.coroutines.android
+
+        implementation 'com.google.code.gson:gson:2.8.6'
+        implementation 'com.google.android.material:material:1.6.1'
+
+//        implementation 'pub.devrel:easypermissions:3.0.0'
+
+
+        implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.2'
+
+        implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+        implementation 'io.reactivex.rxjava2:rxjava:2.2.21'
+
+        implementation deps.constraint_layout
+        implementation deps.annotations
+        implementation deps.recyclerview
+        implementation deps.core_ktx
+        implementation deps.app_compat
+//        implementation deps.activity.activity_ktx
+        implementation deps.fragment.runtime_ktx
+        implementation deps.lifecycle.runtime
+        implementation deps.lifecycle.service
+        implementation deps.lifecycle.process
+//        implementation deps.lifecycle.extensions
+        implementation deps.lifecycle.viewmodel_ktx
+        implementation deps.lifecycle.livedata_ktx
+    }
+}
+

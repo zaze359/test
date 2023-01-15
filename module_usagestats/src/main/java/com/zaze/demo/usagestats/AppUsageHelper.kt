@@ -29,9 +29,9 @@ object AppUsageHelper {
      * 检测是否有获取应用使用量权限
      */
     fun checkAppUsagePermission(context: Context): Boolean {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            return true
-        }
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+//            return true
+//        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             return isGrantedUsagePermission(context)
         }
@@ -71,21 +71,19 @@ object AppUsageHelper {
      * 请求获取应用使用量权限
      */
     fun requestAppUsagePermission(context: Context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            try {
-                context.startActivity(intent)
-            } catch (e: ActivityNotFoundException) {
-                Log.e(TAG, "ACTION_USAGE_ACCESS_SETTINGS FAIL!", e)
-            }
+        val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        try {
+            context.startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            Log.e(TAG, "ACTION_USAGE_ACCESS_SETTINGS FAIL!", e)
         }
     }
 
     fun getTopActivityPackageName(context: Context): String {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            return PACKAGE_NAME_UNKNOWN
-        }
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+//            return PACKAGE_NAME_UNKNOWN
+//        }
         val time = System.currentTimeMillis()
         val usageStatsList =
             getUsageStatsList(context, UsageStatsManager.INTERVAL_BEST, time - 1000 * 5, time)

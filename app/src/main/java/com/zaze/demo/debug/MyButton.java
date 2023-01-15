@@ -3,7 +3,8 @@ package com.zaze.demo.debug;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.widget.Button;
+
+import androidx.appcompat.widget.AppCompatButton;
 
 /**
  * Description :
@@ -11,7 +12,7 @@ import android.widget.Button;
  * @author : ZAZE
  * @version : 2019-05-30 - 09:29
  */
-public class MyButton extends Button {
+public class MyButton extends AppCompatButton {
 
     public MyButton(Context context) {
         super(context);
@@ -23,10 +24,6 @@ public class MyButton extends Button {
 
     public MyButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-    }
-
-    public MyButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
     }
 
     @Override

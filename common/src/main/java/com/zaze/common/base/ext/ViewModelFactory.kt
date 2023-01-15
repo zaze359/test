@@ -7,10 +7,57 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelStore
 import com.zaze.common.base.AbsActivity
 import com.zaze.common.base.AbsAndroidViewModel
 import com.zaze.common.base.AbsViewModel
 import com.zaze.common.base.BaseApplication
+import kotlin.reflect.KClass
+
+class MyViewModelLazy<VM : ViewModel>(
+    private val activity: () -> ComponentActivity?,
+    private val viewModelClass: KClass<VM>,
+    private val storeProducer: () -> ViewModelStore,
+    private val factoryProducer: () -> ViewModelProvider.Factory
+) : Lazy<VM> {
+    private var cached: VM? = null
+    private var observed = false
+
+    override val value: VM
+        get() {
+            val viewModel = cached
+            return if (viewModel == null) {
+                val factory = factoryProducer()
+                val store = storeProducer()
+                ViewModelProvider(store, factory)[viewModelClass.java].also {
+                    cached = it
+                }
+            } else {
+                viewModel
+            }.apply {
+                observe(activity(), this)
+            }
+        }
+
+    private fun observe(owner: ComponentActivity?, viewModel: ViewModel) {
+        if (observed) {
+            return
+        }
+        if (owner == null) {
+            // Fragment not attached to an activity.
+            observed = false
+        } else {
+            observed = true
+            initAbsViewModel(owner, viewModel)
+        }
+    }
+
+    override fun isInitialized(): Boolean = cached != null
+}
+
+fun obtainViewModelFactory(): ViewModelFactory {
+    return ViewModelFactory()
+}
 
 open class ViewModelFactory : ViewModelProvider.NewInstanceFactory() {
     @Suppress("UNCHECKED_CAST")
@@ -26,6 +73,24 @@ open class ViewModelFactory : ViewModelProvider.NewInstanceFactory() {
     }
 }
 
+fun initAbsViewModel(owner: ComponentActivity?, viewModel: ViewModel) {
+    if (owner is AbsActivity && viewModel is AbsViewModel) {
+        viewModel._showMessage.observe(owner) {
+            owner.showToast(it)
+        }
+        viewModel._progress.observe(owner) {
+            owner.progress(it)
+        }
+        viewModel._tipDialog.observe(owner) {
+            it?.build(owner)?.show()
+        }
+        viewModel._finish.observe(owner) {
+            owner.finish()
+        }
+    }
+}
+
+
 /**
  * 在fragment中构建仅和fragment 关联的viewModel
  */
@@ -38,36 +103,19 @@ fun <T : ViewModel> Fragment.obtainFragViewModel(viewModelClass: Class<T>): T {
  */
 @Deprecated("use obtainViewModelFactory ")
 fun <T : ViewModel> Fragment.obtainViewModel(viewModelClass: Class<T>): T {
-    return activity?.let {
+    return requireActivity().let {
         ViewModelProvider(it, ViewModelFactory())[viewModelClass].also { vm ->
             initAbsViewModel(it, vm)
         }
-    } ?: obtainFragViewModel(viewModelClass)
+    }
 }
 
 /**
  * 在activity中构建和activity 关联的viewModel
  */
-@Deprecated("use obtainViewModelFactory ")
+@Deprecated("use myViewModels")
 fun <T : ViewModel> AppCompatActivity.obtainViewModel(
     viewModelClass: Class<T>
 ) = ViewModelProvider(this, ViewModelFactory())[viewModelClass].also { vm ->
     initAbsViewModel(this, vm)
-}
-
-fun initAbsViewModel(owner: ComponentActivity?, viewModel: ViewModel) {
-    if (owner is AbsActivity && viewModel is AbsViewModel) {
-        viewModel._showMessage.observe(owner, Observer {
-            owner.showToast(it)
-        })
-        viewModel._progress.observe(owner, Observer {
-            owner.progress(it)
-        })
-        viewModel._tipDialog.observe(owner, Observer {
-            it?.build(owner)?.show()
-        })
-        viewModel._finish.observe(owner, Observer {
-            owner.finish()
-        })
-    }
 }

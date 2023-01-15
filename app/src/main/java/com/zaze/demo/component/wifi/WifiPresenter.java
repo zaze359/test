@@ -1,5 +1,6 @@
 package com.zaze.demo.component.wifi;
 
+import android.Manifest;
 import android.net.NetworkInfo;
 import android.net.TrafficStats;
 import android.net.wifi.ScanResult;
@@ -10,10 +11,12 @@ import android.os.Message;
 import android.text.TextUtils;
 
 import com.zaze.common.base.mvp.BaseMvpPresenter;
+import com.zaze.common.util.PermissionHelper;
+import com.zaze.demo.app.MyApplication;
 import com.zaze.demo.receiver.WifiReceiver;
-import com.zaze.utils.ThreadManager;
 import com.zaze.utils.AppUtil;
 import com.zaze.utils.NetUtil;
+import com.zaze.utils.ThreadManager;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
@@ -53,6 +56,9 @@ public class WifiPresenter extends BaseMvpPresenter<WifiContract.View> implement
             wifiManager.startScan();
             scanResultList.clear();
             HashSet<String> hashSet = new HashSet<>();
+            if (!PermissionHelper.INSTANCE.checkSelfPermission(MyApplication.getInstance(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION})) {
+                return;
+            }
             List<ScanResult> tempList = wifiManager.getScanResults();
             if (tempList != null && !tempList.isEmpty()) {
                 for (ScanResult scanResult : tempList) {

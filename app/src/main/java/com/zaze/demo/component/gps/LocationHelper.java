@@ -11,7 +11,10 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
 
+import androidx.core.app.ActivityCompat;
+
 import com.zaze.common.base.BaseApplication;
+import com.zaze.common.util.PermissionHelper;
 import com.zaze.demo.app.MyApplication;
 import com.zaze.utils.ZStringUtil;
 import com.zaze.utils.log.ZLog;
@@ -20,8 +23,6 @@ import com.zaze.utils.log.ZTag;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import androidx.core.app.ActivityCompat;
 
 /**
  * Description :
@@ -92,7 +93,9 @@ public class LocationHelper {
                 }
             });
         }
-        if (locationManager.getAllProviders().contains(LocationManager.GPS_PROVIDER)) {
+        if (locationManager.getAllProviders().contains(LocationManager.GPS_PROVIDER)
+                && !PermissionHelper.INSTANCE.checkSelfPermission(MyApplication.getInstance(), Manifest.permission.ACCESS_FINE_LOCATION)
+                && !PermissionHelper.INSTANCE.checkSelfPermission(MyApplication.getInstance(), Manifest.permission.ACCESS_COARSE_LOCATION)) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, gpsLocationListener);
         }
     }
@@ -130,7 +133,9 @@ public class LocationHelper {
                 }
             });
         }
-        if (locationManager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER)) {
+        if (locationManager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER)
+                && !PermissionHelper.INSTANCE.checkSelfPermission(MyApplication.getInstance(), Manifest.permission.ACCESS_FINE_LOCATION)
+                && !PermissionHelper.INSTANCE.checkSelfPermission(MyApplication.getInstance(), Manifest.permission.ACCESS_COARSE_LOCATION)) {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, 0, netLocationListener);
         }
     }

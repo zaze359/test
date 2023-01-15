@@ -31,11 +31,7 @@ public class HttpURLHandler extends URLStreamHandler {
                 httpHandlerClass = Class.forName("libcore.net.http.HttpHandler");
             }
             handler = (URLStreamHandler) httpHandlerClass.newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -65,7 +61,6 @@ public class HttpURLHandler extends URLStreamHandler {
     }
 
     private URL dealURL(URL url) {
-        //soft.tbs.imtt.qq.com/17421/tbs_res_imtt_tbs_release_tbs_core_4.7.0.18_044704_20190510_181602_nolg_fs_obfs.tbs"
         Log.i("zaze", "URLConnection url : " + url.toString());
         Log.i("zaze", "URLConnection thread : " + Thread.currentThread().getName());
         return url;

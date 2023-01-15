@@ -14,6 +14,7 @@ import io.reactivex.disposables.CompositeDisposable
  * @version : 2020-05-06 - 11:27
  */
 open class AbsViewModel : ViewModel() {
+    @Deprecated("使用 flow 替代")
     val compositeDisposable = CompositeDisposable()
 
     /**

@@ -51,15 +51,16 @@ object PermissionHelper {
     }
 
     fun hasPermissions(context: Context, perms: Array<String>): Boolean {
+        return checkSelfPermission(context, perms)
+    }
+
+    fun checkSelfPermission(context: Context, perms: Array<String>): Boolean {
         if (perms.isEmpty() || Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return true
         }
-        perms.forEach {
-            if (!checkSelfPermission(context, it)) {
-                return false
-            }
-        }
-        return true
+        return perms.find {
+            !checkSelfPermission(context, it)
+        } == null
     }
 
     fun checkSelfPermission(context: Context, permission: String): Boolean {

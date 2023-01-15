@@ -73,7 +73,7 @@ public class UserDao extends BaseDao<User> {
     }
 
     @Override
-    protected User dealCursor(Cursor cursor) {
+    public User dealCursor(Cursor cursor) {
         User user = new User();
         user.setId(getLong(cursor, Properties.ID));
         user.setUserId(getLong(cursor, Properties.USER_ID));

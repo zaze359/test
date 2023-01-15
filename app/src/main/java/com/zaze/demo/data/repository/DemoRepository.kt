@@ -29,16 +29,19 @@ import com.zaze.demo.component.time.TimeActivity
 import com.zaze.demo.component.toolbar.ToolBarDemoActivity
 import com.zaze.demo.component.webview.WebViewActivity
 import com.zaze.demo.component.wifi.WifiActivity
+import com.zaze.demo.compose.ui.ComposeActivity
 import com.zaze.demo.debug.CaptureActivity
 import com.zaze.demo.debug.SensorActivity
+import com.zaze.demo.di.IODispatcher
 import com.zaze.demo.model.entity.TableEntity
 import com.zaze.demo.usagestats.UsageStatesActivity
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import java.util.*
+import javax.inject.Inject
 
 
-class DemoRepository(private val dispatcher: CoroutineDispatcher) {
+class DemoRepository @Inject constructor(@IODispatcher private val dispatcher: CoroutineDispatcher) {
 
     suspend fun loadDemos(): List<TableEntity> = withContext(dispatcher) {
         var i = 0

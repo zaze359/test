@@ -64,7 +64,7 @@ abstract class AbsFragment : Fragment() {
      * @return LoadingView
      */
     open fun createLoadingView(): LoadingView {
-        return LoadingView.createHorizontalLoading(context!!).apply {
+        return LoadingView.createHorizontalLoading(requireContext()).apply {
             this.setTextColor(ContextCompat.getColor(context, R.color.white))
         }
     }

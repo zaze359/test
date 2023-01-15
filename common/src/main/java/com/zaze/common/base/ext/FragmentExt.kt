@@ -1,36 +1,49 @@
 package com.zaze.common.base.ext
 
+import androidx.activity.ComponentActivity
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStore
+import kotlin.reflect.KClass
 
 /**
  * Description :
  * @author : zaze
  * @version : 2021-04-29 - 10:27
  */
-fun Fragment.obtainViewModelFactory(): ViewModelFactory {
-    return object : ViewModelFactory() {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return super.create(modelClass).also { vm ->
-                initAbsViewModel(this@obtainViewModelFactory.activity, vm)
-            }
-        }
+
+@MainThread
+inline fun <reified VM : ViewModel> Fragment.myViewModels() = createMyViewModelLazy(
+    activity = { activity },
+    viewModelClass = VM::class,
+    storeProducer = { this.viewModelStore },
+    factoryProducer = { obtainViewModelFactory() }
+)
+
+@MainThread
+inline fun <reified VM : ViewModel> Fragment.myActivityViewModels() =
+    customActivityViewModels<VM>({ this.activity }) {
+        obtainViewModelFactory()
     }
-}
 
-fun Fragment.obtainActivityViewModelFactory(): ViewModelFactory {
-    return ViewModelFactory()
-}
-
-@MainThread
-inline fun <reified VM : ViewModel> Fragment.myViewModel() = viewModels<VM> {
-    obtainViewModelFactory()
-}
+inline fun <reified VM : ViewModel> Fragment.customActivityViewModels(
+    noinline activity: () -> ComponentActivity?,
+    noinline factoryProducer: (() -> ViewModelProvider.Factory)? = null
+): Lazy<VM> = createMyViewModelLazy(activity, VM::class, { requireActivity().viewModelStore },
+    factoryProducer ?: { requireActivity().defaultViewModelProviderFactory }
+)
 
 @MainThread
-inline fun <reified VM : ViewModel> Fragment.myActivityViewModels() = activityViewModels<VM> {
-    obtainActivityViewModelFactory()
+fun <VM : ViewModel> Fragment.createMyViewModelLazy(
+    activity: () -> ComponentActivity?,
+    viewModelClass: KClass<VM>,
+    storeProducer: () -> ViewModelStore,
+    factoryProducer: (() -> ViewModelProvider.Factory)? = null
+): Lazy<VM> {
+    val factoryPromise = factoryProducer ?: {
+        defaultViewModelProviderFactory
+    }
+    return MyViewModelLazy(activity, viewModelClass, storeProducer, factoryPromise)
 }

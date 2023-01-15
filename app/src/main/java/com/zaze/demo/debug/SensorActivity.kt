@@ -1,5 +1,6 @@
 package com.zaze.demo.debug
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -31,8 +32,10 @@ class SensorActivity : AbsActivity(), SensorEventListener {
         sensorManager?.getSensorList(Sensor.TYPE_ALL)?.forEach { it ->
             ZLog.i(ZTag.TAG_DEBUG, " has sensor: $it")
         }
-        mWakeLock = mPowerManager?.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, "aaa")
+        mWakeLock =
+            mPowerManager?.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, "test:sensor")
     }
+
     override fun onResume() {
         super.onResume()
         //注册传感器,先判断有没有传感器

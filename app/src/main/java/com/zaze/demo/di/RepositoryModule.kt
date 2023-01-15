@@ -12,12 +12,12 @@ import kotlinx.coroutines.Dispatchers
  * @author : zaze
  * @version : 2021-07-14 - 17:23
  */
-@InstallIn(SingletonComponent::class)
-@Module
-class RepositoryModule {
-
-    @Provides
-    fun providerDemoRepository(): DemoRepository {
-        return DemoRepository(Dispatchers.IO)
-    }
-}
+//@Module
+//@InstallIn(SingletonComponent::class)
+//class RepositoryModule {
+//
+//    @Provides
+//    fun providerDemoRepository(): DemoRepository {
+//        return DemoRepository(Dispatchers.IO)
+//    }
+//}

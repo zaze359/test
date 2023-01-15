@@ -8,6 +8,7 @@ import android.net.Uri;
 import com.zaze.common.base.BaseApplication;
 import com.zaze.common.base.mvp.BaseMvpPresenter;
 import com.zaze.demo.component.provider.presenter.ProviderPresenter;
+import com.zaze.demo.component.provider.sqlite.BaseDao;
 import com.zaze.demo.component.provider.sqlite.User;
 import com.zaze.demo.component.provider.sqlite.UserDao;
 import com.zaze.demo.component.provider.view.ProviderView;
@@ -35,11 +36,12 @@ public class ProviderPresenterImpl extends BaseMvpPresenter<ProviderView> implem
                 new String[]{UserDao.Properties.ID, UserDao.Properties.USER_ID, UserDao.Properties.USER_NAME},
                 null, null, null);
         User user = new User();
+
         if (cursor != null) {
             if (cursor.moveToNext()) {
-                user.setId(cursor.getLong(cursor.getColumnIndex(UserDao.Properties.ID)));
-                user.setUserId(cursor.getLong(cursor.getColumnIndex(UserDao.Properties.USER_ID)));
-                user.setUsername(cursor.getString(cursor.getColumnIndex(UserDao.Properties.USER_NAME)));
+                user.setId(BaseDao.getInt(cursor, UserDao.Properties.ID));
+                user.setUserId(BaseDao.getLong(cursor, UserDao.Properties.USER_ID));
+                user.setUsername(BaseDao.getString(cursor, UserDao.Properties.USER_NAME));
             }
             cursor.close();
         }
