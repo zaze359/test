@@ -23,7 +23,7 @@ import com.zaze.demo.compose.data.Menu
 import com.zaze.demo.compose.data.drawerMenus
 import com.zaze.demo.compose.theme.MyComposeTheme
 import com.zaze.demo.compose.theme.MyTypography
-import com.zaze.demo.compose.ui.SampleDestinations
+import com.zaze.demo.compose.navigation.SampleDestinations
 
 /**
  * Description :

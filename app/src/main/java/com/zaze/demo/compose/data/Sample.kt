@@ -1,6 +1,6 @@
 package com.zaze.demo.compose.data
 
-import com.zaze.demo.compose.ui.SampleNavigationActions
+import androidx.navigation.NavHostController
 
 
 /**
@@ -10,5 +10,5 @@ import com.zaze.demo.compose.ui.SampleNavigationActions
  */
 data class Sample(
     val title: String,
-    val navigationAction: (SampleNavigationActions) -> Unit
+    val navigationAction: (NavHostController) -> Unit
 )

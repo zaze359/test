@@ -135,7 +135,6 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
     kapt(libs.hilt.ext.compiler)
-
     // endregion hilt
 
     val composeBom = platform(libs.androidx.compose.bom)
@@ -151,6 +150,7 @@ dependencies {
 
     // Choose one of the following:
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.material.iconsExtended)
 //    implementation(libs.google.android.material)
 //    implementation("androidx.compose.material:material")
 //    implementation("androidx.compose.foundation:foundation")

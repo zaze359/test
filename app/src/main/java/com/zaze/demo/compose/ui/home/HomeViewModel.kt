@@ -3,6 +3,7 @@ package com.zaze.demo.compose.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zaze.demo.compose.data.Sample
+import com.zaze.demo.compose.navigation.navigateToScaffold
 import com.zaze.demo.compose.ui.components.snackbar.Message
 import com.zaze.demo.data.repository.DemoRepository
 import com.zaze.demo.model.entity.TableEntity

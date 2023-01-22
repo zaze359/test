@@ -3,9 +3,10 @@ package com.zaze.demo.compose.ui.home
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.zaze.demo.compose.ui.SampleNavigationActions
+import androidx.navigation.NavHostController
 import com.zaze.demo.model.entity.TableEntity
 
 /**
@@ -17,11 +18,11 @@ import com.zaze.demo.model.entity.TableEntity
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun HomeRouter(
-    homeViewModel: HomeViewModel,
     snackbarHostState: SnackbarHostState,
     openDrawer: () -> Unit = {},
-    navigationActions: SampleNavigationActions,
+    navController: NavHostController,
     startActivity: (TableEntity) -> Unit,
+    homeViewModel: HomeViewModel = hiltViewModel(),
 ) {
     val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
     println("uiState: $uiState")
@@ -32,7 +33,7 @@ fun HomeRouter(
         openDrawer = openDrawer,
         onErrorDismiss = homeViewModel::errorShown,
         navigateToSample = {
-            it.navigationAction(navigationActions)
+            it.navigationAction(navController)
         },
         startActivity = startActivity
     )

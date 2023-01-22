@@ -2,27 +2,22 @@ package com.zaze.demo.compose.ui
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import com.zaze.common.base.AbsActivity
 import com.zaze.common.util.ActivityUtil
 import com.zaze.demo.compose.data.Action
 import com.zaze.demo.compose.data.Router
+import com.zaze.demo.compose.navigation.SampleDestinations
+import com.zaze.demo.compose.navigation.SampleNavGraph
 import com.zaze.demo.compose.theme.MyComposeTheme
 import com.zaze.demo.compose.ui.components.MyAppDrawer
 import com.zaze.demo.model.entity.TableEntity
@@ -41,8 +36,8 @@ class ComposeActivity : AbsActivity() {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
-            val widthSizeClass = calculateWindowSizeClass(this).widthSizeClass
-            MyApp(widthSizeClass = widthSizeClass, startActivity = {
+            val windowSizeClass = calculateWindowSizeClass(this)
+            MyApp(windowSizeClass = windowSizeClass, startActivity = {
                 ActivityUtil.startActivity(this, Intent(this, it.targetClass))
             }, onAction = {
                 ActivityUtil.startActivity(this, it)
@@ -54,24 +49,21 @@ class ComposeActivity : AbsActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun MyApp(
-    widthSizeClass: WindowWidthSizeClass,
+    windowSizeClass: WindowSizeClass,
     startActivity: (TableEntity) -> Unit,
     onAction: (Intent) -> Unit,
+    appState: MyAppState = rememberMyAppState(
+        windowSizeClass = windowSizeClass
+    )
 ) {
     MyComposeTheme {
-        val appState = rememberMyAppState()
-        //
-        val navController = rememberNavController()
-        val navigationActions = remember(navController) {
-            SampleNavigationActions(navController)
-        }
         // true：横向中的大多数平板电脑和横向中的大型展开内部显示器（宽屏）
-        val isExpandedScreen = widthSizeClass == WindowWidthSizeClass.Expanded
+        val isExpandedScreen = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Expanded
         val coroutineScope = rememberCoroutineScope()
         //
         val sizeAwareDrawerState = rememberSizeAwareDrawerState(isExpandedScreen)
         //
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val navBackStackEntry by appState.navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route ?: SampleDestinations.HOME_ROUTE
         ModalNavigationDrawer(drawerState = sizeAwareDrawerState,
             // 是否可用手势打开，
@@ -92,13 +84,12 @@ private fun MyApp(
             }) {
             SampleNavGraph(
                 snackbarHostState = appState.snackbarHostState,
-                navController = navController,
+                navController = appState.navController,
                 isExpandedScreen = isExpandedScreen,
                 openDrawer = {
                     println("openDrawer")
                     coroutineScope.launch { sizeAwareDrawerState.open() }
                 },
-                navigationActions = navigationActions,
                 startActivity = startActivity
             )
         }
