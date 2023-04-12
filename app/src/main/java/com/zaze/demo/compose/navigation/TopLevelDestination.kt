@@ -1,8 +1,8 @@
 package com.zaze.demo.compose.navigation
 
+import com.zaze.core.designsystem.icon.Icon
+import com.zaze.core.designsystem.icon.MyIcons
 import com.zaze.demo.R
-import com.zaze.demo.compose.ui.components.Icon
-import com.zaze.demo.compose.ui.components.MyIcons
 
 enum class TopLevelDestination(
     val selectedIcon: Icon,
@@ -10,22 +10,34 @@ enum class TopLevelDestination(
     val iconTextId: Int,
     val titleTextId: Int
 ) {
-    ONE(
+    HOME(
         selectedIcon = Icon.ImageVectorIcon(MyIcons.ViewDay),
         unselectedIcon = Icon.ImageVectorIcon(MyIcons.ViewDay),
-        iconTextId = R.string.app_name,
-        titleTextId = R.string.app_name
+        iconTextId = R.string.home,
+        titleTextId = R.string.home
     ),
-    TWO(
+    SCAFFOLD(
         selectedIcon = Icon.ImageVectorIcon(MyIcons.Person),
         unselectedIcon = Icon.ImageVectorIcon(MyIcons.Person),
-        iconTextId = R.string.app_name,
-        titleTextId = R.string.app_name
+        iconTextId = R.string.scaffold,
+        titleTextId = R.string.scaffold
     ),
-    THREE(
-        selectedIcon = Icon.ImageVectorIcon(MyIcons.Grid3x3),
-        unselectedIcon = Icon.ImageVectorIcon(MyIcons.Grid3x3),
-        iconTextId = R.string.app_name,
-        titleTextId = R.string.app_name
+    COMMUNICATION(
+        selectedIcon = Icon.ImageVectorIcon(MyIcons.Person),
+        unselectedIcon = Icon.ImageVectorIcon(MyIcons.Person),
+        iconTextId = R.string.communication,
+        titleTextId = R.string.communication
+    ),
+    INTENT(
+        selectedIcon = Icon.ImageVectorIcon(MyIcons.Person),
+        unselectedIcon = Icon.ImageVectorIcon(MyIcons.Person),
+        iconTextId = R.string.intent,
+        titleTextId = R.string.intent
+    ),
+    STORAGE(
+        selectedIcon = Icon.ImageVectorIcon(MyIcons.Person),
+        unselectedIcon = Icon.ImageVectorIcon(MyIcons.Person),
+        iconTextId = R.string.storage,
+        titleTextId = R.string.storage
     )
 }

@@ -4,29 +4,35 @@ package com.zaze.demo.app;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 
+import androidx.annotation.NonNull;
+import androidx.compose.ui.text.googlefonts.GoogleFont;
+
 import com.zaze.common.base.BaseApplication;
-import com.zaze.common.thread.ThreadPlugins;
+import com.zaze.demo.BuildConfig;
 import com.zaze.demo.component.network.compat.AnalyzeTrafficCompat;
-import com.zaze.demo.component.notification.receiver.TestBroadcastReceiver;
 import com.zaze.demo.component.system.ScreenLockReceiver;
 import com.zaze.demo.debug.DefaultNetworkCallback;
-import com.zaze.demo.debug.LogcatService;
 import com.zaze.demo.debug.wifi.WifiCompat;
-import com.zaze.demo.matrix.MatrixHelper;
+import com.zaze.demo.feature.communication.broadcast.MessageReceiver;
 import com.zaze.demo.receiver.BatteryReceiver;
 import com.zaze.demo.receiver.PackageReceiver;
 import com.zaze.utils.DeviceUtil;
 import com.zaze.utils.FileUtil;
 import com.zaze.utils.NetUtil;
+import com.zaze.utils.TraceHelper;
 import com.zaze.utils.ZCommand;
 import com.zaze.utils.cache.MemoryCacheManager;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
+import javax.inject.Inject;
+import javax.inject.Provider;
+
+import coil.ImageLoader;
+import coil.ImageLoaderFactory;
 import dagger.hilt.android.HiltAndroidApp;
 
 /**
@@ -36,7 +42,7 @@ import dagger.hilt.android.HiltAndroidApp;
  * @version : 2016-11-06 - 20:4
  */
 @HiltAndroidApp
-public class MyApplication extends BaseApplication {
+public class MyApplication extends BaseApplication implements ImageLoaderFactory {
     //    BroadcastReceiver receiver;
 
     public static MyApplication getInstance() {
@@ -66,20 +72,21 @@ public class MyApplication extends BaseApplication {
 //        FileUtil.setShowLog(true);
         MemoryCacheManager.setCacheLog(true);
         AnalyzeTrafficCompat.setNeedLog(true);
+        TraceHelper.INSTANCE.enable(BuildConfig.DEBUG);
         ZLog.openAllLog();
         ZLog.openAlwaysPrint();
         ZLog.registerLogCaller(FileUtil.class.getName());
         ZLog.registerLogCaller(DeviceUtil.class.getName());
-        ThreadPlugins.runInUIThread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    startService(new Intent(getInstance(), LogcatService.class));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }, 10_000L);
+//        ThreadPlugins.runInUIThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    startService(new Intent(getInstance(), LogcatService.class));
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }, 10_000L);
     }
 
     private void onMainProcess() {
@@ -115,7 +122,7 @@ public class MyApplication extends BaseApplication {
         } else {
             WifiCompat.listenerByBroadcast(this);
         }
-        this.registerReceiver(new TestBroadcastReceiver(), new IntentFilter(TestBroadcastReceiver.ACTION));
+        new MessageReceiver().register(this);
         BatteryReceiver.Companion.register(this);
     }
 
@@ -131,4 +138,12 @@ public class MyApplication extends BaseApplication {
 //        registerReceiver(receiver, intentFilter);
     }
 
+    @Inject
+    public Provider<ImageLoader> imageLoader;
+
+    @NonNull
+    @Override
+    public ImageLoader newImageLoader() {
+        return imageLoader.get();
+    }
 }

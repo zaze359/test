@@ -7,6 +7,7 @@ import android.text.TextUtils;
 
 import com.zaze.demo.debug.AppShortcut;
 import com.zaze.demo.debug.ApplicationManager;
+import com.zaze.demo.debug.ApplicationManager2;
 import com.zaze.demo.debug.NetTrafficStats;
 import com.zaze.utils.AnalyzeUtil;
 import com.zaze.utils.FileUtil;
@@ -141,7 +142,7 @@ public abstract class AnalyzeTrafficCompat extends AnalyzeUtil {
         if (netTrafficStats != null) {
             AppShortcut appShortcut = netTrafficStats.getAppShortcut();
             if (appShortcut == null) {
-                appShortcut = ApplicationManager.getAppShortcutByUid(netTrafficStats.getUid());
+                appShortcut = ApplicationManager2.getAppShortcutByUid(netTrafficStats.getUid());
             }
             netTrafficStats.setAppShortcut(appShortcut);
         }

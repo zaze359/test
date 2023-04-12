@@ -57,6 +57,9 @@ class PermissionHandler(
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     deniedPermissions.remove(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    deniedPermissions.remove(Manifest.permission.READ_EXTERNAL_STORAGE)
+                }
             }
         }
     }

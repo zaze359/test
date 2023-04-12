@@ -11,7 +11,7 @@
 //import android.support.test.uiautomator.UiSelector;
 //import android.text.TextUtils;
 //
-//import com.zaze.demo.model.entity.TableEntity;
+//import com.zaze.demo.data.entity.TableEntity;
 //
 //import org.hamcrest.Description;
 //import org.hamcrest.Matcher;

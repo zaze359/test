@@ -3,6 +3,7 @@ package com.zaze.demo.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import androidx.core.net.ConnectivityManagerCompat
@@ -17,6 +18,13 @@ import com.zaze.utils.log.ZTag
  */
 class WifiReceiver : BroadcastReceiver() {
     companion object {
+        fun createIntentFilter(): IntentFilter {
+            val intentFilter = IntentFilter().apply {
+                addAction("android.net.conn.CONNECTIVITY_CHANGE")
+            }
+            return intentFilter
+        }
+
         private val callbackList = ArrayList<WifiCallBack>()
         fun register(callback: WifiCallBack) {
             callbackList.add(callback)

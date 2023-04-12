@@ -11,6 +11,7 @@ import android.os.RemoteException;
 
 import com.zaze.demo.debug.AppShortcut;
 import com.zaze.demo.debug.ApplicationManager;
+import com.zaze.demo.debug.ApplicationManager2;
 import com.zaze.demo.debug.NetTrafficStats;
 import com.zaze.utils.date.DateUtil;
 
@@ -47,7 +48,7 @@ public class AnalyzeTrafficCompatVM extends AnalyzeTrafficCompat {
             while (stats != null && stats.hasNextBucket()) {
                 NetworkStats.Bucket bucket = new NetworkStats.Bucket();
                 stats.getNextBucket(bucket);
-                AppShortcut shortcut = ApplicationManager.getAppShortcutByUid(bucket.getUid());
+                AppShortcut shortcut = ApplicationManager2.getAppShortcutByUid(bucket.getUid());
                 if (shortcut != null) {
                     NetTrafficStats netTrafficStats = new NetTrafficStats();
                     netTrafficStats.setUid(bucket.getUid());

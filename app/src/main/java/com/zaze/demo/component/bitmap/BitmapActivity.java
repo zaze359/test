@@ -15,6 +15,7 @@ import android.widget.SeekBar;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelStore;
 
 import com.zaze.common.base.AbsActivity;
 import com.zaze.common.base.ext.AppCompatActivityExtKt;
@@ -34,6 +35,10 @@ import kotlin.jvm.functions.Function2;
  * @version : 2019-06-09 - 1:54
  */
 public class BitmapActivity extends AbsActivity {
+    static final class NonConfigurationInstances {
+        Object custom;
+        ViewModelStore viewModelStore;
+    }
 
     private float r = 1F;
     private float g = 1F;
@@ -59,7 +64,7 @@ public class BitmapActivity extends AbsActivity {
                 return Unit.INSTANCE;
             }
         });
-        originBmp = BitmapFactory.decodeResource(getResources(), R.mipmap.jljt);
+        originBmp = BitmapFactory.decodeResource(getResources(), R.drawable.jljt);
 //        Bitmap bm = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888);
 //        Canvas sCanvas = new Canvas(bm);
 //        sCanvas.drawColor(Color.parseColor("#FFFFFF"));

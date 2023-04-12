@@ -1,7 +1,7 @@
 plugins {
     id("com.android.application")
-    id("kotlin-android")
-    id("kotlin-kapt")
+    id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.kapt")
     id("dagger.hilt.android.plugin")
 //    id("com.tencent.matrix-plugin")
 }
@@ -23,16 +23,21 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-
-    // region compose
+//    compileOptions {
+//        sourceCompatibility = JavaVersion.VERSION_1_8
+//        targetCompatibility = JavaVersion.VERSION_1_8
+//    }
+//    kotlinOptions {
+//        jvmTarget = "1.8"
+//    }
     buildFeatures {
         compose = true
+        viewBinding = true
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.3.2"
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
-    // endregion compose
 
 
     testOptions {
@@ -120,9 +125,17 @@ android {
 }
 
 dependencies {
-
     implementation(fileTree(baseDir = "libs"))
-    testImplementation(libs.junit)
+
+    implementation(libs.coil.kt)
+    implementation(libs.coil.kt.svg)
+    implementation(libs.coil.kt.compose)
+
+    implementation(libs.androidx.tracing.ktx)
+
+    implementation(libs.androidx.appcompat)
+//    implementation(libs.google.android.material)
+    implementation(libs.google.gson)
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.rxjava2)
     implementation(libs.okhttp3)
@@ -130,17 +143,16 @@ dependencies {
     implementation(libs.eventbus)
     implementation(libs.androidx.constraintlayout)
 
-    // region hilt
-    implementation(libs.androidx.hilt.navigation.compose)
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
-    kapt(libs.hilt.ext.compiler)
-    // endregion hilt
+    implementation(libs.kotlinx.coroutines.android)
 
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
     androidTestImplementation(composeBom)
 
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+    kapt(libs.hilt.ext.compiler)
 
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui.ktx)
@@ -148,51 +160,36 @@ dependencies {
 
     implementation(libs.androidx.compose.materialWindow)
 
-    // Choose one of the following:
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.material.iconsExtended)
-//    implementation(libs.google.android.material)
-//    implementation("androidx.compose.material:material")
-//    implementation("androidx.compose.foundation:foundation")
-//    implementation("androidx.compose.ui:ui")
-
-    // Android Studio Preview support
-    debugImplementation(libs.androidx.compose.ui.tooling)
-    implementation(libs.androidx.compose.ui.tooling.preview)
-    // UI Tests
-    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
-    debugImplementation(libs.androidx.compose.ui.test.manifest)
-
-//    // Optional - Included automatically by material, only add when you need
-//    // the icons but not the material library (e.g. when using Material3 or a
-//    // custom design system based on Foundation)
-//    implementation("androidx.compose.material:material-icons-core")
-//    // Optional - Add full set of material icons
-//    implementation("androidx.compose.material:material-icons-extended")
-//    // Optional - Add window size utils
-//    implementation("androidx.compose.material3:material3-window-size-class")
-
     // Optional - Integration with activities
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.viewModelCompose)
     implementation(libs.androidx.lifecycle.runtime.compose)
+
     implementation(libs.androidx.compose.runtime.livedata)
-    // Optional - Integration with RxJava
 //    implementation("androidx.compose.runtime:runtime-rxjava2")
-    implementation(libs.androidx.compose.ui.googlefonts)
+
+    implementation(project(":feature:animations"))
+    implementation(project(":feature:usagestats"))
+    implementation(project(":feature:intent"))
+    implementation(project(":feature:communication"))
+    implementation(project(":feature:storage"))
+    implementation(project(":feature:notification"))
+    implementation(project(":feature:media"))
 
 
     implementation(project(":util"))
     implementation(project(":common"))
-    implementation(project(":module_animations"))
+    implementation(project(":core:designsystem"))
+    implementation(project(":core:data"))
+    implementation(project(":core:database"))
+    implementation(project(":core:model"))
+    implementation(project(":core:network"))
+
+    testImplementation(project(":core:testing"))
+    androidTestImplementation(project(":core:testing"))
+
 //    implementation project(':module_accessibility')
 //    implementation(project(':module_usagestats'))
-    implementation(project(":module_usagestats"))
-
-
-
-
-
 
 
 //    implementation("androidx.multidex:multidex:2.0.1")
@@ -201,8 +198,6 @@ dependencies {
 //    androidTestImplementation 'org.mockito:mockito-core:2.23.4'
 //    androidTestImplementation 'com.google.dexmaker:dexmaker:1.2'
 //    androidTestImplementation 'com.google.dexmaker:dexmaker-mockito:1.2'
-    //
-
 
 //    implementation 'com.tencent.bugly:crashreport:2.8.6.0'
 //    implementation 'com.jaredrummler:android-processes:1.1.1'

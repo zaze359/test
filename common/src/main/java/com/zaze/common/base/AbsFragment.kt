@@ -20,13 +20,15 @@ import com.zaze.utils.log.ZLog
  * @version : 2018-11-30 - 00:00
  */
 abstract class AbsFragment : Fragment() {
-
     companion object {
-        var showLifeCycle = false
         private const val TAG = "LifeCycle"
     }
 
-    val fragmentName = "${this.javaClass.simpleName}@${Integer.toHexString(this.hashCode())}"
+    open val showLifeCycle = false
+
+    private val fragmentName by lazy {
+        "${this.javaClass.simpleName}@${Integer.toHexString(this.hashCode())}"
+    }
 
 
     private val loadingDialog: LoadingDialog? by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
@@ -38,8 +40,7 @@ abstract class AbsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (showLifeCycle)
-            ZLog.i(TAG, "$fragmentName onCreate")
+        if (showLifeCycle) ZLog.i(TAG, "$fragmentName onCreate")
     }
 
     override fun onCreateView(
@@ -47,16 +48,23 @@ abstract class AbsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        if (showLifeCycle) ZLog.i(TAG, "$fragmentName onCreateView")
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (showLifeCycle) ZLog.i(TAG, "$fragmentName onViewCreated")
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        if (showLifeCycle) ZLog.i(TAG, "$fragmentName onDestroyView")
+    }
     override fun onDestroy() {
         loadingDialog?.dismiss()
         super.onDestroy()
+        if (showLifeCycle) ZLog.i(TAG, "$fragmentName onDestroy")
     }
 
     /**

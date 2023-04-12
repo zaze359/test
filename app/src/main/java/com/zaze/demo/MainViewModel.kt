@@ -62,9 +62,6 @@ class MainViewModel : AbsViewModel() {
             it.doTest(activity)
         }
 
-        //            val msg = Message.obtain()
-//            msg.replyTo = messenger
-//            sendMessenger?.send(msg)
 //
         // --------------------------------------------------
         Snackbar.make(activity.window.decorView, "LENGTH_INDEFINITE", Snackbar.LENGTH_INDEFINITE)

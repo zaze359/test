@@ -3,11 +3,13 @@ package com.zaze.demo
 import androidx.lifecycle.*
 import com.zaze.common.base.AbsViewModel
 import com.zaze.demo.data.repository.DemoRepository
-import com.zaze.demo.model.entity.TableEntity
+import com.zaze.demo.data.entity.TableEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+private const val s = ""
 
 @HiltViewModel
 class DemoViewModel @Inject constructor(private val demoRepository: DemoRepository) :
@@ -17,6 +19,7 @@ class DemoViewModel @Inject constructor(private val demoRepository: DemoReposito
     val demosData: LiveData<List<TableEntity>> = demoList
 
     fun refresh() {
+        var a = ""
         viewModelScope.launch(Dispatchers.IO) {
             demoList.postValue(demoRepository.loadDemos())
         }

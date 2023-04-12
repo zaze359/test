@@ -4,7 +4,7 @@
 
         <variable
             name="sharedSample"
-            type="com.zaze.demo.model.entity.AnimationEntity" />
+            type="com.zaze.core.model.data.AnimationEntity" />
     </data>
 
     <LinearLayout

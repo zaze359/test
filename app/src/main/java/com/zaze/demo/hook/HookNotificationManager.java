@@ -27,9 +27,7 @@ public class HookNotificationManager {
         final Object sOriginService = getService.invoke(notificationManager);
         Class iNotiMngClz = Class.forName("android.app.INotificationManager");
         // 第二步：得到我们的动态代理对象
-        Object proxyNotiMng = Proxy.newProxyInstance(context.getClass().getClassLoader(), new
-                Class[]{iNotiMngClz}, new InvocationHandler() {
-
+        Object proxyNotiMng = Proxy.newProxyInstance(context.getClass().getClassLoader(), new Class[]{iNotiMngClz}, new InvocationHandler() {
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
                 Log.d("", "invoke(). method:" + method);

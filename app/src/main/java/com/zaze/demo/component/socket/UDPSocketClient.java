@@ -19,6 +19,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.MulticastSocket;
+import java.net.ServerSocket;
 import java.nio.charset.Charset;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
@@ -44,6 +45,7 @@ public class UDPSocketClient extends BaseSocketClient {
 
     public UDPSocketClient(String host, int port, BaseSocketFace socketFace) {
         super(host, port, socketFace);
+
         serverExecutor = new ThreadPoolExecutor(1, 1, 0L,
                 TimeUnit.MILLISECONDS, new LinkedBlockingQueue(), new ThreadFactory() {
             @Override

@@ -17,7 +17,6 @@ import java.lang.reflect.Type
  * @return List
  **/
 fun <T> parseJsonToList(json: String, clazz: Class<T>): List<T>? {
-
     return JsonUtil.parseJsonToList(json, object : ParameterizedType {
         override fun getActualTypeArguments(): Array<Type> {
             return arrayOf(clazz)
@@ -31,4 +30,9 @@ fun <T> parseJsonToList(json: String, clazz: Class<T>): List<T>? {
             return null
         }
     })
+}
+
+
+fun Any?.toJsonString():String? {
+    return JsonUtil.objToJson(this)
 }

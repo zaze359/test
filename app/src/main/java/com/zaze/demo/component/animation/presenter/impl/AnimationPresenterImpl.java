@@ -1,10 +1,9 @@
 package com.zaze.demo.component.animation.presenter.impl;
 
 import com.zaze.common.base.mvp.BaseMvpPresenter;
+import com.zaze.core.model.data.AnimationEntity;
 import com.zaze.demo.component.animation.presenter.AnimationPresenter;
 import com.zaze.demo.component.animation.view.AnimationView;
-import com.zaze.demo.model.ModelFactory;
-import com.zaze.demo.model.entity.AnimationEntity;
 
 /**
  * Description :
@@ -16,7 +15,7 @@ public class AnimationPresenterImpl extends BaseMvpPresenter<AnimationView> impl
 
     @Override
     public void getAnimationList() {
-        getView().showAnimationList(ModelFactory.getEntityModel().getAnimationList());
+//        getView().showAnimationList(ModelFactory.getEntityModel().getAnimationList());
 //        <string -array name="animation_titles">
 //        <item></item>
 //        <item>Object Animator</item>

@@ -3,13 +3,14 @@ package com.zaze.demo.component.device
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.zaze.common.base.AbsViewModel
-import com.zaze.demo.model.ModelFactory
-import com.zaze.demo.model.entity.DeviceStatus
+import com.zaze.core.data.repository.DeviceRepository
+import com.zaze.core.model.data.DeviceStatus
 import com.zaze.utils.DisplayUtil
 import com.zaze.utils.ZStringUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
+import javax.inject.Inject
 
 /**
  * Description :
@@ -17,17 +18,16 @@ import java.util.*
  * @author : zaze
  * @version : 2017-01-22 01:39 1.0
  */
-class DeviceViewModel() : AbsViewModel() {
-    private val deviceModel by lazy {
-        ModelFactory.getDeviceModel()
-    }
+class DeviceViewModel : AbsViewModel() {
+    @Inject
+    lateinit var deviceModel: DeviceRepository
 
-    val deviceInfoList = MutableLiveData<ArrayList<DeviceStatus>>()
+    val deviceInfoList = MutableLiveData<List<DeviceStatus>>()
     val inchData = MutableLiveData<String>()
 
     fun loadDeviceInfo() {
         viewModelScope.launch(Dispatchers.IO) {
-            deviceInfoList.postValue(deviceModel.deviceInfo)
+            deviceInfoList.postValue(deviceModel.getDeviceInfo())
         }
     }
 

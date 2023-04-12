@@ -10,11 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.zaze.common.adapter.BaseRecyclerAdapter;
 import com.zaze.common.util.ActivityUtil;
-import com.zaze.demo.model.entity.TableEntity;
+import com.zaze.demo.data.entity.TableEntity;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+
+import javax.inject.Singleton;
 
 /**
  * Description :
@@ -28,6 +30,7 @@ public class DemoAdapter extends BaseRecyclerAdapter<TableEntity, DemoAdapter.Ap
     public DemoAdapter(Activity activity, List<TableEntity> data) {
         super(activity, data);
         this.activity = activity;
+
     }
 
     @Override

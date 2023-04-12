@@ -18,13 +18,6 @@
         <item>0,7,12,0,</item>
     </string-array>
 
-    <integer-array name="google_colors">
-        <item>@color/red</item>
-        <item>@color/blue</item>
-        <item>@color/yellow</item>
-        <item>@color/green</item>
-    </integer-array>
-
     <string-array name="apps">
         <item>com.android.fmradio</item><!--FM 电台-->
         <item>com.lenovo.leos.appstore.pad</item><!--应用中心-->

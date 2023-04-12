@@ -71,10 +71,10 @@ class AppListViewModel(application: Application) : AbsAndroidViewModel(applicati
                         if (xmlBuilder.isNotEmpty()) {
                             xmlBuilder.append("\n")
                         }
-                        xmlBuilder.append("<item>${entity.packageName}</item><!--${entity.name}-->")
+                        xmlBuilder.append("<item>${entity.packageName}</item><!--${entity.appName}-->")
                         //
                         val jsonObj = JSONObject()
-                        jsonObj.put("name", entity.name)
+                        jsonObj.put("name", entity.appName)
                         jsonObj.put("packageName", entity.packageName)
                         jsonArray.put(jsonObj)
                     }
@@ -114,7 +114,7 @@ class AppListViewModel(application: Application) : AbsAndroidViewModel(applicati
 //                FileUtil.deleteFile(unExistsFile)
 //                FileUtil.deleteFile(extractFile)
 //                FileUtil.deleteFile(allFile)
-            AppUtil.getInstalledApplications(getApplication())
+            AppUtil.getInstalledApplications(application)
                 .asSequence()
 //                .filter {
 //                    ZLog.i(ZTag.TAG, "${it.packageName} isSystemApp: ${it.isSystemApp()}")
@@ -151,7 +151,6 @@ class AppListViewModel(application: Application) : AbsAndroidViewModel(applicati
                 val showList = ArrayList<AppShortcut>()
                 FileUtil.searchFileBySuffix(apkDir, "apk", true).forEach { file ->
                     initEntity(ApplicationManager.getAppShortcutFormApk(file.absolutePath))?.let {
-                        it.isCopyEnable = false
                         showList.add(it)
                     }
                 }
@@ -184,7 +183,7 @@ class AppListViewModel(application: Application) : AbsAndroidViewModel(applicati
                 matchStr.isEmpty() || it.packageName.contains(
                     matchStr,
                     true
-                ) || it.name.contains(matchStr, true)
+                ) || (it.appName?.contains(matchStr, true) ?: false)
             }.toList()
             .toObservable()
             .observeOn(AndroidSchedulers.mainThread())
@@ -208,7 +207,7 @@ class AppListViewModel(application: Application) : AbsAndroidViewModel(applicati
             if (appShortcut.isInstalled) {
                 FileUtil.writeToFile(
                     existsFile,
-                    "<item>$packageName</item><!--${appShortcut.name}-->\n",
+                    "<item>$packageName</item><!--${appShortcut.appName}-->\n",
                     true
                 )
             } else {
@@ -216,7 +215,7 @@ class AppListViewModel(application: Application) : AbsAndroidViewModel(applicati
             }
             FileUtil.writeToFile(
                 allFile,
-                "<item>$packageName</item><!--${appShortcut.name}-->\n",
+                "<item>$packageName</item><!--${appShortcut.appName}-->\n",
                 true
             )
         }

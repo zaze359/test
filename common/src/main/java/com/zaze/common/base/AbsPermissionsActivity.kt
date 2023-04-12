@@ -5,11 +5,14 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.zaze.common.util.PermissionHandler
 import com.zaze.common.widget.dialog.DialogFactory
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
+import kotlinx.coroutines.launch
 
 /**
  * Description :
@@ -68,12 +71,14 @@ abstract class AbsPermissionsActivity : AbsThemeActivity() {
     }
 
     open fun setupPermission() {
-        lifecycleScope.launchWhenResumed {
-            if (hasPermission()) {
-                afterPermissionGranted()
-            } else {
-                beforePermissionGranted()
-                permissionHandler.launch(permissionsRequest)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                if (hasPermission()) {
+                    afterPermissionGranted()
+                } else {
+                    beforePermissionGranted()
+                    permissionHandler.launch(permissionsRequest)
+                }
             }
         }
     }
@@ -82,14 +87,14 @@ abstract class AbsPermissionsActivity : AbsThemeActivity() {
      * 获取权限后
      */
     open fun afterPermissionGranted() {
-//        MyLog.i(LcTag.TAG, "afterPermissionGranted")
+        ZLog.i(ZTag.TAG, "afterPermissionGranted")
     }
 
     /**
      * 获取权限前
      */
     open fun beforePermissionGranted() {
-//        MyLog.i(LcTag.TAG, "beforePermissionGranted")
+        ZLog.i(ZTag.TAG, "beforePermissionGranted")
     }
 
     /**

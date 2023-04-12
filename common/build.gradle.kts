@@ -1,7 +1,10 @@
 plugins {
     id("com.android.library")
-    id("kotlin-android")
-    id("kotlin-kapt")
+    id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.kapt")
+//    id("com.android.library")
+//    id("kotlin-android")
+//    id("kotlin-kapt")
 }
 
 //apply plugin: 'com.github.dcendents.android-maven'
@@ -11,7 +14,7 @@ android {
     compileSdk = libs.versions.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
-        targetSdk = libs.versions.targetSdk.get().toInt()
+//        targetSdk = libs.versions.targetSdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -31,8 +34,7 @@ dependencies {
 //    val composeBom = platform(libs.androidx.compose.bom)
 //    implementation(composeBom)
 //    androidTestImplementation(composeBom)
-//    androidTestImplementation(libs.junit)
-    testImplementation(libs.junit)
+    testImplementation(libs.junit4)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.lifecycle.runtime)
@@ -42,8 +44,8 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.rxjava2)
     implementation(libs.rxandroid)
-    implementation(libs.okhttp3)
-    implementation(libs.okhttp.logging)
+//    implementation(libs.okhttp3)
+//    implementation(libs.okhttp.logging)
 
     compileOnly(project(":util"))
 }

@@ -10,27 +10,23 @@ import com.zaze.common.base.ext.set
  * @author : ZAZE
  * @version : 2018-12-01 - 20:50
  */
-open class AbsAndroidViewModel(val mApplication: Application) : AbsViewModel() {
+open class AbsAndroidViewModel(val application: Application) : AbsViewModel() {
 
     fun showProgress(@StringRes stringRes: Int) {
         progress.set(getString(stringRes))
-    }
-
-    fun getApplication(): Application {
-        return mApplication
     }
 
     /**
      * StringRes资源转换String
      */
     fun getString(@StringRes stringRes: Int): String {
-        return getApplication().getString(stringRes)
+        return application.getString(stringRes)
     }
 
     /**
      * StringRes资源转换String
      */
     fun getStringArray(@ArrayRes arrayRes: Int): Array<String> {
-        return getApplication().resources.getStringArray(arrayRes)
+        return application.resources.getStringArray(arrayRes)
     }
 }

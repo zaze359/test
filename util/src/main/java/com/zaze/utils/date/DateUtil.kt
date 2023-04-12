@@ -23,11 +23,13 @@ object DateUtil {
     const val HALF_YEAR = 15768000000L
     const val YEAR = 31536000000L
 
+    const val DEFAULT_PATTERN = "yyyy-MM-dd HH:mm:ss"
+
     // ----------------  about millis ------------------
     @JvmStatic
     fun getMinAndSec(timeMillis: Long): String {
         return ZStringUtil.format(
-                "%02d' %02d'%s ", getMinute(timeMillis), getSecond(timeMillis), "'"
+            "%02d' %02d'%s ", getMinute(timeMillis), getSecond(timeMillis), "'"
         )
     }
 
@@ -60,16 +62,12 @@ object DateUtil {
      * @return
      */
     @JvmStatic
-    fun stringToDate(dateStr: String, pattern: String, timeZone: TimeZone = TimeZone.getDefault()): Date? {
-        if (!TextUtils.isEmpty(dateStr)) {
-            try {
-                return getDateFormat(pattern, timeZone).parse(dateStr)
-            } catch (e: ParseException) {
-                e.printStackTrace()
-            }
-
-        }
-        return null
+    fun stringToDate(
+        dateStr: String?,
+        pattern: String,
+        timeZone: TimeZone = TimeZone.getDefault()
+    ): Date? {
+        return dateStr.toDate(pattern, timeZone)
     }
 
     /**
@@ -79,8 +77,12 @@ object DateUtil {
      * @return 转换特定格式的日期字符串
      */
     @JvmStatic
-    fun dateToString(date: Date, pattern: String, timeZone: TimeZone = TimeZone.getDefault()): String {
-        return getDateFormat(pattern, timeZone).format(date)
+    fun dateToString(
+        date: Date = Date(),
+        pattern: String = DEFAULT_PATTERN,
+        timeZone: TimeZone = TimeZone.getDefault()
+    ): String {
+        return date.toDateString(pattern, timeZone)
     }
 
     /**
@@ -89,8 +91,12 @@ object DateUtil {
      * @return
      */
     @JvmStatic
-    fun timeMillisToString(timeMillis: Long, pattern: String, timeZone: TimeZone = TimeZone.getDefault()): String {
-        return dateToString(Date(timeMillis), pattern, timeZone)
+    fun timeMillisToString(
+        timeMillis: Long = System.currentTimeMillis(),
+        pattern: String = DEFAULT_PATTERN,
+        timeZone: TimeZone = TimeZone.getDefault()
+    ): String {
+        return timeMillis.toDateString(pattern, timeZone)
     }
 
     @JvmStatic
@@ -151,12 +157,7 @@ object DateUtil {
      */
     @JvmStatic
     fun getDayStart(timeMillis: Long): Long {
-        val calendar = getCalendar(Date(timeMillis))
-        calendar.set(Calendar.HOUR_OF_DAY, 0)
-        calendar.set(Calendar.MINUTE, 0)
-        calendar.set(Calendar.SECOND, 0)
-        calendar.set(Calendar.MILLISECOND, 0)
-        return calendar.timeInMillis
+        return timeMillis.getDayStartMillis()
     }
 
     /**
@@ -165,12 +166,7 @@ object DateUtil {
      */
     @JvmStatic
     fun getDayEnd(timeMillis: Long): Long {
-        val calendar = getCalendar(Date(timeMillis))
-        calendar.set(Calendar.HOUR_OF_DAY, 23)
-        calendar.set(Calendar.MINUTE, 59)
-        calendar.set(Calendar.SECOND, 59)
-        calendar.set(Calendar.MILLISECOND, 59)
-        return calendar.timeInMillis
+        return timeMillis.getDayEndMillis()
     }
 
     // ----------------  about week ------------------
@@ -223,16 +219,15 @@ object DateUtil {
      */
     @JvmStatic
     fun getWeek(date: Date?): Week {
-        val week: Week
-        when (getInteger(date, Calendar.DAY_OF_WEEK)) {
-            Calendar.SUNDAY -> week = Week.SUNDAY
-            Calendar.MONDAY -> week = Week.MONDAY
-            Calendar.TUESDAY -> week = Week.TUESDAY
-            Calendar.WEDNESDAY -> week = Week.WEDNESDAY
-            Calendar.THURSDAY -> week = Week.THURSDAY
-            Calendar.FRIDAY -> week = Week.FRIDAY
-            Calendar.SATURDAY -> week = Week.SATURDAY
-            else -> week = Week.MONDAY
+        val week = when (getInteger(date, Calendar.DAY_OF_WEEK)) {
+            Calendar.SUNDAY -> Week.SUNDAY
+            Calendar.MONDAY -> Week.MONDAY
+            Calendar.TUESDAY -> Week.TUESDAY
+            Calendar.WEDNESDAY -> Week.WEDNESDAY
+            Calendar.THURSDAY -> Week.THURSDAY
+            Calendar.FRIDAY -> Week.FRIDAY
+            Calendar.SATURDAY -> Week.SATURDAY
+            else -> Week.MONDAY
         }
         return week
     }
@@ -240,7 +235,7 @@ object DateUtil {
     // ----------------  about month ------------------
     @JvmStatic
     fun calculateMonth(timeMillis: Long, offset: Int): Long {
-        val calendar = getCalendar(Date(timeMillis))
+        val calendar = timeMillis.toCalendar()
         calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) + offset)
         return calendar.timeInMillis
     }
@@ -277,12 +272,10 @@ object DateUtil {
      * @return
      */
     private fun getInteger(timeMillis: Long, dateType: Int): Int {
-        if (timeMillis > 0L) {
-            val calendar = Calendar.getInstance()
-            calendar.time = Date(timeMillis)
-            return calendar.get(dateType)
+        if (timeMillis <= 0L) {
+            return 0
         }
-        return 0
+        return getInteger(Date(timeMillis), dateType)
     }
 
     /**
@@ -291,31 +284,7 @@ object DateUtil {
      * @return
      */
     private fun getInteger(date: Date?, dateType: Int): Int {
-        if (date != null) {
-            val calendar = getCalendar(date)
-            return calendar.get(dateType)
-        }
-        return 0
-    }
-
-    /**
-     * @param pattern 日期格式
-     * @return SimpleDateFormat
-     */
-    private fun getDateFormat(pattern: String, timeZone: TimeZone = TimeZone.getDefault()): SimpleDateFormat {
-        return SimpleDateFormat(pattern, Locale.getDefault()).apply {
-            this.timeZone = timeZone
-        }
-    }
-
-    /**
-     * @param date 日期
-     */
-    private fun getCalendar(date: Date, timeZone: TimeZone = TimeZone.getDefault()): Calendar {
-        val calendar = Calendar.getInstance()
-        calendar.time = date
-        calendar.timeZone = timeZone
-        return calendar
+        return date?.toCalendar()?.get(dateType) ?: 0
     }
 
 }

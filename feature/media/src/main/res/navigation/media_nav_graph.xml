@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/MediaFragment">
+
+    <fragment
+        android:id="@+id/MediaFragment"
+        android:name="com.zaze.demo.feature.media.MediaFragment"
+        android:label="@string/media_fragment_label"
+        tools:layout="@layout/fragment_media">
+
+        <action
+            android:id="@+id/action_MediaFragment_to_VideoFragment"
+            app:destination="@id/VideoFragment" />
+        <action
+            android:id="@+id/action_MediaFragment_to_AudioFragment"
+            app:destination="@id/AudioFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/VideoFragment"
+        android:name="com.zaze.demo.feature.media.VideoFragment"
+        android:label="@string/video_fragment_label"
+        tools:layout="@layout/fragment_video">
+    </fragment>
+
+    <fragment
+        android:id="@+id/AudioFragment"
+        android:name="com.zaze.demo.feature.media.AudioFragment"
+        android:label="@string/video_fragment_label"
+        tools:layout="@layout/fragment_audio">
+    </fragment>
+
+</navigation>

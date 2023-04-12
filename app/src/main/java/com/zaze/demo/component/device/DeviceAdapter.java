@@ -8,8 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.zaze.common.adapter.BaseRecyclerAdapter;
+import com.zaze.core.model.data.DeviceStatus;
 import com.zaze.demo.R;
-import com.zaze.demo.model.entity.DeviceStatus;
 import com.zaze.utils.ZStringUtil;
 
 import org.jetbrains.annotations.NotNull;

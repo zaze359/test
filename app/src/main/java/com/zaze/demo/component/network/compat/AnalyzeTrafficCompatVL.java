@@ -48,7 +48,7 @@ public class AnalyzeTrafficCompatVL extends AnalyzeTrafficCompat {
                     netTrafficStats.setUid(uid);
                     netTrafficStats.setRxBytes(rxBytes);
                     netTrafficStats.setTxBytes(txBytes);
-                    netTrafficStats.setAppShortcut(ApplicationManager.getAppShortcut(applicationInfo.packageName));
+                    netTrafficStats.setAppShortcut(ApplicationManager.INSTANCE.getAppShortcut(applicationInfo.packageName));
                     networkStatList.add(netTrafficStats);
                 }
             }

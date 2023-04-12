@@ -2,34 +2,36 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.zaze.demo">
-
-    <!--    <uses-permission android:name="android.permission.READ_LOGS" />-->
-    <!--    <uses-permission android:name="android.permission.DUMP" />-->
-
+    <!-- <uses-permission android:name="android.permission.READ_LOGS" /> -->
+    <!-- <uses-permission android:name="android.permission.DUMP" /> -->
     <!-- <permission android:name="com.zaze.demo.receiver.RECEIVER" /> -->
-    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
-    <!-- 这个权限用于进行网络定位 -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!-- 这个权限用于访问GPS定位 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <!-- 访问网络，网络定位需要上网 -->
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" /> <!-- 这个权限用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 这个权限用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- 访问网络，网络定位需要上网 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+
     <uses-permission android:name="android.permission.READ_SETTINGS" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32"/>
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="29" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION" />
-    <!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+
+    <uses-permission
+        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+
+
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission
@@ -44,7 +46,6 @@
     <uses-permission
         android:name="android.permission.READ_NETWORK_USAGE_HISTORY"
         tools:ignore="ProtectedPermissions" />
-
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission
@@ -54,12 +55,12 @@
         android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".app.MyApplication"
         android:allowBackup="true"
+        android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
@@ -67,86 +68,70 @@
         android:theme="@style/Theme.MyApp"
         android:usesCleartextTraffic="true"
         tools:replace="android:name, android:theme"
-        tools:targetApi="m">
+        tools:targetApi="tiramisu">
 
         <profileable
             android:shell="true"
             tools:targetApi="q" />
 
-        <!--        <activity-->
-        <!--            android:name=".MainActivity"-->
+        <!--        <activity-alias-->
+        <!--            android:name=".compose.ComposeActivity"-->
         <!--            android:exported="true"-->
-        <!--            android:theme="@style/Theme.MyApp"-->
-        <!--            android:windowSoftInputMode="stateHidden">-->
+        <!--            android:label="@string/compose_samples"-->
+        <!--            android:targetActivity=".compose.ComposeActivity">-->
         <!--            <intent-filter>-->
         <!--                <action android:name="android.intent.action.MAIN" />-->
-        <!--                <action android:name="android.intent.action.VIEW" />-->
-
         <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-        <!--                <category android:name="android.intent.category.DEFAULT" />-->
+
         <!--            </intent-filter>-->
-        <!--        </activity>-->
+        <!--        </activity-alias>-->
 
         <activity
-            android:name=".compose.ui.ComposeActivity"
-            android:theme="@style/Theme.MyApp"
+            android:name=".compose.ComposeActivity"
             android:exported="true"
+            android:theme="@style/Theme.MyApp"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MyApp"
+            android:windowSoftInputMode="stateHidden">
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
+            <!--                <data-->
+            <!--                    android:host="www.zaze.com"-->
+            <!--                    android:scheme="zazehide" />-->
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
+        </activity>
 
-        <!-- 测试接收推送 start -->
-        <service android:name=".component.notification.service.NotificationService" />
-        <!-- 测试接收推送 end -->
-        <!--  -->
         <service android:name=".component.socket.AlarmService" />
         <service
             android:name=".debug.LogcatService"
             android:process=":logcat" />
-        <service
-            android:name=".debug.MessengerService"
-            android:process=":messenger" />
 
         <service
             android:name=".debug.wifi.WifiJob"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
-        <!-- contentProvider start -->
-
-
-        <!-- <provider -->
-        <!-- android:name="com.zaze.demo.component.provider.ZazeProvider" -->
-        <!-- android:authorities="com.zaze.user.provider" -->
-        <!-- android:enabled="true" -->
-        <!-- android:exported="true" /> -->
-
-        <activity
-            android:name=".component.provider.ui.ProviderActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.MyApp" />
-        <!-- contentProvider end -->
-
         <activity android:name=".component.animation.ui.AnimationActivity" />
-
         <activity android:name=".component.rxandroid.RxAndroidActivity" />
-
         <activity android:name=".component.time.TimeActivity" />
         <activity android:name=".debug.CaptureActivity" />
         <activity
             android:name=".component.toolbar.ToolBarDemoActivity"
             android:theme="@style/Theme.MyApp" />
-
         <activity
             android:name=".component.device.DeviceActivity"
             android:theme="@style/BlueTheme" />
-
         <activity android:name=".component.gps.ui.GpsActivity" />
-
         <activity
             android:name=".component.task.ui.TaskActivity"
             android:screenOrientation="portrait"
@@ -182,8 +167,7 @@
         <activity
             android:name=".component.cache.ui.CacheActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.MyApp" />
-        <!-- animation start -->
+            android:theme="@style/Theme.MyApp" /> <!-- animation start -->
         <activity
             android:name=".component.animation.ui.AnimationActivity1"
             android:screenOrientation="portrait"
@@ -199,9 +183,7 @@
         <activity
             android:name=".component.animation.VectorActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.MyApp" />
-        <!-- animation end -->
-
+            android:theme="@style/Theme.MyApp" /> <!-- animation end -->
         <activity
             android:name=".component.system.ui.SystemActivity"
             android:screenOrientation="portrait"
@@ -218,10 +200,7 @@
             android:name=".component.wifi.WifiActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MyApp" />
-        <activity
-            android:name=".component.notification.ui.NotificationActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.MyApp" />
+
         <activity
             android:name="com.zaze.demo.component.customview.CustomViewActivity"
             android:theme="@style/Theme.MyApp" />
@@ -246,21 +225,21 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MyApp" />
         <activity
+            android:name=".state.StateActivity"
+            android:screenOrientation="fullSensor"
+            android:theme="@style/Theme.MyApp" />
+        <activity
             android:name=".debug.SensorActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.MyApp" />
-
-        <!--        <activity-->
-        <!--            android:name=".component.share.ShareActivity"-->
-        <!--            android:screenOrientation="fullSensor"-->
-        <!--            android:theme="@style/Theme.MyApp" />-->
-
+            android:theme="@style/Theme.MyApp" /> <!-- <activity -->
+        <!-- android:name=".component.share.ShareActivity" -->
+        <!-- android:screenOrientation="fullSensor" -->
+        <!-- android:theme="@style/Theme.MyApp" /> -->
         <activity
             android:name=".component.lifecycle.LifecycleActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="fullSensor"
             android:theme="@style/Theme.MyApp" />
-
 
         <service
             android:name=".debug.KeepLiveService"
@@ -270,7 +249,6 @@
                 <action android:name="com.zaze.demo.KeepLiveService" />
             </intent-filter>
         </service>
-
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -282,9 +260,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-
-        <activity android:name=".component.admin.DeviceAdminActivity" />
-        <!--         设备管理器权限，注册权限监听器 -->
+        <activity android:name=".component.admin.DeviceAdminActivity" /> <!-- 设备管理器权限，注册权限监听器 -->
         <receiver
             android:name=".component.admin.MyAdminReceiver"
             android:exported="true"
@@ -297,10 +273,9 @@
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
             </intent-filter>
         </receiver>
-
-
         <receiver
             android:name=".receiver.BootReceiver"
+            android:enabled="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -310,8 +285,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </receiver>
-
-
         <receiver
             android:name=".appwidgets.MyAppWidgetProvider"
             android:exported="true">
@@ -329,7 +302,6 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/my_appwidget_info" />
         </receiver>
-
     </application>
 
 </manifest>

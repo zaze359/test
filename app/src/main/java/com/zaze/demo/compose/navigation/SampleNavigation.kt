@@ -1,60 +1,42 @@
 package com.zaze.demo.compose.navigation
 
 import androidx.compose.material3.SnackbarHostState
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.*
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.composable
-import com.zaze.demo.compose.ui.home.HomeRouter
-import com.zaze.demo.compose.ui.home.HomeViewModel
-import com.zaze.demo.compose.ui.samples.ScaffoldSample
-import com.zaze.demo.model.entity.TableEntity
+import com.zaze.demo.compose.home.HomeRoute
+import com.zaze.demo.compose.samples.ScaffoldSample
 
-/**
- * Description :
- * @author : zaze
- * @version : 2023-01-11 22:49
- */
-object SampleDestinations {
-    const val HOME_ROUTE = "home"
-    const val SCAFFOLD_ROUTE = "scaffold"
-}
-
-
-// region HomeScreen
-fun NavController.navigateToHome(builder: NavOptionsBuilder.() -> Unit = ::defaultOptions) {
-    this.navigate(route = SampleDestinations.HOME_ROUTE, builder = builder)
+const val homeRoute = "home_route"
+fun NavController.navigateToHome(navOptions: NavOptions? = null) {
+    this.navigate(route = homeRoute, navOptions = navOptions)
 }
 
 fun NavGraphBuilder.homeScreen(
     snackbarHostState: SnackbarHostState,
     openDrawer: () -> Unit = {},
     navController: NavHostController,
-    startActivity: (TableEntity) -> Unit,
+    destinations: List<TopLevelDestination>,
+    onNavigateToDestination: (TopLevelDestination) -> Unit
 ) {
-    composable(SampleDestinations.HOME_ROUTE) {
-        HomeRouter(
+    composable(homeRoute) {
+        HomeRoute(
             snackbarHostState = snackbarHostState,
             openDrawer = openDrawer,
-            navController = navController,
-            startActivity = startActivity,
+            destinations = destinations,
+            onNavigateToDestination = onNavigateToDestination
         )
     }
 }
-// endregion HomeScreen
 
 
-// region ScaffoldSample
-fun NavController.navigateToScaffold(builder: NavOptionsBuilder.() -> Unit = ::defaultOptions) {
-    this.navigate(route = SampleDestinations.SCAFFOLD_ROUTE, builder = builder)
-}
+const val scaffoldRoute = "scaffold_route"
 
-fun NavGraphBuilder.scaffoldScreen(
+fun NavGraphBuilder.samplesScreen(
     isExpandedScreen: Boolean,
     navController: NavController,
     snackbarHostState: SnackbarHostState
 ) {
-    composable(SampleDestinations.SCAFFOLD_ROUTE) {
+    composable(scaffoldRoute) {
         ScaffoldSample(
             isExpandedScreen = isExpandedScreen,
             onBackPress = {
@@ -64,12 +46,7 @@ fun NavGraphBuilder.scaffoldScreen(
         )
     }
 }
-// endregion Scaffold
 
-fun NavController.defaultOptions(builder: NavOptionsBuilder) {
-    builder.popUpTo(this.graph.findStartDestination().id) {
-        saveState = true
-    }
-    builder.launchSingleTop = true
-    builder.restoreState = true
+fun NavController.navigateToScaffold(navOptions: NavOptions? = null) {
+    this.navigate(route = scaffoldRoute, navOptions = navOptions)
 }

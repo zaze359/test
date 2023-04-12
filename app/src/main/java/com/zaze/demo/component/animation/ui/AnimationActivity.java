@@ -6,12 +6,12 @@ import android.view.Gravity;
 import android.view.Menu;
 
 import com.zaze.common.base.mvp.BaseMvpActivity;
+import com.zaze.core.model.data.AnimationEntity;
 import com.zaze.demo.R;
 import com.zaze.demo.component.animation.adapter.AnimationAdapter;
 import com.zaze.demo.component.animation.presenter.AnimationPresenter;
 import com.zaze.demo.component.animation.presenter.impl.AnimationPresenterImpl;
 import com.zaze.demo.component.animation.view.AnimationView;
-import com.zaze.demo.model.entity.AnimationEntity;
 
 import java.util.List;
 

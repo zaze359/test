@@ -7,8 +7,9 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.zaze.common.adapter.BaseRecyclerAdapter
+import com.zaze.common.adapter.AbsRecyclerAdapter
 import com.zaze.common.base.BaseApplication
 import com.zaze.demo.R
 import com.zaze.demo.debug.AppShortcut
@@ -25,14 +26,20 @@ import java.io.File
  *
  * @version : 2017-04-17 - 17:21
  */
-class AppListAdapter(context: Context, data: Collection<AppShortcut>) : BaseRecyclerAdapter<AppShortcut, AppListAdapter.PackageHolder>(context, data) {
+class AppListAdapter(context: Context) :
+    AbsRecyclerAdapter<AppShortcut, AppListAdapter.PackageHolder>(context, diffCallback) {
+    companion object {
+        private val diffCallback = object : DiffUtil.ItemCallback<AppShortcut>() {
+            override fun areItemsTheSame(oldItem: AppShortcut, newItem: AppShortcut): Boolean {
+                return oldItem.packageName == newItem.packageName
+            }
+            override fun areContentsTheSame(oldItem: AppShortcut, newItem: AppShortcut): Boolean {
+                return oldItem.toString() == newItem.toString()
+            }
 
-    private val iconDpi: Int
-
-    val iconSize = 72
-
-    init {
-        iconDpi = InvariantDeviceProfile().getLauncherIconDensity(iconSize)
+        }
+        private const val iconSize = 72
+        private val iconDpi by lazy { InvariantDeviceProfile().getLauncherIconDensity(iconSize) }
     }
 
     override fun createViewHolder(convertView: View): PackageHolder {
@@ -47,26 +54,25 @@ class AppListAdapter(context: Context, data: Collection<AppShortcut>) : BaseRecy
         val packageName = ZStringUtil.parseString(value.packageName)
         // --------------------------------------------------
         holder.itemAppNumTv.text = "${position + 1}"
-        if (value.isCopyEnable) {
+        if (value.isInstalled && !value.sourceDir.isNullOrEmpty()) {
             holder.itemAppExportBtn.visibility = View.VISIBLE
             holder.itemAppExportBtn.setOnClickListener {
-                val path = "/sdcard/zaze/apk/${value.name}(${value.packageName}).apk"
-                if (value.isCopyEnable) {
-                    FileUtil.copy(File(value.sourceDir), File(path))
-                }
+                val path = "/sdcard/zaze/apk/${value.appName}(${value.packageName}).apk"
+                FileUtil.copy(File(value.sourceDir), File(path))
                 ToastUtil.toast(context, "成功复制到 $path")
             }
         } else {
             holder.itemAppExportBtn.visibility = View.GONE
         }
 
-        holder.itemAppNameTv.text = "应用名 : ${value.name}"
+        holder.itemAppNameTv.text = "应用名 : ${value.appName}"
         holder.itemAppVersionCodeTv.text = "版本号 ：${value.versionCode}"
         holder.itemAppVersionNameTv.text = "版本名 ：${value.versionName}"
         holder.itemAppPackageTv.text = "包名 : $packageName"
         holder.itemAppDirTv.text = "路径 : ${value.sourceDir}"
-        holder.itemAppSignTv.text = "签名 : ${value.signingInfo}"
-        holder.itemAppTimeTv.text = "应用时间 : ${formatTime(value.firstInstallTime)}/${formatTime(value.lastUpdateTime)}"
+        holder.itemAppSignTv.text = "签名 : ${value.getSignatures(context)}"
+        holder.itemAppTimeTv.text =
+            "应用时间 : ${formatTime(value.firstInstallTime)}/${formatTime(value.lastUpdateTime)}"
         // --------------------------------------------------
         var drawable: Drawable? = null
         val application = AppUtil.getApplicationInfo(context, packageName)

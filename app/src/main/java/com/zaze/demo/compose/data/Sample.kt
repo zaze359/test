@@ -10,5 +10,5 @@ import androidx.navigation.NavHostController
  */
 data class Sample(
     val title: String,
-    val navigationAction: (NavHostController) -> Unit
+    val route: String
 )

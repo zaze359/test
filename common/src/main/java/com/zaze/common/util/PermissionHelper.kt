@@ -8,7 +8,6 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
-import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
@@ -19,12 +18,19 @@ import androidx.core.content.ContextCompat
  */
 object PermissionHelper {
     private val permissionMap by lazy {
-        mapOf(
+        mutableMapOf(
             Manifest.permission.READ_EXTERNAL_STORAGE to "访问存储空间",
             Manifest.permission.WRITE_EXTERNAL_STORAGE to "访问存储空间",
             Manifest.permission.READ_PHONE_STATE to "读取手机状态",
             Manifest.permission.ACCESS_FINE_LOCATION to "获取位置",
-        )
+            Manifest.permission.CAMERA to "相机",
+        ).apply {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                this[Manifest.permission.READ_MEDIA_IMAGES] = "访问图片和照片"
+                this[Manifest.permission.READ_MEDIA_VIDEO] = "访问视频"
+                this[Manifest.permission.READ_MEDIA_AUDIO] = "访问音频文件"
+            }
+        }
     }
 
     fun getPermissionNames(permissions: Array<String>): String {
@@ -70,7 +76,7 @@ object PermissionHelper {
         return ContextCompat.checkSelfPermission(
             context,
             permission
-        ) != PackageManager.PERMISSION_GRANTED
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
 

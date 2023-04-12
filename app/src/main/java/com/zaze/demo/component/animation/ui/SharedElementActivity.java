@@ -8,10 +8,10 @@ import android.transition.Slide;
 import android.view.Gravity;
 import android.view.View;
 
+import com.zaze.core.model.data.AnimationEntity;
 import com.zaze.demo.R;
 import com.zaze.demo.component.animation.presenter.SharedElementPresenter;
 import com.zaze.demo.databinding.SharedElementActivityBinding;
-import com.zaze.demo.model.entity.AnimationEntity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -81,6 +81,7 @@ public class SharedElementActivity extends AppCompatActivity {
             elementOneFragment.setReenterTransition(slideTransition);
             elementOneFragment.setExitTransition(slideTransition);
             elementOneFragment.setSharedElementEnterTransition(new ChangeBounds());
+//            addToBackStack()
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.share_element_frame, elementOneFragment)
                     .commit();

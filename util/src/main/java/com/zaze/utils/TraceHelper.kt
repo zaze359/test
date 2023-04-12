@@ -31,7 +31,7 @@ import java.util.HashMap
  * $ adb shell setprop log.tag.TAGNAME VERBOSE
  */
 object TraceHelper {
-    private var ENABLED = BuildConfig.DEBUG
+    private var ENABLED = false
     private const val SYSTEM_TRACE = false
     private val sUpTimes: MutableMap<String, Long> = HashMap()
     private const val TAG = ZTag.TAG + "TraceHelper"

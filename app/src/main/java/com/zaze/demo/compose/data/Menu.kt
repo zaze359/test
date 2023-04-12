@@ -36,7 +36,7 @@ val drawerMenus = listOf<Menu>(
     Action(
         id = "github_link",
         label = R.string.github_link,
-        icon = R.mipmap.ic_github_circle_white_24dp,
+        icon = R.drawable.ic_github_circle_white_24dp,
         intent = Intent(Intent.ACTION_VIEW).apply {
             data = Uri.parse("https://github.com/zaze359/test.git")
         }

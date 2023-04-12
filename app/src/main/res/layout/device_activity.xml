@@ -49,7 +49,7 @@
                     android:id="@+id/device_test_tint_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_looks_1"
+                    android:src="@drawable/ic_looks_1"
                     app:imageTint="@color/red"
                     app:layout_constraintBottom_toBottomOf="@id/device_input"
                     app:layout_constraintLeft_toRightOf="@id/device_input"

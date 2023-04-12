@@ -26,14 +26,16 @@ class AppListActivity : AbsActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = DataBindingUtil.setContentView<ActivityAppListBinding>(this, R.layout.activity_app_list)
+        val binding =
+            DataBindingUtil.setContentView<ActivityAppListBinding>(this, R.layout.activity_app_list)
         viewModel.appData.observe(this@AppListActivity, Observer { appList ->
             binding.appCountTv.text = "查询到 ${appList.size}个应用"
-            adapter?.setDataList(appList) ?: let {
-                adapter = AppListAdapter(this@AppListActivity, appList)
+            adapter ?: let {
+                adapter = AppListAdapter(this@AppListActivity)
                 binding.appRecycleView.layoutManager = LinearLayoutManager(this@AppListActivity)
                 binding.appRecycleView.adapter = adapter
             }
+            adapter?.submitList(appList)
         })
 
         ZOnClickHelper.setOnClickListener(binding.appExtractBtn) {

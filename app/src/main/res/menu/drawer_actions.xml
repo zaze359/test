@@ -2,6 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/drawer_github_menu_item"
-        android:icon="@mipmap/ic_github_circle_white_24dp"
+        android:icon="@drawable/ic_github_circle_white_24dp"
         android:title="@string/github_link" />
 </menu>

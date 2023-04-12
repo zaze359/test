@@ -1,5 +1,6 @@
 package com.zaze.common.base
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -14,13 +15,11 @@ import com.zaze.utils.log.ZLog
 abstract class AbsLogActivity : AppCompatActivity() {
 
     companion object {
-        var globalLog = true
+        var globalLog = false
         private const val TAG = "Lifecycle"
     }
 
-    open fun showLifecycle(): Boolean {
-        return globalLog
-    }
+    open val showLifecycle = globalLog
 
     private val activityName by lazy {
         this.javaClass.simpleName
@@ -28,72 +27,58 @@ abstract class AbsLogActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (showLifecycle()) {
-            ZLog.d(TAG, "$activityName onCreate taskId is ${this.taskId} ${this.isTaskRoot}")
-        }
+        if (showLifecycle) ZLog.d(TAG, "$activityName onCreate taskId is ${this.taskId} ${this.isTaskRoot}")
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        if (showLifecycle()) {
-            ZLog.d(TAG, "$activityName onPostCreate")
-        }
+        if (showLifecycle) ZLog.d(TAG, "$activityName onPostCreate")
     }
 
+    @SuppressLint("MissingSuperCall")
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        if (showLifecycle())
-            ZLog.d(TAG, "$activityName onNewIntent")
+        if (showLifecycle) ZLog.d(TAG, "$activityName onNewIntent")
     }
 
     override fun onStart() {
         super.onStart()
-        if (showLifecycle())
-            ZLog.d(TAG, "$activityName onStart")
+        if (showLifecycle)  ZLog.d(TAG, "$activityName onStart")
     }
 
     override fun onRestart() {
         super.onRestart()
-        if (showLifecycle()) {
-            ZLog.d(TAG, "$activityName onRestart")
-        }
+        if (showLifecycle) ZLog.d(TAG, "$activityName onRestart")
     }
 
     override fun onResume() {
         super.onResume()
-        if (showLifecycle())
-            ZLog.d(TAG, "$activityName onResume")
+        if (showLifecycle) ZLog.d(TAG, "$activityName onResume")
     }
 
     override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
         super.onSaveInstanceState(outState, outPersistentState)
-        if (showLifecycle())
-            ZLog.d(TAG, "$activityName onSaveInstanceState")
+        if (showLifecycle) ZLog.d(TAG, "$activityName onSaveInstanceState")
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        if (showLifecycle())
-            ZLog.d(TAG, "$activityName onRestoreInstanceState")
+        if (showLifecycle) ZLog.d(TAG, "$activityName onRestoreInstanceState")
     }
 
     override fun onPause() {
         super.onPause()
-        if (showLifecycle())
-            ZLog.d(TAG, "$activityName onPause")
+        if (showLifecycle) ZLog.d(TAG, "$activityName onPause")
     }
 
     override fun onStop() {
         super.onStop()
-        if (showLifecycle())
-            ZLog.d(TAG, "$activityName onStop")
+        if (showLifecycle) ZLog.d(TAG, "$activityName onStop")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if (showLifecycle()) {
-            ZLog.d(TAG, "$activityName onDestroy")
-        }
+        if (showLifecycle) ZLog.d(TAG, "$activityName onDestroy")
     }
 }
 

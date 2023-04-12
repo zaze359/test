@@ -39,9 +39,8 @@ class MainActivity : AbsActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    override fun showLifecycle(): Boolean {
-        return true
-    }
+    override val showLifecycle: Boolean
+        get() = true
 
     override fun getPermissionsToRequest(): Array<String> {
 
@@ -73,7 +72,7 @@ class MainActivity : AbsActivity() {
 //        }
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        setupActionBar(findViewById(R.id.mainToolbar)) {
+        setupActionBar(binding.mainToolbar) {
             setTitle(R.string.app_name)
             setDisplayHomeAsUpEnabled(true)
             setHomeButtonEnabled(true)
@@ -99,6 +98,7 @@ class MainActivity : AbsActivity() {
             }
             true
         }
+
         // --------------------------------------------------
         binding.mainViewpager.setOnHoverListener { _, _ ->
             ZLog.i(ZTag.TAG_DEBUG, "main_viewpager on hover")

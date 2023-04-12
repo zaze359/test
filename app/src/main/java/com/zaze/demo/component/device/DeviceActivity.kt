@@ -38,7 +38,7 @@ class DeviceActivity : AbsActivity() {
         viewModel.inchData.observe(this, Observer { s -> binding.deviceInchTv.text = s })
         findViewById<View>(R.id.device_calculate_btn).setOnClickListener {
             setTheme(R.style.BlackTheme)
-            binding.deviceTestTintIv.setImageResource(R.mipmap.ic_looks_2)
+            binding.deviceTestTintIv.setImageResource(R.drawable.ic_looks_2)
             viewModel.calculatePhysicalSize(0)
         }
         viewModel.loadDeviceInfo()

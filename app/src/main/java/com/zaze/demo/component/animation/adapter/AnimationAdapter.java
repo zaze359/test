@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.zaze.common.adapter.BaseRecyclerAdapter;
 import com.zaze.common.util.ActivityUtil;
+import com.zaze.core.model.data.AnimationEntity;
 import com.zaze.demo.R;
 import com.zaze.demo.component.animation.ui.SharedElementActivity;
-import com.zaze.demo.model.entity.AnimationEntity;
 import com.zaze.utils.ZStringUtil;
 
 import org.jetbrains.annotations.NotNull;

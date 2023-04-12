@@ -21,7 +21,7 @@ class NetworkStatsViewModel(application: Application) : AbsAndroidViewModel(appl
 
     fun load() {
         Observable.fromCallable {
-            AnalyzeTrafficCompat.getInstance(getApplication()).dayNetworkTraffic
+            AnalyzeTrafficCompat.getInstance(application).dayNetworkTraffic
         }.subscribeOn(Schedulers.io()).map {
             networkTraffic.set(it)
         }.doFinally {
@@ -51,7 +51,7 @@ class NetworkStatsViewModel(application: Application) : AbsAndroidViewModel(appl
 //            appShortcut.setUid(ZStringUtil.parseInt(uid_tag_int))
 //            return appShortcut
 //        } else {
-//            return ApplicationManager.getAppShortcutByUid(ZStringUtil.parseInt(uid_tag_int))
+//            return ApplicationManager2.getAppShortcutByUid(ZStringUtil.parseInt(uid_tag_int))
 //        }
 //    }
 }

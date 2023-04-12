@@ -1,0 +1,29 @@
+<resources>
+    <string name="communication">数据通讯</string>
+
+    <string name="jumpBottom">Jump to bottom</string>
+    <string name="not_available">Functionality currently not available</string>
+    <string name="not_available_subtitle">Grab a beverage and check back later!</string>
+
+    <string name="emoji_selector_desc">Emoji selector</string>
+    <string name="emoji_selector_bt_desc">Show Emoji selector</string>
+
+    <string name="dm_desc">Direct Message</string>
+    <string name="attach_photo_desc">Attach Photo</string>
+    <string name="map_selector_desc">Location selector</string>
+
+    <string name="attach_file_desc">Attach File</string>
+    <string name="videochat_desc">Start videochat</string>
+    <string name="camera_desc">Start camera</string>
+
+    <string name="attached_image">Attached image</string>
+
+
+    <string name="send">Send</string>
+    <string name="textfield_hint">Input Message ......</string>
+    <string name="textfield_desc">Text input</string>
+
+    <string name="emojis_label">Emojis</string>
+    <string name="stickers_label">Stickers</string>
+    
+</resources>

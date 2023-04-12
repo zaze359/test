@@ -36,7 +36,7 @@ class FileAdapter(context: Context, data: Collection<File>?) : BaseRecyclerAdapt
 //            iconText = "D"
 //            iconRes = R.drawable.bg_circle_blue
                 iconText = ""
-                iconRes = R.mipmap.ic_folder_black_48dp
+                iconRes = R.drawable.ic_folder_black_48dp
 
             }
             value.isFile -> {

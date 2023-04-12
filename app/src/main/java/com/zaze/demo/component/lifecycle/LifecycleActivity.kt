@@ -23,9 +23,8 @@ class LifecycleActivity : AbsActivity() {
     private val isNeedStack = ZLog.isNeedStack()
     private val defaultLogFace = ZLog.getLogFace();
 
-    override fun showLifecycle(): Boolean {
-        return true
-    }
+    override val showLifecycle: Boolean
+        get() = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

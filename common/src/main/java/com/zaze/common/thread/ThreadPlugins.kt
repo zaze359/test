@@ -18,19 +18,6 @@ object ThreadPlugins {
     private val CPU_COUNT = Runtime.getRuntime().availableProcessors()
 
     // --------------------------------------------------
-    val requestExecutorStub by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
-        ThreadExecutorStub(
-            ThreadPoolExecutor(
-                0,
-                CPU_COUNT * 2,
-                60L,
-                TimeUnit.SECONDS,
-                LinkedBlockingQueue(),
-                DefaultFactory("zRequest")
-            )
-        )
-    }
-    // --------------------------------------------------
     /**
      * 普通子线程池，用于一般子线程任务操作
      * 耗时短

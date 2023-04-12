@@ -90,8 +90,6 @@ public class WifiCompat {
      * @param context Application
      */
     public static void listenerByBroadcast(Application context) {
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-        context.registerReceiver(new WifiReceiver(), intentFilter);
+        context.registerReceiver(new WifiReceiver(), WifiReceiver.Companion.createIntentFilter());
     }
 }

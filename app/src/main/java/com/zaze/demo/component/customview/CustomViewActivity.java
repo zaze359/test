@@ -25,7 +25,7 @@ public class CustomViewActivity extends AbsActivity {
         customAddImageLayout.setOnImageAddListener(new AddImageLayout.OnImageAddListener() {
             @Override
             public void onImageAddListener() {
-                customAddImageLayout.addImageRes(R.mipmap.ic_folder_open_black_48dp);
+                customAddImageLayout.addImageRes(R.drawable.ic_folder_open_black_48dp);
             }
         });
     }

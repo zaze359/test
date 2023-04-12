@@ -1,8 +1,7 @@
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("com.android.library")
-//    id("kotlin-android")
     id("org.jetbrains.kotlin.android")
-
 }
 
 //apply plugin: 'com.github.dcendents.android-maven'
@@ -13,7 +12,7 @@ android {
 
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
-        targetSdk = libs.versions.targetSdk.get().toInt()
+//        targetSdk = libs.versions.targetSdk.get().toInt()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -30,7 +29,7 @@ android {
 
 dependencies {
 //    val deps: LinkedHashMap<Any, Any> by rootProject.ext
-    testImplementation(libs.junit)
+    testImplementation(libs.junit4)
 
 //    val atsl: LinkedHashMap<Any, Any> by deps
 //    androidTestImplementation("${atsl["runner"]}")
@@ -39,8 +38,9 @@ dependencies {
 //    androidTestImplementation("${atsl["ext_junit"]}")
 //    androidTestImplementation("${atsl["ext_junit_ktx"]}")
 
-    androidTestImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.core)
+    androidTestImplementation(libs.androidx.test.ext.junit )
+
 //    androidTestImplementation(libs.androidx.test.runner)
 //    androidTestImplementation(libs.androidx.test.espresso.core)
 //    androidTestImplementation(libs.androidx.test.rules)
@@ -60,7 +60,6 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.appcompat)
     implementation(libs.google.gson)
-
 }
 
 apply(from = "${project.rootDir}/buildscripts/maven-publish.gradle")

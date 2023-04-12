@@ -5,8 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.zaze.core.model.data.AnimationEntity;
 import com.zaze.demo.R;
-import com.zaze.demo.model.entity.AnimationEntity;
 
 import androidx.fragment.app.Fragment;
 

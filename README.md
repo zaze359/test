@@ -4,8 +4,10 @@
 
 ## gradle
 ```
-maven { url 'https://s01.oss.sonatype.org/content/groups/public' }
+maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots") }
+maven { url = uri("https://s01.oss.sonatype.org/content/groups/public") }
+maven { url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2") }
 ```
 ```
-implementation "io.github.zaze359:zaze-utils:1.0.1"
+implementation "io.github.zaze359:zaze-utils:1.0.0"
 ```
