@@ -44,7 +44,7 @@ class DefaultPoolExecutor private constructor(
                 SURPLUS_THREAD_LIFE,
                 TimeUnit.SECONDS,
                 ArrayBlockingQueue(64),
-                DefaultFactory()
+                DefaultFactory(),
             ).also {
                 INSTANCE = it
             }

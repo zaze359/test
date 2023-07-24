@@ -15,6 +15,7 @@ import com.zaze.demo.feature.communication.messenger.MessengerService
  * @author : zaze
  * @version : 2021-07-15 - 14:38
  */
+@Deprecated("see {@link CommunicationScreen.kt}")
 class CommunicationActivity : AbsActivity() {
 
     private val viewModel: CommunicationViewModel by myViewModels()
@@ -31,11 +32,11 @@ class CommunicationActivity : AbsActivity() {
 
     private val remoteServiceConnection: ServiceConnection = object : ServiceConnection {
         override fun onServiceDisconnected(name: ComponentName?) {
-            viewModel.remoteService = null
+            viewModel.onRemoteServiceDisconnected()
         }
 
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            viewModel.remoteService = IRemoteService.Stub.asInterface(service)
+            viewModel.onRemoteServiceConnected(service)
         }
     }
 

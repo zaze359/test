@@ -6,7 +6,7 @@ import androidx.navigation.compose.composable
 import com.zaze.demo.compose.home.HomeRoute
 import com.zaze.demo.compose.samples.ScaffoldSample
 
-const val homeRoute = "home_route"
+const val homeRoute = "/home"
 fun NavController.navigateToHome(navOptions: NavOptions? = null) {
     this.navigate(route = homeRoute, navOptions = navOptions)
 }
@@ -29,7 +29,7 @@ fun NavGraphBuilder.homeScreen(
 }
 
 
-const val scaffoldRoute = "scaffold_route"
+const val scaffoldRoute = "/demo/scaffold"
 
 fun NavGraphBuilder.samplesScreen(
     isExpandedScreen: Boolean,

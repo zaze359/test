@@ -13,7 +13,7 @@ import com.zaze.utils.interceptor.Interceptor
 class HttpToastInterceptor : Interceptor<ZRequest, ZResponse> {
     override fun intercept(chain: Interceptor.Chain<ZRequest, ZResponse>): ZResponse {
         val request = chain.input()
-        val response = chain.process(request)
+        val response = chain.proceed(request)
         //
         if (!response.isSuccessful() && request.toast) {
             CustomToast.postShowToast("${response.message}(${response.code})")

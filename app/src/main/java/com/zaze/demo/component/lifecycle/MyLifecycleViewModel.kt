@@ -5,12 +5,10 @@ import android.util.Log
 import androidx.annotation.ColorInt
 import androidx.lifecycle.viewModelScope
 import com.zaze.common.base.AbsViewModel
-import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZLogFace
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class MyLifecycleViewModel : AbsViewModel(), ZLogFace {

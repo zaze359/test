@@ -22,7 +22,6 @@ class AudioFragment : Fragment() {
 
     private var mediaPlayer: MediaPlayer? = null
 
-
     private val audioLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
@@ -50,11 +49,21 @@ class AudioFragment : Fragment() {
             intent.setDataAndType(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, "audio/*")
             audioLauncher.launch(intent)
         }
+        binding.audioPlayBtn.setOnClickListener {
+            play(uri)
+        }
+        binding.audioPauseBtn.setOnClickListener {
+            pause()
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         stop()
+    }
+
+    private fun pause() {
+        mediaPlayer?.pause()
     }
 
     private fun stop() {
@@ -65,8 +74,12 @@ class AudioFragment : Fragment() {
         mediaPlayer = null
     }
 
-    private fun play(uri: Uri) {
-        if (mediaPlayer == null) {
+    private fun play(uri: Uri?) {
+        if(uri == null) {
+            return
+        }
+
+        mediaPlayer?.start() ?: let {
             binding.audioThumbIv.setImageBitmap(MediaHelper.buildEmbeddedPicture(requireContext(), uri))
             mediaPlayer = MediaPlayer().also {
                 it.reset()
@@ -84,8 +97,4 @@ class AudioFragment : Fragment() {
             }
         }
     }
-
-
-
-
 }

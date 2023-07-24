@@ -7,10 +7,13 @@ import com.zaze.common.base.LogService
 import com.zaze.demo.feature.communication.IRemoteService
 import com.zaze.demo.feature.communication.parcel.IpcMessage
 
+/**
+ * 这里 aidl的服务端，实现了对应的服务功能
+ */
 class RemoteService : LogService() {
     private var count = 0
 
-    // 匿名内部类，实现IRemoteService
+    /** 匿名内部类，实现IRemoteService接口 **/
     private val binder = object : IRemoteService.Stub() {
 
         override fun basicTypes(

@@ -18,15 +18,15 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
-        release {
-            isMinifyEnabled = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
+//    buildTypes {
+//        release {
+//            isMinifyEnabled = true
+//            proguardFiles(
+//                getDefaultProguardFile("proguard-android-optimize.txt"),
+//                "proguard-rules.pro"
+//            )
+//        }
+//    }
 }
 
 dependencies {
@@ -35,6 +35,7 @@ dependencies {
 //    implementation(composeBom)
 //    androidTestImplementation(composeBom)
     testImplementation(libs.junit4)
+    implementation(libs.kotlin.stdlib)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.lifecycle.runtime)
@@ -42,12 +43,16 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.rxjava2)
-    implementation(libs.rxandroid)
+    //
+    api(libs.rxjava2)
+    api("com.github.tbruyelle:rxpermissions:0.12")
+    api(libs.rxandroid)
+
 //    implementation(libs.okhttp3)
 //    implementation(libs.okhttp.logging)
 
-    compileOnly(project(":util"))
+    implementation(libs.zaze.util)
+//    compileOnly(project(":util"))
 }
 
 apply(from = "${project.rootDir}/buildscripts/maven-publish.gradle")

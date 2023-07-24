@@ -12,7 +12,7 @@ import com.zaze.demo.feature.storage.datastore.DataStoreRoute
 import com.zaze.demo.feature.storage.sp.SharedPreferencesRoute
 
 
-const val storageRoute = "storage_route"
+const val storageRoute = "/demo/storage"
 internal const val sharedPreferencesRoute = "sharedPreferences_route"
 internal const val dataStoreRoute = "dataStore_route"
 

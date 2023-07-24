@@ -31,7 +31,7 @@ import okhttp3.ResponseBody;
  */
 @Deprecated
 public class OkHttpUtil {
-    private static OkHttpClient mOkHttpClient = new OkHttpClient();
+    private static OkHttpClient mOkHttpClient = new OkHttpClient.Builder().build();
 
     // --------------------------------------------------
 
@@ -177,7 +177,6 @@ public class OkHttpUtil {
     public static void upload(String filePath) {
         File file = new File(filePath);
 //        RequestBody fileBody = RequestBody.create(MediaType.parse("application/octet-stream"), file);
-
         RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
 
     }

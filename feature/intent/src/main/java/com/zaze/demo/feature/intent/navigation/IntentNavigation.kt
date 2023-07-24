@@ -5,7 +5,7 @@ import androidx.navigation.*
 import androidx.navigation.compose.composable
 import com.zaze.demo.feature.intent.IntentRoute
 
-const val intentRoute = "intent_route"
+const val intentRoute = "/demo/intent"
 
 fun NavController.navigateToIntent(navOptions: NavOptions? = null) {
     this.navigate(route = intentRoute, navOptions = navOptions)

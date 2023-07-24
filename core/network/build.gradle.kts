@@ -36,8 +36,8 @@ android {
 
 dependencies {
 
-    implementation(project(":util"))
-    implementation(project(":common"))
+    implementation(libs.zaze.util)
+    implementation(libs.zaze.common)
     implementation(project(":core:model"))
 
     implementation(libs.coil.kt)
@@ -48,10 +48,14 @@ dependencies {
 
     implementation(libs.rxjava2)
     implementation(libs.rxandroid)
-    implementation(libs.okhttp3)
-    implementation(libs.okhttp.logging)
-    implementation(libs.retrofit.core)
-    implementation(libs.retrofit.kotlin.serialization)
+
+    api(libs.okhttp3)
+    api(libs.okhttp.logging)
+    // retrofit
+    api(libs.retrofit.core)
+    api(libs.retrofit.converter.gson)
+    api(libs.retrofit.adapter.rxjava2)
+    api(libs.retrofit.kotlin.serialization)
 
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)

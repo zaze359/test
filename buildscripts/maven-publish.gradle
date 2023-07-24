@@ -1,156 +1,178 @@
 apply plugin: 'maven-publish'
-apply plugin: 'signing'
+//apply plugin: 'com.android.library'
+//apply plugin: 'signing'
 
-version = VERSION_NAME
-group = GROUP
-
-def loadProperties(Properties properties, List<String> files) {
+def loadProperties(Properties properties, List<File> files) {
     if (files != null && !files.isEmpty()) {
-        for (String fileName : files) {
-            File propertiesFile = project.file(rootProject.file(fileName))
+        for (File propertiesFile : files) {
             if (propertiesFile.exists()) {
-                println("properties.load: " + fileName)
+                println("properties.load: " + propertiesFile.absolutePath)
                 properties.load(propertiesFile.newDataInputStream())
+            } else {
+                println("properties not found: " + propertiesFile.absolutePath)
             }
         }
     }
 }
 
-Properties properties = new Properties()
-loadProperties(properties, Arrays.asList('maven.properties', 'local.properties'))
+Properties mavenProperties = new Properties()
+loadProperties(mavenProperties, Arrays.asList(rootProject.file("buildscripts/maven.properties"), rootProject.file("local.properties")))
 
 def isReleaseBuild() {
     return VERSION_NAME.contains("SNAPSHOT") == false
 }
 
-def getReleaseRepositoryUrl(Properties properties) {
+static def getReleaseRepositoryUrl(Properties properties) {
     return properties.getProperty('RELEASE_REPOSITORY_URL', "http://localhost:8081/repository/maven-releases/")
 }
 
-def getSnapshotRepositoryUrl(Properties properties) {
+static def getSnapshotRepositoryUrl(Properties properties) {
     return properties.getProperty('SNAPSHOT_REPOSITORY_URL', "http://localhost:8081/repository/maven-snapshots/")
 }
 
-def getRepositoryUsername(Properties properties) {
+static def getRepositoryUsername(Properties properties) {
     return properties.getProperty('NEXUS_USERNAME', "zaze")
 }
 
-def getRepositoryPassword(Properties properties) {
+static def getRepositoryPassword(Properties properties) {
     return properties.getProperty('NEXUS_PASSWORD', "123456")
 }
 
-def configurePom(pom) {
-    pom.name = POM_NAME
-    pom.packaging = POM_PACKAGING
-    pom.description = POM_DESCRIPTION
-    pom.url = POM_URL
+//java {
+//    withJavadocJar()
+//    withSourcesJar()
+//}
+
+def configurePom(mavenProperties, pom) {
+    pom.name = mavenProperties.getProperty("POM_NAME")
+    pom.packaging = mavenProperties.getProperty("POM_PACKAGING")
+    pom.description = mavenProperties.getProperty("POM_DESCRIPTION")
+    pom.url = mavenProperties.getProperty("POM_URL")
 
     pom.scm {
-        url = POM_SCM_URL
-        connection = POM_SCM_CONNECTION
-        developerConnection = POM_SCM_DEV_CONNECTION
+        url = mavenProperties.getProperty("POM_SCM_URL")
+        connection = mavenProperties.getProperty("POM_SCM_CONNECTION")
+        developerConnection = mavenProperties.getProperty("POM_SCM_DEV_CONNECTION")
     }
 
     pom.licenses {
         license {
-            name = POM_LICENCE_NAME
-            url = POM_LICENCE_URL
-            distribution = POM_LICENCE_DIST
+            name = mavenProperties.getProperty("POM_LICENCE_NAME")
+            url = mavenProperties.getProperty("POM_LICENCE_URL")
+            distribution = mavenProperties.getProperty("POM_LICENCE_DIST")
         }
     }
 
     pom.developers {
         developer {
-            id = POM_DEVELOPER_ID
-            name = POM_DEVELOPER_NAME
+            id = mavenProperties.getProperty("POM_DEVELOPER_ID")
+            name = mavenProperties.getProperty("POM_DEVELOPER_NAME")
         }
     }
 }
 
 afterEvaluate { project ->
     publishing {
+        // 配置仓库地址
         repositories {
             maven {
-                def releasesRepoUrl = getReleaseRepositoryUrl(properties)
-                def snapshotsRepoUrl = getSnapshotRepositoryUrl(properties)
-                url = isReleaseBuild() ? releasesRepoUrl : snapshotsRepoUrl
+                allowInsecureProtocol true
 
-                println("url: " + url)
+                def releasesRepoUrl = getReleaseRepositoryUrl(mavenProperties)
+                def snapshotsRepoUrl = getSnapshotRepositoryUrl(mavenProperties)
+                url = isReleaseBuild() ? releasesRepoUrl : snapshotsRepoUrl
+                println("publishing repositories: " + url)
                 credentials(PasswordCredentials) {
-                    username = getRepositoryUsername(properties)
-                    password = getRepositoryPassword(properties)
+                    username = getRepositoryUsername(mavenProperties)
+                    password = getRepositoryPassword(mavenProperties)
                     println("username: " + username)
                     println("password: " + password)
                 }
+//                artifact rpmArtifact
             }
         }
-    }
 
-    if (project.getPlugins().hasPlugin('com.android.application') ||
-            project.getPlugins().hasPlugin('com.android.library')) {
-
-        task androidJavadocs(type: Javadoc) {
-            source = android.sourceSets.main.java.source
-            classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-            excludes = ['**/*.kt']
-        }
-
-        task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
-            classifier = 'javadoc'
-            from androidJavadocs.destinationDir
-        }
-
-
-        task androidSourcesJar(type: Jar) {
-            classifier = 'sources'
-            from android.sourceSets.main.java.source
-        }
-    }
-
-    if (JavaVersion.current().isJava8Compatible()) {
-        allprojects {
-            tasks.withType(Javadoc) {
-                options.addStringOption('Xdoclint:none', '-quiet')
-                options.encoding = "UTF-8"
+        publications {
+            // Creates a Maven publication called "release".
+            release(MavenPublication) {
+                from components.release
+                groupId = GROUP
+                artifactId = POM_ARTIFACT_ID
+                version = VERSION_NAME
+                configurePom(mavenProperties, pom)
+            }
+            // Creates a Maven publication called “debug”.
+            debug(MavenPublication) {
+                from components.debug
+                groupId = GROUP
+                artifactId = POM_ARTIFACT_ID
+                version = VERSION_NAME + "-SNAPSHOT"
+                configurePom(mavenProperties, pom)
             }
         }
-    }
 
-    if (JavaVersion.current().isJava9Compatible()) {
-        allprojects {
-            tasks.withType(Javadoc) {
-                options.addBooleanOption('html5', true)
-            }
-        }
-    }
-
-    artifacts {
-        if (project.getPlugins().hasPlugin('com.android.application') ||
-                project.getPlugins().hasPlugin('com.android.library')) {
-            archives androidSourcesJar
-//            archives androidJavadocsJar
-        }
-    }
-
-//    android.libraryVariants.all { variant ->
-//        tasks.androidJavadocs.doFirst {
-//            classpath += files(variant.javaCompileProvider.get().classpath.files.join(File.pathSeparator))
+        // 配置 publishingToMavenLocal 指令
+        // 默认 .\.m2\repository\ 下
+//        relocation(MavenPublication) {
+//            pom {
+//                // Old artifact coordinates
+//                groupId = "com.example"
+//                artifactId = "lib"
+//                version = "2.0.0"
+//
+//                distributionManagement {
+//                    relocation {
+//                        // New artifact coordinates
+//                        groupId = "com.new-example"
+//                        artifactId = "lib"
+//                        version = "2.0.0"
+//                        message = "groupId has been changed"
+//                    }
+//                }
+//            }
 //        }
-//    }
-
-    publishing.publications.all { publication ->
-        publication.groupId = GROUP
-        publication.version = VERSION_NAME
-
-        publication.artifact androidSourcesJar
-        publication.artifact androidJavadocsJar
-
-        configurePom(publication.pom)
     }
+}
 
-    signing {
-        publishing.publications.all { publication ->
-            sign publication
+if (JavaVersion.current().isJava8Compatible()) {
+    allprojects {
+        tasks.withType(Javadoc) {
+            options.addStringOption('Xdoclint:none', '-quiet')
+            options.encoding = "UTF-8"
         }
     }
 }
+
+task androidJavadocs(type: Javadoc) {
+    source = android.sourceSets.main.java.source
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    excludes = ['**/*.kt']
+}
+
+task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
+    classifier = 'javadoc'
+    from androidJavadocs.destinationDir
+}
+
+// 配置源码路径
+task androidSourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.source
+}
+
+// 将源码打包到 aar
+artifacts {
+    archives androidSourcesJar
+//            archives androidJavadocsJar
+}
+
+
+//signing {
+//    sign(publishing.publications["mavenJava"])
+//}
+
+//signing {
+//    publishing.publications.all { publication ->
+//        sign publication
+//    }
+//}

@@ -42,7 +42,7 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     kapt(libs.androidx.room.compiler)
 
-    implementation(project(":util"))
+    implementation(libs.zaze.util)
 
     implementation(project(":core:model"))
 }

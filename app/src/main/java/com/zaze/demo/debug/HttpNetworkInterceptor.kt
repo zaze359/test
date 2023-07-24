@@ -20,7 +20,7 @@ class HttpNetworkInterceptor : Interceptor<ZRequest, ZResponse> {
                 it.message = "当前处于离线状态, 请连接可以网络"
             }
         } else {
-            chain.process(request)
+            chain.proceed(request)
         }
         if (request.printLog) {
             response.log()

@@ -39,7 +39,7 @@
             android:layout_gravity="center"
             android:background="@color/white"
             android:scaleType="centerInside"
-            tools:src="@mipmap/jljt" />
+            tools:src="@drawable/jljt" />
 
         <View
             android:id="@+id/appCardProgressBg"

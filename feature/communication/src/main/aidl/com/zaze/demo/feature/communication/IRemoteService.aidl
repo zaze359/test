@@ -13,4 +13,6 @@ interface IRemoteService {
 
 
     IpcMessage getMessage();
+
+//    void testMessage(out IpcMessage outMessage);
 }

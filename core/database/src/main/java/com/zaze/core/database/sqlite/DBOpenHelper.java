@@ -11,9 +11,8 @@ import android.database.sqlite.SQLiteOpenHelper;
  * @version : 2017-03-30 - 00:20
  */
 public class DBOpenHelper extends SQLiteOpenHelper {
-
     private static final String DATABASE_NAME = "zaze_provider.db"; //数据库名称
-    private static final int DATABASE_VERSION = 1;//数据库版本
+    private static final int DATABASE_VERSION = 2; //数据库版本
 
     private UserDao userDao;
 

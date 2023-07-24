@@ -15,15 +15,15 @@ android {
 //        targetSdk = libs.versions.targetSdk.get().toInt()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
-        release {
-            isMinifyEnabled = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
+//    buildTypes {
+//        release {
+//            isMinifyEnabled = true
+//            proguardFiles(
+//                getDefaultProguardFile("proguard-android-optimize.txt"),
+//                "proguard-rules.pro"
+//            )
+//        }
+//    }
 }
 
 
@@ -39,7 +39,7 @@ dependencies {
 //    androidTestImplementation("${atsl["ext_junit_ktx"]}")
 
     androidTestImplementation(libs.androidx.test.core)
-    androidTestImplementation(libs.androidx.test.ext.junit )
+    androidTestImplementation(libs.androidx.test.ext.junit)
 
 //    androidTestImplementation(libs.androidx.test.runner)
 //    androidTestImplementation(libs.androidx.test.espresso.core)

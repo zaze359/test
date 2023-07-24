@@ -49,7 +49,22 @@ class CommunicationViewModel @Inject constructor(application: Application) :
     })
 
     /** aidl 接口 */
-    var remoteService: IRemoteService? = null
+    private var remoteService: IRemoteService? = null
+    private val remoteServiceDeathRecipient  = IBinder.DeathRecipient {
+        ZLog.i("CommunicationViewModel", "remoteService binderDied")
+        onRemoteServiceDisconnected()
+        // 重连？
+    }
+
+    fun onRemoteServiceConnected(service: IBinder?) {
+        remoteService = IRemoteService.Stub.asInterface(service)
+        service?.linkToDeath(remoteServiceDeathRecipient, 0)
+    }
+    fun onRemoteServiceDisconnected() {
+        ZLog.i("CommunicationViewModel", "onRemoteServiceDisconnected")
+        remoteService?.asBinder()?.unlinkToDeath(remoteServiceDeathRecipient, 0)
+        remoteService = null
+    }
 
     init {
         viewModelScope.launch {
@@ -80,7 +95,7 @@ class CommunicationViewModel @Inject constructor(application: Application) :
     fun sendMessage(message: String) {
         val chatMessage = ChatMessage.Text(
             author = "me",
-            content = "send: $message",
+            content = message,
         )
         actualSend(chatMessage)
     }
@@ -106,6 +121,11 @@ class CommunicationViewModel @Inject constructor(application: Application) :
                 serviceMessenger?.send(msg)
             }
             CommunicationMode.BROADCAST -> {
+                application.sendBroadcast(Intent(MessageReceiver.ACTION_MESSAGE).also {
+                    it.putExtra(MessageReceiver.KEY_MESSAGE, IpcMessage(message = messageContent))
+                })
+            }
+            CommunicationMode.SERVER -> {
                 application.sendBroadcast(Intent(MessageReceiver.ACTION_MESSAGE).also {
                     it.putExtra(MessageReceiver.KEY_MESSAGE, IpcMessage(message = messageContent))
                 })

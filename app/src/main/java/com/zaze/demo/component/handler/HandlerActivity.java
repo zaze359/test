@@ -30,6 +30,9 @@ public class HandlerActivity extends BaseActivity {
         mHandlerThread.start();
     }
 
+    private  MessageQueue.IdleHandler forever = new IdleForever();
+    private  MessageQueue.IdleHandler once = new IdleOnce();
+
     private final Handler mHandler = new Handler(mHandlerThread.getLooper()) {
         @Override
         public void handleMessage(Message msg) {
@@ -61,8 +64,16 @@ public class HandlerActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Looper.myQueue().addIdleHandler(new IdleForever());
-        Looper.myQueue().addIdleHandler(new IdleOnce());
+        Looper.myQueue().addIdleHandler(forever);
+        Looper.myQueue().addIdleHandler(once);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHandler.getLooper().quitSafely();
+        Looper.myQueue().removeIdleHandler(forever);
+        Looper.myQueue().removeIdleHandler(once);
     }
 
     //

@@ -1,109 +1,109 @@
 <resources>
 
-    <style name="CustomTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="android:textSize">@dimen/app_text_size</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:typeface">monospace</item>
-        <item name="android:colorPrimary">@color/colorPrimary</item>
-        <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
-    </style>
+<!--    <style name="CustomTheme" parent="Theme.AppCompat.DayNight.NoActionBar">-->
+<!--        <item name="android:textSize">@dimen/app_text_size</item>-->
+<!--        <item name="android:textColor">@color/black</item>-->
+<!--        <item name="android:typeface">monospace</item>-->
+<!--        <item name="android:colorPrimary">@color/colorPrimary</item>-->
+<!--        <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>-->
+<!--    </style>-->
 
-    <style name="Theme.MyApp" parent="CustomTheme">
-        <!--        <item name="android:screenOrientation">portrait</item>-->
-        <item name="android:statusBarColor">@color/black_opaque_30</item>
-        <!--        <item name="android:statusBarColor">@android:color/transparent</item>-->
-        <!--        <item name="android:navigationBarColor">@android:color/transparent</item>-->
-        <item name="android:dialogTheme">@style/Theme.DialogFullScreen</item>
+<!--    <style name="Theme.MyApp" parent="CustomTheme">-->
+<!--        &lt;!&ndash;        <item name="android:screenOrientation">portrait</item>&ndash;&gt;-->
+<!--        <item name="android:statusBarColor">@color/black_opaque_30</item>-->
+<!--        &lt;!&ndash;        <item name="android:statusBarColor">@android:color/transparent</item>&ndash;&gt;-->
+<!--        &lt;!&ndash;        <item name="android:navigationBarColor">@android:color/transparent</item>&ndash;&gt;-->
+<!--        <item name="android:dialogTheme">@style/Theme.DialogFullScreen</item>-->
 
-    </style>
+<!--    </style>-->
 
-    <style name="Theme.DialogFullScreen" parent="CustomTheme">
-        <item name="android:windowMinWidthMajor">100%</item>
-        <item name="android:windowMinWidthMinor">100%</item>
-    </style>
+<!--    <style name="Theme.DialogFullScreen" parent="CustomTheme">-->
+<!--        <item name="android:windowMinWidthMajor">100%</item>-->
+<!--        <item name="android:windowMinWidthMinor">100%</item>-->
+<!--    </style>-->
 
     <!--..-->
-    <style name="BlueTheme" parent="CustomTheme">
-        <item name="zMainBackground">@color/white</item>
-        <item name="zMainTextColor">@color/black</item>
-        <item name="zMainTextSize">18sp</item>
-        <!-- -->
-        <item name="zHeadBackground">@color/blue</item>
-        <item name="zHeadTextColor">@color/white</item>
-        <item name="zHeadTextSize">@dimen/sp_22</item>
-        <!-- -->
-        <item name="zTabBackground">@color/blue</item>
-        <item name="zTabIndicatorBackground">@color/transparent</item>
-        <item name="zTabTextColor">@color/white</item>
-        <item name="zTabTextSize">@dimen/sp_16</item>
-        <!-- -->
-        <item name="zItemBackground">@color/blue</item>
-        <item name="zItemTextColor">@color/white</item>
-        <item name="zItemTextSize">@dimen/sp_20</item>
-    </style>
+<!--    <style name="BlueTheme" parent="CustomTheme">-->
+<!--        <item name="zMainBackground">@color/white</item>-->
+<!--        <item name="zMainTextColor">@color/black</item>-->
+<!--        <item name="zMainTextSize">18sp</item>-->
+<!--        &lt;!&ndash; &ndash;&gt;-->
+<!--        <item name="zHeadBackground">@color/blue</item>-->
+<!--        <item name="zHeadTextColor">@color/white</item>-->
+<!--        <item name="zHeadTextSize">@dimen/sp_22</item>-->
+<!--        &lt;!&ndash; &ndash;&gt;-->
+<!--        <item name="zTabBackground">@color/blue</item>-->
+<!--        <item name="zTabIndicatorBackground">@color/transparent</item>-->
+<!--        <item name="zTabTextColor">@color/white</item>-->
+<!--        <item name="zTabTextSize">@dimen/sp_16</item>-->
+<!--        &lt;!&ndash; &ndash;&gt;-->
+<!--        <item name="zItemBackground">@color/blue</item>-->
+<!--        <item name="zItemTextColor">@color/white</item>-->
+<!--        <item name="zItemTextSize">@dimen/sp_20</item>-->
+<!--    </style>-->
 
-    <style name="BlackTheme" parent="CustomTheme">
-        <item name="imageTint">@color/black</item>
-        <item name="backgroundTint">@color/yellow</item>
+<!--    <style name="BlackTheme" parent="CustomTheme">-->
+<!--        <item name="imageTint">@color/black</item>-->
+<!--        <item name="backgroundTint">@color/yellow</item>-->
 
-        <item name="zMainBackground">@color/black</item>
-        <item name="zMainTextColor">@color/white</item>
-        <item name="zMainTextSize">@dimen/sp_18</item>
-        <!-- -->
-        <item name="zHeadBackground">@color/black</item>
-        <item name="zHeadTextColor">@color/white</item>
-        <item name="zHeadTextSize">@dimen/sp_22</item>
-        <!-- -->
-        <item name="zTabBackground">@color/black</item>
-        <item name="zTabIndicatorBackground">@color/transparent</item>
-        <item name="zTabTextColor">@color/white</item>
-        <item name="zTabTextSize">@dimen/sp_16</item>
-        <!-- -->
-        <item name="zItemBackground">@color/black</item>
-        <item name="zItemTextColor">@color/white</item>
-        <item name="zItemTextSize">@dimen/sp_20</item>
-    </style>
+<!--        <item name="zMainBackground">@color/black</item>-->
+<!--        <item name="zMainTextColor">@color/white</item>-->
+<!--        <item name="zMainTextSize">@dimen/sp_18</item>-->
+<!--        &lt;!&ndash; &ndash;&gt;-->
+<!--        <item name="zHeadBackground">@color/black</item>-->
+<!--        <item name="zHeadTextColor">@color/white</item>-->
+<!--        <item name="zHeadTextSize">@dimen/sp_22</item>-->
+<!--        &lt;!&ndash; &ndash;&gt;-->
+<!--        <item name="zTabBackground">@color/black</item>-->
+<!--        <item name="zTabIndicatorBackground">@color/transparent</item>-->
+<!--        <item name="zTabTextColor">@color/white</item>-->
+<!--        <item name="zTabTextSize">@dimen/sp_16</item>-->
+<!--        &lt;!&ndash; &ndash;&gt;-->
+<!--        <item name="zItemBackground">@color/black</item>-->
+<!--        <item name="zItemTextColor">@color/white</item>-->
+<!--        <item name="zItemTextSize">@dimen/sp_20</item>-->
+<!--    </style>-->
 
-    <style name="MyToolbar" parent="Widget.AppCompat.Toolbar">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">56dp</item>
-        <item name="android:background">#3F51B5</item>
-        <item name="android:minHeight">?attr/actionBarSize</item>
-        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark</item>
-    </style>
+<!--    <style name="MyToolbar" parent="Widget.AppCompat.Toolbar">-->
+<!--        <item name="android:layout_width">match_parent</item>-->
+<!--        <item name="android:layout_height">56dp</item>-->
+<!--        <item name="android:background">#3F51B5</item>-->
+<!--        <item name="android:minHeight">?attr/actionBarSize</item>-->
+<!--        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark</item>-->
+<!--    </style>-->
 
-    <style name="MyLineActionButton" parent="@style/MyButton">
-        <item name="android:background">#FFFFFF</item>
-        <item name="android:shadowColor">#000000</item>
-        <item name="android:shadowDy">1.2</item>
-        <item name="android:shadowDx">1.2</item>
-        <item name="android:shadowRadius">1</item>
-    </style>
+<!--    <style name="MyLineActionButton" parent="@style/MyButton">-->
+<!--        <item name="android:background">#FFFFFF</item>-->
+<!--        <item name="android:shadowColor">#000000</item>-->
+<!--        <item name="android:shadowDy">1.2</item>-->
+<!--        <item name="android:shadowDx">1.2</item>-->
+<!--        <item name="android:shadowRadius">1</item>-->
+<!--    </style>-->
 
-    <style name="MyButton">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:textColor">#000000</item>
-        <item name="android:background">@null</item>
-        <item name="android:minHeight">40dp</item>
-        <item name="android:minWidth">40dp</item>
-    </style>
-
-
-    <style name="BaseItemStyle">
-        <item name="android:background">?attr/zItemBackground</item>
-        <item name="android:textColor">?attr/zItemTextColor</item>
-        <item name="android:textSize">?attr/zItemTextSize</item>
-        <item name="android:padding">@dimen/dp_4</item>
-    </style>
+<!--    <style name="MyButton">-->
+<!--        <item name="android:layout_width">match_parent</item>-->
+<!--        <item name="android:layout_height">wrap_content</item>-->
+<!--        <item name="android:textSize">16sp</item>-->
+<!--        <item name="android:textColor">#000000</item>-->
+<!--        <item name="android:background">@null</item>-->
+<!--        <item name="android:minHeight">40dp</item>-->
+<!--        <item name="android:minWidth">40dp</item>-->
+<!--    </style>-->
 
 
-    <style name="Toolbar">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">?attr/colorPrimary</item>
-        <item name="android:minHeight">?attr/actionBarSize</item>
-        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark</item>
-    </style>
+<!--    <style name="BaseItemStyle">-->
+<!--        <item name="android:background">?attr/zItemBackground</item>-->
+<!--        <item name="android:textColor">?attr/zItemTextColor</item>-->
+<!--        <item name="android:textSize">?attr/zItemTextSize</item>-->
+<!--        <item name="android:padding">@dimen/dp_4</item>-->
+<!--    </style>-->
+
+
+<!--    <style name="Toolbar">-->
+<!--        <item name="android:layout_width">match_parent</item>-->
+<!--        <item name="android:layout_height">wrap_content</item>-->
+<!--        <item name="android:background">?attr/colorPrimary</item>-->
+<!--        <item name="android:minHeight">?attr/actionBarSize</item>-->
+<!--        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark</item>-->
+<!--    </style>-->
 </resources>

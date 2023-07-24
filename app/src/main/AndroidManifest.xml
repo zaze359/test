@@ -14,7 +14,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 
-
     <uses-permission android:name="android.permission.READ_SETTINGS" />
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
@@ -67,7 +66,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApp"
         android:usesCleartextTraffic="true"
-        tools:replace="android:name, android:theme"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+        tools:replace="android:name, android:theme, android:appComponentFactory"
         tools:targetApi="tiramisu">
 
         <profileable
@@ -121,7 +121,6 @@
             android:name=".debug.wifi.WifiJob"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
-        <activity android:name=".component.animation.ui.AnimationActivity" />
         <activity android:name=".component.rxandroid.RxAndroidActivity" />
         <activity android:name=".component.time.TimeActivity" />
         <activity android:name=".debug.CaptureActivity" />
@@ -149,7 +148,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MyApp" />
         <activity
-            android:name=".component.okhttp.ui.OkHttpActivity"
+            android:name=".component.okhttp.OkHttpActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MyApp" />
         <activity
@@ -167,23 +166,7 @@
         <activity
             android:name=".component.cache.ui.CacheActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.MyApp" /> <!-- animation start -->
-        <activity
-            android:name=".component.animation.ui.AnimationActivity1"
-            android:screenOrientation="portrait"
             android:theme="@style/Theme.MyApp" />
-        <activity
-            android:name=".component.animation.ui.TransitionActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.MyApp" />
-        <activity
-            android:name=".component.animation.ui.SharedElementActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.MyApp" />
-        <activity
-            android:name=".component.animation.VectorActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.MyApp" /> <!-- animation end -->
         <activity
             android:name=".component.system.ui.SystemActivity"
             android:screenOrientation="portrait"

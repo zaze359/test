@@ -58,6 +58,8 @@ public class AddImageLayout extends ViewGroup {
         typedArray.recycle();
         // 首先添加一个空view 用于显示添加图标
         addView(new View(getContext()));
+        // ViewGroup 默认关闭绘制，需要时打开
+        // setWillNotDraw(false);
     }
 
     @Override

@@ -28,6 +28,12 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
+    kapt {
+        arguments {
+            arg("AROUTER_MODULE_NAME", project.name)
+        }
+    }
     kotlinOptions {
         jvmTarget = "1.8"
     }
@@ -35,6 +41,7 @@ android {
     dataBinding {
         enable = true
     }
+
     buildFeatures {
         compose = true
         viewBinding = true
@@ -47,8 +54,8 @@ android {
 
 dependencies {
 
-    implementation(project(":util"))
-    implementation(project(":common"))
+    implementation(libs.zaze.util)
+    implementation(libs.zaze.common)
     implementation(project(":core:designsystem"))
     implementation(project(":core:data"))
     implementation(project(":core:model"))
@@ -61,6 +68,8 @@ dependencies {
     testImplementation(project(":core:testing"))
     androidTestImplementation(project(":core:testing"))
 
+    implementation(libs.arouter.api)
+    kapt(libs.arouter.compiler)
 
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)

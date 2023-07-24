@@ -15,7 +15,7 @@ open class RealInterceptorChain<IN, OUT>(
         return input
     }
 
-    override fun process(input: IN): OUT {
+    override fun proceed(input: IN): OUT {
         if (index >= interceptors.size) {
             throw AssertionError("index${index} >= ${interceptors.size}")
         }

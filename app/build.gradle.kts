@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.internal.Kapt3GradleSubplugin.Companion.isIncludeCompileClasspath
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -17,7 +19,6 @@ android {
 
 //        testInstrumentationRunnerArguments clearPackageData: 'true'
 //        multiDexEnabled = true
-//        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
         vectorDrawables.useSupportLibrary = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -110,9 +111,14 @@ android {
         }
     }
 
-//    kapt {
-//        correctErrorTypes = true
-//    }
+    kapt {
+        correctErrorTypes = true
+//        includeCompileClasspath = true
+
+        arguments {
+            arg("AROUTER_MODULE_NAME", project.name)
+        }
+    }
 
 //    lint.abortOnError = false
 
@@ -130,18 +136,22 @@ dependencies {
     implementation(libs.coil.kt)
     implementation(libs.coil.kt.svg)
     implementation(libs.coil.kt.compose)
-
     implementation(libs.androidx.tracing.ktx)
 
-    implementation(libs.androidx.appcompat)
-//    implementation(libs.google.android.material)
     implementation(libs.google.gson)
-    implementation(libs.androidx.swiperefreshlayout)
-    implementation(libs.rxjava2)
-    implementation(libs.okhttp3)
-    implementation(libs.rxandroid)
+//    implementation(libs.rxjava2)
+//    implementation(libs.rxandroid)
     implementation(libs.eventbus)
+
+    //    implementation(libs.okhttp3)
+
+
+    implementation(libs.androidx.core.ktx)
+
+    implementation(libs.androidx.appcompat)
+    implementation(libs.google.android.material)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.swiperefreshlayout)
 
     implementation(libs.kotlinx.coroutines.android)
 
@@ -168,17 +178,8 @@ dependencies {
     implementation(libs.androidx.compose.runtime.livedata)
 //    implementation("androidx.compose.runtime:runtime-rxjava2")
 
-    implementation(project(":feature:animations"))
-    implementation(project(":feature:usagestats"))
-    implementation(project(":feature:intent"))
-    implementation(project(":feature:communication"))
-    implementation(project(":feature:storage"))
-    implementation(project(":feature:notification"))
-    implementation(project(":feature:media"))
-
-
-    implementation(project(":util"))
-    implementation(project(":common"))
+    implementation(libs.zaze.util)
+    implementation(libs.zaze.common)
     implementation(project(":core:designsystem"))
     implementation(project(":core:data"))
     implementation(project(":core:database"))
@@ -188,6 +189,15 @@ dependencies {
     testImplementation(project(":core:testing"))
     androidTestImplementation(project(":core:testing"))
 
+    implementation(project(":feature:animations"))
+    implementation(project(":feature:usagestats"))
+    implementation(project(":feature:intent"))
+    implementation(project(":feature:communication"))
+    implementation(project(":feature:storage"))
+    implementation(project(":feature:notification"))
+    implementation(project(":feature:media"))
+    implementation(project(":feature:drawable"))
+    implementation(project(":feature:sliding-conflict"))
 //    implementation project(':module_accessibility')
 //    implementation(project(':module_usagestats'))
 
@@ -206,6 +216,12 @@ dependencies {
 //    api 'com.blankj:utilcodex:1.25.8'
     // wechat-sdk
     //    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
+
+    // --------------------------
+
+    implementation(libs.arouter.api)
+    kapt(libs.arouter.compiler)
+
 
     // ---------------------
     // region matrix

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/animation_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/animation_start_btn"
+            android:layout_width="100dp"
+            android:layout_height="56dp"
+            android:layout_gravity="center_horizontal"
+            android:text="开始动画" />
+
+        <Button
+            android:id="@+id/animation_stop_btn"
+            android:layout_width="100dp"
+            android:layout_height="56dp"
+            android:layout_gravity="center_horizontal"
+            android:text="停止动画" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/animation_view_btn"
+        android:layout_width="100dp"
+        android:layout_height="56dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@color/black"
+        android:text="补间动画" />
+
+    <ImageView
+        android:id="@+id/animation_frame_iv"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:contentDescription="帧动画"
+        android:src="@drawable/test_anim_list"
+        app:tint="@color/black" />
+
+    <ProgressBar
+        android:id="@+id/animation_object_bar"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_gravity="center_horizontal|top" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/animation_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingTop="@dimen/dp_8"
+        android:paddingBottom="@dimen/dp_8" />
+</LinearLayout>

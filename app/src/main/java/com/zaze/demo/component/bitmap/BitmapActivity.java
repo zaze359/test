@@ -1,27 +1,29 @@
 package com.zaze.demo.component.bitmap;
 
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+import android.graphics.LightingColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.lifecycle.ViewModelStore;
 
 import com.zaze.common.base.AbsActivity;
 import com.zaze.common.base.ext.AppCompatActivityExtKt;
 import com.zaze.demo.R;
-import com.zaze.utils.BmpUtil;
-import com.zaze.utils.DisplayUtil;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -35,11 +37,6 @@ import kotlin.jvm.functions.Function2;
  * @version : 2019-06-09 - 1:54
  */
 public class BitmapActivity extends AbsActivity {
-    static final class NonConfigurationInstances {
-        Object custom;
-        ViewModelStore viewModelStore;
-    }
-
     private float r = 1F;
     private float g = 1F;
     private float b = 1F;
@@ -68,7 +65,8 @@ public class BitmapActivity extends AbsActivity {
 //        Bitmap bm = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888);
 //        Canvas sCanvas = new Canvas(bm);
 //        sCanvas.drawColor(Color.parseColor("#FFFFFF"));
-        originBmp = BmpUtil.toRoundRectBitmap(originBmp, DisplayUtil.pxFromDp(30));
+//        originBmp = BmpUtil.toRoundRectBitmap(originBmp, DisplayUtil.pxFromDp(30));
+        originBmp = CircleBmpKt.innerRound2(originBmp);
         processBmp = Bitmap.createBitmap(originBmp.getWidth(), originBmp.getHeight(), originBmp.getConfig());
 
         processImageView = findViewById(R.id.processImageView);
@@ -164,10 +162,9 @@ public class BitmapActivity extends AbsActivity {
                 0, 0, 0, a, 0,
         });
         paint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
+//        paint.setColorFilter(new LightingColorFilter(0xffffff, 0));
         canvas.drawColor(Color.WHITE);
         canvas.drawBitmap(originBmp, new Matrix(), paint);
         processImageView.setImageBitmap(processBmp);
     }
-
-
 }

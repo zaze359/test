@@ -12,7 +12,6 @@ android {
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
 
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -36,6 +35,7 @@ android {
 
     buildFeatures {
         compose = true
+        aidl = true
     }
 
     composeOptions {
@@ -45,8 +45,8 @@ android {
 
 dependencies {
 
-    implementation(project(":util"))
-    implementation(project(":common"))
+    implementation(libs.zaze.util)
+    implementation(libs.zaze.common)
     implementation(project(":core:designsystem"))
     implementation(project(":core:data"))
     implementation(project(":core:model"))

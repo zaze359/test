@@ -40,10 +40,24 @@ import com.zaze.utils.log.ZTag
 import kotlinx.coroutines.launch
 
 enum class CommunicationMode {
+    /**
+     * 使用 AIDL 方式通讯
+     */
     AIDL,
+    /**
+     * 使用 Messenger 方式通讯
+     */
     MESSENGER,
+    /**
+     * 使用 Broadcast 方式通讯
+     */
     BROADCAST,
-    SOCKET
+    SOCKET,
+
+    /**
+     * 和 服务端 通讯
+     */
+    SERVER,
 }
 
 
@@ -71,11 +85,11 @@ internal fun CommunicationRoute(
     val remoteServiceServiceConnection = remember {
         mutableStateOf(object : ServiceConnection {
             override fun onServiceDisconnected(name: ComponentName?) {
-                viewModel.remoteService = null
+                viewModel.onRemoteServiceDisconnected()
             }
 
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-                viewModel.remoteService = IRemoteService.Stub.asInterface(service)
+                viewModel.onRemoteServiceConnected(service)
             }
         })
     }

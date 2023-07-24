@@ -16,7 +16,7 @@ class HttpLogInterceptor : Interceptor<ZRequest, ZResponse> {
         if (request.printLog) {
             request.log()
         }
-        val response = chain.process(request)
+        val response = chain.proceed(request)
         if (request.printLog) {
             response.log()
         }

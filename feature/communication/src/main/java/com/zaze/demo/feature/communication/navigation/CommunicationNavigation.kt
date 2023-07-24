@@ -5,7 +5,7 @@ import androidx.navigation.*
 import androidx.navigation.compose.composable
 import com.zaze.demo.feature.communication.CommunicationRoute
 
-const val communicationRoute = "communication_route"
+const val communicationRoute = "/demo/communication"
 
 fun NavController.navigateToCommunication(navOptions: NavOptions? = null) {
     this.navigate(route = communicationRoute, navOptions = navOptions)

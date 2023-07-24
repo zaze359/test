@@ -69,5 +69,5 @@ dependencies {
 
     androidTestImplementation(project(":core:testing"))
 
-//    implementation(project(":util"))
+//    implementation(libs.zaze.util)
 }

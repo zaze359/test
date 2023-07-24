@@ -45,8 +45,8 @@ android {
 
 dependencies {
 
-    implementation(project(":util"))
-    implementation(project(":common"))
+    implementation(libs.zaze.util)
+    implementation(libs.zaze.common)
     implementation(project(":core:designsystem"))
     implementation(project(":core:data"))
     implementation(project(":core:model"))

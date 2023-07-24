@@ -20,15 +20,15 @@
         android:text="play"
         app:layout_constraintTop_toBottomOf="@id/audio_choose_btn" />
     <Button
-        android:id="@+id/audio_stop_btn"
+        android:id="@+id/audio_pause_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="stop"
+        android:text="pause"
         app:layout_constraintTop_toBottomOf="@id/audio_play_btn" />
 
     <ImageView
         android:id="@+id/audio_thumb_iv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/audio_stop_btn" />
+        app:layout_constraintTop_toBottomOf="@id/audio_pause_btn" />
 </androidx.constraintlayout.widget.ConstraintLayout>

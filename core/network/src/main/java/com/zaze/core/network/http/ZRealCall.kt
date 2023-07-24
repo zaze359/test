@@ -35,7 +35,7 @@ class ZRealCall(val request: ZRequest) {
         interceptorList.addAll(interceptors)
         interceptorList.add(HttpLogInterceptor())
         interceptorList.add(RealRequest())
-        return RealInterceptorChain(interceptorList, request).process(request)
+        return RealInterceptorChain(interceptorList, request).proceed(request)
     }
 
     fun execute(): ZResponse {

@@ -26,24 +26,16 @@ object ThemeUtils {
 
     fun refreshUI(context: Context) {
         val rootView =
-                getWrapperActivity(context)?.window?.decorView?.findViewById<View>(android.R.id.content)
+            getWrapperActivity(context)?.window?.decorView?.findViewById<View>(android.R.id.content)
         refreshView(rootView)
     }
 
     private fun refreshView(view: View?) {
-        if (view == null) {
-            return
+        if(view is Tintable) {
+            view.tint()
         }
-        view.destroyDrawingCache()
-        if (view is Tintable) {
-            (view as Tintable).tint()
-            if (view is ViewGroup) {
-                for (i in 0 until view.childCount) {
-                    refreshView(view.getChildAt(i))
-                }
-            }
-        } else {
-            if (view is RecyclerView) {
+        when(view) {
+            is RecyclerView -> {
                 try {
                     if (sRecycler == null) {
                         sRecycler = RecyclerView::class.java.getDeclaredField("mRecycler")
@@ -51,8 +43,8 @@ object ThemeUtils {
                     }
                     if (sRecycleViewClearMethod == null) {
                         sRecycleViewClearMethod =
-                                Class.forName("android.support.v7.widget.RecyclerView\$Recycler")
-                                        .getDeclaredMethod("clear")
+                            Class.forName("android.support.v7.widget.RecyclerView\$Recycler")
+                                .getDeclaredMethod("clear")
                         sRecycleViewClearMethod?.isAccessible = true
                     }
                     sRecycleViewClearMethod?.invoke(sRecycler?.get(view))
@@ -62,24 +54,31 @@ object ThemeUtils {
                 view.recycledViewPool.clear()
                 view.invalidateItemDecorations()
             }
-            if (view is ViewGroup) {
+            is ViewGroup -> {
                 for (i in 0 until view.childCount) {
                     refreshView(view.getChildAt(i))
                 }
+            }
+            else -> {
             }
         }
     }
 
     // --------------------------------------------------
     private fun getWrapperActivity(context: Context?): Activity? {
-        if (context is Activity) {
-            return context
-        } else if (context is ContextWrapper) {
-            return getWrapperActivity(
+        return when(context) {
+            is Activity -> {
+                context
+            }
+            is ContextWrapper -> {
+                getWrapperActivity(
                     context.baseContext
-            )
+                )
+            }
+            else -> {
+                null
+            }
         }
-        return null
     }
 
 

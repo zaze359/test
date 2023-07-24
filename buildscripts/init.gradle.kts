@@ -26,6 +26,7 @@ initscript {
                 url = uri("http://localhost:8081/repository/maven-public")
             }
         }
+        mavenLocal()
         maven { url = uri("https://maven.aliyun.com/repository/public") }
         maven { url = uri("https://maven.aliyun.com/repository/jcenter") }
         maven { url = uri("https://maven.aliyun.com/repository/google") }

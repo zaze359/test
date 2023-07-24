@@ -15,7 +15,7 @@ import java.lang.StringBuilder
 class ZResponse(var request: ZRequest) {
     var code = 0
     var responseBody: String? = null
-    var headers: Map<String, Any>? = null
+//    var headers: Map<String, Any>? = null
     var message: String? = null
     // --------------------------------------------------
     /**
@@ -28,7 +28,7 @@ class ZResponse(var request: ZRequest) {
             .append("\nmessage: ").append(message)
             .append("\nheaders: ")
         try {
-            builder.append(JsonUtil.mapToJson(headers).toString(3))
+            builder.append(JsonUtil.mapToJson(request.headers  as Map<String, Any>?).toString(3))
         } catch (e: JSONException) {
             e.printStackTrace()
         }

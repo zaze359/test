@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.zaze.common.adapter.BaseRecyclerAdapter;
 import com.zaze.common.util.ActivityUtil;
 import com.zaze.demo.data.entity.TableEntity;
@@ -30,7 +31,6 @@ public class DemoAdapter extends BaseRecyclerAdapter<TableEntity, DemoAdapter.Ap
     public DemoAdapter(Activity activity, List<TableEntity> data) {
         super(activity, data);
         this.activity = activity;
-
     }
 
     @Override
@@ -49,10 +49,16 @@ public class DemoAdapter extends BaseRecyclerAdapter<TableEntity, DemoAdapter.Ap
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity, value.getTargetClass());
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                ActivityUtil.startActivity(activity, intent);
-//                ActivityUtil.startActivityForResult(activity, intent, 0);
+                if (value.getTargetClass() != null) {
+                    Intent intent = new Intent(activity, value.getTargetClass());
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    ActivityUtil.startActivityForResult(activity, intent, 0);
+                    ActivityUtil.startActivity(activity, intent);
+                } else {
+                    ARouter.getInstance().build(value.getRoute())
+//                            .withLong("key", 1L)
+                            .navigation();
+                }
             }
         });
     }

@@ -1,10 +1,10 @@
 package com.zaze.demo.data.repository
 
 import com.zaze.core.data.di.IODispatcher
+import com.zaze.core.model.data.AppNavigation
+import com.zaze.demo.feature.anim.VectorActivity
+import com.zaze.demo.feature.anim.AnimationActivity
 import com.zaze.demo.component.admin.DeviceAdminActivity
-import com.zaze.demo.component.animation.VectorActivity
-import com.zaze.demo.component.animation.ui.AnimationActivity
-import com.zaze.demo.component.application.AppListActivity
 import com.zaze.demo.component.bitmap.BitmapActivity
 import com.zaze.demo.component.cache.ui.CacheActivity
 import com.zaze.demo.component.customview.CustomViewActivity
@@ -16,7 +16,7 @@ import com.zaze.demo.component.handler.HandlerActivity
 import com.zaze.demo.component.lifecycle.LifecycleActivity
 import com.zaze.demo.component.logcat.ui.LogcatActivity
 import com.zaze.demo.component.network.NetworkStatsActivity
-import com.zaze.demo.component.okhttp.ui.OkHttpActivity
+import com.zaze.demo.component.okhttp.OkHttpActivity
 import com.zaze.demo.component.preference.MyPreferenceActivity
 import com.zaze.demo.component.progress.ProgressActivity
 import com.zaze.demo.component.rxandroid.RxAndroidActivity
@@ -32,9 +32,10 @@ import com.zaze.demo.component.wifi.WifiActivity
 import com.zaze.demo.debug.CaptureActivity
 import com.zaze.demo.debug.SensorActivity
 import com.zaze.demo.data.entity.TableEntity
-import com.zaze.demo.feature.media.MediaActivity
+import com.zaze.demo.feature.drawable.DrawableActivity
 import com.zaze.demo.feature.notification.NotificationActivity
 import com.zaze.demo.usagestats.UsageStatesActivity
+import com.zaze.feature.sliding.conflict.SlidingConflictActivity
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import java.util.*
@@ -47,21 +48,43 @@ class DemoRepository @Inject constructor(@IODispatcher private val dispatcher: C
             list.add(
                 TableEntity(
                     "应用查询",
-                    AppListActivity::class.java,
+                    AppNavigation.appListRoute,
                     ++i
                 )
             )
             list.add(
                 TableEntity(
-                    "媒体",
-                    MediaActivity::class.java,
+                    "多媒体",
+                    AppNavigation.mediaRoute,
                     ++i
                 )
             )
+            list.add(
+                TableEntity(
+                    "滑动冲突",
+                    SlidingConflictActivity::class.java,
+                    ++i
+                )
+            )
+
             list.add(
                 TableEntity(
                     "自定义View",
                     CustomViewActivity::class.java,
+                    ++i
+                )
+            )
+            list.add(
+                TableEntity(
+                    "Bitmap",
+                    BitmapActivity::class.java,
+                    ++i
+                )
+            )
+            list.add(
+                TableEntity(
+                    "Drawable",
+                    DrawableActivity::class.java,
                     ++i
                 )
             )
@@ -127,13 +150,6 @@ class DemoRepository @Inject constructor(@IODispatcher private val dispatcher: C
                 TableEntity(
                     "WebView",
                     WebViewActivity::class.java,
-                    ++i
-                )
-            )
-            list.add(
-                TableEntity(
-                    "Bitmap",
-                    BitmapActivity::class.java,
                     ++i
                 )
             )

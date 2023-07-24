@@ -12,15 +12,28 @@ data class MessageEntity(
     val authorImage: String,
     val content: String,
     val timestamp: Long,
-    val messageType: Int,
+    val messageType: String
 )
 
-private const val TEXT = 1
-private const val IMAGE = 2
+
+enum class MessageType {
+    TEXT,
+    IMAGE,
+    FILE,
+}
 
 fun MessageEntity.asExternalModel(): ChatMessage {
-    return when (messageType) {
-        IMAGE -> {
+    return when (MessageType.valueOf(messageType)) {
+        MessageType.TEXT -> {
+            ChatMessage.Text(
+                id = id,
+                content = content,
+                author = author,
+                timestamp = timestamp,
+                authorImage = authorImage
+            )
+        }
+        MessageType.IMAGE -> {
             ChatMessage.Image(
                 id = id,
                 imageUrl = content,
@@ -29,19 +42,10 @@ fun MessageEntity.asExternalModel(): ChatMessage {
                 authorImage = authorImage
             )
         }
-        TEXT -> {
-            ChatMessage.Text(
+        MessageType.FILE -> {
+            ChatMessage.File(
                 id = id,
-                content = content,
-                author = author,
-                timestamp = timestamp,
-                authorImage = authorImage
-            )
-        }
-        else -> {
-            ChatMessage.Text(
-                id = id,
-                content = content,
+                localPath = content,
                 author = author,
                 timestamp = timestamp,
                 authorImage = authorImage

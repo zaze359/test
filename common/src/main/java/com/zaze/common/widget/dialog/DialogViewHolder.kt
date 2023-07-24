@@ -33,6 +33,7 @@ abstract class DialogViewHolder(val builder: DialogFactory.Builder) {
             }
             if (builder.applicationOverlay) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    // TYPE_SYSTEM_OVERLAY, TYPE_SYSTEM_ERROR
                     window.setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY)
                 } else {
                     window.setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT)

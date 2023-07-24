@@ -24,14 +24,15 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.alibaba.android.arouter.launcher.ARouter
 import com.zaze.common.util.ActivityUtil
 import com.zaze.core.designsystem.components.MyTopAppBar
+import com.zaze.core.designsystem.components.snackbar.MySnackbarHost
+import com.zaze.core.designsystem.components.snackbar.SnackbarMessage
+import com.zaze.core.designsystem.components.snackbar.toTextString
 import com.zaze.core.designsystem.theme.MyTypography
 import com.zaze.demo.R
 import com.zaze.demo.compose.navigation.TopLevelDestination
-import com.zaze.core.designsystem.components.snackbar.SnackbarMessage
-import com.zaze.core.designsystem.components.snackbar.MySnackbarHost
-import com.zaze.core.designsystem.components.snackbar.toTextString
 import com.zaze.demo.data.entity.TableEntity
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
@@ -62,7 +63,13 @@ internal fun HomeRoute(
         destinations = destinations,
         onNavigateToDestination = onNavigateToDestination,
         startActivity = {
-            ActivityUtil.startActivity(context, Intent(context, it.targetClass))
+            if (it.targetClass != null) {
+                ActivityUtil.startActivity(context, Intent(context, it.targetClass))
+            } else {
+                ARouter.getInstance()
+                    .build(it.route)
+                    .navigation()
+            }
         },
     )
 }

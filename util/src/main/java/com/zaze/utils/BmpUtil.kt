@@ -250,14 +250,28 @@ object BmpUtil {
         return bm
     }
 
+
+//    private val circlePath = Path()
     private fun innerRound(bitmap: Bitmap): Bitmap {
+//        val bm = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
+//        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+//        val radius = bitmap.width / 2F
+//        val cy = bitmap.height / 2F
+//        val cx = bitmap.width / 2F
+//        circlePath.reset()
+//        circlePath.addCircle(cx, cy, radius, Path.Direction.CW)
+//        val canvas = Canvas(bm)
+//        canvas.clipPath(circlePath)
+//        paint.reset()
+//        canvas.drawBitmap(bitmap, 0F, 0F, paint)
+//        return bm
         // 前面同上，绘制图像分别需要bitmap，canvas，paint对象
         val bm = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
         val paint = Paint(Paint.ANTI_ALIAS_FLAG)
         val radius = bitmap.width / 2F
         val cy = bitmap.height / 2F
         val cx = bitmap.width / 2F
-        ZLog.i(ZTag.TAG, "toRoundBitmap bm : ${bm.width}, ${bm.height} ->${radius * 2} ")
+//        ZLog.i(ZTag.TAG, "toRoundBitmap bm : ${bm.width}, ${bm.height} ->${radius * 2} ")
         val canvas = Canvas(bm)
         canvas.drawCircle(cx, cy, radius, paint)
         paint.reset()

@@ -13,7 +13,6 @@ ext {
 }
 
 buildscript {
-
     repositories {
         if(extra.has("useLocalMaven") && (extra["useLocalMaven"] as String).toBoolean()) {
             maven {
@@ -21,6 +20,9 @@ buildscript {
                 url = uri("http://localhost:8081/repository/maven-public")
             }
         }
+        mavenLocal()
+        // 项目下的 lib目录
+//        maven { url = uri("file:${rootDir.path}/lib") }
         maven { url = uri("https://maven.aliyun.com/repository/public") }
         maven { url = uri("https://maven.aliyun.com/repository/jcenter") }
         maven { url = uri("https://maven.aliyun.com/repository/google") }
@@ -37,6 +39,7 @@ buildscript {
         classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7")
         classpath("com.github.dcendents:android-maven-gradle-plugin:2.0")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0")
+//        classpath("com.alibaba:arouter-register:1.0.2")
         // matrix
 //        classpath("com.tencent.matrix:matrix-gradle-plugin:${rootProject.extra["MATRIX_VERSION"]}") {
 //            isChanging = true

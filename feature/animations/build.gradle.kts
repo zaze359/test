@@ -4,29 +4,34 @@ plugins {
 }
 
 android {
+    namespace = "com.zaze.demo.feature.anim"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
-//        targetSdk = libs.versions.targetSdk.get().toInt()
     }
-    buildTypes {
-        release {
-            isMinifyEnabled = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
+
+    buildFeatures {
+//        compose = true
+        viewBinding = true
     }
-//    lintOptions {
-//        isAbortOnError = false
-//    }
+
+    dataBinding {
+        enable = true
+    }
 }
 
 dependencies {
     testImplementation(libs.junit4)
     androidTestImplementation(libs.androidx.test.core)
-    androidTestImplementation(libs.androidx.test.ext.junit )
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.recyclerview)
+
+    implementation(libs.zaze.util)
+    implementation(libs.zaze.common)
+    implementation(project(":core:model"))
+    implementation(project(":core:designsystem"))
+
 
 }

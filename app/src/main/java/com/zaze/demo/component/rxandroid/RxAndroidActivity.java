@@ -264,6 +264,7 @@ public class RxAndroidActivity extends BaseActivity {
     // ----------------------------------------------------------------------
 
     public void test4() {
+
         PublishSubject.create().doFinally(new Action() {
             @Override
             public void run() throws Exception {
@@ -355,14 +356,14 @@ public class RxAndroidActivity extends BaseActivity {
                         return Flowable.fromIterable(strings);
                     }
                 })
-//                .doOnSubscribe(new Consumer<Subscription>() {
-//                    @Override
-//                    public void accept(Subscription subscription) throws Exception {
-//                        ZLog.i(ZTag.TAG_DEBUG, "doOnSubscribe");
-//                        updateTestText("doOnSubscribe");
-////                        subscription.cancel();
-//                    }
-//                })
+                .doOnSubscribe(new Consumer<Subscription>() {
+                    @Override
+                    public void accept(Subscription subscription) throws Exception {
+                        ZLog.i(ZTag.TAG_DEBUG, "doOnSubscribe");
+                        updateTestText("doOnSubscribe");
+//                        subscription.cancel();
+                    }
+                })
                 .map(new Function<String, String>() {
                     @Override
                     public String apply(String s) throws Exception {

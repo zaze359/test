@@ -31,5 +31,5 @@ dependencies {
     testImplementation(libs.junit4)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
-    implementation(project(":util"))
+    implementation(libs.zaze.util)
 }

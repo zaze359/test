@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.MenuItem
+import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -15,6 +16,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.lifecycle.Observer
 import com.zaze.common.base.AbsActivity
 import com.zaze.common.base.AbsFragment
@@ -41,6 +43,12 @@ class MainActivity : AbsActivity() {
 
     override val showLifecycle: Boolean
         get() = true
+
+    init {
+        addOnContextAvailableListener {
+
+        }
+    }
 
     override fun getPermissionsToRequest(): Array<String> {
 
@@ -70,7 +78,6 @@ class MainActivity : AbsActivity() {
 //        setContent {
 //            TestApp()
 //        }
-
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         setupActionBar(binding.mainToolbar) {
             setTitle(R.string.app_name)
@@ -158,7 +165,7 @@ class MainActivity : AbsActivity() {
 
     // --------------------------------------------------
     inner class MyPagerAdapter(fm: FragmentManager, list: ArrayList<AbsFragment>?) :
-        FragmentPagerAdapter(fm) {
+        FragmentStatePagerAdapter(fm) {
         private val fragmentList = ArrayList<AbsFragment>()
 
         init {
@@ -174,6 +181,15 @@ class MainActivity : AbsActivity() {
 
         override fun getCount(): Int {
             return fragmentList.size
+        }
+
+        override fun getItemPosition(`object`: Any): Int {
+//            return POSITION_NONE
+            return super.getItemPosition(`object`)
+        }
+
+        override fun instantiateItem(container: ViewGroup, position: Int): Any {
+            return super.instantiateItem(container, position)
         }
     }
 }

@@ -6,8 +6,10 @@ import android.text.TextWatcher
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.zaze.common.base.AbsActivity
 import com.zaze.common.base.ext.myViewModels
+import com.zaze.core.model.data.AppNavigation
 import com.zaze.demo.R
 import com.zaze.demo.databinding.ActivityAppListBinding
 import com.zaze.utils.ZOnClickHelper
@@ -19,6 +21,7 @@ import com.zaze.utils.ZOnClickHelper
  * *
  * @version : 2017-04-17 05:15 1.0
  */
+@Route(path = AppNavigation.appListRoute)
 class AppListActivity : AbsActivity() {
     private val viewModel: AppListViewModel by myViewModels()
 

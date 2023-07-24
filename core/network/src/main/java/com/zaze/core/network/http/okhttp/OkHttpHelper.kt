@@ -6,6 +6,7 @@ import com.zaze.core.network.http.ZResponse
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.Request
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import java.io.IOException
 
@@ -22,7 +23,7 @@ internal object OkHttpHelper {
     @JvmStatic
     private fun buildRequestBody(requestBody: ZRequestBody?): RequestBody? {
         return requestBody?.let {
-            RequestBody.create(it.mediaType.mediaType.toMediaTypeOrNull(), it.content)
+            it.content.toRequestBody(it.mediaType.mediaType.toMediaTypeOrNull())
         }
     }
 

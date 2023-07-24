@@ -10,7 +10,9 @@ import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.compose.ui.text.googlefonts.GoogleFont;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.zaze.common.base.BaseApplication;
+import com.zaze.core.network.di.NetworkModule;
 import com.zaze.demo.BuildConfig;
 import com.zaze.demo.component.network.compat.AnalyzeTrafficCompat;
 import com.zaze.demo.component.system.ScreenLockReceiver;
@@ -61,6 +63,7 @@ public class MyApplication extends BaseApplication implements ImageLoaderFactory
         super.onCreate();
         initLog();
 //        MatrixHelper.INSTANCE.initMatrix(this);
+        initRouter();
         initCrash();
         if (isMainProcess()) {
             onMainProcess();
@@ -77,6 +80,7 @@ public class MyApplication extends BaseApplication implements ImageLoaderFactory
         ZLog.openAlwaysPrint();
         ZLog.registerLogCaller(FileUtil.class.getName());
         ZLog.registerLogCaller(DeviceUtil.class.getName());
+        ZLog.registerLogCaller(NetworkModule.class.getName());
 //        ThreadPlugins.runInUIThread(new Runnable() {
 //            @Override
 //            public void run() {
@@ -87,6 +91,16 @@ public class MyApplication extends BaseApplication implements ImageLoaderFactory
 //                }
 //            }
 //        }, 10_000L);
+    }
+
+    private void initRouter() {
+        if (isDebug()) { // 这两行必须写在init之前，否则这些配置在init过程中将无效
+            // 打印日志
+            ARouter.openLog();
+            // 开启调试模式(如果在InstantRun模式下运行，必须开启调试模式！线上版本需要关闭,否则有安全风险)
+            ARouter.openDebug();
+        }
+        ARouter.init(this);
     }
 
     private void onMainProcess() {
@@ -136,6 +150,10 @@ public class MyApplication extends BaseApplication implements ImageLoaderFactory
 //        receiver = new TestBroadcastReceiver();
 //        IntentFilter intentFilter = new IntentFilter("android.intent.action.message.testappid");
 //        registerReceiver(receiver, intentFilter);
+    }
+
+    private boolean isDebug() {
+        return BuildConfig.DEBUG;
     }
 
     @Inject

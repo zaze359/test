@@ -1,5 +1,6 @@
 package com.zaze.common.base
 
+import android.os.Bundle
 import androidx.annotation.ArrayRes
 import androidx.annotation.DimenRes
 import androidx.core.content.ContextCompat

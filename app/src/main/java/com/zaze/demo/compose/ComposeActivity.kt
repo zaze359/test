@@ -27,8 +27,6 @@ import com.zaze.demo.compose.data.Router
 import com.zaze.demo.compose.navigation.MyNavGraph
 import com.zaze.demo.compose.navigation.TopLevelDestination
 import com.zaze.demo.compose.navigation.homeRoute
-import com.zaze.utils.log.ZLog
-import com.zaze.utils.log.ZTag
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -102,7 +100,7 @@ private fun MyApp(
                     onClicked = {
                         when (it) {
                             is Router -> {
-
+                                
                             }
                             is Action -> {
                                 onAction(it.intent)
@@ -116,7 +114,6 @@ private fun MyApp(
                 navController = appState.navController,
                 isExpandedScreen = isExpandedScreen,
                 openDrawer = {
-                    println("openDrawer")
                     coroutineScope.launch { sizeAwareDrawerState.open() }
                 },
                 destinations = appState.topLevelDestinations.toMutableList().apply {

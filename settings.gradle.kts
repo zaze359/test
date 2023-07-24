@@ -6,6 +6,7 @@ pluginManagement {
                 url = uri("http://localhost:8081/repository/maven-public")
             }
         }
+        mavenLocal()
         maven { url = uri("https://maven.aliyun.com/repository/public") }
         maven { url = uri("https://maven.aliyun.com/repository/jcenter") }
         maven { url = uri("https://maven.aliyun.com/repository/google") }
@@ -25,10 +26,12 @@ dependencyResolutionManagement {
                 url = uri("http://localhost:8081/repository/maven-public")
             }
         }
+        mavenLocal()
+//        maven { url = uri("file:${rootDir.path}/lib") }
         maven { url = uri("https://maven.aliyun.com/repository/public") }
         maven { url = uri("https://maven.aliyun.com/repository/jcenter") }
         maven { url = uri("https://maven.aliyun.com/repository/google") }
-        maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots") }
+//        maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots") }
         maven { url = uri("https://jitpack.io") }
         google()
         mavenCentral()
@@ -39,14 +42,13 @@ rootProject.name = "test"
 include(":app")
 include(":util", ":common")
 
-
 include(":feature:animations")
 include(":feature:accessibility")
 //include(":feature:localrepo")
-include(":feature:nativelib")
 include(":feature:usagestats")
 
 
+//include(":core:nativelib")
 include(":core:designsystem")
 include(":core:testing")
 include(":core:data")
@@ -58,3 +60,6 @@ include(":feature:storage")
 include(":feature:notification")
 include(":feature:media")
 include(":core:network")
+//include(":core:arouter-api")
+include(":feature:drawable")
+include(":feature:sliding-conflict")

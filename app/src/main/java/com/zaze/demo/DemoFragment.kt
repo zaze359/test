@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zaze.common.base.AbsFragment
 import com.zaze.demo.databinding.TableFragmentBinding
