@@ -5,7 +5,6 @@ import com.zaze.core.model.data.AppNavigation
 import com.zaze.demo.feature.anim.VectorActivity
 import com.zaze.demo.feature.anim.AnimationActivity
 import com.zaze.demo.component.admin.DeviceAdminActivity
-import com.zaze.demo.component.bitmap.BitmapActivity
 import com.zaze.demo.component.cache.ui.CacheActivity
 import com.zaze.demo.component.customview.CustomViewActivity
 import com.zaze.demo.component.device.DeviceActivity
@@ -32,7 +31,8 @@ import com.zaze.demo.component.wifi.WifiActivity
 import com.zaze.demo.debug.CaptureActivity
 import com.zaze.demo.debug.SensorActivity
 import com.zaze.demo.data.entity.TableEntity
-import com.zaze.demo.feature.drawable.DrawableActivity
+import com.zaze.demo.feature.image.BitmapActivity
+import com.zaze.demo.feature.image.DrawableActivity
 import com.zaze.demo.feature.notification.NotificationActivity
 import com.zaze.demo.usagestats.UsageStatesActivity
 import com.zaze.feature.sliding.conflict.SlidingConflictActivity

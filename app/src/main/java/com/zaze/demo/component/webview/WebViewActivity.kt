@@ -93,10 +93,13 @@ open class WebViewActivity : BaseActivity() {
     }
 
     internal inner class JSInterface {
-
         @JavascriptInterface
         fun showSource(html: String) {
             ZLog.i(ZTag.TAG_DEBUG, "====>html=$html")
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }

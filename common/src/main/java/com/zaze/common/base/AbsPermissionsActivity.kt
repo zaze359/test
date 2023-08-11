@@ -8,7 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.zaze.common.util.PermissionHandler
+import com.zaze.common.permission.PermissionHandler
 import com.zaze.common.widget.dialog.DialogFactory
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag

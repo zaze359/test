@@ -9,10 +9,9 @@ import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.RemoteException;
 
-import com.zaze.demo.debug.AppShortcut;
-import com.zaze.demo.debug.ApplicationManager;
-import com.zaze.demo.debug.ApplicationManager2;
 import com.zaze.demo.debug.NetTrafficStats;
+import com.zaze.demo.feature.applications.AppShortcut;
+import com.zaze.demo.feature.applications.ApplicationManager2;
 import com.zaze.utils.date.DateUtil;
 
 import java.util.ArrayList;

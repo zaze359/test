@@ -2,9 +2,10 @@ package com.zaze.demo.debug.test;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
 import android.content.res.AssetManager;
 import android.content.res.XmlResourceParser;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,9 +16,14 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
 
-import com.zaze.utils.AppUtil;
+import com.zaze.common.thread.ThreadPlugins;
+import com.zaze.core.nativelib.JvmtiHelper;
+import com.zaze.core.nativelib.MyJpegCompressor;
+import com.zaze.core.nativelib.MyJvmtiAgent;
+import com.zaze.demo.R;
 import com.zaze.utils.FileUtil;
 import com.zaze.utils.ThreadManager;
+import com.zaze.utils.ext.BitmapExtKt;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
@@ -28,6 +34,8 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -35,7 +43,6 @@ import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileLock;
 import java.nio.charset.Charset;
-import java.util.List;
 import java.util.Random;
 import java.util.regex.Pattern;
 
@@ -72,7 +79,6 @@ public class TestByJava implements ITest {
      */
     public static final Uri CONTENT_URI = Uri.parse("content://" +
             AUTHORITY + "/" + TABLE_NAME);
-
 
     @Override
     public void doTest(@NonNull Context context) {
@@ -141,15 +147,42 @@ public class TestByJava implements ITest {
 //        FileUtil.writeToFile(filePath, "aaaa");
         // --------------------------------------------------
 //        Intent queryIntent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
-        Intent queryIntent = new Intent("android.intent.action.SET_ALARM");
-        List<ResolveInfo> list = context.getPackageManager().queryIntentActivities(queryIntent, 0);
-        if (list == null || list.isEmpty()) {
-            return;
-        }
-        for (ResolveInfo resolveInfo : list) {
-            ZLog.i(ZTag.TAG, "queryIntent : " + resolveInfo.activityInfo.packageName);
-        }
-        AppUtil.startApplication(context, list.get(0).activityInfo.packageName);
+//        Intent queryIntent = new Intent("android.intent.action.SET_ALARM");
+//        List<ResolveInfo> list = context.getPackageManager().queryIntentActivities(queryIntent, 0);
+//        if (list == null || list.isEmpty()) {
+//            return;
+//        }
+//        for (ResolveInfo resolveInfo : list) {
+//            ZLog.i(ZTag.TAG, "queryIntent : " + resolveInfo.activityInfo.packageName);
+//        }
+//        AppUtil.startApplication(context, list.get(0).activityInfo.packageName);
+        ThreadPlugins.runInIoThread(new Runnable() {
+            @Override
+            public void run() {
+                JvmtiHelper.INSTANCE.init(context);
+                // -------------------------- Jvmti start
+//        MyJvmtiAgent.INSTANCE.init();
+//        String s = MyJvmtiAgent.INSTANCE.test();
+//        ZLog.i(ZTag.TAG, "MyNativeLib: " + s);
+//        ThreadPlugins.runInUIThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                MyJvmtiAgent.INSTANCE.release();
+//            }
+//        }, 5_000L);
+                // -------------------------- Jvmti end
+                File outFile = new File(context.getFilesDir(), System.currentTimeMillis() + "_native.jpg");
+                Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.jljt);
+//                BitmapExtKt.saveToFile(bitmap, new File(context.getFilesDir(), System.currentTimeMillis() + "_qu.jpg").getAbsoluteFile(), Bitmap.CompressFormat.JPEG, 30 * 1024);
+                try {
+                    FileOutputStream fileOutputStream = new FileOutputStream(new File(context.getFilesDir(), System.currentTimeMillis() + "_qu.jpg"));
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 50, fileOutputStream);
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                new MyJpegCompressor().compress(bitmap, 50, outFile.getAbsolutePath(), true);
+            }
+        });
     }
 
     private static void install(Context context, String authorities, File apkFile) {
@@ -224,41 +257,6 @@ public class TestByJava implements ITest {
         context.startActivity(intent);
     }
 
-    /**
-     * @param apkPath
-     * @return 得到对应插件的Resource对象
-     */
-    public static void getPluginResources(Context context, String apkPath, String assetFileName) {
-        try {
-            AssetManager assetManager = AssetManager.class.newInstance();
-            //反射调用方法addAssetPath(String path)
-            Method addAssetPath = assetManager.getClass().getMethod("addAssetPath", String.class);
-            //将未安装的Apk文件的添加进AssetManager中,第二个参数是apk的路径
-            addAssetPath.invoke(assetManager, apkPath);
-            FileUtil.writeToFile(new File("/sdcard/aa.clear"), assetManager.open(assetFileName));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-//    /**
-//     * @param apkPath
-//     * @return 得到对应插件的Resource对象
-//     */
-//    private Resources getPluginResources(Context context, String apkPath) {
-//        try {
-//            AssetManager assetManager = AssetManager.class.newInstance();
-//            //反射调用方法addAssetPath(String path)
-//            Method addAssetPath = assetManager.getClass().getMethod("addAssetPath", String.class);
-//            //将未安装的Apk文件的添加进AssetManager中,第二个参数是apk的路径
-//            addAssetPath.invoke(assetManager, apkPath);
-//            Resources superRes = context.getResources();
-//            Resources mResources = new Resources(assetManager, superRes.getDisplayMetrics(), superRes.getConfiguration());
-//            return mResources;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
 
 //    static void aaaaaa(final Context context) {
 //        for (int i = 0; i < 4; i++) {

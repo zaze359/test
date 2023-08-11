@@ -36,8 +36,8 @@ android {
 
 dependencies {
 
-    implementation(libs.zaze.util)
-    implementation(libs.zaze.common)
+    implementation(project(":util"))
+    implementation(project(":common"))
     implementation(project(":core:model"))
 
     implementation(libs.coil.kt)

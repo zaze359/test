@@ -184,7 +184,14 @@ object AppUtil {
         if (fileName.isNullOrEmpty()) {
             return null
         }
-        return context.packageManager.getPackageArchiveInfo(fileName, 0)
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            context.packageManager.getPackageArchiveInfo(
+                fileName,
+                PackageManager.PackageInfoFlags.of(0)
+            )
+        } else {
+            context.packageManager.getPackageArchiveInfo(fileName, 0)
+        }
     }
 
 

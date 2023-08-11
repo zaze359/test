@@ -7,6 +7,8 @@ import com.zaze.core.data.repository.DeviceRepository
 import com.zaze.core.model.data.DeviceStatus
 import com.zaze.utils.DisplayUtil
 import com.zaze.utils.ZStringUtil
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
@@ -18,7 +20,9 @@ import javax.inject.Inject
  * @author : zaze
  * @version : 2017-01-22 01:39 1.0
  */
-class DeviceViewModel : AbsViewModel() {
+@HiltViewModel
+class DeviceViewModel @Inject constructor(): AbsViewModel() {
+
     @Inject
     lateinit var deviceModel: DeviceRepository
 

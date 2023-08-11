@@ -1,14 +1,14 @@
 package com.zaze.demo.app;
 
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.compose.ui.text.googlefonts.GoogleFont;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.zaze.common.base.BaseApplication;
@@ -19,16 +19,18 @@ import com.zaze.demo.component.system.ScreenLockReceiver;
 import com.zaze.demo.debug.DefaultNetworkCallback;
 import com.zaze.demo.debug.wifi.WifiCompat;
 import com.zaze.demo.feature.communication.broadcast.MessageReceiver;
+import com.zaze.demo.matrix.MatrixHelper;
 import com.zaze.demo.receiver.BatteryReceiver;
 import com.zaze.demo.receiver.PackageReceiver;
+import com.zaze.dynamic.hook.HookActivityThread;
 import com.zaze.utils.DeviceUtil;
+import com.zaze.utils.DisplayUtil;
 import com.zaze.utils.FileUtil;
 import com.zaze.utils.NetUtil;
 import com.zaze.utils.TraceHelper;
 import com.zaze.utils.ZCommand;
 import com.zaze.utils.cache.MemoryCacheManager;
 import com.zaze.utils.log.ZLog;
-import com.zaze.utils.log.ZTag;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -36,6 +38,7 @@ import javax.inject.Provider;
 import coil.ImageLoader;
 import coil.ImageLoaderFactory;
 import dagger.hilt.android.HiltAndroidApp;
+import kotlin.jvm.functions.Function1;
 
 /**
  * Description :
@@ -56,15 +59,35 @@ public class MyApplication extends BaseApplication implements ImageLoaderFactory
         super.attachBaseContext(base);
     }
 
-    private ClipboardManager mClipboardManager;
+    private ClipboardMonitor clipboardMonitor = new ClipboardMonitor();
+    public static final int BIND_SERVICE = 121;
 
     @Override
     public void onCreate() {
         super.onCreate();
         initLog();
-//        MatrixHelper.INSTANCE.initMatrix(this);
+        MatrixHelper.INSTANCE.initMatrix(this);
         initRouter();
         initCrash();
+        HookActivityThread.INSTANCE.swapHandlerCallback(new Function1<Handler.Callback, Handler.Callback>() {
+            @Override
+            public Handler.Callback invoke(Handler.Callback callback) {
+                return new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(@NonNull Message msg) {
+                        if (msg.what == BIND_SERVICE) {
+                            Log.i("BIND_SERVICE: ", "" + msg.obj);
+                        }
+                        if(callback != null) {
+                            return callback.handleMessage(msg);
+                        } else {
+                            return false;
+                        }
+                    }
+                };
+            }
+        });
+        DisplayUtil.init(this);
         if (isMainProcess()) {
             onMainProcess();
         }
@@ -104,25 +127,15 @@ public class MyApplication extends BaseApplication implements ImageLoaderFactory
     }
 
     private void onMainProcess() {
-        mClipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-        if (mClipboardManager != null) {
-            mClipboardManager.addPrimaryClipChangedListener(new ClipboardManager.OnPrimaryClipChangedListener() {
-                @Override
-                public void onPrimaryClipChanged() {
-                    if (mClipboardManager.hasPrimaryClip()) {
-                        ClipData clipData = mClipboardManager.getPrimaryClip();
-                        if (clipData == null) {
-                            return;
-                        }
-                        int count = clipData.getItemCount();
-                        if (count > 0) {
-                            ClipData.Item item = clipData.getItemAt(0);
-                            ZLog.i(ZTag.TAG_DEBUG, "clipData : " + item.getText());
-                        }
-                    }
-                }
-            });
-        }
+//        clipboardMonitor.init(this, clipData -> {
+//            if (clipData != null && clipData.getItemCount() > 0) {
+//                ClipData.Item item = clipData.getItemAt(0);
+//                ZLog.i(ZTag.TAG_DEBUG, "clipData : " + item.getText());
+//            }
+//            return Unit.INSTANCE;
+//        });
+//        clipboardMonitor.setEnable(true);
+        //
         ScreenLockReceiver.register(this);
         PackageReceiver broadcastReceiver = new PackageReceiver();
         IntentFilter intentFilter = new IntentFilter();
@@ -141,7 +154,6 @@ public class MyApplication extends BaseApplication implements ImageLoaderFactory
     }
 
     private void initCrash() {
-
 //        CrashReport.initCrashReport(getApplicationContext(), "ecf90d7662", true);
         //
 //        FontUtil.setDefaultFontFormSystem("DEFAULT", "Roboto-Light.ttf");

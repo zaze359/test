@@ -7,13 +7,12 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.provider.Settings
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -26,7 +25,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.SemanticsPropertyKey
@@ -39,16 +37,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.PermissionStatus
-import com.google.accompanist.permissions.rememberPermissionState
 import com.zaze.demo.feature.communication.R
-import com.zaze.demo.feature.communication.conversation.*
 import com.zaze.utils.FileUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -100,7 +94,9 @@ fun IpcInput(
     }
 
     val settingLauncher =
-        rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) {}
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) {
+            Log.i("settingLauncher", "settingLauncher-----------------")
+        }
 
     val cameraLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -311,9 +307,10 @@ fun UserInputSelector(
     openCamera: () -> Unit,
     openPhoto: () -> Unit,
     openFileManager: () -> Unit,
-    onPermissionNotAvailable: (String) -> Unit,
+    onPermissionNotAvailable: suspend CoroutineScope.(String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    Log.i("UserInputSelector", "UserInputSelector-----------------")
     Row(
         modifier = modifier
             .height(72.dp)
@@ -342,7 +339,6 @@ fun UserInputSelector(
             selected = false,
             description = stringResource(id = R.string.attach_file_desc),
             onPermissionNotAvailable = onPermissionNotAvailable
-
         )
         PermissionSelectorButton(
             permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -376,94 +372,6 @@ fun UserInputSelector(
     }
 }
 
-
-@Composable
-private fun InputSelectorButton(
-    onClick: () -> Unit,
-    icon: ImageVector,
-    description: String,
-    selected: Boolean
-) {
-    val backgroundModifier = if (selected) {
-        Modifier.background(
-            color = MaterialTheme.colorScheme.secondary,
-            shape = RoundedCornerShape(14.dp)
-        )
-    } else {
-        Modifier
-    }
-    IconButton(
-        onClick = onClick,
-        modifier = Modifier.then(backgroundModifier)
-    ) {
-        val tint = if (selected) {
-            MaterialTheme.colorScheme.onSecondary
-        } else {
-            MaterialTheme.colorScheme.secondary
-        }
-        Icon(
-            icon,
-            tint = tint,
-            modifier = Modifier
-                .padding(8.dp)
-                .size(56.dp),
-            contentDescription = description
-        )
-    }
-}
-
-@OptIn(ExperimentalPermissionsApi::class)
-@Composable
-fun PermissionSelectorButton(
-    onClick: () -> Unit,
-    icon: ImageVector,
-    description: String,
-    selected: Boolean,
-    permission: String,
-    onPermissionNotAvailable: (String) -> Unit
-) {
-    val context = LocalContext.current
-    val permissionFlag = remember {
-        mutableStateOf(0)
-    }
-    val permissionState = rememberPermissionState(permission = permission) {
-        ZLog.d(
-            ZTag.TAG, "onPermissionResult: $it; ${
-                ActivityCompat.shouldShowRequestPermissionRationale(
-                    context as Activity,
-                    Manifest.permission.CAMERA
-                )
-            }"
-        )
-        if (!it) {
-            permissionFlag.value++
-        }
-    }
-
-    InputSelectorButton(
-        onClick = {
-            when (permissionState.status) {
-                PermissionStatus.Granted -> {
-                    onClick()
-                }
-                is PermissionStatus.Denied -> {
-                    permissionState.launchPermissionRequest()
-                }
-            }
-        },
-        icon = icon,
-        selected = selected,
-        description = description
-    )
-
-    LaunchedEffect(key1 = permissionFlag.value) {
-        val status = permissionState.status
-        if (permissionFlag.value > 0 && status is PermissionStatus.Denied && !status.shouldShowRationale) {
-            ZLog.i(ZTag.TAG_DEBUG, "onPermissionNotAvailable: $permission")
-            onPermissionNotAvailable(permission)
-        }
-    }
-}
 
 @Composable
 fun SendButton(

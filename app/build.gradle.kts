@@ -119,15 +119,17 @@ android {
             arg("AROUTER_MODULE_NAME", project.name)
         }
     }
-
 //    lint.abortOnError = false
-
     dataBinding {
         enable = true
     }
-    configurations.all {
+}
+
+configurations.all {
+//    resolutionStrategy.cacheChangingModulesFor(1, "seconds")
+//    resolutionStrategy.cacheDynamicVersionsFor(1, "seconds")
+
 //        resolutionStrategy.force 'com.google.code.findbugs:jsr305:1.3.9'
-    }
 }
 
 dependencies {
@@ -152,8 +154,12 @@ dependencies {
     implementation(libs.google.android.material)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.swiperefreshlayout)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
 
     implementation(libs.kotlinx.coroutines.android)
+
+
 
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
@@ -178,16 +184,30 @@ dependencies {
     implementation(libs.androidx.compose.runtime.livedata)
 //    implementation("androidx.compose.runtime:runtime-rxjava2")
 
-    implementation(libs.zaze.util)
-    implementation(libs.zaze.common)
+    //
+    debugImplementation(libs.leakcanary.debug)
+    releaseImplementation(libs.leakcanary.release)
+
+
+    testImplementation(project(":core:testing"))
+    androidTestImplementation(project(":core:testing"))
+
+//    implementation(libs.zaze.util)
+    implementation(project(":util"))
+//    implementation(libs.zaze.common)
+    implementation(project(":common"))
+
+
     implementation(project(":core:designsystem"))
     implementation(project(":core:data"))
     implementation(project(":core:database"))
     implementation(project(":core:model"))
     implementation(project(":core:network"))
 
-    testImplementation(project(":core:testing"))
-    androidTestImplementation(project(":core:testing"))
+//    implementation(project(":core:nativelib"))
+//    implementation(project(":core:bsdiff"))
+
+
 
     implementation(project(":feature:animations"))
     implementation(project(":feature:usagestats"))
@@ -196,8 +216,12 @@ dependencies {
     implementation(project(":feature:storage"))
     implementation(project(":feature:notification"))
     implementation(project(":feature:media"))
-    implementation(project(":feature:drawable"))
+    implementation(project(":feature:image"))
     implementation(project(":feature:sliding-conflict"))
+    implementation(project(":feature:applications"))
+
+
+
 //    implementation project(':module_accessibility')
 //    implementation(project(':module_usagestats'))
 
@@ -225,34 +249,90 @@ dependencies {
 
     // ---------------------
     // region matrix
-    val MATRIX_VERSION: String by rootProject.extra
-    println("matrixVersion: ${MATRIX_VERSION}")
-    implementation(
-        group = "com.tencent.matrix",
-        name = "matrix-android-lib",
-        version = MATRIX_VERSION,
-    )
-    implementation(
-        group = "com.tencent.matrix",
-        name = "matrix-trace-canary",
-        version = MATRIX_VERSION,
-    )
-    implementation(
-        group = "com.tencent.matrix",
-        name = "matrix-io-canary",
-        version = MATRIX_VERSION,
-    )
+//    val MATRIX_VERSION: String by rootProject.extra
+//    println("matrixVersion: ${MATRIX_VERSION}")
+//    implementation(
+//        group = "com.tencent.matrix",
+//        name = "matrix-android-lib",
+//        version = MATRIX_VERSION,
+//    ){
+//        isChanging = true
+//    }
+//    implementation(
+//        group = "com.tencent.matrix",
+//        name = "matrix-android-commons",
+//        version = MATRIX_VERSION,
+//    ){
+//        isChanging = true
+//    }
+//    implementation(
+//        group = "com.tencent.matrix",
+//        name = "matrix-trace-canary",
+//        version = MATRIX_VERSION,
+//    ){
+//        isChanging = true
+//    }
+//    implementation(
+//        group = "com.tencent.matrix",
+//        name = "matrix-resource-canary-android",
+//        version = MATRIX_VERSION,
+//    ){
+//        isChanging = true
+//    }
+//    implementation(
+//        group = "com.tencent.matrix",
+//        name = "matrix-resource-canary-common",
+//        version = MATRIX_VERSION,
+//    ){
+//        isChanging = true
+//    }
+//    implementation(
+//        group = "com.tencent.matrix",
+//        name = "matrix-io-canary",
+//        version = MATRIX_VERSION,
+//    ){
+//        isChanging = true
+//    }
+//    implementation(
+//        group = "com.tencent.matrix",
+//        name = "matrix-sqlite-lint-android-sdk",
+//        version = MATRIX_VERSION,
+//    ) {
+//        isChanging = true
+//    }
+//    implementation(
+//        group = "com.tencent.matrix",
+//        name = "matrix-battery-canary",
+//        version = MATRIX_VERSION,
+//    ) {
+//        isChanging = true
+//    }
+//    implementation(
+//        group = "com.tencent.matrix",
+//        name = "matrix-backtrace",
+//        version = MATRIX_VERSION,
+//    ) {
+//        isChanging = true
+//    }
+//    implementation(
+//        group = "com.tencent.matrix",
+//        name = "matrix-hooks",
+//        version = MATRIX_VERSION,
+//    ) {
+//        isChanging = true
+//    }
+
     // endregion matrix
     // ---------------------
-
 }
 
 //apply(from = "${project.rootDir}/buildscripts/test.gradle")
-
+//apply(from = "${project.rootDir}/buildscripts/matrix.gradle")
 
 //matrix {
+//    logLevel = "D"
 //    trace {
-//        enable = true    //if you don't want to use trace canary, set false
+//        isEnable = true    // if you don't want to use trace canary, set false
 //        baseMethodMapFile = "${project.buildDir}/matrix_output/Debug.methodmap"
 //        blackListFile = "${project.projectDir}/matrixTrace/blackMethodList.txt"
 //    }

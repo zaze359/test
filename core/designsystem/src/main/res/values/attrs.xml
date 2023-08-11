@@ -22,12 +22,18 @@
     <!--<attr name="vSpace" format="dimension" />-->
     <!--</declare-styleable>-->
 
+    <declare-styleable name="ZSkinDef">
+        <attr name="z_skin_background" format="reference" />
+        <attr name="z_skin_text_color" format="color" />
+        <attr name="z_skin_text_size" format="dimension" />
+    </declare-styleable>
+
     <declare-styleable name="TintViewBackgroundHelper">
         <attr name="backgroundTint" />
     </declare-styleable>
 
     <declare-styleable name="TintViewImageHelper">
-        <attr name="imageTint" />
+        <attr name="imageTint"/>
     </declare-styleable>
 
     <declare-styleable name="TintViewTextHelper">

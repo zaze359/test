@@ -26,7 +26,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun okHttpClient(): OkHttpClient = OkHttpClient.Builder()
+    fun provideOkHttpClient(): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(
             HttpLoggingInterceptor { message ->
                 ZLog.i(ZTag.TAG_HTTP, message)
@@ -39,14 +39,14 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun okHttpCallFactory(): Call.Factory = okHttpClient()
+    fun provideOkHttpCallFactory(): Call.Factory = provideOkHttpClient()
 
     @Provides
     @Singleton
-    fun retrofit(mOkHttpClient: OkHttpClient): Retrofit {
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl("http://192.168.56.1:8080/")
-            .client(mOkHttpClient)
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create()) // 请求/响应数据解析转换
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
@@ -61,7 +61,7 @@ object NetworkModule {
      */
     @Provides
     @Singleton
-    fun imageLoader(
+    fun provideImageLoader(
         okHttpCallFactory: Call.Factory, // 自动注入
         @ApplicationContext application: Context,
     ): ImageLoader = ImageLoader.Builder(application)

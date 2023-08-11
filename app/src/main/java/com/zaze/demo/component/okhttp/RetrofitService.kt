@@ -1,6 +1,7 @@
 package com.zaze.demo.component.okhttp
 
 import com.google.gson.JsonObject
+import io.reactivex.Observable
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -18,6 +19,9 @@ interface RetrofitService {
 
     @POST("/api/v1/app/add")
     fun add(@Body appJson: JsonObject): Call<ResponseData<JsonObject>>
+
+    @GET("/api/v1/app/all")
+    fun get2(): Observable<ResponseData<JsonObject>>
 
 //    @POST("/api/v1/app/add")
 //    @FormUrlEncoded

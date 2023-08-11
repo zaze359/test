@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<!--    <string-array name="storehouse">-->
+<!--        <item>0,35,12,42,</item>-->
+<!--        <item>12,42,24,35,</item>-->
+<!--        <item>24,35,12,28,</item>-->
+<!--        <item>0,35,12,28,</item>-->
+<!--        <item>0,21,12,28,</item>-->
+<!--        <item>12,28,24,21,</item>-->
+<!--        <item>24,35,24,21,</item>-->
+<!--        <item>24,21,12,14,</item>-->
+<!--        <item>0,21,12,14,</item>-->
+<!--        <item>0,21,0,7,</item>-->
+<!--        <item>12,14,0,7,</item>-->
+<!--        <item>12,14,24,7,</item>-->
+<!--        <item>24,7,12,0,</item>-->
+<!--        <item>0,7,12,0,</item>-->
+<!--    </string-array>-->
+
+    <string-array name="apps">
+        <item>com.android.fmradio</item><!--FM 电台-->
+        <item>com.lenovo.leos.appstore.pad</item><!--应用中心-->
+        <item>com.microsoft.office.onenote</item><!--OneNote-->
+        <item>com.microsoft.office.officehub</item><!--Microsoft Office-->
+        <item>com.lenovo.browser.hd</item><!--联想浏览器HD-->
+    </string-array>
+
+</resources>

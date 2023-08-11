@@ -5,8 +5,8 @@ import android.content.pm.ApplicationInfo;
 import android.net.TrafficStats;
 
 import com.zaze.demo.app.MyApplication;
-import com.zaze.demo.debug.ApplicationManager;
 import com.zaze.demo.debug.NetTrafficStats;
+import com.zaze.demo.feature.applications.ApplicationManager;
 import com.zaze.utils.AppUtil;
 
 import java.util.ArrayList;

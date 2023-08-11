@@ -1,6 +1,13 @@
 package com.zaze.demo.compose.home
 
+import android.Manifest
+import android.app.Activity
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
+import android.provider.Settings
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
@@ -11,6 +18,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.AttachFile
 import androidx.compose.material3.*
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.runtime.*
@@ -22,11 +30,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alibaba.android.arouter.launcher.ARouter
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.zaze.common.permission.ExternalStoragePermission
 import com.zaze.common.util.ActivityUtil
 import com.zaze.core.designsystem.components.MyTopAppBar
+import com.zaze.core.designsystem.components.PermissionLayout
+import com.zaze.core.designsystem.components.PermissionRequired
 import com.zaze.core.designsystem.components.snackbar.MySnackbarHost
 import com.zaze.core.designsystem.components.snackbar.SnackbarMessage
 import com.zaze.core.designsystem.components.snackbar.toTextString
@@ -52,7 +65,7 @@ internal fun HomeRoute(
     onNavigateToDestination: (TopLevelDestination) -> Unit
 ) {
     val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
-    ZLog.i(ZTag.TAG_DEBUG, "uiState: $uiState")
+//    ZLog.i(ZTag.TAG_DEBUG, "uiState: $uiState")
     val context = LocalContext.current
     HomeScreen(
         uiState = uiState,
@@ -136,6 +149,7 @@ internal fun HomeScreen(
                     // 点击 snackbar actionLabel 触发事件时
                     println("SnackbarResult.ActionPerformed")
                 }
+
                 SnackbarResult.Dismissed -> {
                     println("SnackbarResult.Dismissed")
                 }
@@ -147,6 +161,7 @@ internal fun HomeScreen(
 }
 
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 private fun SampleScreen(
     modifier: Modifier,
@@ -156,15 +171,25 @@ private fun SampleScreen(
     onNavigateToDestination: (TopLevelDestination) -> Unit,
     startActivity: (TableEntity) -> Unit,
 ) {
-    Column(modifier = modifier) {
-        ElevatedButton(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 12.dp, end = 12.dp),
-            onClick = onTest,
-        ) {
-            Text(text = stringResource(id = R.string.test))
+    val context = LocalContext.current
+    val startSettingRequest =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) {
+            ZLog.i("SampleScreen", "hasPermission: ${it.data}")
         }
+    Column(modifier = modifier) {
+        PermissionLayout(
+            permission = ExternalStoragePermission.getExternalStoragePermission(),
+            onPermissionGranted = {
+                ZLog.i("SampleScreen", "permissionGrantedContent")
+                onTest()
+            },
+            onPermissionNotAvailable = {
+                ZLog.i("SampleScreen", "permissionNotAvailableContent")
+                startSettingRequest.launch(ExternalStoragePermission.createSettingIntent(context))
+            }) {
+            testButton(it)
+        }
+
 //        SampleList(
 //            uiState = uiState,
 //            destinations = destinations,
@@ -177,6 +202,18 @@ private fun SampleScreen(
             onNavigateToDestination = onNavigateToDestination,
             startActivity = startActivity
         )
+    }
+}
+
+@Composable
+private fun testButton(onClick: () -> Unit) {
+    ElevatedButton(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 12.dp, end = 12.dp),
+        onClick = onClick,
+    ) {
+        Text(text = stringResource(id = R.string.test))
     }
 }
 
@@ -198,6 +235,7 @@ private fun SampleStaggeredGrid(
             when (uiState) {
                 is HomeUiState.NoPermission -> {
                 }
+
                 is HomeUiState.HasSamples -> {
                     items(destinations) { destination ->
                         SampleItem(itemModifier, stringResource(id = destination.titleTextId)) {
@@ -235,6 +273,7 @@ private fun SampleList(
             when (uiState) {
                 is HomeUiState.NoPermission -> {
                 }
+
                 is HomeUiState.HasSamples -> {
                     items(destinations) { destination ->
                         SampleItem(itemModifier, stringResource(id = destination.titleTextId)) {
@@ -304,6 +343,7 @@ fun HomeScreenPreview() {
     var uiState by remember {
         mutableStateOf(
             HomeUiState.HasSamples(
+                destinations = emptyList(),
                 activities = emptyList(),
                 isLoading = false,
                 errorMessages = emptyList()
@@ -313,7 +353,8 @@ fun HomeScreenPreview() {
     HomeScreen(
         uiState,
         onTest = {
-            val errorMessages = uiState.errorMessages + SnackbarMessage.WithString(messageText = "测试")
+            val errorMessages =
+                uiState.errorMessages + SnackbarMessage.WithString(messageText = "测试")
             uiState = uiState.copy(errorMessages = errorMessages)
             ZLog.i(ZTag.TAG_DEBUG, "uiState: ${uiState.errorMessages}")
         },

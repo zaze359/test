@@ -39,37 +39,13 @@ object Temp {
         } else {
             ReflectUtil.executeMethod(Looper.getMainLooper(), "getQueue")
         }
-        if(mQueue == null) return
-        ReflectUtil.setFieldValue(looper, "mQueue", mQueue)
-//        ReflectUtil.executeMethod(threadLocal, "set", looper)
+        if (mQueue == null) return
+        ReflectUtil.setFieldValue(looper, Looper::class.java, "mQueue", mQueue)
     }
 
     fun test(context: Activity) {
-        var arr =  emptyList<Int>();
+        var arr = emptyList<Int>();
         arr.sorted()
-//        val a: Int? = 1
-//        a?.let {
-//            if (it == 1) {
-//                true
-//            } else if (it == 2) {
-//                true
-//            } else {
-//                false
-//            }.let { state ->
-//                Log.w("Debug", "a1111 $state")
-//            }
-//        }
-//
-//        a?.let {
-//            if (it == 1) {
-//                true
-//            } else {
-//                false
-//            }.let { state ->
-//                Log.w("Debug", "a2222 $state")
-//            }
-//        }
-
 
         var result = ""
 //        if (hasPermissionToReadNetworkStats(activity)) {

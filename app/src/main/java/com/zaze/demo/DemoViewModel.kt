@@ -19,7 +19,6 @@ class DemoViewModel @Inject constructor(private val demoRepository: DemoReposito
     val demosData: LiveData<List<TableEntity>> = demoList
 
     fun refresh() {
-        var a = ""
         viewModelScope.launch(Dispatchers.IO) {
             demoList.postValue(demoRepository.loadDemos())
         }

@@ -4,12 +4,11 @@ package com.zaze.demo.component.okhttp;
 import android.os.Bundle;
 import android.view.View;
 
-import androidx.hilt.navigation.compose.HiltViewModelKt;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.zaze.common.base.AbsActivity;
 import com.zaze.demo.R;
-import com.zaze.demo.debug.ApplicationManager;
+import com.zaze.demo.feature.applications.ApplicationManager;
 import com.zaze.utils.JsonUtil;
 
 import javax.inject.Inject;

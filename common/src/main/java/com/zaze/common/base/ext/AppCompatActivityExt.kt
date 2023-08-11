@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.zaze.common.R
 import com.zaze.common.util.ScreenUtils
 
@@ -115,8 +116,8 @@ fun AppCompatActivity.setImmersionOnWindowFocusChanged(
 }
 
 // --------------------------------------------------
-fun ComponentActivity.obtainViewModelFactory(): ViewModelFactory {
-    return object : ViewModelFactory() {
+fun ComponentActivity.obtainViewModelFactory(delegateFactory: ViewModelProvider.Factory? = null): ViewModelProvider.Factory {
+    return object : ViewModelFactory(application, delegateFactory) {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return super.create(modelClass).also { vm ->
                 initAbsViewModel(this@obtainViewModelFactory, vm)
@@ -126,6 +127,7 @@ fun ComponentActivity.obtainViewModelFactory(): ViewModelFactory {
 }
 
 @MainThread
+@Deprecated("此方法不支持 hilt，使用原生的viewModels 并 重写 ComponentActivity.getDefaultViewModelProviderFactory() 来处理。")
 inline fun <reified VM : ViewModel> ComponentActivity.myViewModels(): Lazy<VM> = viewModels {
     obtainViewModelFactory()
 }

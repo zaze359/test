@@ -26,8 +26,8 @@ public class HookNotificationManager {
         getService.setAccessible(true);
         final Object sOriginService = getService.invoke(notificationManager);
         Class iNotiMngClz = Class.forName("android.app.INotificationManager");
-        // 第二步：得到我们的动态代理对象
-        Object proxyNotiMng = Proxy.newProxyInstance(context.getClass().getClassLoader(), new Class[]{iNotiMngClz}, new InvocationHandler() {
+        // 第二步：得到我们的动态代理对象，获取到的是 INotificationManager 接口的实现。
+        Object proxyNotificationManager = Proxy.newProxyInstance(context.getClass().getClassLoader(), new Class[]{iNotiMngClz}, new InvocationHandler() {
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
                 Log.d("", "invoke(). method:" + method);
@@ -52,7 +52,7 @@ public class HookNotificationManager {
         // 第三步：偷梁换柱，使用 proxyNotiMng 替换系统的 sService
         Field sServiceField = NotificationManager.class.getDeclaredField("sService");
         sServiceField.setAccessible(true);
-        sServiceField.set(notificationManager, proxyNotiMng);
+        sServiceField.set(notificationManager, proxyNotificationManager);
 //        Field contextField = NotificationManager.class.getDeclaredField("mContext");
 //        contextField.set(notificationManager, context);
         return notificationManager;

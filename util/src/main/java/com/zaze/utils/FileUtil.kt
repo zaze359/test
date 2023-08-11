@@ -9,6 +9,8 @@ import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import java.io.*
 import java.nio.charset.Charset
+import java.nio.file.Files
+import java.nio.file.Paths
 import java.util.*
 import java.util.concurrent.locks.ReentrantReadWriteLock
 
@@ -20,27 +22,27 @@ import java.util.concurrent.locks.ReentrantReadWriteLock
 object FileUtil {
     var showLog = false
     var needLock = false
-    private val lock = ReentrantReadWriteLock()
+//    private val lock = ReentrantReadWriteLock()
     private fun writeLock() {
-        if (needLock) {
-            lock.writeLock().lock()
-        }
+//        if (needLock) {
+//            lock.writeLock().lock()
+//        }
     }
 
     private fun writeUnlock() {
-        if (needLock) lock.writeLock().unlock()
+//        if (needLock) lock.writeLock().unlock()
     }
 
     private fun readLock() {
-        if (needLock) {
-            lock.readLock().lock()
-        }
+//        if (needLock) {
+//            lock.readLock().lock()
+//        }
     }
 
     private fun readUnlock() {
-        if (needLock) {
-            lock.readLock().unlock()
-        }
+//        if (needLock) {
+//            lock.readLock().unlock()
+//        }
     }
 
     // --------------------------------------------------
@@ -95,7 +97,11 @@ object FileUtil {
      */
     @JvmStatic
     fun copy(from: File, to: File) {
-        writeToFile(to, from.inputStream())
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Files.copy(Paths.get(from.absolutePath), Paths.get(to.absolutePath))
+        } else {
+            writeToFile(to, from.inputStream())
+        }
     }
 
     /**
@@ -338,24 +344,35 @@ object FileUtil {
     fun writeToFile(destFile: File, inputStream: InputStream, append: Boolean = false): Boolean {
         writeLock()
         var result = true
-        var output: OutputStream? = null
         try {
             createFileNotExists(destFile)
-            output = FileOutputStream(destFile, append)
+            write(inputStream, FileOutputStream(destFile, append))
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            result = false
+        }
+        writeUnlock()
+        return result
+    }
+
+    fun write(source: InputStream, dest: OutputStream): Boolean {
+        writeLock()
+        var result = true
+        try {
             val buffer = ByteArray(4 * 1024)
-            var temp = inputStream.read(buffer)
+            var temp = source.read(buffer)
             while (temp != -1) {
-                output.write(buffer, 0, temp)
-                temp = inputStream.read(buffer)
+                dest.write(buffer, 0, temp)
+                temp = source.read(buffer)
             }
-            output.flush()
+            dest.flush()
         } catch (e: IOException) {
             e.printStackTrace()
             result = false
         } finally {
             try {
-                inputStream.close()
-                output?.close()
+                source.close()
+                dest.close()
             } catch (e: IOException) {
                 e.printStackTrace()
             }
@@ -364,6 +381,7 @@ object FileUtil {
         writeUnlock()
         return result
     }
+
 
     /**
      * [filePath] filePath

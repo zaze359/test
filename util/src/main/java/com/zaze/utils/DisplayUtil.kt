@@ -74,14 +74,15 @@ object DisplayUtil {
     @JvmStatic
     @JvmOverloads
     fun getDensityDpiName(metrics: DisplayMetrics = getMetrics()): String {
-        return when (metrics.densityDpi) {
-            DisplayMetrics.DENSITY_LOW -> "ldpi"
-            DisplayMetrics.DENSITY_MEDIUM -> "mdpi"
-            DisplayMetrics.DENSITY_TV -> "tv"
-            DisplayMetrics.DENSITY_HIGH -> "hdpi"
-            DisplayMetrics.DENSITY_XHIGH -> "xhdpi"
-            DisplayMetrics.DENSITY_XXHIGH -> "xxhdpi"
-            DisplayMetrics.DENSITY_XXXHIGH -> "xxxhdpi"
+        val densityDpi = metrics.densityDpi
+        return when {
+            densityDpi <= DisplayMetrics.DENSITY_LOW -> "ldpi"
+            densityDpi <= DisplayMetrics.DENSITY_MEDIUM -> "mdpi"
+            densityDpi <= DisplayMetrics.DENSITY_TV -> "tv"
+            densityDpi <= DisplayMetrics.DENSITY_HIGH -> "hdpi"
+            densityDpi <= DisplayMetrics.DENSITY_XHIGH -> "xhdpi"
+            densityDpi <= DisplayMetrics.DENSITY_XXHIGH -> "xxhdpi"
+            densityDpi <= DisplayMetrics.DENSITY_XXXHIGH -> "xxxdpi"
             else -> "????dpi"
         }
     }
@@ -92,6 +93,7 @@ object DisplayUtil {
     /**
      * @param dp dp
      * @return px
+     *
      */
     @Deprecated("{@link DisplayUtil#pxFromDp(float dp)}")
     @JvmStatic

@@ -14,7 +14,7 @@ import android.os.Bundle;
 import androidx.core.app.ActivityCompat;
 
 import com.zaze.common.base.BaseApplication;
-import com.zaze.common.util.PermissionHelper;
+import com.zaze.common.permission.PermissionHelper;
 import com.zaze.demo.app.MyApplication;
 import com.zaze.utils.ZStringUtil;
 import com.zaze.utils.log.ZLog;

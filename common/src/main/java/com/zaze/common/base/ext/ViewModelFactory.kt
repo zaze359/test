@@ -55,21 +55,21 @@ class MyViewModelLazy<VM : ViewModel>(
     override fun isInitialized(): Boolean = cached != null
 }
 
-fun obtainViewModelFactory(): ViewModelFactory {
-    return ViewModelFactory()
+fun obtainViewModelFactory(application: Application, delegateFactory: ViewModelProvider.Factory? = null): ViewModelFactory {
+    return ViewModelFactory(application, delegateFactory)
 }
 
-open class ViewModelFactory : ViewModelProvider.NewInstanceFactory() {
+open class ViewModelFactory(private val application: Application?, private val delegateFactory: ViewModelProvider.Factory? = null) : ViewModelProvider.NewInstanceFactory() {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return if (AbsAndroidViewModel::class.java.isAssignableFrom(modelClass)) {
+        return if (application != null && AbsAndroidViewModel::class.java.isAssignableFrom(modelClass)) {
             try {
                 modelClass.getConstructor(Application::class.java)
                     .newInstance(BaseApplication.getInstance())
             } catch (e: Exception) {
                 throw RuntimeException("Cannot create an instance of $modelClass", e)
             }
-        } else super.create(modelClass)
+        } else delegateFactory?.create(modelClass) ?: super.create(modelClass)
     }
 }
 
@@ -95,7 +95,7 @@ fun initAbsViewModel(owner: ComponentActivity?, viewModel: ViewModel) {
  * 在fragment中构建仅和fragment 关联的viewModel
  */
 fun <T : ViewModel> Fragment.obtainFragViewModel(viewModelClass: Class<T>): T {
-    return ViewModelProvider(this, ViewModelFactory())[viewModelClass]
+    return ViewModelProvider(this, ViewModelFactory(this.requireActivity().application))[viewModelClass]
 }
 
 /**
@@ -104,7 +104,7 @@ fun <T : ViewModel> Fragment.obtainFragViewModel(viewModelClass: Class<T>): T {
 @Deprecated("use obtainViewModelFactory ")
 fun <T : ViewModel> Fragment.obtainViewModel(viewModelClass: Class<T>): T {
     return requireActivity().let {
-        ViewModelProvider(it, ViewModelFactory())[viewModelClass].also { vm ->
+        ViewModelProvider(it, ViewModelFactory(this.requireActivity().application))[viewModelClass].also { vm ->
             initAbsViewModel(it, vm)
         }
     }
@@ -116,6 +116,6 @@ fun <T : ViewModel> Fragment.obtainViewModel(viewModelClass: Class<T>): T {
 @Deprecated("use myViewModels")
 fun <T : ViewModel> AppCompatActivity.obtainViewModel(
     viewModelClass: Class<T>
-) = ViewModelProvider(this, ViewModelFactory())[viewModelClass].also { vm ->
+) = ViewModelProvider(this, ViewModelFactory(this.application))[viewModelClass].also { vm ->
     initAbsViewModel(this, vm)
 }

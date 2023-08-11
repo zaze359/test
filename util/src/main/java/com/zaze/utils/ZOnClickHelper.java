@@ -12,7 +12,6 @@ import android.widget.ListView;
  * @version : 2016-09-02 - 09:13
  */
 public class ZOnClickHelper {
-
     private static long clickTime = 0;
 
     public interface SingleDoListener {

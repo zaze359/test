@@ -51,7 +51,7 @@ class MainActivity : AbsActivity() {
     }
 
     override fun getPermissionsToRequest(): Array<String> {
-
+        R.id.home
         return arrayOf(
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,

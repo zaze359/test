@@ -60,6 +60,10 @@ dependencies {
     api(libs.androidx.compose.ui.googlefonts)
     api(libs.androidx.compose.ui.util)
     api(libs.androidx.compose.ui.tooling.preview)
+    api(libs.accompanist.permissions)
+
+    implementation(libs.androidx.activity.compose)
+
     debugApi(libs.androidx.compose.ui.tooling)
 //    implementation("androidx.compose.material:material")
 //    implementation("androidx.compose.foundation:foundation")
@@ -68,6 +72,5 @@ dependencies {
     implementation(libs.androidx.core.ktx)
 
     androidTestImplementation(project(":core:testing"))
-
-//    implementation(libs.zaze.util)
+//    implementation(project(":util"))
 }

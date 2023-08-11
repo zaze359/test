@@ -19,13 +19,13 @@ inline fun <reified VM : ViewModel> Fragment.myViewModels() = createMyViewModelL
     activity = { activity },
     viewModelClass = VM::class,
     storeProducer = { this.viewModelStore },
-    factoryProducer = { obtainViewModelFactory() }
+    factoryProducer = { obtainViewModelFactory(this.requireActivity().application) }
 )
 
 @MainThread
 inline fun <reified VM : ViewModel> Fragment.myActivityViewModels() =
     customActivityViewModels<VM>({ this.activity }) {
-        obtainViewModelFactory()
+        obtainViewModelFactory(this.requireActivity().application)
     }
 
 inline fun <reified VM : ViewModel> Fragment.customActivityViewModels(

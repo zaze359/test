@@ -33,9 +33,9 @@ class NetworkStatsActivity : AbsActivity() {
         databinding = DataBindingUtil.setContentView(this, R.layout.network_stats_act)
         databinding.lifecycleOwner = this
         databinding.viewModel = obtainViewModel(NetworkStatsViewModel::class.java).apply {
-            networkTraffic.observe(this@NetworkStatsActivity, Observer {
-                showNetworkStats(it)
-            })
+//            networkTraffic.observe(this@NetworkStatsActivity, Observer {
+//                showNetworkStats(it)
+//            })
             this@NetworkStatsActivity.viewModel = this
         }
 

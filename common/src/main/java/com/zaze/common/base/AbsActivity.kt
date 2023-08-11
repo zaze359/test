@@ -1,6 +1,5 @@
 package com.zaze.common.base
 
-import android.os.Bundle
 import androidx.annotation.ArrayRes
 import androidx.annotation.DimenRes
 import androidx.core.content.ContextCompat
@@ -15,7 +14,7 @@ import com.zaze.utils.ToastUtil
  * @author : ZAZE
  * @version : 2018-11-30 - 15:48
  */
-abstract class AbsActivity : AbsPermissionsActivity() {
+abstract class AbsActivity : AbsViewModelActivity() {
 
     private val loadingDialog by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
         LoadingDialog(this, createLoadingView())

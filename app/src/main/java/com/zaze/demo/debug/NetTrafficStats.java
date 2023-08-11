@@ -1,5 +1,7 @@
 package com.zaze.demo.debug;
 
+import com.zaze.demo.feature.applications.AppShortcut;
+
 /**
  * Description : 应用流量统计
  *

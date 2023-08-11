@@ -52,8 +52,8 @@ dependencies {
     implementation(libs.google.android.material)
 //    implementation(libs.androidx.recyclerview)
 
-    implementation(libs.zaze.util)
-    implementation(libs.zaze.common)
+    implementation(project(":util"))
+    implementation(project(":common"))
 //    implementation(project(":core:model"))
     implementation(project(":core:designsystem"))
 }

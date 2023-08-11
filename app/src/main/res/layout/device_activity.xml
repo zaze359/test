@@ -12,7 +12,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.zaze.demo.theme.widgets.TintConstraintLayout
+            <com.zaze.ui.theme.widgets.TintConstraintLayout
                 android:id="@+id/device_test_tint_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
                     app:layout_constraintLeft_toRightOf="@id/deviceInchTv"
                     app:layout_constraintTop_toTopOf="@id/deviceInchTv" />
 
-                <com.zaze.demo.theme.widgets.TintImageView
+                <com.zaze.ui.theme.widgets.TintImageView
                     android:id="@+id/device_test_tint_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                     app:layout_constraintBottom_toBottomOf="@id/device_input"
                     app:layout_constraintLeft_toRightOf="@id/device_input"
                     app:layout_constraintTop_toTopOf="@id/device_input" />
-            </com.zaze.demo.theme.widgets.TintConstraintLayout>
+            </com.zaze.ui.theme.widgets.TintConstraintLayout>
 
         </LinearLayout>
 

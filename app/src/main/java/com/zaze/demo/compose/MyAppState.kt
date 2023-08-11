@@ -23,6 +23,7 @@ import com.zaze.core.designsystem.components.snackbar.toTextString
 import com.zaze.demo.feature.intent.navigation.navigateToIntent
 import com.zaze.demo.feature.communication.navigation.navigateToCommunication
 import com.zaze.demo.feature.storage.navigation.navigateToStorage
+import com.zaze.demo.update.navigateToAppUpdate
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import kotlinx.coroutines.CoroutineScope
@@ -100,6 +101,7 @@ class MyAppState(
                 )
                 TopLevelDestination.INTENT -> navController.navigateToIntent(topLevelNavOptions)
                 TopLevelDestination.STORAGE -> navController.navigateToStorage(topLevelNavOptions)
+                TopLevelDestination.APP_UPDATE -> navController.navigateToAppUpdate(topLevelNavOptions)
             }
         }
     }

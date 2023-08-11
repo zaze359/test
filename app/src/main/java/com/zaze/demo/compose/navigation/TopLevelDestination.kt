@@ -1,5 +1,6 @@
 package com.zaze.demo.compose.navigation
 
+import androidx.compose.material.icons.rounded.Upgrade
 import com.zaze.core.designsystem.icon.Icon
 import com.zaze.core.designsystem.icon.MyIcons
 import com.zaze.demo.R
@@ -39,5 +40,11 @@ enum class TopLevelDestination(
         unselectedIcon = Icon.ImageVectorIcon(MyIcons.Person),
         iconTextId = R.string.storage,
         titleTextId = R.string.storage
+    ),
+    APP_UPDATE(
+        selectedIcon = Icon.ImageVectorIcon(MyIcons.Upgrade),
+        unselectedIcon = Icon.ImageVectorIcon(MyIcons.Upgrade),
+        iconTextId = R.string.app_update,
+        titleTextId = R.string.app_update
     )
 }

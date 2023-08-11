@@ -45,8 +45,8 @@ android {
 
 dependencies {
 
-    implementation(libs.zaze.util)
-    implementation(libs.zaze.common)
+    implementation(project(":util"))
+    implementation(project(":common"))
     implementation(project(":core:designsystem"))
     implementation(project(":core:data"))
     implementation(project(":core:model"))
@@ -71,7 +71,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
 
     implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.accompanist.permissions)
 
     implementation(libs.coil.kt)
     implementation(libs.coil.kt.svg)

@@ -11,7 +11,6 @@ import com.zaze.common.base.ext.set
  * @version : 2018-12-01 - 20:50
  */
 open class AbsAndroidViewModel(val application: Application) : AbsViewModel() {
-
     fun showProgress(@StringRes stringRes: Int) {
         progress.set(getString(stringRes))
     }

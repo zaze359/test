@@ -26,5 +26,6 @@
     <string name="home">Home</string>
     <string name="scaffold">scaffold</string>
     <string name="intent">Intent交互</string>
+    <string name="app_update">应用增量更新</string>
 
 </resources>

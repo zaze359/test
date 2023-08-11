@@ -11,7 +11,7 @@ import android.os.Message;
 import android.text.TextUtils;
 
 import com.zaze.common.base.mvp.BaseMvpPresenter;
-import com.zaze.common.util.PermissionHelper;
+import com.zaze.common.permission.PermissionHelper;
 import com.zaze.demo.app.MyApplication;
 import com.zaze.demo.receiver.WifiReceiver;
 import com.zaze.utils.AppUtil;

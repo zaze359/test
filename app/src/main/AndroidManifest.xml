@@ -135,10 +135,7 @@
             android:name=".component.task.ui.TaskActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MyApp" />
-        <activity
-            android:name=".component.application.AppListActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.MyApp" />
+
         <activity
             android:name=".component.file.explorer.FileExplorerActivity"
             android:screenOrientation="portrait"
@@ -203,10 +200,7 @@
             android:name=".component.animation.ui.TweenedAnimActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MyApp" />
-        <activity
-            android:name=".component.bitmap.BitmapActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.MyApp" />
+
         <activity
             android:name=".state.StateActivity"
             android:screenOrientation="fullSensor"

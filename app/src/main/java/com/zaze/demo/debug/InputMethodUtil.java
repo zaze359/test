@@ -95,4 +95,17 @@ public class InputMethodUtil {
     InputMethodManager getInputMethodManager(Context context) {
         return (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
     }
+
+    /**
+     * Android 7.0 之前存在输入导致内存泄露的问题。
+     * @param activity Activity
+     */
+    public static void dealMemoryLeak(Activity activity) {
+//        InputMethodManager imm = getInputMethodManager(context);
+//        if (imm == null) {
+//            return;
+//        }
+//        String[] views = new String[]{"mCurRootView", "", "mServedView", "mNextServedView"};
+        // 若view.context 和 当前的Activity 匹配，就反射将这些字段 置为空，防止泄露。
+    }
 }

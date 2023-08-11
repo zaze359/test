@@ -41,9 +41,9 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0")
 //        classpath("com.alibaba:arouter-register:1.0.2")
         // matrix
-//        classpath("com.tencent.matrix:matrix-gradle-plugin:${rootProject.extra["MATRIX_VERSION"]}") {
-//            isChanging = true
-//        }
+        classpath("com.tencent.matrix:matrix-gradle-plugin:${rootProject.extra["MATRIX_VERSION"]}") {
+            isChanging = true
+        }
     }
 }
 

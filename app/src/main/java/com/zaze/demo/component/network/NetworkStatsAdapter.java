@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.zaze.common.adapter.BaseRecyclerAdapter;
 import com.zaze.demo.R;
-import com.zaze.demo.debug.AppShortcut;
 import com.zaze.demo.debug.NetTrafficStats;
+import com.zaze.demo.feature.applications.AppShortcut;
 import com.zaze.utils.AppUtil;
 import com.zaze.utils.DescriptionUtil;
 import com.zaze.utils.ZStringUtil;

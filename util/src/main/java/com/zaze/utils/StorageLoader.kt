@@ -9,6 +9,9 @@ import android.os.StatFs
 import android.os.storage.StorageManager
 import android.util.Log
 import androidx.annotation.RequiresApi
+import com.zaze.dynamic.wrapper.StorageManagerWrapper
+import com.zaze.dynamic.wrapper.StorageVolumeWrapper
+import com.zaze.dynamic.wrapper.VolumeInfoWrapper
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import java.io.File
@@ -91,6 +94,7 @@ object StorageLoader {
                 Build.VERSION.SDK_INT < Build.VERSION_CODES.M -> {
                     queryBeforeM(context)
                 }
+
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
                     val storageManager =
                         (context.getSystemService(Context.STORAGE_SERVICE)) as StorageManager
@@ -103,9 +107,11 @@ object StorageLoader {
                     )
 //                    getInnerStorageInfo()
                 }
+
                 Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1 -> {
                     queryAfterNMR1(context)
                 }
+
                 else -> {
                     getInnerStorageInfo()
                 }
@@ -120,7 +126,7 @@ object StorageLoader {
     private fun queryBeforeM(context: Context): StorageInfo {
         Log.i(TAG, "queryBeforeM")
         val storageManager =
-            StorageManagerHook(context.getSystemService(Context.STORAGE_SERVICE) as StorageManager)
+            StorageManagerWrapper(context.getSystemService(Context.STORAGE_SERVICE) as StorageManager)
         // 获取所有卷信息
         val volumeList = storageManager.getVolumeList()
         if (volumeList.isNullOrEmpty()) {
@@ -128,7 +134,7 @@ object StorageLoader {
         }
         val storageInfo = StorageInfo()
         volumeList.filterNotNull().forEach { volume ->
-            StorageVolumeHook(volume).getPathFile()?.let {
+            StorageVolumeWrapper(volume).getPathFile()?.let {
                 storageInfo.addTotalBytes(it.totalSpace)
                 storageInfo.addFreeBytes(it.freeSpace)
             }
@@ -139,7 +145,7 @@ object StorageLoader {
     @RequiresApi(Build.VERSION_CODES.N_MR1)
     private fun queryAfterNMR1(context: Context): StorageInfo {
         val storageManager =
-            StorageManagerHook(context.getSystemService(Context.STORAGE_SERVICE) as StorageManager)
+            StorageManagerWrapper(context.getSystemService(Context.STORAGE_SERVICE) as StorageManager)
         val volumeList = storageManager.getVolumes()
         if (volumeList.isNullOrEmpty()) {
             return StorageInfo()
@@ -147,16 +153,18 @@ object StorageLoader {
         val storageInfo = StorageInfo()
         volumeList.filterNotNull().forEach { volume ->
             Log.i(TAG, "volume: $volume")
-            val volumeInfoHook = VolumeInfoHook(volume)
+            val volumeInfoHook = VolumeInfoWrapper(volume)
             var totalSize = 0L
             var freeSize = 0L
             when (volumeInfoHook.getType()) {
                 1 -> {
                     totalSize = storageManager.getPrimaryStorageSize()
                 }
+
                 0 -> {
                     //
                 }
+
                 else -> {
                     return@forEach
                 }
@@ -228,6 +236,7 @@ object StorageLoader {
             fsUuid.isNullOrEmpty() -> {
                 StorageManager.UUID_DEFAULT
             }
+
             else -> {
                 UUID.fromString(fsUuid)
             }
@@ -236,78 +245,34 @@ object StorageLoader {
 
     // --------------------------------------------------
     // --------------------------------------------------
+//
+//    class StorageVolumeHook(private val volume: Any) {
+//
+//        @SuppressLint("DiscouragedPrivateApi")
+//        fun getPathFile(): File? {
+//            return executeMethod(volume, "getPathFile") as File?
+//        }
+//
+//    }
 
-    class StorageManagerHook(private val storageManager: StorageManager) {
-
-
-        @SuppressLint("DiscouragedPrivateApi")
-        fun getVolumeList(): Array<*>? {
-            return executeMethod(storageManager, "getVolumeList") as Array<*>?
-
-        }
-
-        @SuppressLint("DiscouragedPrivateApi")
-        fun getVolumes(): MutableList<*>? {
-            return executeMethod(storageManager, "getVolumes") as MutableList<*>?
-        }
-
-        @RequiresApi(Build.VERSION_CODES.N_MR1)
-        fun getPrimaryStorageSize(): Long {
-            return executeMethod(storageManager, "getPrimaryStorageSize") as Long? ?: 0L
-        }
-
-    }
-
-    class StorageVolumeHook(private val volume: Any) {
-
-        @SuppressLint("DiscouragedPrivateApi")
-        fun getPathFile(): File? {
-            return executeMethod(volume, "getPathFile") as File?
-        }
-
-    }
-
-    class VolumeInfoHook(private val volume: Any) {
-
-        /**
-         * 0: public 外置
-         * 1: private 内置
-         */
-        fun getType(): Int {
-            return getField(volume, "type") as Int? ?: -1
-        }
-
-        @RequiresApi(Build.VERSION_CODES.O)
-        fun getFsUuid(): String? {
-            return executeMethod(volume, "getFsUuid") as String?
-        }
-
-        fun isMountedReadable(): Boolean {
-            return executeMethod(volume, "isMountedReadable") as Boolean? ?: false
-        }
-
-        fun getPath(): File? {
-            return executeMethod(volume, "getPath") as File?
-        }
-    }
-
-    private fun getField(self: Any, field: String): Any? {
-        return try {
-            return ReflectUtil.getField(self, field)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            false
-        }
-    }
-
-    private fun executeMethod(self: Any, method: String): Any? {
-        return try {
-            return ReflectUtil.executeMethod(self, method)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            false
-        }
-    }
+//
+//    private fun getField(self: Any, field: String): Any? {
+//        return try {
+//            return ReflectUtil.getFieldValue(self, field)
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//            false
+//        }
+//    }
+//
+//    private fun executeMethod(self: Any, method: String): Any? {
+//        return try {
+//            return ReflectUtil.executeMethod(self, method)
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//            null
+//        }
+//    }
 
     data class StorageInfo(var totalBytes: Long = 0, var freeBytes: Long = 0) {
         companion object {

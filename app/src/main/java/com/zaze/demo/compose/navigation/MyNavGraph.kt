@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import com.zaze.demo.feature.communication.navigation.communicationScreen
 import com.zaze.demo.feature.intent.navigation.intentScreen
 import com.zaze.demo.feature.storage.navigation.storageScreen
+import com.zaze.demo.update.appUpdateScreen
 
 /**
  * Description :
@@ -52,5 +53,6 @@ fun MyNavGraph(
             navController = navController,
             snackbarHostState = snackbarHostState
         )
+        appUpdateScreen(navController = navController, snackbarHostState = snackbarHostState)
     }
 }

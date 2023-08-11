@@ -50,7 +50,7 @@ dependencies {
     kapt(libs.hilt.compiler)
     kapt(libs.hilt.ext.compiler)
 
-    implementation(libs.zaze.util)
+    implementation(project(":util"))
     implementation(project(":core:model"))
     implementation(project(":core:database"))
     testImplementation(project(":core:testing"))

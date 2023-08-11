@@ -7,9 +7,10 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.PaintDrawable
 import android.media.ThumbnailUtils
 import android.view.View
+import androidx.core.graphics.drawable.toDrawable
+import com.zaze.utils.ext.toBytes
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
-import java.io.ByteArrayOutputStream
 import kotlin.math.hypot
 
 
@@ -19,6 +20,7 @@ import kotlin.math.hypot
  * *
  * @version 2017/8/26 - 下午4:53 1.0
  */
+
 object BmpUtil {
     /**
      * [bitmap] bitmap
@@ -30,12 +32,7 @@ object BmpUtil {
         bitmap: Bitmap?,
         format: Bitmap.CompressFormat = Bitmap.CompressFormat.PNG
     ): ByteArray? {
-        if (bitmap == null) {
-            return null
-        }
-        val outputStream = ByteArrayOutputStream()
-        bitmap.compress(format, 100, outputStream)
-        return outputStream.toByteArray()
+        return bitmap?.toBytes(format)
     }
 
     /**
@@ -131,11 +128,7 @@ object BmpUtil {
 
     @JvmStatic
     fun bitmap2Drawable(res: Resources, bitmap: Bitmap?): Drawable? {
-        return if (bitmap == null) {
-            null
-        } else {
-            BitmapDrawable(res, bitmap)
-        }
+        return bitmap?.toDrawable(res)
     }
 
 // --------------------------------------------------
@@ -249,7 +242,6 @@ object BmpUtil {
         canvas.drawBitmap(bitmap, (size - bitmap.width) / 2F, (size - bitmap.height) / 2F, null)
         return bm
     }
-
 
 //    private val circlePath = Path()
     private fun innerRound(bitmap: Bitmap): Bitmap {

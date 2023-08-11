@@ -18,7 +18,7 @@ import javax.inject.Inject
  * @version : 2017-01-22 - 17:26
  */
 class DeviceRepository @Inject constructor(
-    private val application: Application,
+    val application: Application,
     @IODispatcher private val dispatcher: CoroutineDispatcher
 ) {
     suspend fun getDeviceInfo(): List<DeviceStatus> = withContext(dispatcher) {

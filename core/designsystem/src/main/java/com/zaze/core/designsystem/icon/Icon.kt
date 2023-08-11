@@ -44,6 +44,7 @@ object MyIcons {
     val Settings = Icons.Rounded.Settings
     val ShortText = Icons.Rounded.ShortText
     val Tag = Icons.Rounded.Tag
+    val Upgrade = Icons.Rounded.Upgrade
     val ViewDay = Icons.Rounded.ViewDay
     val VolumeOff = Icons.Rounded.VolumeOff
     val VolumeUp = Icons.Rounded.VolumeUp

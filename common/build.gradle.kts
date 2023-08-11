@@ -51,8 +51,7 @@ dependencies {
 //    implementation(libs.okhttp3)
 //    implementation(libs.okhttp.logging)
 
-    implementation(libs.zaze.util)
-//    compileOnly(project(":util"))
+    compileOnly(project(":util"))
 }
 
 apply(from = "${project.rootDir}/buildscripts/maven-publish.gradle")

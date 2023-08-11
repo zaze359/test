@@ -1,9 +1,10 @@
 package com.zaze.utils;
 
 import android.text.TextUtils;
+import android.util.Log;
 
-import com.zaze.utils.log.ZLog;
-import com.zaze.utils.log.ZTag;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -17,6 +18,8 @@ import java.lang.reflect.Method;
 public class ReflectUtil {
     public static boolean showLog = false;
 
+    private static final String TAG = "ReflectUtil";
+
     /**
      * 反射执行方法
      * 需要注意 null 也是参数
@@ -29,10 +32,6 @@ public class ReflectUtil {
 
     }
 
-    public static Object getField(Object self, String field) throws Exception {
-        return self.getClass().getField(field).get(self);
-    }
-
     /**
      * 反射执行方法
      */
@@ -43,9 +42,18 @@ public class ReflectUtil {
         return executeMethod(self.getClass(), self, functionName, args);
     }
 
+    public static @Nullable Object executeMethodNoExp(Object self, String functionName, Object... args) {
+        try {
+            return executeMethod(self, functionName, args);
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+        return null;
+    }
+
     private static Object executeMethod(Class<?> clazz, Object receiver, String functionName, Object... args) throws Exception {
         if (showLog) {
-            ZLog.d(ZTag.TAG_DEBUG, "functionName : " + functionName);
+            Log.d(TAG, "functionName : " + functionName);
         }
         Class<?>[] classes = null;
         if (args != null && args.length > 0) {
@@ -57,7 +65,7 @@ public class ReflectUtil {
                     classes[i] = dealPrimitive(classes[i]);
                 }
                 if (showLog) {
-                    ZLog.d(ZTag.TAG_DEBUG, "clazz[" + i + "] " + classes[i]);
+                    Log.d(TAG, "clazz[" + i + "] " + classes[i]);
                 }
             }
         }
@@ -66,12 +74,32 @@ public class ReflectUtil {
         return method.invoke(receiver, args);
     }
 
-    public static void setFieldValue(Object obj, String fieldName, Object value) throws Exception {
-        if (showLog) {
-            ZLog.d(ZTag.TAG_DEBUG, "setFieldValue fieldName: " + fieldName);
+
+    public static Object getFieldValue(Object self, String field) throws Exception {
+        return getField(self.getClass(), field).get(self);
+    }
+    public static @Nullable Object getFieldValueNoExp(Object self, String field) {
+        try {
+            return getField(self.getClass(), field).get(self);
+        } catch (Throwable e) {
+            e.printStackTrace();
         }
-        Class<?> clazz = obj.getClass();
-        Field field = clazz.getDeclaredField(fieldName);
+        return null;
+    }
+
+    public static Field getField(Class<?> clazz, String field) throws Exception {
+        return clazz.getField(field);
+    }
+
+    public static void setFieldValue(@NonNull Object obj, String fieldName, Object value) throws Exception {
+        setFieldValue(obj, obj.getClass(), fieldName, value);
+    }
+
+    public static void setFieldValue(@Nullable Object obj, Class<?> clazz, String fieldName, Object value) throws Exception {
+        if (showLog) {
+            Log.d(TAG, "setFieldValue fieldName: " + fieldName);
+        }
+        Field field = getField(clazz, fieldName);
         field.setAccessible(true);
         field.set(obj, value);
     }

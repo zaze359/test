@@ -6,7 +6,7 @@ import com.zaze.common.base.AbsAndroidViewModel
 import com.zaze.common.base.ext.set
 import com.zaze.demo.component.network.compat.AnalyzeTrafficCompat
 import com.zaze.demo.debug.NetTrafficStats
-import com.zaze.demo.util.plugins.rx.MyObserver
+import com.zaze.common.util.plugins.rx.MyObserver
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 

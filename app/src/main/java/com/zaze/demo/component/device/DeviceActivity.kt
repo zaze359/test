@@ -2,6 +2,7 @@ package com.zaze.demo.component.device
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,7 +10,9 @@ import com.zaze.common.base.AbsActivity
 import com.zaze.common.base.ext.myViewModels
 import com.zaze.demo.R
 import com.zaze.demo.databinding.DeviceActivityBinding
-import com.zaze.demo.theme.ThemeUtils
+import com.zaze.ui.theme.ThemeUtils
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  * Description :
@@ -17,9 +20,11 @@ import com.zaze.demo.theme.ThemeUtils
  * @author : zaze
  * @version : 2017-01-22 01:39 1.0
  */
+@AndroidEntryPoint
 class DeviceActivity : AbsActivity() {
     private var adapter: DeviceAdapter? = null
-    private val viewModel: DeviceViewModel by myViewModels()
+
+    val viewModel: DeviceViewModel by viewModels()
 
     //    private var device_test_tint_iv: TintImageView? = null
 //    private var device_test_tint_layout: TintConstraintLayout? = null
