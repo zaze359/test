@@ -12,6 +12,7 @@ androidx-benchmark-junit4 = "1.1.0-beta04"
 androidx-compose-bom = "2023.01.00"
 androidx-constraintlayout = "1.0.1"
 androidx-corektx = "1.9.0"
+androidxCoreSplash = "1.0.1"
 androidx-lifecycle-compose = "2.6.0-rc01"
 androidx-lifecycle-runtime-compose = "2.6.0-rc01"
 androidx-navigation = "2.5.3"
@@ -19,24 +20,30 @@ androidx-palette = "1.0.0"
 androidxTestCore = "1.5.0"
 androidxTestRules = "1.5.0"
 androidxTestRunner = "1.5.1"
-androidx-test-espresso = "3.5.1"
-androidx-test-ext-junit = "1.1.5"
-androidx-test-ext-truth = "1.4.0"
+androidxEspresso = "3.5.1"
+androidxTestExt = "1.1.4"
+#androidx-test-ext-junit = "1.1.5"
+#androidx-test-ext-truth = "1.4.0"
 androidxTracing = "1.1.0"
 androidxUiAutomator = "2.2.0"
 androidx-window = "1.1.0-alpha06"
 androidxHiltNavigationCompose = "1.0.0"
+# dataStore
 androidxDataStore = "1.0.0"
 # leakcanary
 leakcanary = "2.7"
 
-#
+# 配置页面
+preferenceVersion = "1.2.0"
+
+# coil图片加载库
 coil = "2.2.2"
 # @keep
 compileSdk = "33"
 targetSdk = "33"
 minSdk = "21"
 # @keep
+# 网络库
 okhttp = "4.10.0"
 retrofit = "2.9.0"
 retrofitKotlinxSerializationJson = "1.0.0"
@@ -73,7 +80,7 @@ version-catalog-update = "0.7.0"
 # zaze
 zaze-util = { group = "io.github.zaze359", name = "zaze-utils", version = { prefer = "1.1.0-SNAPSHOT" } }
 zaze-common = { group = "io.github.zaze359", name = "zaze-common", version = { prefer = "1.1.0-SNAPSHOT" } }
-
+#
 arouter-api = { group = "com.alibaba", name = "arouter-api", version = { prefer = "1.5.2" } }
 arouter-compiler = { group = "com.alibaba", name = "arouter-compiler", version = { prefer = "1.5.2" } }
 #
@@ -100,6 +107,7 @@ junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
 #android-gradlePlugin = { module = "com.android.tools.build:gradle" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 #
+androidx-core-splash = { module = "androidx.core:core-splashscreen", version.ref = "androidxCoreSplash" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-corektx" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
 #
@@ -111,14 +119,15 @@ kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutine
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 
 # test
-androidx-test-core = { module = "androidx.test:core", version.ref = "androidxTestCore" }
-androidx-test-rules = { module = "androidx.test:rules", version.ref = "androidxTestRules" }
-androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidxTestRunner" }
-androidx-test-uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "androidxUiAutomator" }
-androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-test-espresso" }
-androidx-test-ext-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-test-ext-junit" }
-androidx-test-ext-truth = { module = "androidx.test.ext:truth", version.ref = "androidx-test-ext-truth" }
+androidx-test-core = { group = "androidx.test", name = "core", version.ref = "androidxTestCore" }
+androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidxEspresso" }
+androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "androidxTestRules" }
+androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidxTestRunner" }
+androidx-test-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "androidxUiAutomator" }
+androidx-test-ext = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "androidxTestExt" }
 androidx-tracing-ktx = { group = "androidx.tracing", name = "tracing-ktx", version.ref = "androidxTracing" }
+#androidx-test-ext-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-test-ext-junit" }
+#androidx-test-ext-truth = { module = "androidx.test.ext:truth", version.ref = "androidx-test-ext-truth" }
 
 # hilt
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
@@ -140,7 +149,8 @@ androidx-lifecycle-viewmodel-savedstate = { module = "androidx.lifecycle:lifecyc
 # dataStore
 androidx-dataStore-core = { group = "androidx.datastore", name = "datastore", version.ref = "androidxDataStore" }
 androidx-dataStore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDataStore" }
-
+# preference
+androidx-preference-ktx = { group = "androidx.preference", name = "preference-ktx", version.ref = "preferenceVersion" }
 
 # compose
 androidx-compose-animation = { module = "androidx.compose.animation:animation" }
@@ -170,7 +180,7 @@ androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref
 # okhttp
 okhttp-logging = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
 okhttp3 = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
-
+# retrofit
 retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 retrofit-adapter-rxjava2 = { group = "com.squareup.retrofit2", name = "adapter-rxjava2", version.ref = "retrofit" }

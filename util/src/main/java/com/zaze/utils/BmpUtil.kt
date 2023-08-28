@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.PaintDrawable
 import android.media.ThumbnailUtils
 import android.view.View
+import androidx.core.graphics.createBitmap
 import androidx.core.graphics.drawable.toDrawable
 import com.zaze.utils.ext.toBytes
 import com.zaze.utils.log.ZLog
@@ -51,9 +52,13 @@ object BmpUtil {
     // --------------------------------------------------
     @JvmStatic
     fun drawable2Bitmap(drawable: Drawable?, bmpSize: Int): Bitmap? {
+        return drawable2Bitmap(drawable, bmpSize, bmpSize)
+    }
+
+    fun drawable2Bitmap(drawable: Drawable?, reqWidth: Int, reqHeight: Int): Bitmap? {
         if (drawable != null) {
-            var width = bmpSize
-            var height = bmpSize
+            var width = reqWidth
+            var height = reqHeight
             if (width > 0 && height > 0) {
                 if (drawable is PaintDrawable) {
                     drawable.intrinsicWidth = width
@@ -66,12 +71,13 @@ object BmpUtil {
                     }
                 }
             }
-
+            // 原始大小
             val sourceWidth = drawable.intrinsicWidth
             val sourceHeight = drawable.intrinsicHeight
             if (sourceWidth > 0 && sourceHeight > 0) {
-                // 按照比例缩放图片尺寸
+                // 获取原始比例
                 val ratio = 1f * sourceWidth / sourceHeight
+                // 按照原始比例重新调整图片尺寸
                 if (sourceWidth > sourceHeight) {
                     height = (width / ratio).toInt()
                 } else if (sourceHeight > sourceWidth) {
@@ -84,13 +90,15 @@ object BmpUtil {
             } else {
                 Bitmap.Config.RGB_565
             }
-            val bitmap = Bitmap.createBitmap(bmpSize, bmpSize, config)
-            val left = (bmpSize - width) / 2
-            val top = (bmpSize - height) / 2
+            // 创建指定大小的 Bitmap。
+            val bitmap = createBitmap(reqWidth, reqHeight, config)
+            // 计算 偏移，保证图片居中
+            val left = (reqWidth - width) / 2
+            val top = (reqHeight - height) / 2
             val sCanvas = Canvas(bitmap)
             drawable.setBounds(left, top, width + left, height + top)
             drawable.draw(sCanvas)
-            drawable.bounds = Rect(drawable.bounds)
+//            drawable.bounds = Rect(drawable.bounds)
             sCanvas.setBitmap(null)
             return bitmap
         } else {
@@ -100,29 +108,10 @@ object BmpUtil {
 
     @JvmStatic
     fun drawable2Bitmap(drawable: Drawable?): Bitmap? {
-        if (drawable != null) {
-            if (drawable is BitmapDrawable) {
-                val bitmap = drawable.bitmap
-                if (bitmap.density == Bitmap.DENSITY_NONE) {
-                    drawable.setTargetDensity(DisplayUtil.getMetrics())
-                }
-            }
-            val config = if (drawable.opacity != PixelFormat.OPAQUE) {
-                Bitmap.Config.ARGB_8888
-            } else {
-                Bitmap.Config.RGB_565
-            }
-            val bitmap = Bitmap.createBitmap(
-                Math.max(drawable.intrinsicWidth, 1),
-                Math.max(drawable.intrinsicHeight, 1), config
-            )
-            val sCanvas = Canvas(bitmap)
-            drawable.setBounds(0, 0, bitmap.width, bitmap.height)
-            drawable.draw(sCanvas)
-            sCanvas.setBitmap(null)
-            return bitmap
+        return if (drawable != null) {
+            drawable2Bitmap(drawable, drawable.intrinsicWidth.coerceAtLeast(1), drawable.intrinsicHeight.coerceAtLeast(1))
         } else {
-            return null
+            null
         }
     }
 
@@ -230,7 +219,7 @@ object BmpUtil {
         val size = hypot(bitmap.width.toDouble(), bitmap.height.toDouble()).toInt()
         val radius = size / 2F
         // 前面同上，绘制图像分别需要bitmap，canvas，paint对象
-        val bm = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
+        val bm = createBitmap(size, size, Bitmap.Config.ARGB_8888)
 //        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
         ZLog.i(ZTag.TAG, "toRoundBitmap bm : ${bitmap.width}, ${bitmap.height} -> $size")
         val paint = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -243,7 +232,7 @@ object BmpUtil {
         return bm
     }
 
-//    private val circlePath = Path()
+    //    private val circlePath = Path()
     private fun innerRound(bitmap: Bitmap): Bitmap {
 //        val bm = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
 //        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -258,7 +247,7 @@ object BmpUtil {
 //        canvas.drawBitmap(bitmap, 0F, 0F, paint)
 //        return bm
         // 前面同上，绘制图像分别需要bitmap，canvas，paint对象
-        val bm = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
+        val bm = createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
         val paint = Paint(Paint.ANTI_ALIAS_FLAG)
         val radius = bitmap.width / 2F
         val cy = bitmap.height / 2F

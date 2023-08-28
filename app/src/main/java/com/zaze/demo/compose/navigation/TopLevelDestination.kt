@@ -1,8 +1,8 @@
 package com.zaze.demo.compose.navigation
 
 import androidx.compose.material.icons.rounded.Upgrade
-import com.zaze.core.designsystem.icon.Icon
-import com.zaze.core.designsystem.icon.MyIcons
+import com.zaze.core.designsystem.compose.icon.Icon
+import com.zaze.core.designsystem.compose.icon.MyIcons
 import com.zaze.demo.R
 
 enum class TopLevelDestination(

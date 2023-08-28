@@ -4,6 +4,7 @@
     <string name="test">测试</string>
     <string name="compose_samples">Compose Samples</string>
 
+
 <!--    <string name="jumpBottom">Jump to bottom</string>-->
 <!--    <string name="not_available">Functionality currently not available</string>-->
 <!--    <string name="not_available_subtitle">Grab a beverage and check back later!</string>-->
@@ -27,5 +28,7 @@
     <string name="scaffold">scaffold</string>
     <string name="intent">Intent交互</string>
     <string name="app_update">应用增量更新</string>
+
+    <string name="action_settings">设置</string>
 
 </resources>

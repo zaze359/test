@@ -1,49 +1,41 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
-    <data>
-
-        <variable
-            name="sharedSample"
-            type="com.zaze.core.model.data.AnimationEntity" />
-    </data>
-
-    <LinearLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            android:background="@color/head_background"
-            android:elevation="@dimen/elevation_header">
-
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|start"
-                android:text="@{sharedSample.name}"
-                android:transitionName="Shared Element" />
-
-        </androidx.appcompat.widget.Toolbar>
-
-        <Button
-            android:id="@+id/share_element_test_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="测试按钮" />
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/head_background"
+        android:elevation="@dimen/elevation_header">
 
         <TextView
-            style="@style/Material.Text.Body"
-            android:text="Toolbar title is a shared element between MainActivity and this activity" />
+            android:id="@+id/title"
+            tools:text="sharedSample.name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|start"
+            android:transitionName="Shared Element" />
 
-        <FrameLayout
-            android:id="@+id/share_element_frame"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+    </androidx.appcompat.widget.Toolbar>
 
-    </LinearLayout>
-</layout>
+    <Button
+        android:id="@+id/share_element_test_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="测试按钮" />
+
+    <TextView
+        style="@style/Material.Text.Body"
+        android:text="Toolbar title is a shared element between MainActivity and this activity" />
+
+    <FrameLayout
+        android:id="@+id/share_element_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

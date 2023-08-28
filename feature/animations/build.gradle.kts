@@ -12,19 +12,17 @@ android {
     }
 
     buildFeatures {
-//        compose = true
+        compose = true
         viewBinding = true
     }
-
-    dataBinding {
-        enable = true
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
 }
 
 dependencies {
-    testImplementation(libs.junit4)
-    androidTestImplementation(libs.androidx.test.core)
-    androidTestImplementation(libs.androidx.test.ext.junit)
+    testImplementation(project(":core:testing"))
+    androidTestImplementation(project(":core:testing"))
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.recyclerview)
 

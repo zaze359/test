@@ -9,8 +9,7 @@ import android.os.Build
 import androidx.lifecycle.MutableLiveData
 import com.zaze.common.base.AbsViewModel
 import com.zaze.common.base.BaseApplication
-import com.zaze.common.base.ext.SingleLiveEvent
-import com.zaze.common.base.ext.set
+import com.zaze.common.base.SingleLiveEvent
 import com.zaze.utils.log.ZLog
 
 /**

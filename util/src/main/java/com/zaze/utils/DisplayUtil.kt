@@ -147,19 +147,18 @@ object DisplayUtil {
         val heightDp: Float
         val density: Float
         val densityDpi: Int
-        var realWidthPixels: Int
-        var realHeightPixels: Int
+        var realWidthPixels: Int = 0
+        var realHeightPixels: Int = 0
 
         init {
             widthPixels = metrics.widthPixels
             heightPixels = metrics.heightPixels
+            updateRealMetrics(metrics)
             density = metrics.density
             densityDpi = metrics.densityDpi
             widthDp = dpiFromPx(widthPixels, metrics)
             heightDp = dpiFromPx(heightPixels, metrics)
             // ------------------------------------------------------
-            realWidthPixels = widthPixels
-            realHeightPixels = heightPixels
         }
 
         fun updateRealMetrics(realMetrics: DisplayMetrics) {

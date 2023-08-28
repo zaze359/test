@@ -18,11 +18,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.core.content.FileProvider
-import com.zaze.core.designsystem.components.BackIconButton
-import com.zaze.core.designsystem.components.Padding
+import com.zaze.common.util.FileProviderHelper
+import com.zaze.core.designsystem.compose.components.BackIconButton
+import com.zaze.core.designsystem.compose.components.Padding
 import com.zaze.utils.AppUtil
-import com.zaze.utils.FileUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import java.io.File
@@ -182,12 +181,7 @@ private fun IntentList(modifier: Modifier) {
         //
         ElevatedButton(modifier = buttonModifier, onClick = {
             val outputImage = File(context.externalCacheDir, "image_test.jpg")
-            FileUtil.createFileNotExists(outputImage)
-            val imageUri = FileProvider.getUriForFile(
-                context,
-                "com.zaze.demo.fileProvider",
-                outputImage
-            )
+            val imageUri = FileProviderHelper.getUriForFile(context, outputImage)
             // 打开相机
             val intent = Intent("android.media.action.IMAGE_CAPTURE")
             intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)

@@ -37,9 +37,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.content.FileProvider
+import com.zaze.common.util.FileProviderHelper
 import com.zaze.demo.feature.communication.R
-import com.zaze.utils.FileUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import kotlinx.coroutines.CoroutineScope
@@ -170,12 +169,7 @@ fun IpcInput(
                             context.externalCacheDir,
                             "image_${System.currentTimeMillis()}.jpg"
                         )
-                        FileUtil.createFileNotExists(outputImage)
-                        val imageUri = FileProvider.getUriForFile(
-                            context,
-                            "com.zaze.demo.fileProvider",
-                            outputImage
-                        )
+                        val imageUri = FileProviderHelper.getUriForFile(context, outputImage)
                         //
                         picUri = imageUri
                         // 打开相机

@@ -1,29 +1,25 @@
 package com.zaze.common.base.ext
 
-import android.graphics.Color
-import android.os.Build
-import android.view.View
-import android.view.WindowManager
 import androidx.activity.ComponentActivity
-import androidx.activity.viewModels
-import androidx.annotation.MainThread
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.zaze.common.R
-import com.zaze.common.util.ScreenUtils
 
 /**
  * Description :
  * @author : ZAZE
  * @version : 2018-07-04 - 21:45
  */
+fun AppCompatActivity.findFragment(frameId: Int): Fragment? {
+    return supportFragmentManager.findFragmentById(frameId)
+}
+
 fun AppCompatActivity.replaceFragment(frameId: Int, fragment: Fragment, tag: String? = null) {
     supportFragmentManager.transact {
         replace(frameId, fragment, tag)
@@ -67,9 +63,9 @@ fun FragmentManager.transactAllowingStateLoss(action: FragmentTransaction.() -> 
 }
 
 // --------------------------------------------------
-fun AppCompatActivity.setupActionBar(
-    toolbar: Toolbar,
-    action: ActionBar.(toolbar: Toolbar) -> Unit = {}
+fun <T : Toolbar> AppCompatActivity.setupActionBar(
+    toolbar: T,
+    action: ActionBar.(toolbar: T) -> Unit = {}
 ) {
     this.setSupportActionBar(toolbar)
     supportActionBar?.run {
@@ -77,44 +73,23 @@ fun AppCompatActivity.setupActionBar(
     }
 }
 
+fun <T : Toolbar> AppCompatActivity.initToolbar(
+    toolbar: T,
+    action: ActionBar.(toolbar: T) -> Unit = {}
+) {
+    setupActionBar(toolbar) {
+        action(this, it)
+        setHomeButtonEnabled(true)
+        setDisplayHomeAsUpEnabled(true)
+    }
+}
+
+//@MainThread
+//@Deprecated("此方法不支持 hilt，使用原生的viewModels 并 重写 ComponentActivity.getDefaultViewModelProviderFactory() 来处理。")
+//inline fun <reified VM : ViewModel> ComponentActivity.myViewModels(): Lazy<VM> = viewModels {
+//    obtainViewModelFactory()
+//}
 // --------------------------------------------------
-/**
- * 设置沉浸式
- * [isFullScreen] isFullScreen
- * [color] color
- */
-fun AppCompatActivity.setImmersion(
-    isFullScreen: Boolean = false,
-    color: Int = R.color.colorPrimary
-) {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-        return
-    }
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-        return
-    }
-    if (isFullScreen) {
-        ScreenUtils.addLayoutFullScreen(window)
-        window.decorView.systemUiVisibility =
-            window.decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_FULLSCREEN
-        window.statusBarColor = Color.TRANSPARENT
-    } else {
-        window.statusBarColor = ContextCompat.getColor(this, color)
-    }
-}
-
-fun AppCompatActivity.setImmersionOnWindowFocusChanged(
-    isFullScreen: Boolean = false,
-    hasFocus: Boolean
-) {
-    if (hasFocus && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && isFullScreen) {
-        ScreenUtils.addLayoutFullScreen(window)
-        window.decorView.systemUiVisibility =
-            window.decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_FULLSCREEN
-    }
-}
-
 // --------------------------------------------------
 fun ComponentActivity.obtainViewModelFactory(delegateFactory: ViewModelProvider.Factory? = null): ViewModelProvider.Factory {
     return object : ViewModelFactory(application, delegateFactory) {
@@ -125,10 +100,3 @@ fun ComponentActivity.obtainViewModelFactory(delegateFactory: ViewModelProvider.
         }
     }
 }
-
-@MainThread
-@Deprecated("此方法不支持 hilt，使用原生的viewModels 并 重写 ComponentActivity.getDefaultViewModelProviderFactory() 来处理。")
-inline fun <reified VM : ViewModel> ComponentActivity.myViewModels(): Lazy<VM> = viewModels {
-    obtainViewModelFactory()
-}
-// --------------------------------------------------

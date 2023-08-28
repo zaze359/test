@@ -43,6 +43,5 @@ dependencies {
     kapt(libs.androidx.room.compiler)
 
     implementation(project(":util"))
-
     implementation(project(":core:model"))
 }

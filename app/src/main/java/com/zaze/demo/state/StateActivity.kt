@@ -11,12 +11,14 @@ import com.zaze.common.base.ext.setupActionBar
 import com.zaze.demo.DemoViewModel
 import com.zaze.demo.R
 import com.zaze.demo.databinding.StateActBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 
 /**
  * 测试状态保存于恢复
  */
+@AndroidEntryPoint
 class StateActivity : AbsActivity() {
 
     private val viewModel: StateViewModel by viewModels()

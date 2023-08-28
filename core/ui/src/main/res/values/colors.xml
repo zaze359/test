@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="head_background">#FFFFFF</color>
+    <color name="head_text_color">@color/black</color>
+    <color name="main_split_line">#cccccc</color>
+
+</resources>

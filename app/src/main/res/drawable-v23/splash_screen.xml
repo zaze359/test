@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:gravity="fill">
+        <color android:color="?attr/windowSplashScreenBackground" />
+    </item>
+    <item
+        android:drawable="?attr/windowSplashScreenAnimatedIcon"
+        android:gravity="center"
+        android:width="218dp"
+        android:height="218dp" />
+</layer-list>

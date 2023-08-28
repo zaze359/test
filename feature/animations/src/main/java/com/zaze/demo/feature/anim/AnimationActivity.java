@@ -12,29 +12,18 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
-import android.view.animation.TranslateAnimation;
-import android.widget.Toast;
 
 import com.zaze.common.base.AbsActivity;
-import com.zaze.common.base.mvp.BaseMvpActivity;
-import com.zaze.core.model.data.AnimationEntity;
-import com.zaze.demo.feature.anim.R;
 import com.zaze.demo.feature.anim.adapter.AnimationAdapter;
 import com.zaze.demo.feature.anim.databinding.AnimationActivityBinding;
-import com.zaze.demo.feature.anim.presenter.AnimationPresenter;
-import com.zaze.demo.feature.anim.presenter.impl.AnimationPresenterImpl;
-import com.zaze.demo.feature.anim.view.AnimationView;
 import com.zaze.utils.ToastUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
 import java.util.List;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Description :

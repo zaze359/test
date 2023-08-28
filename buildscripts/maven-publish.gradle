@@ -76,7 +76,7 @@ afterEvaluate { project ->
         // 配置仓库地址
         repositories {
             maven {
-                allowInsecureProtocol true
+                allowInsecureProtocol = true
 
                 def releasesRepoUrl = getReleaseRepositoryUrl(mavenProperties)
                 def snapshotsRepoUrl = getSnapshotRepositoryUrl(mavenProperties)

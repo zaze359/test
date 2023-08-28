@@ -5,9 +5,7 @@ import com.zaze.utils.task.executor.TaskPool;
 import java.util.Collection;
 
 /**
- * Description :
- * TODO : 一个任务标签对应一个线程池, 下一步考虑修改为线程，固定线程池管理
- *
+ * Description : Task的作用了为了方便的创建线程池来管理并执行任务，并且支持自由的切换线程池。
  * @author : ZAZE
  * @version : 2018-02-01 - 10:20
  */

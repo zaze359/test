@@ -17,6 +17,7 @@ import com.zaze.demo.BuildConfig;
 import com.zaze.demo.component.network.compat.AnalyzeTrafficCompat;
 import com.zaze.demo.component.system.ScreenLockReceiver;
 import com.zaze.demo.debug.DefaultNetworkCallback;
+import com.zaze.demo.debug.MyCrashHandler;
 import com.zaze.demo.debug.wifi.WifiCompat;
 import com.zaze.demo.feature.communication.broadcast.MessageReceiver;
 import com.zaze.demo.matrix.MatrixHelper;
@@ -31,6 +32,8 @@ import com.zaze.utils.TraceHelper;
 import com.zaze.utils.ZCommand;
 import com.zaze.utils.cache.MemoryCacheManager;
 import com.zaze.utils.log.ZLog;
+
+import java.util.prefs.Preferences;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -154,6 +157,8 @@ public class MyApplication extends BaseApplication implements ImageLoaderFactory
     }
 
     private void initCrash() {
+        Thread.setDefaultUncaughtExceptionHandler(new MyCrashHandler(Thread.getDefaultUncaughtExceptionHandler()));
+
 //        CrashReport.initCrashReport(getApplicationContext(), "ecf90d7662", true);
         //
 //        FontUtil.setDefaultFontFormSystem("DEFAULT", "Roboto-Light.ttf");

@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Context
 import androidx.lifecycle.viewModelScope
 import com.zaze.common.base.AbsAndroidViewModel
-import com.zaze.core.designsystem.components.snackbar.SnackbarManager
+import com.zaze.core.designsystem.compose.components.snackbar.SnackbarManager
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import dagger.hilt.android.lifecycle.HiltViewModel

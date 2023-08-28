@@ -14,13 +14,13 @@ android {
     }
 
     buildFeatures {
-//        compose = true
+        compose = true
         viewBinding = true
     }
-
-    dataBinding {
-        enable = true
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -31,14 +31,18 @@ android {
 }
 
 dependencies {
-    testImplementation(libs.junit4)
-    androidTestImplementation(libs.androidx.test.core)
-    androidTestImplementation(libs.androidx.test.ext.junit )
+    testImplementation(project(":core:testing"))
+    androidTestImplementation(project(":core:testing"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
 //    implementation(libs.androidx.recyclerview)
 //    implementation(libs.google.android.material)
+
+
+    implementation(libs.coil.kt)
+    implementation(libs.coil.kt.svg)
+//    implementation(libs.coil.kt.compose)
 
     implementation(project(":util"))
     implementation(project(":common"))

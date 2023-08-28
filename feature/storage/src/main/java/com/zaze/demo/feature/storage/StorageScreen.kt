@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.zaze.core.designsystem.components.BackIconButton
+import com.zaze.core.designsystem.compose.components.BackIconButton
 import com.zaze.demo.feature.storage.navigation.dataStoreRoute
 import com.zaze.demo.feature.storage.navigation.sharedPreferencesRoute
 import com.zaze.demo.feature.storage.provider.ProviderActivity

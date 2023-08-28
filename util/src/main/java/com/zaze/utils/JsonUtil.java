@@ -73,7 +73,7 @@ public class JsonUtil {
      * 解析json列表字符串（去除了内部空对象）
      *
      * @param json json
-     * @param <T>  T
+     * @param clazz 泛型T的类型
      * @return List
      */
     public static <T> List<T> parseJsonToList(String json, final Class<T> clazz) {
@@ -81,12 +81,14 @@ public class JsonUtil {
             @NotNull
             @Override
             public Type[] getActualTypeArguments() {
+                // 实际类型参数：这里指泛型 T 的真实类型。
                 return new Class[]{clazz};
             }
 
             @NotNull
             @Override
             public Type getRawType() {
+                // 原始类型，List
                 return List.class;
             }
 

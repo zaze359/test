@@ -14,9 +14,14 @@ import com.zaze.demo.feature.media.databinding.FragmentAudioBinding
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 
+/**
+ * 音频
+ */
 class AudioFragment : Fragment() {
 
-    private lateinit var binding: FragmentAudioBinding
+    private var _binding: FragmentAudioBinding? = null
+    private val binding get() = _binding!!
+
 
     private var uri: Uri? = null
 
@@ -37,7 +42,7 @@ class AudioFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentAudioBinding.inflate(inflater, container, false)
+        _binding = FragmentAudioBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -57,9 +62,10 @@ class AudioFragment : Fragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         stop()
+        _binding = null
     }
 
     private fun pause() {
@@ -75,12 +81,17 @@ class AudioFragment : Fragment() {
     }
 
     private fun play(uri: Uri?) {
-        if(uri == null) {
+        if (uri == null) {
             return
         }
 
         mediaPlayer?.start() ?: let {
-            binding.audioThumbIv.setImageBitmap(MediaHelper.buildEmbeddedPicture(requireContext(), uri))
+            binding.audioThumbIv.setImageBitmap(
+                MediaHelper.buildEmbeddedPicture(
+                    requireContext(),
+                    uri
+                )
+            )
             mediaPlayer = MediaPlayer().also {
                 it.reset()
                 it.setDataSource(requireContext(), uri)

@@ -2,7 +2,6 @@ package com.zaze.common.base
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.zaze.common.base.ext.SingleLiveEvent
 import com.zaze.common.base.ext.set
 import com.zaze.common.thread.ThreadPlugins
 import com.zaze.common.widget.CustomDialog
@@ -51,7 +50,8 @@ open class AbsViewModel : ViewModel() {
     /**
      * 弹窗提示
      */
-    internal val _tipDialog = SingleLiveEvent<CustomDialog.Builder>()
+    internal val _tipDialog =
+        SingleLiveEvent<CustomDialog.Builder>()
     protected val tipDialog = _tipDialog
 
     // --------------------------------------------------

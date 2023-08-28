@@ -16,6 +16,8 @@ import com.zaze.utils.FileUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import java.io.File
+import java.io.FileDescriptor
+import java.io.FileInputStream
 import java.nio.file.Files
 import java.nio.file.Paths
 
@@ -89,6 +91,7 @@ class TestFile : ITest {
             e.printStackTrace()
         }
 
+        val fd = FileInputStream(File(oldApkPath)).fd
 
 //        try {
 //            System.load(copyLibToData(context, soPath, soLibName))
@@ -167,9 +170,6 @@ class TestFile : ITest {
     // 拷贝到 data 下加载
     private fun copyLibToData(context: Context, sourcePath: String, libName: String): String {
         val soDir = File(context.filesDir, "so")
-        if (!soDir.exists()) {
-            soDir.mkdirs()
-        }
         val soFile = File(soDir.absolutePath, libName)
         if (soFile.exists()) {
             soFile.delete()

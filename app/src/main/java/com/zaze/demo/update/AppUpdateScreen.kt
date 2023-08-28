@@ -20,8 +20,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.zaze.common.permission.ExternalStoragePermission
 import com.zaze.common.permission.PermissionHelper
-import com.zaze.core.designsystem.components.BackIconButton
-import com.zaze.core.designsystem.components.PermissionLayout
+import com.zaze.core.designsystem.compose.components.BackIconButton
+import com.zaze.core.designsystem.compose.components.PermissionLayout
 
 @Composable
 fun AppUpdateRoute(

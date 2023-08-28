@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="head_background">#FFFFFF</color>
-    <color name="head_text_color">@color/text_color_head</color>
-</resources>

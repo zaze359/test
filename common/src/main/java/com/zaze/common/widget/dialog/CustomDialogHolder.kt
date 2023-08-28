@@ -10,7 +10,7 @@ import com.zaze.common.R
  * @author : ZAZE
  * @version : 2020-04-21 - 13:24
  */
-class CustomDialogHolder(builder: DialogFactory.Builder) : DialogViewHolder(builder) {
+class CustomDialogHolder(builder: DialogProvider.Builder) : DialogViewHolder(builder) {
     private lateinit var dialogTitleTv: TextView
     private lateinit var dialogMessageTv: TextView
     private lateinit var dialogSureBtn: TextView

@@ -8,14 +8,13 @@ import android.transition.Slide;
 import android.view.Gravity;
 import android.view.View;
 
-import com.zaze.core.model.data.AnimationEntity;
+import com.zaze.demo.feature.anim.AnimationEntity;
 import com.zaze.demo.feature.anim.R;
 import com.zaze.demo.feature.anim.databinding.SharedElementActivityBinding;
 import com.zaze.demo.feature.anim.presenter.SharedElementPresenter;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.databinding.DataBindingUtil;
 
 
 /**
@@ -33,8 +32,12 @@ public class SharedElementActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        presenter = new SharedElementPresenterImpl(this);
+        SharedElementActivityBinding binding = SharedElementActivityBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         animationEntity = (AnimationEntity) getIntent().getExtras().getSerializable(EXTRA_ENTITY);
-        bindData();
+        if(animationEntity != null) {
+            binding.title.setText(animationEntity.getName());
+        }
         setupWindowAnimations();
         setupLayout();
         setupToolbar();
@@ -44,11 +47,6 @@ public class SharedElementActivity extends AppCompatActivity {
                 animationEntity.setName(animationEntity.getName() + "updated");
             }
         });
-    }
-
-    private void bindData() {
-        SharedElementActivityBinding binding = DataBindingUtil.setContentView(this, R.layout.shared_element_activity);
-        binding.setSharedSample(animationEntity);
     }
 
     void setupToolbar() {
@@ -73,19 +71,17 @@ public class SharedElementActivity extends AppCompatActivity {
     }
 
     private void setupLayout() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Slide slideTransition = new Slide(Gravity.LEFT);
-            slideTransition.setDuration(getResources().getInteger(R.integer.anim_duration_long));
+        Slide slideTransition = new Slide(Gravity.LEFT);
+        slideTransition.setDuration(getResources().getInteger(R.integer.anim_duration_long));
 //             Create fragment and define some of it transitions
-            ElementOneFragment elementOneFragment = ElementOneFragment.newInstance(animationEntity);
-            elementOneFragment.setReenterTransition(slideTransition);
-            elementOneFragment.setExitTransition(slideTransition);
-            elementOneFragment.setSharedElementEnterTransition(new ChangeBounds());
+        ElementOneFragment elementOneFragment = ElementOneFragment.newInstance(animationEntity);
+        elementOneFragment.setReenterTransition(slideTransition);
+        elementOneFragment.setExitTransition(slideTransition);
+        elementOneFragment.setSharedElementEnterTransition(new ChangeBounds());
 //            addToBackStack()
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.share_element_frame, elementOneFragment)
-                    .commit();
-        }
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.share_element_frame, elementOneFragment)
+                .commit();
 
     }
 }

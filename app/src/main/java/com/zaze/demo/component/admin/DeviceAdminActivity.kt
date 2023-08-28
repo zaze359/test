@@ -4,10 +4,10 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.MotionEvent
+import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zaze.common.base.AbsActivity
-import com.zaze.common.base.ext.myViewModels
 import com.zaze.demo.R
 import com.zaze.demo.databinding.DeviceAdminActBinding
 import com.zaze.utils.log.ZLog
@@ -22,7 +22,7 @@ class DeviceAdminActivity : AbsActivity() {
         const val TAG = "DeviceAdminActivity"
     }
 
-    private val viewModel: DeviceAdminViewModel by myViewModels()
+    private val viewModel: DeviceAdminViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

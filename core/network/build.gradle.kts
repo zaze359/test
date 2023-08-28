@@ -37,7 +37,6 @@ android {
 dependencies {
 
     implementation(project(":util"))
-    implementation(project(":common"))
     implementation(project(":core:model"))
 
     implementation(libs.coil.kt)

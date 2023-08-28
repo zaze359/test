@@ -5,8 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.*
+import androidx.activity.viewModels
 import com.zaze.common.base.AbsActivity
-import com.zaze.common.base.ext.myViewModels
 import com.zaze.demo.feature.communication.aidl.RemoteService
 import com.zaze.demo.feature.communication.messenger.MessengerService
 
@@ -18,7 +18,7 @@ import com.zaze.demo.feature.communication.messenger.MessengerService
 @Deprecated("see {@link CommunicationScreen.kt}")
 class CommunicationActivity : AbsActivity() {
 
-    private val viewModel: CommunicationViewModel by myViewModels()
+    private val viewModel: CommunicationViewModel by viewModels()
 
     private val messengerServiceConnection: ServiceConnection = object : ServiceConnection {
         override fun onServiceDisconnected(name: ComponentName?) {

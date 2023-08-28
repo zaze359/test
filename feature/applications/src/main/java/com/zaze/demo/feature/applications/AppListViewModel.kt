@@ -14,6 +14,8 @@ import com.zaze.common.util.plugins.rx.MyObserver
 import com.zaze.utils.TraceHelper
 import com.zaze.utils.AppUtil
 import com.zaze.utils.FileUtil
+import com.zaze.utils.log.ZLog
+import com.zaze.utils.log.ZTag
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers

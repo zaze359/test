@@ -138,5 +138,4 @@ public abstract class BaseApplication extends Application {
         }
         return TextUtils.equals(getPackageName(), processName);
     }
-
 }

@@ -19,10 +19,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
-import com.zaze.core.designsystem.icon.Icon
-import com.zaze.core.designsystem.icon.mirroringBackIcon
+import com.zaze.core.designsystem.compose.icon.Icon
+import com.zaze.core.designsystem.compose.icon.mirroringBackIcon
 import com.zaze.demo.compose.navigation.TopLevelDestination
-import com.zaze.core.designsystem.components.snackbar.MySnackbarHost
+import com.zaze.core.designsystem.compose.components.snackbar.MySnackbarHost
 
 /**
  * Description :

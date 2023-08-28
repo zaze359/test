@@ -30,24 +30,9 @@ android {
 dependencies {
 //    val deps: LinkedHashMap<Any, Any> by rootProject.ext
     testImplementation(libs.junit4)
-
-//    val atsl: LinkedHashMap<Any, Any> by deps
-//    androidTestImplementation("${atsl["runner"]}")
-//    androidTestImplementation("${atsl["core"]}")
-//    androidTestImplementation("${atsl["core_ktx"]}")
-//    androidTestImplementation("${atsl["ext_junit"]}")
-//    androidTestImplementation("${atsl["ext_junit_ktx"]}")
-
     androidTestImplementation(libs.androidx.test.core)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-
-//    androidTestImplementation(libs.androidx.test.runner)
-//    androidTestImplementation(libs.androidx.test.espresso.core)
-//    androidTestImplementation(libs.androidx.test.rules)
-//    androidTestImplementation(libs.androidx.test.ext.junit)
-//    androidTestImplementation(libs.kotlinx.coroutines.test)
-//    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
-
+    androidTestImplementation(libs.androidx.test.ext)
+//    val atsl: LinkedHashMap<Any, Any> by deps
 //    val espresso: LinkedHashMap<Any, Any> by deps
 //    androidTestImplementation("${espresso["core"]}")
 
@@ -60,6 +45,9 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.appcompat)
     implementation(libs.google.gson)
+
+    implementation(libs.rxjava2)
+    implementation(libs.rxandroid)
 }
 
 apply(from = "${project.rootDir}/buildscripts/maven-publish.gradle")

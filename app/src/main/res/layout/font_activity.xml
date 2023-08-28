@@ -7,7 +7,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/gray"
+        android:background="@color/grey"
         android:text="测试字体Test"
         android:textSize="@dimen/sp_20" />
 

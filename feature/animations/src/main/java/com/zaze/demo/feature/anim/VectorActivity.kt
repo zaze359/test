@@ -1,25 +1,20 @@
 package com.zaze.demo.feature.anim
 
-import android.annotation.TargetApi
 import android.graphics.drawable.AnimatedVectorDrawable
-import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
-import androidx.databinding.DataBindingUtil
 import com.zaze.demo.feature.anim.databinding.ActivityVectorBinding
-
 
 class VectorActivity : AppCompatActivity() {
 
-    lateinit var beginAnim: AnimatedVectorDrawable
-    lateinit var finishAnim: AnimatedVectorDrawable
+    private lateinit var beginAnim: AnimatedVectorDrawable
+    private lateinit var finishAnim: AnimatedVectorDrawable
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding =
-            DataBindingUtil.setContentView<ActivityVectorBinding>(this, R.layout.activity_vector)
+        val binding = ActivityVectorBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         beginAnim = ResourcesCompat.getDrawable(
             resources,
             R.drawable.download_vector_start,

@@ -124,9 +124,9 @@ public class ClientActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         inviteSocket.close();
         wakeLock.release();
+        super.onDestroy();
     }
 
     private void setupToolbar() {

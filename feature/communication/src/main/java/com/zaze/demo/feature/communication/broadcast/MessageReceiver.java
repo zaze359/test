@@ -40,7 +40,7 @@ public class MessageReceiver extends BroadcastReceiver {
             ZLog.v(ZTag.TAG_DEBUG, "onReceive message : " + message);
 
             Intent replayIntent = new Intent(ACTION_REPLAY);
-            message.setMessage("replay >> " + message.getMessage());
+            message.setData("replay >> " + message.getData());
             replayIntent.putExtra(KEY_MESSAGE, message);
             context.sendBroadcast(replayIntent);
 //            new Thread(new AlarmTask(context)).start();

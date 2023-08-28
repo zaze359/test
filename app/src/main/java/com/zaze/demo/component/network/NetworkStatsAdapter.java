@@ -57,7 +57,7 @@ public class NetworkStatsAdapter extends BaseRecyclerAdapter<NetTrafficStats, Ne
         if (drawable != null) {
             holder.itemNetworkStatsAppIv.setImageDrawable(drawable);
         } else {
-            holder.itemNetworkStatsAppIv.setImageResource(R.drawable.ic_launcher);
+            holder.itemNetworkStatsAppIv.setImageResource(R.mipmap.ic_launcher);
         }
         holder.itemNetworkStatsReceiverTv.setText("接收: " + DescriptionUtil.toByteUnit(value.getRxBytes(), 1024));
         holder.itemNetworkStatsSendTv.setText("发送: " + DescriptionUtil.toByteUnit(value.getTxBytes(), 1024));

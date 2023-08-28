@@ -1,6 +1,7 @@
 package com.zaze.demo.data.repository
 
-import com.zaze.core.data.di.IODispatcher
+import com.zaze.common.di.CustomDispatchers
+import com.zaze.common.di.Dispatcher
 import com.zaze.core.model.data.AppNavigation
 import com.zaze.demo.feature.anim.VectorActivity
 import com.zaze.demo.feature.anim.AnimationActivity
@@ -16,7 +17,6 @@ import com.zaze.demo.component.lifecycle.LifecycleActivity
 import com.zaze.demo.component.logcat.ui.LogcatActivity
 import com.zaze.demo.component.network.NetworkStatsActivity
 import com.zaze.demo.component.okhttp.OkHttpActivity
-import com.zaze.demo.component.preference.MyPreferenceActivity
 import com.zaze.demo.component.progress.ProgressActivity
 import com.zaze.demo.component.rxandroid.RxAndroidActivity
 import com.zaze.demo.component.socket.client.ui.ClientActivity
@@ -34,6 +34,8 @@ import com.zaze.demo.data.entity.TableEntity
 import com.zaze.demo.feature.image.BitmapActivity
 import com.zaze.demo.feature.image.DrawableActivity
 import com.zaze.demo.feature.notification.NotificationActivity
+import com.zaze.demo.feature.settings.MyPreferenceActivity
+import com.zaze.demo.feature.settings.SettingsActivity
 import com.zaze.demo.usagestats.UsageStatesActivity
 import com.zaze.feature.sliding.conflict.SlidingConflictActivity
 import kotlinx.coroutines.CoroutineDispatcher
@@ -41,10 +43,17 @@ import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
 
-class DemoRepository @Inject constructor(@IODispatcher private val dispatcher: CoroutineDispatcher) {
+class DemoRepository @Inject constructor(@Dispatcher(CustomDispatchers.IO) private val dispatcher: CoroutineDispatcher) {
     suspend fun loadDemos(): List<TableEntity> = withContext(dispatcher) {
         var i = 0
         ArrayList<TableEntity>().also { list ->
+            list.add(
+                TableEntity(
+                    "Compose",
+                    AppNavigation.composeRoute,
+                    ++i
+                )
+            )
             list.add(
                 TableEntity(
                     "应用查询",
@@ -54,7 +63,7 @@ class DemoRepository @Inject constructor(@IODispatcher private val dispatcher: C
             )
             list.add(
                 TableEntity(
-                    "多媒体",
+                    "播放音视频",
                     AppNavigation.mediaRoute,
                     ++i
                 )
@@ -269,13 +278,6 @@ class DemoRepository @Inject constructor(@IODispatcher private val dispatcher: C
                 TableEntity(
                     "RxAndroid",
                     RxAndroidActivity::class.java,
-                    ++i
-                )
-            )
-            list.add(
-                TableEntity(
-                    "XmlPreference",
-                    MyPreferenceActivity::class.java,
                     ++i
                 )
             )

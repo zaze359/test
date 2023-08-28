@@ -38,10 +38,6 @@ android {
         jvmTarget = "1.8"
     }
 
-    dataBinding {
-        enable = true
-    }
-
     buildFeatures {
         compose = true
         viewBinding = true
@@ -58,6 +54,7 @@ dependencies {
     implementation(project(":common"))
     implementation(project(":core:designsystem"))
     implementation(project(":core:data"))
+    implementation(project(":core:datastore"))
     implementation(project(":core:model"))
 
     implementation(libs.google.android.material)

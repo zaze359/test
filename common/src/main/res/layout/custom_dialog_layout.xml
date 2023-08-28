@@ -45,7 +45,7 @@
         android:background="@color/transparent"
         android:gravity="center"
         android:text="取消"
-        android:textColor="@color/gray"
+        android:textColor="@color/grey"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/dialogSureBtn"
         app:layout_constraintHorizontal_weight="1"

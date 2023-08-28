@@ -1,17 +1,17 @@
 package com.zaze.demo.compose.home
 
 import android.app.Application
-import android.content.pm.ApplicationInfo
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zaze.demo.compose.navigation.TopLevelDestination
-import com.zaze.core.designsystem.components.snackbar.SnackbarMessage
+import com.zaze.core.designsystem.compose.components.snackbar.SnackbarMessage
 import com.zaze.demo.data.repository.DemoRepository
 import com.zaze.demo.data.entity.TableEntity
 import com.zaze.demo.debug.test.TestFile
 import com.zaze.utils.log.ZLog
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.util.*
@@ -25,7 +25,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     application: Application,
-    private val demoRepository: DemoRepository
+    val demoRepository: DemoRepository
 ) : AndroidViewModel(application) {
     private val viewModelState = MutableStateFlow(HomeViewModelState())
     val uiState = viewModelState.map(HomeViewModelState::toUiState).stateIn(
@@ -40,7 +40,8 @@ class HomeViewModel @Inject constructor(
         ZLog.i("HomeViewModel", "refreshSamples")
         viewModelState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
-            val activities = demoRepository.loadDemos()
+//            val activities = demoRepository.loadDemos()
+            val activities = emptyList<TableEntity>()
             viewModelState.update {
                 it.copy(
                     destinations = TopLevelDestination.values().asList(),
@@ -68,6 +69,19 @@ class HomeViewModel @Inject constructor(
             id = UUID.randomUUID().mostSignificantBits, "Error"
         )
 //        SnackbarManager.showMessage(message)
+        viewModelScope.launch(Dispatchers.Default) {
+            repeat(10) {
+                ZLog.i("HomeViewModel", "thread Default: ${Thread.currentThread()}")
+                delay(100)
+            }
+
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            repeat(10) {
+                ZLog.i("HomeViewModel", "thread IO: ${Thread.currentThread()}")
+                delay(100)
+            }
+        }
         showError(message)
     }
 

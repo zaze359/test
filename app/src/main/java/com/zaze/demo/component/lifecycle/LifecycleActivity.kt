@@ -1,11 +1,11 @@
 package com.zaze.demo.component.lifecycle
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.zaze.common.base.AbsActivity
-import com.zaze.common.base.ext.myViewModels
 import com.zaze.common.base.ext.setupActionBar
 import com.zaze.demo.databinding.ActivityLifecycleBinding
 import com.zaze.demo.debug.LogViewWrapper
@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 class LifecycleActivity : AbsActivity() {
     private lateinit var binding: ActivityLifecycleBinding
 
-    private val viewModel: MyLifecycleViewModel by myViewModels()
+    private val viewModel: MyLifecycleViewModel by viewModels()
 
     private val isNeedStack = ZLog.isNeedStack()
     private val defaultLogFace = ZLog.getLogFace();

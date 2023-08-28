@@ -2,7 +2,6 @@ package com.zaze.demo.compose
 
 import android.Manifest
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -18,9 +17,11 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.zaze.common.base.AbsActivity
 import com.zaze.common.util.ActivityUtil
-import com.zaze.core.designsystem.theme.MyComposeTheme
+import com.zaze.core.designsystem.compose.theme.MyComposeTheme
+import com.zaze.core.model.data.AppNavigation
 import com.zaze.demo.compose.ui.MyAppDrawer
 import com.zaze.demo.compose.data.Action
 import com.zaze.demo.compose.data.Router
@@ -36,6 +37,7 @@ import kotlinx.coroutines.launch
  * @version : 2022-12-03 20:33
  */
 @AndroidEntryPoint
+@Route(path = AppNavigation.composeRoute)
 class ComposeActivity : AbsActivity() {
 
     override fun getPermissionsToRequest(): Array<String> {
@@ -58,7 +60,7 @@ class ComposeActivity : AbsActivity() {
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+//        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 //        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
@@ -100,8 +102,9 @@ private fun MyApp(
                     onClicked = {
                         when (it) {
                             is Router -> {
-                                
+
                             }
+
                             is Action -> {
                                 onAction(it.intent)
                             }

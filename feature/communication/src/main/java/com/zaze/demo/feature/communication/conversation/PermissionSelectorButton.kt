@@ -21,7 +21,7 @@ import androidx.core.app.ActivityCompat
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
-import com.zaze.core.designsystem.components.PermissionLayout
+import com.zaze.core.designsystem.compose.components.PermissionLayout
 import kotlinx.coroutines.CoroutineScope
 import kotlin.coroutines.CoroutineContext
 

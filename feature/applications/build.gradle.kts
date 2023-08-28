@@ -24,12 +24,13 @@ android {
             )
         }
     }
-    dataBinding {
-        enable = true
-    }
 
     buildFeatures {
+        compose = true
         viewBinding = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
 
     kapt {
@@ -69,6 +70,7 @@ dependencies {
 
     implementation(project(":core:model"))
     implementation(project(":core:designsystem"))
+    implementation(project(":core:ui"))
 
     implementation(project(":common"))
     implementation(project(":util"))

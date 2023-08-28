@@ -1,6 +1,5 @@
 package com.zaze.core.network.http
 
-import com.zaze.common.thread.ThreadPlugins
 import com.zaze.core.network.http.okhttp.OkHttpDownloadClient
 import com.zaze.core.network.http.proxy.HttpDownloadClientProxy
 import com.zaze.core.network.requestExecutorStub
@@ -50,7 +49,7 @@ class HttpRequest private constructor(
      */
     fun requestByFlow(): Flow<ZResponse> {
         return flowOf(request())
-            .flowOn(ThreadPlugins.requestExecutorStub.coroutineDispatcher)
+            .flowOn(requestExecutorStub.coroutineDispatcher)
     }
 
     /**
@@ -58,8 +57,8 @@ class HttpRequest private constructor(
      */
     fun requestByRx(): Observable<ZResponse> {
         return Observable.fromCallable { request() }
-            .subscribeOn(ThreadPlugins.requestExecutorStub.rxScheduler)
-            .observeOn(ThreadPlugins.ioScheduler())
+            .subscribeOn(requestExecutorStub.rxScheduler)
+//            .observeOn(AndroidSchedulers.mainThread())
     }
 
     fun download(callback: DownloadCallback? = null) {

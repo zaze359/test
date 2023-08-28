@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelStore
+import androidx.lifecycle.viewmodel.CreationExtras
 import com.zaze.common.base.AbsActivity
 import com.zaze.common.base.AbsAndroidViewModel
 import com.zaze.common.base.AbsViewModel
@@ -71,24 +72,12 @@ open class ViewModelFactory(private val application: Application?, private val d
             }
         } else delegateFactory?.create(modelClass) ?: super.create(modelClass)
     }
-}
 
-fun initAbsViewModel(owner: ComponentActivity?, viewModel: ViewModel) {
-    if (owner is AbsActivity && viewModel is AbsViewModel) {
-        viewModel._showMessage.observe(owner) {
-            owner.showToast(it)
-        }
-        viewModel._progress.observe(owner) {
-            owner.progress(it)
-        }
-        viewModel._tipDialog.observe(owner) {
-            it?.build(owner)?.show()
-        }
-        viewModel._finish.observe(owner) {
-            owner.finish()
-        }
+    override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
+        return delegateFactory?.create(modelClass, extras) ?: super.create(modelClass, extras)
     }
 }
+
 
 
 /**
@@ -118,4 +107,21 @@ fun <T : ViewModel> AppCompatActivity.obtainViewModel(
     viewModelClass: Class<T>
 ) = ViewModelProvider(this, ViewModelFactory(this.application))[viewModelClass].also { vm ->
     initAbsViewModel(this, vm)
+}
+
+fun initAbsViewModel(owner: ComponentActivity?, viewModel: ViewModel) {
+    if (owner is AbsActivity && viewModel is AbsViewModel) {
+        viewModel._showMessage.observe(owner) {
+            owner.showToast(it)
+        }
+        viewModel._progress.observe(owner) {
+            owner.progress(it)
+        }
+        viewModel._tipDialog.observe(owner) {
+            it?.build(owner)?.show()
+        }
+        viewModel._finish.observe(owner) {
+            owner.finish()
+        }
+    }
 }

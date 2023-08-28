@@ -1,6 +1,8 @@
 // IRemoteService.aidl
 package com.zaze.demo.feature.communication;
-import com.zaze.demo.feature.communication.parcel.IpcMessage;
+import com.zaze.demo.feature.communication.IMessageService;
+import android.os.ParcelFileDescriptor;
+
 // Declare any non-default types here with import statements
 
 interface IRemoteService {
@@ -11,8 +13,10 @@ interface IRemoteService {
     void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat,
             double aDouble, String aString);
 
+    IMessageService getMessageService();
+    IBinder queryService(String descriptor);
 
-    IpcMessage getMessage();
+    ParcelFileDescriptor read(String fileName);
 
-//    void testMessage(out IpcMessage outMessage);
+    void writeFile(in ParcelFileDescriptor fileDescriptor, String fileName);
 }

@@ -17,13 +17,13 @@
     xmlns:tools="http://schemas.android.com/tools">
     <item
         android:id="@+id/menu_select"
-        android:icon="@drawable/baseline_video_library_24"
+        android:icon="@drawable/ic_video_library"
         android:showAsAction="ifRoom|withText"
         android:title="@string/choose"
         tools:ignore="AppCompatResource" />
     <item
         android:id="@+id/menu_play"
-        android:icon="@drawable/selector_play"
+        android:icon="@drawable/ic_play_arrow"
         android:showAsAction="ifRoom|withText"
         android:title="@string/play"
         tools:ignore="AppCompatResource" />

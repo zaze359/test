@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_title">设置</string>
+    <string name="settings_theme_title">外观</string>
+    <string name="settings_theme_summary">更改应用的主题和颜色</string>
+
+
+    <string name="settings_pref_header_theme">主题</string>
+    <string name="settings_pref_header_color">更多颜色</string>
+
+
+
+    <string name="settings_pref_title_theme">应用主题</string>
+
+    <string name="settings_pref_title_md3">Material You</string>
+
+    <string name="settings_notification_title">通知</string>
+    <string name="settings_notification_summary">自定义通知栏样式</string>
+    <string name="settings_about_title">关于</string>
+    <string name="settings_about_summary">项目介绍</string>
+
+    <string name="settings_light_theme_name">浅色</string>
+    <string name="settings_dark_theme_name">深色</string>
+    <string name="settings_follow_system">跟随系统</string>
+
+    <string name="settings_always">始终</string>
+    <string name="settings_only_on_wifi">仅限 Wi-Fi 网络</string>
+    <string name="settings_never">从不</string>
+</resources>

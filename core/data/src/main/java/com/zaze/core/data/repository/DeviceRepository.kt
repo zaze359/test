@@ -2,7 +2,8 @@ package com.zaze.core.data.repository
 
 import android.app.Application
 import android.os.Build
-import com.zaze.core.data.di.IODispatcher
+import com.zaze.common.di.CustomDispatchers
+import com.zaze.common.di.Dispatcher
 import com.zaze.core.model.data.DeviceStatus
 import com.zaze.utils.*
 import com.zaze.utils.date.DateUtil
@@ -19,7 +20,7 @@ import javax.inject.Inject
  */
 class DeviceRepository @Inject constructor(
     val application: Application,
-    @IODispatcher private val dispatcher: CoroutineDispatcher
+    @Dispatcher(CustomDispatchers.IO) private val dispatcher: CoroutineDispatcher
 ) {
     suspend fun getDeviceInfo(): List<DeviceStatus> = withContext(dispatcher) {
         val list = ArrayList<DeviceStatus>().apply {
@@ -32,7 +33,7 @@ class DeviceRepository @Inject constructor(
             )
             add(
                 DeviceStatus(
-                    tag = "屏幕密度",
+                    tag = "屏幕密度dpi",
                     content = "${displayProfile.getDensityDpiName()}(${displayProfile.densityDpi})(${displayProfile.density})"
                 )
             )

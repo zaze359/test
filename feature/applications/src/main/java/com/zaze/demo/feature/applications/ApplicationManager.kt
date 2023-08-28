@@ -2,26 +2,26 @@ package com.zaze.demo.feature.applications
 
 import android.content.Context
 import android.content.Intent
-import com.zaze.utils.BmpUtil.drawable2Bitmap
 import android.graphics.Bitmap
 import android.text.TextUtils
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.res.Resources
+import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.LruCache
-import androidx.core.content.FileProvider
-import androidx.core.content.res.ResourcesCompat
 import com.zaze.common.base.BaseApplication
+import com.zaze.common.util.FileProviderHelper
 import com.zaze.utils.AppUtil
+import com.zaze.utils.BmpUtil
+import com.zaze.utils.ext.BitmapExt
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import java.io.File
-import java.lang.Exception
 import java.lang.ref.SoftReference
 import java.util.HashMap
 
@@ -43,8 +43,26 @@ object ApplicationManager {
 
     /**
      * 应用图标bitmap 缓存
+     * 占总内存的 1/8，KB
      */
-    private val BITMAP_CACHE = LruCache<String, Bitmap?>(60)
+//    private val BITMAP_CACHE = LruCache<String, Bitmap?>(60)
+    private val BITMAP_CACHE =
+        object : LruCache<String, Bitmap?>((Runtime.getRuntime().maxMemory() / 1024).toInt() / 8) {
+            override fun sizeOf(key: String?, value: Bitmap?): Int {
+                if (value == null) return super.sizeOf(key, null)
+                // 返回bitmap的内存大小
+                return value.rowBytes * value.height / 1024
+            }
+
+            override fun entryRemoved(
+                evicted: Boolean,
+                key: String?,
+                oldValue: Bitmap?,
+                newValue: Bitmap?
+            ) {
+                super.entryRemoved(evicted, key, oldValue, newValue)
+            }
+        }
 
     /**
      * 应用信息缓存
@@ -191,32 +209,33 @@ object ApplicationManager {
     fun getAppDefaultLogo(): Bitmap? {
         var bitmap = defaultLogoBmpRef?.get()
         if (bitmap == null) {
-            bitmap = formatIcon(
-                getFullResIcon(
+            bitmap = BitmapExt.decodeToBitmap(
+                invariantDeviceProfile.iconBitmapSize,
+                invariantDeviceProfile.iconBitmapSize
+            ) {
+                BitmapFactory.decodeResource(
                     BaseApplication.getInstance().resources,
-                    R.drawable.ic_app_default
+                    R.drawable.ic_app_default,
+                    it
                 )
-            )
+            }
+//            bitmap = formatIcon(
+//                getFullResIcon(
+//                    BaseApplication.getInstance().resources,
+//                    R.drawable.ic_app_default
+//                )
+//            )
             defaultLogoBmpRef = SoftReference(bitmap)
         }
         return bitmap
     }
 
     private fun getFullResIcon(resources: Resources, iconId: Int): Drawable? {
-        return try {
-            ResourcesCompat.getDrawableForDensity(
-                resources,
-                iconId,
-                invariantDeviceProfile.fillResIconDpi,
-                null
-            )
-        } catch (e: Exception) {
-            null
-        }
+        return AppUtil.getAppIcon(resources, iconId, invariantDeviceProfile.fillResIconDpi)
     }
 
     private fun formatIcon(drawable: Drawable?): Bitmap? {
-        return drawable2Bitmap(drawable, invariantDeviceProfile.iconBitmapSize)
+        return BmpUtil.drawable2Bitmap(drawable, invariantDeviceProfile.iconBitmapSize)
     }
     // --------------------------------------------------
     /**
@@ -270,7 +289,7 @@ object ApplicationManager {
         intent.addCategory(Intent.CATEGORY_DEFAULT)
         val uri: Uri
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            uri = FileProvider.getUriForFile(context, "${context.packageName}.fileProvider", file)
+            uri = FileProviderHelper.getUriForFile(context, file)
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         } else {
             uri = Uri.fromFile(file)

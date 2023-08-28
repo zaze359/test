@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="ColorIconView">
+        <attr name="iconBackgroundColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="AddImageLayout">
+        <attr name="hSpace" format="dimension" />
+        <attr name="vSpace" format="dimension" />
+    </declare-styleable>
+
+    <attr name="zMainBackground" format="reference" />
+    <attr name="zMainTextColor" format="color" />
+    <attr name="zMainTextSize" format="dimension" />
+    <!-- -->
+    <attr name="zHeadBackground" format="reference" />
+    <attr name="zHeadTextColor" format="color" />
+    <attr name="zHeadTextSize" format="dimension" />
+    <!-- -->
+    <attr name="zTabBackground" format="reference" />
+    <attr name="zTabIndicatorBackground" format="reference" />
+    <attr name="zTabTextColor" format="color" />
+    <attr name="zTabTextSize" format="dimension" />
+    <!-- -->
+    <attr name="zItemBackground" format="reference" />
+    <attr name="zItemTextColor" format="color" />
+    <attr name="zItemTextSize" format="dimension" />
+
+</resources>

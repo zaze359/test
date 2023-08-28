@@ -5,17 +5,17 @@ import android.os.Parcelable
 
 class IpcMessage(
     var id: Int = 0,
-    var message: String? = null
+    var data: String? = null
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this() {
         id = parcel.readInt()
-        message = parcel.readString()
+        data = parcel.readString()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(id)
-        parcel.writeString(message)
+        parcel.writeString(data)
     }
 
     override fun describeContents(): Int {
@@ -33,6 +33,6 @@ class IpcMessage(
     }
 
     override fun toString(): String {
-        return "IpcMessage(id=$id, message=$message)"
+        return "IpcMessage(id=$id, message=$data)"
     }
 }

@@ -8,17 +8,24 @@ import android.os.*
 import android.provider.DocumentsContract
 import androidx.lifecycle.viewModelScope
 import com.zaze.common.base.AbsAndroidViewModel
+import com.zaze.common.util.FileProviderHelper
 import com.zaze.core.model.data.ChatMessage
 import com.zaze.core.model.data.getMessageContent
 import com.zaze.demo.feature.communication.broadcast.MessageReceiver
 import com.zaze.demo.feature.communication.parcel.IpcMessage
+import com.zaze.utils.FileUtil
 import com.zaze.utils.getImagePath
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import com.zaze.utils.query
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.net.URI
 import javax.inject.Inject
 
 @HiltViewModel
@@ -50,7 +57,7 @@ class CommunicationViewModel @Inject constructor(application: Application) :
 
     /** aidl 接口 */
     private var remoteService: IRemoteService? = null
-    private val remoteServiceDeathRecipient  = IBinder.DeathRecipient {
+    private val remoteServiceDeathRecipient = IBinder.DeathRecipient {
         ZLog.i("CommunicationViewModel", "remoteService binderDied")
         onRemoteServiceDisconnected()
         // 重连？
@@ -60,6 +67,7 @@ class CommunicationViewModel @Inject constructor(application: Application) :
         remoteService = IRemoteService.Stub.asInterface(service)
         service?.linkToDeath(remoteServiceDeathRecipient, 0)
     }
+
     fun onRemoteServiceDisconnected() {
         ZLog.i("CommunicationViewModel", "onRemoteServiceDisconnected")
         remoteService?.asBinder()?.unlinkToDeath(remoteServiceDeathRecipient, 0)
@@ -108,10 +116,25 @@ class CommunicationViewModel @Inject constructor(application: Application) :
                 addChatMessage(
                     ChatMessage.Text(
                         author = "aidl",
-                        content = "${remoteService?.message?.message}",
+                        content = "${remoteService?.messageService?.message?.data}",
                     )
                 )
+//                if (message is ChatMessage.Image && !message.localPath.isNullOrEmpty()) {
+//                    val uri = Uri.parse(message.localPath)
+//                    ZLog.i(ZTag.TAG_DEBUG, "uri: $uri")
+//                    viewModelScope.launch(Dispatchers.IO) {
+//                        ZLog.i(ZTag.TAG_DEBUG, "name: ${uri.path?.split("/")?.last()}")
+//                        val fd = FileProviderHelper.openFileDescriptor(application, uri, "r")
+//                        remoteService?.writeFile(fd, "aaa.jpg")
+//                        fd?.close()
+//                        // 测试读取文件
+//                        remoteService?.read("aaa.jpg")?.let {
+//                            FileUtil.write(FileInputStream(it.fileDescriptor), FileOutputStream(File(application.externalCacheDir, "aaa.jpg")))
+//                        }
+//                    }
+//                }
             }
+
             CommunicationMode.MESSENGER -> {
                 val msg = Message.obtain()
                 msg.replyTo = clientMessenger
@@ -120,16 +143,19 @@ class CommunicationViewModel @Inject constructor(application: Application) :
                 msg.data = bundle
                 serviceMessenger?.send(msg)
             }
+
             CommunicationMode.BROADCAST -> {
                 application.sendBroadcast(Intent(MessageReceiver.ACTION_MESSAGE).also {
-                    it.putExtra(MessageReceiver.KEY_MESSAGE, IpcMessage(message = messageContent))
+                    it.putExtra(MessageReceiver.KEY_MESSAGE, IpcMessage(data = messageContent))
                 })
             }
+
             CommunicationMode.SERVER -> {
                 application.sendBroadcast(Intent(MessageReceiver.ACTION_MESSAGE).also {
-                    it.putExtra(MessageReceiver.KEY_MESSAGE, IpcMessage(message = messageContent))
+                    it.putExtra(MessageReceiver.KEY_MESSAGE, IpcMessage(data = messageContent))
                 })
             }
+
             else -> {
                 addChatMessage(
                     ChatMessage.Text(
@@ -168,19 +194,24 @@ class CommunicationViewModel @Inject constructor(application: Application) :
                                     Cursor.FIELD_TYPE_NULL -> {
                                         null
                                     }
+
                                     Cursor.FIELD_TYPE_INTEGER -> {
                                         cursor.getInt(index)
                                     }
+
                                     Cursor.FIELD_TYPE_FLOAT -> {
                                         cursor.getFloat(index)
 
                                     }
+
                                     Cursor.FIELD_TYPE_STRING -> {
                                         cursor.getString(index)
                                     }
+
                                     Cursor.FIELD_TYPE_BLOB -> {
                                         cursor.getBlob(index)
                                     }
+
                                     else -> {
                                         null
                                     }

@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 class UsageStatesActivity : AppCompatActivity() {
     private val TAG = "UsageStatesActivityTag"
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.usage_states_act)

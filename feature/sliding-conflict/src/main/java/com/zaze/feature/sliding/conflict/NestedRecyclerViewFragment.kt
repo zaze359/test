@@ -1,6 +1,7 @@
 package com.zaze.feature.sliding.conflict
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,6 +36,9 @@ class NestedRecyclerViewFragment : AbsFragment() {
                 IdGenerator.generateViewId(),
                 IdGenerator.generateViewId(),
                 IdGenerator.generateViewId(),
+                IdGenerator.generateViewId(),
+                IdGenerator.generateViewId(),
+                IdGenerator.generateViewId(),
             )
         )
         return binding.root
@@ -50,8 +54,9 @@ class NestedRecyclerViewFragment : AbsFragment() {
             val textView = TextView(parent.context)
             textView.layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
+                400
             )
+            textView.gravity = Gravity.CENTER
             return ViewHolder(textView)
         }
 
@@ -60,7 +65,7 @@ class NestedRecyclerViewFragment : AbsFragment() {
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            (holder.itemView as TextView).text = "${ids[position]}"
+            (holder.itemView as TextView).text = "RecyclerView: ${ids[position]}"
         }
 
     }

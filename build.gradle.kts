@@ -32,13 +32,13 @@ buildscript {
 
     dependencies {
 //        classpath(libs.android.gradlePlugin)
-//        classpath(libs.kotlin.gradlePlugin)
+        classpath(libs.kotlin.gradlePlugin)
 //        classpath(libs.hilt.gradlePlugin)
 //        classpath 'com.jakewharton:butterknife-gradle-plugin:9.0.0-rc1'
         // 上传bintray
         classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7")
         classpath("com.github.dcendents:android-maven-gradle-plugin:2.0")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0")
+//        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0")
 //        classpath("com.alibaba:arouter-register:1.0.2")
         // matrix
         classpath("com.tencent.matrix:matrix-gradle-plugin:${rootProject.extra["MATRIX_VERSION"]}") {

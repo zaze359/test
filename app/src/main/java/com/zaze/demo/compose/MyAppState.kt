@@ -18,8 +18,8 @@ import androidx.tracing.trace
 import com.zaze.demo.compose.navigation.TopLevelDestination
 import com.zaze.demo.compose.navigation.navigateToHome
 import com.zaze.demo.compose.navigation.navigateToScaffold
-import com.zaze.core.designsystem.components.snackbar.SnackbarManager
-import com.zaze.core.designsystem.components.snackbar.toTextString
+import com.zaze.core.designsystem.compose.components.snackbar.SnackbarManager
+import com.zaze.core.designsystem.compose.components.snackbar.toTextString
 import com.zaze.demo.feature.intent.navigation.navigateToIntent
 import com.zaze.demo.feature.communication.navigation.navigateToCommunication
 import com.zaze.demo.feature.storage.navigation.navigateToStorage

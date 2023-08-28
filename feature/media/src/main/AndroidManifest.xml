@@ -4,8 +4,9 @@
     <application>
         <activity
             android:name=".MediaActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:exported="false" />
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:exported="false"
+            android:theme="@style/Theme.MyApp" />
     </application>
 
 </manifest>

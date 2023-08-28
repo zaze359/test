@@ -1,11 +1,16 @@
 package com.zaze.common.base
 
+import android.content.Context
+import android.os.Bundle
+import android.util.AttributeSet
+import android.view.View
 import androidx.annotation.ArrayRes
 import androidx.annotation.DimenRes
 import androidx.core.content.ContextCompat
 import com.zaze.common.R
 import com.zaze.common.widget.loading.LoadingDialog
 import com.zaze.common.widget.loading.LoadingView
+import com.zaze.core.designsystem.skin.SkinLayoutInflaterFactory
 import com.zaze.utils.ToastUtil
 
 /**
@@ -18,6 +23,14 @@ abstract class AbsActivity : AbsViewModelActivity() {
 
     private val loadingDialog by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
         LoadingDialog(this, createLoadingView())
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        layoutInflater.factory2 =
+            SkinLayoutInflaterFactory { parent: View?, name: String?, context: Context, attrs: AttributeSet ->
+                delegate.createView(parent, name, context, attrs)
+            }
+        super.onCreate(savedInstanceState)
     }
 
     /**

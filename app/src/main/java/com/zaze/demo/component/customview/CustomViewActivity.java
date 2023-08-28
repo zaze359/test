@@ -8,7 +8,7 @@ import android.view.ViewTreeObserver;
 import com.zaze.common.base.AbsActivity;
 import com.zaze.common.widget.AddImageLayout;
 import com.zaze.demo.R;
-import com.zaze.ui.skin.SkinLayoutInflaterFactory;
+import com.zaze.core.designsystem.skin.SkinLayoutInflaterFactory;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
@@ -25,8 +25,6 @@ public class CustomViewActivity extends AbsActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //
-        getLayoutInflater().setFactory2(new SkinLayoutInflaterFactory(getDelegate()::createView));
         //
         super.onCreate(savedInstanceState);
         setContentView(R.layout.custom_view_activity);

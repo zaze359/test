@@ -10,7 +10,7 @@ import androidx.fragment.app.DialogFragment
 
 class CustomDialogFragment : DialogFragment() {
     private var customDialogHolder: DialogViewHolder? = null
-    private var builder: DialogFactory.Builder? = null
+    private var builder: DialogProvider.Builder? = null
 
     fun init(viewHolder: DialogViewHolder): CustomDialogFragment {
         this.customDialogHolder = viewHolder

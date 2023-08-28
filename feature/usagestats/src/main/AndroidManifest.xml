@@ -7,7 +7,7 @@
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
 
-    <application android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+    <application>
         <activity android:name=".UsageStatesActivity" />
     </application>
 </manifest>

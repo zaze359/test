@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.zaze.common.base.AbsActivity
 import com.zaze.common.base.AbsFragment
+import com.zaze.common.base.ext.initToolbar
 import com.zaze.feature.sliding.conflict.databinding.ActivitySlidingConfictBinding
 
 class SlidingConflictActivity : AbsActivity() {
@@ -18,17 +19,23 @@ class SlidingConflictActivity : AbsActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivitySlidingConfictBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        initToolbar(binding.toolbar) {
+            title = "测试滑动冲突"
+        }
+
         val fragmentList = ArrayList<AbsFragment>()
         fragmentList.add(NestedRecyclerViewFragment())
         fragmentList.add(NestedViewPagerFragment())
+        fragmentList.add(NestedRecyclerViewFragment())
         fragmentList.add(NestedViewPagerFragment())
         binding.slidingConflictViewPager.adapter = MyPager2Adapter(this, fragmentList)
     }
 
-    inner class MyPager2Adapter(fa: FragmentActivity, list: ArrayList<AbsFragment>?) : FragmentStateAdapter(fa) {
+    inner class MyPager2Adapter(fa: FragmentActivity, list: ArrayList<AbsFragment>?) :
+        FragmentStateAdapter(fa) {
 
         private val fragmentList = ArrayList<AbsFragment>()
 
@@ -38,6 +45,7 @@ class SlidingConflictActivity : AbsActivity() {
                 fragmentList.addAll(list)
             }
         }
+
         override fun getItemCount(): Int {
             return fragmentList.size
         }

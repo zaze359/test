@@ -1,0 +1,3 @@
+<resources>
+    <style name="Theme.Custom.Base.Adaptive" parent="Theme.Custom.Base.Dark" />
+</resources>

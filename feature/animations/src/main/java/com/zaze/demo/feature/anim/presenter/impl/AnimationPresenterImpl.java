@@ -1,7 +1,7 @@
 package com.zaze.demo.feature.anim.presenter.impl;
 
 import com.zaze.common.base.mvp.BaseMvpPresenter;
-import com.zaze.core.model.data.AnimationEntity;
+import com.zaze.demo.feature.anim.AnimationEntity;
 import com.zaze.demo.feature.anim.presenter.AnimationPresenter;
 import com.zaze.demo.feature.anim.ui.SharedElementActivity;
 import com.zaze.demo.feature.anim.ui.TransitionActivity;

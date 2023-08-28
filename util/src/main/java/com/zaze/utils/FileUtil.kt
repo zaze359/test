@@ -98,6 +98,8 @@ object FileUtil {
     @JvmStatic
     fun copy(from: File, to: File) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createParentDir(to)
+            deleteFile(to)
             Files.copy(Paths.get(from.absolutePath), Paths.get(to.absolutePath))
         } else {
             writeToFile(to, from.inputStream())

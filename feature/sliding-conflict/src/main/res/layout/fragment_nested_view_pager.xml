@@ -10,7 +10,7 @@
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/nested_view_pager"
             android:layout_width="match_parent"
-            android:background="@color/green_light"
+            android:background="@color/red_light"
             android:layout_height="match_parent" />
     </com.zaze.feature.sliding.conflict.NestedScrollViewHost>
 

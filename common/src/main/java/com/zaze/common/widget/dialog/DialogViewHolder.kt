@@ -3,9 +3,8 @@ package com.zaze.common.widget.dialog
 import android.app.Dialog
 import android.os.Build
 import android.view.*
-import com.zaze.common.util.ScreenUtils
+import com.zaze.core.designsystem.util.ThemeUtils
 import com.zaze.utils.DisplayUtil
-import kotlin.math.max
 import kotlin.math.min
 
 /**
@@ -13,7 +12,7 @@ import kotlin.math.min
  * @author : zaze
  * @version : 2021-11-30 - 10:45
  */
-abstract class DialogViewHolder(val builder: DialogFactory.Builder) {
+abstract class DialogViewHolder(val builder: DialogProvider.Builder) {
     private val width: Int by lazy {
         min(DisplayUtil.getDisplayProfile().widthPixels * 0.8f, DisplayUtil.pxFromDp(480f)).toInt()
     }
@@ -26,7 +25,7 @@ abstract class DialogViewHolder(val builder: DialogFactory.Builder) {
 //        MyLog.i(LcTag.TAG, "CustomDialogHolder onCreateDialog")
         dialog.setCancelable(builder.cancelable)
         dialog.window?.let { window ->
-            val systemUiVisibility = ScreenUtils.addLayoutFullScreen(window, true)
+            val systemUiVisibility = ThemeUtils.setLayoutFullScreen(window, true)
             window.decorView.setOnSystemUiVisibilityChangeListener {
 //                MyLog.i(LcTag.TAG, "dialog visibility: ${it == View.SYSTEM_UI_FLAG_VISIBLE}")
                 window.decorView.systemUiVisibility = systemUiVisibility

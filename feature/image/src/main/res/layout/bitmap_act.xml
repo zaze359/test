@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
@@ -21,8 +22,9 @@
             android:id="@+id/bmp_compress_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="4dp"
+            android:padding="12dp"
             android:text="压缩" />
+
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.cardview.widget.CardView
@@ -31,7 +33,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_margin="@dimen/dp_24"
         android:layout_weight="1"
-        app:cardBackgroundColor="@color/gray_light"
+        app:cardBackgroundColor="@color/grey_light"
         app:cardCornerRadius="30dp">
         <!--        <com.zaze.demo.component.bitmap.ShadowImageView-->
         <!--            android:id="@+id/processImageView"-->

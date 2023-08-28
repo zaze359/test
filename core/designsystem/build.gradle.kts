@@ -1,7 +1,9 @@
+@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-//    id("org.jetbrains.kotlin.kapt")
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.kapt)
 }
 
 android {
@@ -10,8 +12,6 @@ android {
 
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
-//        targetSdk = libs.versions.targetSdk.get().toInt()
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -51,18 +51,29 @@ dependencies {
     implementation(composeBom)
     androidTestImplementation(composeBom)
 
-    api(libs.google.android.material)
-
 //    implementation(libs.androidx.compose.foundation)
 //    implementation(libs.androidx.compose.foundation.layout)
+
+    // splash screen
+    api(libs.androidx.core.splash)
+
+    api(libs.google.android.material)
+
+
     api(libs.androidx.compose.material3)
     api(libs.androidx.compose.material.iconsExtended)
     api(libs.androidx.compose.ui.googlefonts)
     api(libs.androidx.compose.ui.util)
     api(libs.androidx.compose.ui.tooling.preview)
     api(libs.accompanist.permissions)
-
+    api(libs.androidx.preference.ktx)
     implementation(libs.androidx.activity.compose)
+
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+    kapt(libs.hilt.ext.compiler)
+
 
     debugApi(libs.androidx.compose.ui.tooling)
 //    implementation("androidx.compose.material:material")
@@ -71,6 +82,9 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
 
+    testImplementation(project(":core:testing"))
     androidTestImplementation(project(":core:testing"))
 //    implementation(project(":util"))
 }
+
+apply(from = "${project.rootDir}/buildscripts/maven-publish.gradle")

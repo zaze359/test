@@ -9,7 +9,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.zaze.common.permission.PermissionHandler
-import com.zaze.common.widget.dialog.DialogFactory
+import com.zaze.common.widget.dialog.DialogProvider
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import kotlinx.coroutines.launch
@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
  */
 abstract class AbsPermissionsActivity : AbsThemeActivity() {
 
-    val permissionHandler by lazy {
+    private val permissionHandler by lazy {
         PermissionHandler(
             activity = this,
             permissions = getPermissionsToRequest(),
@@ -31,18 +31,6 @@ abstract class AbsPermissionsActivity : AbsThemeActivity() {
         )
     }
 
-//    private val permissions by lazy {
-//        getPermissionsToRequest()
-//    }
-
-//    open fun needExternalStoragePermission(): Boolean{
-//        if(permissions.isEmpty()) {
-//            return false
-//        }
-//        val list = permissions.toList()
-//        if(permissions.isNotEmpty() permissions.contains()
-//    }
-
     private val permissionsRequest =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
             permissionHandler.onActivityResult(it)
@@ -50,7 +38,7 @@ abstract class AbsPermissionsActivity : AbsThemeActivity() {
 
     private val startSettingRequest =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (hasPermission()) {
+            if (hasPermissions()) {
                 afterPermissionGranted()
             } else {
                 setupPermission()
@@ -66,14 +54,14 @@ abstract class AbsPermissionsActivity : AbsThemeActivity() {
         setupPermission()
     }
 
-    private fun hasPermission(): Boolean {
+    fun hasPermissions(): Boolean {
         return permissionHandler.hasPermissions()
     }
 
     open fun setupPermission() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                if (hasPermission()) {
+                if (hasPermissions()) {
                     afterPermissionGranted()
                 } else {
                     beforePermissionGranted()
@@ -101,7 +89,7 @@ abstract class AbsPermissionsActivity : AbsThemeActivity() {
      * 部分权限被拒绝
      */
     open fun onSomePermanentlyDenied() {
-        val builder = DialogFactory.Builder()
+        val builder = DialogProvider.Builder()
             .message("如果没有「${permissionHandler.getDeniedPermissionNames()}」相关权限，此应用可能无法正常工作。")
             .negative("取消") {
                 finish()

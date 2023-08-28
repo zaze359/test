@@ -9,20 +9,30 @@ import android.view.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import com.zaze.demo.feature.media.databinding.FragmentVideoBinding
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 
+/**
+ * 视频播放
+ */
 class VideoFragment : Fragment(), MenuProvider {
 
-    private lateinit var binding: FragmentVideoBinding
+    private var _binding: FragmentVideoBinding? = null
+    private val binding get() = _binding!!
 
     private val videoLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
                 binding.playVideoView.stopPlayback()
-                videoUri = it.data?.data?.also {uri->
-                    binding.playVideoThumbIv.setImageBitmap(MediaHelper.frameAtTime(requireContext(), uri))
+                videoUri = it.data?.data?.also { uri ->
+                    binding.playVideoThumbIv.setImageBitmap(
+                        MediaHelper.frameAtTime(
+                            requireContext(),
+                            uri
+                        )
+                    )
                     binding.playVideoView.setVideoURI(uri)
                 }
                 //            videoUri = Uri.parse(
@@ -36,31 +46,24 @@ class VideoFragment : Fragment(), MenuProvider {
     private var mExtractor: MediaExtractor? = null
     private var videoUri: Uri? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        requireActivity().addMenuProvider(this)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
-        binding = FragmentVideoBinding.inflate(inflater, container, false)
+        _binding = FragmentVideoBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.STARTED)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         binding.playVideoView.suspend()
-    }
-    override fun onDestroy() {
-        super.onDestroy()
-        requireActivity().removeMenuProvider(this)
+        _binding = null
     }
 
 
@@ -85,6 +88,7 @@ class VideoFragment : Fragment(), MenuProvider {
                 }
                 binding.playVideoView.start()
             }
+
             R.id.menu_select -> {
                 val intent = Intent(Intent.ACTION_PICK)
                 intent.type = "video/*"

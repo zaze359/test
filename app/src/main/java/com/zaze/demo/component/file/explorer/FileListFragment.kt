@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.zaze.common.base.AbsFragment
 import com.zaze.demo.component.file.explorer.adapter.FileAdapter
 import com.zaze.demo.databinding.FileListFragBinding
@@ -47,6 +48,7 @@ class FileListFragment : AbsFragment() {
                 }
             }
         }
+
         viewModel.curFileData.observe(viewLifecycleOwner, Observer {
             binding.fileListBackTv.text = it.absolutePath
         })

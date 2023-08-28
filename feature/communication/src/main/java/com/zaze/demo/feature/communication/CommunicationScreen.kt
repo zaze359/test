@@ -26,8 +26,8 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.zaze.core.designsystem.icon.mirroringBackIcon
-import com.zaze.core.designsystem.components.snackbar.MySnackbarHost
+import com.zaze.core.designsystem.compose.icon.mirroringBackIcon
+import com.zaze.core.designsystem.compose.components.snackbar.MySnackbarHost
 import com.zaze.core.model.data.ChatMessage
 import com.zaze.demo.feature.communication.aidl.RemoteService
 import com.zaze.demo.feature.communication.broadcast.MessageReceiver
@@ -44,10 +44,12 @@ enum class CommunicationMode {
      * 使用 AIDL 方式通讯
      */
     AIDL,
+
     /**
      * 使用 Messenger 方式通讯
      */
     MESSENGER,
+
     /**
      * 使用 Broadcast 方式通讯
      */
@@ -110,7 +112,7 @@ internal fun CommunicationRoute(
                     viewModel.addChatMessage(
                         ChatMessage.Text(
                             author = "BROADCAST",
-                            content = ipcMessage?.message ?: "",
+                            content = ipcMessage?.data ?: "",
                         )
                     )
                 }
@@ -137,14 +139,21 @@ internal fun CommunicationRoute(
                         messengerServiceConnection.value,
                         Context.BIND_AUTO_CREATE
                     )
+                    val serviceIntent = Intent("com.zaze.export.remoteService")
+                    serviceIntent.setPackage("com.zaze.demo")
+//                    serviceIntent.component = ComponentName(
+//                        "com.zaze.demo",
+//                        "com.zaze.demo.feature.communication.aidl.RemoteService"
+//                    )
                     context.bindService(
-                        Intent(context, RemoteService::class.java),
+                        serviceIntent,
                         remoteServiceServiceConnection.value,
                         Context.BIND_AUTO_CREATE
                     )
                     //
                     replayReceiver.value.register(context)
                 }
+
                 else -> {
                 }
             }

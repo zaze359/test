@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +25,7 @@ import java.util.Collection;
  * @author : zaze
  * @version : 1.0
  */
+@Deprecated
 public abstract class BaseRecyclerAdapter<V, H extends RecyclerView.ViewHolder> extends DataRecyclerAdapter<V, H> implements ResourceAdapter {
     private final Context context;
 
@@ -89,7 +92,7 @@ public abstract class BaseRecyclerAdapter<V, H extends RecyclerView.ViewHolder> 
     }
 
     @Override
-    public int getColor(int resId) {
+    public @ColorInt int getColor(@ColorRes int resId) {
         return ContextCompat.getColor(context, resId);
     }
 

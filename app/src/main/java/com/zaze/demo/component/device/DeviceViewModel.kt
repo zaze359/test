@@ -1,8 +1,12 @@
 package com.zaze.demo.component.device
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.zaze.common.base.AbsAndroidViewModel
 import com.zaze.common.base.AbsViewModel
+import com.zaze.common.base.BaseApplication
 import com.zaze.core.data.repository.DeviceRepository
 import com.zaze.core.model.data.DeviceStatus
 import com.zaze.utils.DisplayUtil
@@ -21,7 +25,9 @@ import javax.inject.Inject
  * @version : 2017-01-22 01:39 1.0
  */
 @HiltViewModel
-class DeviceViewModel @Inject constructor(): AbsViewModel() {
+class DeviceViewModel @Inject constructor(
+    application: Application
+) : AbsAndroidViewModel(application) {
 
     @Inject
     lateinit var deviceModel: DeviceRepository

@@ -35,6 +35,10 @@ android {
 
     buildFeatures {
         compose = true
+        viewBinding = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
 
     composeOptions {
@@ -50,8 +54,8 @@ dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":core:data"))
     implementation(project(":core:model"))
+    implementation(project(":core:datastore"))
     implementation(project(":core:database"))
-
     testImplementation(project(":core:testing"))
     androidTestImplementation(project(":core:testing"))
 

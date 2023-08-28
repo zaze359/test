@@ -1,70 +1,45 @@
 package com.zaze.common.base
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.annotation.ArrayRes
 import androidx.annotation.DimenRes
+import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
+import androidx.core.content.getSystemService
+import androidx.lifecycle.ViewModelProvider
 import com.zaze.common.R
+import com.zaze.common.base.ext.hideKeyboard
+import com.zaze.common.base.ext.obtainViewModelFactory
 import com.zaze.common.widget.loading.LoadingDialog
 import com.zaze.common.widget.loading.LoadingView
 import com.zaze.utils.ToastUtil
-import com.zaze.utils.log.ZLog
 
 /**
  * Description :
  * @author : ZAZE
  * @version : 2018-11-30 - 00:00
  */
-abstract class AbsFragment : Fragment() {
-    companion object {
-        private const val TAG = "LifeCycle"
-    }
-
-    open val showLifeCycle = false
-
-    private val fragmentName by lazy {
-        "${this.javaClass.simpleName}@${Integer.toHexString(this.hashCode())}"
-    }
+abstract class AbsFragment : AbsViewModelFragment {
+    constructor() : super()
+    constructor(@LayoutRes contentLayoutId: Int) : super(contentLayoutId)
 
 
-    private val loadingDialog: LoadingDialog? by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
-        context?.let {
-            LoadingDialog(it, createLoadingView())
-        }
+    private val loadingLazy = lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
+        LoadingDialog(requireContext(), createLoadingView())
     }
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (showLifeCycle) ZLog.i(TAG, "$fragmentName onCreate")
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        if (showLifeCycle) ZLog.i(TAG, "$fragmentName onCreateView")
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        if (showLifeCycle) ZLog.i(TAG, "$fragmentName onViewCreated")
+    override fun onPause() {
+        super.onPause()
+        view.hideKeyboard()
     }
 
     override fun onDestroyView() {
+        view.hideKeyboard()
+        if (loadingLazy.isInitialized()) {
+            loadingLazy.value.dismiss()
+        }
         super.onDestroyView()
-        if (showLifeCycle) ZLog.i(TAG, "$fragmentName onDestroyView")
-    }
-    override fun onDestroy() {
-        loadingDialog?.dismiss()
-        super.onDestroy()
-        if (showLifeCycle) ZLog.i(TAG, "$fragmentName onDestroy")
     }
 
     /**
@@ -110,9 +85,9 @@ abstract class AbsFragment : Fragment() {
 
     fun progress(message: String? = null) {
         if (message == null) {
-            loadingDialog?.dismiss()
+            loadingLazy.value.dismiss()
         } else {
-            loadingDialog?.setText(message)?.show()
+            loadingLazy.value.setText(message).show()
         }
     }
 }

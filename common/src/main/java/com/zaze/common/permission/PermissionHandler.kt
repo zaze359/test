@@ -8,6 +8,9 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.core.app.ActivityCompat
 import com.zaze.utils.log.ZLog
 
+
+typealias PermissionCallback = () -> Unit
+
 /**
  * 权限处理器
  */
@@ -17,15 +20,16 @@ class PermissionHandler(
      * 所需权限
      */
     permissions: Array<String>,
-    private val afterPermissionGranted: (() -> Unit)? = null,
-    private val onSomePermanentlyDenied: (() -> Unit)? = null,
-    private val onPermissionDenied: (() -> Unit)? = null
+    private val afterPermissionGranted: PermissionCallback? = null,
+    private val onSomePermanentlyDenied: PermissionCallback? = null,
+    private val onPermissionDenied: PermissionCallback? = null
 ) :
     ActivityResultCallback<Map<String, @JvmSuppressWildcards Boolean>> {
 
     companion object {
         private const val TAG = "permission"
     }
+
     /**
      * 已获取到的权限
      */
@@ -37,14 +41,22 @@ class PermissionHandler(
     val deniedPermissions = ArrayList<String>()
 
     init {
+        updatePermission(permissions)
+    }
+
+    fun updatePermission(permissions: Array<String>) {
+        grantedPermissions.clear()
+        deniedPermissions.clear()
         when {
             permissions.isEmpty() -> {
 
             }
+
             Build.VERSION.SDK_INT < Build.VERSION_CODES.M -> {
                 grantedPermissions.addAll(permissions)
             }
-            else ->{
+
+            else -> {
                 permissions.forEach { permission ->
                     val isGranted = PermissionHelper.checkSelfPermission(activity, permission)
                     ZLog.i(TAG, "检查 $permission：$isGranted")
@@ -70,14 +82,14 @@ class PermissionHandler(
         )
     }
 
-    override fun onActivityResult(resultMap: Map<String, Boolean>) {
+    override fun onActivityResult(result: Map<String, Boolean>) {
         // 是否获得了权限
         var permissionAllGranted = true
         // 是否有权限被永久拒绝，默认false
         var permanentlyDenied = false
-        resultMap.forEach { result ->
-            val isGranted = result.value
-            val permission = result.key
+        result.forEach { ret ->
+            val isGranted = ret.value
+            val permission = ret.key
             ZLog.i(TAG, "${permission}: $isGranted")
             if (isGranted) {
                 grantedPermissions.add(permission)
@@ -91,7 +103,7 @@ class PermissionHandler(
             // 没有被永久拒绝的权限 && 当前权限被拒绝 && 不需要解释
             if (!isGranted && !ActivityCompat.shouldShowRequestPermissionRationale(
                     activity,
-                    result.key
+                    ret.key
                 )
             ) {
                 // 存在权限被永久拒绝
@@ -105,9 +117,11 @@ class PermissionHandler(
             permissionAllGranted -> {
                 afterPermissionGranted?.invoke()
             }
+
             permanentlyDenied -> {
                 onSomePermanentlyDenied?.invoke()
             }
+
             else -> {
                 onPermissionDenied?.invoke()
             }
@@ -117,6 +131,8 @@ class PermissionHandler(
     fun launch(permissionsRequest: ActivityResultLauncher<Array<String>>) {
         if (!hasPermissions()) {
             permissionsRequest.launch(deniedPermissions.toTypedArray())
+        } else {
+            afterPermissionGranted?.invoke()
         }
     }
 

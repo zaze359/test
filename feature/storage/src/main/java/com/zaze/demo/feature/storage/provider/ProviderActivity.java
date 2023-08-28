@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.zaze.common.base.AbsActivity;
-import com.zaze.common.base.ext.JsonExtKt;
+import com.zaze.common.base.ext.CommonExtKt;
 import com.zaze.core.database.model.UserEntity;
 import com.zaze.core.database.sqlite.UserDao;
 import com.zaze.demo.feature.storage.R;
@@ -54,7 +54,7 @@ public class ProviderActivity extends AbsActivity {
                 }
                 cursor.close();
             }
-            updateContent(JsonExtKt.toJsonString(list));
+            updateContent(CommonExtKt.toJsonString(list));
         });
         findViewById(R.id.insert_btn).setOnClickListener(v -> {
             ContentValues values = new ContentValues();

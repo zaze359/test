@@ -1,14 +1,12 @@
 package com.zaze.core.network
 
-import com.zaze.common.thread.DefaultFactory
-import com.zaze.common.thread.ThreadExecutorStub
-import com.zaze.common.thread.ThreadPlugins
+import com.zaze.utils.ThreadExecutorStub
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
 
 
-val ThreadPlugins.requestExecutorStub by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
+val requestExecutorStub by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
     ThreadExecutorStub(
         ThreadPoolExecutor(
             0,
@@ -16,7 +14,7 @@ val ThreadPlugins.requestExecutorStub by lazy(mode = LazyThreadSafetyMode.SYNCHR
             60L,
             TimeUnit.SECONDS,
             LinkedBlockingQueue(),
-            DefaultFactory("zRequest")
+            NetworkThreadFactory()
         )
     )
 }

@@ -1,11 +1,6 @@
 package com.zaze.demo.compose.home
 
-import android.Manifest
-import android.app.Activity
 import android.content.Intent
-import android.net.Uri
-import android.os.Build
-import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
@@ -18,7 +13,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.outlined.AttachFile
 import androidx.compose.material3.*
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.runtime.*
@@ -37,13 +31,12 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.zaze.common.permission.ExternalStoragePermission
 import com.zaze.common.util.ActivityUtil
-import com.zaze.core.designsystem.components.MyTopAppBar
-import com.zaze.core.designsystem.components.PermissionLayout
-import com.zaze.core.designsystem.components.PermissionRequired
-import com.zaze.core.designsystem.components.snackbar.MySnackbarHost
-import com.zaze.core.designsystem.components.snackbar.SnackbarMessage
-import com.zaze.core.designsystem.components.snackbar.toTextString
-import com.zaze.core.designsystem.theme.MyTypography
+import com.zaze.core.designsystem.compose.components.MyTopAppBar
+import com.zaze.core.designsystem.compose.components.PermissionLayout
+import com.zaze.core.designsystem.compose.components.snackbar.MySnackbarHost
+import com.zaze.core.designsystem.compose.components.snackbar.SnackbarMessage
+import com.zaze.core.designsystem.compose.components.snackbar.toTextString
+import com.zaze.core.designsystem.compose.theme.MyTypography
 import com.zaze.demo.R
 import com.zaze.demo.compose.navigation.TopLevelDestination
 import com.zaze.demo.data.entity.TableEntity
@@ -190,18 +183,18 @@ private fun SampleScreen(
             testButton(it)
         }
 
-//        SampleList(
-//            uiState = uiState,
-//            destinations = destinations,
-//            onNavigateToDestination = onNavigateToDestination,
-//            startActivity = startActivity
-//        )
-        SampleStaggeredGrid(
+        SampleList(
             uiState = uiState,
             destinations = destinations,
             onNavigateToDestination = onNavigateToDestination,
             startActivity = startActivity
         )
+//        SampleStaggeredGrid(
+//            uiState = uiState,
+//            destinations = destinations,
+//            onNavigateToDestination = onNavigateToDestination,
+//            startActivity = startActivity
+//        )
     }
 }
 

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/main_settings_fragment">
+    <fragment
+        android:id="@+id/main_settings_fragment"
+        android:name="com.zaze.demo.feature.settings.MainSettingsFragment"
+        android:label="@string/settings_title"
+        tools:layout="@layout/settings_fragment_main">
+
+        <action
+            android:id="@+id/action_mainSettings_to_themeSettings"
+            app:destination="@id/theme_settings_fragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_close_enter"
+            app:popExitAnim="@anim/fragment_close_exit" />
+        <action
+            android:id="@+id/action_mainSettings_to_notificationSettings"
+            app:destination="@id/notification_settings_fragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_close_enter"
+            app:popExitAnim="@anim/fragment_close_exit" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/theme_settings_fragment"
+        android:name="com.zaze.demo.feature.settings.ThemeSettingsFragment"
+        android:label="@string/settings_theme_title" />
+    <fragment
+        android:id="@+id/notification_settings_fragment"
+        android:name="com.zaze.demo.feature.settings.NotificationSettingsFragment"
+        android:label="@string/settings_notification_title" />
+</navigation>

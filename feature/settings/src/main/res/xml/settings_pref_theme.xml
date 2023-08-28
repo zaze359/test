@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory android:title="@string/settings_pref_header_theme">
+
+        <ListPreference
+            android:defaultValue="auto"
+            android:entries="@array/settings_pref_theme_list_titles"
+            android:entryValues="@array/settings_pref_theme_list_values"
+            android:key="theme_mode"
+            android:layout="@layout/settings_item_pref_list"
+            android:title="@string/settings_pref_title_theme"
+            app:icon="@drawable/settings_ic_palette_outline" />
+
+        <CheckBoxPreference
+            android:defaultValue="@bool/md3_enabled"
+            android:disableDependentsState="true"
+            android:key="material_you"
+            android:layout="@layout/settings_item_pref_switch_no_title"
+            android:title="@string/settings_pref_title_md3"
+            app:isPreferenceVisible="@bool/md3_available" />
+
+        <CheckBoxPreference
+            android:key="key_sound"
+            android:summary="key_sound_summary"
+            android:title="key_sound_title"
+            android:visibility="visible" />
+
+        <SwitchPreference
+            android:checked="true"
+            android:key="key_vibration"
+            android:summary="key_vibration_summary"
+            android:title="key_vibration_title" />
+    </PreferenceCategory>
+
+
+    <PreferenceCategory android:title="@string/settings_pref_header_color">
+
+        <CheckBoxPreference
+            android:dependency="material_you"
+            android:key="key_sound"
+            android:layout="@layout/settings_item_pref_switch"
+            android:summary="key_sound_summary"
+            android:title="key_sound_title" />
+    </PreferenceCategory>
+
+    <!--    <PreferenceCategory android:title="@string/preference_key_setting_menu">-->
+    <!--        <CheckBoxPreference-->
+    <!--            android:key="key_sound"-->
+    <!--            android:summary="@string/preference_key_sound_summary"-->
+    <!--            android:title="@string/preference_key_sound_title" />-->
+    <!--        <CheckBoxPreference-->
+    <!--            android:key="key_vibration"-->
+    <!--            android:summary="@string/preference_key_vibration_summary"-->
+    <!--            android:title="@string/preference_key_vibration_title" />-->
+    <!--        <CheckBoxPreference-->
+    <!--            android:defaultValue="true"-->
+    <!--            android:key="popup_preview"-->
+    <!--            android:summary="@string/preference_preview_summary"-->
+    <!--            android:title="@string/preference_preview_title" />-->
+    <!--        <CheckBoxPreference-->
+    <!--            android:defaultValue="true"-->
+    <!--            android:key="auto_caps"-->
+    <!--            android:summary="@string/preference_auto_caps_summary"-->
+    <!--            android:title="@string/preference_auto_caps_title" />-->
+    <!--        <com.googlecode.openwnn.legacy.EN.KeyboardListPreferenceEN-->
+    <!--            android:defaultValue="keyboard_android_default"-->
+    <!--            android:entries="@array/keyboard_skin"-->
+    <!--            android:entryValues="@array/keyboard_skin_id"-->
+    <!--            android:key="keyboard_skin"-->
+    <!--            android:summary="@string/preference_keyboard_skin_summary"-->
+    <!--            android:title="@string/preference_keyboard_skin_title" />-->
+    <!--    </PreferenceCategory>-->
+
+    <!--    <PreferenceCategory android:title="@string/preference_conversion_menu">-->
+    <!--        <CheckBoxPreference-->
+    <!--            android:defaultValue="false"-->
+    <!--            android:enabled="false"-->
+    <!--            android:key="opt_en_prediction"-->
+    <!--            android:summary="@string/preference_prediction_summary"-->
+    <!--            android:title="@string/preference_prediction_title" />-->
+    <!--        <CheckBoxPreference-->
+    <!--            android:defaultValue="true"-->
+    <!--            android:dependency="opt_en_prediction"-->
+    <!--            android:key="opt_en_spell_correction"-->
+    <!--            android:summary="@string/preference_correct_spell_summary"-->
+    <!--            android:title="@string/preference_correct_spell_title" />-->
+    <!--    </PreferenceCategory>-->
+
+</PreferenceScreen>

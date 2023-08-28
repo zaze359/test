@@ -1,6 +1,7 @@
 package com.zaze.feature.sliding.conflict
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +11,6 @@ import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.zaze.common.base.AbsFragment
 import com.zaze.feature.sliding.conflict.databinding.FragmentNestedViewPagerBinding
 import com.zaze.utils.log.ZLog
-import java.util.concurrent.atomic.AtomicInteger
 
 class NestedViewPagerFragment : AbsFragment() {
 
@@ -57,7 +57,8 @@ class NestedViewPagerFragment : AbsFragment() {
 
         override fun instantiateItem(container: ViewGroup, position: Int): Any {
             val textView = TextView(container.context)
-            textView.text = "${ids[position]}"
+            textView.text = "ViewPager: ${ids[position]}"
+            textView.gravity = Gravity.CENTER
             container.addView(textView, position)
             return textView
         }

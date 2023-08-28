@@ -2,9 +2,7 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.kapt")
-//    id("com.android.library")
-//    id("kotlin-android")
-//    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 //apply plugin: 'com.github.dcendents.android-maven'
@@ -14,28 +12,36 @@ android {
     compileSdk = libs.versions.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
-//        targetSdk = libs.versions.targetSdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
-//    buildTypes {
-//        release {
-//            isMinifyEnabled = true
-//            proguardFiles(
-//                getDefaultProguardFile("proguard-android-optimize.txt"),
-//                "proguard-rules.pro"
-//            )
-//        }
-//    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
 //    implementation fileTree(include: ['*.jar'], dir: 'libs')
-//    val composeBom = platform(libs.androidx.compose.bom)
-//    implementation(composeBom)
-//    androidTestImplementation(composeBom)
-    testImplementation(libs.junit4)
+    testImplementation(project(":core:testing"))
+
     implementation(libs.kotlin.stdlib)
+
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.lifecycle.runtime)
@@ -43,15 +49,21 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.ui.ktx)
     //
-    api(libs.rxjava2)
     api("com.github.tbruyelle:rxpermissions:0.12")
+    api(libs.rxjava2)
     api(libs.rxandroid)
 
-//    implementation(libs.okhttp3)
-//    implementation(libs.okhttp.logging)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+    kapt(libs.hilt.ext.compiler)
 
-    compileOnly(project(":util"))
+    implementation(project(":util"))
+    implementation(project(":core:designsystem"))
+    implementation(project(":core:ui"))
+    implementation(project(":core:datastore"))
 }
 
 apply(from = "${project.rootDir}/buildscripts/maven-publish.gradle")

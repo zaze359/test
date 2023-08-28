@@ -23,7 +23,14 @@
             android:process=":ipc" />
         <service
             android:name="com.zaze.demo.feature.communication.aidl.RemoteService"
-            android:process=":ipc" />
+            android:exported="true"
+            android:enabled="true"
+            android:process=":ipc">
+            <intent-filter>
+                <action android:name="com.zaze.export.remoteService"/>
+            </intent-filter>
+
+        </service>
 
         <activity android:name=".CommunicationActivity" />
     </application>

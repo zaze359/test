@@ -1,7 +1,7 @@
 package com.zaze.demo.feature.anim.view;
 
 import com.zaze.common.base.BaseView;
-import com.zaze.core.model.data.AnimationEntity;
+import com.zaze.demo.feature.anim.AnimationEntity;
 
 import java.util.List;
 

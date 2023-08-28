@@ -14,11 +14,11 @@ android {
     }
 
     buildFeatures {
+        compose = true
         viewBinding = true
     }
-
-    dataBinding {
-        enable = true
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
 
     buildTypes {

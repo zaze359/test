@@ -13,5 +13,4 @@ class PackageEntity {
     var versionCode: Int = 0
     var versionName: String? = null
     var sourceDir: String? = null
-
 }

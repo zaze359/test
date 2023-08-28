@@ -1,49 +1,66 @@
-<layout>
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <com.zaze.core.ui.TopAppBarLayout
+        android:id="@+id/appbar_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <EditText
-            android:id="@+id/appSearchEt"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="搜索"
-            android:inputType="text" />
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        app:liftOnScroll="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            app:layout_collapseMode="pin"
+            app:layout_scrollFlags="scroll|enterAlways">
 
-            <Button
-                android:id="@+id/appExtractBtn"
+            <EditText
+                android:id="@+id/appSearchEt"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="搜索"
+                android:inputType="text" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/appExtractBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="提取数据" />
+
+                <TextView
+                    android:id="@+id/appCountTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    tools:text="搜索到1111个应用" />
+
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/appResolvingApkCb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="提取数据" />
-
-            <TextView
-                android:id="@+id/appCountTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                tools:text="搜索到1111个应用" />
+                android:text="解析/sdcard/zaze/apk下apk" />
 
         </LinearLayout>
 
-        <CheckBox
-            android:id="@+id/appResolvingApkCb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="解析/sdcard/zaze/apk下apk" />
+    </com.zaze.core.ui.TopAppBarLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/appRecycleView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/appRecycleView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    </LinearLayout>
-
-</layout>

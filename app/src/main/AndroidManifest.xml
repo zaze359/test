@@ -16,8 +16,9 @@
 
     <uses-permission android:name="android.permission.READ_SETTINGS" />
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32"/>
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="29" />
@@ -59,6 +60,7 @@
     <application
         android:name=".app.MyApplication"
         android:allowBackup="true"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -66,7 +68,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApp"
         android:usesCleartextTraffic="true"
-        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         tools:replace="android:name, android:theme, android:appComponentFactory"
         tools:targetApi="tiramisu">
 
@@ -74,43 +75,36 @@
             android:shell="true"
             tools:targetApi="q" />
 
-        <!--        <activity-alias-->
-        <!--            android:name=".compose.ComposeActivity"-->
-        <!--            android:exported="true"-->
-        <!--            android:label="@string/compose_samples"-->
-        <!--            android:targetActivity=".compose.ComposeActivity">-->
-        <!--            <intent-filter>-->
-        <!--                <action android:name="android.intent.action.MAIN" />-->
-        <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-
-        <!--            </intent-filter>-->
-        <!--        </activity-alias>-->
-
         <activity
-            android:name=".compose.ComposeActivity"
+            android:name=".SplashActivity"
             android:exported="true"
-            android:theme="@style/Theme.MyApp"
-            android:windowSoftInputMode="adjustResize">
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-
             </intent-filter>
         </activity>
 
         <activity
             android:name=".MainActivity"
+            android:exported="true"
+            android:theme="@style/SplashTheme">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <data
+                    android:host="www.zaze.com"
+                    android:scheme="zazehide" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+
+        <activity
+            android:name=".compose.ComposeActivity"
             android:exported="false"
             android:theme="@style/Theme.MyApp"
-            android:windowSoftInputMode="stateHidden">
-            <!--            <intent-filter>-->
-            <!--                <action android:name="android.intent.action.MAIN" />-->
-            <!--                <data-->
-            <!--                    android:host="www.zaze.com"-->
-            <!--                    android:scheme="zazehide" />-->
-            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-            <!--            </intent-filter>-->
-        </activity>
+            android:windowSoftInputMode="adjustResize"/>
 
         <service android:name=".component.socket.AlarmService" />
         <service
@@ -133,52 +127,38 @@
         <activity android:name=".component.gps.ui.GpsActivity" />
         <activity
             android:name=".component.task.ui.TaskActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/Theme.MyApp" />
 
         <activity
             android:name=".component.file.explorer.FileExplorerActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/Theme.MyApp" />
-        <activity
-            android:name=".component.preference.MyPreferenceActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.MyApp" />
+
         <activity
             android:name=".component.okhttp.OkHttpActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/Theme.MyApp" />
         <activity
             android:name=".component.progress.ProgressActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/Theme.MyApp" />
         <activity
             android:name=".component.logcat.ui.LogcatActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/Theme.MyApp" />
         <activity
             android:name=".component.webview.WebViewActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/Theme.MyApp" />
         <activity
             android:name=".component.cache.ui.CacheActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/Theme.MyApp" />
         <activity
             android:name=".component.system.ui.SystemActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/Theme.MyApp" />
         <activity
             android:name=".component.socket.client.ui.ClientActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/Theme.MyApp" />
         <activity
             android:name=".component.socket.server.ServerActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/Theme.MyApp" />
         <activity
             android:name=".component.wifi.WifiActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/Theme.MyApp" />
 
         <activity
@@ -186,7 +166,6 @@
             android:theme="@style/Theme.MyApp" />
         <activity
             android:name=".component.network.NetworkStatsActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/Theme.MyApp" />
         <activity
             android:name=".component.font.ui.FontActivity"
@@ -207,7 +186,6 @@
             android:theme="@style/Theme.MyApp" />
         <activity
             android:name=".debug.SensorActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/Theme.MyApp" /> <!-- <activity -->
         <!-- android:name=".component.share.ShareActivity" -->
         <!-- android:screenOrientation="fullSensor" -->

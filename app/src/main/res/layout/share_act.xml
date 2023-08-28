@@ -6,7 +6,7 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/shareToolbar"
-        style="@style/MyToolbar" />
+        style="@style/Toolbar" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

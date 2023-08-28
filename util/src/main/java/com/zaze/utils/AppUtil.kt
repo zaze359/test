@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.content.pm.PackageManager.ApplicationInfoFlags
 import android.content.pm.ResolveInfo
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
@@ -18,6 +19,8 @@ import android.os.Debug
 import android.os.Process
 import android.text.TextUtils
 import android.util.Pair
+import androidx.core.content.PackageManagerCompat
+import androidx.core.content.res.ResourcesCompat
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import java.io.File
@@ -92,6 +95,24 @@ object AppUtil {
         }
     }
 
+    fun getAppIcon(
+        context: Context,
+        packageName: String = context.packageName,
+        iconDpi: Int
+    ): Drawable? {
+        val applicationInfo = getApplicationInfo(context, packageName) ?: return null
+        val resources = try {
+            context.packageManager.getResourcesForApplication(applicationInfo)
+        } catch (e: PackageManager.NameNotFoundException) {
+            null
+        }
+        return if (resources != null && applicationInfo.icon > 0) {
+            getAppIcon(resources, applicationInfo.icon, iconDpi)
+        } else {
+            null
+        }
+    }
+
     /**
      * [resources] resources
      * [iconId] iconId
@@ -100,15 +121,10 @@ object AppUtil {
      * @return 应用图标
      */
     @JvmStatic
-    @Deprecated("")
     fun getAppIcon(resources: Resources, iconId: Int, iconDpi: Int): Drawable? {
         return try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                resources.getDrawableForDensity(iconId, iconDpi, null)
-            } else {
-                resources.getDrawableForDensity(iconId, iconDpi)
-            }
-        } catch (e: Resources.NotFoundException) {
+            return ResourcesCompat.getDrawableForDensity(resources, iconId, iconDpi, null)
+        } catch (e: Throwable) {
             null
         }
     }
@@ -119,20 +135,34 @@ object AppUtil {
      * @author zaze
      * @version 2017/5/31 - 下午3:40 1.0
      */
+    @Suppress("DEPRECATION")
     @JvmStatic
     @JvmOverloads
     fun getApplicationInfo(
         context: Context,
-        packageName: String? = context.packageName,
-        flag: Int = 0
+        packageName: String? = null,
+        flag: Long = 0
     ): ApplicationInfo? {
-        if (packageName.isNullOrEmpty()) {
-            return null
-        }
         return try {
-            context.packageManager.getApplicationInfo(packageName, flag)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                context.packageManager.getApplicationInfo(
+                    packageName ?: context.packageName,
+                    ApplicationInfoFlags.of(flag)
+                )
+            } else {
+                context.packageManager.getApplicationInfo(packageName ?: context.packageName, flag.toInt())
+            }
         } catch (e: PackageManager.NameNotFoundException) {
             ZLog.e(ZTag.TAG_ABOUT_APP, "没有找到应用信息 : $packageName")
+            null
+        }
+    }
+
+    fun getResourcesForApplication(context: Context): Resources? {
+        val applicationInfo = getApplicationInfo(context) ?: return null
+        return try {
+            context.packageManager.getResourcesForApplication(applicationInfo)
+        } catch (e: PackageManager.NameNotFoundException) {
             null
         }
     }
@@ -162,12 +192,9 @@ object AppUtil {
     @JvmStatic
     @Deprecated(" use getPackageInfo with ContextWrapper")
     fun getPackageInfo(context: Context, packageName: String? = null, flag: Int = 0): PackageInfo? {
-        if (packageName.isNullOrEmpty()) {
-            return null
-        }
         return getPackageInfo(object : ContextWrapper(context) {
             override fun getPackageName(): String? {
-                return packageName
+                return packageName ?: super.getPackageName()
             }
         }, flag)
     }

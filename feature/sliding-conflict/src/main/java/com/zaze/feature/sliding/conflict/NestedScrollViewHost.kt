@@ -7,7 +7,6 @@ import android.widget.FrameLayout
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
-import kotlin.math.abs
 
 /**
  * 用于处理 ViewPager2 嵌套 ViewPager RecyclerView等导致的滑动冲突问题。
@@ -33,14 +32,17 @@ class NestedScrollViewHost : FrameLayout {
             MotionEvent.ACTION_DOWN -> {
                 tempX = ev.x
                 tempY = ev.y
+                // 预先置为不允许父容器拦截
                 parent.requestDisallowInterceptTouchEvent(true)
             }
 
             MotionEvent.ACTION_MOVE -> {
+                // 计算滑动距离
                 val offsetX = ev.x - tempX
                 val offsetY = ev.y - tempY
                 when {
                     canChildScroll(if (parentOrientation == RecyclerView.VERTICAL) offsetY else offsetX) -> {
+                        // 子元素需要，不允许父容器拦截
                         parent.requestDisallowInterceptTouchEvent(true)
                     }
 
@@ -55,23 +57,25 @@ class NestedScrollViewHost : FrameLayout {
 
 }
 
+/**
+ * 判断子元素是否需要滑动
+ */
 fun NestedScrollViewHost.canChildScroll(offset: Float): Boolean {
     return when (parentOrientation) {
-        RecyclerView.VERTICAL -> { // 垂直滑动
+        RecyclerView.VERTICAL -> { // 垂直方向滑动
             // 传入的是坐标的偏移，向上滑动时 > 0，向下滑动时 < 0。所以这里需要取反
             // direction < 0: 向上滑动
             // direction > 0: 向下滑动
             child?.canScrollVertically(-offset.toInt()) ?: false
         }
 
-        else -> { // 水平滑动
+        else -> { // 水平方向滑动
             // 传入的是坐标的偏移，向左滑动时 > 0，向右滑动时 < 0。所以这里需要取反
             // direction < 0: 向左
             // direction > 0: 向右
             child?.canScrollHorizontally(-offset.toInt()) ?: false
         }
     }
-
 }
 
 

@@ -6,6 +6,7 @@ import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.OutputStream
@@ -19,17 +20,17 @@ object BitmapExt {
     fun decodeToBitmap(
         width: Int,
         height: Int,
-        onDecode: (BitmapFactory.Options?) -> Bitmap
-    ): Bitmap {
+        decode: (BitmapFactory.Options?) -> Bitmap?
+    ): Bitmap? {
         if (width <= 0 || height <= 0) { // 不缩放，直接解码
-            return onDecode(null)
+            return decode(null)
         }
         val options = BitmapFactory.Options().apply {
             inJustDecodeBounds = true
-            inPreferredConfig = Bitmap.Config.ARGB_8888
+//            inPreferredConfig = Bitmap.Config.ARGB_8888
         }
         // 第一次 decode，获取宽高。
-        onDecode(options)
+        decode(options)
         options.apply {
             inJustDecodeBounds = false
 //            ZLog.i(ZTag.TAG, "outWidth:$outWidth, outHeight:$outHeight")
@@ -47,12 +48,15 @@ object BitmapExt {
                     tempWidth /= 2
                     tempHeight /= 2
                 }
-                ZLog.i(ZTag.TAG, "inSampleSize:$inSampleSize")
+//                ZLog.i(ZTag.TAG, "inSampleSize:$inSampleSize")
             }
         }
-        return onDecode(options)
+        return decode(options)
     }
 }
+
+val Bitmap.safeConfig: Bitmap.Config
+    get() = config ?: Bitmap.Config.ARGB_8888
 
 /**
  * bitmap2Bytes
@@ -99,7 +103,7 @@ fun Bitmap.compressToLimit(
 }
 
 
-fun Bitmap.saveToFile(
+fun Bitmap.writeToFile(
     outFile: File,
     format: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG,
     limitSize: Long = -1
@@ -117,5 +121,13 @@ fun Bitmap.saveToFile(
         } catch (e: IOException) {
             e.printStackTrace()
         }
+    }
+}
+
+fun Bitmap.readFromFile(file: File, width: Int, height: Int): Bitmap? {
+    if (!file.exists()) return null
+    val fileDescriptor = FileInputStream(file).fd
+    return BitmapExt.decodeToBitmap(width, height) {
+        BitmapFactory.decodeFileDescriptor(fileDescriptor, null, it)
     }
 }

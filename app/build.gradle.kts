@@ -35,9 +35,11 @@ android {
         compose = true
         viewBinding = true
     }
-
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+    }
+    dataBinding {
+        enable = true
     }
 
 
@@ -120,9 +122,7 @@ android {
         }
     }
 //    lint.abortOnError = false
-    dataBinding {
-        enable = true
-    }
+
 }
 
 configurations.all {
@@ -138,6 +138,7 @@ dependencies {
     implementation(libs.coil.kt)
     implementation(libs.coil.kt.svg)
     implementation(libs.coil.kt.compose)
+
     implementation(libs.androidx.tracing.ktx)
 
     implementation(libs.google.gson)
@@ -158,7 +159,6 @@ dependencies {
 
 
     implementation(libs.kotlinx.coroutines.android)
-
 
 
     val composeBom = platform(libs.androidx.compose.bom)
@@ -187,44 +187,6 @@ dependencies {
     //
     debugImplementation(libs.leakcanary.debug)
     releaseImplementation(libs.leakcanary.release)
-
-
-    testImplementation(project(":core:testing"))
-    androidTestImplementation(project(":core:testing"))
-
-//    implementation(libs.zaze.util)
-    implementation(project(":util"))
-//    implementation(libs.zaze.common)
-    implementation(project(":common"))
-
-
-    implementation(project(":core:designsystem"))
-    implementation(project(":core:data"))
-    implementation(project(":core:database"))
-    implementation(project(":core:model"))
-    implementation(project(":core:network"))
-
-//    implementation(project(":core:nativelib"))
-//    implementation(project(":core:bsdiff"))
-
-
-
-    implementation(project(":feature:animations"))
-    implementation(project(":feature:usagestats"))
-    implementation(project(":feature:intent"))
-    implementation(project(":feature:communication"))
-    implementation(project(":feature:storage"))
-    implementation(project(":feature:notification"))
-    implementation(project(":feature:media"))
-    implementation(project(":feature:image"))
-    implementation(project(":feature:sliding-conflict"))
-    implementation(project(":feature:applications"))
-
-
-
-//    implementation project(':module_accessibility')
-//    implementation(project(':module_usagestats'))
-
 
 //    implementation("androidx.multidex:multidex:2.0.1")
 //    testImplementation 'org.hamcrest:hamcrest-all:1.3'
@@ -324,6 +286,38 @@ dependencies {
 
     // endregion matrix
     // ---------------------
+
+    testImplementation(project(":core:testing"))
+    androidTestImplementation(project(":core:testing"))
+
+//    implementation(libs.zaze.util)
+    implementation(project(":util"))
+//    implementation(libs.zaze.common)
+    implementation(project(":common"))
+
+    implementation(project(":feature:animations"))
+    implementation(project(":feature:usagestats"))
+    implementation(project(":feature:intent"))
+    implementation(project(":feature:communication"))
+    implementation(project(":feature:storage"))
+    implementation(project(":feature:notification"))
+    implementation(project(":feature:media"))
+    implementation(project(":feature:image"))
+    implementation(project(":feature:sliding-conflict"))
+    implementation(project(":feature:applications"))
+    implementation(project(":feature:settings"))
+
+
+    implementation(project(":core:data"))
+    implementation(project(":core:database"))
+    implementation(project(":core:model"))
+    implementation(project(":core:network"))
+//    implementation(project(":core:nativelib"))
+//    implementation(project(":core:bsdiff"))
+
+    implementation(project(":core:designsystem"))
+    implementation(project(":core:ui"))
+
 }
 
 //apply(from = "${project.rootDir}/buildscripts/test.gradle")

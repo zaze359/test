@@ -1,109 +1,225 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="CustomTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:typeface">monospace</item>
-        <item name="android:colorPrimary">@color/colorPrimary</item>
-        <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
+    <style name="SplashTheme.Base" parent="Theme.SplashScreen">
+
+        <!-- Splash处理完后 会重新设置为这个主题， 所以要在 setContentView() 前调用 installSplashScreen() -->
+        <item name="postSplashScreenTheme">@style/Theme.Custom.MD3</item>
+        <item name="windowSplashScreenAnimationDuration">1000</item>
+        <item name="windowSplashScreenBackground">@color/splashScreenBackground</item>
+        <item name="windowSplashScreenIconBackgroundColor">@color/splashScreenIconBackground</item>
+        <!--        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>-->
+
+        <!-- !!!!!!!!!!!!!!!!!!!!!!!!!! -->
+        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
+        <!--        <item name="android:windowSplashScreenAnimatedIcon">?windowSplashScreenAnimatedIcon</item>-->
+        <item name="android:windowSplashScreenBackground" tools:targetApi="31">
+            ?windowSplashScreenBackground
+        </item>
+        <item name="android:windowSplashScreenAnimationDuration" tools:targetApi="31">
+            ?windowSplashScreenAnimationDuration
+        </item>
+        <item name="android:windowSplashScreenIconBackgroundColor" tools:targetApi="31">
+            ?windowSplashScreenIconBackgroundColor
+        </item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+
+        <!--        <item name="android:windowSplashScreenBrandingImage">-->
+        <!--            @drawable/ic_brand-->
+        <!--        </item>-->
     </style>
 
-    <style name="Theme.MyApp" parent="CustomTheme">
+    <!-- 浅色 -->
+    <style name="Theme.Custom.Base.Light" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="materialButtonStyle">@style/MaterialButtonTheme.Light</item>
+        <item name="materialCardViewStyle">@style/Widget.Material3.CardView.Elevated</item>
+        <item name="android:windowBackground">?colorSurface</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="popupMenuStyle">@style/MaterialPopupMenuStyle</item>
+        <item name="popupMenuBackground">@drawable/popup_background</item>
+        <item name="elevationOverlayColor">@color/elevationOverlay</item>
+        <item name="android:actionOverflowButtonStyle">
+            @style/Widget.AppCompat.ActionButton.Overflow
+        </item>
+        <item name="roundSelector">@drawable/round_selector</item>
+        <item name="rectSelector">@drawable/rect_selector</item>
+
+        <!--        <item name="colorPrimary">@color/colorPrimary</item>-->
+        <!--        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+        <!--        <item name="colorOnPrimary">@color/colorOnPrimary</item>-->
+        <!--        <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>-->
+
+        <!-- Secondary brand color. -->
+        <!--        <item name="colorSecondary">@color/colorSecondary</item>-->
+        <!--        <item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>-->
+        <!--        <item name="colorOnSecondary">@color/colorOnSecondary</item>-->
+        <!-- Status bar color. -->
+        <!--        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>-->
+        <!-- 状态栏 前景色 -->
+        <!--        <item name="statusBarForeground">@color/colorPrimaryDark</item>-->
+        <!-- Customize your theme here. -->
         <!--        <item name="android:screenOrientation">portrait</item>-->
-        <item name="android:statusBarColor">@color/black_opaque_30</item>
-        <!--        <item name="android:statusBarColor">@android:color/transparent</item>-->
+        <!--        <item name="android:windowLightStatusBar">?attr/isLightTheme</item>-->
+        <!--        <item name="android:windowLightNavigationBar">?attr/isLightTheme</item>-->
         <!--        <item name="android:navigationBarColor">@android:color/transparent</item>-->
-        <item name="android:dialogTheme">@style/Theme.DialogFullScreen</item>
+        <!--        <item name="android:dialogTheme">@style/Theme.DialogFullScreen.Light</item>-->
+        <!--        <item name="android:textColorSecondary">?android:attr/textColorPrimary</item>-->
+        <!-- 主要文字颜色，EditText输入文字的颜色等 -->
+        <!--        <item name="android:textColorPrimary">@color/black</item>-->
+        <!-- 次要文字颜色，SubTitle, EditText的光标下划线颜色等 -->
+        <!--        <item name="android:textColorSecondary">@color/grey_500</item>-->
+        <!--        <item name="android:textSize">16sp</item>-->
+        <!--        <item name="android:buttonStyle">@style/MaterialButtonTheme.Light</item>-->
+        <!--        <item name="colorSurface">@color/colorSurface</item>-->
+        <!--        <item name="colorOnSurface">@color/colorOnSurface</item>-->
 
     </style>
 
-    <style name="Theme.DialogFullScreen" parent="CustomTheme">
+    <!-- 深色 -->
+    <style name="Theme.Custom.Base.Dark" parent="Theme.Material3.Dark.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorAccent">@color/darkColorAccent</item>
+        <item name="android:buttonStyle">@style/MaterialButtonTheme.Dark</item>
+        <item name="materialButtonStyle">@style/MaterialButtonTheme.Dark</item>
+        <item name="materialCardViewStyle">@style/Widget.Material3.CardView.Elevated</item>
+        <item name="colorSurface">@color/darkColorSurface</item>
+        <item name="android:windowBackground">?colorSurface</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="popupMenuStyle">@style/MaterialPopupMenuStyle</item>
+        <item name="popupMenuBackground">@drawable/popup_background</item>
+        <item name="elevationOverlayColor">@color/elevationOverlay</item>
+        <item name="roundSelector">@drawable/round_selector</item>
+        <item name="rectSelector">@drawable/rect_selector</item>
+
+        <!--        <item name="colorPrimary">@color/darkColorPrimary</item>-->
+        <!--        <item name="colorPrimaryDark">@color/darkColorPrimaryDark</item>-->
+        <!--        <item name="colorOnPrimary">@color/darkColorOnPrimary</item>-->
+        <!--        <item name="colorPrimaryVariant">@color/darkColorPrimaryVariant</item>-->
+        <!--        <item name="colorSecondary">@color/darkColorSecondary</item>-->
+        <!--        <item name="colorSecondaryVariant">@color/darkColorSecondaryVariant</item>-->
+        <!--        <item name="colorOnSecondary">@color/darkColorOnSecondary</item>-->
+
+        <!-- Status bar color. -->
+        <!--        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>-->
+
+        <!-- Customize your theme here. -->
+        <!--        <item name="android:navigationBarColor">@android:color/transparent</item>-->
+        <!--        <item name="android:dialogTheme">@style/Theme.DialogFullScreen.Dark</item>-->
+
+        <!--        <item name="android:textSize">16sp</item>-->
+
+        <!--        <item name="colorOnSurface">@color/darkColorOnSurface</item>-->
+    </style>
+
+    <!-- 跟随系统 开启关闭深色主题 -->
+    <style name="Theme.Custom.Base.Adaptive" parent="Theme.Custom.Base.Light">
+        <item name="popupMenuStyle">@style/MaterialPopupMenuStyle</item>
+        <item name="popupWindowStyle">@style/MaterialPopupMenuStyle</item>
+    </style>
+
+    <!-- 使用 Material You -->
+    <style name="Theme.Custom.Base.MD3" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="materialCardViewStyle">@style/Widget.Material3.CardView.Elevated</item>
+        <item name="materialButtonStyle">@style/MaterialButtonTheme</item>
+        <item name="roundSelector">@drawable/round_selector</item>
+        <item name="rectSelector">@drawable/rect_selector</item>
+    </style>
+
+    <style name="MaterialButtonTheme.Light" parent="MaterialButtonTheme" />
+
+    <style name="MaterialButtonTheme.Dark" parent="MaterialButtonTheme">
+        <item name="rippleColor">@color/white_opaque_24</item>
+    </style>
+
+    <style name="MaterialPopupMenuStyle" parent="Widget.Material3.PopupMenu">
+        <item name="android:popupBackground">@drawable/popup_background</item>
+    </style>
+
+    <style name="MaterialButtonTheme" parent="Widget.Material3.Button.ElevatedButton">
+        <!--        <item name="backgroundTint">@color/red</item>-->
+        <item name="iconPadding">16dp</item>
+        <item name="cornerRadius">6dp</item>
+        <!--        <item name="iconGravity">textStart</item>-->
+        <!--        <item name="iconTint">?attr/colorControlNormal</item>-->
+        <!--        <item name="rippleColor">@color/black_opaque_24</item>-->
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <!--        <item name="android:textColor">?attr/colorOnSurface</item>-->
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAppearance">@style/TextAppearanceNormal</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:paddingTop">@dimen/button_padding_vertical</item>
+        <item name="android:paddingBottom">@dimen/button_padding_vertical</item>
+        <item name="shapeAppearanceOverlay">
+            @style/ShapeAppearanceOverlay.Material3.FloatingActionButton
+        </item>
+    </style>
+
+
+    <style name="Toolbar.Base" parent="Widget.Material3.Toolbar">
+        <item name="titleCentered">true</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">?attr/actionBarSize</item>
+        <item name="layout_collapseMode">pin</item>
+        <item name="contentInsetStartWithNavigation">0dp</item>
+        <item name="contentInsetStart">0dp</item>
+        <item name="titleMarginStart">16dp</item>
+    </style>
+
+    <style name="Toolbar.Base.Light" parent="Toolbar.Base">
+        <!--        <item name="android:theme">@style/ThemeOverlay.AppCompat.Light</item>-->
+        <!--        <item name="popupTheme">@style/ThemeOverlay.Material3.Light</item>-->
+    </style>
+
+    <style name="Toolbar.Base.Dark" parent="Toolbar.Base">
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark</item>
+    </style>
+
+    <style name="TextAppearanceNormal" parent="@style/TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <!--        <item name="fontFamily">@font/montserrat</item>-->
+    </style>
+
+
+    <style name="TextAppearanceSubtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <!-- 16sp -->
+        <!--        <item name="fontFamily">@font/montserrat</item>-->
+    </style>
+
+    <style name="TextAppearanceBody1" parent="TextAppearance.MaterialComponents.Body1">
+        <!-- 14sp -->
+        <!--        <item name="fontFamily">@font/montserrat</item>-->
+    </style>
+
+    <style name="TextAppearanceBody2" parent="TextAppearance.MaterialComponents.Body2">
+        <!-- 14sp -->
+        <!--        <item name="fontFamily">@font/montserrat</item>-->
+    </style>
+
+    <style name="TextAppearanceHeadline6" parent="TextAppearance.MaterialComponents.Headline6">
+        <!-- 20sp -->
+        <!--        <item name="fontFamily">@font/montserrat</item>-->
+    </style>
+
+    <style name="ToolbarTextAppearanceNormal" parent="Base.TextAppearance.AppCompat">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:letterSpacing">0.0125</item>
+        <item name="android:textAppearance">@style/TextAppearanceHeadline6</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <!--        <item name="android:textColor">?attr/colorOnSurface</item>-->
+        <!--        <item name="fontFamily">@font/montserrat</item>-->
+    </style>
+
+    <style name="Theme.DialogFullScreen.Light" parent="Theme.Material3.Light.NoActionBar">
         <item name="android:windowMinWidthMajor">100%</item>
         <item name="android:windowMinWidthMinor">100%</item>
     </style>
 
-    <!--..-->
-    <style name="BlueTheme" parent="CustomTheme">
-        <item name="zMainBackground">@color/white</item>
-        <item name="zMainTextColor">@color/black</item>
-        <item name="zMainTextSize">18sp</item>
-        <!-- -->
-        <item name="zHeadBackground">@color/blue</item>
-        <item name="zHeadTextColor">@color/white</item>
-        <item name="zHeadTextSize">@dimen/sp_22</item>
-        <!-- -->
-        <item name="zTabBackground">@color/blue</item>
-        <item name="zTabIndicatorBackground">@color/transparent</item>
-        <item name="zTabTextColor">@color/white</item>
-        <item name="zTabTextSize">@dimen/sp_16</item>
-        <!-- -->
-        <item name="zItemBackground">@color/blue</item>
-        <item name="zItemTextColor">@color/white</item>
-        <item name="zItemTextSize">@dimen/sp_20</item>
-    </style>
-
-    <style name="BlackTheme" parent="CustomTheme">
-        <item name="imageTint">@color/black</item>
-        <item name="backgroundTint">@color/yellow</item>
-
-        <item name="zMainBackground">@color/black</item>
-        <item name="zMainTextColor">@color/white</item>
-        <item name="zMainTextSize">@dimen/sp_18</item>
-        <!-- -->
-        <item name="zHeadBackground">@color/black</item>
-        <item name="zHeadTextColor">@color/white</item>
-        <item name="zHeadTextSize">@dimen/sp_22</item>
-        <!-- -->
-        <item name="zTabBackground">@color/black</item>
-        <item name="zTabIndicatorBackground">@color/transparent</item>
-        <item name="zTabTextColor">@color/white</item>
-        <item name="zTabTextSize">@dimen/sp_16</item>
-        <!-- -->
-        <item name="zItemBackground">@color/black</item>
-        <item name="zItemTextColor">@color/white</item>
-        <item name="zItemTextSize">@dimen/sp_20</item>
-    </style>
-
-    <style name="MyToolbar" parent="Widget.AppCompat.Toolbar">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">56dp</item>
-        <item name="android:background">#3F51B5</item>
-        <item name="android:minHeight">?attr/actionBarSize</item>
-        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark</item>
-    </style>
-
-    <style name="MyLineActionButton" parent="@style/MyButton">
-        <item name="android:background">#FFFFFF</item>
-        <item name="android:shadowColor">#000000</item>
-        <item name="android:shadowDy">1.2</item>
-        <item name="android:shadowDx">1.2</item>
-        <item name="android:shadowRadius">1</item>
-    </style>
-
-    <style name="MyButton">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:textColor">#000000</item>
-        <item name="android:background">@null</item>
-        <item name="android:minHeight">40dp</item>
-        <item name="android:minWidth">40dp</item>
-    </style>
-
-
-    <style name="BaseItemStyle">
-        <item name="android:background">?attr/zItemBackground</item>
-        <item name="android:textColor">?attr/zItemTextColor</item>
-        <item name="android:textSize">?attr/zItemTextSize</item>
-        <item name="android:padding">@dimen/dp_4</item>
-    </style>
-
-
-    <style name="Toolbar">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">?attr/colorPrimary</item>
-        <item name="android:minHeight">?attr/actionBarSize</item>
-        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark</item>
+    <style name="Theme.DialogFullScreen.Dark" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="android:windowMinWidthMajor">100%</item>
+        <item name="android:windowMinWidthMinor">100%</item>
     </style>
 </resources>

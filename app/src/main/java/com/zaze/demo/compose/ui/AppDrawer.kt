@@ -18,8 +18,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.zaze.core.designsystem.theme.MyComposeTheme
-import com.zaze.core.designsystem.theme.MyTypography
+import com.zaze.core.designsystem.compose.theme.MyComposeTheme
+import com.zaze.core.designsystem.compose.theme.MyTypography
 import com.zaze.demo.R
 import com.zaze.demo.compose.data.Menu
 import com.zaze.demo.compose.data.drawerMenus
@@ -57,7 +57,7 @@ fun MyAppDrawer(
                 .background(Color(0xFFEBE1E4))) {
                 Image(
                     modifier = Modifier.align(alignment = Alignment.Center),
-                    painter = painterResource(id = R.mipmap.ic_launcher),
+                    painter = painterResource(id = R.drawable.ic_app_default),
                     contentDescription = "",
                 )
             }

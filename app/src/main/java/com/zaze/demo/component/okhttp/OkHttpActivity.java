@@ -1,6 +1,7 @@
 package com.zaze.demo.component.okhttp;
 
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 
@@ -41,5 +42,19 @@ public class OkHttpActivity extends AbsActivity {
 //                viewModel.add();
             }
         });
+
+        AsyncTask task=   new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void unused) {
+                super.onPostExecute(unused);
+            }
+        }.execute();
+
     }
 }

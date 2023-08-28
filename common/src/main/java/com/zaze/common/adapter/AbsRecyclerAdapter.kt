@@ -24,30 +24,12 @@ import androidx.recyclerview.widget.RecyclerView
 abstract class AbsRecyclerAdapter<T : Any, VH : RecyclerView.ViewHolder> : ListAdapter<T, VH> {
     val context: Context
 
-    constructor(context: Context, diffCallback: DiffUtil.ItemCallback<T>? = null) : super(
-        diffCallback ?: object :
-            DiffUtil.ItemCallback<T>() {
-            // 对象是否相同
-            override fun areItemsTheSame(oldItem: T, newItem: T): Boolean {
-                return oldItem == newItem
-            }
-
-            // 内容是否相同
-            @SuppressLint("DiffUtilEquals")
-            override fun areContentsTheSame(oldItem: T, newItem: T): Boolean {
-                return oldItem == newItem
-            }
-        }) {
+    constructor(context: Context, diffCallback: DiffUtil.ItemCallback<T>) : super(diffCallback) {
         this.context = context
     }
 
     constructor(context: Context, config: AsyncDifferConfig<T>) : super(config) {
         this.context = context
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        val view = LayoutInflater.from(parent.context).inflate(getViewLayoutId(), parent, false)
-        return createViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
@@ -63,20 +45,6 @@ abstract class AbsRecyclerAdapter<T : Any, VH : RecyclerView.ViewHolder> : ListA
 
 
     // --------------------------------------------------
-    /**
-     * get view layout id
-     *
-     * @return int
-     */
-    abstract fun getViewLayoutId(): Int
-
-    /**
-     * 构建viewHolder
-     *
-     * @param convertView convertView
-     * @return H
-     */
-    abstract fun createViewHolder(convertView: View): VH
 
     /**
      * view赋值

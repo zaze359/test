@@ -5,7 +5,11 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.graphics.drawable.DrawableCompat
+import coil.load
+import coil.transform.CircleCropTransformation
 import com.zaze.common.base.AbsActivity
+import com.zaze.demo.feature.image.coil.BlurTransformation
+import com.zaze.demo.feature.image.coil.GrayscaleTransformation
 import com.zaze.demo.feature.image.databinding.ActivityDrawableBinding
 
 class DrawableActivity : AbsActivity() {
@@ -16,6 +20,17 @@ class DrawableActivity : AbsActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDrawableBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+//        binding.drawableFirstIv.load(R.drawable.jljt) {
+//            // 开启图片采样, 淡入淡出
+//            crossfade(true)
+//            transformations(listOf(
+//                CircleCropTransformation(), // 图形裁剪
+////                BlurTransformation(context = applicationContext, radius = 2F, sampling = 2F), //高斯模糊效果
+//                GrayscaleTransformation() // 灰度图
+//            ))
+//        }
+
         // 先创建三个drawable
         val originDrawable = loadDrawable()
         val tintDrawable = loadDrawable()

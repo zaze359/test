@@ -9,15 +9,19 @@ import androidx.navigation.fragment.findNavController
 import com.zaze.demo.feature.media.databinding.FragmentMediaBinding
 
 
+/**
+ * 主UI
+ */
 class MediaFragment : Fragment() {
 
-    lateinit var binding: FragmentMediaBinding
+    private var _binding: FragmentMediaBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentMediaBinding.inflate(inflater, container, false)
+        _binding = FragmentMediaBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -29,5 +33,10 @@ class MediaFragment : Fragment() {
         binding.audioBtn.setOnClickListener {
             findNavController().navigate(R.id.action_MediaFragment_to_AudioFragment)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

@@ -23,7 +23,6 @@ import com.zaze.utils.log.ZTag;
  * @version : 2018-03-02 - 19:41
  */
 public class HandlerActivity extends BaseActivity {
-
     private static final HandlerThread mHandlerThread = new HandlerThread("my_handler_thread");
 
     static {

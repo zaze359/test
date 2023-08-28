@@ -1,0 +1,3 @@
+<resources>
+    <dimen name="button_padding_vertical">16dp</dimen>
+</resources>

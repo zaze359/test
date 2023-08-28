@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="transparent">#00000000</color>
+
+    <color name="white">@android:color/white</color>
+
+    <color name="yellow">#FFFFFF00</color>
+    <color name="yellow_A400">#FFEA00</color>
+
+    <!-- 青 -->
+    <color name="cyan_400">#00E5FF</color>
+
+    <!-- 靛蓝色 -->
+    <color name="indigo_500">#3F51B5</color>
+    <color name="indigo_A400">#3D5AFE</color>
+
+    <color name="blue">#FF0000FF</color>
+    <color name="blue_light">@color/blue_200</color>
+
+    <color name="blue_50">#E3F2FD</color>
+    <color name="blue_100">#BBDEFB</color>
+    <color name="blue_200">#90CAF9</color>
+    <color name="blue_300">#64B5F6</color>
+    <color name="blue_400">#42A5F5</color>
+    <color name="blue_500">#2196F3</color>
+    <color name="blue_600">#1E88E5</color>
+    <color name="blue_700">#1976D2</color>
+    <color name="blue_800">#1565C0</color>
+    <color name="blue_900">#0D47A1</color>
+    <color name="blue_A100">#82B1FF</color>
+    <color name="blue_A200">#448AFF</color>
+    <color name="blue_A400">#2979FF</color>
+    <color name="blue_A700">#2962FF</color>
+
+    <color name="green">#FF00FF00</color>
+    <color name="green_light">@color/green_200</color>
+
+    <color name="green_200">#A5D6A7</color>
+    <color name="green_500">#4CAF50</color>
+
+    <color name="light_green_A400">#76FF03</color>
+
+    <color name="orange_light">#FFFFDD</color>
+    <color name="deep_orange_A400">#FF3D00</color>
+
+    <color name="red">#FFFF0000</color>
+    <color name="red_light">@color/red_200</color>
+
+    <color name="red_50">#FFEBEE</color>
+    <color name="red_100">#FFCDD2</color>
+    <color name="red_200">#EF9A9A</color>
+    <color name="red_300">#E57373</color>
+    <color name="red_400">#EF5350</color>
+    <color name="red_500">#F44336</color>
+    <color name="red_600">#E53935</color>
+    <color name="red_700">#D32F2F</color>
+    <color name="red_800">#C62828</color>
+    <color name="red_900">#B71C1C</color>
+    <color name="red_A100">#FF8A80</color>
+    <color name="red_A200">#FF5252</color>
+    <color name="red_A400">#FF1744</color>
+    <color name="red_A700">#D50000</color>
+
+
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="purple_800">#6A1B9A</color>
+    <color name="purple_900">#4A148C</color>
+    <color name="purple_A100">#EA80FC</color>
+    <color name="purple_A200">#E040FB</color>
+    <color name="purple_A400">#D500F9</color>
+    <color name="purple_A700">#AA00FF</color>
+
+    <color name="deep_purple_50">#EDE7F6</color>
+    <color name="deep_purple_100">#D1C4E9</color>
+    <color name="deep_purple_200">#B39DDB</color>
+    <color name="deep_purple_300">#9575CD</color>
+    <color name="deep_purple_400">#7E57C2</color>
+    <color name="deep_purple_500">#673AB7</color>
+    <color name="deep_purple_600">#5E35B1</color>
+    <color name="deep_purple_700">#512DA8</color>
+    <color name="deep_purple_800">#4527A0</color>
+    <color name="deep_purple_900">#311B92</color>
+    <color name="deep_purple_A100">#B388FF</color>
+    <color name="deep_purple_A200">#7C4DFF</color>
+    <color name="deep_purple_A400">#651FFF</color>
+    <color name="deep_purple_A700">#6200EA</color>
+
+    <color name="teal_A400">#1DE9B6</color>
+
+
+    <color name="grey">@color/grey_500</color>
+    <color name="grey_darker">@android:color/darker_gray</color>
+    <color name="grey_light">#e2e2e2</color>
+
+    <color name="grey_50">#FAFAFA</color>
+    <color name="grey_100">#F5F5F5</color>
+    <color name="grey_200">#EEEEEE</color>
+    <color name="grey_300">#E0E0E0</color>
+    <color name="grey_400">#BDBDBD</color>
+    <color name="grey_500">#9E9E9E</color>
+    <color name="grey_600">#757575</color>
+    <color name="grey_700">#616161</color>
+    <color name="grey_800">#424242</color>
+    <color name="grey_900">#212121</color>
+
+    <color name="white_opaque_24">#3DFFFFFF</color>
+
+    <color name="black">@android:color/black</color>
+    <color name="black_dark">#202124</color>
+
+    <color name="black_opaque_1">#03000000</color>
+    <color name="black_opaque_2">#05000000</color>
+    <color name="black_opaque_3">#08000000</color>
+    <color name="black_opaque_4">#0A000000</color>
+    <color name="black_opaque_5">#0D000000</color>
+    <color name="black_opaque_6">#0F000000</color>
+    <color name="black_opaque_7">#12000000</color>
+    <color name="black_opaque_8">#14000000</color>
+    <color name="black_opaque_9">#17000000</color>
+    <color name="black_opaque_10">#1A000000</color>
+    <color name="black_opaque_11">#1C000000</color>
+    <color name="black_opaque_12">#1F000000</color>
+    <color name="black_opaque_13">#21000000</color>
+    <color name="black_opaque_14">#24000000</color>
+    <color name="black_opaque_15">#26000000</color>
+    <color name="black_opaque_16">#29000000</color>
+    <color name="black_opaque_17">#2B000000</color>
+    <color name="black_opaque_18">#2E000000</color>
+    <color name="black_opaque_19">#30000000</color>
+    <color name="black_opaque_20">#33000000</color>
+    <color name="black_opaque_21">#36000000</color>
+    <color name="black_opaque_22">#38000000</color>
+    <color name="black_opaque_23">#3B000000</color>
+    <color name="black_opaque_24">#3D000000</color>
+    <color name="black_opaque_25">#40000000</color>
+    <color name="black_opaque_26">#42000000</color>
+    <color name="black_opaque_27">#45000000</color>
+    <color name="black_opaque_28">#47000000</color>
+    <color name="black_opaque_29">#4A000000</color>
+    <color name="black_opaque_30">#4D000000</color>
+    <color name="black_opaque_31">#4F000000</color>
+    <color name="black_opaque_32">#52000000</color>
+    <color name="black_opaque_33">#54000000</color>
+    <color name="black_opaque_34">#57000000</color>
+    <color name="black_opaque_35">#59000000</color>
+    <color name="black_opaque_36">#5C000000</color>
+    <color name="black_opaque_37">#5E000000</color>
+    <color name="black_opaque_38">#61000000</color>
+    <color name="black_opaque_39">#63000000</color>
+    <color name="black_opaque_40">#66000000</color>
+    <color name="black_opaque_41">#69000000</color>
+    <color name="black_opaque_42">#6B000000</color>
+    <color name="black_opaque_43">#6E000000</color>
+    <color name="black_opaque_44">#70000000</color>
+    <color name="black_opaque_45">#73000000</color>
+    <color name="black_opaque_46">#75000000</color>
+    <color name="black_opaque_47">#78000000</color>
+    <color name="black_opaque_48">#7A000000</color>
+    <color name="black_opaque_49">#7D000000</color>
+    <color name="black_opaque_50">#80000000</color>
+    <color name="black_opaque_51">#82000000</color>
+    <color name="black_opaque_52">#85000000</color>
+    <color name="black_opaque_53">#87000000</color>
+    <color name="black_opaque_54">#8A000000</color>
+    <color name="black_opaque_55">#8C000000</color>
+    <color name="black_opaque_56">#8F000000</color>
+    <color name="black_opaque_57">#91000000</color>
+    <color name="black_opaque_58">#94000000</color>
+    <color name="black_opaque_59">#96000000</color>
+    <color name="black_opaque_60">#99000000</color>
+    <color name="black_opaque_61">#9C000000</color>
+    <color name="black_opaque_62">#9E000000</color>
+    <color name="black_opaque_63">#A1000000</color>
+    <color name="black_opaque_64">#A3000000</color>
+    <color name="black_opaque_65">#A6000000</color>
+    <color name="black_opaque_66">#A8000000</color>
+    <color name="black_opaque_67">#AB000000</color>
+    <color name="black_opaque_68">#AD000000</color>
+    <color name="black_opaque_69">#B0000000</color>
+    <color name="black_opaque_70">#B2000000</color>
+    <color name="black_opaque_71">#B5000000</color>
+    <color name="black_opaque_72">#B8000000</color>
+    <color name="black_opaque_73">#BA000000</color>
+    <color name="black_opaque_74">#BD000000</color>
+    <color name="black_opaque_75">#BF000000</color>
+    <color name="black_opaque_76">#C2000000</color>
+    <color name="black_opaque_77">#C4000000</color>
+    <color name="black_opaque_78">#C7000000</color>
+    <color name="black_opaque_79">#C9000000</color>
+    <color name="black_opaque_80">#CC000000</color>
+    <color name="black_opaque_81">#CF000000</color>
+    <color name="black_opaque_82">#D1000000</color>
+    <color name="black_opaque_83">#D4000000</color>
+    <color name="black_opaque_84">#D6000000</color>
+    <color name="black_opaque_85">#D9000000</color>
+    <color name="black_opaque_86">#DB000000</color>
+    <color name="black_opaque_87">#DE000000</color>
+    <color name="black_opaque_88">#E0000000</color>
+    <color name="black_opaque_89">#E3000000</color>
+    <color name="black_opaque_90">#E6000000</color>
+    <color name="black_opaque_91">#E8000000</color>
+    <color name="black_opaque_92">#EB000000</color>
+    <color name="black_opaque_93">#ED000000</color>
+    <color name="black_opaque_94">#F0000000</color>
+    <color name="black_opaque_95">#F2000000</color>
+    <color name="black_opaque_96">#F5000000</color>
+    <color name="black_opaque_97">#F7000000</color>
+    <color name="black_opaque_98">#FA000000</color>
+    <color name="black_opaque_99">#FC000000</color>
+</resources>

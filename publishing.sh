@@ -10,3 +10,4 @@ echo "参数1: $1 ";
 #./gradlew :$1:publishAllPublicationsToMavenRepository --info
 # 上传到 MavenLocal
 ./gradlew :util:publishDebugPublicationToMavenLocal --info
+./gradlew :core:designsystem:publishDebugPublicationToMavenLocal --info

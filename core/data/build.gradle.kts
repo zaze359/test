@@ -26,10 +26,6 @@ android {
         }
     }
 
-    dataBinding {
-        enable = true
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -51,6 +47,7 @@ dependencies {
     kapt(libs.hilt.ext.compiler)
 
     implementation(project(":util"))
+    implementation(project(":common"))
     implementation(project(":core:model"))
     implementation(project(":core:database"))
     testImplementation(project(":core:testing"))

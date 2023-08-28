@@ -12,8 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.zaze.core.designsystem.components.BackIconButton
-import com.zaze.core.designsystem.components.snackbar.MySnackbarHost
+import com.zaze.core.designsystem.compose.components.BackIconButton
+import com.zaze.core.designsystem.compose.components.snackbar.MySnackbarHost
 
 
 @Composable
