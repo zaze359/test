@@ -6,12 +6,15 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.ArrayRes
 import androidx.annotation.DimenRes
+import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import com.zaze.common.R
 import com.zaze.common.widget.loading.LoadingDialog
 import com.zaze.common.widget.loading.LoadingView
 import com.zaze.core.designsystem.skin.SkinLayoutInflaterFactory
 import com.zaze.utils.ToastUtil
+import com.zaze.utils.log.ZLog
+import com.zaze.utils.log.ZTag
 
 /**
  * Description :
@@ -24,6 +27,12 @@ abstract class AbsActivity : AbsViewModelActivity() {
     private val loadingDialog by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
         LoadingDialog(this, createLoadingView())
     }
+
+//    init {
+//        // 设置监听，会在onCreate() 时被调用。
+//        addOnContextAvailableListener {
+//        }
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         layoutInflater.factory2 =
@@ -45,7 +54,7 @@ abstract class AbsActivity : AbsViewModelActivity() {
 
     // --------------------------------------------------
 
-    fun showToast(resId: Int) {
+    fun showToast(@StringRes resId: Int) {
         showToast(getString(resId))
     }
 

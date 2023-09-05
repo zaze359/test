@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.zaze.common.base.AbsFragment;
 import com.zaze.common.base.BaseFragment;
 import com.zaze.demo.R;
 
@@ -22,7 +23,15 @@ import com.zaze.demo.R;
  * @author : ZAZE
  * @version : 2016-10-29 - 02:47
  */
-public class TempFragment extends BaseFragment {
+public class TempFragment extends AbsFragment {
+
+    public static TempFragment newInstance(String title) {
+        Bundle args = new Bundle();
+        args.putString("title", title);
+        TempFragment fragment = new TempFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     TextView tempTv;
 
@@ -33,4 +42,5 @@ public class TempFragment extends BaseFragment {
         tempTv.setText(getArguments().getString("title"));
         return rootView;
     }
+
 }

@@ -13,6 +13,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.material.snackbar.Snackbar
 import com.zaze.common.base.AbsFragment
 import com.zaze.common.base.AbsViewModel
+import com.zaze.demo.component.fragments.TempFragment
 import com.zaze.demo.debug.LogDirListener
 import com.zaze.demo.debug.kotlin.KData
 import com.zaze.demo.debug.test.*
@@ -37,8 +38,8 @@ class MainViewModel : AbsViewModel() {
     fun loadFragments() {
         viewModelScope.launch(Dispatchers.Default) {
             val fragmentList = ArrayList<AbsFragment>()
-            fragmentList.add(DemoFragment.newInstance("0"))
-            fragmentList.add(DemoFragment.newInstance("1"))
+            fragmentList.add(DemoFragment())
+            fragmentList.add(TempFragment.newInstance("0"))
             fragmentListData.postValue(fragmentList)
         }
     }

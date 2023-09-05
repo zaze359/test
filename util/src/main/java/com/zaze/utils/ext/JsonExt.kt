@@ -1,10 +1,6 @@
-package com.zaze.common.base.ext
+package com.zaze.utils.ext
 
-import android.content.Context
-import android.util.Log
-import com.zaze.common.base.BaseApplication
 import com.zaze.utils.JsonUtil
-import com.zaze.utils.log.ZTag
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
@@ -33,9 +29,3 @@ fun <T> parseJsonToList(json: String, clazz: Class<T>): List<T>? {
 fun Any?.toJsonString(): String? {
     return JsonUtil.objToJson(this)
 }
-
-/// -------------------------------
-
-fun printInfo(message: String) = Log.i(ZTag.TAG_DEBUG, message)
-
-fun printError(error: String) = Log.e(ZTag.TAG_DEBUG, error)

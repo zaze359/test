@@ -1,16 +1,14 @@
-package com.zaze.common.permission
+package com.zaze.utils.permission
 
 import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
-import android.provider.Settings
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.zaze.utils.log.ZLog
+import com.zaze.utils.IntentFactory
 
 /**
  * Description :
@@ -114,9 +112,7 @@ object PermissionHelper {
             }
 
             else -> {
-                Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).setData(
-                    Uri.fromParts("package", context.packageName, null)
-                )
+                IntentFactory.applicationDetailsSettings(context.packageName)
             }
         }
     }

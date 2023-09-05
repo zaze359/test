@@ -3,16 +3,16 @@
     <style name="SplashTheme.Base" parent="Theme.SplashScreen">
 
         <!-- Splash处理完后 会重新设置为这个主题， 所以要在 setContentView() 前调用 installSplashScreen() -->
-        <item name="postSplashScreenTheme">@style/Theme.Custom.MD3</item>
+<!--        <item name="postSplashScreenTheme">@style/Theme.Custom.MD3</item>-->
         <item name="windowSplashScreenAnimationDuration">1000</item>
         <item name="windowSplashScreenBackground">@color/splashScreenBackground</item>
         <item name="windowSplashScreenIconBackgroundColor">@color/splashScreenIconBackground</item>
         <!--        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>-->
+        <!--        <item name="android:windowSplashScreenAnimatedIcon">?windowSplashScreenAnimatedIcon</item>-->
 
         <!-- !!!!!!!!!!!!!!!!!!!!!!!!!! -->
         <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
-        <!--        <item name="android:windowSplashScreenAnimatedIcon">?windowSplashScreenAnimatedIcon</item>-->
         <item name="android:windowSplashScreenBackground" tools:targetApi="31">
             ?windowSplashScreenBackground
         </item>
@@ -27,6 +27,13 @@
         <!--        <item name="android:windowSplashScreenBrandingImage">-->
         <!--            @drawable/ic_brand-->
         <!--        </item>-->
+    </style>
+
+    <style name="Theme.Custom.MD3" parent="@style/Theme.Material3.DayNight.NoActionBar">
+        <item name="roundSelector">@drawable/round_selector</item>
+        <item name="rectSelector">@drawable/rect_selector</item>
+        <item name="materialCardViewStyle">@style/Widget.Material3.CardView.Elevated</item>
+        <item name="materialButtonStyle">@style/MaterialButtonTheme</item>
     </style>
 
     <!-- 浅色 -->

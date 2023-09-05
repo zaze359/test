@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Environment
 import android.provider.Settings
 import android.telephony.TelephonyManager
+import com.zaze.utils.storage.StorageHelper
 import java.util.*
 
 /**
@@ -107,7 +108,7 @@ object DeviceUtil {
      */
     @JvmStatic
     fun getSdTotalSpace(): Long {
-        return FileUtil.getTotalSpace(Environment.getExternalStorageDirectory())
+        return StorageHelper.getTotalSpace(Environment.getExternalStorageDirectory())
     }
 
     /**
@@ -115,7 +116,7 @@ object DeviceUtil {
      */
     @JvmStatic
     fun getSdFreeSpace(): Long {
-        return FileUtil.getFreeSpace(Environment.getExternalStorageDirectory())
+        return StorageHelper.getFreeSpace(Environment.getExternalStorageDirectory())
     }
 // --------------------------------------------------
     /**
@@ -124,7 +125,7 @@ object DeviceUtil {
      */
     @JvmStatic
     fun getDataTotalSpace(): Long {
-        return FileUtil.getTotalSpace(Environment.getDataDirectory())
+        return StorageHelper.getTotalSpace(Environment.getDataDirectory())
     }
 
     /**
@@ -133,7 +134,7 @@ object DeviceUtil {
      */
     @JvmStatic
     fun getDataFreeSpace(): Long {
-        return FileUtil.getFreeSpace(Environment.getDataDirectory())
+        return StorageHelper.getFreeSpace(Environment.getDataDirectory())
     }
 
 // --------------------------------------------------

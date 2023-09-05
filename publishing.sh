@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 echo "脚本名: $0 ";
 echo "参数1: $1 ";
 
@@ -10,4 +9,7 @@ echo "参数1: $1 ";
 #./gradlew :$1:publishAllPublicationsToMavenRepository --info
 # 上传到 MavenLocal
 ./gradlew :util:publishDebugPublicationToMavenLocal --info
-./gradlew :core:designsystem:publishDebugPublicationToMavenLocal --info
+./gradlew :util:publishDebugPublicationToMavenRepository --info
+
+#./gradlew :core:designsystem:publishDebugPublicationToMavenLocal --info
+#./gradlew :core:designsystem:publishDebugPublicationToMavenRepository --info

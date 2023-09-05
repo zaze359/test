@@ -18,8 +18,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.zaze.common.permission.ExternalStoragePermission
-import com.zaze.common.permission.PermissionHelper
+import com.zaze.utils.permission.ExternalStoragePermission
+import com.zaze.utils.permission.PermissionHelper
 import com.zaze.core.designsystem.compose.components.BackIconButton
 import com.zaze.core.designsystem.compose.components.PermissionLayout
 

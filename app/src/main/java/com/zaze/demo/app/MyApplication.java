@@ -9,6 +9,7 @@ import android.os.Message;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.zaze.common.base.BaseApplication;
@@ -19,10 +20,10 @@ import com.zaze.demo.component.system.ScreenLockReceiver;
 import com.zaze.demo.debug.DefaultNetworkCallback;
 import com.zaze.demo.debug.MyCrashHandler;
 import com.zaze.demo.debug.wifi.WifiCompat;
+import com.zaze.demo.feature.applications.PackageReceiver;
 import com.zaze.demo.feature.communication.broadcast.MessageReceiver;
 import com.zaze.demo.matrix.MatrixHelper;
 import com.zaze.demo.receiver.BatteryReceiver;
-import com.zaze.demo.receiver.PackageReceiver;
 import com.zaze.dynamic.hook.HookActivityThread;
 import com.zaze.utils.DeviceUtil;
 import com.zaze.utils.DisplayUtil;
@@ -72,24 +73,7 @@ public class MyApplication extends BaseApplication implements ImageLoaderFactory
         MatrixHelper.INSTANCE.initMatrix(this);
         initRouter();
         initCrash();
-        HookActivityThread.INSTANCE.swapHandlerCallback(new Function1<Handler.Callback, Handler.Callback>() {
-            @Override
-            public Handler.Callback invoke(Handler.Callback callback) {
-                return new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(@NonNull Message msg) {
-                        if (msg.what == BIND_SERVICE) {
-                            Log.i("BIND_SERVICE: ", "" + msg.obj);
-                        }
-                        if(callback != null) {
-                            return callback.handleMessage(msg);
-                        } else {
-                            return false;
-                        }
-                    }
-                };
-            }
-        });
+//        watchHandler();
         DisplayUtil.init(this);
         if (isMainProcess()) {
             onMainProcess();
@@ -140,13 +124,8 @@ public class MyApplication extends BaseApplication implements ImageLoaderFactory
 //        clipboardMonitor.setEnable(true);
         //
         ScreenLockReceiver.register(this);
-        PackageReceiver broadcastReceiver = new PackageReceiver();
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("android.intent.action.PACKAGE_ADDED");
-        intentFilter.addAction("android.intent.action.PACKAGE_REPLACED");
-        intentFilter.addAction("android.intent.action.PACKAGE_REMOVED");
-        intentFilter.addDataScheme("package");
-        registerReceiver(broadcastReceiver, intentFilter);
+        ContextCompat.registerReceiver(this, new PackageReceiver(), PackageReceiver.Companion.createIntentFilter(), ContextCompat.RECEIVER_EXPORTED);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             WifiCompat.listenerByConn(new DefaultNetworkCallback(NetUtil.getConnectivityManager(this)));
         } else {
@@ -167,6 +146,27 @@ public class MyApplication extends BaseApplication implements ImageLoaderFactory
 //        receiver = new TestBroadcastReceiver();
 //        IntentFilter intentFilter = new IntentFilter("android.intent.action.message.testappid");
 //        registerReceiver(receiver, intentFilter);
+    }
+
+    private void watchHandler() {
+        HookActivityThread.INSTANCE.swapHandlerCallback(new Function1<Handler.Callback, Handler.Callback>() {
+            @Override
+            public Handler.Callback invoke(Handler.Callback callback) {
+                return new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(@NonNull Message msg) {
+                        if (msg.what == BIND_SERVICE) {
+                            Log.i("BIND_SERVICE: ", "" + msg.obj);
+                        }
+                        if (callback != null) {
+                            return callback.handleMessage(msg);
+                        } else {
+                            return false;
+                        }
+                    }
+                };
+            }
+        });
     }
 
     private boolean isDebug() {

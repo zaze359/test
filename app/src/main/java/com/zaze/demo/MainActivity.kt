@@ -54,21 +54,15 @@ class MainActivity : AbsActivity() {
     override val showLifecycle: Boolean
         get() = true
 
-    init {
-        addOnContextAvailableListener {
-
-        }
-    }
-
-    override fun getPermissionsToRequest(): Array<String> {
-        return arrayOf(
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.INTERNET,
-            Manifest.permission.READ_PHONE_STATE,
-            Manifest.permission.ACCESS_FINE_LOCATION
-        )
-    }
+//    override fun getPermissionsToRequest(): Array<String> {
+//        return arrayOf(
+//            Manifest.permission.READ_EXTERNAL_STORAGE,
+//            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//            Manifest.permission.INTERNET,
+//            Manifest.permission.READ_PHONE_STATE,
+//            Manifest.permission.ACCESS_FINE_LOCATION
+//        )
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

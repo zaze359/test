@@ -16,7 +16,6 @@ class SlidingConflictActivity : AbsActivity() {
 
     lateinit var binding: ActivitySlidingConfictBinding
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySlidingConfictBinding.inflate(layoutInflater)

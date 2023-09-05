@@ -31,7 +31,7 @@ class MediaActivity : AbsActivity(), NavController.OnDestinationChangedListener 
         super.onCreate(savedInstanceState)
         binding = ActivityMediaBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setupActionBar(binding.toolbar) {
+        setupActionBar(binding.appbarLayout.toolbar) {
             title = "media"
             setDisplayHomeAsUpEnabled(true)
             setHomeButtonEnabled(true)
@@ -65,13 +65,13 @@ class MediaActivity : AbsActivity(), NavController.OnDestinationChangedListener 
         destination: NavDestination,
         arguments: Bundle?
     ) {
-        binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back)
+        binding.appbarLayout.toolbar.setNavigationIcon(R.drawable.ic_arrow_back)
         if (controller.currentDestination?.id == controller.graph.startDestinationId) {
-            binding.toolbar.setNavigationOnClickListener {
+            binding.appbarLayout.toolbar.setNavigationOnClickListener {
                 finish()
             }
         } else {
-            binding.toolbar.setNavigationOnClickListener {
+            binding.appbarLayout.toolbar.setNavigationOnClickListener {
                 controller.navigateUp()
             }
         }

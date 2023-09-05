@@ -10,6 +10,7 @@ import java.util.*
  * @author : zaze
  * @version : 1.0
  */
+@Deprecated("")
 abstract class DataRecyclerAdapter<V, H : RecyclerView.ViewHolder>(list: Collection<V>?) :
         RecyclerView.Adapter<H>() {
     private val dataList: MutableList<V> = ArrayList()

@@ -1,11 +1,15 @@
-package com.zaze.common.permission
+package com.zaze.utils.permission
 
 import android.Manifest
 import android.app.Activity
+import android.content.Intent
 import android.os.Build
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import com.zaze.utils.IntentFactory
 import com.zaze.utils.log.ZLog
 
 
@@ -19,7 +23,7 @@ class PermissionHandler(
     /**
      * 所需权限
      */
-    permissions: Array<String>,
+    private var permissions: Array<String>,
     private val afterPermissionGranted: PermissionCallback? = null,
     private val onSomePermanentlyDenied: PermissionCallback? = null,
     private val onPermissionDenied: PermissionCallback? = null
@@ -38,13 +42,16 @@ class PermissionHandler(
     /**
      * 被拒绝权限
      */
-    val deniedPermissions = ArrayList<String>()
+    private val deniedPermissions = ArrayList<String>()
 
     init {
         updatePermission(permissions)
     }
 
     fun updatePermission(permissions: Array<String>) {
+        //
+        this.permissions = permissions
+        //
         grantedPermissions.clear()
         deniedPermissions.clear()
         when {
@@ -76,11 +83,10 @@ class PermissionHandler(
         }
     }
 
-    private val needExternalStoragePermission by lazy {
-        permissions.contains(Manifest.permission.READ_EXTERNAL_STORAGE) || permissions.contains(
+    private val needExternalStoragePermission
+        get() = permissions.contains(Manifest.permission.READ_EXTERNAL_STORAGE) || permissions.contains(
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
-    }
 
     override fun onActivityResult(result: Map<String, Boolean>) {
         // 是否获得了权限
@@ -115,7 +121,14 @@ class PermissionHandler(
         }
         when {
             permissionAllGranted -> {
-                afterPermissionGranted?.invoke()
+                if (needExternalStoragePermission && !ExternalStoragePermission.hasPermission(
+                        activity
+                    )
+                ) {
+                    onSomePermanentlyDenied?.invoke()
+                } else {
+                    afterPermissionGranted?.invoke()
+                }
             }
 
             permanentlyDenied -> {
@@ -129,19 +142,38 @@ class PermissionHandler(
     }
 
     fun launch(permissionsRequest: ActivityResultLauncher<Array<String>>) {
-        if (!hasPermissions()) {
-            permissionsRequest.launch(deniedPermissions.toTypedArray())
-        } else {
+        if (hasPermissions()) {
             afterPermissionGranted?.invoke()
+        } else {
+            permissionsRequest.launch(deniedPermissions.toTypedArray())
+        }
+    }
+
+    fun openSettings(settingsLauncher: ActivityResultLauncher<Intent>) {
+        if (needExternalStoragePermission && !ExternalStoragePermission.hasPermission(activity)) {
+            settingsLauncher.launch(ExternalStoragePermission.createSettingIntent(activity))
+        } else {
+            settingsLauncher.launch(IntentFactory.applicationDetailsSettings(activity.packageName))
         }
     }
 
     fun getDeniedPermissionNames(): String {
-        return PermissionHelper.getPermissionNames(deniedPermissions.toTypedArray())
+        val list = deniedPermissions.toMutableList()
+        if (needExternalStoragePermission && !ExternalStoragePermission.hasPermission(activity)) {
+            // 需要 外部存储，但是当前没有权限，重新将权限添加进入，以便获取到正确的提示内容。
+            list.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            list.add(Manifest.permission.READ_EXTERNAL_STORAGE)
+        }
+        return PermissionHelper.getPermissionNames(list.toTypedArray())
     }
 
     fun hasPermissions(): Boolean {
-        return deniedPermissions.isEmpty()
+        if (deniedPermissions.isEmpty()) {
+            if (needExternalStoragePermission && !ExternalStoragePermission.hasPermission(activity)) {
+                return false
+            }
+            return true
+        }
+        return false
     }
-
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GbcDemo</string>
+    <string name="app_name">实验室</string>
     <string name="github_link">Github Link</string>
     <string name="test">测试</string>
     <string name="compose_samples">Compose Samples</string>

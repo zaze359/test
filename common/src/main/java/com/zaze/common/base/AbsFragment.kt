@@ -1,15 +1,11 @@
 package com.zaze.common.base
 
-import android.view.inputmethod.InputMethodManager
 import androidx.annotation.ArrayRes
 import androidx.annotation.DimenRes
 import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
-import androidx.core.content.getSystemService
-import androidx.lifecycle.ViewModelProvider
 import com.zaze.common.R
 import com.zaze.common.base.ext.hideKeyboard
-import com.zaze.common.base.ext.obtainViewModelFactory
 import com.zaze.common.widget.loading.LoadingDialog
 import com.zaze.common.widget.loading.LoadingView
 import com.zaze.utils.ToastUtil

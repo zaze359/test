@@ -18,7 +18,7 @@ object SignaturesUtil {
     //    private val DEBUG = X500Principal("CN=Android Debug,O=Android,C=US")
     @JvmStatic
     fun getSignatures(context: Context, algorithm: String?): String? {
-        val signatures = getSignatures(context)
+        val signatures = AppUtil.getSignatures(context)
         if (signatures.isNullOrEmpty()) {
             return null
         }
@@ -32,20 +32,5 @@ object SignaturesUtil {
         return EncryptionUtil.byteArrayToHex(messageDigest.digest())
 
     }
-
-    @JvmStatic
-    private fun getSignatures(context: Context): Array<Signature>? {
-        return try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                AppUtil.getPackageInfo(context, PackageManager.GET_SIGNING_CERTIFICATES)?.signingInfo?.apkContentsSigners
-            } else {
-                AppUtil.getPackageInfo(context, PackageManager.GET_SIGNATURES)?.signatures
-            }
-//            return getMd5(AppUtil.getPackageInfo(context, PackageManager.GET_SIGNATURES)?.signatures)
-        } catch (e: Exception) {
-            null
-        }
-    }
-
 
 }

@@ -2,7 +2,7 @@ package com.zaze.demo.component.okhttp
 
 import androidx.lifecycle.ViewModel
 import com.google.gson.JsonObject
-import com.zaze.common.base.ext.toJsonString
+import com.zaze.utils.ext.toJsonString
 import com.zaze.utils.log.ZLog
 import dagger.hilt.android.lifecycle.HiltViewModel
 import okhttp3.Call

@@ -1,10 +1,9 @@
 package com.zaze.demo.update
 
 import android.app.Application
-import android.content.Intent
 import androidx.lifecycle.viewModelScope
 import com.zaze.common.base.AbsAndroidViewModel
-import com.zaze.common.permission.ExternalStoragePermission
+import com.zaze.utils.permission.ExternalStoragePermission
 import com.zaze.demo.core.bsdiff.AppPatchUtils
 import com.zaze.demo.feature.applications.ApplicationManager
 import com.zaze.utils.AppUtil

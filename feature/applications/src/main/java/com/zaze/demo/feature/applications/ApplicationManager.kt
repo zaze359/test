@@ -33,8 +33,10 @@ import java.util.HashMap
  * @author : ZAZE
  * @version : 2017-12-22 - 17:22
  */
-object ApplicationManager {
+object ApplicationManager : AppChangeListener {
     val invariantDeviceProfile = InvariantDeviceProfile()
+
+    private val appObserver = ArrayList<AppChangeListener>()
 
     /**
      * 默认logo缓存
@@ -68,12 +70,13 @@ object ApplicationManager {
      * 应用信息缓存
      */
     private val SHORTCUT_CACHE: MutableMap<String, AppShortcut> = HashMap()
-
     private var allAppInitialized = false
 
     // --------------------------------------------------
     private fun saveShortcutToCache(packageName: String, appShortcut: AppShortcut) {
-        SHORTCUT_CACHE[packageName] = appShortcut
+        synchronized(SHORTCUT_CACHE) {
+            SHORTCUT_CACHE[packageName] = appShortcut
+        }
     }
 
     /**
@@ -88,7 +91,9 @@ object ApplicationManager {
 
     fun clearAllCache() {
         BITMAP_CACHE.evictAll()
-        SHORTCUT_CACHE.clear()
+        synchronized(SHORTCUT_CACHE) {
+            SHORTCUT_CACHE.clear()
+        }
     }
 
     fun clearCache(packageName: String) {
@@ -96,7 +101,9 @@ object ApplicationManager {
     }
 
     private fun clearAppCache(packageName: String) {
-        SHORTCUT_CACHE.remove(packageName)
+        synchronized(SHORTCUT_CACHE) {
+            SHORTCUT_CACHE.remove(packageName)
+        }
         BITMAP_CACHE.remove(packageName)
     }
     // --------------------------------------------------
@@ -124,12 +131,12 @@ object ApplicationManager {
      * @param apkFilePath apkFilePath
      * @return AppShortcut
      */
-    fun getAppShortcutFormApk(apkFilePath: String): AppShortcut? {
-        val packageInfo = AppUtil.getPackageArchiveInfo(BaseApplication.getInstance(), apkFilePath)
+    fun getAppShortcutFormApk(context: Context, apkFilePath: String): AppShortcut? {
+        val packageInfo = AppUtil.getPackageArchiveInfo(context, apkFilePath)
         return if (packageInfo != null) {
             packageInfo.applicationInfo.sourceDir = apkFilePath
             packageInfo.applicationInfo.publicSourceDir = apkFilePath
-            val appShortcut = AppShortcut.transform(BaseApplication.getInstance(), packageInfo)
+            val appShortcut = AppShortcut.create(context, packageInfo)
             appShortcut
         } else {
             null
@@ -153,7 +160,7 @@ object ApplicationManager {
         val appShortcut = if (packageInfo == null) {
             AppShortcut.empty(packageName)
         } else {
-            AppShortcut.transform(BaseApplication.getInstance(), packageInfo)
+            AppShortcut.create(BaseApplication.getInstance(), packageInfo)
         }
         saveShortcutToCache(appShortcut.packageName, appShortcut)
         return appShortcut
@@ -166,6 +173,10 @@ object ApplicationManager {
      * @return 应用图标
      */
     fun getAppIconHasDefault(context: Context, packageName: String): Bitmap? {
+        return getAppIcon(context, packageName) ?: getAppDefaultLogo()
+    }
+
+    fun getAppIcon(context: Context, packageName: String): Bitmap? {
         if (TextUtils.isEmpty(packageName)) {
             return null
         }
@@ -175,16 +186,14 @@ object ApplicationManager {
         }
         val appShortcut = getAppShortcut(packageName)
         var appIcon: Drawable? = null
-        val applicationInfo = appShortcut.getApplicationInfo(context)
+        val applicationInfo = appShortcut.applicationInfo
         if (applicationInfo != null) {
             val resources = getAppResources(applicationInfo)
             if (resources != null) {
                 appIcon = getFullResIcon(resources, applicationInfo.icon)
             }
         }
-        if (appIcon == null) {
-            bitmap = getAppDefaultLogo()
-        } else {
+        if (appIcon != null) {
             bitmap = formatIcon(appIcon)
             BITMAP_CACHE.put(packageName, bitmap)
         }
@@ -257,18 +266,16 @@ object ApplicationManager {
     }
 
     fun getInstallApps(): Map<String, AppShortcut> {
-        initAllShortcuts()
-        return SHORTCUT_CACHE.filter {
+        return initAllShortcuts().filter {
             it.value.isInstalled
         }
     }
 
     fun getAllApps(): Map<String, AppShortcut> {
-        initAllShortcuts()
-        return SHORTCUT_CACHE.toMap()
+        return initAllShortcuts()
     }
 
-    fun initAllShortcuts() {
+    fun initAllShortcuts(): Map<String, AppShortcut> {
         synchronized(SHORTCUT_CACHE) {
             if (SHORTCUT_CACHE.isEmpty() || !allAppInitialized) {
                 AppUtil.getInstalledPackages(BaseApplication.getInstance(), 0).forEach {
@@ -276,6 +283,7 @@ object ApplicationManager {
                 }
                 allAppInitialized = true
             }
+            return SHORTCUT_CACHE
         }
     }
 
@@ -311,4 +319,54 @@ object ApplicationManager {
     fun openApp(context: Context, packageName: String, bundle: Bundle? = null) {
         AppUtil.startApplication(context, packageName, bundle, true)
     }
+
+    // ------------------------------------------
+
+    fun addAppObserver(observer: AppChangeListener) {
+        synchronized(appObserver) {
+            appObserver.add(observer)
+        }
+    }
+
+    fun removeAppObserver(observer: AppChangeListener) {
+        synchronized(appObserver) {
+            appObserver.remove(observer)
+        }
+    }
+
+    override fun afterAppAdded(packageName: String) {
+        ZLog.i(ZTag.TAG, "添加应用 : $packageName")
+        initAppShortcut(packageName)
+        synchronized(appObserver) {
+            appObserver.forEach {
+                it.afterAppAdded(packageName)
+            }
+        }
+    }
+
+    override fun afterAppReplaced(packageName: String) {
+        ZLog.i(ZTag.TAG, "替换应用 : $packageName")
+        initAppShortcut(packageName)
+        synchronized(appObserver) {
+            appObserver.forEach {
+                it.afterAppReplaced(packageName)
+            }
+        }
+    }
+
+    override fun afterAppRemoved(packageName: String) {
+        ZLog.i(ZTag.TAG, "卸载成功$packageName")
+        clearCache(packageName)
+        synchronized(appObserver) {
+            appObserver.forEach {
+                it.afterAppRemoved(packageName)
+            }
+        }
+    }
+}
+
+interface AppChangeListener {
+    fun afterAppAdded(packageName: String)
+    fun afterAppReplaced(packageName: String)
+    fun afterAppRemoved(packageName: String)
 }

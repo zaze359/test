@@ -7,6 +7,8 @@ import com.zaze.common.di.Dispatcher
 import com.zaze.core.model.data.DeviceStatus
 import com.zaze.utils.*
 import com.zaze.utils.date.DateUtil
+import com.zaze.utils.storage.StorageInfo
+import com.zaze.utils.storage.StorageLoader
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import java.util.*
@@ -238,7 +240,7 @@ class DeviceRepository @Inject constructor(
             val storageInfo = StorageLoader.loadStorageStats(application)
             add(
                 DeviceStatus(
-                    tag = "存储空间(${StorageLoader.StorageInfo.UNIT})",
+                    tag = "存储空间(${StorageInfo.UNIT})",
                     content = "总大小: ${storageInfo.showTotalBytes()}\n" +
                             "剩余大小: ${storageInfo.showFreeBytes()}"
                 )

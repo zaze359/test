@@ -6,14 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.zaze.common.adapter.BaseRecyclerAdapter
 
 /**
- * Description :
- * @author : zaze
- * @version : 2021-07-27 - 09:24
- */
-val ApplicationInfo.isSystemApp: Boolean
-    get() = this.flags and ApplicationInfo.FLAG_SYSTEM > 0
-
-/**
  * RecyclerView
  * app:items --- Collection<V>
  * BaseRecyclerAdapter.setDataList()

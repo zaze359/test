@@ -9,8 +9,8 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
         SplashHelper.init(this)
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
         startActivity(Intent(this, MainActivity::class.java))
 //        startActivity(Intent(this, ComposeActivity::class.java))
         finish()

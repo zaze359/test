@@ -1,0 +1,11 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="SplashTheme" parent="SplashTheme.Base">
+        <item name="postSplashScreenTheme">@style/Theme.MyApp</item>
+        <item name="windowSplashScreenAnimationDuration">1000</item>
+        <item name="windowSplashScreenBackground">@color/splashScreenBackground</item>
+        <item name="windowSplashScreenIconBackgroundColor">@color/splashScreenIconBackground</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+    </style>
+
+</resources>

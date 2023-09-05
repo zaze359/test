@@ -25,13 +25,17 @@ object DescriptionUtil {
             gb > 0 -> {
                 ZStringUtil.format("%.2fGB", mb * 1.0f / unit)
             }
+
             mb > 0 -> {
                 ZStringUtil.format("%.2fMB", kb * 1.0f / unit)
             }
+
             kb > 0 -> {
                 ZStringUtil.format("%dKB", kb)
             }
+
             else -> ZStringUtil.format("%dB", byteLength)
         }
     }
 }
+

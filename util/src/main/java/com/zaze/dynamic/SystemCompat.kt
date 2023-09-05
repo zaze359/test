@@ -13,6 +13,7 @@ import java.io.File
  * @author : ZAZE
  * @version : 2020-03-15 - 18:01
  */
+@Deprecated("")
 object SystemCompat {
     const val TAG = "SystemCompat"
     private lateinit var application: Application

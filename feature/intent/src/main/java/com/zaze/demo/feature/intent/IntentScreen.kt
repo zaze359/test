@@ -22,6 +22,7 @@ import com.zaze.common.util.FileProviderHelper
 import com.zaze.core.designsystem.compose.components.BackIconButton
 import com.zaze.core.designsystem.compose.components.Padding
 import com.zaze.utils.AppUtil
+import com.zaze.utils.IntentFactory
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import java.io.File
@@ -130,22 +131,18 @@ private fun IntentList(modifier: Modifier) {
             Text(text = "跳转系统设置")
         }
         ElevatedButton(modifier = buttonModifier, onClick = {
-            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            intent.data = Uri.fromParts("package", context.packageName, null)
-            context.startActivity(intent)
+            context.startActivity(IntentFactory.applicationDetailsSettings(context.packageName))
         }) {
             Text(text = "跳转系统设置-查看应用详情")
         }
         ElevatedButton(modifier = buttonModifier, onClick = {
-            val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
-            context.startActivity(intent)
+            context.startActivity(IntentFactory.usageAccessSettings())
         }) {
             Text(text = "跳转系统设置-使用情况访问权限")
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             ElevatedButton(modifier = buttonModifier, onClick = {
-                val intent = Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION)
-                context.startActivity(intent)
+                context.startActivity(IntentFactory.manageAllFilesAccessPermission())
             }) {
                 Text(text = "跳转系统设置-文件管理权限")
             }
@@ -153,28 +150,17 @@ private fun IntentList(modifier: Modifier) {
         // ----------------------------
         MyPadding()
         ElevatedButton(modifier = buttonModifier, onClick = {
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse("https://www.baidu.com")
-            context.startActivity(intent)
+            context.startActivity(IntentFactory.openWebUrl("https://www.baidu.com"))
         }) {
             Text(text = "跳转浏览器-打开指定网页")
         }
         ElevatedButton(modifier = buttonModifier, onClick = {
-            val intent = Intent().apply {
-                action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT, "测试发送")
-                type = "text/plain"
-            }
-            context.startActivity(intent)
+            context.startActivity(IntentFactory.sendTextMessage("测试发送"))
         }) {
             Text(text = "发送信息-邮件、短信等")
         }
         ElevatedButton(modifier = buttonModifier, onClick = {
-            val intent = Intent().apply {
-                action = Intent.ACTION_DIAL
-                data = Uri.parse("tel:10086")
-            }
-            context.startActivity(intent)
+            context.startActivity(IntentFactory.dial("10086"))
         }) {
             Text(text = "拨号10086")
         }

@@ -4,6 +4,7 @@ import android.app.usage.UsageEvents
 import android.content.Context
 import android.os.Build
 import android.os.SystemClock
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import com.zaze.utils.TraceHelper
 import com.zaze.utils.date.DateUtil
@@ -18,7 +19,6 @@ import com.zaze.utils.log.ZTag
 class AppUsageTest(private val context: Context) {
 
     private val TAG = "AppUsageTest"
-
     private var run = false
     private val thread by lazy {
         object : Thread() {
@@ -53,7 +53,7 @@ class AppUsageTest(private val context: Context) {
 
     private fun test() {
         if (!AppUsageHelper.checkAppUsagePermission(context)) {
-            AppUsageHelper.requestAppUsagePermission(context)
+            ZLog.i(TAG, "checkAppUsagePermission false")
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 //                    val time = System.currentTimeMillis()
@@ -313,18 +313,23 @@ class AppUsageTest(private val context: Context) {
             UsageEvents.Event.ACTIVITY_RESUMED -> {
                 "($eventType)ACTIVITY_RESUMED(MOVE_TO_FOREGROUND)"
             }
+
             UsageEvents.Event.ACTIVITY_PAUSED -> {
                 "($eventType)ACTIVITY_PAUSED(MOVE_TO_BACKGROUND)"
             }
+
             UsageEvents.Event.ACTIVITY_STOPPED -> {
                 "($eventType)ACTIVITY_STOPPED"
             }
+
             UsageEvents.Event.STANDBY_BUCKET_CHANGED -> {
                 "($eventType)STANDBY_BUCKET_CHANGED"
             }
+
             10 -> {
                 "($eventType)NOTIFICATION_SEEN"
             }
+
             else -> {
                 "($eventType)"
             }

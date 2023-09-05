@@ -9,8 +9,6 @@ import android.view.View
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
 import com.zaze.core.designsystem.R
-import com.zaze.core.designsystem.theme.widgets.TintImageView
-import com.zaze.core.designsystem.theme.widgets.TintTextView
 
 
 /**

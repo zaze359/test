@@ -34,6 +34,11 @@ class DemoFragment : AbsFragment() {
         )
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setupPermission()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -82,22 +87,8 @@ class DemoFragment : AbsFragment() {
             viewModel.refresh()
         }
         binding.testButton.setOnClickListener {
-            if (hasPermissions()) {
-                viewModel.test(requireActivity())
-            } else {
-                setupPermission()
-            }
+            viewModel.test(requireActivity())
         }
         return binding.root
-    }
-
-    companion object {
-        fun newInstance(title: String?): DemoFragment {
-            val args = Bundle()
-            args.putString("TITLE", title)
-            val fragment = DemoFragment()
-            fragment.arguments = args
-            return fragment
-        }
     }
 }

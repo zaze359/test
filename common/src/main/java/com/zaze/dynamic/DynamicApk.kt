@@ -32,9 +32,7 @@ class DynamicApk(
             // 需要先添加资源路径，才能正常的获取到资源
             applicationInfo.sourceDir = apkAbsPath
             applicationInfo.publicSourceDir = apkAbsPath
-            val resources =
-                hostAppContext.packageManager.getResourcesForApplication(applicationInfo)
-
+            val resources = hostAppContext.packageManager.getResourcesForApplication(applicationInfo)
             // 创建 classLoader
             val apk = File(apkAbsPath)
             val odexDir = File(apk.parent, apk.name + "_odex")

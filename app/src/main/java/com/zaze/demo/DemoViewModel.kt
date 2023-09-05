@@ -9,11 +9,8 @@ import android.content.pm.PackageManager
 import android.util.Log
 import androidx.lifecycle.*
 import com.google.android.material.snackbar.Snackbar
-import com.tbruyelle.rxpermissions3.RxPermissions
-import com.tbruyelle.rxpermissions3.RxPermissionsFragment
 import com.zaze.common.base.AbsViewModel
-import com.zaze.common.permission.PermissionHandler
-import com.zaze.common.permission.PermissionHelper
+import com.zaze.utils.permission.PermissionHandler
 import com.zaze.demo.data.repository.DemoRepository
 import com.zaze.demo.data.entity.TableEntity
 import com.zaze.demo.debug.test.TestByJava

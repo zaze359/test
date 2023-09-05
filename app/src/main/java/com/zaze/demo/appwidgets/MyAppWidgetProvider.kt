@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.widget.RemoteViews
 import com.zaze.demo.R
@@ -56,13 +57,15 @@ class MyAppWidgetProvider : AppWidgetProvider() {
             return
         }
         val remoteViews = RemoteViews(context.packageName, R.layout.my_appwidget)
+        val flag = PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+
         // 打开应用
         remoteViews.setOnClickPendingIntent(
             R.id.appwidget_open_btn, PendingIntent.getActivity(
                 context,
                 0,
                 context.packageManager.getLaunchIntentForPackage(context.packageName),
-                PendingIntent.FLAG_UPDATE_CURRENT
+                flag
             )
         )
         // 刷新
@@ -73,7 +76,7 @@ class MyAppWidgetProvider : AppWidgetProvider() {
                 Intent(REFRESH_ACTION).apply {
                     `package` = context.packageName
                 },
-                PendingIntent.FLAG_UPDATE_CURRENT
+                flag
             )
         )
         click++
@@ -88,12 +91,13 @@ class MyAppWidgetProvider : AppWidgetProvider() {
         newOptions: Bundle?
     ) {
         super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions)
-        ZLog.i(TAG, "onAppWidgetOptionsChanged")
+//        appWidgetManager?.getAppWidgetInfo(appWidgetId)?
+        ZLog.i(TAG, "onAppWidgetOptionsChanged: $appWidgetId")
     }
 
     override fun onDeleted(context: Context?, appWidgetIds: IntArray?) {
         super.onDeleted(context, appWidgetIds)
-        ZLog.i(TAG, "onDeleted")
+        ZLog.i(TAG, "onDeleted: $appWidgetIds")
     }
 
     override fun onEnabled(context: Context?) {
@@ -108,6 +112,6 @@ class MyAppWidgetProvider : AppWidgetProvider() {
 
     override fun onRestored(context: Context?, oldWidgetIds: IntArray?, newWidgetIds: IntArray?) {
         super.onRestored(context, oldWidgetIds, newWidgetIds)
-        ZLog.i(TAG, "onRestored")
+        ZLog.i(TAG, "onRestored: $oldWidgetIds >> $newWidgetIds")
     }
 }

@@ -1,5 +1,6 @@
 package com.zaze.demo.feature.applications
 
+import android.Manifest
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -27,6 +28,13 @@ import dagger.hilt.android.AndroidEntryPoint
 class AppListActivity : AbsActivity() {
     private val viewModel: AppListViewModel by viewModels()
     private var adapter: AppListAdapter? = null
+
+    override fun getPermissionsToRequest(): Array<String> {
+        return arrayOf(
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

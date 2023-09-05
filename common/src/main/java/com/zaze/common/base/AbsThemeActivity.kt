@@ -9,6 +9,7 @@ import com.zaze.common.R
 import com.zaze.core.designsystem.theme.ThemeMode
 import com.zaze.core.designsystem.theme.ext.exitFullscreen
 import com.zaze.core.designsystem.theme.ext.isColorLight
+import com.zaze.core.designsystem.theme.ext.setImmersiveFullscreen
 import com.zaze.core.designsystem.theme.ext.setImmersiveSurface
 import com.zaze.core.designsystem.theme.ext.setLightNavigationBar
 import com.zaze.core.designsystem.theme.ext.setLightStatusBar
@@ -33,7 +34,9 @@ abstract class AbsThemeActivity : AbsLogActivity() {
     private val handler = Handler(Looper.getMainLooper())
 
     private val themeRunnable = Runnable {
-        setImmersiveSurface(isFullScreen())
+        if(isFullScreen()) {
+            setImmersiveFullscreen()
+        }
     }
 
     @Inject
@@ -44,15 +47,14 @@ abstract class AbsThemeActivity : AbsLogActivity() {
         updateTheme()
         setImmersiveSurface(isFullScreen())
         val isLight = surfaceColor().isColorLight
-        setLightStatusBar(isLight)
         setLightNavigationBar(isLight)
+        setLightStatusBar(isLight)
     }
 
     private fun updateTheme() = runBlocking {
         val themeMode = themeStore.themeMode.toThemeMode()
         setTheme(themeMode.toThemeRes(themeStore.materialYou))
         AppCompatDelegate.setDefaultNightMode(themeMode.toNightMode())
-        ZLog.i(ZTag.TAG, "updateTheme themeMode: $themeMode")
     }
 
     @StyleRes

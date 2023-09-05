@@ -19,7 +19,8 @@ Properties mavenProperties = new Properties()
 loadProperties(mavenProperties, Arrays.asList(rootProject.file("buildscripts/maven.properties"), rootProject.file("local.properties")))
 
 def isReleaseBuild() {
-    return VERSION_NAME.contains("SNAPSHOT") == false
+    return project.hasProperty('release')
+//    return VERSION_NAME.endWith("SNAPSHOT") == false
 }
 
 static def getReleaseRepositoryUrl(Properties properties) {
@@ -77,7 +78,6 @@ afterEvaluate { project ->
         repositories {
             maven {
                 allowInsecureProtocol = true
-
                 def releasesRepoUrl = getReleaseRepositoryUrl(mavenProperties)
                 def snapshotsRepoUrl = getSnapshotRepositoryUrl(mavenProperties)
                 url = isReleaseBuild() ? releasesRepoUrl : snapshotsRepoUrl

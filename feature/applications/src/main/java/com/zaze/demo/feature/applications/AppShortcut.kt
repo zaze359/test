@@ -12,7 +12,9 @@ import android.os.storage.StorageManager
 import androidx.annotation.RequiresApi
 import com.google.gson.annotations.Expose
 import com.zaze.utils.AppUtil
+import com.zaze.utils.FileUtil
 import com.zaze.utils.SignaturesUtil
+import com.zaze.utils.ext.getLabel
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import java.lang.Exception
@@ -26,6 +28,7 @@ import java.util.*
  * @version : 2017-12-22 - 17:26
  */
 data class AppShortcut(
+
     val appName: String? = null,
     val packageName: String = "",
     val versionCode: Long = 0,
@@ -35,26 +38,19 @@ data class AppShortcut(
     val isInstalled: Boolean = false,
     val firstInstallTime: Long = 0,
     val lastUpdateTime: Long = 0,
+    val installerPackageName: String? = null,
+    @Transient
+    @Expose(serialize = false, deserialize = false)
+    val packageInfo: PackageInfo? = null,
+    @Transient
+    @Expose(serialize = false, deserialize = false)
+    val applicationInfo: ApplicationInfo? = null
 ) {
     // --------------------------------------------------
-    val sourceDir: String?
-        get() {
-            return applicationInfo?.sourceDir
-        }
+    val enable: Boolean get() = applicationInfo?.enabled ?: false
 
-    val sharedLibraryFiles: Array<String>?
-        get() {
-            return applicationInfo?.sharedLibraryFiles
-        }
-    val nativeLibraryDir: String?
-        get() {
-            return applicationInfo?.nativeLibraryDir
-        }
-
-    val publicSourceDir: String?
-        get() {
-            return applicationInfo?.publicSourceDir
-        }
+    val apkSize: Long
+        get() = FileUtil.getFileSize(applicationInfo?.sourceDir)
 
     @Transient
     @Expose(serialize = false, deserialize = false)
@@ -66,47 +62,46 @@ data class AppShortcut(
 
     fun getAppIcon(context: Context? = null): Bitmap? {
         if (appIcon == null && context != null) {
-            // 默认Icon 不赋值，每次都从ApplicationManager缓存中获取
+            // 默认不赋值，每次都从ApplicationManager缓存中获取
             return ApplicationManager.getAppIconHasDefault(context, packageName)
         }
         return appIcon
     }
 
-    @Transient
-    @Expose(serialize = false, deserialize = false)
-    private var packageInfo: PackageInfo? = null
-    fun getPackageInfo(context: Context): PackageInfo? {
-        return when {
-            packageInfo != null -> {
-                packageInfo
-            }
-            isInstalled -> {
-                packageInfo = AppUtil.getPackageInfo(context, packageName)
-                packageInfo
-            }
-            else -> {
-                null
-            }
-        }
-    }
 
-    @Transient
-    @Expose(serialize = false, deserialize = false)
-    private var applicationInfo: ApplicationInfo? = null
-    fun getApplicationInfo(context: Context): ApplicationInfo? {
-        return when {
-            applicationInfo != null -> {
-                applicationInfo
-            }
-            isInstalled -> {
-                applicationInfo = AppUtil.getApplicationInfo(context, packageName)
-                applicationInfo
-            }
-            else -> {
-                null
-            }
-        }
-    }
+//    fun getPackageInfo(context: Context): PackageInfo? {
+//        return when {
+//            packageInfo != null -> {
+//                packageInfo
+//            }
+//
+//            isInstalled -> {
+//                packageInfo = AppUtil.getPackageInfo(context, packageName)
+//                packageInfo
+//            }
+//
+//            else -> {
+//                null
+//            }
+//        }
+//    }
+
+//    fun getApplicationInfo(context: Context): ApplicationInfo? {
+//        return when {
+//            applicationInfo != null -> {
+//                applicationInfo
+//            }
+//
+//            isInstalled -> {
+//                applicationInfo = AppUtil.getApplicationInfo(context, packageName)
+//                applicationInfo
+//            }
+//
+//            else -> {
+//                null
+//            }
+//        }
+//    }
 
     companion object {
         fun empty(packageName: String): AppShortcut {
@@ -114,8 +109,9 @@ data class AppShortcut(
         }
 
         @JvmStatic
-        fun transform(context: Context, packageInfo: PackageInfo): AppShortcut {
-            val applicationInfo: ApplicationInfo? = packageInfo.applicationInfo
+        fun create(context: Context, packageInfo: PackageInfo): AppShortcut {
+            val applicationInfo = packageInfo.applicationInfo
+            val isInstalled = applicationInfo != null
             val appShortcut = AppShortcut(
                 packageName = packageInfo.packageName,
                 versionCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -124,17 +120,19 @@ data class AppShortcut(
                     packageInfo.versionCode.toLong()
                 },
                 versionName = packageInfo.versionName,
-                appName = applicationInfo?.let {
-                    context.packageManager.getApplicationLabel(it).toString()
-                },
-                isInstalled = applicationInfo != null,
+                appName = applicationInfo?.getLabel(context),
+                isInstalled = isInstalled,
                 flags = applicationInfo?.flags ?: 0,
                 uid = applicationInfo?.uid ?: 0,
                 firstInstallTime = packageInfo.firstInstallTime,
                 lastUpdateTime = packageInfo.lastUpdateTime,
+                installerPackageName = if (isInstalled) AppUtil.getInstallerPackageName(
+                    context,
+                    packageInfo.packageName
+                ) else null,
+                packageInfo = packageInfo,
+                applicationInfo = applicationInfo
             )
-            appShortcut.packageInfo = packageInfo
-            appShortcut.applicationInfo = applicationInfo
 //            ZLog.i(ZTag.TAG, "appShortcut: $appShortcut")
             return appShortcut
         }

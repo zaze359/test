@@ -6,20 +6,15 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Environment
-import com.zaze.common.permission.PermissionHelper
-import com.zaze.common.thread.ThreadPlugins
+import com.zaze.utils.permission.PermissionHelper
 import com.zaze.demo.R
-import com.zaze.demo.core.bsdiff.AppPatchUtils
 import com.zaze.demo.feature.applications.ApplicationManager
 import com.zaze.dynamic.DynamicLoader
 import com.zaze.utils.FileUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import java.io.File
-import java.io.FileDescriptor
 import java.io.FileInputStream
-import java.nio.file.Files
-import java.nio.file.Paths
 
 /**
  * Description :
@@ -46,10 +41,11 @@ class TestFile : ITest {
         log("getResourceEntryName: ${resources.getResourceEntryName(R.drawable.ic_app_default)}")
 
         val appShortcut = ApplicationManager.getAppShortcut("com.zaze.apps")
-        log("appShortcut sharedLibraryFiles: ${appShortcut.sharedLibraryFiles?.joinToString()}")
-        log("appShortcut sourceDir: ${appShortcut.sourceDir}")
-        log("appShortcut publicSourceDir: ${appShortcut.publicSourceDir}")
-        log("appShortcut nativeLibraryDir: ${appShortcut.nativeLibraryDir}")
+        log("appShortcut sharedLibraryFiles: ${appShortcut.applicationInfo?.sharedLibraryFiles?.joinToString()}")
+        log("appShortcut sourceDir: ${appShortcut.applicationInfo?.sourceDir}")
+        log("appShortcut publicSourceDir: ${appShortcut.applicationInfo?.publicSourceDir}")
+        log("appShortcut splitSourceDirs: ${appShortcut.applicationInfo?.splitSourceDirs}")
+        log("appShortcut nativeLibraryDir: ${appShortcut.applicationInfo?.nativeLibraryDir}")
 
         val apkPath = oldApkPath
         log("$apkPath: ${FileUtil.exists(apkPath)}")

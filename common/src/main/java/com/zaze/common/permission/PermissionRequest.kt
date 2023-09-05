@@ -2,21 +2,18 @@ package com.zaze.common.permission
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
-import android.provider.Settings
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.zaze.common.widget.dialog.DialogProvider
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
+import com.zaze.utils.permission.PermissionCallback
+import com.zaze.utils.permission.PermissionHandler
 import kotlinx.coroutines.launch
 
 /**
@@ -24,18 +21,28 @@ import kotlinx.coroutines.launch
  * 需要在 Activity STARTED 前；或者 Fragment created 前。
  */
 class PermissionRequest {
-    //    private var permissions: Array<String> = emptyArray()
     private val permissionsRequest: ActivityResultLauncher<Array<String>>
     private val startSettingRequest: ActivityResultLauncher<Intent>
 
     private var onPermissionGranted: PermissionCallback? = null
+    private var beforePermissionGranted: PermissionCallback? = null
 //    private var onSomePermanentlyDenied: PermissionCallback? = null
 //    private var onPermissionDenied: PermissionCallback? = null
-
 
     private val getFragmentManager: () -> FragmentManager
     private val getViewLifecycleOwner: () -> LifecycleOwner
     private lateinit var getActivity: () -> Activity
+
+
+    private val permissionHandler by lazy {
+        PermissionHandler(
+            activity = getActivity(),
+            permissions = emptyArray(),
+            afterPermissionGranted = ::afterPermissionGranted,
+            onSomePermanentlyDenied = ::onSomePermanentlyDenied,
+            onPermissionDenied = ::onPermissionDenied
+        )
+    }
 
     constructor(activity: FragmentActivity) {
         permissionsRequest =
@@ -86,22 +93,7 @@ class PermissionRequest {
     }
 
     private fun onSettingResult(result: ActivityResult) {
-        if (hasPermission()) {
-            afterPermissionGranted()
-        } else {
-            setupPermission()
-        }
-    }
-
-
-    private val permissionHandler by lazy {
-        PermissionHandler(
-            activity = getActivity(),
-            permissions = emptyArray(),
-            afterPermissionGranted = ::afterPermissionGranted,
-            onSomePermanentlyDenied = ::onSomePermanentlyDenied,
-            onPermissionDenied = ::onPermissionDenied
-        )
+        launch()
     }
 
     private fun afterPermissionGranted() {
@@ -114,6 +106,7 @@ class PermissionRequest {
      */
     private fun beforePermissionGranted() {
         ZLog.i(ZTag.TAG, "beforePermissionGranted")
+        beforePermissionGranted?.invoke()
     }
 
     /**
@@ -126,57 +119,51 @@ class PermissionRequest {
                 getActivity().finish()
             }
         builder.positive {
-            ZLog.i(ZTag.TAG, "openApplicationDetailsSetting")
+            ZLog.i(ZTag.TAG, "打开设置")
+            permissionHandler.openSettings(startSettingRequest)
             // 打开设置
-            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).setData(
-                Uri.fromParts("package", getActivity().packageName, null)
-            )
-            startSettingRequest.launch(intent)
         }
         builder.build().show(getFragmentManager())
     }
 
     private fun onPermissionDenied() {
-        setupPermission()
+        launch()
     }
 
-    private fun hasPermission(): Boolean {
+    private fun hasPermissions(): Boolean {
         return permissionHandler.hasPermissions()
-    }
-
-    private fun setupPermission() {
-        val viewLifecycleOwner = getViewLifecycleOwner()
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                if (hasPermission()) {
-                    afterPermissionGranted()
-                } else {
-                    beforePermissionGranted()
-                    permissionHandler.launch(permissionsRequest)
-                }
-            }
-        }
     }
 
     fun onPermissionGranted(callback: PermissionCallback): PermissionRequest {
         onPermissionGranted = callback
         return this
     }
-//    fun onSomePermanentlyDenied(callback: PermissionCallback): ZPermission {
+
+    fun beforePermissionGranted(callback: PermissionCallback): PermissionRequest {
+        beforePermissionGranted = callback
+        return this
+    }
+//    fun onSomePermanentlyDenied(callback: PermissionCallback): PermissionRequest {
 //        onSomePermanentlyDenied = callback
 //        return this
 //    }
-//    fun onPermissionDenied(callback: PermissionCallback): ZPermission {
+//
+//    fun onPermissionDenied(callback: PermissionCallback): PermissionRequest {
 //        onPermissionDenied = callback
 //        return this
 //    }
 
     fun request(permissions: Array<String>) {
         permissionHandler.updatePermission(permissions)
-        permissionHandler.launch(permissionsRequest)
+        launch()
     }
 
-    fun hasPermissions(): Boolean {
-        return permissionHandler.hasPermissions()
+    private fun launch() {
+        if (hasPermissions()) {
+            afterPermissionGranted()
+        } else {
+            beforePermissionGranted()
+            permissionHandler.launch(permissionsRequest)
+        }
     }
 }

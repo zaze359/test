@@ -1,15 +1,10 @@
 package com.zaze.common.base
 
-import android.content.Intent
-import android.net.Uri
-import android.provider.Settings
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.LayoutRes
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.zaze.common.permission.PermissionHandler
-import com.zaze.common.widget.dialog.DialogProvider
+import com.zaze.common.permission.PermissionRequest
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import kotlinx.coroutines.launch
@@ -18,47 +13,20 @@ abstract class AbsPermissionFragment : AbsLogFragment {
     constructor() : super()
     constructor(@LayoutRes contentLayoutId: Int) : super(contentLayoutId)
 
-    private val permissionHandler by lazy {
-        PermissionHandler(
-            activity = requireActivity(),
-            permissions = getPermissionsToRequest(),
-            afterPermissionGranted = ::afterPermissionGranted,
-            onSomePermanentlyDenied = ::onSomePermanentlyDenied,
-            onPermissionDenied = ::onPermissionDenied
-        )
-    }
-
-    private val permissionsRequest =
-        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
-            permissionHandler.onActivityResult(it)
-        }
-
-    private val startSettingRequest =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (hasPermissions()) {
-                afterPermissionGranted()
-            } else {
-                setupPermission()
-            }
-        }
+    val permissionRequest = PermissionRequest(this)
 
     open fun getPermissionsToRequest(): Array<String> {
         return arrayOf()
     }
 
-    fun hasPermissions(): Boolean {
-        return permissionHandler.hasPermissions()
-    }
-
     open fun setupPermission() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                if (hasPermissions()) {
-                    afterPermissionGranted()
-                } else {
+                permissionRequest.beforePermissionGranted {
                     beforePermissionGranted()
-                    permissionHandler.launch(permissionsRequest)
-                }
+                }.onPermissionGranted {
+                    afterPermissionGranted()
+                }.request(getPermissionsToRequest())
             }
         }
     }
@@ -75,29 +43,5 @@ abstract class AbsPermissionFragment : AbsLogFragment {
      */
     open fun beforePermissionGranted() {
         ZLog.i(ZTag.TAG, "beforePermissionGranted")
-    }
-
-    /**
-     * 部分权限被拒绝
-     */
-    open fun onSomePermanentlyDenied() {
-        val builder = DialogProvider.Builder()
-            .message("如果没有「${permissionHandler.getDeniedPermissionNames()}」相关权限，此应用可能无法正常工作。")
-            .negative("取消") {
-//                finish()
-            }
-        builder.positive {
-            ZLog.i(ZTag.TAG, "openApplicationDetailsSetting")
-            // 打开设置
-            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).setData(
-                Uri.fromParts("package", requireContext().packageName, null)
-            )
-            startSettingRequest.launch(intent)
-        }
-        builder.build().show(childFragmentManager)
-    }
-
-    open fun onPermissionDenied() {
-        setupPermission()
     }
 }

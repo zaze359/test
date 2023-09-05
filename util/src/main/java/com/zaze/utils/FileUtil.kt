@@ -22,7 +22,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock
 object FileUtil {
     var showLog = false
     var needLock = false
-//    private val lock = ReentrantReadWriteLock()
+
+    //    private val lock = ReentrantReadWriteLock()
     private fun writeLock() {
 //        if (needLock) {
 //            lock.writeLock().lock()
@@ -90,17 +91,30 @@ object FileUtil {
         }
         return exists(filePath) && File(filePath).canWrite()
     }
+
+    fun getFileSize(filePath: String?): Long {
+        if (filePath.isNullOrEmpty() || !exists(filePath)) {
+            return 0L
+        }
+        return File(filePath).length()
+    }
     // --------------------------------------------------
     /**
      * [from] 从此文件拷贝
      * [to] 拷贝到此文件
      */
     @JvmStatic
-    fun copy(from: File, to: File) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    fun copy(from: File, to: File): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createParentDir(to)
             deleteFile(to)
-            Files.copy(Paths.get(from.absolutePath), Paths.get(to.absolutePath))
+            try {
+                Files.copy(Paths.get(from.absolutePath), Paths.get(to.absolutePath))
+                true
+            } catch (e: Throwable) {
+                e.printStackTrace()
+                false
+            }
         } else {
             writeToFile(to, from.inputStream())
         }
@@ -586,50 +600,4 @@ object FileUtil {
         }
         return searchedFileList
     }
-
-    // --------------------------------------------------
-    // --------------------------------------------------
-    @JvmStatic
-    fun getTotalSpace(file: File): Long {
-        ZLog.i(ZTag.TAG_DEBUG, "getTotalSpace : ${file.path}")
-        val stat = StatFs(file.path)
-        return getBlockSize(stat) * getBlockCount(stat)
-    }
-
-    @JvmStatic
-    fun getFreeSpace(file: File): Long {
-        val stat = StatFs(file.path)
-        return getBlockSize(stat) * getAvailableBlocks(stat)
-    }
-
-    // --------------------------------------------------
-    @JvmStatic
-    fun getBlockSize(statFs: StatFs): Long {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            statFs.blockSizeLong
-        } else {
-            statFs.blockSize.toLong()
-        }
-    }
-
-    @JvmStatic
-    fun getAvailableBlocks(statFs: StatFs): Long {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            statFs.availableBlocksLong
-        } else {
-            statFs.availableBlocks.toLong()
-        }
-    }
-
-    @JvmStatic
-    fun getBlockCount(statFs: StatFs): Long {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            statFs.blockCountLong
-        } else {
-            statFs.blockCount.toLong()
-        }
-    }
-
-    // --------------------------------------------------
-    // --------------------------------------------------
 }

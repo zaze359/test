@@ -6,7 +6,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
-import android.provider.Settings
 import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -39,6 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.zaze.common.util.FileProviderHelper
 import com.zaze.demo.feature.communication.R
+import com.zaze.utils.IntentFactory
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import kotlinx.coroutines.CoroutineScope
@@ -211,11 +211,7 @@ fun IpcInput(
                             withDismissAction = true
                         )
                         if (snackbarResult == SnackbarResult.ActionPerformed) {
-                            val intent =
-                                Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).setData(
-                                    Uri.fromParts("package", context.packageName, null)
-                                )
-                            settingLauncher.launch(intent)
+                            settingLauncher.launch(IntentFactory.applicationDetailsSettings(context.packageName))
                         }
                     }
                 }

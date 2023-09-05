@@ -11,14 +11,13 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.provider.Settings
 import android.util.Log
+import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
 import com.zaze.utils.date.DateUtil
 
 object AppUsageHelper {
     private const val TAG = "AppUsageHelper"
     private const val PACKAGE_NAME_UNKNOWN = "unknown"
-
-    private var topPackageName = PACKAGE_NAME_UNKNOWN
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     fun getUsageStatsManager(context: Context): UsageStatsManager? {
@@ -29,9 +28,6 @@ object AppUsageHelper {
      * 检测是否有获取应用使用量权限
      */
     fun checkAppUsagePermission(context: Context): Boolean {
-//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-//            return true
-//        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             return isGrantedUsagePermission(context)
         }
@@ -70,32 +66,28 @@ object AppUsageHelper {
     /**
      * 请求获取应用使用量权限
      */
-    fun requestAppUsagePermission(context: Context) {
+    fun requestAppUsagePermission(launcher: ActivityResultLauncher<Intent>) {
         val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        try {
-            context.startActivity(intent)
-        } catch (e: ActivityNotFoundException) {
-            Log.e(TAG, "ACTION_USAGE_ACCESS_SETTINGS FAIL!", e)
+        launcher.launch(intent)
+    }
+
+
+    fun getTopActivityPackageName(context: Context): String {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            return PACKAGE_NAME_UNKNOWN
+        }
+        val time = System.currentTimeMillis()
+        val usageStatsList =
+            getUsageStatsList(context, UsageStatsManager.INTERVAL_DAILY, time - 1000 * 10, time)
+        return if (usageStatsList.isNullOrEmpty()) {
+            PACKAGE_NAME_UNKNOWN
+        } else {
+            usageStatsList.sortedByDescending {
+                it.lastTimeUsed
+            }[0].packageName
         }
     }
 
-    fun getTopActivityPackageName(context: Context): String {
-//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-//            return PACKAGE_NAME_UNKNOWN
-//        }
-        val time = System.currentTimeMillis()
-        val usageStatsList =
-            getUsageStatsList(context, UsageStatsManager.INTERVAL_BEST, time - 1000 * 5, time)
-        return if (usageStatsList.isNullOrEmpty()) {
-            topPackageName
-        } else {
-            topPackageName = usageStatsList.sortedByDescending {
-                it.lastTimeUsed
-            }[0].packageName
-            topPackageName
-        }
-    }
 
     /**
      * INTERVAL_DAILY 天存储级别的数据
@@ -115,20 +107,5 @@ object AppUsageHelper {
             return usageStatsManager.queryUsageStats(intervalType, beginTime, endTime)
         }
         return null
-    }
-
-    fun queryEventStats(
-        context: Context,
-        intervalType: Int,
-        beginTime: Long,
-        endTime: Long
-    ): List<EventStats>? {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            val usageStatsManager = getUsageStatsManager(context) ?: return null
-            usageStatsManager.queryEventStats(intervalType, beginTime, endTime)
-        } else {
-            return null
-        }
-
     }
 }

@@ -1,13 +1,11 @@
-package com.zaze.common.permission
+package com.zaze.utils.permission
 
 import android.Manifest
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Environment
-import android.provider.Settings
+import com.zaze.utils.IntentFactory
 
 object ExternalStoragePermission {
 
@@ -49,11 +47,9 @@ object ExternalStoragePermission {
 
     fun createSettingIntent(context: Context): Intent {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION)
+            IntentFactory.manageAllFilesAccessPermission()
         } else {
-            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).setData(
-                Uri.fromParts("package", context.packageName, null)
-            )
+            IntentFactory.applicationDetailsSettings(context.packageName)
         }
     }
 

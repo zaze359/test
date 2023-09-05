@@ -97,7 +97,7 @@ class AppListViewModel @Inject constructor(application: Application) : AbsAndroi
 
     private fun show(apps: MutableCollection<AppShortcut>) {
         appData.postValue(apps.filter {
-            !TextUtils.isEmpty(it.sourceDir)
+            !TextUtils.isEmpty(it.applicationInfo?.sourceDir)
         })
     }
 
@@ -152,7 +152,7 @@ class AppListViewModel @Inject constructor(application: Application) : AbsAndroi
             Observable.fromCallable {
                 val showList = ArrayList<AppShortcut>()
                 FileUtil.searchFileBySuffix(apkDir, "apk", true).forEach { file ->
-                    initEntity(ApplicationManager.getAppShortcutFormApk(file.absolutePath))?.let {
+                    initEntity(ApplicationManager.getAppShortcutFormApk(application, file.absolutePath))?.let {
                         showList.add(it)
                     }
                 }

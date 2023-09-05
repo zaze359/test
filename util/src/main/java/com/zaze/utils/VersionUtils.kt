@@ -97,3 +97,100 @@ object VersionUtils {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
     }
 }
+
+
+val Int.toSDK: Pair<String, String>?
+    get() = when (this) {
+        7 -> {
+            "2.1" to "Eclair"
+        }
+
+        8 -> {
+            "2,2" to "Froyo"
+        }
+
+        9 -> {
+            "2.3" to "Gingerbread"
+        }
+
+        10 -> {
+            "2.3.3" to "Eclair"
+        }
+
+        11 -> {
+            "3.0" to "Honeycomb"
+        }
+
+        12 -> {
+            "3.1" to "Honeycomb"
+        }
+
+        13 -> {
+            "3.2" to "Honeycomb"
+        }
+
+        14 -> {
+            "4.0" to "IceCreamSandwich"
+        }
+
+        15 -> {
+            "4.0.3" to "IceCreamSandwich"
+        }
+        16 -> {
+            "4.1" to "Jelly Bean"
+        }
+        17 -> {
+            "4.2" to "Jelly Bean"
+        }
+        18 -> {
+            "4.3" to "Jelly Bean"
+        }
+        19 -> {
+            "4.4" to "KitKat"
+        }
+        20 -> {
+            "4.4W" to "KitKat Wear"
+        }
+        21 -> {
+            "5.0" to "Lollipop"
+        }
+        22 -> {
+            "5.1" to "Lollipop"
+        }
+        23 -> {
+            "6.0" to "Marshmallow"
+        }
+        24 -> {
+            "7.0" to "Nougat"
+        }
+        25 -> {
+            "7.1.1" to "Nougat"
+        }
+        26 -> {
+            "8.0" to "Oreo"
+        }
+        27 -> {
+            "8.1" to "Oreo"
+        }
+        28 -> {
+            "9.0" to "Pie"
+        }
+        29 -> {
+            "10.0" to "Q"
+        }
+        30 -> {
+            "11.0" to "R"
+        }
+        31 -> {
+            "12.0" to "S"
+        }
+        32 -> {
+            "12L" to "Sv2"
+        }
+        33 -> {
+            "13.0" to "Tiramisu"
+        }
+        else -> {
+            null
+        }
+    }

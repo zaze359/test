@@ -92,7 +92,7 @@ public class ApplicationManager2 {
         int versionCode = 1;
         if (packageInfo != null) {
             versionCode = packageInfo.versionCode;
-            appShortcut = AppShortcut.transform(BaseApplication.getInstance(), packageInfo);
+            appShortcut = AppShortcut.create(BaseApplication.getInstance(), packageInfo);
         }
         if (appShortcut != null) {
 //            ApplicationManager.INSTANCE.saveShortcutToCache(packageName, appShortcut);
