@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="accessibility_service_description">accessibility_service_description</string>
-    <string name="accessibility_service_label">accessibility_service_label</string>
-
+    <string name="accessibility_service_description">本应用旨在辅助用户自动执行点击手势。不会收集和泄漏你的任何隐私。\n\n\n Z</string>
+    <string name="accessibility_service_label">@string/app_name</string>
+    <!--    <string name="accessibility_service_label"><![CDATA[ 你藏不住的 <br/> 22222<u>3333</u>!!!~ ]]></string>-->
 </resources>

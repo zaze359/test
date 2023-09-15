@@ -1,10 +1,9 @@
 package com.zaze.common.widget.dialog
 
 import android.content.Context
-import android.os.Bundle
+import android.content.DialogInterface
 import androidx.annotation.StyleRes
 import android.view.Gravity
-import android.view.View
 import com.zaze.common.R
 
 /**
@@ -16,18 +15,17 @@ class DialogProvider private constructor() {
 
     class Builder {
         @StyleRes
-        var theme = R.style.TransparentDialog
-        var cancelable = false
-        var applicationOverlay = false
-        var message: CharSequence? = null
-        var messageGravity: Int = Gravity.CENTER
-        var positive: String? = null
-        var positiveListener: ((v: View) -> Unit)? = null
-        var negative: String? = null
-        var negativeListener: ((v: View) -> Unit)? = null
-        var title: String? = null
-        var tag: String? = null
-        var extras: Bundle? = null
+        internal var theme = R.style.MaterialAlertDialogTheme
+        internal var cancelable = false
+        internal var applicationOverlay = false
+        internal var message: CharSequence? = null
+        internal var messageGravity: Int = Gravity.CENTER
+        internal var positive: String? = null
+        internal var positiveListener: DialogInterface.OnClickListener? = null
+        internal var negative: String? = null
+        internal var negativeListener: DialogInterface.OnClickListener? = null
+        internal var title: String? = null
+        internal var tag: String? = null
 
         fun theme(@StyleRes theme: Int): Builder {
             this.theme = theme
@@ -52,7 +50,7 @@ class DialogProvider private constructor() {
 
         fun positive(
             positive: String = "确定",
-            positiveListener: ((v: View) -> Unit)? = null
+            positiveListener: DialogInterface.OnClickListener? = null
         ): Builder {
             this.positive = positive
             this.positiveListener = positiveListener
@@ -61,7 +59,7 @@ class DialogProvider private constructor() {
 
         fun negative(
             negative: String = "取消",
-            negativeListener: ((v: View) -> Unit)? = null
+            negativeListener: DialogInterface.OnClickListener? = null
         ): Builder {
             this.negative = negative
             this.negativeListener = negativeListener
@@ -78,20 +76,12 @@ class DialogProvider private constructor() {
             return this
         }
 
-        fun extras(bundle: Bundle): Builder {
-            this.extras = bundle
-            return this
+        fun build(): CustomDialogFragment {
+            return CustomDialogFragment().init(this)
         }
 
-        fun build(viewHolder: DialogViewHolder = CustomDialogHolder(this)): CustomDialogFragment {
-            return CustomDialogFragment().init(viewHolder)
-        }
-
-        fun buildCustomDialog(
-            context: Context,
-            viewHolder: DialogViewHolder = CustomDialogHolder(this)
-        ): CustomDialog {
-            return CustomDialog(context, viewHolder)
+        fun buildCustomDialog(context: Context): CustomDialog {
+            return CustomDialog(context, this)
         }
     }
 }

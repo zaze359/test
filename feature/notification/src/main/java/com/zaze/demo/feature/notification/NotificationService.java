@@ -48,7 +48,7 @@ public class NotificationService extends LogService {
         remoteViews = new RemoteViews(this.getPackageName(), R.layout.music_notification_layout);
         remoteViewsBig = new RemoteViews(this.getPackageName(), R.layout.music_notification_expend_layout);
         builder = new NotificationCompat.Builder(this, channelId)
-                .setSmallIcon(R.drawable.baseline_message_24)
+                .setSmallIcon(R.drawable.ic_message)
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setPriority(NotificationCompat.PRIORITY_MAX)

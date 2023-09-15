@@ -1,28 +1,28 @@
-package com.zaze.demo.debug
+package com.zaze.demo.debug.keeplive
 
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import android.util.Log
-import com.zaze.utils.log.ZLog
-import com.zaze.utils.log.ZTag
 import java.io.File
 import java.io.FileOutputStream
 import java.nio.channels.FileLock
 
 /**
- * Description :
+ * Description : 通过文件锁  FileLock 来做进程保活
  *
  * @author : ZAZE
  * @version : 2020-05-12 - 13:25
  */
 class KeepLiveService : Service() {
     private var thread = LockThread()
-    private var lockFile: File? = null
-    private var keepApp: Pair<String, String>? = null
 
+    //    private var lockFile: File? = null
+    private var keepAppMeta: Pair<String, String>? = null
 
     companion object {
+        private val TAG = "KeepLiveService"
+
         const val PACKAGE_NAME = "packageName"
         const val LOCK_FILE = "lockFile"
     }
@@ -33,7 +33,7 @@ class KeepLiveService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        Log.i(this.packageName, "KeepLiveService : onCreate")
+        Log.i(TAG, "onCreate")
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -46,18 +46,20 @@ class KeepLiveService : Service() {
         if (appPackage.isNullOrEmpty() || lockFile.isNullOrEmpty()) {
             return startCompatibility
         }
-        keepApp = Pair(appPackage, lockFile)
-        Log.i(this.packageName, "KeepLiveService : onStartCommand >> $thread")
-        Log.i(this.packageName, "KeepLiveService : ${thread.state}")
+        keepAppMeta = Pair(appPackage, lockFile)
+        Log.i(TAG, "onStartCommand thread.state >> ${thread.state}")
         when (thread.state) {
             Thread.State.RUNNABLE -> {
                 return startCompatibility
             }
+
             Thread.State.NEW -> {
             }
+
             Thread.State.TERMINATED -> {
                 thread = LockThread()
             }
+
             else -> {
                 return startCompatibility
             }
@@ -70,7 +72,7 @@ class KeepLiveService : Service() {
     }
 
     override fun onDestroy() {
-        Log.i(this.packageName, "KeepLiveService : onDestroy")
+        Log.i(TAG, " onDestroy")
         super.onDestroy()
         thread.interrupt()
     }
@@ -78,10 +80,12 @@ class KeepLiveService : Service() {
     inner class LockThread : Thread() {
         override fun run() {
             super.run()
-            keepApp?.let {
-                Log.i("plock", "plock ${it.first} >> ${it.second} start")
-//                lock(File(it.second))
-                Log.i("plock", "plock ${it.first} >> ${it.second}  end")
+            keepAppMeta?.let {
+                val packageName = it.first
+                val lockFile = it.second
+                Log.i(TAG, "plock $packageName >> $lockFile start")
+                val lock = lock(File(lockFile))
+                Log.i(TAG, "plock $packageName >> $lockFile  end")
             }
         }
 
@@ -90,11 +94,11 @@ class KeepLiveService : Service() {
                 val fos = FileOutputStream(lockFile)
                 val fl = fos.channel.lock()
                 if (fl.isValid) {
-                    ZLog.i(ZTag.TAG, "LockThread lock " + lockFile.absolutePath + " SUC!")
+                    Log.i(TAG, "LockThread lock " + lockFile.absolutePath + " SUC!")
                     return fl
                 }
             } catch (e: Exception) {
-                ZLog.w(ZTag.TAG, "LockThread lock " + lockFile.absolutePath + " FAIL!", e)
+                Log.w(TAG, "LockThread lock " + lockFile.absolutePath + " FAIL!", e)
             }
             return null
         }

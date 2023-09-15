@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TextSize">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextSize.Small">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TextSize.H1">
+        <item name="android:textSize">28sp</item>
+    </style>
+
+    <style name="TextSize.H2">
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="TextSize.H3">
+        <item name="android:textSize">20sp</item>
+    </style>
+</resources>

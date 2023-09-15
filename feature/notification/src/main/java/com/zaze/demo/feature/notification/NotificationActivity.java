@@ -6,7 +6,6 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -17,12 +16,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Icon;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
-import android.widget.RemoteViews;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -144,7 +141,7 @@ public class NotificationActivity extends AbsActivity {
         notification(context, builder, notifyId);
     }
     private void notification(Context context, NotificationCompat.Builder builder, int notifyId) {
-        builder.setSmallIcon(R.drawable.baseline_message_24);
+        builder.setSmallIcon(R.drawable.ic_message);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             ZLog.w(ZTag.TAG_ERROR, "need permission: Manifest.permission.POST_NOTIFICATIONS");
             return;
@@ -211,10 +208,10 @@ public class NotificationActivity extends AbsActivity {
                     .setAutoCancel(true);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 builder.setSmallIcon(Icon.createWithBitmap(bitmap))
-                        .setLargeIcon(Icon.createWithResource(context, R.drawable.baseline_message_24));
+                        .setLargeIcon(Icon.createWithResource(context, R.drawable.ic_message));
             } else {
-                builder.setSmallIcon(R.drawable.baseline_message_24)
-                        .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.baseline_message_24));
+                builder.setSmallIcon(R.drawable.ic_message)
+                        .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_message));
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 builder.setChannelId(channelId);

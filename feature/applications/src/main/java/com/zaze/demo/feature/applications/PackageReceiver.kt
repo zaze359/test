@@ -25,7 +25,7 @@ class PackageReceiver : BroadcastReceiver() {
         }
     }
 
-    override fun onReceive(context: Context?, intent: Intent?) {
+    override fun onReceive(context: Context, intent: Intent?) {
         val action = intent?.action
         val packageName = intent?.data?.schemeSpecificPart
         ZLog.i(TAG, "$packageName $action")
@@ -36,11 +36,13 @@ class PackageReceiver : BroadcastReceiver() {
         // --------------------------------------------------
         when (action) {
             Intent.ACTION_PACKAGE_ADDED -> {
-                ApplicationManager.afterAppAdded(packageName)
+                ApplicationManager.afterAppAdded(context.applicationContext, packageName)
             }
+
             Intent.ACTION_PACKAGE_REPLACED -> {
-                ApplicationManager.afterAppReplaced(packageName)
+                ApplicationManager.afterAppReplaced(context.applicationContext, packageName)
             }
+
             Intent.ACTION_PACKAGE_REMOVED -> {
                 ApplicationManager.afterAppRemoved(packageName)
             }

@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.zaze.common.base.ext.AppCompatActivityExtKt;
 
-public abstract class AbsViewModelActivity extends AbsPermissionsActivity {
+public abstract class AbsViewModelActivity extends AbsLogActivity {
 
     /**
      * kotlin 中重写此方法报错， 'getDefaultViewModelProviderFactory' overrides nothing.

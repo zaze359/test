@@ -22,18 +22,17 @@ import com.zaze.utils.log.ZTag
  * @author : ZAZE
  * @version : 2018-11-30 - 15:48
  */
-abstract class AbsActivity : AbsViewModelActivity() {
+abstract class AbsActivity : AbsThemeActivity() {
 
-    private val loadingDialog by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
+    private val loadingLazy = lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
         LoadingDialog(this, createLoadingView())
     }
 
-//    init {
+    //    init {
 //        // 设置监听，会在onCreate() 时被调用。
 //        addOnContextAvailableListener {
 //        }
 //    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         layoutInflater.factory2 =
             SkinLayoutInflaterFactory { parent: View?, name: String?, context: Context, attrs: AttributeSet ->
@@ -52,9 +51,16 @@ abstract class AbsActivity : AbsViewModelActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        if (loadingLazy.isInitialized()) {
+            loadingLazy.value.dismiss()
+        }
+    }
+
     // --------------------------------------------------
 
-    fun showToast(@StringRes resId: Int) {
+    fun showToast(resId: Int) {
         showToast(getString(resId))
     }
 
@@ -69,9 +75,11 @@ abstract class AbsActivity : AbsViewModelActivity() {
 
     fun progress(message: String? = null) {
         if (message == null) {
-            loadingDialog.dismiss()
+            if(loadingLazy.isInitialized()) {
+                loadingLazy.value.dismiss()
+            }
         } else {
-            loadingDialog.setText(message).show()
+            loadingLazy.value.setText(message).show()
         }
     }
     // --------------------------------------------------

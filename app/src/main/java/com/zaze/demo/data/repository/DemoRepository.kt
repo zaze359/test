@@ -1,5 +1,6 @@
 package com.zaze.demo.data.repository
 
+import com.zaze.accessibility.AccessibilityActivity
 import com.zaze.common.di.CustomDispatchers
 import com.zaze.common.di.Dispatcher
 import com.zaze.core.model.data.AppNavigation
@@ -34,8 +35,6 @@ import com.zaze.demo.data.entity.TableEntity
 import com.zaze.demo.feature.image.BitmapActivity
 import com.zaze.demo.feature.image.DrawableActivity
 import com.zaze.demo.feature.notification.NotificationActivity
-import com.zaze.demo.feature.settings.MyPreferenceActivity
-import com.zaze.demo.feature.settings.SettingsActivity
 import com.zaze.demo.usagestats.UsageStatesActivity
 import com.zaze.feature.sliding.conflict.SlidingConflictActivity
 import kotlinx.coroutines.CoroutineDispatcher
@@ -94,6 +93,13 @@ class DemoRepository @Inject constructor(@Dispatcher(CustomDispatchers.IO) priva
                 TableEntity(
                     "Drawable",
                     DrawableActivity::class.java,
+                    ++i
+                )
+            )
+            list.add(
+                TableEntity(
+                    "无障碍服务",
+                    AccessibilityActivity::class.java,
                     ++i
                 )
             )

@@ -40,7 +40,7 @@ class TestFile : ITest {
         log("getResourceTypeName: ${resources.getResourceTypeName(R.drawable.ic_app_default)}")
         log("getResourceEntryName: ${resources.getResourceEntryName(R.drawable.ic_app_default)}")
 
-        val appShortcut = ApplicationManager.getAppShortcut("com.zaze.apps")
+        val appShortcut = ApplicationManager.getAppShortcut(context, "com.zaze.apps")
         log("appShortcut sharedLibraryFiles: ${appShortcut.applicationInfo?.sharedLibraryFiles?.joinToString()}")
         log("appShortcut sourceDir: ${appShortcut.applicationInfo?.sourceDir}")
         log("appShortcut publicSourceDir: ${appShortcut.applicationInfo?.publicSourceDir}")

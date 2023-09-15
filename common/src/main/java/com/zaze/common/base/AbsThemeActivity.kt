@@ -29,7 +29,7 @@ import javax.inject.Inject
  * @version : 2021-07-15 - 15:27
  */
 @AndroidEntryPoint
-abstract class AbsThemeActivity : AbsLogActivity() {
+abstract class AbsThemeActivity : AbsPermissionsActivity() {
 
     private val handler = Handler(Looper.getMainLooper())
 

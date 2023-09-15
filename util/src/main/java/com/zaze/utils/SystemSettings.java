@@ -1,8 +1,6 @@
 package com.zaze.utils;
 
-import static android.provider.Settings.System.SCREEN_OFF_TIMEOUT;
 
-import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
@@ -26,7 +24,6 @@ public class SystemSettings {
      *
      * @return 开机时间
      */
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     public static long getBootTime() {
         return System.currentTimeMillis() - SystemClock.elapsedRealtime();
     }
@@ -40,7 +37,7 @@ public class SystemSettings {
     public static void setScreenCloseTime(Context context, int timeMillis) {
         ZLog.i(ZTag.TAG_SYSTEM, ZStringUtil.format("设置屏幕关闭时间 : %s秒", timeMillis));
         try {
-            Settings.System.putInt(context.getContentResolver(), SCREEN_OFF_TIMEOUT, timeMillis);
+            Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, timeMillis);
         } catch (Throwable e) {
             e.printStackTrace();
         }
@@ -57,5 +54,13 @@ public class SystemSettings {
         ContentResolver contentResolver = context.getContentResolver();
         Settings.System.putInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, value);
         contentResolver.notifyChange(uri, null);
+    }
+
+    public static boolean canDrawOverlays(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return Settings.canDrawOverlays(context);
+        } else {
+            return true;
+        }
     }
 }

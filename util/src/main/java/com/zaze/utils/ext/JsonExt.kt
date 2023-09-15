@@ -10,8 +10,8 @@ import java.lang.reflect.Type
  * @param <T>  T
  * @return List
  **/
-fun <T> parseJsonToList(json: String, clazz: Class<T>): List<T>? {
-    return JsonUtil.parseJsonToList(json, object : ParameterizedType {
+fun <T> String.jsonToList(clazz: Class<T>): List<T>? {
+    return JsonUtil.parseJsonToList(this, object : ParameterizedType {
         override fun getActualTypeArguments(): Array<Type> {
             return arrayOf(clazz)
         }

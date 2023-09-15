@@ -4,6 +4,7 @@ package com.zaze.demo.component.network.compat;
 import android.content.pm.ApplicationInfo;
 import android.net.TrafficStats;
 
+import com.zaze.common.base.BaseApplication;
 import com.zaze.demo.app.MyApplication;
 import com.zaze.demo.debug.NetTrafficStats;
 import com.zaze.demo.feature.applications.ApplicationManager;
@@ -48,7 +49,7 @@ public class AnalyzeTrafficCompatVL extends AnalyzeTrafficCompat {
                     netTrafficStats.setUid(uid);
                     netTrafficStats.setRxBytes(rxBytes);
                     netTrafficStats.setTxBytes(txBytes);
-                    netTrafficStats.setAppShortcut(ApplicationManager.INSTANCE.getAppShortcut(applicationInfo.packageName));
+                    netTrafficStats.setAppShortcut(ApplicationManager.INSTANCE.getAppShortcut(BaseApplication.getInstance(), applicationInfo.packageName));
                     networkStatList.add(netTrafficStats);
                 }
             }

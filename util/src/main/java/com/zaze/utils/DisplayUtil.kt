@@ -3,6 +3,7 @@ package com.zaze.utils
 import android.app.Application
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Point
 import android.os.Build
 import android.util.DisplayMetrics
 import android.util.TypedValue

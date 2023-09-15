@@ -200,7 +200,7 @@ public class ZCommand {
                     continue;
                 }
                 if (showLog) {
-                    ZLog.i(TAG, "command ： " + command + "\n");
+                    ZLog.i(TAG, "command: " + command + "\n");
                 }
                 // donnot use os.writeBytes(commmand), avoid chinese charset error
                 outputStream.write(command.getBytes());
@@ -244,7 +244,9 @@ public class ZCommand {
         }
         if (showLog) {
             ZLog.v(TAG, "execCommand result: " + result);
-            ZLog.e(TAG, "execCommand error: " + errorBuilder);
+            if(errorBuilder != null) {
+                ZLog.e(TAG, "execCommand error: " + errorBuilder);
+            }
         }
         return new CommandResult(result,
                 errorBuilder == null ? null : errorBuilder.toString(),

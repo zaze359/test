@@ -17,6 +17,9 @@ android {
         consumerProguardFiles("consumer-rules.pro")
     }
 
+    buildFeatures {
+        viewBinding = true
+    }
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -40,19 +43,18 @@ dependencies {
 //    implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation(project(":core:testing"))
 
-    implementation(libs.kotlin.stdlib)
-
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.recyclerview)
-    implementation(libs.androidx.lifecycle.runtime)
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.activity.ktx)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.navigation.fragment)
-    implementation(libs.androidx.navigation.ui.ktx)
+    api(libs.kotlin.stdlib)
+    api(libs.androidx.appcompat)
+    api(libs.androidx.recyclerview)
+    api(libs.androidx.lifecycle.runtime)
+    api(libs.androidx.lifecycle.viewmodel.ktx)
+    api(libs.androidx.core.ktx)
+    api(libs.androidx.activity.ktx)
+    api(libs.androidx.constraintlayout)
+    api(libs.androidx.navigation.fragment)
+    api(libs.androidx.navigation.ui.ktx)
     //
-    api("com.github.tbruyelle:rxpermissions:0.12")
+//    api("com.github.tbruyelle:rxpermissions:0.12")
     api(libs.rxjava2)
     api(libs.rxandroid)
 

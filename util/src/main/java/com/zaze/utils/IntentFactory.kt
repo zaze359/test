@@ -40,6 +40,17 @@ object IntentFactory {
         return Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION)
     }
 
+    fun accessibilitySettings(): Intent {
+        return Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    fun manageOverlayPermission():Intent {
+        return Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
+    }
+
+    // ------------------------------------------
+    // ------------------------------------------
 
     /**
      * 发送信息-邮件、短信等

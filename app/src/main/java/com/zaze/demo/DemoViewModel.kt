@@ -6,15 +6,20 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.os.Build
 import android.util.Log
+import android.view.LayoutInflater
 import androidx.lifecycle.*
 import com.google.android.material.snackbar.Snackbar
 import com.zaze.common.base.AbsViewModel
+import com.zaze.demo.component.floating.FloatingLayout
 import com.zaze.utils.permission.PermissionHandler
 import com.zaze.demo.data.repository.DemoRepository
 import com.zaze.demo.data.entity.TableEntity
 import com.zaze.demo.debug.test.TestByJava
 import com.zaze.demo.usagestats.AppUsageTest
+import com.zaze.utils.IntentFactory
+import com.zaze.utils.SystemSettings
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -36,7 +41,7 @@ class DemoViewModel @Inject constructor(private val demoRepository: DemoReposito
     }
 
     private var appUsageTest: AppUsageTest? = null
-
+    private var floatingLayout: FloatingLayout? = null
     fun test(activity: Activity) {
         PermissionHandler
 
@@ -45,7 +50,15 @@ class DemoViewModel @Inject constructor(private val demoRepository: DemoReposito
 //                run()
 //            }
 //        }
-
+        if (SystemSettings.canDrawOverlays(activity)) {
+            floatingLayout?.hide()
+            floatingLayout = FloatingLayout(activity).apply {
+                addView(LayoutInflater.from(context).inflate(R.layout.floating_view, this, false))
+            }
+            floatingLayout?.show()
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            activity.startActivity(IntentFactory.manageOverlayPermission())
+        }
 
         listOf(
             TestByJava(),

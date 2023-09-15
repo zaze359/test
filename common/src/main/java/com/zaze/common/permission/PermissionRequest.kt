@@ -14,7 +14,6 @@ import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import com.zaze.utils.permission.PermissionCallback
 import com.zaze.utils.permission.PermissionHandler
-import kotlinx.coroutines.launch
 
 /**
  * 权限请求
@@ -114,11 +113,12 @@ class PermissionRequest {
      */
     private fun onSomePermanentlyDenied() {
         val builder = DialogProvider.Builder()
+            .title("请求权限")
             .message("如果没有「${permissionHandler.getDeniedPermissionNames()}」相关权限，此应用可能无法正常工作。")
-            .negative("取消") {
+            .negative("取消") { _, _ ->
                 getActivity().finish()
             }
-        builder.positive {
+        builder.positive { _, _ ->
             ZLog.i(ZTag.TAG, "打开设置")
             permissionHandler.openSettings(startSettingRequest)
             // 打开设置

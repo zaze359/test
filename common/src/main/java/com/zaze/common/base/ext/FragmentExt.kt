@@ -34,8 +34,12 @@ fun <T : Toolbar> Fragment.initToolbar(
     action: ActionBar.(toolbar: T) -> Unit = {}
 ) {
     setupActionBar(toolbar) {
+        it.setNavigationOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
         action(this, it)
         setHomeButtonEnabled(true)
         setDisplayHomeAsUpEnabled(true)
+
     }
 }

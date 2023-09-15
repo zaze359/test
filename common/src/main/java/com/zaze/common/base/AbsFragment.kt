@@ -15,10 +15,9 @@ import com.zaze.utils.ToastUtil
  * @author : ZAZE
  * @version : 2018-11-30 - 00:00
  */
-abstract class AbsFragment : AbsViewModelFragment {
+abstract class AbsFragment : AbsPermissionFragment {
     constructor() : super()
     constructor(@LayoutRes contentLayoutId: Int) : super(contentLayoutId)
-
 
     private val loadingLazy = lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
         LoadingDialog(requireContext(), createLoadingView())
@@ -74,14 +73,15 @@ abstract class AbsFragment : AbsViewModelFragment {
     }
 
     // --------------------------------------------------
-
     fun progress(isShow: Boolean?) {
         progress(if (isShow == null || !isShow) null else LoadingView.DEFAULT_TIP_TEXT)
     }
 
     fun progress(message: String? = null) {
         if (message == null) {
-            loadingLazy.value.dismiss()
+            if(loadingLazy.isInitialized()) {
+                loadingLazy.value.dismiss()
+            }
         } else {
             loadingLazy.value.setText(message).show()
         }

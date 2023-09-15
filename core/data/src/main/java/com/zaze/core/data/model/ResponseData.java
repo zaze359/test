@@ -1,4 +1,4 @@
-package com.zaze.demo.component.okhttp;
+package com.zaze.core.data.model;
 
 /**
  * Description :
@@ -13,6 +13,7 @@ public class ResponseData<T> {
 
     public ResponseData() {
     }
+
     public ResponseData(T data) {
         this.data = data;
     }
@@ -46,6 +47,10 @@ public class ResponseData<T> {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public boolean isSuccessful() {
+        return code >= 200 && code <= 299;
     }
 
     @Override

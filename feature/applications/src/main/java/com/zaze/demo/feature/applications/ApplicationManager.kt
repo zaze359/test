@@ -24,6 +24,7 @@ import com.zaze.utils.log.ZTag
 import java.io.File
 import java.lang.ref.SoftReference
 import java.util.HashMap
+import java.util.concurrent.ConcurrentSkipListSet
 
 /**
  * Description : 对应用信息进行管理
@@ -33,7 +34,7 @@ import java.util.HashMap
  * @author : ZAZE
  * @version : 2017-12-22 - 17:22
  */
-object ApplicationManager : AppChangeListener {
+object ApplicationManager {
     val invariantDeviceProfile = InvariantDeviceProfile()
 
     private val appObserver = ArrayList<AppChangeListener>()
@@ -42,6 +43,7 @@ object ApplicationManager : AppChangeListener {
      * 默认logo缓存
      */
     private var defaultLogoBmpRef: SoftReference<Bitmap?>? = null
+    private val useDefaultIconApps = ConcurrentSkipListSet<String>()
 
     /**
      * 应用图标bitmap 缓存
@@ -104,6 +106,7 @@ object ApplicationManager : AppChangeListener {
         synchronized(SHORTCUT_CACHE) {
             SHORTCUT_CACHE.remove(packageName)
         }
+        useDefaultIconApps.remove(packageName)
         BITMAP_CACHE.remove(packageName)
     }
     // --------------------------------------------------
@@ -115,10 +118,15 @@ object ApplicationManager : AppChangeListener {
      * @param packageName packageName
      * @return AppShortcut
      */
-    fun getAppShortcut(packageName: String): AppShortcut {
+    fun getAppShortcut(context: Context, packageName: String): AppShortcut {
         var appShortcut = getShortcutFromCache(packageName)
         if (appShortcut == null) {
-            appShortcut = initAppShortcut(packageName)
+            appShortcut =
+                initAppShortcut(
+                    context,
+                    packageName,
+                    AppUtil.getPackageInfo(context, packageName)
+                )
         }
         return appShortcut
     }
@@ -150,17 +158,14 @@ object ApplicationManager : AppChangeListener {
      * @return AppShortcut
      */
     private fun initAppShortcut(
+        context: Context,
         packageName: String,
-        packageInfo: PackageInfo? = AppUtil.getPackageInfo(
-            BaseApplication.getInstance(),
-            packageName,
-            0
-        )
+        packageInfo: PackageInfo?
     ): AppShortcut {
         val appShortcut = if (packageInfo == null) {
             AppShortcut.empty(packageName)
         } else {
-            AppShortcut.create(BaseApplication.getInstance(), packageInfo)
+            AppShortcut.create(context, packageInfo)
         }
         saveShortcutToCache(appShortcut.packageName, appShortcut)
         return appShortcut
@@ -173,7 +178,12 @@ object ApplicationManager : AppChangeListener {
      * @return 应用图标
      */
     fun getAppIconHasDefault(context: Context, packageName: String): Bitmap? {
-        return getAppIcon(context, packageName) ?: getAppDefaultLogo()
+        if (useDefaultIconApps.contains(packageName)) {
+            return getAppDefaultLogo(context)
+        }
+        return getAppIcon(context, packageName) ?: getAppDefaultLogo(context).apply {
+            useDefaultIconApps.add(packageName)
+        }
     }
 
     fun getAppIcon(context: Context, packageName: String): Bitmap? {
@@ -184,11 +194,11 @@ object ApplicationManager : AppChangeListener {
         if (bitmap != null) {
             return bitmap
         }
-        val appShortcut = getAppShortcut(packageName)
+        val appShortcut = getAppShortcut(context, packageName)
         var appIcon: Drawable? = null
         val applicationInfo = appShortcut.applicationInfo
         if (applicationInfo != null) {
-            val resources = getAppResources(applicationInfo)
+            val resources = getAppResources(context, applicationInfo)
             if (resources != null) {
                 appIcon = getFullResIcon(resources, applicationInfo.icon)
             }
@@ -196,15 +206,16 @@ object ApplicationManager : AppChangeListener {
         if (appIcon != null) {
             bitmap = formatIcon(appIcon)
             BITMAP_CACHE.put(packageName, bitmap)
+            useDefaultIconApps.remove(packageName)
         }
         return bitmap
     }
 
-    fun getAppResources(application: ApplicationInfo?): Resources? {
+    fun getAppResources(context: Context, application: ApplicationInfo?): Resources? {
         return if (application == null) {
             null
         } else try {
-            BaseApplication.getInstance().packageManager.getResourcesForApplication(application)
+            context.packageManager.getResourcesForApplication(application)
         } catch (e: PackageManager.NameNotFoundException) {
             null
         }
@@ -215,7 +226,7 @@ object ApplicationManager : AppChangeListener {
      *
      * @return Bitmap
      */
-    fun getAppDefaultLogo(): Bitmap? {
+    fun getAppDefaultLogo(context: Context): Bitmap? {
         var bitmap = defaultLogoBmpRef?.get()
         if (bitmap == null) {
             bitmap = BitmapExt.decodeToBitmap(
@@ -223,14 +234,14 @@ object ApplicationManager : AppChangeListener {
                 invariantDeviceProfile.iconBitmapSize
             ) {
                 BitmapFactory.decodeResource(
-                    BaseApplication.getInstance().resources,
+                    context.resources,
                     R.drawable.ic_app_default,
                     it
                 )
             }
 //            bitmap = formatIcon(
 //                getFullResIcon(
-//                    BaseApplication.getInstance().resources,
+//                    context.resources,
 //                    R.drawable.ic_app_default
 //                )
 //            )
@@ -252,11 +263,15 @@ object ApplicationManager : AppChangeListener {
      *
      * @return 应用图标（默认ic_launcher）
      */
-    fun getAppNameHasDefault(packageName: String?, defaultName: String?): String? {
-        if (packageName == null || packageName.isEmpty()) {
+    fun getAppNameHasDefault(
+        context: Context,
+        packageName: String?,
+        defaultName: String?
+    ): String? {
+        if (packageName.isNullOrEmpty()) {
             return defaultName
         }
-        var name = getAppShortcut(packageName).appName
+        var name = getAppShortcut(context, packageName).appName
         if (TextUtils.isEmpty(name)) {
             ZLog.e(ZTag.TAG_DEBUG, "未获取到应用名($packageName), 使用默认($defaultName)")
             name = defaultName
@@ -265,21 +280,21 @@ object ApplicationManager : AppChangeListener {
         return name
     }
 
-    fun getInstallApps(): Map<String, AppShortcut> {
-        return initAllShortcuts().filter {
+    fun getInstallApps(context: Context): Map<String, AppShortcut> {
+        return initAllShortcuts(context).filter {
             it.value.isInstalled
         }
     }
 
-    fun getAllApps(): Map<String, AppShortcut> {
-        return initAllShortcuts()
+    fun getAllApps(context: Context): Map<String, AppShortcut> {
+        return initAllShortcuts(context)
     }
 
-    fun initAllShortcuts(): Map<String, AppShortcut> {
+    fun initAllShortcuts(context: Context): Map<String, AppShortcut> {
         synchronized(SHORTCUT_CACHE) {
             if (SHORTCUT_CACHE.isEmpty() || !allAppInitialized) {
-                AppUtil.getInstalledPackages(BaseApplication.getInstance(), 0).forEach {
-                    initAppShortcut(it.packageName, it)
+                AppUtil.getInstalledPackages(context, 0).forEach {
+                    initAppShortcut(context, it.packageName, it)
                 }
                 allAppInitialized = true
             }
@@ -334,9 +349,9 @@ object ApplicationManager : AppChangeListener {
         }
     }
 
-    override fun afterAppAdded(packageName: String) {
+    fun afterAppAdded(context: Context, packageName: String) {
         ZLog.i(ZTag.TAG, "添加应用 : $packageName")
-        initAppShortcut(packageName)
+        initAppShortcut(context, packageName, AppUtil.getPackageInfo(context, packageName))
         synchronized(appObserver) {
             appObserver.forEach {
                 it.afterAppAdded(packageName)
@@ -344,9 +359,9 @@ object ApplicationManager : AppChangeListener {
         }
     }
 
-    override fun afterAppReplaced(packageName: String) {
+    fun afterAppReplaced(context: Context, packageName: String) {
         ZLog.i(ZTag.TAG, "替换应用 : $packageName")
-        initAppShortcut(packageName)
+        initAppShortcut(context, packageName, AppUtil.getPackageInfo(context, packageName))
         synchronized(appObserver) {
             appObserver.forEach {
                 it.afterAppReplaced(packageName)
@@ -354,7 +369,7 @@ object ApplicationManager : AppChangeListener {
         }
     }
 
-    override fun afterAppRemoved(packageName: String) {
+    fun afterAppRemoved(packageName: String) {
         ZLog.i(ZTag.TAG, "卸载成功$packageName")
         clearCache(packageName)
         synchronized(appObserver) {

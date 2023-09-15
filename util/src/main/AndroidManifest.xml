@@ -10,8 +10,14 @@
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
+    <!-- android 11 以上获取所有应用时需要此权限，否则会获取不全 -->
     <uses-permission
         android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
+
+
+    <!-- root下获取 执行 input 命令的权限 -->
+    <uses-permission android:name="android.permission.INJECT_EVENTS" />
 
 </manifest>

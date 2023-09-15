@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
  * @author : zaze
  * @version : 2021-07-15 - 15:45
  */
-abstract class AbsPermissionsActivity : AbsThemeActivity() {
+abstract class AbsPermissionsActivity : AbsViewModelActivity() {
 
     val permissionRequest = PermissionRequest(this)
 

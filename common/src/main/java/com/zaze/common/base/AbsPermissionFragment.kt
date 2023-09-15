@@ -9,7 +9,7 @@ import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import kotlinx.coroutines.launch
 
-abstract class AbsPermissionFragment : AbsLogFragment {
+abstract class AbsPermissionFragment : AbsViewModelFragment {
     constructor() : super()
     constructor(@LayoutRes contentLayoutId: Int) : super(contentLayoutId)
 

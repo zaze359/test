@@ -454,26 +454,6 @@ object FileUtil {
         inputStream: InputStream,
         charset: Charset = Charset.defaultCharset()
     ): StringBuffer {
-//        readLock()
-//        val results = StringBuilder()
-//        try {
-//            val bytes = ByteArray(4096)
-//            var byteLength = inputStream.read(bytes)
-//            while (byteLength != -1) {
-//                results.append(String(bytes, 0, byteLength, charset))
-//                byteLength = inputStream.read(bytes)
-//            }
-//            inputStream.close()
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        } finally {
-//            try {
-//                inputStream.close()
-//            } catch (e: IOException) {
-//                e.printStackTrace()
-//            }
-//            readUnlock()
-//        }
         return StringBuffer().append(readBytes(inputStream)?.let {
             String(it, charset)
         } ?: "")

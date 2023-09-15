@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.internal.Kapt3GradleSubplugin.Companion.isIncludeCompileClasspath
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -9,13 +7,14 @@ plugins {
 }
 
 android {
+    namespace = "com.zaze.demo"
     compileSdk = libs.versions.compileSdk.get().toInt()
     defaultConfig {
-        applicationId = "com.zaze.demo"
+        applicationId = namespace
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = rootProject.ext["versionCode"] as Int
-        versionName = rootProject.ext["versionName"] as String
+        versionCode = 1
+        versionName = "1.0"
 
 //        testInstrumentationRunnerArguments clearPackageData: 'true'
 //        multiDexEnabled = true
@@ -72,7 +71,7 @@ android {
 //    }
 
     signingConfigs {
-        named("debug") {
+        getByName("debug") {
             storeFile = file("android_zaze.keystore")
             storePassword = "3184582"
             keyAlias = "android"
@@ -153,7 +152,6 @@ dependencies {
     implementation(libs.androidx.core.ktx)
 
     implementation(libs.androidx.appcompat)
-    implementation(libs.google.android.material)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
@@ -187,7 +185,6 @@ dependencies {
 
     //
     debugImplementation(libs.leakcanary.debug)
-    releaseImplementation(libs.leakcanary.release)
 
 //    implementation("androidx.multidex:multidex:2.0.1")
 //    testImplementation 'org.hamcrest:hamcrest-all:1.3'
@@ -307,6 +304,7 @@ dependencies {
     implementation(project(":feature:sliding-conflict"))
     implementation(project(":feature:applications"))
     implementation(project(":feature:settings"))
+    implementation(project(":feature:accessibility"))
 
 
     implementation(project(":core:data"))

@@ -69,7 +69,7 @@ public class ApplicationManager2 {
             }
         }
         if (!TextUtils.isEmpty(packageName)) {
-            appShortcut = ApplicationManager.INSTANCE.getAppShortcut(packageName);
+            appShortcut = ApplicationManager.INSTANCE.getAppShortcut(BaseApplication.getInstance(), packageName);
             if (!appShortcut.isInstalled()) {
                 appShortcut = JsonUtil.parseJson(latelyUidFile.getProperty(key), AppShortcut.class);
             } else {
@@ -113,7 +113,7 @@ public class ApplicationManager2 {
         if (TextUtils.isEmpty(packageName)) {
             return 1;
         }
-        AppShortcut appShortcut = ApplicationManager.INSTANCE.getAppShortcut(packageName);
+        AppShortcut appShortcut = ApplicationManager.INSTANCE.getAppShortcut(BaseApplication.getInstance(), packageName);
         int versionCode;
         if (appShortcut != null) {
             versionCode = (int)appShortcut.getVersionCode();

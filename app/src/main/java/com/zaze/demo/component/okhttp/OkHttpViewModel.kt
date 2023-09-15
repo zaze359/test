@@ -2,6 +2,8 @@ package com.zaze.demo.component.okhttp
 
 import androidx.lifecycle.ViewModel
 import com.google.gson.JsonObject
+import com.zaze.core.data.model.ResponseData
+import com.zaze.core.data.service.RetrofitService
 import com.zaze.utils.ext.toJsonString
 import com.zaze.utils.log.ZLog
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,9 +16,6 @@ import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import okhttp3.ResponseBody
-import retrofit2.Converter
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 import javax.inject.Inject
 

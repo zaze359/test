@@ -33,6 +33,7 @@ fun MessageEntity.asExternalModel(): ChatMessage {
                 authorImage = authorImage
             )
         }
+
         MessageType.IMAGE -> {
             ChatMessage.Image(
                 id = id,
@@ -42,6 +43,7 @@ fun MessageEntity.asExternalModel(): ChatMessage {
                 authorImage = authorImage
             )
         }
+
         MessageType.FILE -> {
             ChatMessage.File(
                 id = id,

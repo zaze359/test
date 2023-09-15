@@ -3,10 +3,14 @@
     package="com.zaze.accessibility">
 
     <application>
+
+        <activity android:name=".AccessibilityActivity" />
+
         <service
             android:name=".MyAccessibilityService"
+            android:enabled="true"
+            android:exported="true"
             android:label="@string/accessibility_service_label"
-            android:exported="false"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />

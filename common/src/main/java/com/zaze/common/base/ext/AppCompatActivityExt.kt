@@ -78,6 +78,9 @@ fun <T : Toolbar> AppCompatActivity.initToolbar(
     action: ActionBar.(toolbar: T) -> Unit = {}
 ) {
     setupActionBar(toolbar) {
+        it.setNavigationOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
         action(this, it)
         setHomeButtonEnabled(true)
         setDisplayHomeAsUpEnabled(true)

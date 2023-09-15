@@ -1,9 +1,7 @@
 ext {
 //    set("junitVersion", "4.13.2")
-    set("versionCode", 1)
-    set("versionName", "1.0")
-    set("kotlin_version", "1.7.20")
-    set("hiltVersion", "2.44")
+//    set("kotlin_version", "1.7.20")
+//    set("hiltVersion", "2.44")
 
 //    junitVersion = "4.13.2"
 //    versionCode = 1
@@ -31,8 +29,8 @@ buildscript {
     }
 
     dependencies {
-//        classpath(libs.android.gradlePlugin)
-        classpath(libs.kotlin.gradlePlugin)
+//        classpath(libs.gradle)
+        classpath(libs.kotlin.gradle.plugin)
 //        classpath(libs.hilt.gradlePlugin)
 //        classpath 'com.jakewharton:butterknife-gradle-plugin:9.0.0-rc1'
         // 上传bintray

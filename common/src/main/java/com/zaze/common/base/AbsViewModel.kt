@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.zaze.common.base.ext.set
 import com.zaze.common.thread.ThreadPlugins
-import com.zaze.common.widget.CustomDialog
+import com.zaze.common.widget.dialog.DialogProvider
 import io.reactivex.disposables.CompositeDisposable
 
 /**
@@ -51,7 +51,7 @@ open class AbsViewModel : ViewModel() {
      * 弹窗提示
      */
     internal val _tipDialog =
-        SingleLiveEvent<CustomDialog.Builder>()
+        SingleLiveEvent<DialogProvider.Builder>()
     protected val tipDialog = _tipDialog
 
     // --------------------------------------------------

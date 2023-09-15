@@ -3,12 +3,11 @@ package com.zaze.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.zaze.utils.ext.JsonExtKt;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Collection;
@@ -69,35 +68,6 @@ public class JsonUtil {
         }
     }
 
-    /**
-     * 解析json列表字符串（去除了内部空对象）
-     *
-     * @param json json
-     * @param clazz 泛型T的类型
-     * @return List
-     */
-    public static <T> List<T> parseJsonToList(String json, final Class<T> clazz) {
-        return parseJsonToList(json, new ParameterizedType() {
-            @NotNull
-            @Override
-            public Type[] getActualTypeArguments() {
-                // 实际类型参数：这里指泛型 T 的真实类型。
-                return new Class[]{clazz};
-            }
-
-            @NotNull
-            @Override
-            public Type getRawType() {
-                // 原始类型，List
-                return List.class;
-            }
-
-            @Override
-            public Type getOwnerType() {
-                return null;
-            }
-        });
-    }
 
     /**
      * 解析json列表字符串（去除了内部空对象）
@@ -219,24 +189,14 @@ public class JsonUtil {
         return jsonHeadLines;
     }
 
-    public static <T> List<T> parseJsonToListByClass(String json, final Class<T> clazz) {
-        return JsonUtil.parseJsonToList(json, new ParameterizedType() {
-
-            @Override
-            public Type[] getActualTypeArguments() {
-                return new Type[]{clazz};
-            }
-
-            @Override
-            public Type getRawType() {
-                return List.class;
-            }
-
-            @Override
-            public Type getOwnerType() {
-                return null;
-            }
-        });
+    /**
+     * 解析json列表字符串（去除了内部空对象）
+     *
+     * @param json  json
+     * @param clazz 泛型T的类型
+     * @return List
+     */
+    public static <T> List<T> parseJsonToList(String json, final Class<T> clazz) {
+        return JsonExtKt.jsonToList(json, clazz);
     }
-
 }

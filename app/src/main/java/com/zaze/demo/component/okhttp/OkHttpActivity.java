@@ -1,7 +1,6 @@
 package com.zaze.demo.component.okhttp;
 
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 
@@ -11,8 +10,6 @@ import com.zaze.common.base.AbsActivity;
 import com.zaze.demo.R;
 import com.zaze.demo.feature.applications.ApplicationManager;
 import com.zaze.utils.JsonUtil;
-
-import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -36,25 +33,25 @@ public class OkHttpActivity extends AbsActivity {
         findViewById(R.id.http_test_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JsonUtil.objToJson(ApplicationManager.INSTANCE.getAllApps());
+                JsonUtil.objToJson(ApplicationManager.INSTANCE.getAllApps(OkHttpActivity.this.getApplicationContext()));
 //                viewModel.post();
                 viewModel.get();
 //                viewModel.add();
             }
         });
 
-        AsyncTask task=   new AsyncTask<Void, Void, Void>() {
-
-            @Override
-            protected Void doInBackground(Void... voids) {
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void unused) {
-                super.onPostExecute(unused);
-            }
-        }.execute();
+//        AsyncTask task=   new AsyncTask<Void, Void, Void>() {
+//
+//            @Override
+//            protected Void doInBackground(Void... voids) {
+//                return null;
+//            }
+//
+//            @Override
+//            protected void onPostExecute(Void unused) {
+//                super.onPostExecute(unused);
+//            }
+//        }.execute();
 
     }
 }

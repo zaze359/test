@@ -220,6 +220,10 @@
         <!--        <item name="fontFamily">@font/montserrat</item>-->
     </style>
 
+
+    <style name="MaterialAlertDialogTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog" />
+
+
     <style name="Theme.DialogFullScreen.Light" parent="Theme.Material3.Light.NoActionBar">
         <item name="android:windowMinWidthMajor">100%</item>
         <item name="android:windowMinWidthMinor">100%</item>

@@ -20,7 +20,7 @@ object PermissionHelper {
         mutableMapOf(
             Manifest.permission.READ_EXTERNAL_STORAGE to "访问存储空间",
             Manifest.permission.WRITE_EXTERNAL_STORAGE to "访问存储空间",
-            Manifest.permission.READ_PHONE_STATE to "读取手机状态",
+            Manifest.permission.READ_PHONE_STATE to "拨打电话和管理通话",
             Manifest.permission.ACCESS_FINE_LOCATION to "获取位置",
             Manifest.permission.CAMERA to "相机",
         ).apply {
@@ -77,7 +77,18 @@ object PermissionHelper {
             permission
         ) == PackageManager.PERMISSION_GRANTED
     }
-
+//    fun checkAndRequestUserPermission(
+//        activity: Activity,
+//        permissions: Array<String>,
+//        requestCode: Int
+//    ) {
+//        if (!checkUserPermission(activity, permissions)) {
+//            ActivityCompat.requestPermissions(
+//                activity,
+//                permissions, requestCode
+//            )
+//        }
+//    }
     fun somePermissionPermanentlyDenied(
         activity: Activity,
         deniedPerms: Map<String, Boolean>

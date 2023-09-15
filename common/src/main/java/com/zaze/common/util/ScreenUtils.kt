@@ -12,7 +12,27 @@ import android.view.WindowManager
  * @version : 2021-02-22 - 15:35
  */
 object ScreenUtils {
-    
+
+    // --------------------------------------------------
+    fun addLayoutFullScreen(window: Window, isAllFull: Boolean = false): Int {
+        val systemUiVisibility =
+            window.decorView.systemUiVisibility or getLayoutFullScreenFlag(isAllFull)
+        window.decorView.systemUiVisibility = systemUiVisibility
+        return systemUiVisibility
+    }
+
+    fun getLayoutFullScreenFlag(isAllFull: Boolean = false): Int {
+        var flag = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        if (isAllFull) {
+            flag = flag or View.SYSTEM_UI_FLAG_FULLSCREEN
+        }
+        return flag
+    }
+
     /**
      * 获得屏幕宽度
      *

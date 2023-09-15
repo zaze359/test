@@ -57,6 +57,19 @@ class CustomView : View {
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         ZLog.i(ZTag.TAG_DEBUG, "onMeasure")
+//        when (MeasureSpec.getMode(widthMeasureSpec)) {
+//            MeasureSpec.EXACTLY -> {
+//                ZLog.i(ZTag.TAG, "floating: EXACTLY $widthMeasureSpec")
+//            }
+//
+//            MeasureSpec.AT_MOST -> {
+//                ZLog.i(ZTag.TAG, "floating: AT_MOST $widthMeasureSpec")
+//            }
+//
+//            MeasureSpec.UNSPECIFIED -> {
+//                ZLog.i(ZTag.TAG, "floating: UNSPECIFIED $widthMeasureSpec")
+//            }
+//        }
         updatePath()
     }
 
@@ -154,16 +167,16 @@ class CustomView : View {
 
 
     private fun updatePath() {
-        val left = mRect.left
-        val top = mRect.top
-        val right = mRect.right
-        val bottom = mRect.bottom
-        val height = bottom - top
+//        val left = mRect.left
+//        val top = mRect.top
+//        val right = mRect.right
+//        val bottom = mRect.bottom
+//        val height = bottom - top
         mPath.reset()
 //        mPath.moveTo(left, top + height / 3)
-        mPath.arcTo(RectF(left, top, right, bottom - height / 3), 180F, 180F)
+        mPath.arcTo(RectF(mRect.left, mRect.top, mRect.right, mRect.top / 3), 180F, 180F)
 //        mPath.lineTo(right, top + mVolumeH / 3)
-        mPath.arcTo(RectF(left, top + height / 3, right, bottom), 0F, 180F)
+        mPath.arcTo(RectF(mRect.left, mRect.bottom / 3, mRect.right, mRect.bottom), 0F, 180F)
 //        mPath.lineTo(left, top + mVolumeH / 3)
         mPath.close()
     }

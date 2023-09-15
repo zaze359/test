@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.widget.Button
 import androidx.annotation.AttrRes
 import androidx.annotation.CheckResult
 import androidx.annotation.ColorInt
@@ -57,4 +58,9 @@ inline val Int.colorStateList: ColorStateList
 
 fun @receiver:ColorInt Int.addAlpha(alpha: Float): Int {
     return ColorUtil.withAlpha(this, alpha)
+}
+//
+
+fun Button.accentTextColor() {
+//    setTextColor(context.accentColor())
 }

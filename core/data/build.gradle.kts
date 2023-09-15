@@ -46,9 +46,13 @@ dependencies {
     kapt(libs.hilt.compiler)
     kapt(libs.hilt.ext.compiler)
 
+    testImplementation(project(":core:testing"))
+    androidTestImplementation(project(":core:testing"))
+
     implementation(project(":util"))
     implementation(project(":common"))
     implementation(project(":core:model"))
     implementation(project(":core:database"))
-    testImplementation(project(":core:testing"))
+    implementation(project(":core:network"))
+
 }

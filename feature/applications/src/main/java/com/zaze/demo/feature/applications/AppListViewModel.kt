@@ -123,7 +123,7 @@ class AppListViewModel @Inject constructor(application: Application) : AbsAndroi
 //                    it.isSystemApp()
 //                }
                 .forEach {
-                    packageSet[it.packageName] = ApplicationManager.getAppShortcut(it.packageName)
+                    packageSet[it.packageName] = ApplicationManager.getAppShortcut(application, it.packageName)
                 }
 
             // --------------------------------------------------
