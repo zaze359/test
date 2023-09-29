@@ -5,20 +5,27 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/notification_1_btn"
+    <com.zaze.core.ui.TopAppBarLayout
+        android:id="@+id/appbar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="服务通知" />
+        android:fitsSystemWindows="true" />
 
     <Button
-        android:id="@+id/notification_2_btn"
+        android:id="@+id/normal_notification_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="普通通知" />
 
     <Button
-        android:id="@+id/notification_3_btn"
+        android:id="@+id/service_notification_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="服务通知" />
+
+
+    <Button
+        android:id="@+id/clear_all_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="清除所有通知" />

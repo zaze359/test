@@ -16,7 +16,7 @@ import com.zaze.utils.log.ZLog
 abstract class AbsLogActivity : AppCompatActivity() {
 
     companion object {
-        var globalLog = true
+        var globalLog = false
         private const val TAG = "Lifecycle"
     }
 

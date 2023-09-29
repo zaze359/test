@@ -4,17 +4,14 @@ import android.accessibilityservice.AccessibilityService
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
-import com.zaze.common.thread.ThreadPlugins
 import com.zaze.core.data.repository.AdRepository
 import com.zaze.core.model.data.AdRule
 import com.zaze.core.model.data.AdRules
 import com.zaze.utils.TraceHelper
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.concurrent.ConcurrentHashMap
 
@@ -65,7 +62,6 @@ class AdHandler constructor(private val service: AccessibilityService, adReposit
     suspend fun onAccessibilityEvent(event: AccessibilityEvent) {
         if (!isLoaded) return
         withContext(Dispatchers.Default) {
-            Log.i(TAG, "onAccessibilityEvent: $event")
             TraceHelper.beginSection("处理事件")
             // 返回 活动窗口
 //        Log.i(TAG, "onAccessibilityEvent source: ${event.source}")

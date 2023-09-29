@@ -1,14 +1,13 @@
 package com.zaze.accessibility
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.zaze.accessibility.databinding.ActivityAccessibilityBinding
 import com.zaze.common.base.AbsActivity
 import com.zaze.common.base.ext.initToolbar
 import com.zaze.utils.IntentFactory
+import com.zaze.utils.log.ZLog
+import com.zaze.utils.log.ZTag
 
 /**
  * Description :
@@ -30,13 +29,26 @@ class AccessibilityActivity : AbsActivity() {
         initToolbar(binding.appBarLayout.toolbar)
         binding.openBtn.setOnClickListener {
             accessibilitySettingsLauncher.launch(IntentFactory.accessibilitySettings())
+            ZLog.i(
+                ZTag.TAG,
+                "isAccessibilityEnabled: ${
+                    AccessibilityHelper.isAccessibilityServiceOn(
+                        this,
+                        MyAccessibilityService::class.java
+                    )
+                }"
+            )
         }
         refreshStatus()
     }
 
     private fun refreshStatus() {
         binding.statusTv.text =
-            if (AccessibilityHelper.isAccessibilityEnabled(this)) "已启动" else "未启动"
+            if (AccessibilityHelper.isAccessibilityServiceOn(
+                    this,
+                    MyAccessibilityService::class.java
+                )
+            ) "已启动" else "未启动"
     }
 
 }

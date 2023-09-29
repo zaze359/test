@@ -8,14 +8,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.Orientation
-import androidx.viewpager.widget.PagerAdapter
-import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.zaze.common.base.AbsFragment
 import com.zaze.feature.sliding.conflict.databinding.FragmentNestedRecyclerViewBinding
-import com.zaze.feature.sliding.conflict.databinding.FragmentNestedViewPagerBinding
-import com.zaze.utils.log.ZLog
-import java.util.concurrent.atomic.AtomicInteger
+import com.zaze.utils.IdGenerator
 
 class NestedRecyclerViewFragment : AbsFragment() {
 
@@ -29,16 +24,16 @@ class NestedRecyclerViewFragment : AbsFragment() {
             LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         binding.nestedRecyclerView.adapter = MyAdapter(
             intArrayOf(
-                IdGenerator.generateViewId(),
-                IdGenerator.generateViewId(),
-                IdGenerator.generateViewId(),
-                IdGenerator.generateViewId(),
-                IdGenerator.generateViewId(),
-                IdGenerator.generateViewId(),
-                IdGenerator.generateViewId(),
-                IdGenerator.generateViewId(),
-                IdGenerator.generateViewId(),
-                IdGenerator.generateViewId(),
+                IdGenerator.generateId(),
+                IdGenerator.generateId(),
+                IdGenerator.generateId(),
+                IdGenerator.generateId(),
+                IdGenerator.generateId(),
+                IdGenerator.generateId(),
+                IdGenerator.generateId(),
+                IdGenerator.generateId(),
+                IdGenerator.generateId(),
+                IdGenerator.generateId(),
             )
         )
         return binding.root

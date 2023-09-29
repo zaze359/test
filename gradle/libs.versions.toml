@@ -5,6 +5,7 @@
 [versions]
 
 # @keep
+gradleBintrayPlugin = "1.7"
 kotlinGradlePlugin = "1.8.10"
 gradle = "7.4.2"
 compileSdk = "33"
@@ -204,8 +205,6 @@ glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide_versi
 glide-ksp = { module = "com.github.bumptech.glide:ksp", version.ref = "glide_version" }
 glide-okhttp3-integration = { module = "com.github.bumptech.glide:okhttp3-integration", version.ref = "glide_version" }
 
-
-
 # -------------------------
 
 accompanist-flowlayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanist" }
@@ -245,11 +244,14 @@ junit = { group = "androidx.test.ext", name = "junit", version.ref = "junit" }
 
 
 
-#buildscripts dependencies
+# buildscripts dependencies
 gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlinGradlePlugin" }
 androidx-navigation-safeargs-plugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigationVersion" }
 hilt-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
+## 上传bintray
+gradle-bintray-plugin = { module = "com.jfrog.bintray.gradle:gradle-bintray-plugin", version.ref = "gradleBintrayPlugin" }
+android-maven-gradle-plugin = { module = "com.github.dcendents:android-maven-gradle-plugin", version = "2.0" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -263,3 +265,4 @@ kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref =
 google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "devTools_ksp_version" }
 secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secrets" }
 version-catalog-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "version-catalog-update" }
+

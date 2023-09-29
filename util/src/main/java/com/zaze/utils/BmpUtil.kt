@@ -50,10 +50,6 @@ object BmpUtil {
     }
 
     // --------------------------------------------------
-    @JvmStatic
-    fun drawable2Bitmap(drawable: Drawable?, bmpSize: Int): Bitmap? {
-        return drawable2Bitmap(drawable, bmpSize, bmpSize)
-    }
 
     fun drawable2Bitmap(drawable: Drawable?, reqWidth: Int, reqHeight: Int): Bitmap? {
         if (drawable != null) {
@@ -107,9 +103,18 @@ object BmpUtil {
     }
 
     @JvmStatic
+    fun drawable2Bitmap(drawable: Drawable?, bmpSize: Int): Bitmap? {
+        return drawable2Bitmap(drawable, bmpSize, bmpSize)
+    }
+
+    @JvmStatic
     fun drawable2Bitmap(drawable: Drawable?): Bitmap? {
         return if (drawable != null) {
-            drawable2Bitmap(drawable, drawable.intrinsicWidth.coerceAtLeast(1), drawable.intrinsicHeight.coerceAtLeast(1))
+            drawable2Bitmap(
+                drawable,
+                drawable.intrinsicWidth.coerceAtLeast(1),
+                drawable.intrinsicHeight.coerceAtLeast(1)
+            )
         } else {
             null
         }

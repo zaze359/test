@@ -4,30 +4,14 @@ import android.accessibilityservice.AccessibilityService
 import android.accessibilityservice.AccessibilityService.GestureResultCallback
 import android.accessibilityservice.GestureDescription
 import android.content.Context
-import android.content.res.AssetManager
 import android.graphics.Path
 import android.graphics.Rect
 import android.os.Build
-import android.os.Handler
-import android.util.Log
+import android.provider.Settings
 import android.view.accessibility.AccessibilityManager
 import android.view.accessibility.AccessibilityNodeInfo
-import com.zaze.utils.FileUtil
-import com.zaze.utils.JsonUtil
-import com.zaze.utils.ZCommand
-import com.zaze.utils.ext.jsonToList
-import com.zaze.utils.ext.toJsonString
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.withContext
-import org.json.JSONArray
-import org.json.JSONObject
-import java.io.File
-import java.io.InputStream
-import kotlin.coroutines.CoroutineContext
 
 /**
  * Description :
@@ -36,7 +20,39 @@ import kotlin.coroutines.CoroutineContext
  */
 object AccessibilityHelper {
 
-    fun isAccessibilityEnabled(context: Context): Boolean {
+    /**
+     * 判断此应用的辅助功能是否已经开启了
+     */
+    fun isAccessibilityServiceOn(context: Context, serviceClass: Class<*>): Boolean {
+        if (isAccessibilityEnabled(context)) {
+            // 需要细分判断，获取启用的无障碍服务
+            val services = Settings.Secure.getString(
+                context.contentResolver,
+                Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES
+            ) ?: return false
+            ZLog.i(ZTag.TAG, "accessibilityEnabled SERVICES: $services")
+            return services.split(":").find {
+                it.equals("${context.packageName}/${serviceClass.canonicalName}", true)
+            } != null
+        }
+        return false
+    }
+
+    /**
+     * 判断无障碍功能是否可用
+     * 只要有任意一个应用开启了 辅助功能，都会返回true。
+     */
+    private fun isAccessibilityEnabled(context: Context): Boolean {
+//        var accessibilityEnabled = false
+//        try {
+//            accessibilityEnabled = Settings.Secure.getInt(
+//                context.applicationContext.contentResolver,
+//                Settings.Secure.ACCESSIBILITY_ENABLED
+//            ) == 1
+//        } catch (e: Settings.SettingNotFoundException) {
+//            e.printStackTrace()
+//        }
+
         val accessibilityManager =
             context.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
         return accessibilityManager.isEnabled
@@ -70,17 +86,21 @@ fun AccessibilityService.clickNode(node: AccessibilityNodeInfo?) {
     node ?: return
     val success = node.performAction(AccessibilityNodeInfo.ACTION_CLICK)
     // 若失败，则使用 GestureDescription 执行点击
-    if (!success && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+    if (!success) {
         val rect = Rect()
         node.getBoundsInScreen(rect)
-        val x = (rect.left + rect.right) / 2
-        val y = (rect.top + rect.bottom) / 2
+        clickPoint((rect.left + rect.right) / 2F, (rect.top + rect.bottom) / 2F, 0, 50)
+    }
+}
 
+fun AccessibilityService.clickPoint(x: Float, y: Float, startTime: Long, duration: Long) {
+    // 若失败，则使用 GestureDescription 执行点击
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
         val build = GestureDescription.Builder()
         val path = Path().apply {
-            moveTo(x.toFloat(), y.toFloat())
+            moveTo(x, y)
         }
-        build.addStroke(GestureDescription.StrokeDescription(path, 0, 50))
+        build.addStroke(GestureDescription.StrokeDescription(path, startTime, duration))
         dispatchGesture(build.build(), object : GestureResultCallback() {
             override fun onCompleted(gestureDescription: GestureDescription?) {
                 super.onCompleted(gestureDescription)

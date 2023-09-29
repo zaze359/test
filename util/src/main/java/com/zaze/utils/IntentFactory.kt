@@ -1,5 +1,6 @@
 package com.zaze.utils
 
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -9,6 +10,9 @@ import androidx.annotation.RequiresApi
 
 object IntentFactory {
 
+    /**
+     * @return 用于打开 系统设置 的Intent
+     */
     fun settingsLauncherIntent(context: Context): Intent? {
         return context.packageManager.getLaunchIntentForPackage("com.android.settings")?.apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -40,12 +44,18 @@ object IntentFactory {
         return Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION)
     }
 
+    /**
+     * 开启辅助功能配置页
+     */
     fun accessibilitySettings(): Intent {
         return Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
     }
 
+    /**
+     * 开启显示在其他应用之上 配置页
+     */
     @RequiresApi(Build.VERSION_CODES.M)
-    fun manageOverlayPermission():Intent {
+    fun manageOverlayPermission(): Intent {
         return Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
     }
 
@@ -82,4 +92,13 @@ object IntentFactory {
         }
     }
 
+    // --------------------------------------------------
+//    private fun buildServicePendingIntent(context: Context, intent: Intent): PendingIntent {
+//        return PendingIntent.getService(
+//            context,
+//            0,
+//            intent,
+//            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+//        )
+//    }
 }

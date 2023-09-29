@@ -1,11 +1,13 @@
-package com.zaze.feature.sliding.conflict
+package com.zaze.utils
 
 import java.util.concurrent.atomic.AtomicInteger
 
-// id生成器
-internal object IdGenerator {
+/**
+ * id生成器
+ */
+object IdGenerator {
     private val sNextGeneratedId = AtomicInteger(1)
-    fun generateViewId(): Int {
+    fun generateId(): Int {
         while (true) {
             val result = sNextGeneratedId.get()
             // aapt-generated IDs have the high byte nonzero; clamp to the range under that.

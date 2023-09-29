@@ -1,41 +1,14 @@
-ext {
-//    set("junitVersion", "4.13.2")
-//    set("kotlin_version", "1.7.20")
-//    set("hiltVersion", "2.44")
-
-//    junitVersion = "4.13.2"
-//    versionCode = 1
-//    versionName = "1.0"
-//    kotlin_version = "1.7.20"
-//    hiltVersion = "2.44"
-}
-
 buildscript {
-    repositories {
-        if(extra.has("useLocalMaven") && (extra["useLocalMaven"] as String).toBoolean()) {
-            maven {
-                isAllowInsecureProtocol = true
-                url = uri("http://localhost:8081/repository/maven-public")
-            }
-        }
-        mavenLocal()
-        // 项目下的 lib目录
-//        maven { url = uri("file:${rootDir.path}/lib") }
-        maven { url = uri("https://maven.aliyun.com/repository/public") }
-        maven { url = uri("https://maven.aliyun.com/repository/jcenter") }
-        maven { url = uri("https://maven.aliyun.com/repository/google") }
-        google()
-        mavenCentral()
-    }
 
     dependencies {
-//        classpath(libs.gradle)
+        classpath(libs.gradle)
         classpath(libs.kotlin.gradle.plugin)
-//        classpath(libs.hilt.gradlePlugin)
+        classpath(libs.hilt.gradle.plugin)
 //        classpath 'com.jakewharton:butterknife-gradle-plugin:9.0.0-rc1'
         // 上传bintray
-        classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7")
-        classpath("com.github.dcendents:android-maven-gradle-plugin:2.0")
+//        classpath(libs.gradle.bintray.plugin)
+//        classpath(libs.android.maven.gradle.plugin)
+
 //        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0")
 //        classpath("com.alibaba:arouter-register:1.0.2")
         // matrix
@@ -58,32 +31,6 @@ plugins {
 println("project build : -----------------------------------------------------")
 
 //apply("${project.rootDir}/buildscripts/toml-updater-config.gradle")
-
-//subprojects {
-//    repositories {
-//        val useLocalMaven = (extra["useLocalMaven"] as String).toBoolean()
-//        if(useLocalMaven) {
-//            maven {
-//                isAllowInsecureProtocol = true
-//                url = uri("http://localhost:8081/repository/maven-public")
-//            }
-//        }
-//        maven { url = uri("https://maven.aliyun.com/repository/public") }
-//        maven { url = uri("https://maven.aliyun.com/repository/jcenter") }
-//        maven { url = uri("https://maven.aliyun.com/repository/google") }
-//        maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") }
-//        maven { url = uri("https://jitpack.io") }
-//        google()
-//        mavenCentral()
-////        maven {
-////            url 'file:///Users/zaze/Documents/maven/localrepo/'
-////        }
-////        maven {
-////            url "https://dl.bintray.com/zaze359/maven"
-////        }
-//    }
-//}
-
 //apply(from = "${project.rootDir}/buildscripts/common.gradle")
 
 //task clean (type = Delete) {

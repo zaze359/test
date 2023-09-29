@@ -10,6 +10,7 @@ import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.zaze.common.base.AbsFragment
 import com.zaze.feature.sliding.conflict.databinding.FragmentNestedViewPagerBinding
+import com.zaze.utils.IdGenerator
 import com.zaze.utils.log.ZLog
 
 class NestedViewPagerFragment : AbsFragment() {
@@ -22,9 +23,9 @@ class NestedViewPagerFragment : AbsFragment() {
         val binding = FragmentNestedViewPagerBinding.inflate(inflater, container, false)
         binding.nestedViewPager.adapter = MyAdapter(
             intArrayOf(
-                IdGenerator.generateViewId(),
-                IdGenerator.generateViewId(),
-                IdGenerator.generateViewId()
+                IdGenerator.generateId(),
+                IdGenerator.generateId(),
+                IdGenerator.generateId()
             )
         )
         binding.nestedViewPager.addOnPageChangeListener(object : OnPageChangeListener {
