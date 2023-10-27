@@ -19,8 +19,7 @@ Properties mavenProperties = new Properties()
 loadProperties(mavenProperties, Arrays.asList(rootProject.file("buildscripts/maven.properties"), rootProject.file("local.properties")))
 
 def isReleaseBuild() {
-    return project.hasProperty('release')
-//    return VERSION_NAME.endWith("SNAPSHOT") == false
+    return VERSION_NAME.endsWith("SNAPSHOT") == false
 }
 
 static def getReleaseRepositoryUrl(Properties properties) {
@@ -85,8 +84,6 @@ afterEvaluate { project ->
                 credentials(PasswordCredentials) {
                     username = getRepositoryUsername(mavenProperties)
                     password = getRepositoryPassword(mavenProperties)
-                    println("username: " + username)
-                    println("password: " + password)
                 }
 //                artifact rpmArtifact
             }
@@ -102,13 +99,13 @@ afterEvaluate { project ->
                 configurePom(mavenProperties, pom)
             }
             // Creates a Maven publication called “debug”.
-            debug(MavenPublication) {
-                from components.debug
-                groupId = GROUP
-                artifactId = POM_ARTIFACT_ID
-                version = VERSION_NAME + "-SNAPSHOT"
-                configurePom(mavenProperties, pom)
-            }
+//            debug(MavenPublication) {
+//                from components.debug
+//                groupId = GROUP
+//                artifactId = POM_ARTIFACT_ID
+//                version = VERSION_NAME + "-SNAPSHOT"
+//                configurePom(mavenProperties, pom)
+//            }
         }
 
         // 配置 publishingToMavenLocal 指令

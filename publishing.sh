@@ -1,15 +1,18 @@
 #!/bin/bash
 
 echo "脚本名: $0 ";
-echo "参数1: $1 ";
+echo "库名: $1 ";
 
 #./gradlew -p $1 clean build bintrayUpload --info
 #./gradlew -p $1 uploadArchives --info
-# 上传到远程maven仓库
-#./gradlew :$1:publishAllPublicationsToMavenRepository --info
-# 上传到 MavenLocal
-./gradlew :util:publishDebugPublicationToMavenLocal --info
-./gradlew :util:publishDebugPublicationToMavenRepository --info
 
-#./gradlew :core:designsystem:publishDebugPublicationToMavenLocal --info
-#./gradlew :core:designsystem:publishDebugPublicationToMavenRepository --info
+# 上传到 MavenLocal
+./gradlew :$1:publishReleasePublicationToMavenLocal --info
+# 上传到远程maven仓库
+./gradlew :$1:publishReleasePublicationToMavenRepository --info
+
+#./gradlew :util:publishReleasePublicationToMavenLocal --info
+#./gradlew :util:publishReleasePublicationToMavenRepository --info
+
+#./gradlew :core:designsystem:publishReleasePublicationToMavenLocal --info
+#./gradlew :core:designsystem:publishReleasePublicationToMavenRepository --info
