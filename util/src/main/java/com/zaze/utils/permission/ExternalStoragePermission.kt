@@ -47,7 +47,7 @@ object ExternalStoragePermission {
 
     fun createSettingIntent(context: Context): Intent {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            IntentFactory.manageAllFilesAccessPermission()
+            IntentFactory.SpecialPermission.manageAllFilesAccessPermission()
         } else {
             IntentFactory.applicationDetailsSettings(context.packageName)
         }

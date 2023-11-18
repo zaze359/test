@@ -1,6 +1,7 @@
 package com.zaze.demo.feature.intent
 
 import android.app.Activity
+import android.app.admin.DevicePolicyManager
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -80,12 +81,16 @@ private fun IntentList(modifier: Modifier) {
         }
 
     Column(modifier = modifier.verticalScroll(rememberScrollState())) {
+        Text(
+            modifier = buttonModifier,
+            text = "打开页面的方式"
+        )
         ElevatedButton(modifier = buttonModifier, onClick = {
             val intent = Intent(context, EntranceActivity::class.java)
             intent.putExtra(EntranceActivity.KEY, "显示启动：EntranceActivity::class.java")
             context.startActivity(intent)
         }) {
-            Text(text = "启动页面-显示Intent")
+            Text(text = "显示Intent启动")
         }
         ElevatedButton(modifier = buttonModifier, onClick = {
             val intent = Intent("com.zaze.demo.action.ENTRANCE")
@@ -96,7 +101,7 @@ private fun IntentList(modifier: Modifier) {
             )
             context.startActivity(intent)
         }) {
-            Text(text = "启动页面-隐式Intent")
+            Text(text = "隐式Intent启动")
         }
         ElevatedButton(modifier = buttonModifier, onClick = {
             val intent = Intent("com.zaze.demo.action.ENTRANCE")
@@ -108,7 +113,7 @@ private fun IntentList(modifier: Modifier) {
             )
             context.startActivity(intent)
         }) {
-            Text(text = "启动页面-自定义category")
+            Text(text = "使用自定义category启动")
         }
         ElevatedButton(modifier = buttonModifier, onClick = {
             val intent = Intent(Intent.ACTION_VIEW).apply {
@@ -121,7 +126,7 @@ private fun IntentList(modifier: Modifier) {
             }
             context.startActivity(intent)
         }) {
-            Text(text = "启动页面-Deeplink")
+            Text(text = "Deeplink跳转")
         }
         // ----------------------------
         MyPadding()
@@ -133,18 +138,78 @@ private fun IntentList(modifier: Modifier) {
         ElevatedButton(modifier = buttonModifier, onClick = {
             context.startActivity(IntentFactory.applicationDetailsSettings(context.packageName))
         }) {
-            Text(text = "跳转系统设置-查看应用详情")
+            Text(text = "跳转系统设置 - 查看应用详情")
         }
         ElevatedButton(modifier = buttonModifier, onClick = {
-            context.startActivity(IntentFactory.usageAccessSettings())
+            context.startActivity(IntentFactory.syncSettings())
         }) {
-            Text(text = "跳转系统设置-使用情况访问权限")
+            Text(text = "账号同步")
+        }
+        //
+        MyPadding()
+        Text(
+            modifier = buttonModifier,
+            text = "特殊应用权限配置页"
+        )
+        ElevatedButton(modifier = buttonModifier, onClick = {
+            context.startActivity(IntentFactory.SpecialPermission.usageAccessSettings())
+        }) {
+            Text(text = "使用情况访问权限")
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             ElevatedButton(modifier = buttonModifier, onClick = {
-                context.startActivity(IntentFactory.manageAllFilesAccessPermission())
+                context.startActivity(IntentFactory.SpecialPermission.manageAllFilesAccessPermission())
             }) {
-                Text(text = "跳转系统设置-文件管理权限")
+                Text(text = "所有文件访问权限")
+            }
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            ElevatedButton(
+                modifier = buttonModifier,
+                onClick = {
+                    context.startActivity(IntentFactory.SpecialPermission.requestScheduleExactAlarm())
+                }) {
+                Text(text = "闹钟和提醒")
+            }
+            ElevatedButton(modifier = buttonModifier, onClick = {
+                context.startActivity(IntentFactory.SpecialPermission.requestManageMedia())
+            }) {
+                Text(text = "媒体管理应用")
+            }
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ElevatedButton(
+                modifier = buttonModifier,
+                onClick = {
+                    context.startActivity(IntentFactory.SpecialPermission.manageOverlayPermission())
+                }) {
+                Text(text = "显示在其他应用的上层")
+            }
+            ElevatedButton(
+                modifier = buttonModifier,
+                onClick = {
+                    context.startActivity(IntentFactory.SpecialPermission.notificationPolicyAccessSettings())
+                }) {
+                Text(text = "\"勿扰\"权限")
+            }
+            ElevatedButton(modifier = buttonModifier, onClick = {
+                context.startActivity(IntentFactory.SpecialPermission.manageWriteSettings())
+            }) {
+                Text(text = "修改系统设置")
+            }
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            ElevatedButton(modifier = buttonModifier, onClick = {
+                context.startActivity(IntentFactory.SpecialPermission.notificationListenerSettings())
+            }) {
+                Text(text = "设备和应用通知-监听通知")
+            }
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            ElevatedButton(modifier = buttonModifier, onClick = {
+                context.startActivity(IntentFactory.SpecialPermission.manageUnknownAppSources())
+            }) {
+                Text(text = "安装未知应用")
             }
         }
         // ----------------------------

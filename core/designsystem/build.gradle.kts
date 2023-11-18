@@ -46,6 +46,7 @@ android {
 
 dependencies {
 //    implementation(fileTree(baseDir = "libs"))
+    api(libs.google.android.material)
 
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
@@ -57,11 +58,10 @@ dependencies {
     // splash screen
     api(libs.androidx.core.splash)
 
-    api(libs.google.android.material)
-
-
+    api(libs.androidx.compose.materialWindow)
     api(libs.androidx.compose.material3)
     api(libs.androidx.compose.material.icons.extended)
+
     api(libs.androidx.compose.ui.googlefonts)
     api(libs.androidx.compose.ui.util)
     api(libs.androidx.compose.ui.tooling.preview)

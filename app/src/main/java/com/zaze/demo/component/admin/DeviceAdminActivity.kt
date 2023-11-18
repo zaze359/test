@@ -27,8 +27,8 @@ class DeviceAdminActivity : AbsActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding =
-            DataBindingUtil.setContentView<DeviceAdminActBinding>(this, R.layout.device_admin_act)
+        val binding = DeviceAdminActBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         viewModel.itemsData.observe(this) {
             binding.deviceAdminLayout.layoutManager = LinearLayoutManager(this)
             binding.deviceAdminLayout.adapter = DeviceAdminAdapter(this, it)
@@ -43,10 +43,6 @@ class DeviceAdminActivity : AbsActivity() {
             viewModel.removeDeviceAdmin()
         }
         viewModel.loadItems()
-    }
-
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
-        return super.onTouchEvent(event)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

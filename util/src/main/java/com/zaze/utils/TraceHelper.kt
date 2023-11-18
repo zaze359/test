@@ -21,7 +21,9 @@ import android.os.Build
 import android.os.SystemClock
 import android.os.Trace
 import com.zaze.utils.log.ZLog
+import kotlinx.coroutines.CoroutineScope
 import java.util.HashMap
+import kotlin.coroutines.CoroutineContext
 
 /**
  * A wrapper around [Trace] to allow easier proguarding for production builds.
@@ -81,6 +83,15 @@ object TraceHelper {
                 }
                 ZLog.d(TAG, sectionName + ">> " + msg + " : " + (SystemClock.uptimeMillis() - time))
             }
+        }
+    }
+
+    inline fun <T> trace(label: String, crossinline block: () -> T): T {
+        try {
+            beginSection(label)
+            return block()
+        } finally {
+            endSection(label)
         }
     }
 }

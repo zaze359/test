@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import com.zaze.common.base.AbsViewModel
 import com.zaze.common.base.BaseApplication
 import com.zaze.common.base.SingleLiveEvent
+import com.zaze.utils.IntentFactory
 import com.zaze.utils.log.ZLog
 
 /**
@@ -38,7 +39,10 @@ class DeviceAdminViewModel : AbsViewModel() {
         return try {
             val isActive =
                 getDevicePolicyManager().isAdminActive(getAdminComponentName())
-            ZLog.i(DeviceAdminActivity.TAG, "设备管理器激活状态 $isActive  ${System.currentTimeMillis()}")
+            ZLog.i(
+                DeviceAdminActivity.TAG,
+                "设备管理器激活状态 $isActive  ${System.currentTimeMillis()}"
+            )
             return isActive
         } catch (e: Exception) {
             ZLog.w(DeviceAdminActivity.TAG, "获取设备管理器激活状态 发生异常", e)
@@ -46,24 +50,24 @@ class DeviceAdminViewModel : AbsViewModel() {
         }
     }
 
-    fun getAdminComponentName(): ComponentName {
+    private fun getAdminComponentName(): ComponentName {
         return ComponentName(BaseApplication.getInstance(), MyAdminReceiver::class.java)
     }
 
-    fun getDevicePolicyManager(): DevicePolicyManager {
+    private fun getDevicePolicyManager(): DevicePolicyManager {
         return BaseApplication.getInstance()
             .getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
     }
 
     fun addDeviceAdmin(context: Activity, requestCode: Int): Boolean {
-        if(isAdminActive()) {
+        if (isAdminActive()) {
             return true
         }
         try {
-            val intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)
-            intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, getAdminComponentName())
-            // 提示文本
-            intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "test txt")
+            val intent = IntentFactory.SpecialPermission.addDeviceAdmin(
+                getAdminComponentName(),
+                "测试设备管理器"
+            )
             context.startActivityForResult(intent, requestCode)
             ZLog.i(DeviceAdminActivity.TAG, "请求启动设备管理器...")
         } catch (e: Exception) {

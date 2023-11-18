@@ -72,16 +72,16 @@ android {
 
     signingConfigs {
         getByName("debug") {
-            storeFile = file("android_zaze.keystore")
-            storePassword = "3184582"
+            storeFile = file("android_demo.keystore")
+            storePassword = "123456"
             keyAlias = "android"
-            keyPassword = "3184582"
+            keyPassword = "123456"
         }
         create("release") {
-            storeFile = file("android_zaze.keystore")
-            storePassword = "3184582"
+            storeFile = file("android_demo.keystore")
+            storePassword = "123456"
             keyAlias = "android"
-            keyPassword = "3184582"
+            keyPassword = "123456"
         }
     }
 
@@ -172,8 +172,6 @@ dependencies {
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.navigation.compose)
-
-    implementation(libs.androidx.compose.materialWindow)
 
     // Optional - Integration with activities
     implementation(libs.androidx.activity.compose)

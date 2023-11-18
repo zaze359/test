@@ -1,17 +1,13 @@
 package com.zaze.demo.component.device
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.zaze.common.base.AbsAndroidViewModel
-import com.zaze.common.base.AbsViewModel
-import com.zaze.common.base.BaseApplication
 import com.zaze.core.data.repository.DeviceRepository
 import com.zaze.core.model.data.DeviceStatus
 import com.zaze.utils.DisplayUtil
 import com.zaze.utils.ZStringUtil
-import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

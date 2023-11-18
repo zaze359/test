@@ -45,10 +45,11 @@ fun AppCompatActivity.setImmersiveFullscreen() {
 }
 
 /**
- * 透明状态栏，显示在状态后面
+ * 透明状态栏，可以显示在状态后面
  */
 fun AppCompatActivity.setDrawBehindSystemBars() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        // false 允许 UI 显示在 system bar 后面
         WindowCompat.setDecorFitsSystemWindows(window, false)
         window.navigationBarColor = Color.TRANSPARENT
         window.statusBarColor = Color.TRANSPARENT

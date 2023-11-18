@@ -1,6 +1,12 @@
 pluginManagement {
+    val localPropertiesFile = File(rootProject.projectDir, "local.properties")
+    val properties = java.util.Properties()
+    properties.load(java.io.DataInputStream(localPropertiesFile.inputStream()))
+    extra["useLocalMaven"] = properties.getProperty("useLocalMaven", "false").toBoolean()
     repositories {
-        if(extra.has("useLocalMaven") && (extra["useLocalMaven"] as String).toBoolean()) {
+//        if(extra.has("useLocalMaven") && (extra["useLocalMaven"] as String).toBoolean()) {
+        if (extra["useLocalMaven"] == true) {
+//            println("extra22: ${extra["useLocalMaven"]}")
             maven {
                 isAllowInsecureProtocol = true
                 url = uri("http://localhost:8081/repository/maven-public")
@@ -18,7 +24,7 @@ pluginManagement {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        if(extra.has("useLocalMaven") && (extra["useLocalMaven"] as String).toBoolean()) {
+        if (extra["useLocalMaven"] == true) {
             maven {
                 isAllowInsecureProtocol = true
                 url = uri("http://localhost:8081/repository/maven-public")
@@ -34,6 +40,13 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
     }
+
+//    // 指定自定义的 versionCatalogs
+//    versionCatalogs {
+//        create("aa") {
+//            from(files("gradle/aa.versions.toml"))
+//        }
+//    }
 }
 
 rootProject.name = "test"

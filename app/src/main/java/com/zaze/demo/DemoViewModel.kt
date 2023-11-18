@@ -57,7 +57,7 @@ class DemoViewModel @Inject constructor(private val demoRepository: DemoReposito
             }
             floatingLayout?.show()
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            activity.startActivity(IntentFactory.manageOverlayPermission())
+            activity.startActivity(IntentFactory.SpecialPermission.manageOverlayPermission())
         }
 
         listOf(

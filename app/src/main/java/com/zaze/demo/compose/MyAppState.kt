@@ -87,6 +87,7 @@ class MyAppState(
     fun navigateToTopLevelDestination(topLevelDestination: TopLevelDestination) {
         trace("Navigation: ${topLevelDestination.name}") {
             val topLevelNavOptions = navOptions {
+                // 仅保存顶部导航的状态
                 popUpTo(navController.graph.findStartDestination().id) {
                     saveState = true
                 }

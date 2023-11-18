@@ -6,7 +6,6 @@ import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkRequest;
@@ -68,25 +67,21 @@ public class WifiCompat {
      */
     public static void listenerByConn(ConnectivityManager.NetworkCallback networkCallback) {
         Application context = MyApplication.getInstance();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-            if (connectivityManager != null &&
-                    ContextCompat.checkSelfPermission(context, Manifest.permission.CHANGE_NETWORK_STATE) == PackageManager.PERMISSION_GRANTED) {
-                // 保证获取权限
-                if (networkCallback != null) {
-                    connectivityManager.requestNetwork(new NetworkRequest.Builder().build(), networkCallback);
-                }
-            } else {
-                ZLog.e(ZTag.TAG_DEBUG, "checkSelfPermission denied!!");
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null &&
+                ContextCompat.checkSelfPermission(context, Manifest.permission.CHANGE_NETWORK_STATE) == PackageManager.PERMISSION_GRANTED) {
+            // 保证获取权限
+            if (networkCallback != null) {
+                connectivityManager.requestNetwork(new NetworkRequest.Builder().build(), networkCallback);
             }
         } else {
-            listenerByBroadcast(context);
+            ZLog.e(ZTag.TAG_DEBUG, "checkSelfPermission denied!!");
         }
     }
 
     /**
      * 使用动态注册广播监听
-     *
+     * 5.0前
      * @param context Application
      */
     public static void listenerByBroadcast(Application context) {
