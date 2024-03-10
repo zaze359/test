@@ -32,5 +32,12 @@
         </service>
 
         <activity android:name=".CommunicationActivity" />
+
+        <activity
+            android:name="com.zaze.demo.component.socket.client.ui.ClientActivity"
+            android:theme="@style/Theme.MyApp" />
+        <activity
+            android:name="com.zaze.demo.component.socket.server.ServerActivity"
+            android:theme="@style/Theme.MyApp" />
     </application>
 </manifest>

@@ -1,45 +1,69 @@
 package com.zaze.demo.feature.communication
 
 import android.app.Application
+import android.content.BroadcastReceiver
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.content.ServiceConnection
 import android.database.Cursor
 import android.net.Uri
-import android.os.*
+import android.os.Binder
+import android.os.Build
+import android.os.Bundle
+import android.os.Handler
+import android.os.HandlerThread
+import android.os.IBinder
+import android.os.Message
+import android.os.Messenger
+import android.os.Parcel
 import android.provider.DocumentsContract
 import androidx.lifecycle.viewModelScope
 import com.zaze.common.base.AbsAndroidViewModel
-import com.zaze.common.util.FileProviderHelper
 import com.zaze.core.model.data.ChatMessage
 import com.zaze.core.model.data.getMessageContent
+import com.zaze.demo.component.socket.WebSocketManager
 import com.zaze.demo.feature.communication.broadcast.MessageReceiver
+import com.zaze.demo.feature.communication.messenger.MessengerService
 import com.zaze.demo.feature.communication.parcel.IpcMessage
-import com.zaze.utils.FileUtil
-import com.zaze.utils.getImagePath
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import com.zaze.utils.query
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import java.net.URI
 import javax.inject.Inject
 
 @HiltViewModel
 class CommunicationViewModel @Inject constructor(application: Application) :
     AbsAndroidViewModel(application) {
 
+    // 状态
     private val viewModelState = MutableStateFlow(CommunicationViewModelState())
     val uiState: StateFlow<CommunicationUiState> =
         viewModelState.map(CommunicationViewModelState::toUiState).stateIn(
             viewModelScope, SharingStarted.Eagerly, viewModelState.value.toUiState()
         )
+    //
+    /** message 发送数据 */
+    private var serviceMessenger: Messenger? = null
 
-    /** 发送数据 */
-    var serviceMessenger: Messenger? = null
+    // 连接 messengerService
+    private val messengerServiceConnection = object : ServiceConnection {
+        override fun onServiceDisconnected(name: ComponentName?) {
+            serviceMessenger = null
+        }
+
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            serviceMessenger = Messenger(service)
+        }
+    }
 
     /** 接收服务端回执 */
     private var messengerThread = HandlerThread("messenger_thread").apply { start() }
@@ -59,20 +83,47 @@ class CommunicationViewModel @Inject constructor(application: Application) :
     private var remoteService: IRemoteService? = null
     private val remoteServiceDeathRecipient = IBinder.DeathRecipient {
         ZLog.i("CommunicationViewModel", "remoteService binderDied")
-        onRemoteServiceDisconnected()
+        remoteService = null
         // 重连？
     }
 
-    fun onRemoteServiceConnected(service: IBinder?) {
-        remoteService = IRemoteService.Stub.asInterface(service)
-        service?.linkToDeath(remoteServiceDeathRecipient, 0)
+    // 连接 remoteService
+    private val remoteServiceServiceConnection = object : ServiceConnection {
+        override fun onServiceDisconnected(name: ComponentName?) {
+            ZLog.i("CommunicationViewModel", "onRemoteServiceDisconnected")
+            remoteService?.asBinder()?.unlinkToDeath(remoteServiceDeathRecipient, 0)
+            remoteService = null
+        }
+
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            remoteService = IRemoteService.Stub.asInterface(service)
+            service?.linkToDeath(remoteServiceDeathRecipient, 0)
+        }
     }
 
-    fun onRemoteServiceDisconnected() {
-        ZLog.i("CommunicationViewModel", "onRemoteServiceDisconnected")
-        remoteService?.asBinder()?.unlinkToDeath(remoteServiceDeathRecipient, 0)
-        remoteService = null
+    private val replayReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent?.action == MessageReceiver.ACTION_REPLAY) {
+                val ipcMessage: IpcMessage? =
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        intent.getParcelableExtra(
+                            MessageReceiver.KEY_MESSAGE,
+                            IpcMessage::class.java
+                        )
+                    } else {
+                        intent.getParcelableExtra(MessageReceiver.KEY_MESSAGE)
+                    }
+                addChatMessage(
+                    ChatMessage.Text(
+                        author = "BROADCAST",
+                        content = ipcMessage?.data ?: "",
+                    )
+                )
+            }
+        }
     }
+
+    private val webSocketManager = WebSocketManager()
 
     init {
         viewModelScope.launch {
@@ -98,7 +149,6 @@ class CommunicationViewModel @Inject constructor(application: Application) :
             )
         }
     }
-
 
     fun sendMessage(message: String) {
         val chatMessage = ChatMessage.Text(
@@ -154,6 +204,10 @@ class CommunicationViewModel @Inject constructor(application: Application) :
                 application.sendBroadcast(Intent(MessageReceiver.ACTION_MESSAGE).also {
                     it.putExtra(MessageReceiver.KEY_MESSAGE, IpcMessage(data = messageContent))
                 })
+            }
+
+            CommunicationMode.SOCKET -> {
+                webSocketManager.send(messageContent)
             }
 
             else -> {
@@ -272,6 +326,37 @@ class CommunicationViewModel @Inject constructor(application: Application) :
             ZLog.e(ZTag.TAG_DEBUG, "get testBinder fail");
         }
     }
+
+    fun bind(context: Context) {
+        ZLog.i("IpcScreen", "bindService")
+        context.bindService(
+            Intent(context, MessengerService::class.java),
+            messengerServiceConnection,
+            Context.BIND_AUTO_CREATE
+        )
+        val serviceIntent = Intent("com.zaze.export.remoteService")
+        serviceIntent.setPackage("com.zaze.demo")
+//                    serviceIntent.component = ComponentName(
+//                        "com.zaze.demo",
+//                        "com.zaze.demo.feature.communication.aidl.RemoteService"
+//                    )
+        context.bindService(
+            serviceIntent,
+            remoteServiceServiceConnection,
+            Context.BIND_AUTO_CREATE
+        )
+        context.registerReceiver(replayReceiver, IntentFilter(MessageReceiver.ACTION_REPLAY))
+        webSocketManager.connect()
+    }
+
+    fun unBind(context: Context) {
+        context.unbindService(messengerServiceConnection)
+        context.unbindService(remoteServiceServiceConnection)
+        context.unregisterReceiver(replayReceiver)
+        webSocketManager.close()
+    }
+
+
 }
 
 private data class CommunicationViewModelState(

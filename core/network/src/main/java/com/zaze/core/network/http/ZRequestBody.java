@@ -30,7 +30,7 @@ public abstract class ZRequestBody {
      * @return media type
      */
     public abstract @NonNull
-    LMediaType getMediaType();
+    ZMediaType getMediaType();
 
 
     /**
@@ -40,7 +40,7 @@ public abstract class ZRequestBody {
      * @param content   content
      * @return LRequestBody
      */
-    public static ZRequestBody create(@NonNull final LMediaType mediaType, final Object content) {
+    public static ZRequestBody create(@NonNull final ZMediaType mediaType, final Object content) {
         return new ZRequestBody() {
             @Override
             public @NonNull
@@ -58,7 +58,7 @@ public abstract class ZRequestBody {
 
             @Override
             public @NonNull
-            LMediaType getMediaType() {
+            ZMediaType getMediaType() {
                 return mediaType;
             }
         };
@@ -71,7 +71,7 @@ public abstract class ZRequestBody {
      * @return LRequestBody
      */
     public static ZRequestBody create(Object content) {
-        return create(new LMediaType(), content);
+        return create(new ZMediaType(), content);
     }
 
 }

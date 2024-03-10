@@ -2,16 +2,14 @@ package com.zaze.demo.component.socket.server
 
 
 import android.os.Bundle
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zaze.common.base.BaseActivity
-import com.zaze.demo.R
 import com.zaze.demo.component.socket.SocketMessage
 import com.zaze.demo.component.socket.adapter.SocketAdapter
 import com.zaze.demo.component.socket.server.presenter.ServerPresenter
 import com.zaze.demo.component.socket.server.presenter.impl.ServerPresenterImpl
 import com.zaze.demo.component.socket.server.view.ServerView
-import com.zaze.demo.databinding.ServerActivityBinding
+import com.zaze.demo.feature.communication.databinding.ServerActivityBinding
 
 /**
  * Description :
@@ -26,8 +24,8 @@ open class ServerActivity : BaseActivity(), ServerView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding =
-            DataBindingUtil.setContentView<ServerActivityBinding>(this, R.layout.server_activity)
+        binding = ServerActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         presenter = ServerPresenterImpl(this)
         binding.serverStartBt.setOnClickListener {
             presenter?.startServer()

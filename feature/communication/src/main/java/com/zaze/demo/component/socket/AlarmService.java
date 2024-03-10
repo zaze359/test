@@ -41,7 +41,7 @@ public class AlarmService extends Service {
                     this,
                     0,
                     new Intent(this, AlarmService.class),
-                    0);
+                    PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
             alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000L, pi);
         }
     }

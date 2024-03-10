@@ -3,6 +3,7 @@ pluginManagement {
     val properties = java.util.Properties()
     properties.load(java.io.DataInputStream(localPropertiesFile.inputStream()))
     extra["useLocalMaven"] = properties.getProperty("useLocalMaven", "false").toBoolean()
+    //
     repositories {
 //        if(extra.has("useLocalMaven") && (extra["useLocalMaven"] as String).toBoolean()) {
         if (extra["useLocalMaven"] == true) {

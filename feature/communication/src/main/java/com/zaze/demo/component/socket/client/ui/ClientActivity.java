@@ -1,5 +1,6 @@
 package com.zaze.demo.component.socket.client.ui;
 
+
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -9,26 +10,23 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.zaze.common.base.BaseActivity;
-import com.zaze.demo.R;
-import com.zaze.demo.component.socket.BaseSocketClient;
-import com.zaze.demo.component.socket.SocketMessage;
-import com.zaze.demo.component.socket.UDPSocketClient;
-import com.zaze.demo.component.socket.adapter.SocketAdapter;
-import com.zaze.utils.JsonUtil;
-import com.zaze.utils.ThreadManager;
-
-import org.greenrobot.eventbus.EventBus;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.zaze.common.base.BaseActivity;
+import com.zaze.demo.component.socket.BaseSocketClient;
+import com.zaze.demo.component.socket.SocketMessage;
+import com.zaze.demo.component.socket.UDPSocketClient;
+import com.zaze.demo.component.socket.adapter.SocketAdapter;
+import com.zaze.demo.feature.communication.R;
+import com.zaze.utils.ThreadManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Description :
@@ -87,7 +85,7 @@ public class ClientActivity extends BaseActivity {
 //            }
 //        })
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, clientDrawerLayout, toolbar, R.string.app_name, R.string.app_name) {
+        mDrawerToggle = new ActionBarDrawerToggle(this, clientDrawerLayout, toolbar, R.string.communication, R.string.communication) {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
@@ -110,7 +108,7 @@ public class ClientActivity extends BaseActivity {
             protected void onPresence(SocketMessage socketMessage) {
                 super.onPresence(socketMessage);
                 list.add(socketMessage);
-                EventBus.getDefault().post(JsonUtil.objToJson(socketMessage));
+//                EventBus.getDefault().post(JsonUtil.objToJson(socketMessage));
                 ThreadManager.getInstance().runInUIThread(new Runnable() {
                     @Override
                     public void run() {
@@ -145,7 +143,7 @@ public class ClientActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
+//        inflater.inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

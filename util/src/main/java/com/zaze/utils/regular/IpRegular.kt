@@ -23,12 +23,12 @@ class IpRegular internal constructor(ip: String) {
     }
 
     fun isMatched(): Boolean {
-        return matcher.matches() && matcher.groupCount() > 2 && !TextUtils.isEmpty(matcher.group(2))
+        return matcher.matches() && matcher.groupCount() > 2 && !matcher.group(2).isNullOrEmpty()
     }
 
     fun getIpWithoutPort(): String {
         if (isMatched()) {
-            return matcher.group(2)
+            return matcher.group(2) ?: ""
         }
         return ""
     }

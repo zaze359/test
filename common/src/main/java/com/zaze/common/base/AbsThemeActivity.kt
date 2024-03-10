@@ -34,7 +34,7 @@ abstract class AbsThemeActivity : AbsPermissionsActivity() {
     private val handler = Handler(Looper.getMainLooper())
 
     private val themeRunnable = Runnable {
-        if(isFullScreen()) {
+        if (isFullScreen()) {
             setImmersiveFullscreen()
         }
     }
@@ -95,7 +95,7 @@ abstract class AbsThemeActivity : AbsPermissionsActivity() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         exitFullscreen()
+        super.onDestroy()
     }
 }

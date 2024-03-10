@@ -2,13 +2,14 @@ package com.zaze.demo.component.socket.server.presenter.impl
 
 import com.zaze.common.base.BaseApplication
 import com.zaze.common.base.mvp.BaseMvpPresenter
-import com.zaze.demo.component.socket.*
 import com.zaze.demo.component.socket.server.presenter.ServerPresenter
 import com.zaze.demo.component.socket.server.view.ServerView
+import com.zaze.demo.component.socket.BaseSocketClient
+import com.zaze.demo.component.socket.MessageType
+import com.zaze.demo.component.socket.SocketMessage
+import com.zaze.demo.component.socket.UDPSocketClient
 import com.zaze.utils.NetUtil
 import com.zaze.utils.ThreadManager
-import com.zaze.utils.log.ZLog
-import com.zaze.utils.log.ZTag
 import org.json.JSONObject
 import java.net.InetSocketAddress
 import java.util.*
@@ -19,7 +20,8 @@ import java.util.*
  * @author : zaze
  * @version : 2017-11-08 10:53 1.7
  */
-open class ServerPresenterImpl(view: ServerView) : BaseMvpPresenter<ServerView>(view), ServerPresenter {
+open class ServerPresenterImpl(view: ServerView) : BaseMvpPresenter<ServerView>(view),
+    ServerPresenter {
     val list: ArrayList<SocketMessage> = ArrayList()
     val serverSocket: BaseSocketClient
     val clientSet: HashSet<InetSocketAddress> = HashSet()
@@ -28,20 +30,24 @@ open class ServerPresenterImpl(view: ServerView) : BaseMvpPresenter<ServerView>(
 //    private var wakeLock: PowerManager.WakeLock? = null
 
     init {
-        serverSocket = UDPSocketClient("", 8004, object : BaseSocketClient.BaseSocketFace() {
-            override fun onChat(socketMessage: SocketMessage?) {
-                super.onChat(socketMessage)
-                if (socketMessage != null) {
-                    clientSet.add(InetSocketAddress(socketMessage.address, socketMessage.port))
-                    list.add(socketMessage)
-                    ThreadManager.getInstance().runInUIThread {
-                        view.showReceiverMsg(list)
+        serverSocket = UDPSocketClient(
+            "",
+            8004,
+            object :
+                BaseSocketClient.BaseSocketFace() {
+                override fun onChat(socketMessage: SocketMessage?) {
+                    super.onChat(socketMessage)
+                    if (socketMessage != null) {
+                        clientSet.add(InetSocketAddress(socketMessage.address, socketMessage.port))
+                        list.add(socketMessage)
+                        ThreadManager.getInstance().runInUIThread {
+                            view.showReceiverMsg(list)
+                        }
+                        notification(socketMessage)
+                        replay()
                     }
-                    notification(socketMessage)
-                    replay()
                 }
-            }
-        })
+            })
     }
 
     private fun notification(socketMessage: SocketMessage?) {
@@ -99,6 +105,11 @@ open class ServerPresenterImpl(view: ServerView) : BaseMvpPresenter<ServerView>(
     }
 
     private fun buildMessage(toId: Long, message: JSONObject, msgType: Int): SocketMessage {
-        return SocketMessage(fromId, toId, message.toString(), msgType)
+        return SocketMessage(
+            fromId,
+            toId,
+            message.toString(),
+            msgType
+        )
     }
 }

@@ -1,17 +1,16 @@
 package com.zaze.demo.component.socket;
 
-import android.net.wifi.WifiInfo;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
-import com.zaze.demo.app.MyApplication;
 import com.zaze.utils.JsonUtil;
-import com.zaze.utils.NetUtil;
 import com.zaze.utils.ThreadManager;
 import com.zaze.utils.ZStringUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
+import com.zaze.utils.network.NetworkManger;
+import com.zaze.utils.network.NetworkType;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -19,7 +18,6 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.MulticastSocket;
-import java.net.ServerSocket;
 import java.nio.charset.Charset;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
@@ -121,8 +119,8 @@ public class UDPSocketClient extends BaseSocketClient {
                         // 将本机的IP（这里可以写动态获取的IP）地址放到数据包里，其实server端接收到数据包后也能获取到发包方的IP的
                         String json = JsonUtil.objToJson(message);
                         byte[] data = json.getBytes();
-                        WifiInfo wifiInfo = NetUtil.getConnectionInfo(MyApplication.getInstance());
-                        if (wifiInfo != null) {
+                        NetworkType networkType = NetworkManger.INSTANCE.getCurrentNetwork();
+                        if (networkType.isEnable()) {
                             ZLog.d(ZTag.TAG_DEBUG, ZStringUtil.format("发送(%s:%s) : %s ", host, port, json));
                             DatagramPacket dataPacket = new DatagramPacket(data, data.length, new InetSocketAddress(host, port));
                             serverSocket.send(dataPacket);

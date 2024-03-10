@@ -41,7 +41,6 @@ android {
         enable = true
     }
 
-
     testOptions {
 //        execution 'ANDROID_TEST_ORCHESTRATOR'
         unitTests {

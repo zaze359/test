@@ -151,12 +151,7 @@
         <activity
             android:name=".component.system.ui.SystemActivity"
             android:theme="@style/Theme.MyApp" />
-        <activity
-            android:name=".component.socket.client.ui.ClientActivity"
-            android:theme="@style/Theme.MyApp" />
-        <activity
-            android:name=".component.socket.server.ServerActivity"
-            android:theme="@style/Theme.MyApp" />
+
         <activity
             android:name=".component.wifi.WifiActivity"
             android:theme="@style/Theme.MyApp" />

@@ -70,88 +70,14 @@ internal fun CommunicationRoute(
     onBackPress: () -> Unit,
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current // 当前这个Composable的生命周期
 ) {
-    // 连接 messengerService
-    val messengerServiceConnection = remember {
-        mutableStateOf(object : ServiceConnection {
-            override fun onServiceDisconnected(name: ComponentName?) {
-                viewModel.serviceMessenger = null
-            }
 
-            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-                viewModel.serviceMessenger = Messenger(service)
-            }
-        })
-    }
-
-    // 连接 remoteService
-    val remoteServiceServiceConnection = remember {
-        mutableStateOf(object : ServiceConnection {
-            override fun onServiceDisconnected(name: ComponentName?) {
-                viewModel.onRemoteServiceDisconnected()
-            }
-
-            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-                viewModel.onRemoteServiceConnected(service)
-            }
-        })
-    }
-
-    val replayReceiver = remember {
-        mutableStateOf(object : BroadcastReceiver() {
-            override fun onReceive(context: Context?, intent: Intent?) {
-                if (intent?.action == MessageReceiver.ACTION_REPLAY) {
-                    val ipcMessage: IpcMessage? =
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                            intent.getParcelableExtra(
-                                MessageReceiver.KEY_MESSAGE,
-                                IpcMessage::class.java
-                            )
-                        } else {
-                            intent.getParcelableExtra(MessageReceiver.KEY_MESSAGE)
-                        }
-                    viewModel.addChatMessage(
-                        ChatMessage.Text(
-                            author = "BROADCAST",
-                            content = ipcMessage?.data ?: "",
-                        )
-                    )
-                }
-            }
-
-            fun register(context: Context) {
-                context.registerReceiver(this, IntentFilter(MessageReceiver.ACTION_REPLAY))
-            }
-
-            fun unRegister(context: Context) {
-                context.unregisterReceiver(this)
-            }
-        })
-    }
     val context = LocalContext.current
     DisposableEffect(key1 = lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             ZLog.i("IpcScreen", "event: $event")
             when (event) {
                 Lifecycle.Event.ON_CREATE -> {
-                    ZLog.i("IpcScreen", "bindService")
-                    context.bindService(
-                        Intent(context, MessengerService::class.java),
-                        messengerServiceConnection.value,
-                        Context.BIND_AUTO_CREATE
-                    )
-                    val serviceIntent = Intent("com.zaze.export.remoteService")
-                    serviceIntent.setPackage("com.zaze.demo")
-//                    serviceIntent.component = ComponentName(
-//                        "com.zaze.demo",
-//                        "com.zaze.demo.feature.communication.aidl.RemoteService"
-//                    )
-                    context.bindService(
-                        serviceIntent,
-                        remoteServiceServiceConnection.value,
-                        Context.BIND_AUTO_CREATE
-                    )
-                    //
-                    replayReceiver.value.register(context)
+                    viewModel.bind(context)
                 }
 
                 else -> {
@@ -162,9 +88,7 @@ internal fun CommunicationRoute(
         onDispose { // 解绑
             ZLog.i("IpcScreen", "解绑")
             lifecycleOwner.lifecycle.removeObserver(observer)
-            context.unbindService(messengerServiceConnection.value)
-            context.unbindService(remoteServiceServiceConnection.value)
-            replayReceiver.value.unRegister(context)
+            viewModel.unBind(context)
         }
     }
 

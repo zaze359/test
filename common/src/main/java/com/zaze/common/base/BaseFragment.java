@@ -8,16 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+
 import com.zaze.common.util.ActivityUtil;
 import com.zaze.utils.ToastUtil;
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
-
-import java.lang.reflect.Field;
-
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 
 
 /**
@@ -82,26 +80,21 @@ public abstract class BaseFragment extends Fragment implements BaseView {
         super.onStop();
     }
 
-    /**
-     * Description : 解决fragment 嵌套fragment 时产生的Bug : 报错 no activity
-     * author : zaze
-     * version : 2015年1月5日 上午10:23:26 (non-Javadoc)
-     *
-     * @see Fragment#onDetach()
-     */
     @Override
     public void onDetach() {
         ZLog.v(ZTag.TAG_DEBUG, "onDetach : " + this.getClass().getName());
         super.onDetach();
-        try {
-            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
-            childFragmentManager.setAccessible(true);
-            childFragmentManager.set(this, null);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+        // 高版本 反射将childFragmentManager 置为空 会报错空指针
+//        // 解决fragment 嵌套fragment 时产生的Bug : 报错 no activity
+//        try {
+//            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
+//            childFragmentManager.setAccessible(true);
+//            childFragmentManager.set(this, null);
+//        } catch (NoSuchFieldException e) {
+//            e.printStackTrace();
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override

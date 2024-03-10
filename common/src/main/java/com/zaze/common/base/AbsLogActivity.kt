@@ -78,8 +78,8 @@ abstract class AbsLogActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         if (showLifecycle) ZLog.d(TAG, "$activityName onDestroy")
+        super.onDestroy()
     }
 }
 

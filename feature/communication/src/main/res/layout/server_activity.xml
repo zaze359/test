@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/server_message_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/server_start_bt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="启动服务端" />
+
+    <Button
+        android:id="@+id/server_send_broadcast_bt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="发送邀请和回复客户端" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/server_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

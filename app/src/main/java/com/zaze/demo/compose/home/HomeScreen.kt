@@ -41,7 +41,6 @@ import com.zaze.demo.compose.navigation.TopLevelDestination
 import com.zaze.demo.data.entity.TableEntity
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
-import java.util.*
 
 /**
  * Description :
@@ -127,7 +126,13 @@ internal fun HomeScreen(
 
     if (uiState.errorMessages.isNotEmpty()) {
         val errorMessage = remember(uiState) { uiState.errorMessages[0] }
+
         val errorMessageText = errorMessage.toTextString()
+
+
+        val count by remember {  mutableStateOf(0) }
+        val test = remember { "test" }
+
 
         val onErrorDismissState by rememberUpdatedState(newValue = onErrorDismiss)
         println("errorMessageText: $errorMessageText")

@@ -11,21 +11,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.zaze.common.base.BaseFragment;
-import com.zaze.demo.R;
 import com.zaze.demo.component.socket.AlarmService;
 import com.zaze.demo.component.socket.BaseSocketClient;
 import com.zaze.demo.component.socket.MessageType;
 import com.zaze.demo.component.socket.SocketMessage;
 import com.zaze.demo.component.socket.UDPSocketClient;
 import com.zaze.demo.component.socket.adapter.SocketAdapter;
-import com.zaze.utils.JsonUtil;
+import com.zaze.demo.feature.communication.R;
 import com.zaze.utils.ThreadManager;
 import com.zaze.utils.ZOnClickHelper;
 import com.zaze.utils.ZStringUtil;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -81,14 +77,14 @@ public class ClientFragment extends BaseFragment {
                 });
             }
         });
-        EventBus.getDefault().register(this);
+//        EventBus.getDefault().register(this);
     }
 
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+//        EventBus.getDefault().unregister(this);
         clientSocket.close();
         clientSocket = null;
     }
@@ -156,9 +152,9 @@ public class ClientFragment extends BaseFragment {
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onSocketEvent(String event) {
-        SocketMessage message = JsonUtil.parseJson(event, SocketMessage.class);
-        inviteSet.add(ZStringUtil.format("%s:%s", message.getAddress(), message.getPort()));
-    }
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void onSocketEvent(String event) {
+//        SocketMessage message = JsonUtil.parseJson(event, SocketMessage.class);
+//        inviteSet.add(ZStringUtil.format("%s:%s", message.getAddress(), message.getPort()));
+//    }
 }
