@@ -25,6 +25,10 @@ import com.zaze.utils.log.ZTag;
 public abstract class BaseApplication extends Application {
     private static BaseApplication instance;
     private int aliveActivityCount = 0;
+    /**
+     * 用于表示活跃的activity，=0时表示在后台
+     */
+    private int activeActivity = 0;
 
     public static BaseApplication getInstance() {
         if (instance == null) {
@@ -59,7 +63,7 @@ public abstract class BaseApplication extends Application {
 
             @Override
             public void onActivityStarted(Activity activity) {
-
+                activeActivity++;
             }
 
             @Override
@@ -74,7 +78,7 @@ public abstract class BaseApplication extends Application {
 
             @Override
             public void onActivityStopped(Activity activity) {
-
+                activeActivity--;
             }
 
             @Override

@@ -47,6 +47,7 @@ class StateActivity : AbsActivity() {
                         is StateUiState.None -> {
                             binding.stateInfoTv.text = "defualt"
                         }
+
                         is StateUiState.HasState -> {
                             binding.stateInfoTv.text = uiState.stateInfo
                         }
@@ -63,5 +64,4 @@ class StateActivity : AbsActivity() {
     private fun refresh() {
 
     }
-
 }

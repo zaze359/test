@@ -11,26 +11,24 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageSwitcher;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.ViewSwitcher;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.widget.Toolbar;
 
 import com.zaze.common.base.AbsActivity;
 import com.zaze.common.base.ext.AppCompatActivityExtKt;
 import com.zaze.common.thread.ThreadPlugins;
 import com.zaze.demo.feature.image.databinding.BitmapActBinding;
-import com.zaze.utils.ext.BitmapExt;
 import com.zaze.utils.ext.BitmapExtKt;
 
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 
-import coil.ImageLoader;
 import kotlin.Unit;
-import kotlin.jvm.functions.Function1;
-import kotlin.jvm.functions.Function2;
 
 /**
  * Description :
@@ -38,7 +36,7 @@ import kotlin.jvm.functions.Function2;
  * @author : ZAZE
  * @version : 2019-06-09 - 1:54
  */
-public class BitmapActivity extends AbsActivity {
+public class BitmapActivity extends AbsActivity implements ViewSwitcher.ViewFactory {
     private float r = 1F;
     private float g = 1F;
     private float b = 1F;
@@ -73,6 +71,8 @@ public class BitmapActivity extends AbsActivity {
 //        originBmp = BmpUtil.toRoundRectBitmap(originBmp, DisplayUtil.pxFromDp(30));
 //        originBmp = CircleBmpKt.innerRound2(originBmp);
         processedBmp = Bitmap.createBitmap(originBmp.getWidth(), originBmp.getHeight(), originBmp.getConfig());
+        binding.bmpSwitcher.setFactory(this);
+
 
         binding.bmpContentIv.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         binding.bmpContentIv.post(new Runnable() {
@@ -88,8 +88,8 @@ public class BitmapActivity extends AbsActivity {
                 public void run() {
                     File pngFile = new File(BitmapActivity.this.getFilesDir(), System.currentTimeMillis() + "_precessed.png");
                     File jpgFile = new File(BitmapActivity.this.getFilesDir(), System.currentTimeMillis() + "_precessed.jpg");
-                    BitmapExtKt.writeToFile(originBmp, pngFile, Bitmap.CompressFormat.PNG, 100 * 1024L);
-                    BitmapExtKt.writeToFile(originBmp, jpgFile, Bitmap.CompressFormat.JPEG, 100 * 1024L);
+                    BitmapExtKt.writeToFileLimited(originBmp, pngFile, Bitmap.CompressFormat.PNG, 100 * 1024L);
+                    BitmapExtKt.writeToFileLimited(originBmp, jpgFile, Bitmap.CompressFormat.JPEG, 100 * 1024L);
                 }
             });
         });
@@ -184,5 +184,18 @@ public class BitmapActivity extends AbsActivity {
         canvas.drawColor(Color.WHITE);
         canvas.drawBitmap(originBmp, new Matrix(), paint);
         binding.bmpContentIv.setImageBitmap(processedBmp);
+
+//        if(processedBmp != null) {
+//            binding.bmpSwitcher.setImageURI(Uri.parse(""));
+//        }
+    }
+
+    @Override
+    public View makeView() {
+        final ImageView i = new ImageView(this);
+        i.setBackgroundColor(0xff000000);
+        i.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        i.setLayoutParams(new ImageSwitcher.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+        return i ;
     }
 }

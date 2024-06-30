@@ -50,6 +50,12 @@
             android:scaleType="centerInside"
             tools:src="@drawable/jljt" />
 
+        <ImageSwitcher
+            android:id="@+id/bmp_switcher"
+            android:layout_width="@dimen/dp_200"
+            android:layout_height="@dimen/dp_200"
+            android:layout_gravity="center" />
+
         <View
             android:id="@+id/bmp_card_bg"
             android:layout_width="@dimen/dp_248"

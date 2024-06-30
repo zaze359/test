@@ -34,7 +34,8 @@ android {
 }
 
 dependencies {
-
+    testImplementation(project(":core:testing"))
+    androidTestImplementation(project(":core:testing"))
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.core.ktx)
 

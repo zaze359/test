@@ -303,7 +303,6 @@ dependencies {
     implementation(project(":feature:settings"))
     implementation(project(":feature:accessibility"))
 
-
     implementation(project(":core:data"))
     implementation(project(":core:database"))
     implementation(project(":core:model"))
@@ -313,6 +312,10 @@ dependencies {
 
     implementation(project(":core:designsystem"))
     implementation(project(":core:ui"))
+    implementation("com.tencent.mm.opensdk:wechat-sdk-android:+")
+
+    implementation("com.tencent.tbs:tbssdk:44286")
+
 
 }
 

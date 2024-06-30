@@ -68,8 +68,8 @@ dependencies {
     api(libs.accompanist.permissions)
     api(libs.androidx.preference.ktx)
     implementation(libs.androidx.activity.compose)
-
     implementation(libs.androidx.hilt.navigation.compose)
+
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
     kapt(libs.hilt.ext.compiler)

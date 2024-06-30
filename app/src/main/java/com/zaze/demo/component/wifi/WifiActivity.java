@@ -3,17 +3,19 @@ package com.zaze.demo.component.wifi;
 
 import android.net.wifi.ScanResult;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import com.zaze.common.base.BaseActivity;
 import com.zaze.demo.R;
-import com.zaze.utils.ZOnClickHelper;
+import com.zaze.utils.ext.ClickExtKt;
 
 import java.util.List;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 
 /**
@@ -37,12 +39,14 @@ public class WifiActivity extends BaseActivity implements WifiContract.View {
         wifiRecyclerView = findViewById(R.id.wifi_recycler_view);
         wifiScanBtn = findViewById(R.id.wifi_scan_btn);
 
-        ZOnClickHelper.setOnClickListener(wifiScanBtn, new View.OnClickListener() {
+        ClickExtKt.setSingleClickListener(wifiScanBtn, 1000L, new Function1<Button, Unit>() {
             @Override
-            public void onClick(View v) {
+            public Unit invoke(Button button) {
                 presenter.startScan();
+                return Unit.INSTANCE;
             }
         });
+
         presenter = new WifiPresenter(this);
         presenter.getNetworkState();
         presenter.startScan();

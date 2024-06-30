@@ -3,20 +3,19 @@ package com.zaze.utils
 import android.app.Application
 import android.content.Context
 import android.content.res.Resources
-import android.graphics.Point
 import android.os.Build
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.WindowManager
 
 import com.zaze.utils.log.ZLog
-import com.zaze.utils.log.ZTag
 
 /**
- * Description : from in.srain.cube.util
- * date : 2016-03-28 - 15:44
+ * 设备显示相关的工具类
+ * 屏幕宽高、dp、px转换
  */
 object DisplayUtil {
+    private const val TAG = "DisplayUtil"
     private lateinit var displayProfile: DisplayProfile
     private var matchedDisplayProfile: DisplayProfile? = null
 
@@ -25,7 +24,23 @@ object DisplayUtil {
     @JvmStatic
     @JvmOverloads
     fun init(application: Application, baseWidthPixels: Int = -1) {
+        initDisplayProfile(application)
+        if (baseWidthPixels > 0) {
+            val metrics = getRealMetrics(application)
+            metrics.density = (metrics.widthPixels / baseWidthPixels).toFloat()
+            metrics.scaledDensity = metrics.density
+            metrics.densityDpi = (DisplayMetrics.DENSITY_DEFAULT * metrics.density).toInt()
+            matchedDisplayProfile = DisplayProfile(metrics)
+        }
+        ZLog.i(TAG, "displayProfile : $displayProfile")
+    }
+
+    private fun initDisplayProfile(application: Application) {
         displayProfile = DisplayProfile(application.resources.displayMetrics)
+        displayProfile.updateRealMetrics(getRealMetrics(application))
+    }
+
+    fun getRealMetrics(application: Application): DisplayMetrics {
         val metrics = DisplayMetrics()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             (application.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.getRealMetrics(
@@ -34,14 +49,7 @@ object DisplayUtil {
         } else {
             metrics.setTo(application.resources.displayMetrics)
         }
-        displayProfile.updateRealMetrics(metrics)
-        if (baseWidthPixels > 0) {
-            metrics.density = (metrics.widthPixels / baseWidthPixels).toFloat()
-            metrics.scaledDensity = metrics.density
-            metrics.densityDpi = (DisplayMetrics.DENSITY_DEFAULT * metrics.density).toInt()
-            matchedDisplayProfile = DisplayProfile(metrics)
-        }
-        ZLog.i(ZTag.TAG_DEBUG, "displayProfile : $displayProfile")
+        return metrics
     }
 
     @JvmStatic
@@ -160,6 +168,8 @@ object DisplayUtil {
             widthDp = dpiFromPx(widthPixels, metrics)
             heightDp = dpiFromPx(heightPixels, metrics)
             // ------------------------------------------------------
+            // 先更新一下
+            updateRealMetrics(metrics)
         }
 
         fun updateRealMetrics(realMetrics: DisplayMetrics) {

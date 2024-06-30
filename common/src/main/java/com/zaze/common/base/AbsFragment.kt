@@ -86,4 +86,21 @@ abstract class AbsFragment : AbsPermissionFragment {
             loadingLazy.value.setText(message).show()
         }
     }
+
+    /**
+     * ViewPager 嵌套 Fragment 时的可见不可见
+     * @param isVisibleToUser
+     */
+//    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+//        super.setUserVisibleHint(isVisibleToUser)
+//    }
+
+
+    /**
+     * add()  hide()
+     * @param hidden
+     */
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+    }
 }

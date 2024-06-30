@@ -26,7 +26,7 @@ class FloatingManager(context: Context) {
      * @param view  控件
      * @param params  添加到windowManager需要的layout参数
      */
-    fun addView(view: View, params: ViewGroup.LayoutParams?) {
+    fun addView(view: View, params: WindowManager.LayoutParams? = null) {
         mWindowManager.addView(view, params)
     }
 

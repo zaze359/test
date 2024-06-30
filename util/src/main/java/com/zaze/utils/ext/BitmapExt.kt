@@ -2,6 +2,7 @@ package com.zaze.utils.ext
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import com.zaze.utils.FileUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import java.io.ByteArrayOutputStream
@@ -82,17 +83,18 @@ fun Bitmap.compressToLimit(
         ZTag.TAG,
         "width:${this.width}; height: ${this.height}; byteCount: $byteCount; limitSize: $limitSize"
     )
-    if (limitSize <= 0) {
-        return
-    }
-    var quality = 60
     val tempStream = ByteArrayOutputStream()
     try {
-        do {
-            tempStream.reset()
-            this.compress(format, quality, tempStream)
-            quality -= 10
-        } while (tempStream.size() > limitSize && quality > 0)
+        if (limitSize <= 0) { // 不限制
+            this.compress(format, 100, tempStream)
+        } else {
+            var quality = 60
+            do {
+                tempStream.reset()
+                this.compress(format, quality, tempStream)
+                quality -= 10
+            } while (tempStream.size() > limitSize && quality > 0)
+        }
         stream.write(tempStream.toByteArray())
     } catch (e: Throwable) {
         e.printStackTrace()
@@ -102,16 +104,64 @@ fun Bitmap.compressToLimit(
     }
 }
 
+fun Bitmap.compressAndSave(
+    format: Bitmap.CompressFormat,
+    stream: OutputStream,
+    quality: Int
+) {
+    ZLog.i(
+        ZTag.TAG,
+        "width:${this.width}; height: ${this.height}; byteCount: $byteCount; quality: $quality"
+    )
+    val tempStream = ByteArrayOutputStream()
+    try {
+        this.compress(format, quality, tempStream)
+        stream.write(tempStream.toByteArray())
+    } catch (e: Throwable) {
+        e.printStackTrace()
+    } finally {
+        stream.flush()
+        stream.close()
+    }
+}
 
 fun Bitmap.writeToFile(
     outFile: File,
     format: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG,
-    limitSize: Long = -1
+    quality: Int = 100
 ) {
     var outputStream: OutputStream? = null
     try {
-        outputStream = FileOutputStream(outFile)
+        val tempFile = File("${outFile.absoluteFile}.tmp")
+        FileUtil.reCreateFile(tempFile)
+        outputStream = FileOutputStream(tempFile)
+        compressAndSave(format, outputStream, quality)
+        FileUtil.deleteFile(outFile)
+        tempFile.renameTo(outFile)
+    } catch (e: Exception) {
+        e.printStackTrace()
+    } finally {
+        try {
+            outputStream?.flush()
+            outputStream?.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+    }
+}
+fun Bitmap.writeToFileLimited(
+    outFile: File,
+    format: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG,
+    limitSize: Long = 100 * 1024L
+) {
+    var outputStream: OutputStream? = null
+    try {
+        val tempFile = File("${outFile.absoluteFile}.tmp")
+        FileUtil.reCreateFile(tempFile)
+        outputStream = FileOutputStream(tempFile)
         compressToLimit(format, outputStream, limitSize)
+        FileUtil.deleteFile(outFile)
+        tempFile.renameTo(outFile)
     } catch (e: Exception) {
         e.printStackTrace()
     } finally {

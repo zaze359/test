@@ -1,6 +1,8 @@
 package com.zaze.demo.compose.home
 
 import android.app.Application
+import android.content.ContextWrapper
+import android.content.SharedPreferences
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.zaze.demo.compose.navigation.TopLevelDestination
@@ -8,7 +10,10 @@ import com.zaze.core.designsystem.compose.components.snackbar.SnackbarMessage
 import com.zaze.demo.data.repository.DemoRepository
 import com.zaze.demo.data.entity.TableEntity
 import com.zaze.demo.debug.test.TestFile
+import com.zaze.utils.SharedPrefUtil
+import com.zaze.utils.ZCommand
 import com.zaze.utils.log.ZLog
+import com.zaze.utils.log.ZTag
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -70,18 +75,9 @@ class HomeViewModel @Inject constructor(
         )
 //        SnackbarManager.showMessage(message)
         viewModelScope.launch(Dispatchers.Default) {
-            repeat(10) {
-                ZLog.i("HomeViewModel", "thread Default: ${Thread.currentThread()}")
-                delay(100)
-            }
+            ZCommand.execCmd("screencap /sdcard/sc.png")
+        }
 
-        }
-        viewModelScope.launch(Dispatchers.IO) {
-            repeat(10) {
-                ZLog.i("HomeViewModel", "thread IO: ${Thread.currentThread()}")
-                delay(100)
-            }
-        }
         showError(message)
     }
 

@@ -20,6 +20,7 @@ buildscript {
 
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
+//    id("com.android.application:7.4.2") apply false
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.kotlin.android) apply false

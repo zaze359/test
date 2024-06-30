@@ -1,4 +1,4 @@
-//apply from: "$project.rootDir/buildscripts/versions.gradle"
+//apply from: "$project.rootDir/buildscripts/old/versions.gradle"
 //
 //subprojects {
 //    println("project.name:  ${project.name}")

@@ -1,8 +1,13 @@
 package com.zaze.core.database.sqlite;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.zaze.utils.FileUtil;
+
+import java.io.File;
 
 /**
  * Description :
@@ -17,7 +22,14 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     private UserDao userDao;
 
     public DBOpenHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        super(new ContextWrapper(context) {
+            @Override
+            public File getDatabasePath(String name) {
+                File path = new File("/data/data/" + context.getPackageName() + "/zaze/databases/" + name);
+                FileUtil.createFileNotExists(path);
+                return path;
+            }
+        }, DATABASE_NAME, null, DATABASE_VERSION);
         userDao = new UserDao();
         userDao.init(getWritableDatabase());
     }

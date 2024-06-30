@@ -1,4 +1,4 @@
-package com.zaze.demo.component.provider
+package com.zaze.demo.feature.storage.provider
 
 import android.content.Context
 import android.database.Cursor

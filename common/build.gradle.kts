@@ -42,6 +42,7 @@ android {
 dependencies {
 //    implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation(project(":core:testing"))
+    androidTestImplementation(project(":core:testing"))
 
     api(libs.kotlin.stdlib)
     api(libs.androidx.appcompat)

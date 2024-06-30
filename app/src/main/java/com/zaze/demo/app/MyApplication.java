@@ -51,7 +51,7 @@ import kotlin.jvm.functions.Function1;
  * @version : 2016-11-06 - 20:4
  */
 @HiltAndroidApp
-public class MyApplication extends BaseApplication implements ImageLoaderFactory {
+public class MyApplication extends WebViewApplication implements ImageLoaderFactory {
     //    BroadcastReceiver receiver;
 
     public static MyApplication getInstance() {

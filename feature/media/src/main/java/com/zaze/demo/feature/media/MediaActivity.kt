@@ -1,10 +1,8 @@
 package com.zaze.demo.feature.media
 
 import android.os.Bundle
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
-import androidx.navigation.contains
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -12,14 +10,9 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.zaze.common.base.AbsActivity
 import com.zaze.common.base.ext.setupActionBar
-import com.zaze.core.datastore.AppPreferencesDataStore
 import com.zaze.core.model.data.AppNavigation
 import com.zaze.demo.feature.media.databinding.ActivityMediaBinding
-import com.zaze.utils.log.ZLog
-import com.zaze.utils.log.ZTag
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @Route(path = AppNavigation.mediaRoute)
 @AndroidEntryPoint

@@ -22,7 +22,7 @@ public class ZStringUtil {
      */
     public static String format(String format, Object... args) {
         try {
-            if(args == null) {
+            if (args == null) {
                 return format;
             }
             return String.format(Locale.getDefault(), format, args);
@@ -55,8 +55,8 @@ public class ZStringUtil {
             try {
                 id = Integer.parseInt(value);
             } catch (NumberFormatException e) {
-                e.printStackTrace();
-                id = 0;
+//                e.printStackTrace();
+                id = defaultValue;
             }
         } else {
             id = defaultValue;

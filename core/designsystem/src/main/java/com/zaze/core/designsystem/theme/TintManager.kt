@@ -12,9 +12,9 @@ import androidx.annotation.ColorInt
  */
 object TintManager {
 
-    fun getColorStateList(@ColorInt resId: Int): ColorStateList? {
-        if (resId == 0) return null
-        return ColorStateList.valueOf(resId)
+    fun getColorStateList(@ColorInt color: Int): ColorStateList? {
+        if (color == 0) return null
+        return ColorStateList.valueOf(color)
     }
 
     fun getColorStateList(context: Context, @AttrRes attrRes: Int): ColorStateList? {

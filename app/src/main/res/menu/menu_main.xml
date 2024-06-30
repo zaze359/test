@@ -40,5 +40,23 @@
         android:icon="@drawable/ic_settings_outline"
         android:orderInCategory="10"
         android:title="@string/action_settings"
-        app:showAsAction="never" />
+        app:showAsAction="never" />`
+    <item
+        android:id="@+id/action_settings2"
+        android:icon="@drawable/ic_settings_outline"
+        android:orderInCategory="11"
+        android:title="@string/action_settings"
+        app:showAsAction="collapseActionView" />
+    <item
+        android:id="@+id/action_settings3"
+        android:icon="@drawable/ic_settings_outline"
+        android:orderInCategory="12"
+        android:title="@string/action_settings"
+        app:showAsAction="collapseActionView" />
+    <item
+        android:id="@+id/action_settings4"
+        android:icon="@drawable/ic_settings_outline"
+        android:orderInCategory="13"
+        android:title="@string/action_settings"
+        app:showAsAction="collapseActionView" />
 </menu>

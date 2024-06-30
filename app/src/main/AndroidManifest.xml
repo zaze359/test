@@ -252,6 +252,9 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/my_appwidget_info" />
         </receiver>
+
+        <service android:name="com.zaze.demo.app.X5ProcessInitService" android:process=":web"
+            android:exported="false"/>
     </application>
 
 </manifest>

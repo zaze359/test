@@ -1,12 +1,16 @@
 package com.zaze.demo.component.okhttp
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.gson.JsonObject
 import com.zaze.core.data.model.ResponseData
 import com.zaze.core.data.service.RetrofitService
 import com.zaze.utils.ext.toJsonString
 import com.zaze.utils.log.ZLog
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.launch
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -15,7 +19,6 @@ import okhttp3.Request
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
-import okhttp3.ResponseBody
 import java.io.IOException
 import javax.inject.Inject
 
@@ -58,18 +61,32 @@ class OkHttpViewModel @Inject constructor(
     }
 
     fun get() {
-        retrofitService.get().enqueue(object : retrofit2.Callback<ResponseBody> {
-            override fun onResponse(
-                call: retrofit2.Call<ResponseBody>,
-                response: retrofit2.Response<ResponseBody>
-            ) {
-                ZLog.i("retrofit", "body: ${response.body()?.string()}")
-            }
+//        retrofitService.getByCall().enqueue(object : retrofit2.Callback<ResponseBody> {
+//            override fun onResponse(
+//                call: retrofit2.Call<ResponseBody>,
+//                response: retrofit2.Response<ResponseBody>
+//            ) {
+//                ZLog.i("retrofit", "body: ${response.body()?.string()}")
+//            }
+//
+//            override fun onFailure(call: retrofit2.Call<ResponseBody>, t: Throwable) {
+//                ZLog.e("retrofit", t.toString())
+//            }
+//        })
 
-            override fun onFailure(call: retrofit2.Call<ResponseBody>, t: Throwable) {
-                ZLog.e("retrofit", t.toString())
-            }
-        })
+        viewModelScope.launch {
+            retrofitService.getByFlow()
+                .catch {
+                    ZLog.i("retrofit", "response catch: $it")
+                    ResponseData<JsonObject>()
+                }
+                .onCompletion {
+                    ZLog.i("retrofit", "response onCompletion")
+                }
+                .collect {
+                    ZLog.i("retrofit", "response collect: ${it}")
+                }
+        }
     }
 
     fun add() {
