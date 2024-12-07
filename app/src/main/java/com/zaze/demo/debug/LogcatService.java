@@ -52,6 +52,7 @@ public class LogcatService extends Service {
         if (looperExecutor != null) {
             looperExecutor.shutdownNow();
         }
+        looperExecutor = null;
         ZLog.i(ZTag.TAG_DEBUG, "service onDestroy");
     }
 

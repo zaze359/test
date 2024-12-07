@@ -52,6 +52,7 @@ public class UDPSocketClient extends BaseSocketClient {
                 if (thread.isDaemon()) {
                     thread.setDaemon(false);
                 }
+
                 return thread;
             }
         });

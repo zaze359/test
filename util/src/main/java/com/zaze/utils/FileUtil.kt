@@ -73,7 +73,13 @@ object FileUtil {
         if (filePath.isNullOrEmpty()) {
             return false
         }
-        return File(filePath).exists()
+        return exists(File(filePath))
+    }
+
+    @JvmStatic
+    fun exists(file: File?): Boolean {
+        file ?: return false
+        return file.exists()
     }
 
     @JvmStatic

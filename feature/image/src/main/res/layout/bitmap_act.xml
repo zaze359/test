@@ -16,13 +16,14 @@
         android:background="@color/head_background"
         tools:subtitle="测试小标题"
         tools:title="测试标题"
-        tools:titleTextColor="@color/white">
+        tools:titleTextColor="@color/black">
 
         <Button
             android:id="@+id/bmp_compress_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="12dp"
+            android:layout_gravity="right"
             android:text="压缩" />
 
     </androidx.appcompat.widget.Toolbar>

@@ -38,6 +38,9 @@ class NetworkStatsActivity : AbsActivity() {
 //            })
             this@NetworkStatsActivity.viewModel = this
         }
+        adapter = NetworkStatsAdapter(this, emptyList())
+        databinding.networkStatsRecycler.layoutManager = LinearLayoutManager(this)
+        databinding.networkStatsRecycler.adapter = adapter
 
         databinding.networkStatsBtn.setOnClickListener {
             hasPermissionToReadNetworkStats()
@@ -74,8 +77,6 @@ class NetworkStatsActivity : AbsActivity() {
     private fun showNetworkStats(netTrafficStats: Collection<NetTrafficStats>?) {
         adapter?.setDataList(netTrafficStats) ?: let {
             adapter = NetworkStatsAdapter(this, netTrafficStats)
-            databinding.networkStatsRecycler.layoutManager = LinearLayoutManager(this)
-            databinding.networkStatsRecycler.adapter = adapter
         }
     }
 

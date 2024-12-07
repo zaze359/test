@@ -4,12 +4,11 @@ import android.accessibilityservice.AccessibilityService
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
+import com.zaze.accessibility.MyAccessibilityService.Companion
 import com.zaze.core.data.repository.AdRepository
 import com.zaze.core.model.data.AdRule
 import com.zaze.core.model.data.AdRules
 import com.zaze.utils.TraceHelper
-import com.zaze.utils.log.ZLog
-import com.zaze.utils.log.ZTag
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
@@ -59,24 +58,33 @@ class AdHandler constructor(private val service: AccessibilityService, adReposit
         }
     }
 
-    suspend fun onAccessibilityEvent(event: AccessibilityEvent) {
+    fun onAccessibilityEvent(event: AccessibilityEvent) {
         if (!isLoaded) return
-        withContext(Dispatchers.Default) {
+        runCatching {
             TraceHelper.beginSection("处理事件")
-            // 返回 活动窗口
-//        Log.i(TAG, "onAccessibilityEvent source: ${event.source}")
-//            var eventText: String = when (event.eventType) {
-//                AccessibilityEvent.TYPE_VIEW_CLICKED -> "Clicked: "
-//                AccessibilityEvent.TYPE_VIEW_LONG_CLICKED -> "long_clicked: "
-//                AccessibilityEvent.TYPE_VIEW_SELECTED -> "Selected: "
-//                AccessibilityEvent.TYPE_VIEW_FOCUSED -> "Focused: "
-//                AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED -> "text_changed: "
-//                AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED -> "window_state_changed: "
-//                AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED -> "notification_state_changed: "
-//                else -> "eventType: ${event.eventType}: "
-//            }
-//            eventText += event.contentDescription ?: event.text
-//            Log.i(TAG, " --- onAccessibilityEvent: $eventText")
+//                // 返回 活动窗口
+//                Log.i(TAG, "onAccessibilityEvent source: ${event.source}")
+            var eventText: String = when (event.eventType) {
+                AccessibilityEvent.TYPE_VIEW_CLICKED -> "Clicked: "
+                AccessibilityEvent.TYPE_VIEW_LONG_CLICKED -> "long_clicked: "
+                AccessibilityEvent.TYPE_VIEW_SELECTED -> "Selected: "
+                AccessibilityEvent.TYPE_VIEW_FOCUSED -> "Focused: "
+                AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED -> "text_changed: "
+                AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED -> {
+                    val windowClassName = event.className
+                    val currentPackage = event.packageName?.toString() ?: ""
+                    "window_state_changed: ${currentPackage}/${windowClassName}"
+                }
+
+                AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED -> {
+                    "notification_state_changed:"
+                }
+
+                else -> "eventType: ${event.eventType}: "
+            }
+            eventText += event.contentDescription ?: event.text
+
+            Log.i(TAG, " --- onAccessibilityEvent: $eventText")
             service.rootInActiveWindow?.let { rootNode ->
 //                Log.i(TAG, "rootNode: $rootNode")
                 adRulesMap[(rootNode.packageName)]?.popupRules?.forEach {
@@ -86,6 +94,8 @@ class AdHandler constructor(private val service: AccessibilityService, adReposit
                 }
             }
             TraceHelper.endSection("处理事件")
+        }.onFailure {
+            Log.e(TAG, " --- onAccessibilityEvent error", it)
         }
     }
 

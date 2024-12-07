@@ -68,6 +68,7 @@ public class ClientFragment extends BaseFragment {
 //                Intent serviceIntent = new Intent(getContext(), NotificationService.class);
 //                getContext().startService(serviceIntent);
                 //
+
                 messageList.add(socketMessage);
                 ThreadManager.getInstance().runInUIThread(new Runnable() {
                     @Override

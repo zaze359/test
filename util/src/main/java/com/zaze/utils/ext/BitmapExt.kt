@@ -11,6 +11,8 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.OutputStream
+import kotlin.math.ceil
+import kotlin.math.floor
 
 
 object BitmapExt {
@@ -28,7 +30,7 @@ object BitmapExt {
         }
         val options = BitmapFactory.Options().apply {
             inJustDecodeBounds = true
-//            inPreferredConfig = Bitmap.Config.ARGB_8888
+            inPreferredConfig = Bitmap.Config.ARGB_8888
         }
         // 第一次 decode，获取宽高。
         decode(options)
@@ -62,7 +64,7 @@ val Bitmap.safeConfig: Bitmap.Config
 /**
  * bitmap2Bytes
  */
-fun Bitmap?.toBytes(format: Bitmap.CompressFormat = Bitmap.CompressFormat.PNG): ByteArray? {
+fun Bitmap?.toBytes(format: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG): ByteArray? {
     return this?.let {
         val outputStream = ByteArrayOutputStream()
         it.compress(format, 100, outputStream)
@@ -79,22 +81,28 @@ fun Bitmap.compressToLimit(
     stream: OutputStream,
     limitSize: Long
 ) {
-    ZLog.i(
-        ZTag.TAG,
-        "width:${this.width}; height: ${this.height}; byteCount: $byteCount; limitSize: $limitSize"
-    )
+//    ZLog.i(
+//        ZTag.TAG,
+//        "width:${this.width}; height: ${this.height}; byteCount: $byteCount; limitSize: $limitSize"
+//    )
     val tempStream = ByteArrayOutputStream()
     try {
-        if (limitSize <= 0) { // 不限制
-            this.compress(format, 100, tempStream)
-        } else {
-            var quality = 60
+
+        this.compress(format, 100, tempStream)
+        var tempSize = tempStream.size()
+        if (limitSize in 1 until tempSize) {
+            var quality = (100F * (1.0F * limitSize / tempSize)).toInt()
             do {
                 tempStream.reset()
                 this.compress(format, quality, tempStream)
+                tempSize = tempStream.size()
                 quality -= 10
-            } while (tempStream.size() > limitSize && quality > 0)
+            } while (tempSize > limitSize && quality >= 0)
         }
+//        ZLog.i(
+//            ZTag.TAG,
+//            "out tempStream:${tempStream.size()}; limitSize: $limitSize; "
+//        )
         stream.write(tempStream.toByteArray())
     } catch (e: Throwable) {
         e.printStackTrace()
@@ -149,6 +157,7 @@ fun Bitmap.writeToFile(
         }
     }
 }
+
 fun Bitmap.writeToFileLimited(
     outFile: File,
     format: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG,

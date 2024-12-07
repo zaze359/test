@@ -13,9 +13,11 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- 访问网络，网络定位需要上网 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
 
-<!--    <uses-permission android:name="android.permission.READ_SETTINGS" />-->
+    <!--    <uses-permission android:name="android.permission.READ_SETTINGS" />-->
 
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
@@ -88,6 +90,7 @@
 
         <activity
             android:name=".MainActivity"
+            android:theme="@style/Theme.MyApp"
             android:exported="true">
 
             <intent-filter>
@@ -191,6 +194,25 @@
             android:screenOrientation="fullSensor"
             android:theme="@style/Theme.MyApp" />
 
+
+        <activity
+            android:name=".TransparentActivity"
+            android:theme="@style/Theme.Transparent"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:taskAffinity="com.zaze.demo.transparent"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.zaze.demo.action.TRANSPARENT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+            </intent-filter>
+
+        </activity>
+
+        <activity android:name=".component.admin.DeviceAdminActivity" /> <!-- 设备管理器权限，注册权限监听器 -->
+
+
         <service
             android:name=".debug.keeplive.KeepLiveService"
             android:exported="true"
@@ -210,7 +232,6 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".component.admin.DeviceAdminActivity" /> <!-- 设备管理器权限，注册权限监听器 -->
         <receiver
             android:name=".component.admin.MyAdminReceiver"
             android:exported="true"
@@ -253,8 +274,10 @@
                 android:resource="@xml/my_appwidget_info" />
         </receiver>
 
-        <service android:name="com.zaze.demo.app.X5ProcessInitService" android:process=":web"
-            android:exported="false"/>
+        <service
+            android:name="com.zaze.demo.app.X5ProcessInitService"
+            android:exported="false"
+            android:process=":web" />
     </application>
 
 </manifest>

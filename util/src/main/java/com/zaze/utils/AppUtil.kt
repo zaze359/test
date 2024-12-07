@@ -203,17 +203,21 @@ object AppUtil {
      * @version 2017/8/26 - 下午3:23 1.0
      */
     @Suppress("DEPRECATION")
-    fun getPackageArchiveInfo(context: Context, archiveFilePath: String?): PackageInfo? {
+    fun getPackageArchiveInfo(
+        context: Context,
+        archiveFilePath: String?,
+        flags: Int = 0
+    ): PackageInfo? {
         if (archiveFilePath.isNullOrEmpty()) {
             return null
         }
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             context.packageManager.getPackageArchiveInfo(
                 archiveFilePath,
-                PackageManager.PackageInfoFlags.of(0)
+                PackageManager.PackageInfoFlags.of(flags.toLong())
             )
         } else {
-            context.packageManager.getPackageArchiveInfo(archiveFilePath, 0)
+            context.packageManager.getPackageArchiveInfo(archiveFilePath, flags)
         }
     }
 
@@ -285,6 +289,30 @@ object AppUtil {
                 getPackageInfo(
                     context,
                     packageName,
+                    PackageManager.GET_SIGNATURES
+                )?.signatures
+            }
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    fun getApkFileSignatures(
+        context: Context,
+        filePath: String?,
+    ): Array<Signature>? {
+        if (!FileUtil.exists(filePath)) return null
+        return try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                getPackageArchiveInfo(
+                    context,
+                    filePath,
+                    PackageManager.GET_SIGNING_CERTIFICATES
+                )?.signingInfo?.apkContentsSigners
+            } else {
+                getPackageArchiveInfo(
+                    context,
+                    filePath,
                     PackageManager.GET_SIGNATURES
                 )?.signatures
             }

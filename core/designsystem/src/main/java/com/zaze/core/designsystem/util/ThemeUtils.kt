@@ -1,6 +1,5 @@
 package com.zaze.core.designsystem.util
 
-import android.R
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
@@ -45,26 +44,6 @@ object ThemeUtils {
             view.tint()
         }
         when (view) {
-            is RecyclerView -> {
-                try {
-                    if (sRecycler == null) {
-                        sRecycler = RecyclerView::class.java.getDeclaredField("mRecycler")
-                        sRecycler?.isAccessible = true
-                    }
-                    if (sRecycleViewClearMethod == null) {
-                        sRecycleViewClearMethod =
-                            Class.forName("android.support.v7.widget.RecyclerView\$Recycler")
-                                .getDeclaredMethod("clear")
-                        sRecycleViewClearMethod?.isAccessible = true
-                    }
-                    sRecycleViewClearMethod?.invoke(sRecycler?.get(view))
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-                view.recycledViewPool.clear()
-                view.invalidateItemDecorations()
-            }
-
             is ViewGroup -> {
                 for (i in 0 until view.childCount) {
                     refreshView(view.getChildAt(i))
@@ -109,9 +88,9 @@ object ThemeUtils {
         else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
     }
 
-    fun isWindowBackgroundDark(context: Context): Boolean {
-        return !ColorUtil.isColorLight(resolveColor(context, R.attr.windowBackground))
-    }
+//    fun isWindowBackgroundDark(context: Context): Boolean {
+//        return !ColorUtil.isColorLight(resolveColor(co ntext, R.attr.windowBackground))
+//    }
 
     @JvmOverloads
     fun resolveColor(context: Context, @AttrRes attr: Int, fallback: Int = 0): Int {

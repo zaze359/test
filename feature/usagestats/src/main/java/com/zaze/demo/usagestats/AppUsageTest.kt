@@ -24,20 +24,20 @@ class AppUsageTest(private val context: Context) {
         object : Thread() {
             override fun run() {
                 while (run) {
-//                    if (!AppUsageHelper.checkAppUsagePermission(this@UsageStatesActivity)) {
-//                        AppUsageHelper.requestAppUsagePermission(this@UsageStatesActivity)
-//                    } else {
-//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-//                            ZLog.i(
-//                                TAG,
-//                                "getTopActivityPackageName: ${
-//                                    AppUsageHelper.getTopActivityPackageName(this@UsageStatesActivity)
-//                                }"
-//                            )
-//                        }
-//                    }
-                    test()
-                    SystemClock.sleep(10_000L)
+                    if (!AppUsageHelper.checkAppUsagePermission(context)) {
+//                        AppUsageHelper.requestAppUsagePermission(context)
+                    } else {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                            ZLog.i(
+                                TAG,
+                                "getTopActivityPackageName: ${
+                                    AppUsageHelper.getTopActivityPackageName(context)
+                                }"
+                            )
+                        }
+                    }
+//                    test()
+                    SystemClock.sleep(1_000L)
                 }
             }
         }

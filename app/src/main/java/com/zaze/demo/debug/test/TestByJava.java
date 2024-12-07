@@ -159,28 +159,39 @@ public class TestByJava implements ITest {
         ThreadPlugins.runInIoThread(new Runnable() {
             @Override
             public void run() {
+//                File outFile = new File(context.getFilesDir(), System.currentTimeMillis() + "_native.jpg");
+//                Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.jljt);
+////                BitmapExtKt.saveToFile(bitmap, new File(context.getFilesDir(), System.currentTimeMillis() + "_qu.jpg").getAbsoluteFile(), Bitmap.CompressFormat.JPEG, 30 * 1024);
+//                try {
+//                    FileOutputStream fileOutputStream = new FileOutputStream(new File(context.getFilesDir(), System.currentTimeMillis() + "_qu.jpg"));
+//                    bitmap.compress(Bitmap.CompressFormat.JPEG, 50, fileOutputStream);
+//                } catch (FileNotFoundException e) {
+//                    throw new RuntimeException(e);
+//                }
+//                new MyJpegCompressor().compress(bitmap, 50, outFile.getAbsolutePath(), true);
+            }
+        });
+
+//        jvmTi(context);
+
+    }
+
+    private void jvmTi(Context context) {
+        ThreadPlugins.runInIoThread(new Runnable() {
+            @Override
+            public void run() {
                 JvmtiHelper.INSTANCE.init(context);
                 // -------------------------- Jvmti start
-//        MyJvmtiAgent.INSTANCE.init();
-//        String s = MyJvmtiAgent.INSTANCE.test();
-//        ZLog.i(ZTag.TAG, "MyNativeLib: " + s);
-//        ThreadPlugins.runInUIThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                MyJvmtiAgent.INSTANCE.release();
-//            }
-//        }, 5_000L);
+                MyJvmtiAgent.INSTANCE.init();
+                String s = MyJvmtiAgent.INSTANCE.test();
+                ZLog.i(ZTag.TAG, "MyNativeLib: " + s);
+                ThreadPlugins.runInUIThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        MyJvmtiAgent.INSTANCE.release();
+                    }
+                }, 5_000L);
                 // -------------------------- Jvmti end
-                File outFile = new File(context.getFilesDir(), System.currentTimeMillis() + "_native.jpg");
-                Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.jljt);
-//                BitmapExtKt.saveToFile(bitmap, new File(context.getFilesDir(), System.currentTimeMillis() + "_qu.jpg").getAbsoluteFile(), Bitmap.CompressFormat.JPEG, 30 * 1024);
-                try {
-                    FileOutputStream fileOutputStream = new FileOutputStream(new File(context.getFilesDir(), System.currentTimeMillis() + "_qu.jpg"));
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 50, fileOutputStream);
-                } catch (FileNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                new MyJpegCompressor().compress(bitmap, 50, outFile.getAbsolutePath(), true);
             }
         });
     }

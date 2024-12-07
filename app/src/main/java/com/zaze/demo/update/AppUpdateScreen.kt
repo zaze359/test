@@ -1,5 +1,6 @@
 package com.zaze.demo.update
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -52,7 +53,9 @@ private fun AppUpdateScreen(
 ) {
     Scaffold(topBar = {
         CenterAlignedTopAppBar(title = {
-            Text(text = "应用更新")
+            Box(modifier = Modifier) {
+                Text(modifier = Modifier.align(Alignment.Center), text = "应用更新")
+            }
         }, navigationIcon = {
             BackIconButton(onBackPress = onBackPress)
         })

@@ -9,12 +9,14 @@ import android.view.View
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.webkit.JavascriptInterface
+import android.webkit.WebSettings
 import com.tencent.smtt.export.external.interfaces.WebResourceRequest
 import com.tencent.smtt.export.external.interfaces.WebResourceResponse
 import com.tencent.smtt.sdk.QbSdk
 import com.tencent.smtt.sdk.WebChromeClient
 import com.tencent.smtt.sdk.WebView
 import com.zaze.common.base.AbsActivity
+import com.zaze.common.thread.ThreadPlugins
 import com.zaze.demo.databinding.WebViewActivityBinding
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
@@ -57,6 +59,7 @@ open class WebViewActivity : AbsActivity() {
         settings.useWideViewPort = true
         settings.loadWithOverviewMode = true
         //
+        settings.cacheMode = WebSettings.LOAD_CACHE_ONLY
         settings.allowFileAccess = true
 //        settings.allowFileAccessFromFileURLs = true
         //
@@ -91,6 +94,7 @@ open class WebViewActivity : AbsActivity() {
                     super.shouldInterceptRequest(webView, request)
                 }
             }
+
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
 //                WebViewConsole.addDom(binding.webView)
@@ -104,7 +108,7 @@ open class WebViewActivity : AbsActivity() {
                 return Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
             }
 
-//            override fun onShowCustomView(view: View?, callback: CustomViewCallback?) {
+            //            override fun onShowCustomView(view: View?, callback: CustomViewCallback?) {
 //                super.onShowCustomView(view, callback)
 //                if(view != null) {
 //                    onHideCustomView()
@@ -138,15 +142,20 @@ open class WebViewActivity : AbsActivity() {
             }
         }
 //        WebViewConsole.consoleDoc(binding.webView)
-        val url = "https://www.baidu.com"
-//        val url = "file:///android_asset/test.html"
+//        val url = "https://www.baidu.com"
+        val url = "file:///android_asset/test.html"
+//        val url = "http://debugtbs.qq.com"
 //        val url = "file:android_asset/index.html"
 //        ZLog.i(ZTag.TAG, "loadUrl: $url")
-        if(QbSdk.isX5Core()) {
-            webView.loadUrl(url)
-        } else {
-            webView.loadUrl("http://debugtbs.qq.com")
-        }
+        ZLog.i(ZTag.TAG, "isX5Core: " + QbSdk.isX5Core())
+
+//        if (QbSdk.isX5Core()) {
+//            ZLog.i(ZTag.TAG, "isX5Core")
+//            webView.loadUrl(url)
+//        } else {
+        ZLog.i(ZTag.TAG, "system core")
+        webView.loadUrl(url)
+//        }
         ZLog.i(ZTag.TAG, "loadUrl: $url")
 
 
@@ -163,8 +172,23 @@ open class WebViewActivity : AbsActivity() {
 
     internal inner class JSInterface {
         @JavascriptInterface
-        fun showSource(html: String) {
+        fun showSource(html: String?) {
             ZLog.i(ZTag.TAG_DEBUG, "====>html=$html")
+        }
+
+//        @JavascriptInterface
+//        fun onImageClick() {
+//            ZLog.i(ZTag.TAG_DEBUG, "====>html=$html")
+//        }
+
+        @JavascriptInterface
+        fun callback(call: String?) {
+            ZLog.i(ZTag.TAG_DEBUG, "call $call")
+            ThreadPlugins.runInUIThread({
+                webView.evaluateJavascript("${call}(url)") {
+                    ZLog.i(ZTag.TAG_DEBUG, "call value callback $it")
+                }
+            })
         }
     }
 

@@ -11,8 +11,12 @@ import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Density
 import androidx.core.view.WindowCompat
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -93,38 +97,55 @@ private fun MyApp(
         //
         val navBackStackEntry by appState.navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route ?: homeRoute
-        ModalNavigationDrawer(drawerState = sizeAwareDrawerState,
-            // 是否可用手势打开，
-            gesturesEnabled = !isExpandedScreen && currentRoute == homeRoute,
-            drawerContent = {
-                MyAppDrawer(currentRoute = currentRoute,
-                    closeDrawer = { coroutineScope.launch { sizeAwareDrawerState.close() } },
-                    onClicked = {
-                        when (it) {
-                            is Router -> {
+        //
+        val displayMetrics = LocalContext.current.resources.displayMetrics
+        val density = displayMetrics.density
+        val fontScale = LocalDensity.current.fontScale
 
-                            }
-
-                            is Action -> {
-                                onAction(it.intent)
-                            }
-                        }
-                    })
-            }
-        ) {
-            MyNavGraph(
-                snackbarHostState = appState.snackbarHostState,
-                navController = appState.navController,
-                isExpandedScreen = isExpandedScreen,
-                openDrawer = {
-                    coroutineScope.launch { sizeAwareDrawerState.open() }
-                },
-                destinations = appState.topLevelDestinations.toMutableList().apply {
-                    remove(TopLevelDestination.HOME)
-                },
-                onNavigateToDestination = appState::navigateToTopLevelDestination,
+        val widthPixels = displayMetrics.widthPixels
+        val widthDp = widthPixels / density
+        println("displayMetrics.density: ${LocalDensity.current}")
+        CompositionLocalProvider(
+            LocalDensity provides Density(
+                density = widthPixels / 1024.0f,
+                fontScale = fontScale
             )
+        ) {
+            ModalNavigationDrawer(drawerState = sizeAwareDrawerState,
+                // 是否可用手势打开，
+                gesturesEnabled = !isExpandedScreen && currentRoute == homeRoute,
+                drawerContent = {
+                    MyAppDrawer(currentRoute = currentRoute,
+                        closeDrawer = { coroutineScope.launch { sizeAwareDrawerState.close() } },
+                        onClicked = {
+                            when (it) {
+                                is Router -> {
+
+                                }
+
+                                is Action -> {
+                                    onAction(it.intent)
+                                }
+                            }
+                        })
+                }
+            ) {
+                MyNavGraph(
+                    snackbarHostState = appState.snackbarHostState,
+                    navController = appState.navController,
+                    isExpandedScreen = isExpandedScreen,
+                    openDrawer = {
+                        coroutineScope.launch { sizeAwareDrawerState.open() }
+                    },
+                    destinations = appState.topLevelDestinations.toMutableList().apply {
+                        remove(TopLevelDestination.HOME)
+                    },
+                    onNavigateToDestination = appState::navigateToTopLevelDestination,
+                )
+            }
         }
+        //
+
     }
 }
 

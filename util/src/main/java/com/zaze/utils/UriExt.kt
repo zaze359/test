@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.provider.DocumentsContract
+import android.provider.DocumentsProvider
 import android.provider.MediaStore
 import java.util.*
 
@@ -55,7 +56,7 @@ fun Uri.getImagePath(context: Context): String? {
                 "com.android.providers.downloads.documents" -> {
                     ContentUris.withAppendedId(
                         Uri.parse("content://downloads/public_downloads"),
-                        docId.toLong()
+                        docId.split(":")[1].toLong()
                     ).queryPathFromContentUri(context)
                 }
 

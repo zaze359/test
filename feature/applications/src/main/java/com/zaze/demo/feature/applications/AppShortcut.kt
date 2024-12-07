@@ -47,7 +47,11 @@ data class AppShortcut(
     val applicationInfo: ApplicationInfo? = null
 ) {
     // --------------------------------------------------
+    var isLocalFile: Boolean = false
+
     val enable: Boolean get() = applicationInfo?.enabled ?: false
+
+    val sourceDir: String? = applicationInfo?.sourceDir
 
     val apkSize: Long
         get() = FileUtil.getFileSize(applicationInfo?.sourceDir)
@@ -67,41 +71,6 @@ data class AppShortcut(
         }
         return appIcon
     }
-
-
-//    fun getPackageInfo(context: Context): PackageInfo? {
-//        return when {
-//            packageInfo != null -> {
-//                packageInfo
-//            }
-//
-//            isInstalled -> {
-//                packageInfo = AppUtil.getPackageInfo(context, packageName)
-//                packageInfo
-//            }
-//
-//            else -> {
-//                null
-//            }
-//        }
-//    }
-
-//    fun getApplicationInfo(context: Context): ApplicationInfo? {
-//        return when {
-//            applicationInfo != null -> {
-//                applicationInfo
-//            }
-//
-//            isInstalled -> {
-//                applicationInfo = AppUtil.getApplicationInfo(context, packageName)
-//                applicationInfo
-//            }
-//
-//            else -> {
-//                null
-//            }
-//        }
-//    }
 
     companion object {
         fun empty(packageName: String): AppShortcut {
@@ -142,12 +111,18 @@ data class AppShortcut(
         return flags and ApplicationInfo.FLAG_SYSTEM != 0
     }
 
-    fun getSignatures(context: Context) {
-        SignaturesUtil.getSignatures(object : ContextWrapper(context) {
-            override fun getPackageName(): String {
-                return this@AppShortcut.packageName
-            }
-        }, "MD5")
+    fun getSignatures(context: Context): String? {
+        return if (!isLocalFile) {
+            SignaturesUtil.getSignatures(
+                AppUtil.getSignatures(context, this.packageName),
+                "MD5"
+            )
+        } else {
+            SignaturesUtil.getSignatures(
+                AppUtil.getApkFileSignatures(context, this.sourceDir),
+                "MD5"
+            )
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

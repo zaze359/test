@@ -1,4 +1,6 @@
 pluginManagement {
+//    includeBuild("../build-logic")
+
     val localPropertiesFile = File(rootProject.projectDir, "local.properties")
     val properties = java.util.Properties()
     properties.load(java.io.DataInputStream(localPropertiesFile.inputStream()))

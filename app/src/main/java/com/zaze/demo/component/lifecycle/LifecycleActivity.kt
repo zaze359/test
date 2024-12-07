@@ -43,12 +43,17 @@ class LifecycleActivity : AbsActivity() {
         val logViewWrapper = LogViewWrapper(binding.lifecycleMessageTv)
         ZLog.setLogFace(viewModel)
         //
+        lifecycleScope.launchWhenCreated {  }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect {
                     when (it) {
                         is LifecycleUiState.Refresh -> {
-                            logViewWrapper.setText(it.log)
+//                            logViewWrapper.setText(it.log)
+                            logViewWrapper.setText("简答题\n" +
+                                    "1、CSMA/CD的工作原理？\n" +
+                                    "<img>\n" +
+                                    "<rplc>CSMA/CD协议的要点：（1）、多点接入，许多计算机以多点接入的方式连接在一根总线上。协议的实质是“载波监听”和“多路访问”。(2)、载波监听指每一个站在发送数据之前要检测一下总线上是否有其他计算机在发送数据，如果有，则暂时不要发送数据，以免发生碰撞     ")
                         }
                     }
                 }

@@ -27,13 +27,13 @@ android {
     }
 
 
-//    sourceSets {
-//        getByName("main") {
-////            java.srcDirs = ['src/main/java']
-////            assets.srcDirs = ['src/main/assets']
-//            jniLibs.srcDirs("libs")
-//        }
-//    }
+    sourceSets {
+        getByName("main") {
+//            java.srcDirs = ['src/main/java']
+//            assets.srcDirs = ['src/main/assets']
+            jniLibs.srcDirs("libs")
+        }
+    }
 
 
     buildTypes {
@@ -46,10 +46,10 @@ android {
         }
     }
     // 打包
-//    packagingOptions {
-//        jniLibs.pickFirsts.add("**/jpeg.so")
-//        jniLibs.pickFirsts.add("**/jpeg-turbo.so")
-//    }
+    packagingOptions {
+        jniLibs.pickFirsts.add("**/jpeg.so")
+        jniLibs.pickFirsts.add("**/jpeg-turbo.so")
+    }
 }
 
 dependencies {

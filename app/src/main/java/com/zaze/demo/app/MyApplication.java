@@ -16,6 +16,7 @@ import com.zaze.common.base.BaseApplication;
 import com.zaze.core.network.di.NetworkModule;
 import com.zaze.demo.BuildConfig;
 import com.zaze.demo.component.network.compat.AnalyzeTrafficCompat;
+import com.zaze.demo.component.p2p.P2pReceiver;
 import com.zaze.demo.component.system.ScreenLockReceiver;
 import com.zaze.demo.debug.DefaultNetworkCallback;
 import com.zaze.demo.debug.MyCrashHandler;
@@ -133,6 +134,7 @@ public class MyApplication extends WebViewApplication implements ImageLoaderFact
         }
         new MessageReceiver().register(this);
         BatteryReceiver.Companion.register(this);
+        P2pReceiver.Companion.register(this);
     }
 
     private void initCrash() {

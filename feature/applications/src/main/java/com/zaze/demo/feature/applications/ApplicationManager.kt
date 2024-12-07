@@ -145,6 +145,7 @@ object ApplicationManager {
             packageInfo.applicationInfo.sourceDir = apkFilePath
             packageInfo.applicationInfo.publicSourceDir = apkFilePath
             val appShortcut = AppShortcut.create(context, packageInfo)
+            appShortcut.isLocalFile = true
             appShortcut
         } else {
             null
@@ -276,7 +277,7 @@ object ApplicationManager {
             ZLog.e(ZTag.TAG_DEBUG, "未获取到应用名($packageName), 使用默认($defaultName)")
             name = defaultName
         }
-        //        XHLog.i(LcTag.TAG_DEBUG, "获取到应用名(%s) : (%s)", packageName, name);
+        //        ZLog.i(ZTag.TAG_DEBUG, "获取到应用名(%s) : (%s)", packageName, name);
         return name
     }
 

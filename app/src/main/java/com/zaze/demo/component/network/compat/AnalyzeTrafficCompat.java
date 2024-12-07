@@ -118,6 +118,7 @@ public abstract class AnalyzeTrafficCompat extends AnalyzeUtil {
      * @return List<NetTrafficStats>
      */
     protected abstract List<NetTrafficStats> getNewestNetworkTraffic();
+    public abstract List<NetTrafficStats> getNetworkTraffic(long startTimeMillis, long endTimeMillis);
 
     /**
      * 合并处理刚获取到的统计最近的统计

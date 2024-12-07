@@ -11,6 +11,8 @@ import com.zaze.utils.ThreadManager;
 import com.zaze.utils.ZStringUtil;
 import com.zaze.utils.cache.MemoryCacheManager;
 import com.zaze.utils.config.ConfigHelper;
+import com.zaze.utils.log.ZLog;
+import com.zaze.utils.log.ZTag;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -64,6 +66,7 @@ public class ApplicationManager2 {
         AppShortcut appShortcut = null;
         if (TextUtils.isEmpty(packageName)) {
             packageName = AppUtil.getNameForUid(BaseApplication.getInstance(), uid);
+            ZLog.i(ZTag.TAG_DEBUG, "getAppShortcutByUid(" + uid + "): " + packageName);
             if (!TextUtils.isEmpty(packageName)) {
                 packageName = packageName.split(":")[0];
             }

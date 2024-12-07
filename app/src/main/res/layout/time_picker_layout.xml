@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="@dimen/dp_460"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_time_picker"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/dp_30"
+        android:paddingBottom="@dimen/dp_30">
+
+        <TextView
+            android:id="@+id/time_picker_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_36"
+            android:layout_marginRight="@dimen/dp_36"
+            android:text="时段设置"
+            android:textSize="@dimen/sp_20" />
+
+        <LinearLayout
+            android:id="@+id/time_picker_start_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_18"
+            android:background="#EBEBEB"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="@dimen/dp_10">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="从 "
+                android:textColor="#0B618C"
+                android:textSize="@dimen/sp_20" />
+
+            <TextView
+                android:id="@+id/time_picker_start_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="#0B618C"
+                android:textSize="@dimen/sp_20"
+                tools:text="09 : 23" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/time_picker_end_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="@dimen/dp_10">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="至 "
+                android:textColor="#0B618C"
+                android:textSize="@dimen/sp_20" />
+
+            <TextView
+                android:id="@+id/time_picker_end_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="#0B618C"
+                android:textSize="@dimen/sp_20"
+                tools:text="10 : 23" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:background="@color/black" />
+
+        <LinearLayout
+            android:layout_width="@dimen/dp_388"
+            android:layout_height="@dimen/dp_160"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp_40"
+            android:layout_marginBottom="@dimen/dp_40"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.zaze.demo.debug.ValueSelectView
+                android:id="@+id/time_picker_hour_sv"
+                android:layout_width="@dimen/dp_150"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=":"
+                android:textSize="@dimen/sp_40" />
+
+            <com.zaze.demo.debug.ValueSelectView
+                android:id="@+id/time_picker_minute_sv"
+                android:layout_width="@dimen/dp_150"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/time_picker_sure_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginStart="@dimen/dp_30"
+                android:layout_marginLeft="@dimen/dp_30"
+                android:layout_marginEnd="@dimen/dp_40"
+                android:layout_marginRight="@dimen/dp_40"
+                android:text="确定"
+                android:textColor="#0B618C"
+                android:textSize="@dimen/sp_20" />
+
+            <TextView
+                android:id="@+id/time_picker_cancel_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@id/time_picker_sure_tv"
+                android:layout_toLeftOf="@id/time_picker_sure_tv"
+                android:text="取消"
+                android:textColor="#FF999999"
+                android:textSize="@dimen/sp_20" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

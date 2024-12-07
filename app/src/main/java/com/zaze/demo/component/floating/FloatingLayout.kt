@@ -1,6 +1,7 @@
 package com.zaze.demo.component.floating
 
 import android.animation.ValueAnimator
+import android.app.Activity
 import android.content.Context
 import android.content.res.Configuration
 import android.graphics.PixelFormat
@@ -8,10 +9,12 @@ import android.os.Build
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.MotionEvent
+import android.view.View
 import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.core.view.isVisible
 import com.zaze.utils.DisplayUtil
+import com.zaze.utils.SystemSettings
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 
@@ -25,45 +28,35 @@ class FloatingLayout : FrameLayout {
 
     /** 是否吸附到两边 */
     var isSnap = false
+    var dragEnable = false
+    var applicationOverlay = true
     private var mTouchStartX = 0F
     private var mTouchStartY = 0F
 
     private var _viewWidth: Int = 0
     private var _viewHeight: Int = 0
-    private val viewWidth: Int
-        get() = if (isPortrait()) {
-            _viewWidth
-        } else {
-            _viewHeight
-        }
-    private val viewHeight: Int
-        get() = if (isPortrait()) {
-            _viewHeight
-        } else {
-            _viewWidth
-        }
-    private val screenWidth: Int
-        /**
-         * 得到屏幕宽度
-         *
-         * @return 屏幕宽度
-         */
-        get() = if (isPortrait()) {
-            DisplayUtil.getDisplayProfile().widthPixels
-        } else {
-            DisplayUtil.getDisplayProfile().heightPixels
-        }
-    private val screenHeight: Int
+
+    val viewWidth: Int
+        get() = _viewWidth
+
+    val viewHeight: Int
+        get() = _viewHeight
+
+    /**
+     * 得到屏幕宽度
+     *
+     * @return 屏幕宽度
+     */
+    val screenWidth: Int
+        get() = DisplayUtil.getDisplayProfile().widthPixels
+
+    val screenHeight: Int
         /**
          * 得到屏幕高度
          *
          * @return 屏幕高度
          */
-        get() = if (isPortrait()) {
-            DisplayUtil.getDisplayProfile().heightPixels
-        } else {
-            DisplayUtil.getDisplayProfile().widthPixels
-        }
+        get() = DisplayUtil.getDisplayProfile().heightPixels
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
@@ -73,22 +66,39 @@ class FloatingLayout : FrameLayout {
         defStyleAttr
     )
 
-    constructor(
-        context: Context,
-        attrs: AttributeSet?,
-        defStyleAttr: Int,
-        defStyleRes: Int
-    ) : super(context, attrs, defStyleAttr, defStyleRes)
-
     init {
-        mWindowManager = FloatingManager.getInstance(context)
+        val mContext = context
+        mWindowManager = FloatingManager(mContext)
         mParams = WindowManager.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
         mParams.gravity = Gravity.START or Gravity.TOP
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // TYPE_SYSTEM_OVERLAY, TYPE_SYSTEM_ERROR
-            mParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-        } else {
-            mParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT
+        var isOverlay = false
+        when {
+            !applicationOverlay -> {
+                mParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_PANEL
+            }
+
+            SystemSettings.canDrawOverlays(context) -> {
+                isOverlay = true
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    mParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+                } else {
+                    mParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT
+                }
+            }
+
+            Build.VERSION.SDK_INT > Build.VERSION_CODES.N -> {
+                mParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_PANEL
+            }
+
+            Build.VERSION.SDK_INT == Build.VERSION_CODES.N -> { // android7.0不能用TYPE_TOAST
+                isOverlay = true
+                mParams.type = WindowManager.LayoutParams.TYPE_PHONE
+            }
+
+            else -> {
+                isOverlay = true
+                mParams.type = WindowManager.LayoutParams.TYPE_TOAST
+            }
         }
         // 设置图片格式，效果为背景透明
         mParams.format = PixelFormat.RGBA_8888
@@ -98,15 +108,17 @@ class FloatingLayout : FrameLayout {
                     WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or
                     WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR or
                     WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
-//        mParams.width = viewWidth
-//        mParams.height = viewHeight
         this.isVisible = false
+        if (!isOverlay && mContext is Activity) {
+            mParams.token = mContext.window.decorView.windowToken
+        }
         mWindowManager.addView(this, mParams)
     }
 
-//    override fun addView(child: View?) {
-//        super.addView(child)
-//    }
+
+    override fun addView(child: View?) {
+        super.addView(child)
+    }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         if (childCount > 0) { // 取第一个 child 作为宽高
@@ -126,14 +138,17 @@ class FloatingLayout : FrameLayout {
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
-        ZLog.i(ZTag.TAG, "floating onLayout :$screenWidth; $width")
         super.onLayout(changed, left, top, right, bottom)
+        ZLog.i(ZTag.TAG, "floating onLayout :$screenWidth; $width; $changed")
         if (changed) {
-            updateView()
+            showAt(mParams.x, mParams.y)
         }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
+        if (!dragEnable) {
+            return super.onTouchEvent(event)
+        }
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 isPressed = true
@@ -175,27 +190,30 @@ class FloatingLayout : FrameLayout {
         return true
     }
 
-//    override fun performClick(): Boolean {
-//        return super.performClick()
-//    }
+    fun setDefaultPosition(x: Int, y: Int) {
+        mParams.x = x
+        mParams.y = y
+    }
 
     /**
      * 将控件添加到windowManager中
      */
     fun show() {
-        ZLog.i(ZTag.TAG, "floating: show")
-        updateView()
-        this.isVisible = true
+        showAt(mParams.x, mParams.y)
     }
 
-    private fun updateView() {
-        mParams.x = screenWidth - viewWidth
-        mParams.y = screenHeight / 2 - viewHeight / 2
+    /**
+     * 将控件添加到windowManager中
+     */
+    fun showAt(x: Int, y: Int) {
+        this.isVisible = true
+        mParams.x = x
+        mParams.y = y
         if (viewWidth > 0 && height > 0) {
             mParams.width = viewWidth
             mParams.height = viewHeight
         }
-        ZLog.i(ZTag.TAG, "floating mParams: $mParams")
+        ZLog.i(ZTag.TAG, "floating showAt mParams: $mParams")
         mWindowManager.updateView(this, mParams)
     }
 
@@ -203,6 +221,7 @@ class FloatingLayout : FrameLayout {
      * 将控件从windowManager移除
      */
     fun hide() {
+        this.isVisible = false
         mWindowManager.removeView(this)
     }
 

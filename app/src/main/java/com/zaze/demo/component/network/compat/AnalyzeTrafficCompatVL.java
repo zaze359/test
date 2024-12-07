@@ -11,6 +11,7 @@ import com.zaze.demo.feature.applications.ApplicationManager;
 import com.zaze.utils.AppUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -55,5 +56,10 @@ public class AnalyzeTrafficCompatVL extends AnalyzeTrafficCompat {
             }
         }
         return networkStatList;
+    }
+
+    @Override
+    public List<NetTrafficStats> getNetworkTraffic(long startTimeMillis, long endTimeMillis) {
+        return getNewestNetworkTraffic();
     }
 }

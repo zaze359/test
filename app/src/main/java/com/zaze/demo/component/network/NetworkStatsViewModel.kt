@@ -2,6 +2,7 @@ package com.zaze.demo.component.network
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.zaze.common.base.AbsAndroidViewModel
 import com.zaze.common.base.ext.set
 import com.zaze.demo.component.network.compat.AnalyzeTrafficCompat
@@ -9,6 +10,8 @@ import com.zaze.demo.debug.NetTrafficStats
 import com.zaze.common.util.plugins.rx.MyObserver
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  * Description :
@@ -20,13 +23,10 @@ class NetworkStatsViewModel(application: Application) : AbsAndroidViewModel(appl
     val networkTraffic = MutableLiveData<Collection<NetTrafficStats>>()
 
     fun load() {
-        Observable.fromCallable {
-            AnalyzeTrafficCompat.getInstance(application).dayNetworkTraffic
-        }.subscribeOn(Schedulers.io()).map {
-            networkTraffic.set(it)
-        }.doFinally {
+        viewModelScope.launch(Dispatchers.IO) {
+            networkTraffic.set(AnalyzeTrafficCompat.getInstance(application).dayNetworkTraffic)
             dragLoading.set(false)
-        }.subscribe(MyObserver())
+        }
     }
 
 //    fun onRefresh() {

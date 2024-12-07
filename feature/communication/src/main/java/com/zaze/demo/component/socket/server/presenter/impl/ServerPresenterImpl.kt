@@ -31,7 +31,6 @@ open class ServerPresenterImpl(view: ServerView) : BaseMvpPresenter<ServerView>(
 
     init {
         serverSocket = UDPSocketClient(
-            "",
             8004,
             object :
                 BaseSocketClient.BaseSocketFace() {

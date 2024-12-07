@@ -26,6 +26,7 @@ public class OkHttpRequestClient implements RequestClient {
                     .connectTimeout(10, TimeUnit.SECONDS)
                     .readTimeout(10, TimeUnit.SECONDS)
                     .writeTimeout(10, TimeUnit.SECONDS);
+//                    .sslSocketFactory();
             client = builder.build();
         }
         if (request.getConnectTimeout() + request.getReadTimeout() + request.getWriteTimeout() > 0) {

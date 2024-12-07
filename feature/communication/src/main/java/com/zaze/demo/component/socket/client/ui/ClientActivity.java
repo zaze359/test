@@ -24,6 +24,8 @@ import com.zaze.demo.component.socket.UDPSocketClient;
 import com.zaze.demo.component.socket.adapter.SocketAdapter;
 import com.zaze.demo.feature.communication.R;
 import com.zaze.utils.ThreadManager;
+import com.zaze.utils.log.ZLog;
+import com.zaze.utils.log.ZTag;
 
 import java.util.ArrayList;
 import java.util.List;

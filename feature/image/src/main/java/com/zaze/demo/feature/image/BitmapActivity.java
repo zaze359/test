@@ -1,6 +1,7 @@
 package com.zaze.demo.feature.image;
 
 
+import android.app.WallpaperManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -72,7 +73,6 @@ public class BitmapActivity extends AbsActivity implements ViewSwitcher.ViewFact
 //        originBmp = CircleBmpKt.innerRound2(originBmp);
         processedBmp = Bitmap.createBitmap(originBmp.getWidth(), originBmp.getHeight(), originBmp.getConfig());
         binding.bmpSwitcher.setFactory(this);
-
 
         binding.bmpContentIv.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         binding.bmpContentIv.post(new Runnable() {

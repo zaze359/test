@@ -12,7 +12,7 @@ open class ClassLoaderWrapper(private val mBase: ClassLoader) {
     }
 
     fun findLibrary(libName: String): String? {
-        return findLibraryMethod.invoke(this, libName) as? String
+        return findLibraryMethod.invoke(mBase, libName) as? String
     }
 }
 

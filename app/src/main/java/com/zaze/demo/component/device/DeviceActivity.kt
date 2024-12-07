@@ -12,6 +12,8 @@ import com.zaze.common.base.ext.initToolbar
 import com.zaze.demo.R
 import com.zaze.demo.databinding.DeviceActivityBinding
 import com.zaze.core.designsystem.util.ThemeUtils
+import com.zaze.demo.debug.kotlin.Temp
+import com.zaze.utils.DisplayUtil
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -46,6 +48,8 @@ class DeviceActivity : AbsActivity() {
             setTheme(R.style.BlackTheme)
             binding.deviceTestTintIv.setImageResource(R.drawable.ic_looks_2)
             viewModel.calculatePhysicalSize(0)
+            Temp.createDimensBySW(800, DisplayUtil.getScreenWidthDp().toInt())
+//            com.zaze.demo.debug.kotlin.Temp()
         }
         viewModel.loadDeviceInfo()
     }

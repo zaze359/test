@@ -140,8 +140,8 @@ class AppListAdapter(context: Context) :
     }
 
     fun exportInstalledApp(value: AppShortcut): String {
-        val outApkPath =
-            "/sdcard/zaze/apk/${value.packageName}/${value.packageName}_${value.versionCode}.apk"
+
+        val outApkPath = "${context.getExternalFilesDir(null)}/zaze/apk/${value.packageName}/${value.packageName}_${value.versionCode}.apk"
         value.applicationInfo?.let { app ->
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && app.isAAB) {
                 val sourceFiles = app.splitSourceDirs.toMutableList()

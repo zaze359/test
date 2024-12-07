@@ -21,7 +21,7 @@ public class NetLocationListener implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-//        ZLog.i(LcTag.TAG_LOCATION, "NetLocationListener : onLocationChanged : " + location);
+//        ZLog.i(ZTag.TAG_LOCATION, "NetLocationListener : onLocationChanged : " + location);
         if (location != null && locationListener != null) {
             locationListener.onLocationChanged(location);
         }
@@ -29,7 +29,7 @@ public class NetLocationListener implements LocationListener {
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-//        ZLog.i(LcTag.TAG_LOCATION, "NetLocationListener : onStatusChanged : " + provider);
+//        ZLog.i(ZTag.TAG_LOCATION, "NetLocationListener : onStatusChanged : " + provider);
         switch (status) {
             case LocationProvider.AVAILABLE:
                 break;
@@ -47,7 +47,7 @@ public class NetLocationListener implements LocationListener {
 
     @Override
     public void onProviderEnabled(String provider) {
-//        ZLog.i(LcTag.TAG_LOCATION, "NetLocationListener : onProviderEnabled : " + provider);
+//        ZLog.i(ZTag.TAG_LOCATION, "NetLocationListener : onProviderEnabled : " + provider);
         if (locationListener != null) {
             locationListener.onProviderEnabled(provider);
         }
@@ -55,7 +55,7 @@ public class NetLocationListener implements LocationListener {
 
     @Override
     public void onProviderDisabled(String provider) {
-//        ZLog.i(LcTag.TAG_LOCATION, "NetLocationListener : onProviderDisabled : " + provider);
+//        ZLog.i(ZTag.TAG_LOCATION, "NetLocationListener : onProviderDisabled : " + provider);
         if (locationListener != null) {
             locationListener.onProviderDisabled(provider);
         }

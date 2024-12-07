@@ -93,16 +93,17 @@ class MyAccessibilityService : AccessibilityService() {
     }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent) {
-//        Log.i(TAG, "onAccessibilityEvent: $event")
+        Log.i(TAG, "adHandler onAccessibilityEvent: $event")
 //        when (event.eventType) {
 //            AccessibilityEvent.TYPE_VIEW_CLICKED -> {
 //                ZLog.i(TAG, "Clicked: ${event.source}")
 //                ZLog.i(TAG, "Clicked: ${event.source?.viewIdResourceName}")
 //            }
 //        }
-        coroutineScope.launch {
-            adHandler.onAccessibilityEvent(event)
-        }
+//        coroutineScope.launch(Dispatchers.Default) {
+//        }
+
+//        adHandler.onAccessibilityEvent(event)
     }
 
     override fun onDestroy() {

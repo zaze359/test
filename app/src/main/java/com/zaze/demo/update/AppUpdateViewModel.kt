@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.viewModelScope
 import com.zaze.common.base.AbsAndroidViewModel
 import com.zaze.utils.permission.ExternalStoragePermission
-import com.zaze.demo.core.bsdiff.AppPatchUtils
 import com.zaze.demo.feature.applications.ApplicationManager
 import com.zaze.utils.AppUtil
 import com.zaze.utils.FileUtil
@@ -72,9 +71,9 @@ class AppUpdateViewModel @Inject constructor(application: Application) :
             FileUtil.createParentDir(createdApkPath)
             ZLog.i(ZTag.TAG_DEBUG, "applyPatch start: $createdApkPath")
             try {
-                val ret = AppPatchUtils.applyPatch(preOldApkPath, createdApkPath, prePatchPath)
-                ZLog.i(ZTag.TAG_DEBUG, "applyPatch end: $ret")
-                ApplicationManager.installApp(application, File(createdApkPath))
+//                val ret = AppPatchUtils.applyPatch(preOldApkPath, createdApkPath, prePatchPath)
+//                ZLog.i(ZTag.TAG_DEBUG, "applyPatch end: $ret")
+//                ApplicationManager.installApp(application, File(createdApkPath))
             } catch (e: Throwable) {
                 e.printStackTrace()
             }

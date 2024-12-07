@@ -131,10 +131,11 @@ internal fun HomeScreen(
 
 
         val count by remember {  mutableStateOf(0) }
+        val count2 by rememberUpdatedState { }
         val test = remember { "test" }
 
-
         val onErrorDismissState by rememberUpdatedState(newValue = onErrorDismiss)
+
         println("errorMessageText: $errorMessageText")
         println("snackbarHostState: $snackbarHostState")
         LaunchedEffect(errorMessageText, snackbarHostState) {

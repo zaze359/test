@@ -37,17 +37,17 @@ class RemoteService : LogService() {
             return MessageService.instance
         }
 
-        override fun queryService(descriptor: String?): IBinder? {
-            return when (descriptor) {
-                IMessageService.DESCRIPTOR -> {
-                    MessageService.instance
-                }
-
-                else -> {
-                    null
-                }
-            }
-        }
+//        override fun queryService(descriptor: String?): IBinder? {
+//            return when (descriptor) {
+//                IMessageService.DESCRIPTOR -> {
+//                    MessageService.instance
+//                }
+//
+//                else -> {
+//                    null
+//                }
+//            }
+//        }
 
         override fun read(fileName: String?): ParcelFileDescriptor? {
             if (fileName.isNullOrEmpty()) return null

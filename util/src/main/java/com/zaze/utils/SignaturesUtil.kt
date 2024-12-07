@@ -17,8 +17,10 @@ object SignaturesUtil {
 
     //    private val DEBUG = X500Principal("CN=Android Debug,O=Android,C=US")
     @JvmStatic
-    fun getSignatures(context: Context, algorithm: String?): String? {
-        val signatures = AppUtil.getSignatures(context)
+    fun getSignatures(
+        signatures: Array<Signature>?,
+        algorithm: String?
+    ): String? {
         if (signatures.isNullOrEmpty()) {
             return null
         }

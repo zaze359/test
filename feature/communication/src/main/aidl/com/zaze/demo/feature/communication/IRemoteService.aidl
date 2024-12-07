@@ -14,7 +14,7 @@ interface IRemoteService {
             double aDouble, String aString);
 
     IMessageService getMessageService();
-    IBinder queryService(String descriptor);
+//    IBinder queryService(String descriptor);
 
     ParcelFileDescriptor read(String fileName);
 

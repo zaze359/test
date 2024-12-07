@@ -16,6 +16,8 @@ import com.zaze.utils.date.DateUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import static android.content.Context.NETWORK_STATS_SERVICE;
@@ -40,15 +42,31 @@ public class AnalyzeTrafficCompatVM extends AnalyzeTrafficCompat {
 
     @Override
     public Collection<NetTrafficStats> getDayNetworkTraffic() {
-        final long current = System.currentTimeMillis();
+        long current = System.currentTimeMillis();
+        return getNetworkTraffic(DateUtil.getDayStart(current), current);
+    }
+
+    /**
+     * 分析程序网络流量统计
+     * /proc/net/xt_qtaguid/stats
+     *
+     * @return JSONArray
+     */
+    @Override
+    protected List<NetTrafficStats> getNewestNetworkTraffic() {
+        return getNetworkTraffic(0, System.currentTimeMillis());
+    }
+
+    @Override
+    public List<NetTrafficStats> getNetworkTraffic(long startTimeMillis, long endTimeMillis) {
         List<NetTrafficStats> networkStatList = new ArrayList<>();
         try {
-            NetworkStats stats = networkStatsManager.querySummary(ConnectivityManager.TYPE_WIFI, null, DateUtil.getDayStart(current), current);
+            NetworkStats stats = networkStatsManager.querySummary(ConnectivityManager.TYPE_WIFI, null, startTimeMillis, endTimeMillis);
             while (stats != null && stats.hasNextBucket()) {
                 NetworkStats.Bucket bucket = new NetworkStats.Bucket();
                 stats.getNextBucket(bucket);
                 AppShortcut shortcut = ApplicationManager2.getAppShortcutByUid(bucket.getUid());
-                if (shortcut != null) {
+                if (shortcut != null && bucket.getState() == NetworkStats.Bucket.STATE_FOREGROUND) {
                     NetTrafficStats netTrafficStats = new NetTrafficStats();
                     netTrafficStats.setUid(bucket.getUid());
                     netTrafficStats.setAppShortcut(shortcut);
@@ -60,17 +78,7 @@ public class AnalyzeTrafficCompatVM extends AnalyzeTrafficCompat {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        return networkStatList;
-    }
 
-    /**
-     * 分析程序网络流量统计
-     * /proc/net/xt_qtaguid/stats
-     *
-     * @return JSONArray
-     */
-    @Override
-    protected List<NetTrafficStats> getNewestNetworkTraffic() {
-        return null;
+        return networkStatList;
     }
 }

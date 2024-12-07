@@ -35,17 +35,17 @@ data class ZRequest(
     /**
      * second
      */
-    var connectTimeout: Int = 10
+    var connectTimeout: Long = 10
 
     /**
      * second
      */
-    var readTimeout: Int = 10
+    var readTimeout: Long = 10
 
     /**
      * second
      */
-    var writeTimeout: Int = 10
+    var writeTimeout: Long = 10
 
 //    fun url(url: String, map: Map<String, String>? = null): Builder {
 //        this.url = HttpUtil.buildGetRequest(url, map)
@@ -53,14 +53,14 @@ data class ZRequest(
 
     /**
      * 设置超时时间
-     * [timeMillis] 毫秒
+     * [timeSecond] 秒
      */
-    fun setTimeout(timeMillis: Int) {
+    fun setTimeout(timeSecond: Long) {
 
-        if (timeMillis > 0) {
-            this.connectTimeout = timeMillis
-            this.readTimeout = timeMillis
-            this.writeTimeout = timeMillis
+        if (timeSecond > 0) {
+            this.connectTimeout = timeSecond
+            this.readTimeout = timeSecond
+            this.writeTimeout = timeSecond
         }
     }
 

@@ -3,7 +3,7 @@ package com.zaze.core.nativelib
 import android.content.Context
 import android.os.Build
 import android.os.Debug
-import com.zaze.common.dynamic.findLibraryCompat
+import com.zaze.dynamic.wrapper.ClassLoaderWrapper
 import com.zaze.utils.FileUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
@@ -31,7 +31,7 @@ object JvmtiHelper {
     }
 
     private fun findAgentLib(context: Context): String? {
-        return context.classLoader.findLibraryCompat("mynative-lib")
+        return ClassLoaderWrapper(context.classLoader).findLibrary("mynative-lib")
     }
 
     /**

@@ -1,4 +1,4 @@
-package com.zaze.demo.debug
+package com.zaze.demo.debug.kotlin
 
 import android.Manifest
 import android.app.Activity
@@ -12,7 +12,6 @@ import android.os.Looper
 import android.provider.Settings
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
-import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.zaze.utils.AppUtil
@@ -44,9 +43,6 @@ object Temp {
     }
 
     fun test(context: Activity) {
-        var arr = emptyList<Int>();
-        arr.sorted()
-
         var result = ""
 //        if (hasPermissionToReadNetworkStats(activity)) {
 //            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -76,9 +72,6 @@ object Temp {
 //        AppUtil.getActivityManager(context).runningAppProcesses.forEach {
 //            Log.i("test", "runningAppProcesses = ${it.processName}")
 //        }
-        AppUtil.getActivityManager(context).getRunningTasks(3).forEach {
-            Log.i("test", "runningAppProcesses = ${it.topActivity?.packageName}")
-        }
 
     }
 
@@ -150,8 +143,8 @@ object Temp {
         val mobileInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
         val wifiInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
         val activeInfo = connectivityManager.activeNetworkInfo
-        //        ZLog.i(LcTag.TAG_DEBUG, "mobileInfo : $mobileInfo")
-//        ZLog.i(LcTag.TAG_DEBUG, "wifiInfo : $wifiInfo")
+        //        ZLog.i(ZTag.TAG_DEBUG, "mobileInfo : $mobileInfo")
+//        ZLog.i(ZTag.TAG_DEBUG, "wifiInfo : $wifiInfo")
 
         ZLog.i(ZTag.TAG_DEBUG, "activeInfo : $activeInfo")
         if (wifiInfo != null) {
@@ -198,65 +191,29 @@ object Temp {
         }
     }
 
-
-    private fun createDimensByDensity(screenDensity: Float): String {
-        var dp = 1
-        val baseBuilder = initBuilder(StringBuilder())
-        val dpBuilder = initBuilder(StringBuilder())
-        do {
-            if (dp <= 10 || dp % 2 == 0) {
-                dpBuilder.append(
-                    ZStringUtil.format(
-                        "\t<dimen name=\"dp_$dp\">%1.1fdp</dimen>\n",
-                        dp * 1f / screenDensity
-                    )
-                )
-                baseBuilder.append("\t<dimen name=\"dp_$dp\">${dp}dp</dimen>\n")
-            }
-            dp++
-        } while (dp <= 2000)
-
-        dpBuilder.append("</resources>")
-        baseBuilder.append("</resources>")
-        FileUtil.writeToFile(
-            "${FileUtil.getSDCardRoot()}/zaze/z_dimens/dimens.xml",
-            dpBuilder.toString()
-        )
-        FileUtil.writeToFile(
-            "${FileUtil.getSDCardRoot()}/zaze/z_dimens/dimens_base.xml",
-            baseBuilder.toString()
-        )
-        return dpBuilder.toString()
-    }
-
-
-    private fun createDimensBySW(baseSw: Int, screenSw: Int): String {
+    fun createDimensBySW(baseSw: Int, screenSw: Int): String {
         var dp = 1
         val baseBuilder = initBuilder(StringBuilder())
         val swBuilder = initBuilder(StringBuilder())
         do {
-            if (dp <= 10 || dp % 2 == 0) {
-                baseBuilder.append("\t<dimen name=\"dp_$dp\">${dp}dp</dimen>\n")
-                swBuilder.append(
-                    ZStringUtil.format(
-                        "\t<dimen name=\"dp_$dp\">%1.1fdp</dimen>\n",
-                        1.0f * dp * screenSw / baseSw
-                    )
+            baseBuilder.append("\t<dimen name=\"dp_$dp\">${dp}dp</dimen>\n")
+            swBuilder.append(
+                ZStringUtil.format(
+                    "\t<dimen name=\"dp_$dp\">%1.1fdp</dimen>\n",
+                    1.0f * dp * screenSw / baseSw
                 )
-            }
+            )
             dp++
         } while (dp <= 1024)
         var sp = 1
         do {
-            if (sp <= 10 || sp % 2 == 0) {
-                baseBuilder.append("\t<dimen name=\"sp_$sp\">${sp}sp</dimen>\n")
-                swBuilder.append(
-                    ZStringUtil.format(
-                        "\t<dimen name=\"sp_$sp\">%1.1fsp</dimen>\n",
-                        1.0f * sp * screenSw / baseSw
-                    )
+            baseBuilder.append("\t<dimen name=\"sp_$sp\">${sp}sp</dimen>\n")
+            swBuilder.append(
+                ZStringUtil.format(
+                    "\t<dimen name=\"sp_$sp\">%1.1fsp</dimen>\n",
+                    1.0f * sp * screenSw / baseSw
                 )
-            }
+            )
             sp++
         } while (sp <= 100)
         swBuilder.append("</resources>")
