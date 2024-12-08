@@ -316,7 +316,13 @@ dependencies {
 
     implementation("com.tencent.tbs:tbssdk:44286")
 
-
+    /* libtorrent wrapper */
+    val LIBTORRENT4J_VERSION = "2.1.0-33"
+    implementation("org.libtorrent4j:libtorrent4j:$LIBTORRENT4J_VERSION")
+    implementation("org.libtorrent4j:libtorrent4j-android-arm:$LIBTORRENT4J_VERSION")
+    implementation("org.libtorrent4j:libtorrent4j-android-arm64:$LIBTORRENT4J_VERSION")
+    implementation("org.libtorrent4j:libtorrent4j-android-x86:$LIBTORRENT4J_VERSION")
+    implementation("org.libtorrent4j:libtorrent4j-android-x86_64:$LIBTORRENT4J_VERSION")
 }
 
 //apply(from = "${project.rootDir}/buildscripts/test.gradle")

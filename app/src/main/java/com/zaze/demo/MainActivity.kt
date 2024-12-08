@@ -51,9 +51,6 @@ class MainActivity : AbsActivity() {
         }
     }
 
-    override val showLifecycle: Boolean
-        get() = true
-
     override fun getPermissionsToRequest(): Array<String> {
         return arrayOf(
             Manifest.permission.READ_EXTERNAL_STORAGE,

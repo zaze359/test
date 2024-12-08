@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.zaze.common.base.AbsLogActivity;
 import com.zaze.common.base.BaseApplication;
 import com.zaze.core.network.di.NetworkModule;
 import com.zaze.demo.BuildConfig;
@@ -72,6 +73,7 @@ public class MyApplication extends WebViewApplication implements ImageLoaderFact
         super.onCreate();
         initLog();
         MatrixHelper.INSTANCE.initMatrix(this);
+        AbsLogActivity.Companion.setGlobalLog(true);
         initRouter();
         initCrash();
 //        watchHandler();
