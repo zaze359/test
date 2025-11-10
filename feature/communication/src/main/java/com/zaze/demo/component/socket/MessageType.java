@@ -8,9 +8,9 @@ package com.zaze.demo.component.socket;
  */
 public class MessageType {
 
-    public static final int UN_KNOW = 0;
-    public static final int PRESENCE = 10001;
-    public static final int CONFIG = 20001;
-    public static final int CHAT = 30001;
+    public static final String UN_KNOW = "";
+    public static final String PRESENCE = "PRESENCE";
+    public static final String CONFIG = "CONFIG";
+    public static final String CHAT = "CHAT";
 
 }

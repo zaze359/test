@@ -31,6 +31,19 @@ object MediaHelper {
         }
     }
 
+    fun frameAtTime(url: String): Bitmap? {
+        return try {
+            val headers = HashMap<String, String>()
+            headers["User-Agent"] = "Mozilla/5.0 (Linux; U; Android 4.4.2; zh-CN; MW-KW-001 Build/JRO03C) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 UCBrowser/1.0.0.001 U4/0.8.0 Mobile Safari/533.1"
+            mediaMetadataRetriever.setDataSource(url, headers)
+            mediaMetadataRetriever.frameAtTime
+        } catch (e: Throwable) {
+            ZLog.e(ZTag.TAG_DEBUG, "error media : $url")
+            e.printStackTrace()
+            null
+        }
+    }
+
     fun frameAtTime(context: Context, uri: Uri): Bitmap? {
         return try {
             mediaMetadataRetriever.setDataSource(context, uri)

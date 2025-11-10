@@ -22,6 +22,7 @@ sealed class ChatMessage(
         override val author: String,
         override val timestamp: Long = System.currentTimeMillis(),
         override val authorImage: String? = null,
+        val fileName:String? = null,
         val localPath: String? = null,
         val imageUrl: String? = null,
     ) : ChatMessage(id, userId, author, timestamp, authorImage)
@@ -33,6 +34,7 @@ sealed class ChatMessage(
         override val timestamp: Long = System.currentTimeMillis(),
         override val authorImage: String? = null,
         val localPath: String? = null,
+        val fileName:String? = null,
         val url: String? = null,
         val mimeType: String? = null
     ) : ChatMessage(id, userId, author, timestamp, authorImage)

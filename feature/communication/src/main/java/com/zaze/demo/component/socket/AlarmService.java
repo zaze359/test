@@ -26,7 +26,6 @@ public class AlarmService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (runAlarm) {
-            ClientFragment.send();
             setAlarm();
         }
         return super.onStartCommand(intent, flags, startId);

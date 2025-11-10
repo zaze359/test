@@ -3,7 +3,7 @@
     <style name="SplashTheme.Base" parent="Theme.SplashScreen">
 
         <!-- Splash处理完后 会重新设置为这个主题， 所以要在 setContentView() 前调用 installSplashScreen() -->
-<!--        <item name="postSplashScreenTheme">@style/Theme.Custom.MD3</item>-->
+        <!--        <item name="postSplashScreenTheme">@style/Theme.Custom.MD3</item>-->
         <item name="windowSplashScreenAnimationDuration">1000</item>
         <item name="windowSplashScreenBackground">@color/splashScreenBackground</item>
         <item name="windowSplashScreenIconBackgroundColor">@color/splashScreenIconBackground</item>

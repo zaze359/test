@@ -10,6 +10,7 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageSwitcher;
@@ -23,6 +24,7 @@ import com.zaze.common.base.AbsActivity;
 import com.zaze.common.base.ext.AppCompatActivityExtKt;
 import com.zaze.common.thread.ThreadPlugins;
 import com.zaze.demo.feature.image.databinding.BitmapActBinding;
+import com.zaze.utils.BmpUtil;
 import com.zaze.utils.ext.BitmapExtKt;
 
 import org.jetbrains.annotations.Nullable;
@@ -48,6 +50,7 @@ public class BitmapActivity extends AbsActivity implements ViewSwitcher.ViewFact
     private Bitmap processedBmp;
     private BitmapActBinding binding;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,8 +60,8 @@ public class BitmapActivity extends AbsActivity implements ViewSwitcher.ViewFact
             actionBar.setTitle("Bitmap");
             return Unit.INSTANCE;
         });
+        originBmp = addWatermarkToBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.jljt));
 
-        originBmp = BitmapFactory.decodeResource(getResources(), R.drawable.jljt);
 //        originBmp = BitmapExt.INSTANCE.decodeToBitmap(300, 300, new Function1<BitmapFactory.Options, Bitmap>() {
 //            @Override
 //            public Bitmap invoke(BitmapFactory.Options options) {
@@ -72,6 +75,8 @@ public class BitmapActivity extends AbsActivity implements ViewSwitcher.ViewFact
 //        originBmp = BmpUtil.toRoundRectBitmap(originBmp, DisplayUtil.pxFromDp(30));
 //        originBmp = CircleBmpKt.innerRound2(originBmp);
         processedBmp = Bitmap.createBitmap(originBmp.getWidth(), originBmp.getHeight(), originBmp.getConfig());
+
+
         binding.bmpSwitcher.setFactory(this);
 
         binding.bmpContentIv.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
@@ -165,6 +170,20 @@ public class BitmapActivity extends AbsActivity implements ViewSwitcher.ViewFact
         });
     }
 
+    private Bitmap addWatermarkToBitmap(Bitmap bitmap) {
+        // 创建一个 Paint 对象来设置水印的样式
+        Paint paint = new Paint();
+        paint.setColor(Color.WHITE); // 水印颜色
+        paint.setTextSize(40f); // 水印文字大小
+        paint.setTypeface(Typeface.DEFAULT_BOLD); // 水印字体
+        paint.setAlpha(128); // 水印透明度 (0-255, 0 完全透明, 255 完全不透明)
+        //
+        String watermarkText = "我是水印";
+        float watermarkX = 0;
+        float watermarkY = paint.getTextSize();
+        return BmpUtil.INSTANCE.addWatermarkToBitmap(bitmap, watermarkText, watermarkX, watermarkY, paint);
+    }
+
     private void refresh() {
         if (paint == null) {
             paint = new Paint();
@@ -196,6 +215,6 @@ public class BitmapActivity extends AbsActivity implements ViewSwitcher.ViewFact
         i.setBackgroundColor(0xff000000);
         i.setScaleType(ImageView.ScaleType.CENTER_CROP);
         i.setLayoutParams(new ImageSwitcher.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-        return i ;
+        return i;
     }
 }

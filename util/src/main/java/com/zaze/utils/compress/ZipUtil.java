@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -130,76 +131,7 @@ public class ZipUtil {
      */
     public static void compressFile(String srcFilePath, String outFilePath) {
         compressFiles( new File[]{new File(srcFilePath)}, outFilePath);
-//
-//        ZLog.d(ZTag.TAG_COMPRESS, ZStringUtil.format("zipFile : %s >> %s", srcFilePath, outFilePath));
-//        FileUtil.createDirNotExists(new File(outFilePath).getParentFile());
-//        FileUtil.reCreateFile(outFilePath);
-//        ZipOutputStream outZip = null;
-//        try {
-//            //创建Zip包
-//            outZip = new ZipOutputStream(new FileOutputStream(outFilePath));
-//            //压缩
-//            compressFiles(outZip, srcFile, srcFile.getName() + File.separator);
-//            outZip.flush();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (outZip != null) {
-//                try {
-//                    outZip.closeEntry();
-//                    outZip.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
     }
-//
-//    /**
-//     * 压缩文件
-//     *
-//     * @param zipOutputSteam zip 输出流
-//     * @param sourceFile     需要压缩的文件
-//     * @param zipDir         生成的压缩包中的 内容的根目录，相对路径
-//     * @throws Exception
-//     */
-//    private static void compressFiles(ZipOutputStream zipOutputSteam, File sourceFile, String zipDir) throws Exception {
-//        ZLog.v(ZTag.TAG_COMPRESS, "压缩文件: " + zipDir + sourceFile.getName());
-//        if (zipOutputSteam == null) {
-//            return;
-//        }
-//        if (sourceFile.isFile()) {
-//            ZipEntry zipEntry = new ZipEntry(zipDir + sourceFile.getName());
-//            FileInputStream inputStream = new FileInputStream(sourceFile);
-//            zipOutputSteam.putNextEntry(zipEntry);
-//            int len;
-//            byte[] buffer = new byte[4096];
-//            while ((len = inputStream.read(buffer)) != -1) {
-//                zipOutputSteam.write(buffer, 0, len);
-//            }
-//        } else {
-//            //文件夹的方式,获取文件夹下的子文件
-//            File[] fileList = sourceFile.listFiles();
-//            //如果没有子文件, 则添加进去即可
-//            if (fileList == null || fileList.length <= 0) {
-//                ZipEntry zipEntry = new ZipEntry(zipDir + sourceFile.getName());
-//                zipOutputSteam.putNextEntry(zipEntry);
-//            } else {
-//                //如果有子文件, 遍历子文件
-//                for (File file : fileList) {
-//                    if (file == null) {
-//                        continue;
-//                    }
-//                    if (file.isDirectory()) {
-//                        compressFiles(zipOutputSteam, file, zipDir + file.getName() + File.separator);
-//                    } else {
-//                        compressFiles(zipOutputSteam, file, zipDir);
-//                    }
-//                }
-//            }
-//        }
-//    }
-//
 
     /**
      * 批量压缩文件，支持文件夹
@@ -217,7 +149,7 @@ public class ZipUtil {
             outputStream = new ZipOutputStream(new FileOutputStream(zipFile));
             // 压缩
 //            File srcFile = new File(srcFilePath);
-            compressFilesInner(outputStream, sourceFiles, File.separator);
+            addFilesToZip(outputStream, sourceFiles, File.separator);
             outputStream.flush();
         } catch (Exception e) {
             e.printStackTrace();
@@ -240,7 +172,7 @@ public class ZipUtil {
      * @param rootDir        将 sourceFiles 输出 到zip包内部的根目录
      * @throws Exception
      */
-    private static void compressFilesInner(@NonNull ZipOutputStream zipOutputSteam, @Nullable File[] sourceFiles, @NonNull String rootDir) {
+    public static void addFilesToZip(@NonNull ZipOutputStream zipOutputSteam, @Nullable File[] sourceFiles, @NonNull String rootDir) {
         if (sourceFiles == null) {
             return;
         }
@@ -255,7 +187,6 @@ public class ZipUtil {
                 compressFile(zipOutputSteam, file, rootDir);
             }
         }
-
     }
 
     private static void compressDir(@NonNull ZipOutputStream zipOutputSteam, @NonNull File sourceFile, String rootDir) {
@@ -277,7 +208,7 @@ public class ZipUtil {
         } else {
             // 存在子文件，新添加一层目录
             rootDir = rootDir + sourceFile.getName() + File.separator;
-            compressFilesInner(zipOutputSteam, fileList, rootDir);
+            addFilesToZip(zipOutputSteam, fileList, rootDir);
         }
     }
 
@@ -288,17 +219,24 @@ public class ZipUtil {
         }
         ZLog.v(ZTag.TAG_COMPRESS, "压缩文件: " + rootDir + sourceFile.getName());
         try {
-            ZipEntry zipEntry = new ZipEntry(rootDir + sourceFile.getName());
-            FileInputStream inputStream = new FileInputStream(sourceFile);
-            zipOutputSteam.putNextEntry(zipEntry);
-            int len;
-            byte[] buffer = new byte[4096];
-            while ((len = inputStream.read(buffer)) != -1) {
-                zipOutputSteam.write(buffer, 0, len);
-            }
+            compress(zipOutputSteam, rootDir, new FileInputStream(sourceFile), sourceFile.getName());
         } catch (Throwable e) {
             e.printStackTrace();
         }
     }
 
+    public static void compress(@NonNull ZipOutputStream zipOutputSteam, String rootDir, @NonNull InputStream sourceInputStream, String fileName) {
+        ZLog.v(ZTag.TAG_COMPRESS, "压缩数据流: " + rootDir + fileName);
+        try {
+            ZipEntry zipEntry = new ZipEntry(rootDir + fileName);
+            zipOutputSteam.putNextEntry(zipEntry);
+            int len;
+            byte[] buffer = new byte[4096];
+            while ((len = sourceInputStream.read(buffer)) != -1) {
+                zipOutputSteam.write(buffer, 0, len);
+            }
+        } catch (Throwable e) {
+            ZLog.e(ZTag.TAG_COMPRESS, "compress error ", e);
+        }
+    }
 }

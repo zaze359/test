@@ -57,14 +57,13 @@ dependencies {
     implementation(project(":core:data"))
     implementation(project(":core:datastore"))
     implementation(project(":core:model"))
+    testImplementation(project(":core:testing"))
+    androidTestImplementation(project(":core:testing"))
 
     implementation(libs.google.android.material)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui.ktx)
-
-    testImplementation(project(":core:testing"))
-    androidTestImplementation(project(":core:testing"))
 
     implementation(libs.arouter.api)
     kapt(libs.arouter.compiler)
@@ -85,4 +84,12 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
 
     implementation(libs.kotlinx.coroutines.android)
+
+    // camerax
+    val camerax_version = "1.3.0-alpha02"
+    implementation("androidx.camera:camera-core:$camerax_version")
+    implementation("androidx.camera:camera-camera2:$camerax_version")
+    implementation("androidx.camera:camera-lifecycle:$camerax_version")
+    implementation("androidx.camera:camera-video:$camerax_version") // 视频录制
+    implementation("androidx.camera:camera-view:1.2.0-alpha01")    // 预览视图
 }

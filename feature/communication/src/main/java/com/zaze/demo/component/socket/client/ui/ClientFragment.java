@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.zaze.common.base.BaseFragment;
+import com.zaze.common.base.ext.ViewModelFactoryKt;
 import com.zaze.demo.component.socket.AlarmService;
 import com.zaze.demo.component.socket.BaseSocketClient;
 import com.zaze.demo.component.socket.MessageType;
@@ -37,13 +38,9 @@ import java.util.List;
  */
 public class ClientFragment extends BaseFragment {
     private SocketAdapter adapter;
-    public static BaseSocketClient clientSocket;
-    private List<SocketMessage> messageList = new ArrayList<>();
-    private static final HashSet<String> inviteSet = new HashSet<>();
-
     private RecyclerView clientMessageRecyclerView;
-    private static final long fromId = 32142;
-    private static final long toId = 666L;
+
+    private ClientViewModel viewModel;
 
     /**
      * newInstance.
@@ -60,39 +57,18 @@ public class ClientFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        clientSocket = new UDPSocketClient(8004, new BaseSocketClient.BaseSocketFace() {
-            @Override
-            public void onReceiver(SocketMessage socketMessage) {
-                super.onReceiver(socketMessage);
-                //
-//                Intent serviceIntent = new Intent(getContext(), NotificationService.class);
-//                getContext().startService(serviceIntent);
-                //
-
-                messageList.add(socketMessage);
-                ThreadManager.getInstance().runInUIThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        showReceiverMsg(messageList);
-                    }
-                });
-            }
-        });
-//        EventBus.getDefault().register(this);
     }
 
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        EventBus.getDefault().unregister(this);
-        clientSocket.close();
-        clientSocket = null;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        viewModel = ViewModelFactoryKt.obtainViewModel(this, ClientViewModel.class);
         return inflater.inflate(R.layout.client_fragment, container, false);
     }
 
@@ -104,7 +80,7 @@ public class ClientFragment extends BaseFragment {
         ZOnClickHelper.setOnClickListener(view.findViewById(R.id.client_join_bt), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clientSocket.receive();
+                viewModel.startClient();
                 getContext().startService(new Intent(getContext(), AlarmService.class));
             }
         });
@@ -112,7 +88,7 @@ public class ClientFragment extends BaseFragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        send();
+                        viewModel.send();
                     }
                 });
     }
@@ -121,26 +97,7 @@ public class ClientFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         AlarmService.runAlarm = false;
-    }
-
-    public static void send() {
-        if (clientSocket != null) {
-            try {
-                if (!inviteSet.isEmpty()) {
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("content", "客户端回执");
-                    for (String addressStr : inviteSet) {
-                        String[] ipHost = addressStr.split(":");
-                        if (ipHost.length == 2) {
-                            clientSocket.send(ipHost[0], ZStringUtil.parseInt(ipHost[1]),
-                                    new SocketMessage(fromId, toId, jsonObject.toString(), MessageType.CHAT));
-                        }
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
+        viewModel.stopClient();
     }
 
     private void showReceiverMsg(List<SocketMessage> list) {

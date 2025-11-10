@@ -12,14 +12,14 @@ public class SocketMessage {
     private String address;
     private int port;
     private String message;
-    private int msgType;
+    private String msgType;
     private long createTime = System.currentTimeMillis();
     private long receiverTime;
 
     public SocketMessage() {
     }
 
-    public SocketMessage(long fromId, long toId, String message, int msgType) {
+    public SocketMessage(long fromId, long toId, String message, String msgType) {
         this.fromId = fromId;
         this.toId = toId;
         this.message = message;
@@ -82,11 +82,11 @@ public class SocketMessage {
         this.receiverTime = receiverTime;
     }
 
-    public int getMsgType() {
+    public String getMsgType() {
         return msgType;
     }
 
-    public void setMsgType(int msgType) {
+    public void setMsgType(String msgType) {
         this.msgType = msgType;
     }
 

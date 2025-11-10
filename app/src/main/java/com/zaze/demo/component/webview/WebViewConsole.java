@@ -19,7 +19,6 @@ public class WebViewConsole {
         jsConsole(webView, "JavaScript:function printDocument(){var imgs= document.querySelectorAll('img');for(var i = 0; i < imgs.length; ++i) {imgs[i].src='https://xxxxx/img/logo.png';}}printDocument();");
     }
 
-
     public static void jsConsole(WebView webView, String js) {
         webView.loadUrl(js);
     }

@@ -152,6 +152,7 @@ class AppListViewModel @Inject constructor(application: Application) : AbsAndroi
             Observable.fromCallable {
                 val showList = ArrayList<AppShortcut>()
                 FileUtil.searchFileBySuffix(apkDir, "apk", true).forEach { file ->
+                    ZLog.i(ZTag.TAG, "loadSdcardApk: ${file.absolutePath}")
                     initEntity(ApplicationManager.getAppShortcutFormApk(application, file.absolutePath))?.let {
                         showList.add(it)
                     }

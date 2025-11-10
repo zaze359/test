@@ -286,8 +286,9 @@ dependencies {
     androidTestImplementation(project(":core:testing"))
 
 //    implementation(libs.zaze.util)
-    implementation(project(":util"))
 //    implementation(libs.zaze.common)
+
+    implementation(project(":util"))
     implementation(project(":common"))
 
     implementation(project(":feature:animations"))
@@ -307,6 +308,7 @@ dependencies {
     implementation(project(":core:database"))
     implementation(project(":core:model"))
     implementation(project(":core:network"))
+
 //    implementation(project(":core:nativelib"))
 //    implementation(project(":core:bsdiff"))
 
@@ -315,6 +317,8 @@ dependencies {
     implementation("com.tencent.mm.opensdk:wechat-sdk-android:+")
 
     implementation("com.tencent.tbs:tbssdk:44286")
+//    implementation("e-iceblue:spire.doc.android.free:2.4.0")
+//    implementation("e-iceblue:spire.doc.android.free:2.4.0@jar")
 
     /* libtorrent wrapper */
     val LIBTORRENT4J_VERSION = "2.1.0-33"
@@ -323,6 +327,8 @@ dependencies {
     implementation("org.libtorrent4j:libtorrent4j-android-arm64:$LIBTORRENT4J_VERSION")
     implementation("org.libtorrent4j:libtorrent4j-android-x86:$LIBTORRENT4J_VERSION")
     implementation("org.libtorrent4j:libtorrent4j-android-x86_64:$LIBTORRENT4J_VERSION")
+
+//    implementation("com.darkrockstudios:symspellkt:3.1.0")
 }
 
 //apply(from = "${project.rootDir}/buildscripts/test.gradle")

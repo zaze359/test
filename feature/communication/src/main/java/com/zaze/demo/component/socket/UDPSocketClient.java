@@ -70,6 +70,7 @@ public class UDPSocketClient extends BaseSocketClient {
                     try {
                         if (!TextUtils.isEmpty(getHost()) && InetAddress.getByName(getHost()).isMulticastAddress()) {
                             serverSocket = new MulticastSocket(getPort());
+//                            ((MulticastSocket) serverSocket).setLoopbackMode(true);
                             ((MulticastSocket) serverSocket).joinGroup(InetAddress.getByName(getHost()));
                         } else {
                             serverSocket = new DatagramSocket(getPort());
@@ -96,6 +97,7 @@ public class UDPSocketClient extends BaseSocketClient {
             try {
                 socket.receive(packet);
                 SocketMessage socketMessage = JsonUtil.parseJson(new String(packet.getData(), 0, packet.getLength(), Charset.defaultCharset()), SocketMessage.class);
+                if (socketMessage == null) return;
                 socketMessage.setAddress(packet.getAddress().getHostAddress());
                 socketMessage.setPort(packet.getPort());
                 socketMessage.setReceiverTime(System.currentTimeMillis());

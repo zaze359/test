@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.zaze.common.base.BaseActivity;
+import com.zaze.common.base.ext.ViewModelFactory;
+import com.zaze.common.base.ext.ViewModelFactoryKt;
 import com.zaze.demo.component.socket.BaseSocketClient;
 import com.zaze.demo.component.socket.SocketMessage;
 import com.zaze.demo.component.socket.UDPSocketClient;
@@ -38,18 +40,20 @@ import java.util.List;
  */
 public class ClientActivity extends BaseActivity {
     private SocketAdapter adapter;
-    private BaseSocketClient inviteSocket;
-    private List<SocketMessage> list = new ArrayList<>();
+
     private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar toolbar;
     private RecyclerView clientInviteRecyclerView;
     private DrawerLayout clientDrawerLayout;
     private PowerManager.WakeLock wakeLock;
 
+    private ClientViewModel viewModel;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.client_activity);
+        viewModel = ViewModelFactoryKt.obtainViewModel(this, ClientViewModel.class);
         toolbar = findViewById(R.id.client_toolbar);
         clientInviteRecyclerView = findViewById(R.id.client_invite_recycler_view);
         clientDrawerLayout = findViewById(R.id.client_drawer_layout);
@@ -91,7 +95,8 @@ public class ClientActivity extends BaseActivity {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                showServerInviteList(list);
+//                showServerInviteList(list);
+                //
 //                mAnimationDrawable.stop();
             }
 
@@ -105,26 +110,10 @@ public class ClientActivity extends BaseActivity {
         clientDrawerLayout.setDrawerListener(mDrawerToggle);
 //        clientDrawerLayout.addDrawerListener(mDrawerToggle);
         // --------------------------------------------------
-        inviteSocket = new UDPSocketClient("224.0.0.1", 8003, new BaseSocketClient.BaseSocketFace() {
-            @Override
-            protected void onPresence(SocketMessage socketMessage) {
-                super.onPresence(socketMessage);
-                list.add(socketMessage);
-//                EventBus.getDefault().post(JsonUtil.objToJson(socketMessage));
-                ThreadManager.getInstance().runInUIThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        showServerInviteList(list);
-                    }
-                });
-            }
-        });
-        inviteSocket.receive();
     }
 
     @Override
     protected void onDestroy() {
-        inviteSocket.close();
         wakeLock.release();
         super.onDestroy();
     }

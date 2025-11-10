@@ -24,6 +24,8 @@ import com.zaze.utils.ext.isAAB
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import java.io.File
+import java.io.IOException
+import java.util.zip.ZipFile
 
 /**
  * Description :
@@ -90,43 +92,47 @@ class AppListAdapter(context: Context) :
             //
 //            AppUtil.startApplication(context, packageName)
 
-            ZLog.i(
-                ZTag.TAG,
-                "getInstallerPackageName: ${
-                    context.packageManager.getInstallerPackageName(packageName)
-                }"
-            )
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                val installSourceInfo = context.packageManager.getInstallSourceInfo(packageName)
-                ZLog.i(
-                    ZTag.TAG,
-                    "installingPackageName: ${installSourceInfo.installingPackageName}"
-                )
-                ZLog.i(
-                    ZTag.TAG,
-                    "initiatingPackageName: ${installSourceInfo.initiatingPackageName}"
-                )
-                ZLog.i(
-                    ZTag.TAG,
-                    "originatingPackageName: ${installSourceInfo.originatingPackageName}"
-                )
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    ZLog.i(ZTag.TAG, "packageSource: ${installSourceInfo.packageSource}")
-                }
-                ZLog.i(
-                    ZTag.TAG,
-                    "initiatingPackageSigningInfo: ${installSourceInfo.initiatingPackageSigningInfo}"
-                )
+            value.sourceDir?.let {
+                ZLog.i(ZTag.TAG, "applicationInfo check64BitSupport: ${check64BitSupport(it)}")
+
             }
+            if(value.isInstalled) {
+                ZLog.i(ZTag.TAG, "getInstallerPackageName: ${context.packageManager.getInstallerPackageName(packageName)}")
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    val installSourceInfo = context.packageManager.getInstallSourceInfo(packageName)
+                    ZLog.i(
+                        ZTag.TAG,
+                        "installingPackageName: ${installSourceInfo.installingPackageName}"
+                    )
+                    ZLog.i(
+                        ZTag.TAG,
+                        "initiatingPackageName: ${installSourceInfo.initiatingPackageName}"
+                    )
+                    ZLog.i(
+                        ZTag.TAG,
+                        "originatingPackageName: ${installSourceInfo.originatingPackageName}"
+                    )
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        ZLog.i(ZTag.TAG, "packageSource: ${installSourceInfo.packageSource}")
+                    }
+                    ZLog.i(
+                        ZTag.TAG,
+                        "initiatingPackageSigningInfo: ${installSourceInfo.initiatingPackageSigningInfo}"
+                    )
+                }
+            }
+
 //            value.packageInfo?.splitNames?.forEach {
 //                ZLog.i(ZTag.TAG, "packageInfo splitNames: $it")
 //            }
             ZLog.i(ZTag.TAG, "applicationInfo sourceDir: ${value.applicationInfo?.publicSourceDir}")
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 value.applicationInfo?.let {
 //                    it.splitNames?.forEach {
 //                        ZLog.i(ZTag.TAG, "applicationInfo splitNames: $it")
 //                    }
+                    ZLog.i(ZTag.TAG, "applicationInfo nativeLibraryDir: ${it.nativeLibraryDir}")
                     it.splitSourceDirs?.forEach {
                         ZLog.i(ZTag.TAG, "applicationInfo splitSourceDirs: $it")
                     }
@@ -173,5 +179,52 @@ class AppListAdapter(context: Context) :
                 false
             )
         )
+    }
+
+
+    /**
+     * 检查未安装的APK是否支持64位架构
+     * @param apkFilePath APK文件的本地路径
+     * @return 支持64位返回true，仅支持32位返回false，无原生库或解析失败返回null
+     */
+    fun check64BitSupport(apkFilePath: String): Boolean? {
+        val apkFile = File(apkFilePath)
+        // 验证文件有效性
+        if (!apkFile.exists() || !apkFile.name.endsWith(".apk", ignoreCase = true)) {
+            return null
+        }
+        var has64BitLib = false
+        var has32BitLib = false
+        try {
+            ZipFile(apkFile).use { zipFile ->
+                // 遍历APK内所有条目
+                zipFile.entries().asSequence().forEach { entry ->
+                    val entryName = entry.name
+
+                    // 只处理lib目录下的文件（排除目录本身）
+                    if (entryName.startsWith("lib/") && !entry.isDirectory) {
+                        // 提取架构名称（如"lib/arm64-v8a/libtest.so" -> "arm64-v8a"）
+                        val abi = entryName.split("/").getOrNull(1) ?: return@forEach
+
+                        // 检查64位架构
+                        when (abi) {
+                            "arm64-v8a", "x86_64" -> has64BitLib = true
+                            "armeabi-v7a", "x86" -> has32BitLib = true
+                        }
+                    }
+                }
+            }
+
+            return when {
+                has64BitLib -> true    // 包含64位库
+                has32BitLib -> false   // 仅包含32位库
+                else -> true
+            }
+
+        } catch (e: IOException) {
+            e.printStackTrace()
+            // 解析失败（APK损坏或无法读取）
+            return false
+        }
     }
 }

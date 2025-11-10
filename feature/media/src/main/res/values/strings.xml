@@ -5,6 +5,11 @@
     <string name="app_video_attrib">
         &#169; copyright 2008, Blender Foundation / www.bigbuckbunny.org
     </string>
+
+
+    <string name="recorder">Recorder</string>
+    <string name="recorder_x">Recorder by CameraX</string>
+
     <string name="play">Play</string>
     <string name="choose">Choose</string>
 

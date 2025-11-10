@@ -79,8 +79,9 @@ data class AppShortcut(
 
         @JvmStatic
         fun create(context: Context, packageInfo: PackageInfo): AppShortcut {
+            val isInstalled = AppUtil.isInstalled(context, packageInfo.packageName)
+            //
             val applicationInfo = packageInfo.applicationInfo
-            val isInstalled = applicationInfo != null
             val appShortcut = AppShortcut(
                 packageName = packageInfo.packageName,
                 versionCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {

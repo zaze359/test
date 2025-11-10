@@ -1,5 +1,6 @@
 package com.zaze.demo.component.customview
 
+import android.R.attr.text
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -13,6 +14,7 @@ import android.view.animation.LinearInterpolator
 import android.widget.Scroller
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
+
 
 class CustomView : View {
 
@@ -88,6 +90,11 @@ class CustomView : View {
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         ZLog.i(ZTag.TAG_DEBUG, "onDraw")
+//        drawXXX(canvas)
+        drawTextPath(canvas)
+    }
+    private fun drawXXX(canvas: Canvas) {
+
 //        canvas.drawPoint(100f, 100f, pointPaint)
 //        canvas.drawCircle(100f, 100f, 10f, paint)
 //        //
@@ -165,6 +172,25 @@ class CustomView : View {
 //        canvas.restoreToCount(layerid)
     }
 
+    val textPath = Path()
+
+    private fun drawTextPath(canvas: Canvas) {
+        // 创建文本路径
+        textPath.reset()
+        val textText = "阿斯顿发送地方是对方阿斯顿发送地方是对方阿斯顿发送地方是对方阿斯顿发送地方是对方阿斯顿发送地方是对方阿斯顿发送地方是对方阿斯顿发送地方是对方"
+        val paint = Paint()
+        paint.textSize = 27F
+        paint.color = Color.BLACK
+        paint.getTextPath(textText, 0, textText.length, 0F, paint.fontSpacing, textPath)
+        canvas.drawPath(textPath, paint)
+
+        paint.reset()
+    }
+
+
+
+    // ----------------------------------------------------------------------
+    // ----------------------------------------------------------------------
 
     private fun updatePath() {
 //        val left = mRect.left

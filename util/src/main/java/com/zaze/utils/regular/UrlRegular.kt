@@ -1,6 +1,5 @@
 package com.zaze.utils.regular
 
-import com.zaze.utils.http.HttpUrl
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 

@@ -16,6 +16,7 @@ import com.zaze.common.base.AbsLogActivity;
 import com.zaze.common.base.BaseApplication;
 import com.zaze.core.network.di.NetworkModule;
 import com.zaze.demo.BuildConfig;
+import com.zaze.demo.R;
 import com.zaze.demo.component.network.compat.AnalyzeTrafficCompat;
 import com.zaze.demo.component.p2p.P2pReceiver;
 import com.zaze.demo.component.system.ScreenLockReceiver;
@@ -35,8 +36,8 @@ import com.zaze.utils.TraceHelper;
 import com.zaze.utils.ZCommand;
 import com.zaze.utils.cache.MemoryCacheManager;
 import com.zaze.utils.log.ZLog;
+import com.zaze.utils.log.ZTag;
 
-import java.util.prefs.Preferences;
 
 import javax.inject.Inject;
 import javax.inject.Provider;

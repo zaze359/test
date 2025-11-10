@@ -5,6 +5,7 @@ import android.app.ActivityManager
 import android.content.Context
 import android.content.Context.ACTIVITY_SERVICE
 import android.os.Build
+import android.os.Debug
 import android.os.Environment
 import android.provider.Settings
 import android.telephony.TelephonyManager

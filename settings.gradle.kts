@@ -40,6 +40,7 @@ dependencyResolutionManagement {
         maven { url = uri("https://maven.aliyun.com/repository/google") }
 //        maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots") }
         maven { url = uri("https://jitpack.io") }
+        maven { url = uri("https://repo.e-iceblue.com/nexus/content/groups/public/") }
         google()
         mavenCentral()
     }

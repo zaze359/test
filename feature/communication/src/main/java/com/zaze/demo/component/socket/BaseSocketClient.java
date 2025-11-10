@@ -1,5 +1,7 @@
 package com.zaze.demo.component.socket;
 
+import androidx.annotation.Nullable;
+
 import com.zaze.utils.log.ZLog;
 import com.zaze.utils.log.ZTag;
 
@@ -80,7 +82,7 @@ public abstract class BaseSocketClient {
          *
          * @param socketMessage socketMessage
          */
-        protected void onReceiver(SocketMessage socketMessage) {
+        protected void onReceiver(@Nullable SocketMessage socketMessage) {
             if (socketMessage != null) {
                 ZLog.d(ZTag.TAG_DEBUG, "收到消息 ： " + socketMessage);
                 switch (socketMessage.getMsgType()) {

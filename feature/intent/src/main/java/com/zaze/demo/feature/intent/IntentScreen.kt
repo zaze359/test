@@ -2,6 +2,7 @@ package com.zaze.demo.feature.intent
 
 import android.app.Activity
 import android.app.admin.DevicePolicyManager
+import android.content.ComponentName
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -233,6 +234,7 @@ private fun IntentList(modifier: Modifier) {
         ElevatedButton(modifier = buttonModifier, onClick = {
             val outputImage = File(context.externalCacheDir, "image_test.jpg")
             val imageUri = FileProviderHelper.getUriForFile(context, outputImage)
+            ZLog.i(ZTag.TAG_DEBUG, "imageUri: $imageUri")
             // 打开相机
             val intent = Intent("android.media.action.IMAGE_CAPTURE")
             intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
@@ -273,6 +275,20 @@ private fun IntentList(modifier: Modifier) {
         }) {
             Text(text = "获取本地文件-OPEN_DOCUMENT")
         }
+//        ElevatedButton(modifier = buttonModifier, onClick = {
+//            val outputImage = File(context.externalCacheDir, "image_test.jpg")
+//            val imageUri = FileProviderHelper.getUriForFile(context, outputImage)
+//            ZLog.i(ZTag.TAG_DEBUG, "imageUri: $imageUri")
+//            Intent().let {intent->
+//                intent.setComponent(ComponentName("com.zaze.demo2", "com.zaze.demo2.MainActivity"))
+//                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+////                intent.putExtra("imageUri", imageUri)
+//                intent.setDataAndType(imageUri, "*/jpg")
+//                launcher.launch(intent)
+//            }
+//        }) {
+//            Text(text = "共享给三方应用")
+//        }
     }
 }
 

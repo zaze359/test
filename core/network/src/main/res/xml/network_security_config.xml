@@ -2,11 +2,11 @@
 <network-security-config>
 <!--    <base-config usesCleartextTraffic="true"/>-->
     <base-config usesCleartextTrafficPermitted="true"/>
-    <domain-config>
-        <!-- 配置 自定义CA -->
-        <domain includeSubdomains="true">zaze.com</domain>
-        <trust-anchors>
-<!--            <certificates src="@raw/my_ca"/>-->
-        </trust-anchors>
-    </domain-config>
+<!--    <domain-config>-->
+<!--        &lt;!&ndash; 配置 自定义CA &ndash;&gt;-->
+<!--        <domain includeSubdomains="true">zaze.com</domain>-->
+<!--        <trust-anchors>-->
+<!--&lt;!&ndash;            <certificates src="@raw/my_ca"/>&ndash;&gt;-->
+<!--        </trust-anchors>-->
+<!--    </domain-config>-->
 </network-security-config>

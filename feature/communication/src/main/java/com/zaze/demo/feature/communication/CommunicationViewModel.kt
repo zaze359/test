@@ -19,6 +19,7 @@ import android.os.Message
 import android.os.Messenger
 import android.os.Parcel
 import android.provider.DocumentsContract
+import android.provider.OpenableColumns
 import androidx.lifecycle.viewModelScope
 import com.zaze.common.base.AbsAndroidViewModel
 import com.zaze.common.util.FileProviderHelper
@@ -175,20 +176,31 @@ class CommunicationViewModel @Inject constructor(application: Application) :
                         content = "${remoteService?.messageService?.message?.data}",
                     )
                 )
-                if (message is ChatMessage.Image && !message.localPath.isNullOrEmpty()) {
-                    val uri = Uri.parse(message.localPath)
-                    ZLog.i(ZTag.TAG_DEBUG, "uri: $uri")
-                    viewModelScope.launch(Dispatchers.IO) {
-                        ZLog.i(ZTag.TAG_DEBUG, "name: ${uri.path?.split("/")?.last()}")
-                        val fd = FileProviderHelper.openFileDescriptor(application, uri, "r")
-                        remoteService?.writeFile(fd, "aaa.jpg")
-                        fd?.close()
-                        // 测试读取文件
-                        remoteService?.read("aaa.jpg")?.let {
-                            FileUtil.write(FileInputStream(it.fileDescriptor), FileOutputStream(File(application.externalCacheDir, "aaa.jpg")))
+                if (message is ChatMessage.Image) {
+                    val localPath = message.localPath
+                    if (!localPath.isNullOrEmpty()) {
+                        val uri = Uri.parse(localPath)
+                        ZLog.i(ZTag.TAG_DEBUG, "ChatMessage.Image uri: $uri")
+                        viewModelScope.launch(Dispatchers.IO) {
+                            ZLog.i(ZTag.TAG_DEBUG, "name: ${uri.path?.split("/")?.last()}")
+                            val fd = FileProviderHelper.openFileDescriptor(application, uri, "r")
+                            remoteService?.writeFile(fd, "aaa.jpg")
+                            fd?.close()
+                            // 测试读取文件
+                            remoteService?.read("aaa.jpg")?.let {
+                                FileUtil.write(
+                                    FileInputStream(it.fileDescriptor),
+                                    FileOutputStream(File(application.externalCacheDir, "aaa.jpg"))
+                                )
+                            }
                         }
                     }
+                } else if (message is ChatMessage.File) {
+                    val uri = Uri.parse(message.localPath)
+                    ZLog.i(ZTag.TAG_DEBUG, "ChatMessage.File uri: $uri")
+                    val fd = FileProviderHelper.openFileDescriptor(application, uri, "r")
                 }
+
             }
 
             CommunicationMode.MESSENGER -> {
@@ -239,12 +251,13 @@ class CommunicationViewModel @Inject constructor(application: Application) :
         viewModelScope.launch {
             files.forEach {
                 val uri = Uri.parse(it)
-                println("uri: $uri")
+                ZLog.i(ZTag.TAG, "uri: $uri")
                 if (DocumentsContract.isDocumentUri(application, uri)) {
                     // document类型，通过documentId 查询
                     val docId = DocumentsContract.getDocumentId(uri)
                 }
-                println("getType: ${application.contentResolver.getType(uri)}")
+                ZLog.i(ZTag.TAG, "getType: ${application.contentResolver.getType(uri)}")
+                var fileName: String? = null
                 uri.query(context = application) { cursor ->
                     while (cursor.moveToNext()) {
                         cursor.columnNames.forEach { name ->
@@ -279,7 +292,10 @@ class CommunicationViewModel @Inject constructor(application: Application) :
                             } else {
                                 null
                             }
-                            println("columnNames: $name = $value")
+                            if (OpenableColumns.DISPLAY_NAME == name) {
+                                fileName = value?.toString()
+                            }
+                            ZLog.i(ZTag.TAG, "columnNames: $name = $value")
                         }
                     }
                 }
@@ -287,6 +303,7 @@ class CommunicationViewModel @Inject constructor(application: Application) :
                 val chatMessage = ChatMessage.File(
                     author = "me",
                     localPath = it,
+                    fileName = fileName,
                     mimeType = application.contentResolver.getType(uri)
                 )
                 actualSend(chatMessage)

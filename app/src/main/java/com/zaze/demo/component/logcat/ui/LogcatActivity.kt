@@ -2,6 +2,7 @@ package com.zaze.demo.component.logcat.ui
 
 
 import android.os.Bundle
+import android.os.Environment
 import androidx.databinding.DataBindingUtil
 import com.zaze.common.base.BaseActivity
 import com.zaze.demo.R
@@ -29,9 +30,13 @@ open class LogcatActivity : BaseActivity(), LogcatView {
         binding.logcatStartCatch.setOnClickListener {
             ThreadManager.getInstance().runInMultiThread {
                 LogcatUtil.startCatchLog(
-                    "logcat -v time process |grep ${AppUtil.getAppPid("com.zaze.demo")}",
-                    "/sdcard/zaze/cach.log", 1L shl 20
+                    "logcat -v time",
+                    "${this.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)}/log/catch.log", 1L shl 20
                 )
+//                LogcatUtil.startCatchLog(
+//                    "logcat -v time process |grep ${AppUtil.getAppPid("com.zaze.demo")}",
+//                    "${this.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)}/log/catch.log", 1L shl 20
+//                )
             }
         }
 

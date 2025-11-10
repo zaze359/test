@@ -10,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import com.zaze.common.util.ActivityUtil
 import com.zaze.demo.feature.media.databinding.FragmentVideoBinding
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
@@ -93,6 +94,13 @@ class VideoFragment : Fragment(), MenuProvider {
                 val intent = Intent(Intent.ACTION_PICK)
                 intent.type = "video/*"
                 videoLauncher.launch(intent)
+            }
+
+            R.id.menu_recorder -> {
+                ActivityUtil.startActivity(this, VideoRecorderActivity::class.java)
+            }
+            R.id.menu_recorder_x -> {
+                ActivityUtil.startActivity(this, VideoRecorderActivity::class.java)
             }
         }
         return true

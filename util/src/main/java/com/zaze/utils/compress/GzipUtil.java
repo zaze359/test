@@ -19,7 +19,6 @@ import java.util.zip.GZIPOutputStream;
  */
 public class GzipUtil {
 
-
     public static void compressFile(String source, String target) {
         try {
             compressFile(new FileInputStream(source), new FileOutputStream(target));

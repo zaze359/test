@@ -2,6 +2,7 @@ package com.zaze.core.data.repository
 
 import android.app.Application
 import android.os.Build
+import android.os.Debug
 import com.zaze.common.di.CustomDispatchers
 import com.zaze.common.di.Dispatcher
 import com.zaze.core.model.data.DeviceStatus
@@ -220,6 +221,14 @@ class DeviceRepository @Inject constructor(
                     content = "最大运存: ${DescriptionUtil.toByteUnit(DeviceUtil.getRuntimeMaxMemory())}\n" +
                             "总运存: ${DescriptionUtil.toByteUnit(DeviceUtil.getRuntimeTotalMemory())}\n" +
                             "剩余运存: ${DescriptionUtil.toByteUnit(DeviceUtil.getRuntimeFreeMemory())}"
+                )
+            )
+            add(
+                DeviceStatus(
+                    tag = "NativeHeap情况",
+                    content = "NativeHeapSize: ${DescriptionUtil.toByteUnit(Debug.getNativeHeapSize())}\n" +
+                            "NativeHeapAllocatedSize: ${DescriptionUtil.toByteUnit(Debug.getNativeHeapAllocatedSize())}\n" +
+                            "NativeHeapFreeSize: ${DescriptionUtil.toByteUnit(Debug.getNativeHeapFreeSize())}"
                 )
             )
             val memoryInfo = DeviceUtil.getDeviceMemory(application)

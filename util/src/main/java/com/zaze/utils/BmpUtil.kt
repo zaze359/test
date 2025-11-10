@@ -265,4 +265,46 @@ object BmpUtil {
         canvas.drawBitmap(bitmap, 0F, 0F, paint)
         return bm
     }
+
+    // ----------------------------------------------------------------------
+    // ----------------------------------------------------------------------
+    fun addWatermark(originalDrawable: Drawable, watermarkDrawable: Drawable): Drawable {
+        // 将原始Drawable转换为Bitmap
+        val originalBitmap = (originalDrawable as BitmapDrawable).bitmap
+        // 创建一个新的Bitmap，大小与原始Bitmap相同
+        val resultBitmap =
+            Bitmap.createBitmap(originalBitmap.width, originalBitmap.height, originalBitmap.config)
+        // 创建一个Canvas，用于在新的Bitmap上绘制
+        val canvas = Canvas(resultBitmap)
+        // 在Canvas上绘制原始Bitmap
+        canvas.drawBitmap(originalBitmap, 0f, 0f, null)
+        // 设置水印Drawable的边界
+        watermarkDrawable.setBounds(
+            0,
+            0,
+            watermarkDrawable.intrinsicWidth,
+            watermarkDrawable.intrinsicHeight
+        )
+        // 在Canvas上绘制水印Drawable
+        watermarkDrawable.draw(canvas)
+        // 将新的Bitmap转换为Drawable
+        return BitmapDrawable(resultBitmap)
+    }
+
+    fun addWatermarkToBitmap(
+        originalBitmap: Bitmap,
+        watermarkText: String,
+        watermarkX: Float,
+        watermarkY: Float,
+        watermarkPaint: Paint,
+    ): Bitmap {
+        // 创建一个新的可编辑的 Bitmap
+        val mutableBitmap = originalBitmap.copy(Bitmap.Config.ARGB_8888, true)
+        // 创建一个 Canvas 对象来绘制水印
+        val canvas = Canvas(mutableBitmap)
+        // 在 Bitmap 上绘制水印
+        canvas.drawText(watermarkText, watermarkX, watermarkY.toFloat(), watermarkPaint)
+        // 返回带有水印的 Bitmap
+        return mutableBitmap
+    }
 }

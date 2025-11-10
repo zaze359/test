@@ -103,7 +103,7 @@ open class ServerPresenterImpl(view: ServerView) : BaseMvpPresenter<ServerView>(
         }
     }
 
-    private fun buildMessage(toId: Long, message: JSONObject, msgType: Int): SocketMessage {
+    private fun buildMessage(toId: Long, message: JSONObject, msgType: String): SocketMessage {
         return SocketMessage(
             fromId,
             toId,

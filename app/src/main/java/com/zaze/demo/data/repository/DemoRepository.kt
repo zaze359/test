@@ -4,6 +4,7 @@ import com.zaze.accessibility.AccessibilityActivity
 import com.zaze.common.di.CustomDispatchers
 import com.zaze.common.di.Dispatcher
 import com.zaze.core.model.data.AppNavigation
+import com.zaze.demo.TestActivity
 import com.zaze.demo.feature.anim.VectorActivity
 import com.zaze.demo.feature.anim.AnimationActivity
 import com.zaze.demo.component.admin.DeviceAdminActivity
@@ -46,6 +47,13 @@ class DemoRepository @Inject constructor(@Dispatcher(CustomDispatchers.IO) priva
     suspend fun loadDemos(): List<TableEntity> = withContext(dispatcher) {
         var i = 0
         ArrayList<TableEntity>().also { list ->
+            list.add(
+                TableEntity(
+                    "测试",
+                    TestActivity::class.java,
+                    ++i
+                )
+            )
             list.add(
                 TableEntity(
                     "Compose",
@@ -117,6 +125,7 @@ class DemoRepository @Inject constructor(@Dispatcher(CustomDispatchers.IO) priva
                     ++i
                 )
             )
+
             list.add(
                 TableEntity(
                     "设备管理器",

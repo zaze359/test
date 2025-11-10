@@ -27,5 +27,17 @@
         android:showAsAction="ifRoom|withText"
         android:title="@string/play"
         tools:ignore="AppCompatResource" />
+    <item
+        android:id="@+id/menu_recorder"
+        android:icon="@drawable/ic_videocam"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/recorder"
+        tools:ignore="AppCompatResource" />
 
+    <item
+        android:id="@+id/menu_recorder_x"
+        android:icon="@drawable/ic_videocam"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/recorder_x"
+        tools:ignore="AppCompatResource" />
 </menu>

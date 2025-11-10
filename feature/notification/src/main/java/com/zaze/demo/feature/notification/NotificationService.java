@@ -77,6 +77,7 @@ public class NotificationService extends LogService {
         bindView(remoteViews);
         bindView(remoteViewsBig);
         startForeground(11111, builder.build());
+
     }
 
     private void bindView(RemoteViews remoteViews) {

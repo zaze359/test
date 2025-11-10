@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.webkit.JavascriptInterface
@@ -17,6 +18,7 @@ import com.tencent.smtt.sdk.WebChromeClient
 import com.tencent.smtt.sdk.WebView
 import com.zaze.common.base.AbsActivity
 import com.zaze.common.thread.ThreadPlugins
+import com.zaze.common.widget.AddImageLayout
 import com.zaze.demo.databinding.WebViewActivityBinding
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
@@ -47,19 +49,23 @@ open class WebViewActivity : AbsActivity() {
         WebView.setWebContentsDebuggingEnabled(true)
 
         webView = WebView(this)
+        webView.layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
         binding.webViewContainer.addView(webView)
         val settings = webView.settings
         settings.domStorageEnabled = true
-//        settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+        settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
         settings.javaScriptEnabled = true
         settings.allowContentAccess = true
         //
         settings.builtInZoomControls = true // 缩放
         //
-        settings.useWideViewPort = true
+//        settings.useWideViewPort = true
         settings.loadWithOverviewMode = true
         //
-        settings.cacheMode = WebSettings.LOAD_CACHE_ONLY
+//        settings.cacheMode = WebSettings.LOAD_CACHE_ONLYd
         settings.allowFileAccess = true
 //        settings.allowFileAccessFromFileURLs = true
         //
@@ -143,23 +149,20 @@ open class WebViewActivity : AbsActivity() {
         }
 //        WebViewConsole.consoleDoc(binding.webView)
 //        val url = "https://www.baidu.com"
-        val url = "file:///android_asset/test.html"
+//        val url = "file:///android_asset/test.html"
+        val url = "https://jzjx-prod-resource.hailiangedu.com/ppt2html_wys/d14f7fec-cb5f-42da-9023-8e52ec58a669/ppt/3f98e7ed985caede6c850f1148208f17/index.html"
 //        val url = "http://debugtbs.qq.com"
 //        val url = "file:android_asset/index.html"
-//        ZLog.i(ZTag.TAG, "loadUrl: $url")
+//        QbSdk.forceSysWebView()
         ZLog.i(ZTag.TAG, "isX5Core: " + QbSdk.isX5Core())
-
-//        if (QbSdk.isX5Core()) {
-//            ZLog.i(ZTag.TAG, "isX5Core")
-//            webView.loadUrl(url)
-//        } else {
-        ZLog.i(ZTag.TAG, "system core")
-        webView.loadUrl(url)
-//        }
         ZLog.i(ZTag.TAG, "loadUrl: $url")
-
-
-//        binding.webView.loadUrl("https://www.baidu.com")
+        if (QbSdk.isX5Core()) {
+            ZLog.i(ZTag.TAG, "isX5Core")
+            webView.loadUrl(url)
+        } else {
+            ZLog.i(ZTag.TAG, "system core")
+            webView.loadUrl(url)
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

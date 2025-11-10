@@ -2,7 +2,6 @@ package com.zaze.core.designsystem.theme.ext
 
 import android.graphics.Color
 import android.os.Build
-import android.view.View
 import android.view.WindowManager
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
@@ -49,22 +48,21 @@ fun AppCompatActivity.setImmersiveFullscreen() {
  */
 fun AppCompatActivity.setDrawBehindSystemBars() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        // false 允许 UI 显示在 system bar 后面
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        window.navigationBarColor = Color.TRANSPARENT
-        window.statusBarColor = Color.TRANSPARENT
+        setStatusBarColor(Color.TRANSPARENT)
+        setNavigationBar(Color.TRANSPARENT)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             window.isNavigationBarContrastEnforced = false
         }
+        return
+    }
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+        setNavigationBar(ColorUtil.darkenColor(surfaceColor()))
+    }
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        setStatusBarColor(Color.TRANSPARENT)
     } else {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            window.navigationBarColor = ColorUtil.darkenColor(surfaceColor())
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            setStatusBarColor(Color.TRANSPARENT)
-        } else {
-            setStatusBarColor(Color.BLACK)
-        }
+        setStatusBarColor(surfaceColor())
     }
 }
 
@@ -77,48 +75,82 @@ fun AppCompatActivity.exitFullscreen() {
         show(WindowInsetsCompat.Type.systemBars())
     }
 }
+fun AppCompatActivity.navigationBarsVisible(visible: Boolean) {
+    WindowInsetsControllerCompat(window, window.decorView).apply {
+        if (visible) {
+            show(WindowInsetsCompat.Type.navigationBars())
+        } else {
+            hide(WindowInsetsCompat.Type.navigationBars())
+        }
+    }
+}
+
+fun AppCompatActivity.statusBarsVisible(visible: Boolean) {
+    WindowInsetsControllerCompat(window, window.decorView).apply {
+        if (visible) {
+            show(WindowInsetsCompat.Type.statusBars())
+        } else {
+            hide(WindowInsetsCompat.Type.systemBars())
+        }
+    }
+}
 
 /**
  * 设置状态栏的颜色
  */
 fun AppCompatActivity.setStatusBarColor(@ColorInt color: Int) {
     when {
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> window.statusBarColor = color
-        else -> window.statusBarColor = ColorUtil.darkenColor(color)
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> color
+        else -> ColorUtil.darkenColor(color)
+    }.let {
+        window.statusBarColor = it
+        setLightStatusBar(it.isColorLight)
     }
-//    window.statusBarColor = ContextCompat.getColor(this, colorRes)
-//    setLightStatusBar(color.isColorLight)
-    setLightStatusBar(surfaceColor().isColorLight)
 }
 
+fun AppCompatActivity.setNavigationBar(@ColorInt color: Int) {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+        ColorUtil.darkenColor(color)
+    } else {
+        color
+    }.let {
+        window.navigationBarColor = it
+        setLightNavigationBar(color.isColorLight)
+    }
+}
 /**
- * [enabled] true：status设置为浅色；false 设置为 深色
+ * [isLight] true：status设置为浅色；false 设置为 深色
  */
 @Suppress("Deprecation")
-fun AppCompatActivity.setLightStatusBar(enabled: Boolean) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        val decorView = window.decorView
-        val systemUiVisibility = decorView.systemUiVisibility
-        if (enabled) { // 浅色
-            decorView.systemUiVisibility =
-                systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        } else { // 去除 flag
-            decorView.systemUiVisibility =
-                systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
-        }
+fun AppCompatActivity.setLightStatusBar(isLight: Boolean) {
+//    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//        val decorView = window.decorView
+//        val systemUiVisibility = decorView.systemUiVisibility
+//        if (enabled) { // 浅色
+//            decorView.systemUiVisibility =
+//                systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+//        } else { // 去除 flag
+//            decorView.systemUiVisibility =
+//                systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+//        }
+//    }
+    WindowInsetsControllerCompat(window, window.decorView).apply {
+        this.isAppearanceLightStatusBars = isLight
     }
 }
 
-@Suppress("Deprecation")
-fun AppCompatActivity.setLightNavigationBar(enabled: Boolean) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        val decorView = window.decorView
-        var systemUiVisibility = decorView.systemUiVisibility
-        systemUiVisibility = if (enabled) {
-            systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
-        } else {
-            systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR.inv()
-        }
-        decorView.systemUiVisibility = systemUiVisibility
+fun AppCompatActivity.setLightNavigationBar(isLight: Boolean) {
+//    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//        val decorView = window.decorView
+//        var systemUiVisibility = decorView.systemUiVisibility
+//        systemUiVisibility = if (isLight) {
+//            systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+//        } else {
+//            systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR.inv()
+//        }
+//        decorView.systemUiVisibility = systemUiVisibility
+//    }
+    WindowInsetsControllerCompat(window, window.decorView).apply {
+        isAppearanceLightNavigationBars = isLight
     }
 }

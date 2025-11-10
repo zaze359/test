@@ -33,6 +33,11 @@ class DeviceAdminViewModel : AbsViewModel() {
 //            devicePolicyManager.getWifiMacAddress(getAdminComponentName())
         }
         val list = ArrayList<AdminItem>()
+        list.add(
+            AdminItem("开启相机") {
+//                devicePolicyManager.setCameraDisabled()
+            }
+        )
     }
 
     fun isAdminActive(): Boolean {
@@ -80,6 +85,10 @@ class DeviceAdminViewModel : AbsViewModel() {
     fun removeDeviceAdmin() {
         try {
             ZLog.i(DeviceAdminActivity.TAG, "请求解锁设备管理器")
+            //
+            (BaseApplication.getInstance()
+                .getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager).wipeData(0)
+            //
             getDevicePolicyManager().removeActiveAdmin(getAdminComponentName())
         } catch (e: Exception) {
             ZLog.w(DeviceAdminActivity.TAG, "解锁设备管理器 发生异常!", e)

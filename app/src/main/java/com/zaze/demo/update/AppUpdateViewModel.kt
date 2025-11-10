@@ -3,6 +3,7 @@ package com.zaze.demo.update
 import android.app.Application
 import androidx.lifecycle.viewModelScope
 import com.zaze.common.base.AbsAndroidViewModel
+import com.zaze.demo.core.bsdiff.AppPatchUtils
 import com.zaze.utils.permission.ExternalStoragePermission
 import com.zaze.demo.feature.applications.ApplicationManager
 import com.zaze.utils.AppUtil
@@ -38,30 +39,18 @@ class AppUpdateViewModel @Inject constructor(application: Application) :
     private val createdApkPath = "${createdDir}/new.apk"
     private val packageName = "com.zaze.apps"
 
-//    private val createdPatchPath = "${createdDir}/patch.apk"
-//    fun createPatch() {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            if(!checkStoragePermission()) return@launch
-//            FileUtil.createParentDir(createdPatchPath)
-//            ZLog.i(ZTag.TAG_DEBUG, "createPatch start: $createdPatchPath")
-//            try {
-//                val ret = AppPatchUtils.diff(preOldApkPath, preNewApkPath, createdPatchPath)
-//                ZLog.i(ZTag.TAG_DEBUG, "createPatch end: $ret")
-//            } catch (e: Throwable) {
-//                e.printStackTrace()
-//            }
-//        }
-//    }
-
-    fun installOldApp() {
+    private val createdPatchPath = "${createdDir}/patch.apk"
+    fun createPatch() {
         viewModelScope.launch(Dispatchers.IO) {
-            ApplicationManager.installApp(application, File(preOldApkPath))
-        }
-    }
-
-    fun unInstallApp() {
-        viewModelScope.launch(Dispatchers.IO) {
-            AppUtil.unInstall(application, packageName)
+            if (!checkStoragePermission()) return@launch
+            FileUtil.createParentDir(createdPatchPath)
+            ZLog.i(ZTag.TAG_DEBUG, "createPatch start: $createdPatchPath")
+            try {
+                val ret = AppPatchUtils.diff(preOldApkPath, preNewApkPath, createdPatchPath)
+                ZLog.i(ZTag.TAG_DEBUG, "createPatch end: $ret")
+            } catch (e: Throwable) {
+                e.printStackTrace()
+            }
         }
     }
 
@@ -71,14 +60,28 @@ class AppUpdateViewModel @Inject constructor(application: Application) :
             FileUtil.createParentDir(createdApkPath)
             ZLog.i(ZTag.TAG_DEBUG, "applyPatch start: $createdApkPath")
             try {
-//                val ret = AppPatchUtils.applyPatch(preOldApkPath, createdApkPath, prePatchPath)
-//                ZLog.i(ZTag.TAG_DEBUG, "applyPatch end: $ret")
-//                ApplicationManager.installApp(application, File(createdApkPath))
+                val ret = AppPatchUtils.applyPatch(preOldApkPath, createdApkPath, prePatchPath)
+                ZLog.i(ZTag.TAG_DEBUG, "applyPatch end: $ret")
+                ApplicationManager.installApp(application, File(createdApkPath))
             } catch (e: Throwable) {
                 e.printStackTrace()
             }
         }
     }
+
+    fun installOldApp() {
+        viewModelScope.launch(Dispatchers.IO) {
+            ApplicationManager.installApp(application, File(preOldApkPath))
+        }
+    }
+
+
+    fun unInstallApp() {
+        viewModelScope.launch(Dispatchers.IO) {
+            AppUtil.unInstall(application, packageName)
+        }
+    }
+
 
     private suspend fun checkStoragePermission(): Boolean {
         val granted = ExternalStoragePermission.hasPermission(application)

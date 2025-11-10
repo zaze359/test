@@ -13,6 +13,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
+import androidx.databinding.DataBindingUtil.setContentView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
@@ -20,8 +21,10 @@ import androidx.lifecycle.Observer
 import com.zaze.common.base.AbsActivity
 import com.zaze.common.base.AbsFragment
 import com.zaze.common.base.ext.setupActionBar
+import com.zaze.common.util.ActivityUtil.startActivity
 import com.zaze.demo.databinding.ActivityMainBinding
 import com.zaze.demo.feature.settings.SettingsActivity
+import com.zaze.utils.DisplayUtil
 import com.zaze.utils.ToastUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
