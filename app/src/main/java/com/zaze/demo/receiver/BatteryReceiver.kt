@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import com.zaze.utils.log.ZLog
+import com.zaze.utils.log.ZTag
 
 /**
  * Description :
@@ -28,7 +30,7 @@ class BatteryReceiver : BroadcastReceiver() {
                 //电量的总刻度
                 val scale = intent.getIntExtra("scale", 100)
                 //把它转成百分比
-//                ZLog.i(ZTag.TAG, "电池电量为" + level * 100 / scale + "%")
+                ZLog.i(ZTag.TAG, "电池电量为" + level * 100 / scale + "%")
             }
         }
     }

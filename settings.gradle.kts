@@ -63,7 +63,7 @@ include(":feature:accessibility")
 include(":feature:usagestats")
 
 //include(":core:arouter-api")
-//include(":core:bsdiff")
+include(":core:bsdiff")
 //include(":core:nativelib")
 include(":core:designsystem")
 include(":core:testing")

@@ -9,6 +9,7 @@ import com.zaze.demo.compose.navigation.TopLevelDestination
 import com.zaze.core.designsystem.compose.components.snackbar.SnackbarMessage
 import com.zaze.demo.data.repository.DemoRepository
 import com.zaze.demo.data.entity.TableEntity
+import com.zaze.demo.debug.test.TestBattery
 import com.zaze.demo.debug.test.TestByJava
 import com.zaze.demo.debug.test.TestFile
 import com.zaze.utils.SharedPrefUtil
@@ -63,7 +64,7 @@ class HomeViewModel @Inject constructor(
         listOf(
             TestByJava(),
 //            TestBsdiff(),
-//            TestBattery(),
+            TestBattery(),
 //            TestFile(),
 //            TestUserHandle(),
 //            TestCommand(),
