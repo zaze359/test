@@ -11,7 +11,7 @@ import java.util.regex.Pattern
  * @version 2022/6/10 - 02:35
  */
 @RequiresApi(Build.VERSION_CODES.O)
-class UrlRegular(url: String) {s
+class UrlRegular(url: String) {
     private companion object {
         private val URL_PATTER =
             Pattern.compile(

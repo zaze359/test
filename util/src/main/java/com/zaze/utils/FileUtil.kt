@@ -3,7 +3,6 @@ package com.zaze.utils
 import android.content.Context
 import android.os.Build
 import android.os.Environment
-import android.os.StatFs
 import android.text.TextUtils
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
@@ -12,42 +11,24 @@ import java.nio.charset.Charset
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.*
-import java.util.concurrent.locks.ReentrantReadWriteLock
 
 /**
- * Description :
+ * 文件工具类，提供文件和目录的常用操作方法
+ *
  * @author : ZAZE
  * @version : 2017-07-13 - 10:08
  */
 object FileUtil {
+    /** 是否显示日志 */
     var showLog = false
-    var needLock = false
-
-    //    private val lock = ReentrantReadWriteLock()
-    private fun writeLock() {
-//        if (needLock) {
-//            lock.writeLock().lock()
-//        }
-    }
-
-    private fun writeUnlock() {
-//        if (needLock) lock.writeLock().unlock()
-    }
-
-    private fun readLock() {
-//        if (needLock) {
-//            lock.readLock().lock()
-//        }
-    }
-
-    private fun readUnlock() {
-//        if (needLock) {
-//            lock.readLock().unlock()
-//        }
-    }
 
     // --------------------------------------------------
+    // region 存储状态与路径
     // --------------------------------------------------
+
+    /**
+     * 检查SD卡是否可用
+     */
     @JvmStatic
     fun isSdcardEnable(): Boolean {
         return Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED
@@ -118,7 +99,7 @@ object FileUtil {
                 Files.copy(Paths.get(from.absolutePath), Paths.get(to.absolutePath))
                 true
             } catch (e: Throwable) {
-                e.printStackTrace()
+                ZLog.e(ZTag.TAG_FILE, "copy error", e)
                 false
             }
         } else {
@@ -184,6 +165,7 @@ object FileUtil {
                 result = try {
                     file.createNewFile()
                 } catch (e: Exception) {
+                    ZLog.e(ZTag.TAG_FILE, "createFileNotExists error", e)
                     false
                 }
             }
@@ -364,44 +346,35 @@ object FileUtil {
     @JvmStatic
     @JvmOverloads
     fun writeToFile(destFile: File, inputStream: InputStream, append: Boolean = false): Boolean {
-        writeLock()
         var result = true
         try {
             createFileNotExists(destFile)
             write(inputStream, FileOutputStream(destFile, append))
         } catch (e: Throwable) {
-            e.printStackTrace()
+            ZLog.e(ZTag.TAG_FILE, "writeToFile error", e)
             result = false
         }
-        writeUnlock()
         return result
     }
 
     fun write(source: InputStream, dest: OutputStream): Boolean {
-        writeLock()
-        var result = true
-        try {
-            val buffer = ByteArray(4 * 1024)
-            var temp = source.read(buffer)
-            while (temp != -1) {
-                dest.write(buffer, 0, temp)
-                temp = source.read(buffer)
+        return try {
+            source.use { input ->
+                dest.use { output ->
+                    val buffer = ByteArray(4 * 1024)
+                    var temp = input.read(buffer)
+                    while (temp != -1) {
+                        output.write(buffer, 0, temp)
+                        temp = input.read(buffer)
+                    }
+                    output.flush()
+                }
             }
-            dest.flush()
+            true
         } catch (e: IOException) {
-            e.printStackTrace()
-            result = false
-        } finally {
-            try {
-                source.close()
-                dest.close()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-
+            ZLog.e(ZTag.TAG_FILE, "write error", e)
+            false
         }
-        writeUnlock()
-        return result
     }
 
 
@@ -448,7 +421,7 @@ object FileUtil {
             try {
                 result = readByBytes(FileInputStream(file), charset)
             } catch (e: FileNotFoundException) {
-                e.printStackTrace()
+                ZLog.e(ZTag.TAG_FILE, "readFromFile error", e)
             }
         }
         return result
@@ -467,52 +440,36 @@ object FileUtil {
 
     @JvmStatic
     fun readBytes(inputStream: InputStream): ByteArray? {
-        readLock()
-        try {
-            val onceSize = 4096
-            val byteBuf = ByteBuf(onceSize)
-            var byteLength = 0
-            while (byteLength != -1) {
-                byteLength = byteBuf.read(inputStream, onceSize)
+        return try {
+            inputStream.use { input ->
+                val onceSize = 4096
+                val byteBuf = ByteBuf(onceSize)
+                var byteLength = 0
+                while (byteLength != -1) {
+                    byteLength = byteBuf.read(input, onceSize)
+                }
+                byteBuf.get()
             }
-            inputStream.close()
-            return byteBuf.get()
         } catch (e: Exception) {
-            e.printStackTrace()
-        } finally {
-            try {
-                inputStream.close()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-            readUnlock()
+            ZLog.e(ZTag.TAG_FILE, "readBytes error", e)
+            null
         }
-        return null
     }
 
 
     @JvmStatic
     fun readLine(reader: Reader): StringBuffer {
-        readLock()
-        var bfReader: BufferedReader? = null
         val results = StringBuffer()
         try {
-            bfReader = BufferedReader(reader)
-            var line = bfReader.readLine()
-            while (line != null) {
-                results.append(line)
-                line = "\n${bfReader.readLine()}"
+            BufferedReader(reader).use { bfReader ->
+                var line = bfReader.readLine()
+                while (line != null) {
+                    results.append(line)
+                    line = "\n${bfReader.readLine()}"
+                }
             }
-            bfReader.close()
         } catch (e: Exception) {
-            e.printStackTrace()
-        } finally {
-            try {
-                bfReader?.close()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-            readUnlock()
+            ZLog.e(ZTag.TAG_FILE, "readLine error", e)
         }
         return results
     }

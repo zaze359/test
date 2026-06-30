@@ -32,6 +32,7 @@ object SystemCompat {
 
     /**
      * 加载APK中的SO
+     * 优先从 data 目录加载，不存在则从 sdcard 拷贝
      */
     private fun loadSoInApk(soLib: String) {
         getCpuABI().forEach { abi ->
@@ -39,13 +40,9 @@ object SystemCompat {
                 val soInData = File("${application.filesDir}/$soLib.so")
                 if (!soInData.exists()) {
                     Log.i(TAG, "data下不存在对应so, 尝试从sdcard拷贝")
-                    // TODO 此处先跳过 将自身apk从data下拷贝到sdcard 并解压，获取所有so，直接模拟
                     File("${Environment.getExternalStorageDirectory()}/zaze/assets/$abi/lib$soLib.so").let { soInSd ->
                         if (soInSd.exists()) {
-                            Log.i(
-                                TAG,
-                                "sdcard下存在对应so, 开始拷贝到data下: ${soInData.absolutePath}"
-                            )
+                            Log.i(TAG, "sdcard下存在对应so, 开始拷贝到data下: ${soInData.absolutePath}")
                             soInSd.copyTo(soInData, true)
                         }
                     }

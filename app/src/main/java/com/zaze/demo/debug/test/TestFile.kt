@@ -14,7 +14,6 @@ import com.zaze.utils.FileUtil
 import com.zaze.utils.log.ZLog
 import com.zaze.utils.log.ZTag
 import java.io.File
-import java.io.FileInputStream
 
 /**
  * Description :
@@ -23,15 +22,9 @@ import java.io.FileInputStream
  */
 class TestFile : ITest {
     private val TAG = ZTag.TAG_DEBUG + ":TestFile"
-    val dir = "/sdcard/zaze"
+    private val dir = "/sdcard/zaze"
+    private val oldApkPath = "${dir}/bsdiff/old.apk"
 
-    //        val dir = context.filesDir.absolutePath
-    val oldApkPath = "${dir}/bsdiff/old.apk"
-    val newApkPath = "${dir}/bsdiff/new.apk"
-    val patchPath = "${dir}/bsdiff/patch.apk"
-
-    val soLibName = "libbsdiff-android.so"
-    val soPath = "${dir}/so/${soLibName}"
     override fun doTest(context: Context) {
 
         val resources = context.resources
@@ -86,16 +79,6 @@ class TestFile : ITest {
         } catch (e: Throwable) {
             e.printStackTrace()
         }
-
-        val fd = FileInputStream(File(oldApkPath)).fd
-
-//        try {
-//            System.load(copyLibToData(context, soPath, soLibName))
-//        } catch (e: Throwable) {
-//            e.printStackTrace()
-//        }
-
-
 
 //        val content = "aaaa"
 //        FileUtil.writeToFile("/sdcard/Android/data/com.baidu.map.location/aaa.txt", content)
@@ -162,20 +145,6 @@ class TestFile : ITest {
 //            }
 //        }
     }
-
-    // 拷贝到 data 下加载
-    private fun copyLibToData(context: Context, sourcePath: String, libName: String): String {
-        val soDir = File(context.filesDir, "so")
-        val soFile = File(soDir.absolutePath, libName)
-        if (soFile.exists()) {
-            soFile.delete()
-        }
-        // copy
-        FileUtil.copy(File(sourcePath), soFile)
-        return soFile.absolutePath
-    }
-
-
 
     private fun printPermission(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {

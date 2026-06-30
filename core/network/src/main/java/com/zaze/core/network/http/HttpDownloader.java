@@ -12,61 +12,79 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/**
+ * HTTP下载工具类，提供从URL下载文件和文本内容的功能
+ */
 public class HttpDownloader {
 
+    /**
+     * 下载回调接口
+     */
     public interface DownloadCallback {
+        /**
+         * 下载前回调，返回文件总大小
+         */
         void preDownload(long totalCount);
 
+        /**
+         * 下载进度回调
+         */
         void onProgress(long totalCount, long currentCount);
 
+        /**
+         * 下载成功回调
+         */
         void onSuccess();
 
+        /**
+         * 下载失败回调
+         */
         void onError();
     }
 
     /**
-     * 根据URL得到输入流
+     * 根据URL获取输入流
      *
-     * @param urlStr
-     * @return InputStream
-     * @throws IOException
+     * @param urlStr URL字符串
+     * @return 输入流，调用方负责关闭
+     * @throws IOException IO异常
      */
     public static InputStream getInputStreamFromURL(String urlStr) throws IOException {
         URL url = new URL(urlStr);
         HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
-        urlConn.connect();
-        return urlConn.getInputStream();
+        try {
+            urlConn.connect();
+            return urlConn.getInputStream();
+        } catch (IOException e) {
+            // 异常时主动断开连接，避免资源泄漏
+            urlConn.disconnect();
+            throw e;
+        }
     }
 
 
     /**
-     * -1：代表文件出错
-     * 0：表示下载成功
-     * 1：表示已经存在
+     * 从URL下载文件到指定路径
      *
-     * @param urlStr
-     * @param filePath
-     * @return File
+     * @param urlStr   下载URL
+     * @param filePath 目标文件路径
      */
     public static void downFile(String urlStr, String filePath) {
-        InputStream inputStream = null;
         try {
             URL url = new URL(urlStr);
             HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
-            urlConn.connect();
-            inputStream = urlConn.getInputStream();
-            // TODO: 2017/8/26
-            FileUtil.writeToFile(new File(filePath), inputStream, true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
             try {
-                if (inputStream != null) {
-                    inputStream.close();
+                urlConn.connect();
+                // 使用 try-with-resources 自动关闭输入流
+                try (InputStream inputStream = urlConn.getInputStream()) {
+                    FileUtil.writeToFile(new File(filePath), inputStream, true);
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+            } finally {
+                // 确保连接被正确断开
+                urlConn.disconnect();
             }
+        } catch (Exception e) {
+            ZLog.e(ZTag.TAG_DEBUG, "downFile error", e);
         }
     }
 
@@ -80,83 +98,63 @@ public class HttpDownloader {
      * @return File
      */
     public static void downFile(String urlStr, String filePath, final DownloadCallback callback) {
-        InputStream inputStream = null;
         try {
             ZLog.i(ZTag.TAG_DEBUG, "url : " + urlStr);
             String tempFilePath = filePath + ".zz";
             URL url = new URL(urlStr);
             HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
-            urlConn.connect();
-            final int contentLength = urlConn.getContentLength();
-            if (callback != null) {
-                callback.preDownload(contentLength);
-            }
-            inputStream = urlConn.getInputStream();
-//            FileUtil.writeToFile(inputStream, tempFilePath, new ZCallback<Long>() {
-//                @Override
-//                public void onNext(Long dataSize) {
-//                    if (callback != null) {
-//                        callback.onProgress(contentLength, dataSize);
-//                    }
-//                }
-//
-//                @Override
-//                public void onCompleted() {
-//                }
-//            });
-            if (callback != null) {
-                File file = new File(tempFilePath);
-                if (file.exists()) {
-                    file.renameTo(new File(filePath));
+            try {
+                urlConn.connect();
+                final int contentLength = urlConn.getContentLength();
+                if (callback != null) {
+                    callback.preDownload(contentLength);
                 }
-                callback.onSuccess();
+                try (InputStream inputStream = urlConn.getInputStream()) {
+                    FileUtil.writeToFile(new File(tempFilePath), inputStream, true);
+                }
+                if (callback != null) {
+                    File file = new File(tempFilePath);
+                    if (file.exists()) {
+                        file.renameTo(new File(filePath));
+                    }
+                    callback.onSuccess();
+                }
+            } finally {
+                urlConn.disconnect();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            ZLog.e(ZTag.TAG_DEBUG, "downFile error", e);
             if (callback != null) {
                 callback.onError();
-            }
-        } finally {
-            try {
-                if (inputStream != null) {
-                    inputStream.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
     }
 
     /**
-     * 并没有创建文件,只是单纯的读取了文本的内容存在了StringBuffer中
-     * 根据URL下载文件,前提是这个文件是文本,函数返回值就是这个文件当中的内容
+     * 从URL下载文本内容（不创建文件，仅读取到内存中）
+     * 注意：此方法假设目标URL返回的是文本内容，编码为GB2312
      *
-     * @param urlStr
-     * @return 文本String
+     * @param urlStr 下载URL
+     * @return 文本内容
      */
-
     public static String download(String urlStr) {
         StringBuffer sb = new StringBuffer();
-        BufferedReader br = null;
-        String line = null;
         try {
-            //创建一个URL对象
             URL url = new URL(urlStr);
-            //创建一个http连接
             HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
-            //使用IO流读取数据
-            br = new BufferedReader(new InputStreamReader(urlConn.getInputStream(), "gb2312"));
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
+            try {
+                urlConn.connect();
+                try (BufferedReader br = new BufferedReader(new InputStreamReader(urlConn.getInputStream(), "gb2312"))) {
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        sb.append(line);
+                    }
+                }
+            } finally {
+                urlConn.disconnect();
             }
         } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                br.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            ZLog.e(ZTag.TAG_DEBUG, "download error", e);
         }
         return sb.toString();
     }
