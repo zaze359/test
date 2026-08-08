@@ -26,6 +26,11 @@ plugins {
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.hilt) apply false
     alias(libs.plugins.kapt) apply false
+    alias(libs.plugins.google.devtools.ksp) apply false
+    alias(libs.plugins.kotlin.multiplatform) apply false
+    alias(libs.plugins.compose.multiplatform) apply false
+    alias(libs.plugins.compose.compiler.plugin) apply false
+    alias(libs.plugins.kotlin.serialization) apply false
 //    alias(libs.plugins.gradle.versions)
 //    alias(libs.plugins.version.catalog.update)
 }

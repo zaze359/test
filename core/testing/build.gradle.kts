@@ -1,8 +1,46 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-//    id("org.jetbrains.kotlin.kapt")
-//    id("dagger.hilt.android.plugin")
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.android.library)
+}
+
+kotlin {
+    androidTarget {
+        compilations.all {
+            compileTaskProvider.configure {
+                compilerOptions {
+                    jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+                }
+            }
+        }
+    }
+    jvm("desktop")
+
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(libs.kotlin.test)
+                implementation(libs.kotlinx.coroutines.test)
+            }
+        }
+        val commonTest by getting {
+            dependencies {
+                implementation(libs.kotlin.test)
+            }
+        }
+        val androidMain by getting
+        val androidUnitTest by getting {
+            dependencies {
+                implementation(libs.junit4)
+                implementation(libs.kotlinx.coroutines.test)
+            }
+        }
+        val desktopMain by getting
+        val desktopTest by getting {
+            dependencies {
+                implementation(libs.kotlin.test.junit)
+            }
+        }
+    }
 }
 
 android {
@@ -11,62 +49,11 @@ android {
 
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
-//        targetSdk = libs.versions.targetSdk.get().toInt()
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-
-//    buildFeatures {
-//        compose = true
-//    }
-//
-//    composeOptions {
-//        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
-//    }
-
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-
-dependencies {
-    val composeBom = platform(libs.androidx.compose.bom)
-    implementation(composeBom)
-    androidTestImplementation(composeBom)
-
-//    implementation(libs.hilt.android)
-//    kapt(libs.hilt.compiler)
-//    kapt(libs.hilt.ext.compiler)
-//
-    api(libs.junit4)
-//
-    api(libs.androidx.test.core)
-    api(libs.androidx.test.rules)
-    api(libs.androidx.test.runner)
-    api(libs.androidx.test.ext)
-    api(libs.androidx.test.espresso.core)
-    api(libs.androidx.test.uiautomator)
-
-    api(libs.hilt.android.testing)
-
-    api(libs.kotlinx.coroutines.test)
-    //
-    api(libs.androidx.compose.ui.test)
-    api(libs.androidx.compose.ui.test.junit4)
-    debugApi(libs.androidx.compose.ui.test.manifest)
 }

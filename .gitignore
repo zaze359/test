@@ -3,6 +3,8 @@
 /local.properties
 .idea
 /build
+build/
 /reports
 .DS_Store
 .trae
+.kotlin

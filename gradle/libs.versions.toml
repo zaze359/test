@@ -6,10 +6,10 @@
 
 # @keep
 gradleBintrayPlugin = "1.7"
-kotlinGradlePlugin = "1.8.10"
-gradle = "7.4.2"
-compileSdk = "33"
-targetSdk = "33"
+kotlinGradlePlugin = "2.1.10"
+gradle = "8.7.3"
+compileSdk = "34"
+targetSdk = "34"
 minSdk = "21"
 # @keep
 # 网络库
@@ -19,12 +19,13 @@ retrofitKotlinxSerializationJson = "1.0.0"
 glide_version = "4.15.1"
 
 # @keep
-compose-compiler = "1.4.3"
+composeMultiplatform = "1.7.3"
+compose-compiler = "2.1.10"
 compose-snapshot = "-"
-coroutines = "1.6.4"
+coroutines = "1.7.3"
 google-maps = "18.1.0"
 gradle-versions = "0.46.0"
-hilt = "2.44.2"
+hilt = "2.51.1"
 hiltExt = "1.0.0"
 # @pin When updating to AGP 7.3.0-beta03 and up we can update this https://developer.android.com/studio/write/java8-support#library-desugaring-versions
 jdkDesugar = "1.1.5"
@@ -88,7 +89,7 @@ androidxDataStore = "1.0.0"
 
 # plugins
 # ksp
-devTools_ksp_version = "1.8.10-1.0.9"
+devTools_ksp_version = "2.1.10-1.0.29"
 
 # -------------------------
 [libraries]
@@ -133,6 +134,18 @@ kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutine
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 
 # test
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlinGradlePlugin" }
+kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlinGradlePlugin" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version = "0.6.1" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.7.3" }
+# compose multiplatform (CMP)
+compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "composeMultiplatform" }
+compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "composeMultiplatform" }
+compose-material3 = { module = "org.jetbrains.compose.material3:material3", version = "1.3.1" }
+compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "composeMultiplatform" }
+compose-ui-tooling = { module = "org.jetbrains.compose.ui:ui-tooling", version.ref = "composeMultiplatform" }
+compose-ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "composeMultiplatform" }
 androidx-test-core = { group = "androidx.test", name = "core", version.ref = "androidxTestCore" }
 androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidxEspresso" }
 androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "androidxTestRules" }
@@ -265,4 +278,9 @@ kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref =
 google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "devTools_ksp_version" }
 secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secrets" }
 version-catalog-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "version-catalog-update" }
+# KMP / CMP
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlinGradlePlugin" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
+compose-compiler-plugin = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlinGradlePlugin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinGradlePlugin" }
 

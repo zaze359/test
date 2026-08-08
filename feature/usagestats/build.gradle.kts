@@ -4,6 +4,7 @@ plugins {
 }
 
 android {
+    namespace = "com.zaze.demo.usagestats"
 //    compileSdkVersion 30
     compileSdk = libs.versions.compileSdk.get().toInt()
     defaultConfig {

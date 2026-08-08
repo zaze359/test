@@ -84,3 +84,15 @@ include(":feature:applications")
 include(":core:datastore")
 include(":feature:settings")
 include(":core:ui")
+
+// -------------------------------
+// CMP + KMP 分层模块 (参考 teacher_work_v4)
+// -------------------------------
+include(":shareLogic:logic-core")
+include(":shareLogic:logic-domain")
+include(":shareLogic:logic-data")
+include(":shareUi:ui-core")
+include(":shareUi:ui-resources")
+include(":sharePlatform:platform-android")
+include(":sharePlatform:platform-desktop")
+include(":desktopApp")
